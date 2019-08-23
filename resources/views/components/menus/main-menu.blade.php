@@ -16,7 +16,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url('/') }}">
+        <a class="nav-link" href="{{ url('/admin') }}">
           <span class="menu-title">Dashboard</span>
           <i class="mdi mdi-home menu-icon"></i>
         </a>
@@ -29,7 +29,7 @@
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ url('users') }}">{{ __('Manager Users') }}</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('/admin/users') }}">{{ __('Manager Users') }}</a></li>
           </ul>
         </div>
       </li>
