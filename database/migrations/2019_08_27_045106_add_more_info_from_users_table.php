@@ -14,10 +14,10 @@ class AddMoreInfoFromUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('last_name');
-            $table->string('phone');
-            $table->text('comments');
-            $table->boolean('is_active');
+            $table->string('last_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('comments')->nullable();
+            $table->boolean('is_active')->nullable();
         });
     }
 

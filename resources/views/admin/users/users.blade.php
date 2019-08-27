@@ -9,7 +9,10 @@
             <div class="card-body">
               <h4 class="card-title">Manager Users</h4>
               <p class="card-description">
-                All users
+                <a href="{{ route('addUser') }}" class="btn btn-primary btn-fw">
+                    <i class="mdi mdi-account-plus "></i> 
+                    {{ __('Add User') }}
+                </a>
               </p>
               <table class="table table-striped">
                 <thead>

@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $all = User::all();
 
-        return view('admin.users', compact('all'));
+        return view('admin.users.users', compact('all'));
     }
 
     /**
@@ -26,6 +26,8 @@ class UserController extends Controller
      */
     public function create()
     {
+
+        return view('admin.users.create');
     }
 
     /**
