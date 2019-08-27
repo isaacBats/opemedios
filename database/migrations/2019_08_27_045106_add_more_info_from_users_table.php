@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUsernameColumnToUsersTable extends Migration
+class AddMoreInfoFromUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,10 @@ class AddUsernameColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique();
+            $table->string('last_name');
+            $table->string('phone');
+            $table->text('comments');
+            $table->boolean('is_active');
         });
     }
 
@@ -26,7 +29,7 @@ class AddUsernameColumnToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_username_unique');
+            $table->dropColumn(['last_name', 'phone', 'comments', 'is_active']);
         });
     }
 }

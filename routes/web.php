@@ -15,9 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes();  // TODO: @route disable regirter route.
 
-Route::prefix('admin')->group( function () {
+Route::group([
+    'prefix' => 'admin', 
+    'middleware' => ['auth', ],
+], 
+function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('users', 'UserController@index')->name('users');
 });
