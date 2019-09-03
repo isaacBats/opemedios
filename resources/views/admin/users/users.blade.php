@@ -14,45 +14,48 @@
                     {{ __('Add User') }}
                 </a>
               </p>
-              <table class="table table-striped">
+              <table class="table table-bordered">
                 <thead>
                   <tr>
                     <th>
-                      User
+                      {{ __('Full name') }}
                     </th>
                     <th>
-                      First name
+                      {{ __('Email') }}
                     </th>
                     <th>
-                      Position
+                      {{ __('Position') }}
                     </th>
                     <th>
-                      Roll
+                      {{ __('Roll') }}
                     </th>
                     <th>
-                      Actions
+                      {{ __('Actions') }}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                     @foreach ($all as $register)
                         <tr>
-                            <td class="py-1">
-                                <img src="../../images/faces-clipart/pic-1.png" alt="image"/>
+                            <td>
+                                {{ "$register->name $register->last_name" }}
                             </td>
                             <td>
-                                {{ $register->name }}
+                                {{ $register->email }}
                             </td>
                             <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                Position
+                            </td>
+                            <td>
+                                Roll
+                            </td>
+                            <td>
+                                <div class="rounded-legend legend-horizontal legend-top-right">
+                                  <ul>
+                                    <li class="icon-size"><a href=""><i class="mdi mdi-lead-pencil"></i></a></li>
+                                    <li class="icon-size"><a href=""><i class="mdi mdi-delete"></i></a></li>
+                                  </ul>
                                 </div>
-                            </td>
-                            <td>
-                                $ 77.99
-                            </td>
-                            <td>
-                                May 15, 2015
                             </td>
                         </tr>
                     @endforeach

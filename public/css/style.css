@@ -21995,3 +21995,8 @@ dl li {
 }
 
 /*# sourceMappingURL=maps/style.css.map */
+
+/* custom */
+li.icon-size {
+    font-size: 1.2rem !important;
+}

@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
 use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $all = User::all();
+        $all = $this->userRepository->all();
 
         return view('admin.users.users', compact('all'));
     }
