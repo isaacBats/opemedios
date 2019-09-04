@@ -3,13 +3,18 @@
 @section('title', 'Users')
 
 @section('content')
+  @if (session('status'))
+      <div class="alert alert-success">
+          {{ session('status') }}
+      </div>
+  @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Manager Users</h4>
               <p class="card-description">
-                <a href="{{ route('addUser') }}" class="btn btn-primary btn-fw">
+                <a href="{{ route('crateUser') }}" class="btn btn-primary btn-fw">
                     <i class="mdi mdi-account-plus "></i> 
                     {{ __('Add User') }}
                 </a>

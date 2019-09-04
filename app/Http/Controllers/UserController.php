@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
@@ -43,9 +44,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        //
+        if ($request->fails()) {
+            return redirect('/admin/user/add')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        
+        $this->userRepository->create($data);
+        
+        return redirect('/admin/users')->with('status', 'Save.');
     }
 
     /**

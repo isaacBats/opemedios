@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\User;
+use Validator;
 
 class UserRepository
 {
@@ -10,5 +11,10 @@ class UserRepository
 
         return User::all();
 
+    }
+
+    public function create ($data) {
+
+        return User::create($data);
     }
 }

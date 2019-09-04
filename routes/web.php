@@ -24,7 +24,8 @@ Route::group([
 function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('users', 'UserController@index')->name('users');
-    Route::get('user/add', 'UserController@create')->name('addUser');
+    Route::get('user/add', 'UserController@create')->name('crateUser');
+    Route::post('user/add', 'UserController@store')->name('storeUser');
     Route::get('roles', 'RoleController@index')->name('roles');
     Route::post('role/add', 'RoleController@create')->name('crateRole');
 });
