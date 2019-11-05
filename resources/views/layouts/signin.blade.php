@@ -10,17 +10,17 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Opemedios') }}</title>
+  <title>{{ config('app.name', 'Opemedios') }}@yield('title-section', ' - ')</title>
 
-  <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/font-awesome.css') }}">
 
-  <link rel="stylesheet" href="../css/quirk.css">
+  <link rel="stylesheet" href="{{ asset('css/quirk.css') }}">
 
-  <script src="../lib/modernizr/modernizr.js"></script>
+  <script src="{{ asset('lib/modernizr/modernizr.js') }}"></script>
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
-  <script src="../lib/html5shiv/html5shiv.js"></script>
-  <script src="../lib/respond/respond.src.js"></script>
+  <script src="{{ asset('lib/html5shiv/html5shiv.js') }}"></script>
+  <script src="{{ asset('lib/respond/respond.src.js') }}"></script>
   <![endif]-->
 </head>
 
