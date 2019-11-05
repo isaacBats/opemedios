@@ -19,6 +19,6 @@ Auth::routes();
 
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth'],], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'AdminController@index')->name('admin');
 
 });
