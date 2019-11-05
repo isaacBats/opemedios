@@ -5,7 +5,7 @@
 @section('content')
 <div class="panel signin">
   <div class="panel-heading">
-    <h1>{{ config('app.name') }}</h1>
+    <h1><a href="{{ url('/') }}">{{ config('app.name') }}</a></h1>
     <h4 class="panel-title">Bienvenido! Por favor identificate.</h4>
   </div>
   <div class="panel-body">
@@ -43,9 +43,9 @@
         </div>
     </form>
     <hr class="invisible">
-    {{-- <div class="form-group">
-      <a href="signup.html" class="btn btn-default btn-quirk btn-stroke btn-stroke-thin btn-block btn-sign">Not a member? Sign up now!</a>
-    </div> --}}
+    <div class="form-group">
+      <a href="{{ url('/') }}" class="btn btn-default btn-quirk btn-stroke btn-stroke-thin btn-block btn-sign"><span class="glyphicon glyphicon-arrow-left"></span> Regresar al Inicio</a>
+    </div>
   </div>
 </div><!-- panel -->
 @endsection
