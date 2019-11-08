@@ -63,7 +63,7 @@
       <div class="tab-pane active" id="mainmenu">
         <h5 class="sidebar-title">Home</h5>
         <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="index.html"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+          <li><a href="{{ route('panel') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
         </ul>
 
         <h5 class="sidebar-title">Catálogo</h5>

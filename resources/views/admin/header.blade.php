@@ -2,7 +2,7 @@
   <div class="headerpanel">
 
     <div class="logopanel">
-      <h2><a href="{{ route('admin') }}">Opemedios</a></h2>
+      <h2><a href="{{ route('panel') }}">Opemedios</a></h2>
     </div><!-- logopanel -->
 
     <div class="headerbar">
