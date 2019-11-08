@@ -19,6 +19,13 @@ Auth::routes();
 
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth'],], function () {
-    Route::get('/', 'AdminController@index')->name('admin');
+    Route::get('/', 'AdminController@index')->name('panel');
+
+    Route::get('usuarios', 'UserController@index')->name('users');
+    Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
+    Route::post('usuario/crear', 'UserController@register')->name('register.user');
+    Route::get('usuario/editar/{id}', 'UserController@edit')->name('edit.user');
+    Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
+    Route::post('usuario/borrar/{id}', 'UserController@delete')->name('delete.user');
 
 });
