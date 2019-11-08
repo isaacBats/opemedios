@@ -9,10 +9,10 @@
 
       <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
 
-      @include('admin.searchpanel')
+      {{-- @include('admin.searchpanel') --}}
       <div class="header-right">
         <ul class="headermenu">
-          <li>
+          {{-- <li>
             <div id="noticePanel" class="btn-group">
               <button class="btn btn-notice alert-notice" data-toggle="dropdown">
                 <i class="fa fa-globe"></i>
@@ -155,7 +155,7 @@
                 </div>
               </div>
             </div>
-          </li>
+          </li> --}}
           <li>
             <div class="btn-group">
               <button type="button" class="btn btn-logged" data-toggle="dropdown">
@@ -179,12 +179,12 @@
               </ul>
             </div>
           </li>
-          <li>
+          {{-- <li>
             <button id="chatview" class="btn btn-chat alert-notice">
               <span class="badge-alert"></span>
               <i class="fa fa-comments-o"></i>
             </button>
-          </li>
+          </li> --}}
         </ul>
       </div><!-- header-right -->
     </div><!-- headerbar -->
