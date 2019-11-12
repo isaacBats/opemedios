@@ -106,7 +106,7 @@
                     <button class="btn-white" onclick="location.href='http://opemedios.mx/quienes-somos'">ACERCA DE NOSOTROS</button>
                 </div>
                 <div class="col-md-6 adjust">
-                    <img src="assets/assets_home/img/site-img01.png" class="img-fluid">
+                    <img src="{{ asset('images/site-img01.png') }}" class="img-fluid">
                 </div>
             </div>
         </div>

@@ -109,7 +109,7 @@ header {
   margin-top: 25px; }
 
 .op-hero {
-  background-image: url("../img/digitalagency.jpg");
+  background-image: url("../../images/digitalagency.jpg");
   background-position: center center;
   background-size: cover;
   width: 100%;
@@ -165,17 +165,17 @@ header {
   .op-services figure {
     width: 100%;
     margin-bottom: 20px;
-    background-image: url("../img/radio.jpg");
+    background-image: url("../../images/radio.jpg");
     background-position: center center;
     background-size: cover;
     padding: 90px 0;
-    background-image: url("../img/radio.jpg"); }
+    background-image: url("../../images/radio.jpg"); }
     .op-services figure.bg-1 {
-      background-image: url("../img/tv.jpg"); }
+      background-image: url("../../images/tv.jpg"); }
     .op-services figure.bg-2 {
-      background-image: url("../img/newspapper.jpg"); }
+      background-image: url("../../images/newspapper.jpg"); }
     .op-services figure.bg-3 {
-      background-image: url("../img/websites.jpg"); }
+      background-image: url("../../images/websites.jpg"); }
     .op-services figure div {
       width: 100px;
       height: 100px;
@@ -231,7 +231,7 @@ header {
 .op-analysis {
   background-color: #fff;
   padding: 90px 0;
-  background-image: url("../img/analysis.jpg");
+  background-image: url("../../images/analysis.jpg");
   background-position: center center;
   background-size: cover;
   color: #fff; }
