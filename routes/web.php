@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('quienes-somos', 'HomeController@about')->name('about');
+Route::get('clientes', 'HomeController@clients')->name('clients');
 
 Auth::routes();
 

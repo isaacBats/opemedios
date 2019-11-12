@@ -20,4 +20,9 @@ class HomeController extends Controller
 
         return view('aboutus');
     }
+
+    public function clients() {
+
+        return view('clients');
+    }
 }
