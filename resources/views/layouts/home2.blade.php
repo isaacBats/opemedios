@@ -49,9 +49,9 @@
 
                         <li><a href="{{ route('home') }}">Inicio</a></li>
                         <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                        <li><a href="/clientes">Clientes</a></li>
-                        <li><a href="/contacto">Contacto</a></li>
-                        <li><a class="btn" href="/sign-in">Iniciar Sesión</a></li>
+                        <li><a href="{{ route('clients') }}">Clientes</a></li>
+                        <li><a href="{{ route('contact') }}">Contacto</a></li>
+                        <li><a class="btn" href="{{ route('signin') }}">Iniciar Sesión</a></li>
                     <?php else: ?>
                         <li><a href="/noticias">Noticias</a></li>
                         <li class="dropdown">
