@@ -20,7 +20,7 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Auth::routes();
 
 
-Route::group(['prefix' => 'panel', 'middleware' => ['auth'],], function () {
+Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
     Route::get('/', 'AdminController@index')->name('panel');
 
     Route::get('usuarios', 'UserController@index')->name('users');
