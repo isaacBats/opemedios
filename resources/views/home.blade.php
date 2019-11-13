@@ -1,5 +1,5 @@
 @extends('layouts.home')
-
+@section('title', ' - Operadora de medios Informativos')
 @section('content')
     <section class="op-hero text-center" id="video">
         <div class="container">

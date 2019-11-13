@@ -14,7 +14,7 @@
         <![endif]-->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Opemedios') }} @yield('title')</title>
         
         <!-- Fonts -->
         <link href="{{ asset('fonts/04.Geomanist_Regular_webfontkit/stylesheet.css') }}" rel="stylesheet" type="text/css">
@@ -46,11 +46,11 @@
                         </nav>
                         <nav class="menu d-none d-md-block d-lg-block d-xl-block">
                             <ul>
-                                <li><a href="https://opemedios.mx/sign-in" class="login">Iniciar Sesión</a></li>
-                                <li><a href="https://opemedios.mx/contacto">Contacto</a></li>
-                                <li><a href="https://opemedios.mx/clientes">Clientes</a></li>
+                                <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
+                                <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                <li><a href="{{ route('clients') }}">Clientes</a></li>
                                 <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                                <li><a href="https://opemedios.mx/" class="active">Inicio</a></li>
+                                <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -63,11 +63,11 @@
                             <nav class="mobile  text-center">
                                 <?php if( !isset( $_SESSION['user'] ) ): ?>
                                 <ul>
-                                    <li><a href="https://opemedios.mx/sign-in" class="login">Iniciar Sesión</a></li>
-                                    <li><a href="https://opemedios.mx/contacto">Contacto</a></li>
-                                    <li><a href="https://opemedios.mx/clientes">Clientes</a></li>
+                                    <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
+                                    <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                    <li><a href="{{ route('clients') }}">Clientes</a></li>
                                     <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                                    <li><a href="https://opemedios.mx/" class="active">Inicio</a></li>
+                                    <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
                                 </ul>
                                 <?php else: ?>
                                 <ul>

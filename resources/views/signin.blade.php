@@ -25,14 +25,20 @@
                                 <h3 class="thin text-center">Entra a tu cuenta</h3>
                                 <hr>
                                 
-                                <form method="POST" action="/sign-in">
+                                <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                                    @csrf
                                     <div class="top-margin">
-                                        <label>Usuario <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" required="true" name="username">
+                                        <label for="email" >Correo <span class="text-danger">*</span></label>
+                                        <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                                        @if ($errors->has('email'))
+                                            <span class="invalid-feedback text-muted" role="alert">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
                                     <div class="top-margin">
-                                        <label>Contraseña <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" required="true" name="password">
+                                        <label for="password">Contraseña <span class="text-danger">*</span></label>
+                                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                                     </div>
 
                                     <hr>
