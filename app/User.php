@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Company;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -27,4 +28,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function companies() {
+        return $this->belongsToMany(Company::class);
+    }
 }

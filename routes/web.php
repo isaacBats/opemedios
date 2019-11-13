@@ -17,6 +17,8 @@ Route::get('clientes', 'HomeController@clients')->name('clients');
 Route::get('contacto', 'HomeController@contact')->name('contact');
 Route::get('cuenta', 'HomeController@signin')->name('signin');
 
+Route::get('{company}/noticias', 'ClientController@index')->name('news')->middleware(['role:client', 'is_client']);
+
 Auth::routes();
 
 
