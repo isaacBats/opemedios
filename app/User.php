@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Company;
+use App\UserMeta;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -29,7 +30,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function companies() {
-        return $this->belongsToMany(Company::class);
+    public function metas() {
+        return $this->hasMany(UserMeta::class);
     }
 }

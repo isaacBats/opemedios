@@ -17,12 +17,17 @@ Route::get('clientes', 'HomeController@clients')->name('clients');
 Route::get('contacto', 'HomeController@contact')->name('contact');
 Route::get('cuenta', 'HomeController@signin')->name('signin');
 
-Route::get('{company}/noticias', 'ClientController@index')->name('news')->middleware(['role:client', 'is_client']);
 
 Auth::routes();
 
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
+    Route::get('noticias', 'ClientController@index')->name('news');
+
+});
+
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
+    
     Route::get('/', 'AdminController@index')->name('panel');
 
     Route::get('usuarios', 'UserController@index')->name('users');

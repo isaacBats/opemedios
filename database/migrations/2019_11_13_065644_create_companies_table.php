@@ -30,21 +30,6 @@ class CreateCompaniesTable extends Migration
             $table->string('description');
         });
 
-        Schema::create('company_has_users', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->unsignedBigInteger('company_id');
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
-
-            $table->foreign('company_id')
-                ->references('id')
-                ->on('companies');
-
-            $table->primary(['user_id', 'company_id'], 'company_has_users_user_id_company_id_primary');
-        });
-
         Schema::create('company_has_sectors', function (Blueprint $table) {
             $table->unsignedBigInteger('sector_id');
             $table->unsignedBigInteger('company_id');
@@ -72,7 +57,6 @@ class CreateCompaniesTable extends Migration
     {
         Schema::dropIfExists('companies');
         Schema::dropIfExists('sectors');
-        Schema::dropIfExists('company_has_users');
         Schema::dropIfExists('company_has_sectors');
     }
 }
