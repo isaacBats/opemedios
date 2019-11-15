@@ -21,7 +21,7 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Auth::routes();
 
 Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
-    Route::get('noticias', 'ClientController@index')->name('news');
+    Route::get('dashboard', 'ClientController@index')->name('news');
 
 });
 

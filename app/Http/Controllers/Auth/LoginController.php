@@ -58,7 +58,7 @@ class LoginController extends Controller
             $company = Company::find($metas->meta_value);
             $slug = $company->slug;
             
-            return "{$slug}/noticias";
+            return "{$slug}/dashboard";
         }
 
         return '/panel';
