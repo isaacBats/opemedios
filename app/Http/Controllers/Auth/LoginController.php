@@ -57,6 +57,7 @@ class LoginController extends Controller
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
             $company = Company::find($metas->meta_value);
             $slug = $company->slug;
+            session()->put('slug_company', $slug);
             
             return "{$slug}/dashboard";
         }

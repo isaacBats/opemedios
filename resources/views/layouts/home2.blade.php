@@ -45,15 +45,22 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right op-nav">
-                    <?php if( !isset( $_SESSION['user'] ) ): ?>
-
+                    @guest
                         <li><a href="{{ route('home') }}">Inicio</a></li>
                         <li><a href="{{ route('about') }}">Quiénes somos</a></li>
                         <li><a href="{{ route('clients') }}">Clientes</a></li>
                         <li><a href="{{ route('contact') }}">Contacto</a></li>
                         <li><a class="btn" href="{{ route('signin') }}">Iniciar Sesión</a></li>
-                    <?php else: ?>
-                        <li><a href="/noticias">Noticias</a></li>
+                    @else
+                        @hasrole('client')
+                        <li><a href="{{ route('home') }}">Inicio</a></li>
+                        <li><a href="{{ route('about') }}">Quiénes somos</a></li>
+                        <li><a href="{{ route('clients') }}">Clientes</a></li>
+                        <li><a href="{{ route('contact') }}">Contacto</a></li>
+                        @php
+                            $slug = session()->get('slug_company');
+                        @endphp
+                        <li><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
                         <li class="dropdown">
                             <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
                                 Portadas
@@ -90,19 +97,25 @@
                         <li>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <?= $_SESSION['user']['usuario'] ?>
+                                {{ Auth::user()->name }}
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <!-- <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li> -->
-                                    <li><a href="/sign-out">Salir</a></li>
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                            Salir
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
                               </ul>
                             </div>
                         </li>
-                    <?php endif; ?>
+                        @endhasrole
+                    @endguest
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

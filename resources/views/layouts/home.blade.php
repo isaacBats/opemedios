@@ -35,10 +35,10 @@
         <header>
             <div class="container">
                 <div class="row">
-                    <div class="col-6 col-sm-4">
+                    <div class="col-5 col-sm-4">
                         <figure class="logo"><img src="{{ asset('images/logo.png') }}" class="img-fluid"></figure>
                     </div>
-                    <div class="col-6 col-sm-8">
+                    <div class="col-7 col-sm-8">
                         <nav class="navbar navbar-dark d-md-none d-lg-none d-xl-none">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -46,11 +46,79 @@
                         </nav>
                         <nav class="menu d-none d-md-block d-lg-block d-xl-block">
                             <ul>
-                                <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
-                                <li><a href="{{ route('contact') }}">Contacto</a></li>
-                                <li><a href="{{ route('clients') }}">Clientes</a></li>
-                                <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                                <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                @guest
+                                    <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
+                                    <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                    <li><a href="{{ route('clients') }}">Clientes</a></li>
+                                    <li><a href="{{ route('about') }}">Quiénes somos</a></li>
+                                    <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                @else
+                                    @hasrole('client')
+                                    @php
+                                        $metas = auth()->user()->metas()->where(['meta_key' => 'company_id'])->first();
+                                        $company = App\Company::find($metas->meta_value);
+                                        $slug = $company->slug;
+                                    @endphp
+                                    <li><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                                    <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                    <li><a href="{{ route('clients') }}">Clientes</a></li>
+                                    <li><a href="{{ route('about') }}">Quiénes somos</a></li>
+                                    <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                        <li class="dropdown">
+                                            <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                Portadas
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="/primeras-planas">Primeras Planas</a></li>
+                                                <li><a href="/portadas-financieras">Portadas Financieras</a></li>
+                                                <li><a href="/cartones">Cartones</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                Columnas
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="/columnas-financieras">Columnas Financieras</a></li>
+                                                <li><a href="/columnas-politicas">Columnas Politicas</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                          <div class="dropdown">
+                                              <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                  Reportes <span class="caret"></span>
+                                              </a>
+                                                  <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu">
+                                                
+                                                <li><a href="/reporte/cliente">Noticias por cliente</a></li>
+                                                <li><a href="#">Reporte de notas por día</a></li>
+                                              </ul>
+                                          </div>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                {{ Auth::user()->name }}
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <li>
+                                                        <a href="{{ route('logout') }}"
+                                                            onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                                                            Salir
+                                                        </a>
+                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    @endhasrole
+                                @endguest
                             </ul>
                         </nav>
                     </div>
@@ -61,20 +129,81 @@
                     <div class="col">
                         <div class="collapse" id="navbarToggleExternalContent">
                             <nav class="mobile  text-center">
-                                <?php if( !isset( $_SESSION['user'] ) ): ?>
                                 <ul>
-                                    <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
-                                    <li><a href="{{ route('contact') }}">Contacto</a></li>
-                                    <li><a href="{{ route('clients') }}">Clientes</a></li>
-                                    <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                                    <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                    @guest
+                                        <li><a href="{{ route('signin') }}" class="login">Iniciar Sesión</a></li>
+                                        <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                        <li><a href="{{ route('clients') }}">Clientes</a></li>
+                                        <li><a href="{{ route('about') }}">Quiénes somos</a></li>
+                                        <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                    @else
+                                        @hasrole('client')
+                                        @php
+                                            $metas = auth()->user()->metas()->where(['meta_key' => 'company_id'])->first();
+                                            $company = App\Company::find($metas->meta_value);
+                                            $slug = $company->slug;
+                                        @endphp
+                                        <li><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                                        <li><a href="{{ route('contact') }}">Contacto</a></li>
+                                        <li><a href="{{ route('clients') }}">Clientes</a></li>
+                                        <li><a href="{{ route('about') }}">Quiénes somos</a></li>
+                                        <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
+                                            <li class="dropdown">
+                                                <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                    Portadas
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <li><a href="/primeras-planas">Primeras Planas</a></li>
+                                                    <li><a href="/portadas-financieras">Portadas Financieras</a></li>
+                                                    <li><a href="/cartones">Cartones</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                    Columnas
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    <li><a href="/columnas-financieras">Columnas Financieras</a></li>
+                                                    <li><a href="/columnas-politicas">Columnas Politicas</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                              <div class="dropdown">
+                                                  <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
+                                                      Reportes <span class="caret"></span>
+                                                  </a>
+                                                      <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu">
+                                                    
+                                                    <li><a href="/reporte/cliente">Noticias por cliente</a></li>
+                                                    <li><a href="#">Reporte de notas por día</a></li>
+                                                  </ul>
+                                              </div>
+                                            </li>
+                                            <li>
+                                                <div class="dropdown">
+                                                    <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    {{ Auth::user()->name }}
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                        <li>
+                                                            <a href="{{ route('logout') }}"
+                                                                onclick="event.preventDefault();
+                                                                document.getElementById('logout-form').submit();">
+                                                                Salir
+                                                            </a>
+                                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                            </form>
+                                                        </li>
+                                                  </ul>
+                                                </div>
+                                            </li>
+                                        @endhasrole
+                                    @endguest
                                 </ul>
-                                <?php else: ?>
-                                <ul>
-                                    <li><a href="" class="login">Sesion iniciada</a></li>
-                                    <li><a href="">Otro menu</a></li>
-                                </ul>
-                                <?php endif; ?>
                             </nav>
                         </div>
                     </div>
