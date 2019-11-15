@@ -839,21 +839,21 @@ img.pull-left { margin-right: 10px; }
 
 .op-nav a {
 	font-size: 12px;
-	color: #929CA4 !important;
+	color: #00659b !important;
 	text-transform: uppercase;
 	font-weight: 900;
 	transition: all .2s ease-in-out;
 }
 
 .op-nav a:hover {
-	color: #fff !important;}
+	color: #97caff !important;}
 
 .navbar-toggle {
 	margin-top: 30px;}
 
 .navbar-inverse {
 	padding-top: 0;
-	background: rgba(0, 0, 0, .9);}
+	background: #f0efe6;}
 
 .f-contact {
 	margin-bottom: 40px;
@@ -879,10 +879,10 @@ img.pull-left { margin-right: 10px; }
 	color: #fff;}
 
 .footer1 {
-	background: #0f0f0f !important;}
+	background: #f0efe6 !important;}
 
 .footer2 {
-	background: #000000 !important;}
+	background: #e0dec5 !important;}
 
 .social {
 	margin-top: 30px; }

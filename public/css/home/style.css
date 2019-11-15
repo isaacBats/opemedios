@@ -16,7 +16,7 @@ header {
   position: fixed;
   top: 0;
   z-index: 9999;
-  background: black;
+  background: #f0efe6; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: black*/
   -webkit-transition: all 400ms ease-in-out;
   -moz-transition: all 400ms ease-in-out;
   -o-transition: all 400ms ease-in-out;
@@ -39,7 +39,7 @@ header {
         padding: 10px;
         font-family: "geomanistbold", Arial, Helvetica, sans-serif;
         font-size: 12px;
-        color: #929CA4 !important;
+        color: #00659b !important;
         display: block;
         text-align: center;
         text-decoration: none;
@@ -53,9 +53,9 @@ header {
             padding: 10px 5px; } }
         header nav.menu li a:hover {
           text-decoration: none;
-          color: #fff !important; }
+          color: #97caff !important; }
       header nav.menu li a.login {
-        border: solid 1px #929CA4; }
+        border: solid 1px #97caff; }
       header nav.menu li a.active {
         color: #ff1a3e !important; }
   header nav.mobile ul {
@@ -161,7 +161,7 @@ header {
     font-family: "geomanistbold", Arial, Helvetica, sans-serif;
     font-size: 24px;
     text-transform: uppercase;
-    color: #1976D2; }
+    color: #00659b; }
   .op-services figure {
     width: 100%;
     margin-bottom: 20px;
@@ -193,7 +193,7 @@ header {
   padding: 10px; }
 
 .op-we {
-  background-color: #1976D2;
+  background-color: #00659b; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: #1976D2 */
   padding: 90px 0 0 0;
   color: #FFF; }
   .op-we h3 {
@@ -249,7 +249,7 @@ header {
 
 .op-icons {
   width: 100%;
-  color: #1976D2;
+  color: #00659b;
   background-color: #fff;
   text-align: center; }
   .op-icons .icon {
@@ -278,7 +278,8 @@ header {
 .op-icons-mark {
   width: 100%;
   color: #fff;
-  background-color: #1976D2; }
+  background-color: #00659b; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: #1976D2 */
+}
   .op-icons-mark .icon {
     margin-top: 20px; }
   .op-icons-mark .item {
@@ -286,7 +287,7 @@ header {
     width: 100%; }
 
 footer {
-  background-color: #000;
+  background-color: #f0efe6; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: black*/
   min-height: 120px; }
   footer p {
     font-size: 12px;
