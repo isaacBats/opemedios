@@ -1,59 +1,52 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- CSRF Token -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ config('app.name', 'Admin Opemedios') }} - @yield('title')</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="{{ asset('css/materialdesignicons.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/vendor.bundle.base.css') }}">
-  <!-- endinject -->
-  @yield('styles')
-  <!-- inject:css -->
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="Este es el administrador de Opemedios. Sistema Integral de Administración de Opemedios">
+  <meta name="author" content="Isaac Batista ">
+  <!--<link rel="shortcut icon" href="../images/favicon.png" type="image/png">-->
+
+  <title>Opemedios @yield('admin-title', '- Admin')</title>
+
+  <link rel="stylesheet" href="{{ asset('lib/Hover/hover.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/font-awesome.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/weather-icons/css/weather-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/ionicons/css/ionicons.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/jquery-toggles/toggles-full.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
+
+  <link rel="stylesheet" href="{{ asset('css/quirk.css') }}">
+
+  <script src="{{ asset('lib/modernizr/modernizr.js') }}"></script>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="{{ asset('lib/html5shiv/html5shiv.js') }}"></script>
+  <script src="{{ asset('lib/respond/respond.src.js') }}"></script>
+  <![endif]-->
 </head>
+
 <body>
-  <div class="container-scroller" id="admin-app">
-    @include('components.menus.navbar-user')
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      @include('components.menus.main-menu')
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          @yield('content')
-        </div>
-        <!-- content-wrapper ends -->
-        @include('components.footers.footer-main-admin')
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
+  @include('admin.header')
+  <section>
+    @include('admin.sidebar')
+    <div class="mainpanel">
 
-  <!-- plugins:js -->
-  <script src="{{ asset('js/vendor.bundle.base.js') }}"></script>
-  <script src="{{ asset('js/vendor.bundle.addons.js') }}"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="{{ asset('js/off-canvas.js') }}"></script>
-  <script src="{{ asset('js/misc.js') }}"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-  <!-- End custom js for this page-->
-  @yield('scripts-js')
+      <div class="contentpanel">
+        @include('admin.breadcrumb')
+        <!-- content goes here... -->
+        @yield('content')
+
+      </div><!-- contentpanel -->
+    </div><!-- mainpanel -->
+</section>
+
+<script src="{{ asset('lib/jquery/jquery.js') }}"></script>
+<script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
+<script src="{{ asset('lib/bootstrap/js/bootstrap.js') }}"></script>
+<script src="{{ asset('lib/jquery-toggles/toggles.js') }}"></script>
+
+<script src="{{ asset('js/quirk.js') }}"></script>
 </body>
-
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -25,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin';
+    // protected $redirectTo = '/panel';
 
     /**
      * Create a new controller instance.
@@ -37,8 +38,30 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function username () 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
     {
-        return 'username';
+        return view('auth.custom-login');
+    }
+
+    protected function redirectTo () {
+        
+        $user = auth()->user();
+        $is_client = $user->hasRole('client');
+        
+        if($is_client) {
+            $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
+            $company = Company::find($metas->meta_value);
+            $slug = $company->slug;
+            session()->put('slug_company', $slug);
+            
+            return "{$slug}/dashboard";
+        }
+
+        return '/panel';
     }
 }

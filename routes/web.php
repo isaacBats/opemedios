@@ -11,22 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('quienes-somos', 'HomeController@about')->name('about');
+Route::get('clientes', 'HomeController@clients')->name('clients');
+Route::get('contacto', 'HomeController@contact')->name('contact');
+Route::get('cuenta', 'HomeController@signin')->name('signin');
+
+
+Auth::routes();
+
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
+    Route::get('dashboard', 'ClientController@index')->name('news');
+
 });
 
-Auth::routes();  // TODO: @route disable regirter route.
 
-Route::group([
-    'prefix' => 'admin', 
-    'middleware' => ['auth', ],
-], 
-function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::get('users', 'UserController@index')->name('users');
-    Route::get('user/add', 'UserController@create')->name('crateUser');
-    Route::post('user/add', 'UserController@store')->name('storeUser');
-    Route::get('roles', 'RoleController@index')->name('roles');
-    Route::post('role/add', 'RoleController@create')->name('crateRole');
+Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
+    
+    Route::get('/', 'AdminController@index')->name('panel');
+
+    Route::get('usuarios', 'UserController@index')->name('users');
+    Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
+    Route::post('usuario/crear', 'UserController@register')->name('register.user');
+    Route::get('usuario/editar/{id}', 'UserController@edit')->name('edit.user');
+    Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
+    Route::post('usuario/borrar/{id}', 'UserController@delete')->name('delete.user');
+
 });
-

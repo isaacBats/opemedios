@@ -54,6 +54,21 @@ return [
             'engine' => null,
         ],
 
+        'opemediosold' => [
+            'driver' => 'mysql',
+            'host' => env('OPE_HOST', '127.0.0.1'),
+            'port' => env('OPE_PORT', '3306'),
+            'database' => env('OPE_DATABASE', 'forge'),
+            'username' => env('OPE_USERNAME', 'forge'),
+            'password' => env('OPE_PASSWORD', ''),
+            'unix_socket' => env('OPE_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
