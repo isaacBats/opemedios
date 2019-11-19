@@ -4,6 +4,8 @@ body { font-family:"Nunito Sans", sans-serif; }
 
 #head { background:#181015 url( https://opemedios.mx/opmedios-home/assets/img/digitalagency.jpg ) no-repeat; background-size: cover; background-position: center center min-height:520px; text-align: center; padding-top:240px; color:white; font-family:"Nunito Sans", sans-serif; font-weight:300; }
 
+.nav.navbar-nav.pull-right.op-nav li a.active { color: #ff1a3e !important; }
+
 #head.secondary { height:100px; min-height: 100px; padding-top:0px; }
 
 	#head .lead { font-family:"Nunito Sans", sans-serif; font-size:44px; margin-bottom:6px; color:white; line-height:1.15em; }
@@ -376,9 +378,9 @@ img.pull-left { margin-right: 10px; }
 
 .user{
 
-	background-color: #2E2E2E;
+	background-color: #EAE0E0;
 
-    color: rgba(255, 255, 255, 0.6);
+    color: #00659b;
 
 }
 
@@ -660,7 +662,7 @@ img.pull-left { margin-right: 10px; }
 
 				color: rgba(255, 255, 255, .4);
 
-				background: #2E2E2E;
+				background: #EAE0E0;
 
 			}
 

@@ -1,7 +1,5 @@
 @extends('layouts.home2')
 @section('content')
-    <header id="head" class="secondary"></header>
-    <!-- container -->
     <div class="container">
 
         <ol class="breadcrumb">

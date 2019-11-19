@@ -1,6 +1,5 @@
 @extends('layouts.home2')
 @section('content')
-    <header id="head" class="secondary"></header>
     <div class="container clientes">
         <ol class="breadcrumb">
             <li><a href="{{ route('home') }}">Inicio</a></li>

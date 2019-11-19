@@ -1,8 +1,6 @@
 @extends('layouts.home2')
-@section('title', ' - Entrar mi cuenta')
+@section('title', ' - Entrar a mi cuenta')
 @section('content')
-    <header id="head" class="secondary"></header>
-
         <!-- container -->
         <div class="container">
 

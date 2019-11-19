@@ -1,7 +1,6 @@
 @extends('layouts.home2')
 @section('title', ' - Contacto')
 @section('content')
-    <header id="head" class="secondary"></header>
     <!-- container -->
     <div class="container">
 

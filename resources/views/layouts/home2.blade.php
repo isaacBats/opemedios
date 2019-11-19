@@ -34,92 +34,10 @@
     </head>
 <body class="home">
     <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top headroom" >
-        <div class="container">
-            <div class="navbar-header">
-                <!-- Button for smallest screens -->
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Opemedios" class="op-logo">
-                </a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav pull-right op-nav">
-                    @guest
-                        <li><a href="{{ route('home') }}">Inicio</a></li>
-                        <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                        <li><a href="{{ route('clients') }}">Clientes</a></li>
-                        <li><a href="{{ route('contact') }}">Contacto</a></li>
-                        <li><a class="btn" href="{{ route('signin') }}">Iniciar Sesión</a></li>
-                    @else
-                        @hasrole('client')
-                        <li><a href="{{ route('home') }}">Inicio</a></li>
-                        <li><a href="{{ route('about') }}">Quiénes somos</a></li>
-                        <li><a href="{{ route('clients') }}">Clientes</a></li>
-                        <li><a href="{{ route('contact') }}">Contacto</a></li>
-                        @php
-                            $slug = session()->get('slug_company');
-                        @endphp
-                        <li><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                        <li class="dropdown">
-                            <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                Portadas
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/primeras-planas">Primeras Planas</a></li>
-                                <li><a href="/portadas-financieras">Portadas Financieras</a></li>
-                                <li><a href="/cartones">Cartones</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                Columnas
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/columnas-financieras">Columnas Financieras</a></li>
-                                <li><a href="/columnas-politicas">Columnas Politicas</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                          <div class="dropdown">
-                              <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                  Reportes <span class="caret"></span>
-                              </a>
-                                  <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu">
-                                
-                                <li><a href="/reporte/cliente">Noticias por cliente</a></li>
-                                <li><a href="#">Reporte de notas por día</a></li>
-                              </ul>
-                          </div>
-                        </li>
-                        <li>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{ Auth::user()->name }}
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                            Salir
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </li>
-                              </ul>
-                            </div>
-                        </li>
-                        @endhasrole
-                    @endguest
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </div>
+    <header>
+        @include('components.menu-client')   
+    </header>
+    
     <!-- /.navbar -->
     @yield('content')
 
