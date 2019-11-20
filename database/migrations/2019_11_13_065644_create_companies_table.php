@@ -13,39 +13,33 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
+        Schema::create('turns', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->string('name');
+            $table->text('description')->nullable();
+        });
+
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-
-            $table->string('name');
-            $table->string('address');
             $table->softDeletes();
-        });
-
-        Schema::create('sectors', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
 
             $table->string('name');
-            $table->string('description');
+            $table->string('slug')->nullable();
+            $table->string('address')->nullable();
+            $table->text('logo')->nullable();
+            $table->unsignedBigInteger('turn_id');
+
+            $table->foreign('turn_id')
+                ->references('id')
+                ->on('turns')
+                ->onDelete('cascade');
         });
 
-        Schema::create('company_has_sectors', function (Blueprint $table) {
-            $table->unsignedBigInteger('sector_id');
-            $table->unsignedBigInteger('company_id');
-
-            $table->foreign('sector_id')
-                ->references('id')
-                ->on('sectors')
-                ->onDelete('cascade');
-
-            $table->foreign('company_id')
-                ->references('id')
-                ->on('companies')
-                ->onDelete('cascade');
-
-            $table->primary(['sector_id', 'company_id'], 'company_has_sectors_sector_id_company_id_primary');
-        });
+        
     }
 
     /**
@@ -55,8 +49,10 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropForeign('companies_turn_id_foreign');
+        });
+        Schema::dropIfExists('turns');
         Schema::dropIfExists('companies');
-        Schema::dropIfExists('sectors');
-        Schema::dropIfExists('company_has_sectors');
     }
 }
