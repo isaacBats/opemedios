@@ -15,10 +15,10 @@
   <link rel="stylesheet" href="{{ asset('lib/ionicons/css/ionicons.css') }}">
   <link rel="stylesheet" href="{{ asset('lib/jquery-toggles/toggles-full.css') }}">
   <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
-
   <link rel="stylesheet" href="{{ asset('css/quirk.css') }}">
 
   <script src="{{ asset('lib/modernizr/modernizr.js') }}"></script>
+  @yield('styles')
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -46,7 +46,7 @@
 <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
 <script src="{{ asset('lib/bootstrap/js/bootstrap.js') }}"></script>
 <script src="{{ asset('lib/jquery-toggles/toggles.js') }}"></script>
-
+@yield('scripts')
 <script src="{{ asset('js/quirk.js') }}"></script>
 </body>
 </html>

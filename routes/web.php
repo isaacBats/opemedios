@@ -37,4 +37,10 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
     Route::post('usuario/borrar/{id}', 'UserController@delete')->name('delete.user');
 
+    Route::get('empresas', 'CompanyController@index')->name('companies');
+    Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
+    Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
+    
+    Route::get('giro/nuevo', 'TurnController@showFormNewTurn')->name('turn.create');
+
 });

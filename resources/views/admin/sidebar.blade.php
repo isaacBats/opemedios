@@ -70,7 +70,7 @@
         <ul class="nav nav-pills nav-stacked nav-quirk">
           <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
           <li><a href="widgets.html"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
-          <li><a href="maps.html"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
+          <li><a href="{{ route('companies') }}"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
         </ul>
 
         <h5 class="sidebar-title">Monitoreo</h5>
@@ -126,6 +126,11 @@
         <ul class="nav nav-pills nav-stacked nav-quirk">
           <li><a href="index.html"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
           <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
+        </ul>
+        <h5 class="sidebar-title">CMS</h5>
+        <ul class="nav nav-pills nav-stacked nav-quirk">
+          <li><a href="index.html"><i class="fa fa-file-text"></i> <span>Pages</span></a></li>
+          {{-- <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Others</span></a></li> --}}
         </ul>
       </div><!-- tab-pane -->
 

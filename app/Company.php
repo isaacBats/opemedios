@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\User;
+use App\Turn;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -12,7 +12,11 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'address',
-    ];
+    protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id' ];
+
+    public function turn () {
+
+        return $this->belongsTo(Turn::class);
+
+    }
 }
