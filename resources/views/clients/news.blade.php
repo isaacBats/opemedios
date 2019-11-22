@@ -31,22 +31,23 @@
                                         <div class="col-md-4">
                                             <div class="bloque-new item-center">
                                                 <a class="img-responsive">
-                                                  <img src="..." alt="Logo Fuente">
+                                                    {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
+                                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->logo }}" alt="{{ $new->nombre}}">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <h4 class="f-h4 text-muted">
-                                                Noticia Fuente 
+                                                {{ $new->nombre }} 
                                             </h4>
                                             <h3 class="f-h3">
-                                                {{ $new->encabezado }}
+                                                {{ $new->encabezado  }}
                                             </h3>
                                             <p class="text-muted f-p">
-                                                 Nombre Fuente | Autor:Nombre Autor
+                                                 {{ $new->empresa }} | Autor: {{ $new->autor }}
                                             </p>
                                             <p class="f-p">{{ Illuminate\Support\Str::limit($new->sintesis, 200) }}</p>
-                                            <a class="btn btn-primary" href="#">Ver más</a>
+                                            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $new->id_noticia, 'company' => $company->slug ]) }}">Ver más</a>
                                         </div>
                                     </div>
                                 @endforeach

@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\DB;
 class ClientController extends Controller
 {
     public function index($slug_company) {
-        // Mejorar la vista para que se muestren noticias por temas
-        // Mostrar maximo 7 noticias por tema
-            // query: select * from asigna where id_empresa = 722 and id_tema = 3543 ORDER BY id_noticia DESC limit 7;
-        // Mostrar las ultimas noticias, ya sean las del dia o las ultimas agregadas
         // Analizar si es necesario la paginación 
         // Crear el buscador de noticias
+        // crear filtros para las noticias
+
+        //traer los logos de las fuentes asi como su información
 
         $company = Company::where('slug', $slug_company)->first();
         $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
@@ -48,12 +47,21 @@ class ClientController extends Controller
                     return $assignNew->id_noticia;
                 }, $newsByTheme->toArray());
             
-                return array($theme->id_tema, DB::connection('opemediosold')->table('noticia')->whereIn('id_noticia', $idNewsAssigned)->get());
+                return array($theme->id_tema, DB::connection('opemediosold')->table('noticia')
+                    ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+                    ->whereIn('id_noticia', $idNewsAssigned)->get());
 
         }, $themes->toArray());
 
         $countTotal = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
         
         return view('clients.news', compact('company', 'newsAssigned', 'themes', 'countTotal'));
+    }
+
+    public function showNew(Request $request, $company, $newId) {
+
+        return DB::connection('opemediosold')->table('noticia')
+                    ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+                    ->where('id_noticia', $newId)->get();
     }
 }

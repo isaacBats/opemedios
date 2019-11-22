@@ -22,6 +22,7 @@ Auth::routes();
 
 Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
+    Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
 
 });
 
