@@ -11,7 +11,7 @@
       </div>
       <div class="media-body">
         <h4 class="media-heading">{{ Auth::user()->name }} <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
-        <span>Software Engineer</span>
+        <span>{{ Auth::user()->metas->where('meta_key', 'user_position')->first()->meta_value }}</span>
       </div>
     </div><!-- leftpanel-profile -->
 

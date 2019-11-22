@@ -23,12 +23,12 @@
                   <input type="checkbox"><span></span>
                 </label>
               </th>
-              <th>#</th>
-              <th>Nombre</th>
+              <th class="text-center">#</th>
+              <th class="text-center">Nombre</th>
               <th class="text-center">Correo</th>
-              <th class="text-right">Tipo de usuario</th>
-              <th class="text-right">Cargo</th>
-              <th class="text-right">Acciones</th>
+              <th class="text-center">Tipo de usuario</th>
+              <th class="text-center">Cargo</th>
+              <th class="text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -42,10 +42,10 @@
                   <td class="text-center" >{{ $loop->iteration }}</td>
                   <td class="text-left" >{{ $user->name }}</td>
                   <td class="text-left">{{ $user->email }}</td>
-                  <td class="text-left">Admin</td>
-                  <td class="text-left">Encargado</td>
+                  <td class="text-left">{{ strtoupper(implode(',',$user->getRoleNames()->toArray())) }}</td>
+                  <td class="text-left">{{ $user->metas->where('meta_key', 'user_position')->first()->meta_value }}</td>
                   <td class="table-options">
-                      <li><a href=""><i class="fa fa-pencil"></i></a></li>
+                      <li><a href="{{ route('user.show', ['id' => $user->id]) }}"><i class="fa fa-eye"></i></a></li>
                       <li><a href=""><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>

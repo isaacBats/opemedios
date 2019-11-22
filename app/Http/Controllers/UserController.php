@@ -12,4 +12,11 @@ class UserController extends Controller
 
         return view('admin.user.index', compact('users'));
     }
+
+    public function show (Request $request, $id) {
+        $profile = User::find($id);
+
+        return view('admin.user.show', compact('profile'));
+
+    }
 }
