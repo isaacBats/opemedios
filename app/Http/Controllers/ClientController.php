@@ -8,12 +8,24 @@ use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
+
+
+    private function getMinName($id) {
+        $dim = [
+            1 => 'tel',
+            2 => 'rad',
+            3 => 'per',
+            4 => 'rev',
+            5 => 'int',
+        ];
+
+        return $dim[$id];
+
+    }
     public function index($slug_company) {
         // Analizar si es necesario la paginación 
         // Crear el buscador de noticias
         // crear filtros para las noticias
-
-        //traer los logos de las fuentes asi como su información
 
         $company = Company::where('slug', $slug_company)->first();
         $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
@@ -60,8 +72,42 @@ class ClientController extends Controller
 
     public function showNew(Request $request, $company, $newId) {
 
-        return DB::connection('opemediosold')->table('noticia')
-                    ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-                    ->where('id_noticia', $newId)->get();
+        $new = DB::connection('opemediosold')->table('noticia as n')
+                ->select(
+                    'n.id_noticia',
+                    'n.encabezado',
+                    'n.sintesis',
+                    'n.autor',
+                    'n.fecha',
+                    'n.comentario',
+                    'n.alcanse',
+                    'n.id_tipo_fuente as medio_id',
+                    'tf.descripcion as medio',
+                    'f.nombre as fuente_nombre',
+                    'f.empresa as fuente_empresa',
+                    'f.logo as fuente_logo',
+                    'secc.nombre as seccion',
+                    'sec.nombre as sector',
+                    'ta.descripcion as tipo_autor',
+                    'g.descripcion as genero',
+                    't.descripcion as tendencia',
+                    'u.id_usuario as id_monitor',
+                )
+                    ->join('tipo_fuente as tf', 'n.id_tipo_fuente', '=', 'tf.id_tipo_fuente')
+                    ->join('fuente as f', 'n.id_fuente', '=', 'f.id_fuente')
+                    ->join('seccion as secc', 'n.id_seccion', '=', 'secc.id_seccion')
+                    ->join('sector as sec', 'n.id_sector', '=', 'sec.id_sector')
+                    ->join('tipo_autor as ta', 'n.id_tipo_autor', '=', 'ta.id_tipo_autor')
+                    ->join('genero as g', 'n.id_genero', '=', 'g.id_genero')
+                    ->join('tendencia as t', 'n.id_tendencia_monitorista', '=', 't.id_tendencia')
+                    ->join('usuario as u', 'n.id_usuario', '=', 'u.id_usuario')
+                ->where('id_noticia', $newId)->get()->first();
+
+            $tableNewName = 'noticia_' . $this->getMinName($new->medio_id);
+            $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia);
+
+            $adjuntos = DB::connection('opemediosold')->table('adjuntos')->where('id_noticia', $new->id_noticia);
+
+        return view('clients.shownew', compact('new', 'newComplement', 'adjuntos'));
     }
 }
