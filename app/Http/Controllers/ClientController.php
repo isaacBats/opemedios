@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
@@ -109,10 +110,7 @@ class ClientController extends Controller
                     ->join('usuario as u', 'n.id_usuario', '=', 'u.id_usuario')
                 ->where('id_noticia', $newId)->get()->first();
 
-            $tableNewName = 'noticia_' . $this->getMinName($new->medio_id);
-            $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia);
-
-            $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+        $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
                 ->where('id_noticia', $new->id_noticia)
                 ->get()->map(function ($adj) use ($new) { 
                     
@@ -129,8 +127,50 @@ class ClientController extends Controller
                     return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
                                             :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo</a>"; 
                 });
+
+        $metadata = $this->getMetaNew($new);
             
 
-        return view('clients.shownew', compact('new', 'newComplement', 'adjuntosHTML'));
+        return view('clients.shownew', compact('new', 'metadata', 'adjuntosHTML'));
+    }
+
+    private function getMetaNew($new) {
+        $min = $this->getMinName($new->medio_id);
+        $tableNewName = 'noticia_' . $min;
+        $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia)->first();
+        $metas = [
+            'Autor' => $new->autor,
+            'Alcance' => number_format($new->alcanse),
+            'Medio' => $new->medio,
+            'Sección' => $new->seccion,
+            'Sector' => $new->sector,
+            'Tipo Autor' => $new->tipo_autor,
+            'Genero' => $new->genero,
+            'Tendencia' => $new->tendencia, 
+            'Costo' => money_format('%.2n', $newComplement->costo),
+        ];
+
+        if($min == 'per' || $min == 'rev') {
+            $tipoPag = DB::connection('opemediosold')->table('tipo_pagina')->where('id_tipo_pagina', $newComplement->id_tipo_pagina)->first();
+            $tamanoNota = DB::connection('opemediosold')->table('tamano_nota')->where('id_tamano_nota', $newComplement->id_tamano_nota)->first();
+            
+            $metas += [
+                'Pagina' => $newComplement->pagina,
+                'Porcentaje pagina' => $newComplement->porcentaje_pagina,
+                'Tipo de pagina' => $tipoPag->descripcion,
+                'Tamaño Nota' => $tamanoNota ? $tamanoNota->descripcion : 0,
+            ];
+        } elseif($min == 'tel' || $min == 'rad') {
+            $metas += [
+                'Hora' => $newComplement->hora,
+                'Duración' => $newComplement->duracion,
+            ];
+        } else {
+            $metas += [
+                'Url' => $newComplement->url,
+            ];
+        }
+
+        return $metas;
     }
 }

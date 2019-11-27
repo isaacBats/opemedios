@@ -32,20 +32,15 @@
             </div>
         </div>
         <div class="row spacer-20">
-            <div class="col-lg-8">
-                <div class="col-lg-4">
-                    <p><span class="label-red">Autor:</span> {{ $new->autor }}</p>
-                    <p><span class="label-red">Alcance:</span> {{ number_format($new->alcanse) }}</p>
-                </div>
-                <div class="col-lg-4">
-                    <p><span class="label-red">Genero:</span> {{ $new->genero }}</p>
-                    <p><span class="label-red">Tendencia:</span> {{ $new->tendencia }}</p>
-                </div>
-                {{-- Aqui va la primera parte --}}
+            <div class="col-lg-9">
+                @foreach($metadata as $label => $meta)
+                    <div class="col-lg-3">
+                        <p><span class="label-red">{{ $label }}: </span> {{ $meta }}</p>
+                    </div>
+                @endforeach
             </div>
-            <div class="col-lg-4 text-right">
+            <div class="col-lg-3 text-right">
                 {{-- Compartir con redes sociales --}}
-                
             </div>
         </div>
 

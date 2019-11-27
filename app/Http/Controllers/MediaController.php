@@ -6,28 +6,6 @@ use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
-    // public function getHTMLForMedia ($file) {
-
-    //     $fillableExtensions = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg', 'pdf', 'mp4', 'mp3'];
-
-    //     $ext = end(explode('.', $file));
-    //     $name = end(explode('/', $file));
-
-    //     if(in_array($ext, $fillableExtensions)) {
-    //         if($ext == 'pdf') {
-    //             return '<embed src="'.$file.'" type="application/pdf" width="100%" height="600px" />';
-    //         } elseif ($ext == 'mp3') {
-    //             return '
-    //                 <audio src="'.$file.'">
-    //                     <source src="'.$file.'" type="audio/mp3">
-    //                     <p>Tu navegador no implementa el elemento audio.</p>
-    //                 </audio>
-    //             ';
-    //         }
-    //     } else {
-    //         return '<a href="'.$file.'" download="'.$name.'">Descargar Archivo</a>';
-    //     }
-    // }
     public function getHTMLForMedia ($file, $path) {
         $img_allowed = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg'];
         $doc_allowed = ['csv', 'pdf'];
