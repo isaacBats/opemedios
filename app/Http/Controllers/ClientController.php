@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
+    protected $mediaController;
+
+    public function __construct(MediaController $mediaController) {
+        $this->mediaController = $mediaController;
+    }
 
 
     private function getMinName($id) {
@@ -106,8 +112,25 @@ class ClientController extends Controller
             $tableNewName = 'noticia_' . $this->getMinName($new->medio_id);
             $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia);
 
-            $adjuntos = DB::connection('opemediosold')->table('adjuntos')->where('id_noticia', $new->id_noticia);
+            $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+                ->where('id_noticia', $new->id_noticia)
+                ->get()->map(function ($adj) use ($new) { 
+                    
+                    $medio = strtolower($new->medio);
+                    
+                    if($medio == 'peri&oacute;dico') {
+                        $medio = 'periodico';
+                    } elseif ($medio == 'Televisi&oacute;n') {
+                        $medio = 'television';
+                    }
+                    
+                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                    
+                    return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
+                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo</a>"; 
+                });
+            
 
-        return view('clients.shownew', compact('new', 'newComplement', 'adjuntos'));
+        return view('clients.shownew', compact('new', 'newComplement', 'adjuntosHTML'));
     }
 }

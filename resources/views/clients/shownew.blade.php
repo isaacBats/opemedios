@@ -53,6 +53,10 @@
         <div class="row">
             <div class="col-md-12">
                 {{-- Archivos adjuntos --}}
+                <hr>
+                @foreach($adjuntosHTML as $html)
+                    {!! $html !!}
+                @endforeach
             </div>
         </div>
         <hr>
