@@ -1,6 +1,6 @@
 @extends('layouts.home2')
 @section('content')
-    <div class="container">
+    <div class="container op-content-mt">
 
         <ol class="breadcrumb">
             <li><a href="/">Inicio</a></li>

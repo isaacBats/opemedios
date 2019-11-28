@@ -1,6 +1,6 @@
 @extends('layouts.home2')
 @section('content')
-    <div class="container clientes">
+    <div class="container clientes op-content-mt">
         <ol class="breadcrumb">
             <li><a href="{{ route('home') }}">Inicio</a></li>
             <li class="active">Clientes</li>

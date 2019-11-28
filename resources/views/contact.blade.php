@@ -2,7 +2,7 @@
 @section('title', ' - Contacto')
 @section('content')
     <!-- container -->
-    <div class="container">
+    <div class="container op-content-mt">
 
         <ol class="breadcrumb">
             <li><a href="{{ route('home') }}">Inicio</a></li>
