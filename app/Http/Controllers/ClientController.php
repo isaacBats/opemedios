@@ -98,7 +98,7 @@ class ClientController extends Controller
                     'ta.descripcion as tipo_autor',
                     'g.descripcion as genero',
                     't.descripcion as tendencia',
-                    'u.id_usuario as id_monitor',
+                    'u.id_usuario as id_monitor'
                 )
                     ->join('tipo_fuente as tf', 'n.id_tipo_fuente', '=', 'tf.id_tipo_fuente')
                     ->join('fuente as f', 'n.id_fuente', '=', 'f.id_fuente')
