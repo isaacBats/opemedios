@@ -29,6 +29,8 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
     Route::get('cartones', 'ClientController@cartones')->name('cartones');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
 
+    Route::get('mis-temas', 'ClientController@themes')->name('themes');
+
 });
 
 

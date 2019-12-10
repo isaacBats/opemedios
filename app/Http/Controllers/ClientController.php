@@ -214,6 +214,7 @@ class ClientController extends Controller
 
         return view('clients.primeras', compact('covers'));
     }
+    
     public function portadas (Request $request, $company) {
 
         $date = \Carbon\Carbon::now()->subDay();
@@ -260,5 +261,31 @@ class ClientController extends Controller
             ->where('cp.fecha', $date->format('Y-m-d'))->get();
 
         return view('clients.politicas', compact('covers'));
+    }
+
+    public function themes (Request $request, $slug_company) {
+
+        $company = Company::where('slug', $slug_company)->first();
+
+        $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
+        if($userMetaOldCompany) {
+            $idCompany = $userMetaOldCompany->meta_value;
+        } else {
+            $idCompany = $company->id;
+        }
+
+        $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
+        
+        $news = DB::connection('opemediosold')->table('asigna')
+            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
+            ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
+            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+            ->where('id_empresa', $idCompany)
+            ->where('id_tema', $themes->first()->id_tema)
+            ->orderBy('noticia.fecha', 'desc')
+            ->simplePaginate(15);
+            // ->get();
+
+        return view('clients.themes', compact('themes', 'news', 'company'));
     }
 }

@@ -28,6 +28,7 @@
                     @else
                         @hasrole('client')
                             <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                            <li><a class="{{ $route == 'themes' ? ' active' : '' }}" href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
                             <li>
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
@@ -40,27 +41,6 @@
                                     </ul>
                                 </div>
                             </li>
-                            {{-- <li class="dropdown">
-                                <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                    Portadas
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="/primeras-planas">Primeras Planas</a></li>
-                                    <li><a href="/portadas-financieras">Portadas Financieras</a></li>
-                                    <li><a href="/cartones">Cartones</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="dropdown">
-                                <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                    Columnas
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="/columnas-financieras">Columnas Financieras</a></li>
-                                    <li><a href="/columnas-politicas">Columnas Politicas</a></li>
-                                </ul>
-                            </li> --}}
                             {{-- <li class="dropdown">
                               <div class="dropdown">
                                   <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
@@ -126,31 +106,18 @@
                         @else
                             @hasrole('client')
                                 <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                                <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras') }}">Primeras Planas</a></li>
-                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Columnas</a></li>
-                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Portadas Financieras</a></li>
-                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Cartones</a></li>
-                                {{-- <li class="dropdown">
-                                    <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                        Portadas
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="/primeras-planas">Primeras Planas</a></li>
-                                        <li><a href="/portadas-financieras">Portadas Financieras</a></li>
-                                        <li><a href="/cartones">Cartones</a></li>
-                                    </ul>
-                                </li> --}}
-                                {{-- <li class="dropdown">
-                                    <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                        Columnas
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="/columnas-financieras">Columnas Financieras</a></li>
-                                        <li><a href="/columnas-politicas">Columnas Politicas</a></li>
-                                    </ul>
-                                </li> --}}
+                                <li>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
+                                        <ul class="dropdown-menu pull-right ope-menu" role="menu" aria-labelledby="menuArchivo">
+                                            <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras', ['company' => $slug]) }}">Primeras Planas</a></li>
+                                            <li><a class="{{ $route == 'politicas' ? ' active' : '' }}" href="{{ route('politicas', ['company' => $slug]) }}">Columnas Pol&iacute;ticas</a></li>
+                                            <li><a class="{{ $route == 'financieras' ? ' active' : '' }}" href="{{ route('financieras', ['company' => $slug]) }}">Columnas Financieras</a></li>
+                                            <li><a class="{{ $route == 'portadas' ? ' active' : '' }}" href="{{ route('portadas', ['company' => $slug]) }}">Portadas Financieras</a></li>
+                                            <li><a class="{{ $route == 'cartones' ? ' active' : '' }}" href="{{ route('cartones', ['company' => $slug]) }}">Cartones</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 {{-- <li class="dropdown">
                                   <div class="dropdown">
                                       <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
