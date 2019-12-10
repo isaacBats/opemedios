@@ -1,6 +1,7 @@
 @extends('layouts.home2')
 @section('title', " - Cartones")
 @section('content')
+    <!--Page Content -->
     <div class="container op-content-mt">
         <h1 class="page-header">Cartones</h1>
         <div class="row">

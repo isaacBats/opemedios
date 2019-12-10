@@ -1,11 +1,6 @@
 @extends('layouts.home2')
 @section('title', " - Primeras Planas")
 @section('content')
-    {{-- <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header"></h1>
-            </div>
-        </div> --}}
     <!--Page Content -->
     <div class="container op-content-mt">
         <h1 class="page-header">Primeras Planas</h1>
