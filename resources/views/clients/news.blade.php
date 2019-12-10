@@ -12,9 +12,9 @@
                 <div class="col-sm-8 page-header card-company-name">
                     <h1>{{ $company->name }}</h1>
                     <small class="card-filters">
-                          Noticias de hoy: <strong>0</strong> 
-                        | Noticias del mes: <strong>0</strong> 
-                        | Total: <strong>{{ $countTotal }}</strong>
+                          Noticias de hoy: <strong>{{ $count['day'] }}</strong> 
+                        | Noticias del mes: <strong>{{ $count['month'] }}</strong> 
+                        | Total: <strong>{{ $count['total'] }}</strong>
                     </small>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <h4 class="f-h4 text-muted">
-                                                {{ $new->nombre }} 
+                                                {{ $new->nombre }} | {{ Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans() }}
                                             </h4>
                                             <h3 class="f-h3">
                                                 {{ $new->encabezado  }}

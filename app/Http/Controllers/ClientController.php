@@ -1,4 +1,22 @@
 <?php
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2019
+  * @version 1.0.0
+  * @package App\Http\Controllers
+  * Type: Class Controller
+  * Description: ClientController
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
+        
+
 
 namespace App\Http\Controllers;
 
@@ -72,9 +90,20 @@ class ClientController extends Controller
 
         }, $themes->toArray());
 
-        $countTotal = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
+        $date = \Carbon\Carbon::now();
+        // dd($date->format('Y-m'));
+        $count = array();
+        $count['total'] = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
+        $count['month'] = DB::connection('opemediosold')->table('asigna')
+            ->join('noticia', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+            ->where('id_empresa', $idCompany)
+            ->whereRaw("date_format(noticia.fecha, '%Y-%m') = '{$date->format('Y-m')}'")->count();
+        $count['day'] = DB::connection('opemediosold')->table('asigna')
+            ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
+            ->where('id_empresa', $idCompany)
+            ->where('noticia.fecha', $date->format('Y-m-d'))->count();
         
-        return view('clients.news', compact('company', 'newsAssigned', 'themes', 'countTotal'));
+        return view('clients.news', compact('company', 'newsAssigned', 'themes', 'count'));
     }
 
     public function showNew(Request $request, $company, $newId) {
@@ -172,5 +201,64 @@ class ClientController extends Controller
         }
 
         return $metas;
+    }
+
+    public function primeras (Request $request, $company) {
+
+        $date = \Carbon\Carbon::now()->subDay();
+
+        $covers = DB::connection('opemediosold')->table('primera_plana as pp')
+            ->select('pp.fecha', 'pp.imagen', 'f.nombre')
+            ->join('fuente as  f', 'pp.id_fuente', '=', 'f.id_fuente')
+            ->where('pp.fecha', $date->format('Y-m-d'))->get();
+
+        return view('clients.primeras', compact('covers'));
+    }
+    public function portadas (Request $request, $company) {
+
+        $date = \Carbon\Carbon::now()->subDay();
+
+        $covers = DB::connection('opemediosold')->table('portada_financiera as pf')
+            ->select('pf.fecha', 'pf.imagen', 'f.nombre')
+            ->join('fuente as  f', 'pf.id_fuente', '=', 'f.id_fuente')
+            ->where('pf.fecha', $date->format('Y-m-d'))->get();
+
+        return view('clients.portadas', compact('covers'));
+    }
+
+    public function cartones (Request $request, $company) {
+
+        $date = \Carbon\Carbon::now()->subDay();
+
+        $covers = DB::connection('opemediosold')->table('carton')
+            ->select('carton.fecha', 'carton.imagen', 'fuente.nombre', 'carton.titulo')
+            ->join('fuente', 'carton.id_fuente', '=', 'fuente.id_fuente')
+            ->where('carton.fecha', $date->format('Y-m-d'))->get();
+
+        return view('clients.cartones', compact('covers'));
+    }
+
+    public function financieras (Request $request, $company) {
+
+        $date = \Carbon\Carbon::now()->subDay();
+
+        $covers = DB::connection('opemediosold')->table('columna_financiera as cf')
+            ->select('cf.titulo', 'cf.fecha', 'cf.imagen_jpg', 'f.nombre', 'cf.autor')
+            ->join('fuente as  f', 'cf.id_fuente', '=', 'f.id_fuente')
+            ->where('cf.fecha', $date->format('Y-m-d'))->get();
+
+        return view('clients.financieras', compact('covers'));
+    }
+
+    public function politicas (Request $request, $company) {
+
+        $date = \Carbon\Carbon::now()->subDay();
+
+        $covers = DB::connection('opemediosold')->table('columna_politica as cp')
+            ->select('cp.titulo', 'cp.fecha', 'cp.imagen_jpg', 'f.nombre', 'cp.autor')
+            ->join('fuente as  f', 'cp.id_fuente', '=', 'f.id_fuente')
+            ->where('cp.fecha', $date->format('Y-m-d'))->get();
+
+        return view('clients.politicas', compact('covers'));
     }
 }

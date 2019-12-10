@@ -407,7 +407,7 @@ img.pull-left { margin-right: 10px; }
 .navbar-nav .btn{
 
 	border: solid 1px #929CA4;
-	border-radius: 0;
+	/*border-radius: 0;*/
 
 }
 
@@ -847,6 +847,10 @@ img.pull-left { margin-right: 10px; }
 	transition: all .2s ease-in-out;
 }
 
+.ope-menu {
+	background-color: #e0dec5 !important;
+}
+
 .op-nav a:hover {
 	color: #97caff !important;}
 
@@ -989,4 +993,10 @@ h1.new {
 .btn-facebook:hover, 
 .btn-twitter:hover {
 	color: #FFFFFF !important;
+}
+
+.btn-ope {
+	-webkit-border-radius: 28px;
+	-moz-border-radius: 28px;
+	border-radius: 28px;
 }

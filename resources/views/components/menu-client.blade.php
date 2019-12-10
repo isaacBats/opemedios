@@ -28,6 +28,18 @@
                     @else
                         @hasrole('client')
                             <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                            <li>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
+                                    <ul class="dropdown-menu pull-right ope-menu" role="menu" aria-labelledby="menuArchivo">
+                                        <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras', ['company' => $slug]) }}">Primeras Planas</a></li>
+                                        <li><a class="{{ $route == 'politicas' ? ' active' : '' }}" href="{{ route('politicas', ['company' => $slug]) }}">Columnas Pol&iacute;ticas</a></li>
+                                        <li><a class="{{ $route == 'financieras' ? ' active' : '' }}" href="{{ route('financieras', ['company' => $slug]) }}">Columnas Financieras</a></li>
+                                        <li><a class="{{ $route == 'portadas' ? ' active' : '' }}" href="{{ route('portadas', ['company' => $slug]) }}">Portadas Financieras</a></li>
+                                        <li><a class="{{ $route == 'cartones' ? ' active' : '' }}" href="{{ route('cartones', ['company' => $slug]) }}">Cartones</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                             {{-- <li class="dropdown">
                                 <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
                                     Portadas
@@ -63,11 +75,11 @@
                             </li> --}}
                             <li>
                                 <div class="dropdown">
-                                    <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    {{ strtoupper(Auth::user()->name) }}
+                                    <button class="btn dropdown-toggle user btn-ope" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {{ strtoupper(Auth::user()->name) }}
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <ul class="dropdown-menu ope-menu" aria-labelledby="dropdownMenu1">
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
@@ -114,6 +126,10 @@
                         @else
                             @hasrole('client')
                                 <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                                <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras') }}">Primeras Planas</a></li>
+                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Columnas</a></li>
+                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Portadas Financieras</a></li>
+                                <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Cartones</a></li>
                                 {{-- <li class="dropdown">
                                     <a class="btn dropdown-toggle user" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
                                         Portadas
@@ -188,9 +204,6 @@
                                 <li><a href="{{ route('home') }}" class="active">Inicio</a></li>
                             @else
                                 @hasrole('client')
-                                @php
-                                    $slug = session()->get('slug_company');
-                                @endphp
                                 <li><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
                                 <li><a href="{{ route('contact') }}">Contacto</a></li>
                                 <li><a href="{{ route('clients') }}">Clientes</a></li>
