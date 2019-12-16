@@ -8,6 +8,7 @@
         @endphp
         <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <title>{{ config('app.name', 'Opemedios') }} @yield('title')</title>
 
@@ -123,9 +124,11 @@
     <!-- GMAP3 -->
     <script type="text/javascript" src="{{ asset('js/gmap3/gmap3.min.js') }}"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
+    <script src="{{ asset('js/owl/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/home/scripts.js') }}"></script>
 
-    <script src="{{ asset('js/home/template.js') }}></script>
+    <script src="{{ asset('js/home/template.js') }}"></script>
+    <script src="{{ asset('js/home/client.js') }}"></script>
 </body>
 </html>
 

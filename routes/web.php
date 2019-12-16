@@ -30,6 +30,7 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
 
     Route::get('mis-temas', 'ClientController@themes')->name('themes');
+    Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
 
 });
 

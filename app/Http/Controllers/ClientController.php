@@ -276,16 +276,27 @@ class ClientController extends Controller
 
         $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
         
-        $news = DB::connection('opemediosold')->table('asigna')
+        $defaultThemeId = $themes->first()->id_tema;
+
+        $news = $this->getNewsByTheme($defaultThemeId, $idCompany);
+
+        return view('clients.themes', compact('themes', 'news', 'company', 'defaultThemeId', 'idCompany'));
+    }
+
+    protected function getNewsByTheme ($themeId, $idCompany) {
+        return DB::connection('opemediosold')->table('asigna')
             ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
             ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
             ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
             ->where('id_empresa', $idCompany)
-            ->where('id_tema', $themes->first()->id_tema)
+            ->where('id_tema', $themeId)
             ->orderBy('noticia.fecha', 'desc')
             ->simplePaginate(15);
             // ->get();
+    }
 
-        return view('clients.themes', compact('themes', 'news', 'company'));
+    public function newsByTheme(Request $request) {
+        $data = $request->all();
+        return response()->json($this->getNewsByTheme($data['themeid'], $data['companyid']));
     }
 }

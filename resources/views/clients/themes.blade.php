@@ -11,15 +11,16 @@
                         Temas
                     </div>
                     <div class="panel-body themes-list-p0">
-                        <ul class="list-group">
+                        <ul class="list-group" id="list-group-themes">
                             @foreach ($themes as $theme)
-                                <li class="list-group-item">{{ $theme->nombre }}</li>
+                                <li class="list-group-item theme-transition"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $idCompany }}" data-themeid="{{ $theme->id_tema }}">@if($theme->id_tema == $defaultThemeId) <i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> @endif {{ $theme->nombre }}</a></li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="loader">Cargando...</div>
+            <div id="news-by-theme" class="col-md-9">
                 @foreach($news as $new)
                     <div class="row f-col">
                         <div class="col-md-4">
