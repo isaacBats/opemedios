@@ -3,6 +3,14 @@
 @section('content')
     <!--Page Content -->
     <div class="container op-content-mt">
+        <div class="row card-company">
+            <div class="col-sm-3">
+                <img src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+            </div>
+            <div class="col-sm-8 page-header card-company-name">
+                <h1>{{ $company->name }}</h1>
+            </div>
+        </div>
         <h1 class="page-header"> Noticias por tema</h1>
         <div class="row">
             <div class="col-md-3">
@@ -21,34 +29,7 @@
             </div>
             <div class="loader">Cargando...</div>
             <div id="news-by-theme" class="col-md-9">
-                @foreach($news as $new)
-                    <div class="row f-col">
-                        <div class="col-md-4">
-                            <div class="bloque-new item-center">
-                                <a class="img-responsive">
-                                    {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->logo }}" alt="{{ $new->nombre}}">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h4 class="f-h4 text-muted">
-                                {{ $new->nombre }} | {{ Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans() }}
-                            </h4>
-                            <h3 class="f-h3">
-                                {{ $new->encabezado  }}
-                            </h3>
-                            <p class="text-muted f-p">
-                                 {{ $new->empresa }} | Autor: {{ $new->autor }}
-                            </p>
-                            <p class="f-p">{{ Illuminate\Support\Str::limit($new->sintesis, 200) }}</p>
-                            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $new->id_noticia, 'company' => $company->slug ]) }}">Ver más</a>
-                        </div>
-                    </div>
-                @endforeach
-                <div class="text-right">
-                    {{ $news->links() }}
-                </div>
+                @include('components/listNews')
             </div>
         </div>
     </div>
@@ -62,7 +43,7 @@
         // spinner in off
         $('.loader').hide()
 
-
+        // get new by theme
         $('ul.list-group').on('click', 'a.item-theme', function(event){
             event.preventDefault()
             var themeid = $(this).data('themeid')
@@ -82,66 +63,72 @@
                 {
                     '_token': $('meta[name=csrf-token]').attr('content'), 
                     companyid: companyid, 
-                    themeid: themeid
+                    themeid: themeid,
+                    companyslug: companyslug
                 }).error(
                     function (data) {
                         spinner.hide() 
+
                         var beautifullHTML = `<div class="jumbotron">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                             </div>`
 
                         container.append(beautifullHTML)
                         // TODO: poner el error en un log
-                        // console.log(`Error: ${data.responseJSON.message}`)
+                        console.log(`Error-Themes: ${data.responseJSON.message}`)
                     }
                 ).success(
-                    function (data) {
+                    function (news) {
 
-                        var req = JSON.parse(JSON.stringify(data))
                         spinner.hide()
-                        data.data.forEach( function(item) {
-                            container.append(getTemplate(item))
-                        })
-                        console.log(data)
-                        container.append(`<div class="text-right">${req.links}</div>`)
-                        // var html = getTemplate(data)
-                        // // console.log(html)
-                        // // debugger
-                        // container.html(getTemplate(data))
-
+                        container.html(news)
+                        
                     }
                 )
-
-            var getTemplate = function (data) {
-                return `
-                        <div class="row f-col">
-                            <div class="col-md-4">
-                                <div class="bloque-new item-center">
-                                    <a class="img-responsive">
-                                        {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-                                      <img src="http://sistema.opemedios.com.mx/data/fuentes/${data.logo}" alt="${data.nombre}">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <h4 class="f-h4 text-muted">
-                                    ${data.nombre} | ${data.fecha}
-                                </h4>
-                                <h3 class="f-h3">
-                                    ${data.encabezado}
-                                </h3>
-                                <p class="text-muted f-p">
-                                     ${data.empresa } | Autor: ${data.autor}
-                                </p>
-                                <p class="f-p">${data.sintesis.substr(0, 200)}</p>
-                                <a class="btn btn-primary" href="/${companyslug}/noticia/${data.id_noticia}">Ver más</a>
-                            </div>
-                        </div>`
-            }
-
        })    
 
+        // pagination 
+        $(document).on('click', '#news-pagination .pagination a', function(event){
+            event.preventDefault()
+            var page = $(this).attr('href').split('page=')[1];
+            fetch_data(page);
+        });
 
+        function fetch_data(page) {
+            var themeid = $('#news-pagination').data('themeid')
+            var companyid = $('#news-pagination').data('companyid')
+            var companyslug = $('#news-pagination').data('companyslug')
+            var container = $('#news-by-theme')
+            var spinner = $('.loader')
+
+            container.empty()
+            spinner.show()
+
+            $.ajax({
+                type: 'POST',
+                url:`/${companyslug}/news-by-theme?page=${page}`,
+                data: {
+                    '_token': $('meta[name=csrf-token]').attr('content'), 
+                    companyid: companyid, 
+                    themeid: themeid,
+                    companyslug: companyslug
+                },
+                success:function(news) {
+                    spinner.hide()
+                    container.html(news)
+                },
+                error: function(data) {
+                    spinner.hide() 
+                    var beautifullHTML = `<div class="jumbotron">
+                            <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                        </div>`
+
+                    container.append(beautifullHTML)
+                    // TODO: poner el error en un log
+                    console.log(`Error-Pagination: ${data.responseJSON.message}`)
+                }
+            });
+        }
 
     })
 </script>

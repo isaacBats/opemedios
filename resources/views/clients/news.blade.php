@@ -7,7 +7,7 @@
             <!-- Page Heading -->
             <div class="row card-company">
                 <div class="col-sm-3">
-                    <img src="{{ asset("storage/{$company->logo}") }}" alt="{{ $company->name }}">
+                    <img src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
                 </div>
                 <div class="col-sm-8 page-header card-company-name">
                     <h1>{{ $company->name }}</h1>

@@ -297,6 +297,11 @@ class ClientController extends Controller
 
     public function newsByTheme(Request $request) {
         $data = $request->all();
-        return response()->json($this->getNewsByTheme($data['themeid'], $data['companyid']));
+        $news = $this->getNewsByTheme($data['themeid'], $data['companyid']);
+        $company = Company::where('slug', $data['companyslug'])->first();
+        $idCompany = $data['companyid'];
+        $theme = $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->where('id_tema', $data['themeid'])->first();
+        // return response()->json($this->getNewsByTheme($data['themeid'], $data['companyid']));
+        return view('components.listNews', compact('news', 'company', 'theme', 'idCompany'))->render();
     }
 }
