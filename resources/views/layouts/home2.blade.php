@@ -128,7 +128,8 @@
     <script src="{{ asset('js/home/scripts.js') }}"></script>
 
     <script src="{{ asset('js/home/template.js') }}"></script>
-    <script src="{{ asset('js/home/client.js') }}"></script>
+    {{-- <script src="{{ asset('js/home/client.js') }}"></script> --}}
+    @yield('scripts')
 </body>
 </html>
 

@@ -53,69 +53,42 @@ $(document).ready(function(){
             ).success(
                 function (data) {
 
+                    // var req = JSON.parse(JSON.stringify(data))
                     spinner.hide()
-                    var html = getTemplate(data)
-                    console.log(html)
-                    debugger
-                    container.html(getTemplate(data))
+                    data.data.forEach( function(item) {
+                        container.append(getTemplate(item))
+                    })
+                    // var html = getTemplate(data)
+                    // // console.log(html)
+                    // // debugger
+                    // container.html(getTemplate(data))
 
                 }
             )
 
         var getTemplate = function (data) {
-            var req = JSON.parse(JSON.stringify(data))
-            var btyhtml = $.each(req.data, function (key, notice){
-                // console.log(notice.logo)
-                return `
+            return `
                     <div class="row f-col">
                         <div class="col-md-4">
                             <div class="bloque-new item-center">
                                 <a class="img-responsive">
-                                    {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/${notice.logo}" alt="${notice.nombre}">
+                                    {{{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}}
+                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/${data.logo}" alt="${data.nombre}">
                                 </a>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <h4 class="f-h4 text-muted">
-                                ${notice.nombre}
+                                ${data.nombre} | {{ Illuminate\Support\Carbon::parse(${data.fecha})->diffForHumans() }}
                             </h4>
                             <h3 class="f-h3">
-                                ${notice.encabezado}
+                                ${data.encabezado}
                             </h3>
                             <p class="text-muted f-p">
-                                 ${notice.empresa } | Autor: ${notice.autor}
+                                 ${data.empresa } | Autor: ${data.autor}
                             </p>
                         </div>
-                    </div>
-                `
-            })
-
-
-            // return $.each(data, function(notice) {
-            //     return `
-            //             <div class="row f-col">
-            //                 <div class="col-md-4">
-            //                     <div class="bloque-new item-center">
-            //                         <a class="img-responsive">
-            //                             {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-            //                           <img src="http://sistema.opemedios.com.mx/data/fuentes/${notice.logo}" alt="${notice.nombre}">
-            //                         </a>
-            //                     </div>
-            //                 </div>
-            //                 <div class="col-md-8">
-            //                     <h4 class="f-h4 text-muted">
-            //                         ${notice.nombre}
-            //                     </h4>
-            //                     <h3 class="f-h3">
-            //                         ${notice.encabezado}
-            //                     </h3>
-            //                     <p class="text-muted f-p">
-            //                          ${notice.empresa } | Autor: ${notice.autor}
-            //                     </p>
-            //                 </div>
-            //             </div>
-            // `})
+                    </div>`
         }
 
    })    

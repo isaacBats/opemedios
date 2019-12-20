@@ -54,3 +54,95 @@
     </div>
     <!-- /.container -->
 @endsection
+
+@section('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        // spinner in off
+        $('.loader').hide()
+
+
+        $('ul.list-group').on('click', 'a.item-theme', function(event){
+            event.preventDefault()
+            var themeid = $(this).data('themeid')
+            var companyid = $(this).data('companyid')
+            var companyslug = $(this).data('companyslug')
+            var item = $(this)
+            var container = $('#news-by-theme')
+            var spinner = $('.loader')
+            var listThemes = $('#list-group-themes')
+            
+            listThemes.find('#item-indicator').remove()
+            item.prepend(`<i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> `)
+            container.empty()
+            spinner.show()
+
+            var news = $.post(`/${companyslug}/news-by-theme`, 
+                {
+                    '_token': $('meta[name=csrf-token]').attr('content'), 
+                    companyid: companyid, 
+                    themeid: themeid
+                }).error(
+                    function (data) {
+                        spinner.hide() 
+                        var beautifullHTML = `<div class="jumbotron">
+                                <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                            </div>`
+
+                        container.append(beautifullHTML)
+                        // TODO: poner el error en un log
+                        // console.log(`Error: ${data.responseJSON.message}`)
+                    }
+                ).success(
+                    function (data) {
+
+                        var req = JSON.parse(JSON.stringify(data))
+                        spinner.hide()
+                        data.data.forEach( function(item) {
+                            container.append(getTemplate(item))
+                        })
+                        console.log(data)
+                        container.append(`<div class="text-right">${req.links}</div>`)
+                        // var html = getTemplate(data)
+                        // // console.log(html)
+                        // // debugger
+                        // container.html(getTemplate(data))
+
+                    }
+                )
+
+            var getTemplate = function (data) {
+                return `
+                        <div class="row f-col">
+                            <div class="col-md-4">
+                                <div class="bloque-new item-center">
+                                    <a class="img-responsive">
+                                        {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
+                                      <img src="http://sistema.opemedios.com.mx/data/fuentes/${data.logo}" alt="${data.nombre}">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h4 class="f-h4 text-muted">
+                                    ${data.nombre} | ${data.fecha}
+                                </h4>
+                                <h3 class="f-h3">
+                                    ${data.encabezado}
+                                </h3>
+                                <p class="text-muted f-p">
+                                     ${data.empresa } | Autor: ${data.autor}
+                                </p>
+                                <p class="f-p">${data.sintesis.substr(0, 200)}</p>
+                                <a class="btn btn-primary" href="/${companyslug}/noticia/${data.id_noticia}">Ver más</a>
+                            </div>
+                        </div>`
+            }
+
+       })    
+
+
+
+    })
+</script>
+@endsection
