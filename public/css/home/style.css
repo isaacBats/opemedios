@@ -357,3 +357,7 @@ footer {
     background-color: #ff1a3e; }
   .top.active {
     display: block; }
+
+    a.ope-contact {
+      color: #fff;
+    }

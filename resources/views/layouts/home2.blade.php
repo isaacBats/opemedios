@@ -51,8 +51,8 @@
                     <div class="col-md-6 widget">
                         <h3 class="widget-title">Contactanos</h3>
                         <div class="widget-body">
-                            <p>+52 1 55 55846410<br>
-                            <a href="mailto:atencion@opemedios.mx">atencion@opemedios.mx</a><br>
+                            <p><a href="tel:5555846410" target="_blank">55-5584-64-10</a><br>
+                            <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a><br>
                             Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
                             </p>
                         </div>
@@ -90,9 +90,9 @@
                             <p class="simplenav">
                                 <a href="{{ route('home') }}">Inicio</a> |
                                 <a href="{{ route('about') }}">Quiénes somos</a> |
-                                <a href="/clientes">Clientes</a> |
-                                <a href="/contacto">Contacto</a> |
-                                <b><a href="signup.html">Sign up</a></b>
+                                <a href="{{ route('clients') }}">Clientes</a> |
+                                <a href="{{ route('contact') }}">Contacto</a> |
+                                <b><a href="{{ route('signin') }}">Sign up</a></b>
                             </p>
                         </div>
                     </div>

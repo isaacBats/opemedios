@@ -138,14 +138,18 @@
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="item go-1">
-                        <i class="far fa-envelope fa-lg"></i>   
-                        <div class="icon">atencion@opemedios.mx</div>
+                        <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
+                            <i class="far fa-envelope fa-lg"></i>   
+                            <div class="icon">contacto@opemedios.com.mx</div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="item go-2">
-                        <i class="fas fa-phone fa-lg"></i>
-                        <div class="icon">52 1 55 55846410</div>
+                        <a class="ope-contact" href="tel:5555846410" target="_blank">
+                            <i class="fas fa-phone fa-lg"></i>
+                            <div class="icon">55-5584-64-10</div>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -63,7 +63,7 @@
                     </address>
                     <h4>Teléfono:</h4>
                     <address>
-                        +52 1 55 5584-6410
+                        <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
                     </address>
                 </div>
 
