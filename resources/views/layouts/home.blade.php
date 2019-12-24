@@ -76,6 +76,16 @@
         <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
+        @if(App::environment('production'))
+            <script src="https://www.google.com/recaptcha/api.js?render=6Lf0xckUAAAAAAKtxbthI_-CzR_Z2nRz_vLPqk4M"></script>
+            <script>
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6Lf0xckUAAAAAAKtxbthI_-CzR_Z2nRz_vLPqk4M', {action: 'homepage'}).then(function(token) {
+                       ...
+                    });
+                });
+            </script>
+        @endif
         @yield('scripts')
     </body>
 </html>
