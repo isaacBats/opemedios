@@ -10,6 +10,11 @@
         </ol>
 
         <div class="row">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
             
             <!-- Article main content -->
             <article class="col-sm-9 maincontent">
@@ -21,22 +26,23 @@
                     Nos encantaría saber de usted. Interesados en trabajar juntos? Rellene el siguiente formulario con algo de información sobre su proyecto y yo pondremos en contacto con usted tan pronto como pueda. Por favor espere de un par de días para que responda.
                 </p>
                 <br>
-                    <form class="f-contact">
+                    <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
+                        @csrf
                         <div class="row">
                             <div class="col-sm-4">
-                                <input class="form-control" type="text" placeholder="Nombre">
+                                <input class="form-control" type="text" name="name" placeholder="*Nombre" required>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" type="text" placeholder="Email">
+                                <input class="form-control" type="email" name="email" placeholder="*Email" required>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" type="text" placeholder="Teléfono">
+                                <input class="form-control" type="text" name="phone" placeholder="Teléfono">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-sm-12">
-                                <textarea placeholder="Escribanos un mensaje..." class="form-control" rows="9"></textarea>
+                                <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control" rows="9" required></textarea>
                             </div>
                         </div>
                         <br>
@@ -45,7 +51,7 @@
                                 <label class="checkbox"><input type="checkbox"> Sign up for newsletter</label>
                             </div> -->
                             <div class="col-sm-12 text-right">
-                                <input class="btn btn-action" type="submit" value="Enviar mensaje">
+                                <input id="btn-send-form-contact" class="btn btn-action" type="submit" value="Enviar mensaje">
                             </div>
                         </div>
                     </form>
@@ -74,6 +80,17 @@
     </div>  <!-- /container -->
 
     <section class="container-full top-space f-map">
-        <div id="maps"></div>
+        <div id="map"></div>
     </section>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        // TODO: crear el javascript para el formulario de contacto
+        // $(document).ready(function() {
+        //     $('#btn-send-form-contact').on('click', function(event) {
+        //         event.preventDefault()
+        //         console.log('con que quieres enviar este formukario he!!!')
+        //     })
+        // })
+    </script>
 @endsection

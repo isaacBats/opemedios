@@ -16,6 +16,7 @@ Route::get('quienes-somos', 'HomeController@about')->name('about');
 Route::get('clientes', 'HomeController@clients')->name('clients');
 Route::get('contacto', 'HomeController@contact')->name('contact');
 Route::get('cuenta', 'HomeController@signin')->name('signin');
+Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 
 
 Auth::routes();
