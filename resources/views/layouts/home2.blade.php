@@ -116,14 +116,14 @@
 
 
     <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="{{ asset('js/home/headroom.min.js') }}"></script>
     <script src="{{ asset('js/home/jQuery.headroom.min.js') }}"></script>
 
     <!-- GMAP3 -->
     <script type="text/javascript" src="{{ asset('js/gmap3/gmap3.min.js') }}"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
+    <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
     <script src="{{ asset('js/owl/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/home/scripts.js') }}"></script>
 

@@ -11523,6 +11523,12 @@ blockquote {
   padding: 7px 18px;
   width: 80%;
 }
+
+.panel-site-traffic .panel-body .ion-android-contact {
+  background-color: #2574ab;
+  padding: 7px 18px;
+  width: 80%;
+}
 .panel-site-traffic .panel-body .ion-eye {
   background-color: #5bc0de;
   padding: 7px 15px;
