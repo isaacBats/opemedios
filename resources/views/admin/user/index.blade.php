@@ -52,6 +52,9 @@
             @endforeach
           </tbody>
         </table>
+        <div>
+          {!! $users->links() !!}
+        </div>
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->
