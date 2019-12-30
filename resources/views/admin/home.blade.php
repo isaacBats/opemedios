@@ -16,7 +16,29 @@
                             </div>
                             <div class="pull-left">
                                 <h4 class="panel-title">Clientes</h4>
-                                <h3>{{ $count['clients'] }}</h3>
+                                <h3>{{ number_format($count['clients']) }}</h3>
+                                {{-- <h3>23.30%</h3> --}}
+                                {{-- <h5 class="text-success">2.00% increased</h5> --}}
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <div class="pull-left">
+                                <div class="icon icon ion-android-contact"></div>
+                            </div>
+                            <div class="pull-left">
+                                <h4 class="panel-title">Usuarios</h4>
+                                <h3>{{ number_format($count['users']) }}</h3>
+                                {{-- <h3>23.30%</h3> --}}
+                                {{-- <h5 class="text-success">2.00% increased</h5> --}}
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <div class="pull-left">
+                                <div class="icon icon ion-stats-bars"></div>
+                            </div>
+                            <div class="pull-left">
+                                <h4 class="panel-title">Noticias</h4>
+                                <h3>{{ number_format($count['news']) }}</h3>
                                 {{-- <h3>23.30%</h3> --}}
                                 {{-- <h5 class="text-success">2.00% increased</h5> --}}
                             </div>
