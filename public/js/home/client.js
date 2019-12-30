@@ -14,33 +14,85 @@
   * file that was distributed with this source code.
   */
 $(document).ready(function(){
-    
-    // spinner in off
-    $('.loader').hide()
-
-
-    $('ul.list-group').on('click', 'a.item-theme', function(event){
-        event.preventDefault()
-        var themeid = $(this).data('themeid')
-        var companyid = $(this).data('companyid')
-        var companyslug = $(this).data('companyslug')
-        var item = $(this)
-        var container = $('#news-by-theme')
-        var spinner = $('.loader')
-        var listThemes = $('#list-group-themes')
         
-        listThemes.find('#item-indicator').remove()
-        item.prepend(`<i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> `)
-        container.empty()
-        spinner.show()
+        // spinner in off
+        $('.loader').hide()
 
-        var news = $.post(`/${companyslug}/news-by-theme`, 
-            {
-                '_token': $('meta[name=csrf-token]').attr('content'), 
-                companyid: companyid, 
-                themeid: themeid
-            }).error(
-                function (data) {
+        // get new by theme
+        $('ul.list-group').on('click', 'a.item-theme', function(event){
+            event.preventDefault()
+            var themeid = $(this).data('themeid')
+            var companyid = $(this).data('companyid')
+            var companyslug = $(this).data('companyslug')
+            var item = $(this)
+            var container = $('#news-by-theme')
+            var spinner = $('.loader')
+            var listThemes = $('#list-group-themes')
+            
+            listThemes.find('#item-indicator').remove()
+            item.prepend(`<i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> `)
+            container.empty()
+            spinner.show()
+
+            var news = $.post(`/${companyslug}/news-by-theme`, 
+                {
+                    '_token': $('meta[name=csrf-token]').attr('content'), 
+                    companyid: companyid, 
+                    themeid: themeid,
+                    companyslug: companyslug
+                }).error(
+                    function (data) {
+                        spinner.hide() 
+
+                        var beautifullHTML = `<div class="jumbotron">
+                                <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                            </div>`
+
+                        container.append(beautifullHTML)
+                        // TODO: poner el error en un log
+                        console.log(`Error-Themes: ${data.responseJSON.message}`)
+                    }
+                ).success(
+                    function (news) {
+
+                        spinner.hide()
+                        container.html(news)
+                        
+                    }
+                )
+       })    
+
+        // pagination 
+        $(document).on('click', '#news-pagination .pagination a', function(event){
+            event.preventDefault()
+            var page = $(this).attr('href').split('page=')[1];
+            fetch_data(page);
+        });
+
+        function fetch_data(page) {
+            var themeid = $('#news-pagination').data('themeid')
+            var companyid = $('#news-pagination').data('companyid')
+            var companyslug = $('#news-pagination').data('companyslug')
+            var container = $('#news-by-theme')
+            var spinner = $('.loader')
+
+            container.empty()
+            spinner.show()
+
+            $.ajax({
+                type: 'POST',
+                url:`/${companyslug}/news-by-theme?page=${page}`,
+                data: {
+                    '_token': $('meta[name=csrf-token]').attr('content'), 
+                    companyid: companyid, 
+                    themeid: themeid,
+                    companyslug: companyslug
+                },
+                success:function(news) {
+                    spinner.hide()
+                    container.html(news)
+                },
+                error: function(data) {
                     spinner.hide() 
                     var beautifullHTML = `<div class="jumbotron">
                             <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
@@ -48,51 +100,44 @@ $(document).ready(function(){
 
                     container.append(beautifullHTML)
                     // TODO: poner el error en un log
-                    // console.log(`Error: ${data.responseJSON.message}`)
+                    console.log(`Error-Pagination: ${data.responseJSON.message}`)
                 }
-            ).success(
-                function (data) {
-
-                    // var req = JSON.parse(JSON.stringify(data))
-                    spinner.hide()
-                    data.data.forEach( function(item) {
-                        container.append(getTemplate(item))
-                    })
-                    // var html = getTemplate(data)
-                    // // console.log(html)
-                    // // debugger
-                    // container.html(getTemplate(data))
-
-                }
-            )
-
-        var getTemplate = function (data) {
-            return `
-                    <div class="row f-col">
-                        <div class="col-md-4">
-                            <div class="bloque-new item-center">
-                                <a class="img-responsive">
-                                    {{{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}}
-                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/${data.logo}" alt="${data.nombre}">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h4 class="f-h4 text-muted">
-                                ${data.nombre} | {{ Illuminate\Support\Carbon::parse(${data.fecha})->diffForHumans() }}
-                            </h4>
-                            <h3 class="f-h3">
-                                ${data.encabezado}
-                            </h3>
-                            <p class="text-muted f-p">
-                                 ${data.empresa } | Autor: ${data.autor}
-                            </p>
-                        </div>
-                    </div>`
+            });
         }
 
-   })    
+        // search news
+        $('#btn-search').on('click', function(event){
+          event.preventDefault()
+          var input = $('#input-search')
+          var companyid = input.data('companyid')
+          var companyslug = input.data('companyslug')
+          var token = $('meta[name=csrf-token]').attr('content')
+          var container = $('#list-news')
+          var spinner = $('.loader')
 
+          container.empty()
+          spinner.show()
 
+          var news = $.get(`/${companyslug}/search?company=${companyid}&query=${input.val()}&_token=${token}`)
+            .error( function(err){
+              spinner.hide() 
+              var beautifullHTML = `<div class="jumbotron">
+                      <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                  </div>`
 
-})
+              container.append(beautifullHTML)
+              // TODO: poner el error en un log
+              console.error(`Error-search: ${err.responseJSON.message}`)
+            })
+            .success( function(news) {
+              spinner.hide()
+              var titleHTML = `
+                <h2>Resultados de la busqueda</h2>
+                <hr>
+              `;
+              container.append(titleHTML)
+              container.append(news)
+            })
+        })
+
+    })

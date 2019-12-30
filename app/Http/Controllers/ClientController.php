@@ -24,6 +24,7 @@ use App\Company;
 use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
@@ -291,7 +292,7 @@ class ClientController extends Controller
             ->where('id_empresa', $idCompany)
             ->where('id_tema', $themeId)
             ->orderBy('noticia.fecha', 'desc')
-            ->simplePaginate(15);
+            ->paginate(15);
             // ->get();
     }
 
@@ -303,5 +304,25 @@ class ClientController extends Controller
         $theme = $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->where('id_tema', $data['themeid'])->first();
         // return response()->json($this->getNewsByTheme($data['themeid'], $data['companyid']));
         return view('components.listNews', compact('news', 'company', 'theme', 'idCompany'))->render();
+    }
+
+    public function search(Request $request) {
+        $query = $request->query();
+        $company = Company::find($query['company']);
+        $user = Auth::user();
+        $metaOldCompanyID = $user->metas()->where(['meta_key' => 'old_company_id'])->first();
+
+        $news = DB::connection('opemediosold')->table('noticia')
+            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
+            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+            ->where([
+                ['asigna.id_empresa', '=', $metaOldCompanyID->meta_value],
+                ['noticia.encabezado', 'like', "%{$query['query']}%"]])
+            ->orWhere('noticia.sintesis', 'like', "%{$query['query']}%")
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        return view('components.listSearch', compact('news', 'company'))->render();
     }
 }

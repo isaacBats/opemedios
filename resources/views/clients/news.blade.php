@@ -17,9 +17,13 @@
                         | Total: <strong>{{ $count['total'] }}</strong>
                     </small>
                 </div>
+                <div id="search">
+                    @include('components.search-bar')
+                </div>
             </div>
+            <div class="loader">Cargando...</div>
             <!-- /.row -->
-            <div class="row">
+            <div class="row" id="list-news">
                 @foreach($themes as $theme)
                     <h2>{{ $theme->nombre }}</h2>
                     <hr>
@@ -60,4 +64,8 @@
             </div>
         </div>
     <!-- /.container -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script>
 @endsection

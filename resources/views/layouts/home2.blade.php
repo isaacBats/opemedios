@@ -38,7 +38,6 @@
     <header>
         @include('components.menu-client')   
     </header>
-    
     <!-- /.navbar -->
     @yield('content')
 
