@@ -33,7 +33,7 @@ class CompanyController extends Controller
     }
 
     public function showFormNewCompany() {
-        $turns = Turn::latest()->limit(5)->get();
+        $turns = Turn::all();
         
         return view('admin.company.newcompany', compact('turns'));
     }
