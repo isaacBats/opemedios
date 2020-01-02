@@ -1,5 +1,21 @@
 <?php
-
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2019
+  * @version 1.0.0
+  * @package App\
+  * Type: Controller
+  * Description: Description
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
+        
 namespace App\Http\Controllers;
 
 use App\Company;
@@ -37,7 +53,7 @@ class CompanyController extends Controller
         ])->validate();
         
         if($file = $request->hasFile('logo')) {
-            $input['logo'] = $request->file('logo')->store('public/company/logos');
+            $input['logo'] = $request->file('logo')->store('company_logos');
         }
 
         Company::create($input);
