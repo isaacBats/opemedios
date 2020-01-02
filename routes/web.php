@@ -55,4 +55,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     
     Route::get('giro/nuevo', 'TurnController@showFormNewTurn')->name('turn.create');
 
+    Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
+    Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
+    Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
+
 });

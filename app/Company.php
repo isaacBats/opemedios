@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Newsletter;
 use App\Turn;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,10 @@ class Company extends Model
 
         return $this->belongsTo(Turn::class);
 
+    }
+
+    public function newsletters() {
+
+        return $this->hasMany(Newsletter::class);
     }
 }
