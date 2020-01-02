@@ -91,7 +91,7 @@
                             </ul>
                         </div>
                         <div class="panel-footer">
-                            <button class="btn btn-primary btn-block">Asignar <i class="fa check-square-o"></i></button>
+                            {{-- <button class="btn btn-primary btn-block">Asignar <i class="fa check-square-o"></i></button> --}}
                         </div>
                     </div>
                 </div>
