@@ -20,8 +20,11 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Mail\NewsletterEmail;
 use App\Newsletter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
@@ -55,5 +58,26 @@ class NewsletterController extends Controller
         Newsletter::create($data);
 
         return redirect()->route('newsletters')->with('alert-success', 'El newsletter se ha creado con éxito');
+    }
+
+    public function sendMail() {
+
+      $newsletter = Newsletter::with('company')->find(1);
+    
+      $company = $newsletter->company;
+      $emails = $company->emailsNewsLetters();
+      
+      $news = DB::connection('opemediosold')->table('noticia')
+            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
+            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+            ->where([
+                ['asigna.id_empresa', '=', '699'],
+                ['noticia.fecha', '=', '2019-12-23']])
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+      Mail::to($emails)->send(new NewsletterEmail($newsletter, $news));
+      return 'Aqui se va a enviar el mail';
     }
 }

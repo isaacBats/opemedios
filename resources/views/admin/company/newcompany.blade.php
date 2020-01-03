@@ -82,6 +82,7 @@
                                 </label>
                             @enderror
                             <ul class="list-unstyled mb20">
+                                {{-- // TODO: Poner una altura fija a este cotenedor y agregarle el scroll, o mejorar el UX de este componente --}}
                                 @foreach($turns as $turn)
                                     <li>
                                         <input type="radio" name="turn_id" value="{{ $turn->id }}">

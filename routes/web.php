@@ -17,6 +17,7 @@ Route::get('clientes', 'HomeController@clients')->name('clients');
 Route::get('contacto', 'HomeController@contact')->name('contact');
 Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
+Route::get('sendMailTest', 'NewsletterController@sendMail');
 
 
 Auth::routes();
@@ -33,6 +34,7 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
     Route::get('mis-temas', 'ClientController@themes')->name('themes');
     Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
     Route::get('search', 'ClientController@search')->name('search');
+
 
 });
 
