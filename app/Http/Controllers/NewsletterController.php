@@ -20,15 +20,32 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
 use App\Newsletter;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
 {
+    
+    protected $newsController;
+
+    protected $mediaController;
+
+    public function __construct(NewsController $newsController, MediaController $mediaController) {
+
+        $this->newsController = $newsController;
+        $this->mediaController = $mediaController;
+
+    }
+
     public function index(){
         $newsletters = Newsletter::all();
 
@@ -62,22 +79,94 @@ class NewsletterController extends Controller
 
     public function sendMail() {
 
-      $newsletter = Newsletter::with('company')->find(1);
-    
-      $company = $newsletter->company;
-      $emails = $company->emailsNewsLetters();
-      
-      $news = DB::connection('opemediosold')->table('noticia')
-            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
-            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
-            ->where([
-                ['asigna.id_empresa', '=', '699'],
-                ['noticia.fecha', '=', '2019-12-23']])
-            ->orderBy('fecha', 'desc')
-            ->get();
+        $newsletters = Newsletter::all();
+        $yesterday = \Carbon\Carbon::yesterday();
+        try {
+            if($newsletters->count() > 0) {
+                foreach ($newsletters as $newsletter) {
+                    $company = $newsletter->company;
+                    $emails = $company->emailsNewsLetters();
+                    $companyOld = $company->getOldCompanyId();              
+                    // dd(sizeof($emails));  => este es el numero de correos a los que se enviaron las notificaciones
+                    if($companyOld){
+                        $news = DB::connection('opemediosold')->table('noticia')
+                            ->select('noticia.encabezado', 'fuente.nombre as fuente', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia', 'tema.nombre as tema', 'tipo_fuente.descripcion as medio')
+                            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+                            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+                            ->join('tema', 'asigna.id_tema', '=', 'tema.id_tema')
+                            ->join('tipo_fuente', 'noticia.id_tipo_fuente', '=', 'tipo_fuente.id_tipo_fuente')
+                            ->where([
+                                ['asigna.id_empresa', '=', $companyOld],
+                                ['noticia.fecha', '=', $yesterday->format('Y-m-d')]])
+                            ->orderBy('fecha', 'desc')
+                            ->get();
+                    } else {
+                        Log::info('There is no related company');
+                        continue;
+                    }
 
-      Mail::to($emails)->send(new NewsletterEmail($newsletter, $news));
+                    if($news->count() > 0){
+                        Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company));
+                    } else {
+                        Log::info("The number of news for the ${$newsletter->name} is insufficient");
+                        continue;
+                    }
+                }
+            } else {
+                Log::info('There are no newsletters to send.');
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    
+
+      /*
+          1. Buscar los newsletters
+          2. Obtener los datos de los newsletters
+          3. Enviar el newsletter
+          4. Guardar un registro del newsletter enviado ( hora, dia, numero de notas, numero de remitentes)
+          5.
+      */
       return 'Aqui se va a enviar el mail';
+    }
+
+    public function showNew(Request $request) {
+
+        if(!$request->has('qry')) {
+            return redirect()->route('home');
+        }
+        
+        try {
+
+            $data = explode('-',Crypt::decryptString($request->get('qry')));
+
+        } catch (DecryptException $e) {
+            return abort(403, 'Noticia no encontrada');
+        }
+        $company = Company::find(end($data));
+        $newId = $data[0];
+        $new = $this->newsController->getNewById($newId);
+        $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+                ->where('id_noticia', $new->id_noticia)
+                ->get()->map(function ($adj) use ($new) { 
+                    
+                    $medio = strtolower($new->medio);
+                    
+                    if($medio == 'peri&oacute;dico') {
+                        $medio = 'periodico';
+                    } elseif ($medio == 'Televisi&oacute;n') {
+                        $medio = 'television';
+                    }
+                    
+                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                    
+                    return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
+                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
+                });
+
+        $metadata = $this->newsController->getMetaNew($new);
+
+        return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+
     }
 }

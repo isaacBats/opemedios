@@ -26,8 +26,8 @@
                 @foreach ($news as $ns) 
                     <tr>
                         <td style="padding: 15px 30px;background: white;border-bottom: solid 1px #e8e8e8">
-                            <p style="margin: 0;padding: 0;font-size: 12px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;"><span style="font-weight: bold">CATEGORIA O TEMA</span><br><a href="http://sistema.opemedios.com.mx/ver_noticia_internet_ns.php?id_noticia=995708" style="color: #015199;font-weight: bold;text-decoration:none">{{ $ns->encabezado }}</a><br>
-                                {{ $ns->sintesis }}<br><span style="color: #950a16;font-weight: bold;">Prensa | Publimetro, Economía, Pag. 08, Daniel Casillas</span>
+                            <p style="margin: 0;padding: 0;font-size: 12px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;"><span style="font-weight: bold">{{ $ns->tema }}</span><br><a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$ns->id_noticia}-{$ns->encabezado}-{$company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none">{{ $ns->encabezado }}</a><br>
+                                {{ $ns->sintesis }}<br><span style="color: #950a16;font-weight: bold;">{!! $ns->medio !!} | {{ $ns->fuente }}, {{ $ns->autor }}</span>
                             </p>
                         </td>
                     </tr>
@@ -38,12 +38,12 @@
                 <tr>
                     <td style="padding: 30px 30px;">
                         <p style="margin: 0;padding: 0;text-align: center;">
-                            <a href="#" style="color: #015199;text-decoration: none;">PRIMERAS PLANAS</a>
-                            <a href="#" style="color: #015199;text-decoration: none;"> | PORTADAS NEGOCIOS</a>
-                            <a href="#" style="color: #015199;text-decoration: none;"> | CARTONES</a>
-                            <a href="#" style="color: #015199;text-decoration: none;"> | COLUMNAS NEGOCIOS</a>
-                            <a href="#" style="color: #015199;text-decoration: none;"> | COLUMNAS POLÍTICAS</a>
-                            <a href="#" style="color: #015199;text-decoration: none;"> | PORTADA ESPECTACULOS</a>
+                            <a href="{{ route('primeras', ['company' => $company->slug]) }}" style="color: #015199;text-decoration: none;">PRIMERAS PLANAS</a>
+                            <a href="{{ route('portadas', ['company' => $company->slug]) }}" style="color: #015199;text-decoration: none;"> | PORTADAS NEGOCIOS</a>
+                            <a href="{{ route('cartones', ['company' => $company->slug]) }}" style="color: #015199;text-decoration: none;"> | CARTONES</a>
+                            <a href="{{ route('financieras', ['company' => $company->slug]) }}" style="color: #015199;text-decoration: none;"> | COLUMNAS NEGOCIOS</a>
+                            <a href="{{ route('politicas', ['company' => $company->slug]) }}" style="color: #015199;text-decoration: none;"> | COLUMNAS POLÍTICAS</a>
+                            {{-- <a href="#" style="color: #015199;text-decoration: none;"> | PORTADA ESPECTACULOS</a> --}}
                          </p>
                     </td>
                 </tr>
