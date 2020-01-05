@@ -22,6 +22,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -31,23 +32,13 @@ class ClientController extends Controller
 {
     protected $mediaController;
 
-    public function __construct(MediaController $mediaController) {
+    protected $newsController;
+
+    public function __construct(MediaController $mediaController, NewsController $newsController) {
         $this->mediaController = $mediaController;
+        $this->newsController = $newsController;
     }
 
-
-    private function getMinName($id) {
-        $dim = [
-            1 => 'tel',
-            2 => 'rad',
-            3 => 'per',
-            4 => 'rev',
-            5 => 'int',
-        ];
-
-        return $dim[$id];
-
-    }
     public function index($slug_company) {
         // Analizar si es necesario la paginación 
         // Crear el buscador de noticias
@@ -109,36 +100,7 @@ class ClientController extends Controller
 
     public function showNew(Request $request, $company, $newId) {
 
-        $new = DB::connection('opemediosold')->table('noticia as n')
-                ->select(
-                    'n.id_noticia',
-                    'n.encabezado',
-                    'n.sintesis',
-                    'n.autor',
-                    'n.fecha',
-                    'n.comentario',
-                    'n.alcanse',
-                    'n.id_tipo_fuente as medio_id',
-                    'tf.descripcion as medio',
-                    'f.nombre as fuente_nombre',
-                    'f.empresa as fuente_empresa',
-                    'f.logo as fuente_logo',
-                    'secc.nombre as seccion',
-                    'sec.nombre as sector',
-                    'ta.descripcion as tipo_autor',
-                    'g.descripcion as genero',
-                    't.descripcion as tendencia',
-                    'u.id_usuario as id_monitor'
-                )
-                    ->join('tipo_fuente as tf', 'n.id_tipo_fuente', '=', 'tf.id_tipo_fuente')
-                    ->join('fuente as f', 'n.id_fuente', '=', 'f.id_fuente')
-                    ->join('seccion as secc', 'n.id_seccion', '=', 'secc.id_seccion')
-                    ->join('sector as sec', 'n.id_sector', '=', 'sec.id_sector')
-                    ->join('tipo_autor as ta', 'n.id_tipo_autor', '=', 'ta.id_tipo_autor')
-                    ->join('genero as g', 'n.id_genero', '=', 'g.id_genero')
-                    ->join('tendencia as t', 'n.id_tendencia_monitorista', '=', 't.id_tendencia')
-                    ->join('usuario as u', 'n.id_usuario', '=', 'u.id_usuario')
-                ->where('id_noticia', $newId)->get()->first();
+        $new = $this->newsController->getNewById($newId);
 
         $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
                 ->where('id_noticia', $new->id_noticia)
@@ -155,53 +117,13 @@ class ClientController extends Controller
                     $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
                     
                     return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo</a>"; 
+                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
                 });
 
-        $metadata = $this->getMetaNew($new);
+        $metadata = $this->newsController->getMetaNew($new);
             
 
         return view('clients.shownew', compact('new', 'metadata', 'adjuntosHTML'));
-    }
-
-    private function getMetaNew($new) {
-        $min = $this->getMinName($new->medio_id);
-        $tableNewName = 'noticia_' . $min;
-        $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia)->first();
-        $metas = [
-            'Autor' => $new->autor,
-            'Alcance' => number_format($new->alcanse),
-            'Medio' => $new->medio,
-            'Sección' => $new->seccion,
-            'Sector' => $new->sector,
-            'Tipo Autor' => $new->tipo_autor,
-            'Genero' => $new->genero,
-            'Tendencia' => $new->tendencia, 
-            'Costo' => money_format('%.2n', $newComplement->costo),
-        ];
-
-        if($min == 'per' || $min == 'rev') {
-            $tipoPag = DB::connection('opemediosold')->table('tipo_pagina')->where('id_tipo_pagina', $newComplement->id_tipo_pagina)->first();
-            $tamanoNota = DB::connection('opemediosold')->table('tamano_nota')->where('id_tamano_nota', $newComplement->id_tamano_nota)->first();
-            
-            $metas += [
-                'Pagina' => $newComplement->pagina,
-                'Porcentaje pagina' => $newComplement->porcentaje_pagina,
-                'Tipo de pagina' => $tipoPag->descripcion,
-                'Tamaño Nota' => $tamanoNota ? $tamanoNota->descripcion : 0,
-            ];
-        } elseif($min == 'tel' || $min == 'rad') {
-            $metas += [
-                'Hora' => $newComplement->hora,
-                'Duración' => $newComplement->duracion,
-            ];
-        } else {
-            $metas += [
-                'Url' => $newComplement->url,
-            ];
-        }
-
-        return $metas;
     }
 
     public function primeras (Request $request, $company) {
