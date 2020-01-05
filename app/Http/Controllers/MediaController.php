@@ -19,17 +19,17 @@ class MediaController extends Controller
         
         if(in_array($type, $img_allowed)) {
 
-            return "<img class='img-responsive' src='{$path}' alt='Opemedios - {$file->nombre}' />";
+            return "<img class='media img-responsive' style='width: 100%' src='{$path}' alt='Opemedios - {$file->nombre}' />";
 
         } elseif(in_array($type, $doc_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div class='embed-responsive'>
                 <iframe class='embed-responsive-item' src='{$path}'></iframe>
             </div>";
 
         } elseif(in_array($type, $media_allowed_old)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div class='embed-responsive'>
                 <object class='embed-responsive-item' data='{$path}' type='{$file->tipo}'>
                        <param name='src' value='{$path}'>
                        <param name='autostart' value='0'>
@@ -43,7 +43,7 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $media_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div class='embed-responsive'>
                 <video class='embed-responsive-item' controls
                   <source
                     src='{$path}'
@@ -54,7 +54,7 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $audio_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div class='embed-responsive'>
                 <audio controls='controls'>
                   <source src='{$path}' type='{$file->tipo}' />
                   Your browser does not support the <code>audio</code> element.
