@@ -35,7 +35,7 @@
             <div class="col-lg-9">
                 @foreach($metadata as $label => $meta)
                     <div class="col-lg-3">
-                        <p><span class="label-red">{{ $label }}: </span> {{ $meta }}</p>
+                        <p><span class="label-red">{{ $label }}: </span> {!! $meta !!}</p>
                     </div>
                 @endforeach
             </div>
