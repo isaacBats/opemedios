@@ -17,7 +17,6 @@ Route::get('clientes', 'HomeController@clients')->name('clients');
 Route::get('contacto', 'HomeController@contact')->name('contact');
 Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
-Route::get('sendMailTest', 'NewsletterController@sendMail');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 
 
