@@ -55,6 +55,6 @@ class NewsletterEmail extends Mailable
     {
         return $this->view('mail.newsletter')
                 ->from('newsletter@opemedios.com.mx', 'Newsletter')
-                ->subject('Newsletter test');
+                ->subject("Newsletter - {$this->company->name}");
     }
 }

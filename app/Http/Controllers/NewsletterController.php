@@ -24,6 +24,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
 use App\Newsletter;
+use App\NewsletterSend;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -87,7 +88,6 @@ class NewsletterController extends Controller
                     $company = $newsletter->company;
                     $emails = $company->emailsNewsLetters();
                     $companyOld = $company->getOldCompanyId();              
-                    // dd(sizeof($emails));  => este es el numero de correos a los que se enviaron las notificaciones
                     if($companyOld){
                         $news = DB::connection('opemediosold')->table('noticia')
                             ->select('noticia.encabezado', 'fuente.nombre as fuente', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia', 'tema.nombre as tema', 'tipo_fuente.descripcion as medio')
@@ -100,15 +100,25 @@ class NewsletterController extends Controller
                                 ['noticia.fecha', '=', $yesterday->format('Y-m-d')]])
                             ->orderBy('fecha', 'desc')
                             ->get();
+
+                        if($news->count() > 0){
+                            Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company));
+                            $newsIds = $news->map(function($new) {
+                                return $new->id_noticia;
+                            });
+                            NewsletterSend::create([
+                                'newsletter_id' => $newsletter->id,
+                                'status' => 1,
+                                'news_ids' => serialize($newsIds),
+                                'num_notes' => $news->count(),
+                                'num_email' => sizeof($emails),
+                            ]);
+                        } else {
+                            Log::info("The number of news for the ${$newsletter->name} is insufficient");
+                            continue;
+                        }
                     } else {
                         Log::info('There is no related company');
-                        continue;
-                    }
-
-                    if($news->count() > 0){
-                        Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company));
-                    } else {
-                        Log::info("The number of news for the ${$newsletter->name} is insufficient");
                         continue;
                     }
                 }
@@ -118,16 +128,10 @@ class NewsletterController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
-    
 
-      /*
-          1. Buscar los newsletters
-          2. Obtener los datos de los newsletters
-          3. Enviar el newsletter
-          4. Guardar un registro del newsletter enviado ( hora, dia, numero de notas, numero de remitentes)
-          5.
-      */
-      return 'Aqui se va a enviar el mail';
+        Log::info("Newsletters of the day {$yesterday} have been sent");
+
+        return 'Se ha enviado la noticia con satisfacción';
     }
 
     public function showNew(Request $request) {

@@ -19,6 +19,7 @@
 namespace App;
 
 use App\Company;
+use App\NewsletterSend;
 use Illuminate\Database\Eloquent\Model;
 
 class Newsletter extends Model
@@ -28,5 +29,10 @@ class Newsletter extends Model
     public function company() {
 
         return $this->belongsTo(Company::class);
+    }
+
+    public function newsletter_send() {
+
+        return $this->hasMany(NewsletterSend::class);
     }
 }
