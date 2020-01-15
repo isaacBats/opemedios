@@ -172,7 +172,7 @@ class NewsletterController extends Controller
                         $medio = 'television';
                     }
                     
-                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                    $path = "//sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
                     
                     return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
                                             :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
