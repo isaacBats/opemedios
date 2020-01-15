@@ -34,16 +34,19 @@ class NewsletterEmail extends Mailable
 
     public $company;
 
+    public $newsByTheme;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Newsletter $newsletter, $news, $company)
+    public function __construct(Newsletter $newsletter, $news, $company, $newsByTheme)
     {
         $this->newsletter = $newsletter;
         $this->news = $news;
         $this->company = $company;
+        $this->newsByTheme = $newsByTheme;
     }
 
     /**
@@ -53,7 +56,7 @@ class NewsletterEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.newsletter')
+        return $this->view('mail.newsletter2')
                 ->from('newsletter@opemedios.com.mx', 'Newsletter')
                 ->subject("Newsletter - {$this->company->name}");
     }

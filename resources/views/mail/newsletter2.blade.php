@@ -31,17 +31,20 @@
 			<table align="center" style="width: 580px;background-color: #ffffff;padding: 20px;border: 0;border-collapse: collapse;color: #263238;">
 				<tr>
 					<td style="padding: 20px 0 20px 20px;">
-						<img src="<?=$logo?>" width="150px">
+						{{-- <img src="" width="150px"> --}}
 					</td>
 					<td style="text-align: right;font-size: 12px;padding: 20px 20px 20px 0;">
-						<?=$currentDate;?>
+						@php
+                            $day = date('Y-m-d H:i:s');
+                        @endphp
+                        {{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
 					</td>
 				</tr>
 			</table>
 			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;">
 				<tr>
 					<td>
-						<img src="<?=$pathBanner?>" style="width: 100%;height: auto;">
+						<img src="{{ asset("images/{$newsletter->banner}") }}" alt="{{ $newsletter->name }}" style="width: 100%;height: auto;">
 					</td>
 				</tr>
 			</table>
@@ -50,18 +53,14 @@
 					<td colspan="2" style="padding: 30px;">
 					</td>
 				</tr>
-				<?php
-				if (is_array($noticias)) {
-					$indexColor = 0;
-					foreach($noticias as $theme => $item) { 
-				?>
+				@foreach ($newsByTheme as $theme => $ns) 
 					<tr>
 						<td colspan="2">
 							<table style="width: 580px;border: 0;border-collapse: collapse;">
 								<tr>
-									<td style="width: 20px;height: 30px;background-color: <?=$aBgColors[$indexColor]?>;"></td>
-									<td style="padding-left: 10px;font-size: 20px;font-family: &quot;Times New Roman&quot;, Times, serif;color: <?=$aBgColors[$indexColor]?>;">
-										<?=strtoupper($theme)?>
+									<td style="width: 20px;height: 30px;background-color: #1976D2;"></td>
+									<td style="padding-left: 10px;font-size: 20px;font-family: &quot;Times New Roman&quot;, Times, serif;color: #1976D2;">
+										{{ strtoupper($theme) }}
 									</td>
 								</tr>
 								<tr>
@@ -70,34 +69,29 @@
 							</table>
 						</td>
 					</tr>
-					<?php foreach($item as $key => $n) { ?>
+					<?php foreach($news as $n) { ?>
 					<tr>
 						<td colspan="2" style="padding: 10px 30px;">
-							<a href="<?=$n['urlOpemedios']?>" style="font-size: 14px;color: #1976D2;text-decoration: none;"><?=strtoupper($n['title'])?></a>
-							<p style="color: #263238;font-size: 14px;margin: 0;margin-top: 2px;margin-bottom: 5px;"><?=$n['extract']?> </p>
-							<p style="font-size: 11px;margin-bottom: 20px;margin-top: 5px;color: #546E7A;"> <?=$n['tipoFuente']?> / <?=$n['fuente']?>, <?=$n['seccion']?>, <?=$n['autor']?></p>
+							<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$n->id_noticia}-{$n->encabezado}-{$company->id}")]) }}" style="font-size: 14px;color: #1976D2;text-decoration: none;">{{ strtoupper($n->encabezado) }}</a>
+							<p style="color: #263238;font-size: 14px;margin: 0;margin-top: 2px;margin-bottom: 5px;">{{ $n->sintesis }} </p>
+							<p style="font-size: 11px;margin-bottom: 20px;margin-top: 5px;color: #546E7A;"> {!! $n->medio !!} / {{ $ns->fuente }}, {{ $ns->autor }}</p>
 						</td>
 					</tr>
 					<?php } ?>
 					<tr>
 						<td colspan="2" style="padding: 15px;"></td>
 					</tr>
-				<?php
-					$indexColor++;
-					$indexColor = ($indexColor >= 5) ? 0: $indexColor; 
-					}
-				} //end if  
-				?>
+				@endforeach
 				<!-- start footer -->
 				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;background-color: #283593;color: #ffffff;">
 					<td style="padding: 30px  0 30px 60px;">
-						&#9656; &nbsp; <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/primeras-planas" style="color: #ffffff;text-decoration: none;">Primeras Planas</a><br>
-						&#9656; &nbsp; <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/portadas-financieras" style="color: #ffffff;text-decoration: none;">Portadas Financieras</a><br>
-						&#9656; &nbsp; <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/cartones" style="color: #ffffff;text-decoration: none;">Cartones</a>
+						&#9656; &nbsp; <a href="{{ route('primeras', ['company' => $company->slug]) }}" style="color: #ffffff;text-decoration: none;">Primeras Planas</a><br>
+						&#9656; &nbsp; <a href="{{ route('portadas', ['company' => $company->slug]) }}" style="color: #ffffff;text-decoration: none;">Portadas Financieras</a><br>
+						&#9656; &nbsp; <a href="{{ route('cartones', ['company' => $company->slug]) }}" style="color: #ffffff;text-decoration: none;">Cartones</a>
 					</td>
 					<td style="padding: 30px  60px 30px 0;">
-						&#9656; &nbsp; <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/columnas-financieras" style="color: #ffffff;text-decoration: none;">Columnas Financieras</a><br>
-						&#9656; &nbsp; <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/columnas-politicas" style="color: #ffffff;text-decoration: none;">Portadas Politicas</a>
+						&#9656; &nbsp; <a href="{{ route('financieras', ['company' => $company->slug]) }}" style="color: #ffffff;text-decoration: none;">Columnas Financieras</a><br>
+						&#9656; &nbsp; <a href="{{ route('politicas', ['company' => $company->slug]) }}" style="color: #ffffff;text-decoration: none;">Portadas Politicas</a>
 					</td>
 				</tr>
 			</table>

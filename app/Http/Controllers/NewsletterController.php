@@ -101,8 +101,18 @@ class NewsletterController extends Controller
                             ->orderBy('fecha', 'desc')
                             ->get();
 
+                        $newsByTheme = array();
+                        foreach ($news as $n) {
+                            // if(in_array($newsByTheme[$n->tema])) {
+                            //     $newsByTheme[$n->tema] = $n;
+                            // }
+
+                            $newsByTheme[$n->tema] = $n;
+                        }
+
+
                         if($news->count() > 0){
-                            Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company));
+                            Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company, $newsByTheme));
                             $newsIds = $news->map(function($new) {
                                 return $new->id_noticia;
                             });
