@@ -18,7 +18,10 @@
             <table style="width: 580px;border-collapse: collapse;font-size: 12px;font-family: Arial, Helvetica, sans-serif;" align="center">
                 <tr>
                     <td style="padding: 15px 30px;background: #000000;text-align: right; color: #fff">
-                        {{ Illuminate\Support\Carbon::parse($newsletter->created_at)->formatLocalized('%A %d de %B %Y') }}
+                        @php
+                            $day = date('Y-m-d H:i:s');
+                        @endphp
+                        {{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
                     </td>
                 </tr>
 
