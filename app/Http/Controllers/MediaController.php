@@ -9,7 +9,7 @@ class MediaController extends Controller
     public function getHTMLForMedia ($file, $path) {
         $img_allowed = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg'];
         $doc_allowed = ['csv', 'pdf'];
-        $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4'];
+        $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4', 'mpeg'];
         $media_allowed = ['webm', 'mp4', 'ogv', 'ogg'];
         $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav'];
         $aux = explode('/', $file->tipo);
@@ -23,14 +23,14 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $doc_allowed)) {
 
-            return "<div class='embed-responsive'>
-                <iframe class='embed-responsive-item' src='{$path}'></iframe>
+            return "<div>
+                <iframe style='width: 100%;' src='{$path}'></iframe>
             </div>";
 
         } elseif(in_array($type, $media_allowed_old)) {
 
-            return "<div class='embed-responsive'>
-                <object class='embed-responsive-item' data='{$path}' type='{$file->tipo}'>
+            return "<div>
+                <object style='width: 100%;' data='{$path}' type='{$file->tipo}'>
                        <param name='src' value='{$path}'>
                        <param name='autostart' value='0'>
                        <param name='volume' value='0'>
@@ -43,22 +43,20 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $media_allowed)) {
 
-            return "<div class='embed-responsive'>
-                <video class='embed-responsive-item' controls
-                  <source
-                    src='{$path}'
-                    type='{$file->tipo}' />
+            return "<div>
+                <video style='width: 100%;' controls>
+                  <source src='{$path}' type='{$file->tipo}' />
                   Your browser doesn't support HTML5 video tag.
-                </video>
+                </video> 
             </div>";
 
         } elseif(in_array($type, $audio_allowed)) {
 
-            return "<div class='embed-responsive'>
-                <audio controls='controls'>
+            return "<div>
+                <video style='width: 100%;' controls>
                   <source src='{$path}' type='{$file->tipo}' />
-                  Your browser does not support the <code>audio</code> element.
-                </audio>
+                  Your browser doesn't support HTML5 video tag.
+                </video> 
             </div>";
         }
 

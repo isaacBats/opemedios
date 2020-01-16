@@ -110,11 +110,11 @@ class ClientController extends Controller
                     
                     if($medio == 'peri&oacute;dico') {
                         $medio = 'periodico';
-                    } elseif ($medio == 'Televisi&oacute;n') {
+                    } elseif ($medio == 'televisi&oacute;n') {
                         $medio = 'television';
                     }
                     
-                    $path = "//sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
                     
                     return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
                                             :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
