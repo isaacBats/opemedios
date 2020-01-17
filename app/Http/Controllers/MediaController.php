@@ -24,7 +24,7 @@ class MediaController extends Controller
         } elseif(in_array($type, $doc_allowed)) {
 
             return "<div>
-                <iframe style='width: 100%;' src='{$path}'></iframe>
+                <iframe style='width: 100%; height: 700px;' src='{$path}'></iframe>
             </div>";
 
         } elseif(in_array($type, $media_allowed_old)) {
