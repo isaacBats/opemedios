@@ -44,7 +44,7 @@
 			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;">
 				<tr>
 					<td>
-						{{-- <img src="{{ asset("images/{$newsletter->banner}") }}" alt="{{ $newsletter->name }}" style="width: 100%;height: auto;"> --}}
+						<img src="{{ asset("images/{$newsletter->banner}") }}" alt="{{ $newsletter->name }}" style="width: 100%;height: auto;">
 					</td>
 				</tr>
 			</table>
