@@ -20,12 +20,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Http\Controllers\Auth\RegisterController;
 use App\User;
+use App\UserMeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    
+    public function __construct(RegisterController $registerController) {
+
+        $this->registerController = $registerController;
+
+    }
+
     public function index () {
+        
         $users = User::select()->paginate(25);
 
         return view('admin.user.index', compact('users'));
@@ -36,5 +49,51 @@ class UserController extends Controller
 
         return view('admin.user.show', compact('profile'));
 
+    }
+
+    public function showFormNewUser() {
+        
+        $companies = Company::all();
+        
+        return view('admin.user.create', compact('companies'));
+    }
+
+    public function register (Request $request) {
+
+        $inputs = $request->all();
+
+        $this->registerController->validator($inputs)->validate();
+
+        $user = $this->registerController->create($inputs);
+
+        $role = Role::find($inputs['rol']);
+        $user->assignRole($role);
+
+        $meta_position = new UserMeta();
+        $meta_position->meta_key = 'user_position';
+        $meta_position->meta_value = $inputs['user_position'];
+        $user->metas()->save($meta_position);
+
+        if($role->name == 'client') {
+            $meta_company = new UserMeta();
+            $meta_company->meta_key = 'company_id';
+            $meta_company->meta_value = $inputs['company_id'];
+            $user->metas()->save($meta_company);
+
+            $company = Company::find($inputs['company_id']);
+
+            $oldCompany = DB::connection('opemediosold')->table('empresa')
+                ->where('nombre', 'like', "%{$company->name}%")
+                ->first();
+            
+            if($oldCompany) {
+                $meta_old_company = new UserMeta();
+                $meta_old_company->meta_key = 'old_company_id';
+                $meta_old_company->meta_value = $oldCompany->id_empresa;
+                $user->metas()->save($meta_old_company);
+            }
+        }
+
+        return redirect()->route('users')->with('status', 'Usuario creado satisfactoriamente');
     }
 }

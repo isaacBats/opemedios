@@ -1,5 +1,21 @@
 <?php
-
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2019
+  * @version 1.0.0
+  * @package App\
+  * Type: Router
+  * Description: Description
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
+        
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,7 +61,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
     Route::get('usuarios', 'UserController@index')->name('users');
     Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
-    Route::post('usuario/crear', 'UserController@register')->name('register.user');
+    Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
     Route::get('usuario/editar/{id}', 'UserController@edit')->name('user.edit');
     Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');

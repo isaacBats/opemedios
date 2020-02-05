@@ -1,15 +1,20 @@
 @extends('layouts.admin')
 @section('admin-title', ' - Usuarios')
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="col-md-12">
   <div class="panel">
     <div class="panel-heading">
       <div class="row">
           <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
-            <h4 class="panel-title" style="padding: 12px 0;">Administrador de usuarios</h4>  
+            <h4 class="panel-title" style="padding: 12px 0;">{{ __('Administrador de usuarios') }}</h4>  
           </div>
           <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
-              <a href="" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> Nuevo usuario</a>
+              <a href="{{ route('register.user') }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Nuevo usuario') }}</a>
           </div>
       </div>
     </div>
