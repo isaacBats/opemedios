@@ -41,6 +41,7 @@
       </div><!-- contentpanel -->
     </div><!-- mainpanel -->
 </section>
+@include('admin.modal')
 
 <script src="{{ asset('lib/jquery/jquery.js') }}"></script>
 <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>

@@ -20,14 +20,14 @@
     </div>
     <div class="panel-body">
       <div class="table-responsive">
-        <table class="table table-bordered table-inverse table-striped nomargin">
+        <table class="table table-bordered table-inverse table-striped nomargin" id="table-list-users">
           <thead>
             <tr>
-              <th class="text-center">
+              {{-- <th class="text-center">
                 <label class="ckbox">
                   <input type="checkbox"><span></span>
                 </label>
-              </th>
+              </th> --}}
               <th class="text-center">#</th>
               <th class="text-center">Nombre</th>
               <th class="text-center">Correo</th>
@@ -39,11 +39,11 @@
           <tbody>
             @foreach($users as $user)
                 <tr>
-                  <td class="text-center">
+                  {{-- <td class="text-center">
                     <label class="ckbox">
                       <input type="checkbox"><span></span>
                     </label>
-                  </td>
+                  </td> --}}
                   <td class="text-center" >{{ $loop->iteration }}</td>
                   <td class="text-left" >{{ $user->name }}</td>
                   <td class="text-left">{{ $user->email }}</td>
@@ -51,7 +51,7 @@
                   <td class="text-left">{{ $user->metas->where('meta_key', 'user_position')->first()->meta_value }}</td>
                   <td class="table-options">
                       <li><a href="{{ route('user.show', ['id' => $user->id]) }}"><i class="fa fa-eye"></i></a></li>
-                      <li><a href=""><i class="fa fa-trash"></i></a></li>
+                      <li><a href="{{ route('user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach
@@ -64,4 +64,27 @@
     </div>
   </div><!-- panel -->
 </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('table#table-list-users').on('click', 'a.btn-delete-user', function(event){
+                event.preventDefault()
+                var action = $(this).attr('href')
+                var userName = $(this).data('name')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'GET')
+                form.attr('action', action)
+
+                modal.find('.modal-title').html(`Vas a eliminar a ${userName}.`)
+                modal.find('.modal-body').html(`<h4>¿Quieres eliminar a ${userName}?</h4>`)
+                modal.find('#md-btn-submit').attr('value', 'Si')
+
+                modal.modal('show')
+
+            })
+        })
+    </script>
 @endsection

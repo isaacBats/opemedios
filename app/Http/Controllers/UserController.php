@@ -34,7 +34,6 @@ class UserController extends Controller
     public function __construct(RegisterController $registerController) {
 
         $this->registerController = $registerController;
-
     }
 
     public function index () {
@@ -48,7 +47,6 @@ class UserController extends Controller
         $profile = User::find($id);
 
         return view('admin.user.show', compact('profile'));
-
     }
 
     public function showFormNewUser() {
@@ -95,5 +93,19 @@ class UserController extends Controller
         }
 
         return redirect()->route('users')->with('status', 'Usuario creado satisfactoriamente');
+    }
+
+    public function delete(Request $request, $id) {
+
+        $user = User::findOrFail($id);
+        $name = $user->name;
+        $rol = Role::where('name', 'disable')->firstOrFail();
+        $user->roles()->detach();
+        $user->assignRole($rol);
+        // no se eliminan las metas, por si en algun momento se quiere activar
+        // $user->metas()->detach();
+        $user->delete();
+
+        return redirect()->route('users')->with('status', "El usuario {$name} se ha eliminado satisfactoriamente");
     }
 }
