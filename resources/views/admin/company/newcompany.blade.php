@@ -33,25 +33,28 @@
                             </label>
                         @enderror
                     </div>
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Giro<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <select id="select1" name="turn" class="form-control">
-                                <option value="">Giro</option>
+                                <option value="">Seleccionan un Giro</option>
+                                @foreach($turns as $turn)
+                                    <option value="{{ $turn->id }}">{{ $turn->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <a href="{{ route('turn.create') }}" >
-                            <span id="add-turn">
-                                <i class="fa fa-plus-circle"></i>
-                            </span>
-                            Nuevo Giro
-                        </a>
-                        @error('turn')
-                            <span class="error" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div> --}}
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-8">
+                            <a href="{{ route('turn.create') }}" >
+                                <span id="add-turn">
+                                    <i class="fa fa-plus-circle"></i>
+                                </span>
+                                Nuevo Giro
+                            </a>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Logo de la empresa<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
@@ -73,26 +76,24 @@
                     <div class="panel panel-primary list-announcement">
                         <div class="panel-heading">
                             <h4 class="panel-title">Giro de la empresa</h4>
-                            <p>Últimos Giros</p>
                         </div>
                         <div class="panel-body">
-                            @error('turn_id')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
-                            @enderror
-                            <ul class="list-unstyled mb20">
-                                {{-- // TODO: Poner una altura fija a este cotenedor y agregarle el scroll, o mejorar el UX de este componente --}}
-                                @foreach($turns as $turn)
-                                    <li>
-                                        <input type="radio" name="turn_id" value="{{ $turn->id }}">
-                                        <span>{{ $turn->name }}</span>
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div class="form-group">
+                                <select id="select1" name="turn" class="form-control">
+                                    <option value="">Seleccionan un Giro</option>
+                                    @foreach($turns as $turn)
+                                        <option value="{{ $turn->id }}">{{ $turn->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="panel-footer">
-                            {{-- <button class="btn btn-primary btn-block">Asignar <i class="fa check-square-o"></i></button> --}}
+                            <a href="{{ route('turn.create') }}" >
+                                <span id="add-turn">
+                                    <i class="fa fa-plus-circle"></i>
+                                </span>
+                                Nuevo Giro
+                            </a>
                         </div>
                     </div>
                 </div>
