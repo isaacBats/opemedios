@@ -36,18 +36,23 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Giro<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select id="select1" name="turn" class="form-control">
+                            <select id="select-turn" name="turn_id" class="form-control">
                                 <option value="">Seleccionan un Giro</option>
                                 @foreach($turns as $turn)
                                     <option value="{{ $turn->id }}">{{ $turn->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        @error('turn_id')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3"></div>
                         <div class="col-sm-8">
-                            <a href="{{ route('turn.create') }}" >
+                            <a id="btn-add-turn" href="{{ route('turn.create') }}" >
                                 <span id="add-turn">
                                     <i class="fa fa-plus-circle"></i>
                                 </span>
@@ -70,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="row">
                 <div class="col-sm-5 col-md-12 col-lg-6">
                     <div class="panel panel-primary list-announcement">
@@ -81,14 +86,11 @@
                             <div class="form-group">
                                 <select id="select1" name="turn" class="form-control">
                                     <option value="">Seleccionan un Giro</option>
-                                    @foreach($turns as $turn)
-                                        <option value="{{ $turn->id }}">{{ $turn->name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <a href="{{ route('turn.create') }}" >
+                            <a href="" >
                                 <span id="add-turn">
                                     <i class="fa fa-plus-circle"></i>
                                 </span>
@@ -98,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </form>
 @endsection
 @section('styles')
@@ -124,8 +126,59 @@
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
-        $(function(){
-            $('#select1').select2();
+        $(document).ready(function(){
+            
+            $('#select-turn').select2();
+
+            $('#btn-add-turn').on('click', function(event) {
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var modalForm = $('#modal-default-form')
+                
+                modal.find('.modal-title').html('Agregar nuevo Giro')
+
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label for="turn-name">Giro</label>
+                        <input type="text" name="name" id="turn-name" class="form-control" value="{{old('name')}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="turn-description">Descripción</label>
+                        <textarea name="description" class="form-control" id="turn-description">{{old('description')}}</textarea>
+                    </div>
+                `)
+
+                modalForm.attr('action', $(this).attr('href'))
+                modalForm.attr('method', 'POST')
+
+                modal.find('#md-btn-submit').val('Agregar nuevo')
+
+                modal.modal('show')
+            })
+
+            $('#modal-default-form').on('submit', function (event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var actionurl = event.currentTarget.action
+                modal.modal('hide')
+                $.ajax({
+                    url: actionurl,
+                    type: 'post',
+                    // dataType: 'application/json',
+                    data: $("#modal-default-form").serialize(),
+                    success: function(data) {
+                        
+                        var selectTurn = $('#select-turn')
+                        selectTurn.append(`<option value="${data.id}" selected>${data.name}</option>`)
+                        selectTurn.trigger('change')
+                    },
+                    error: function(err) {
+                        console.error(err)
+                    }
+                })
+
+            })
+
         })
     </script>
 @endsection

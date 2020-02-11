@@ -70,8 +70,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('empresas', 'CompanyController@index')->name('companies');
     Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
     Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
+    Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
     
-    Route::get('giro/nuevo', 'TurnController@showFormNewTurn')->name('turn.create');
+    Route::post('giro/nuevo', 'TurnController@create')->name('turn.create');
 
     Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
     Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
