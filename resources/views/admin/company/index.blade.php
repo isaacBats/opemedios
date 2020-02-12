@@ -41,7 +41,7 @@
                   <td class="text-left" >{{ $company->name }}</td>
                   <td class="text-left">{{ $company->turn->name }}</td>
                   <td class="table-options">
-                      <li><a href=""><i class="fa fa-pencil"></i></a></li>
+                      <li><a href="{{ route('company.show', ['id' => $company->id]) }}"><i class="fa fa-eye"></i></a></li>
                       <li><a href=""><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>

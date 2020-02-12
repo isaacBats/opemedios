@@ -59,5 +59,12 @@ class CompanyController extends Controller
         Company::create($input);
 
         return redirect()->route('companies')->with('alert-success', 'La empresa se ha creado con éxito');
+    }
+
+    public function show (Request $request, $id) {
+
+        $company = Company::find($id);
+
+        return view('admin.company.show', compact('company'));
     } 
 }
