@@ -40,7 +40,13 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9 col-lg-8">
+    <div class="col-md-9 col-lg-8 people-list">
+        <div class="people-options clearfix">
+            <div class="btn-toolbar pull-left">
+                <button class="btn btn-success btn-quirk" type="button">{{ __('Agregar usuario') }}</button>
+                <button class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
+            </div>
+        </div>
         <div class="panel panel">
             <div class="panel-heading">
                 <h1 class="panel-title">{{ $company->name }}</h1>
@@ -51,10 +57,38 @@
                 @if($company->old_company_id)
                 @else
                     <p class="text-center">
-                        <a href="" class="btn btn-primary">Relacionar con cliente anterior</a>
+                        <button class="btn btn-primary" type="button" id="btn-relation">Relacionar con cliente anterior</button>
                     </p>
                 @endif
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btn-relation').on('click', function() {
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'POST')
+                form.attr('action', '/panel/empresa/relacionar')
+                
+                modal.find('.modal-title').html('Relacionar con una empresa del sistema pasado');
+                modal.find('#md-btn-submit').val('Relacionar')
+                $.get('/api/v2/clientes/antiguas', function (companies) {
+                    var htmlOptions = `<select name="old_company_id" class="form-control select2">
+                        <option>Selecciona un Cliente</option>`                    
+                    $.each(companies, function (key, obj) {
+                        htmlOptions += `<option value="${obj.id}">${obj.nombre}</option>` 
+                    })
+                    htmlOptions += `</select>`
+                    modal.find('.modal-body').html(htmlOptions)
+                })
+
+                modal.modal('show')
+            })
+        })
+    </script>
 @endsection
