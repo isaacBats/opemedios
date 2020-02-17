@@ -35,6 +35,8 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 
+Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
+
 
 Auth::routes();
 
@@ -71,6 +73,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
     Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
     Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
+    Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
     
     Route::post('giro/nuevo', 'TurnController@create')->name('turn.create');
 

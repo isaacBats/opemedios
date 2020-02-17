@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="col-md-3 col-lg-4">
         <div class="row">
             <div class="col-sm-5 col-md-12 col-lg-6">
@@ -55,14 +60,25 @@
                 <img class="img-responsive" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
                 <p class="text-center">{{ "{$company->address} | {$company->turn->name}" }}</p>
                 @if($company->old_company_id)
+                    @if($oldCompany = $company->oldCompany())
+                        <p class="text-center">Empresa relacionada: <strong>{{ $oldCompany->nombre }}</strong></p>
+                    @endif
                 @else
                     <p class="text-center">
-                        <button class="btn btn-primary" type="button" id="btn-relation">Relacionar con cliente anterior</button>
+                        <button class="btn btn-primary" type="button" data-company="{{ $company->id }}" id="btn-relation">Relacionar con cliente anterior</button>
                     </p>
                 @endif
             </div>
         </div>
     </div>
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <style>
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+    </style>
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
@@ -71,6 +87,8 @@
             $('#btn-relation').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var companyID = $(this).data('company')
 
                 form.attr('method', 'POST')
                 form.attr('action', '/panel/empresa/relacionar')
@@ -78,14 +96,29 @@
                 modal.find('.modal-title').html('Relacionar con una empresa del sistema pasado');
                 modal.find('#md-btn-submit').val('Relacionar')
                 $.get('/api/v2/clientes/antiguas', function (companies) {
-                    var htmlOptions = `<select name="old_company_id" class="form-control select2">
-                        <option>Selecciona un Cliente</option>`                    
+                    var select = $(`<select></select>`)
+                        .attr('id', 'old_company_id')
+                        .attr('name', 'old_company_id')
+                        .addClass('form-control')
+                    select.append($('<option></option>').attr('value', '').text('Selecciona un Cliente'))
+                    
                     $.each(companies, function (key, obj) {
-                        htmlOptions += `<option value="${obj.id}">${obj.nombre}</option>` 
+                        select.append($('<option></option>').attr('value', obj.id).text(obj.nombre))
                     })
-                    htmlOptions += `</select>`
-                    modal.find('.modal-body').html(htmlOptions)
+                    
+                    // select.select2()
+                    modalBody.html(select)
+                    
+                    var helpText = $('<p></p>').addClass('text-center mt-3').text('La compañia que elija, sera para actualizar las noticias de años anteriores.')
+                    var inputHiden = $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'company')
+                        .attr('value', companyID)
+                    
+                    modalBody.append(inputHiden)
+                    modalBody.append(helpText)
                 })
+                
 
                 modal.modal('show')
             })

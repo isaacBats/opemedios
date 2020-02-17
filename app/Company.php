@@ -3,9 +3,11 @@
 namespace App;
 
 use App\Newsletter;
+use App\Theme;
 use App\Turn;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
@@ -64,5 +66,21 @@ class Company extends Model
         }
 
         return $companyOld;
+    }
+
+    public function themes() {
+
+        return $this->hasMany(Theme::class);
+    }
+
+    public function oldCompany() {
+
+        if(!empty($this->old_company_id)) {
+
+            return DB::connection('opemediosold')->table('empresa')
+                ->where('id_empresa', $this->old_company_id)->first();
+        }
+
+        return false;
     }
 }

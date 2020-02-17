@@ -21,6 +21,8 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Turn;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Validator;
 
@@ -66,5 +68,25 @@ class CompanyController extends Controller
         $company = Company::find($id);
 
         return view('admin.company.show', compact('company'));
-    } 
+    }
+
+    public function getOldCompanies () {
+
+        return DB::connection('opemediosold')->table('empresa')->select('id_empresa as id', 'nombre')->orderBy('nombre')->get();
+    }
+
+    public function relations (Request $request) {
+        $inputCompany = $request->input('company');
+        $company = Company::find($inputCompany);
+
+        if($request->has('old_company_id') && !empty($request->input('old_company_id'))) {
+            $company->old_company_id = $request->input('old_company_id');
+            $company->save(); 
+
+            return back()->with('status', 'Su cliente ahora esta relacionado con el antiguo cliente');
+        }
+        
+        Log::info("La empresa {$company->name } no se selecciono una empresa del sistema pasado.");
+        return back()->with('status', 'No se pudo relacionar. Intentalo mas tarde');
+    }
 }
