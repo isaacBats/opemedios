@@ -42,4 +42,13 @@ class ThemeController extends Controller
 
         return back()->with('status', "¡El tema {$theme->name} se a actualizado correctamente!");
     }
+
+    public function delete (Request $request, $id) {
+        $theme = Theme::find($id);
+        $company = $theme->company;
+        $name = $theme->name;
+        $theme->delete();
+
+        return redirect()->route('company.show', ['id' => $company->id])->with('status', "¡El tema: {$name} se ha eliminado satisfactoriamente!");
+    }
 }

@@ -50,14 +50,14 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">Temas</h4>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="list-themes">
                         <ul class="list-unstyled mb20">
                             @forelse($company->themes as $theme)
                                 <li>
                                     {{ $theme->name }}
                                     <span class="text-float-r" >
                                         <a href="{{ route('theme.show', ['id' => $theme->id ]) }}"><i class="fa fa-eye"></i></a>
-                                        <a data-theme="{{ $theme->id }}" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                        <a data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  class="btn-delete" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
                                     </span>
                                 </li>
                             @empty
@@ -194,6 +194,27 @@
                 ` 
             }
 
+            // delete theme
+            $('#list-themes').on('click', '.btn-delete', function(event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var themeID = $(this).data('theme')
+                var themeName = $(this).data('name')
+
+                form.attr('method', 'POST')
+                    .attr('action', `/panel/tema/eliminar/${themeID}`) 
+
+                modal.find('.modal-title').html('Eliminar tema');
+                modalBody.html(`<p>¿Estas seguro que quieres eliminar el tema: <strong>${themeName}</strong>?</p>`)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Eliminar')
+
+                modal.modal('show')
+            })
         })
     </script>
 @endsection
