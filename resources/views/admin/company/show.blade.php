@@ -5,6 +5,15 @@
             {{ session('status') }}
         </div>
     @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="col-md-3 col-lg-4">
         <div class="row">
             <div class="col-sm-5 col-md-12 col-lg-6">
@@ -37,9 +46,24 @@
                 </div>    
             </div>
             <div class="col-sm-5 col-md-12 col-lg-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default list-announcement">
                     <div class="panel-heading">
                         <h4 class="panel-title">Temas</h4>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled mb20">
+                            @forelse($company->themes as $theme)
+                                <li>
+                                    {{ $theme->name }}
+                                    <span class="text-float-r" >
+                                        <a href="{{ route('theme.show', ['id' => $theme->id ]) }}"><i class="fa fa-eye"></i></a>
+                                        <a data-theme="{{ $theme->id }}" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                    </span>
+                                </li>
+                            @empty
+                                <li>No hay temas para esta empresa</li>
+                            @endforelse
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -48,11 +72,11 @@
     <div class="col-md-9 col-lg-8 people-list">
         <div class="people-options clearfix">
             <div class="btn-toolbar pull-left">
-                <button class="btn btn-success btn-quirk" type="button">{{ __('Agregar usuario') }}</button>
-                <button class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
+                <button data-company="{{ $company->id }}" id="btn-add-user" class="btn btn-success btn-quirk" type="button">{{ __('Agregar usuario') }}</button>
+                <button data-company="{{ $company->id }}" id="btn-add-theme" class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
             </div>
         </div>
-        <div class="panel panel">
+        <div class="panel">
             <div class="panel-heading">
                 <h1 class="panel-title">{{ $company->name }}</h1>
             </div>
@@ -78,12 +102,17 @@
         .mt-3 {
             margin-top: 1.5rem;
         }
+
+        .text-float-r {
+            float: inline-end;
+        }
     </style>
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            // relate company
             $('#btn-relation').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
@@ -122,6 +151,49 @@
 
                 modal.modal('show')
             })
+
+            //create theme 
+            $('#btn-add-theme').on('click', function(){
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var companyID = $(this).data('company')
+
+                form.attr('method', 'POST')
+                form.attr('action', '/panel/tema/nuevo')
+                form.addClass('form-horizontal')
+                
+                modal.find('.modal-title').html('Crear un tema para esta empresa');
+                modal.find('#md-btn-submit').val('Crear')
+                modalBody.html(getTemplateForCreateTheme())
+                var inputHiden = $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'company_id')
+                        .attr('value', companyID)
+                    
+                modalBody.append(inputHiden)
+
+                modal.modal('show')
+            })
+            function getTemplateForCreateTheme() {
+                return `
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tema</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Descripción del tema</label>
+                            <div class="col-sm-8">
+                                <textarea rows="5" class="form-control" name="description" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                ` 
+            }
+
         })
     </script>
 @endsection
