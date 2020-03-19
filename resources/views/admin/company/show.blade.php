@@ -22,7 +22,7 @@
                         <h4 class="panel-title">Cuentas</h4>
                     </div>
                     <div class="panel-body">
-                        <ul class="media-list user-list">
+                        <ul class="media-list user-list" id="user-list">
                             @forelse($company->accounts() as $account)
                                 <li class="media">
                                     <div class="media-left">
@@ -31,9 +31,9 @@
                                       </a>
                                     </div>
                                     <div class="media-body">
-                                      <h4 class="media-heading nomargin">{{ $account->name }}</h4>
+                                      <h4 class="media-heading nomargin"><a href="{{ route('user.show', ['id' => $account->id, ]) }}">{{ $account->name }}</a></h4>
                                       {{ $account->metas->where('meta_key', 'user_position')->first()->meta_value }}
-                                      {{-- <small class="date"><i class="glyphicon glyphicon-time"></i> Just now</small> --}}
+                                      <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account" data-company="{{ $company->name }}" data-userid="{{ $account->id }}" data-username="{{ $account->name }}">Remover</a></small>
                                     </div>
                                     
                                 </li>
@@ -72,7 +72,7 @@
     <div class="col-md-9 col-lg-8 people-list">
         <div class="people-options clearfix">
             <div class="btn-toolbar pull-left">
-                <button data-company="{{ $company->id }}" id="btn-add-user" class="btn btn-success btn-quirk" type="button">{{ __('Agregar usuario') }}</button>
+                <a href="{{ route('user.add.company', ['companyId' => $company->id]) }}" class="btn btn-success btn-quirk">{{ __('Agregar usuario') }}</a>
                 <button data-company="{{ $company->id }}" id="btn-add-theme" class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
             </div>
         </div>
@@ -82,6 +82,7 @@
             </div>
             <div class="panel-body">
                 <img class="img-responsive" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                <p class="text-center"><a href="javascript:void(0)">Cambiar Imagen</a></p>
                 <p class="text-center">{{ "{$company->address} | {$company->turn->name}" }}</p>
                 @if($company->old_company_id)
                     @if($oldCompany = $company->oldCompany())
@@ -214,6 +215,30 @@
                     .val('Eliminar')
 
                 modal.modal('show')
+            })
+
+            // remove user from company
+            $('#user-list').on('click', '#btn-remove-account', function (event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var userID = $(this).data('userid')
+                var userName = $(this).data('username')
+                var company = $(this).data('company')
+
+                form.attr('method', 'POST')
+                    .attr('action', `/panel/empresa/remover-usuario/${userID}`)
+
+                modal.find('.modal-title').html(`Quitar usuario de esta empresa`)
+                modalBody.html(`<p>¿Estas seguro que remover a <strong>${userName}</strong> de ${company}?</p>`)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.modal('show')
+
             })
         })
     </script>

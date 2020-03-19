@@ -20,6 +20,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Turn;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -86,7 +87,21 @@ class CompanyController extends Controller
             return back()->with('status', 'Su cliente ahora esta relacionado con el antiguo cliente');
         }
         
-        Log::info("La empresa {$company->name } no se selecciono una empresa del sistema pasado.");
+        Log::info("La empresa {$company->name} no se selecciono una empresa del sistema pasado.");
         return back()->with('status', 'No se pudo relacionar. Intentalo mas tarde');
+    }
+
+    public function removeUser (Request $request, $userId) {
+        $user = User::find($userId);
+        $company = Company::find($user->metas()->where('meta_key', 'company_id')->first()->meta_value);
+        try {
+            $remove = $user->metas()->where('meta_key', 'like', '%company_id')->delete();
+            $userName = $user->name;
+
+            return back()->with('status', "Se ha removido al usuario {$userName} de {$company->name} exitosamente.");
+            
+        } catch (Exception $e) {
+            Log::info("Error al borrar metas de usuario: {$e->getMessage()}");
+        }
     }
 }

@@ -91,8 +91,11 @@ class UserController extends Controller
                 $user->metas()->save($meta_old_company);
             }
         }
-
-        return redirect()->route('users')->with('status', 'Usuario creado satisfactoriamente');
+        if ($request->has('company_route')) {
+            return redirect()->route('company.show', ['id' => $company->id])->with('status', 'Usuario agregado satisfactoriamente');
+        } else {
+            return redirect()->route('users')->with('status', 'Usuario creado satisfactoriamente');
+        }
     }
 
     public function delete(Request $request, $id) {
@@ -107,5 +110,11 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users')->with('status', "El usuario {$name} se ha eliminado satisfactoriamente");
+    }
+
+    public function addUserCompany(Request $request, $companyId) {
+        $role = Role::where('name', 'client')->first();
+        $company = Company::find($companyId);
+        return view('admin.company.addUser', compact('company', 'role')); 
     }
 }

@@ -64,6 +64,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('usuarios', 'UserController@index')->name('users');
     Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
     Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
+    Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
     Route::get('usuario/editar/{id}', 'UserController@edit')->name('user.edit');
     Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
@@ -74,6 +75,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
     Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
     Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
+    Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
