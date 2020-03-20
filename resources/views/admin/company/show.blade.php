@@ -238,7 +238,6 @@
                     .val('Remover')
 
                 modal.modal('show')
-
             })
         })
     </script>

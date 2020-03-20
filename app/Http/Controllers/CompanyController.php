@@ -21,6 +21,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Turn;
 use App\User;
+use App\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -103,5 +104,18 @@ class CompanyController extends Controller
         } catch (Exception $e) {
             Log::info("Error al borrar metas de usuario: {$e->getMessage()}");
         }
+    }
+
+    public function addUserAjax(Request $request) {
+        $inputs = $request->all();
+        $user = User::find($inputs['user']);
+        // $company = Company::find($inputs['company']);
+
+        $meta_company = new UserMeta();
+        $meta_company->meta_key = 'company_id';
+        $meta_company->meta_value = $inputs['company'];
+        $user->metas()->save($meta_company);
+
+        return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
     }
 }

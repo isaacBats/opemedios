@@ -76,6 +76,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
     Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
     Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
+    Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');

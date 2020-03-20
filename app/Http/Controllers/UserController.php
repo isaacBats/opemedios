@@ -115,6 +115,9 @@ class UserController extends Controller
     public function addUserCompany(Request $request, $companyId) {
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
-        return view('admin.company.addUser', compact('company', 'role')); 
+
+        $clients = User::role($role)->get();
+
+        return view('admin.company.addUser', compact('company', 'role', 'clients')); 
     }
 }
