@@ -120,4 +120,6 @@ class UserController extends Controller
 
         return view('admin.company.addUser', compact('company', 'role', 'clients')); 
     }
+
+    // TODO: Relacionar un usuario cliente con los temas de las empresas a las que pertenecen
 }
