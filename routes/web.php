@@ -80,6 +80,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
+    Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');

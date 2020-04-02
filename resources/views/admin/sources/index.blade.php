@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
@@ -27,7 +32,7 @@
                     <tbody>
                         @forelse($sources as $source)
                             <tr>
-                                <td>{{ $loop->iterator }}</td>  
+                                <td>{{ $loop->iteration }}</td>  
                                 <td><i class="fa {{ $source->icon }} fa-3"></i></td>
                                 <td>{{ $source->name }}</td>  
                                 <td>{{ $source->company }}</td>  
