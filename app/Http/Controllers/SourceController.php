@@ -12,6 +12,7 @@ class SourceController extends Controller
     public function index() {
 
         $sources = Source::all();
+        
         return view('admin.sources.index', compact('sources'));
     }
 

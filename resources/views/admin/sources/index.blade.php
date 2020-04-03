@@ -33,15 +33,13 @@
                         @forelse($sources as $source)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>  
-                                <td><i class="fa {{ $source->icon }} fa-3"></i></td>
+                                <td><i class="fa {{ $source->mean->icon }} fa-3"></i></td>
                                 <td>{{ $source->name }}</td>  
                                 <td>{{ $source->company }}</td>  
-                                <td><img src="http://lorempixel.com/400/200/" alt=""></td>  
+                                <td class="text-center"><img src="{{ asset("images/{$source->logo}") }}" alt="{{ $source->name }}"></td>  
                                 <td class="table-options">
-                                    <ul>
-                                        <li><a href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                        <li><a href="javascript:void(0);"><i class="fa fa-trash"></i></a></li>
-                                    </ul>
+                                    <a href="javascript:void(0);"><i class="fa fa-eye"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa fa-trash"></i></a>
                                 </td>  
                             </tr>
                         @empty

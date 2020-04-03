@@ -18,6 +18,7 @@
         
 namespace App;
 
+use App\Source;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,6 +27,10 @@ class Means extends Model
     use SoftDeletes;
     
     protected $fillable = ['name', 'short_name', 'icon', 'slug'];
+
+    public function sources() {
+        return $this->hasMany(Source::class);
+    }
 
 
 }

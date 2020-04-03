@@ -18,6 +18,7 @@
         
 namespace App;
 
+use App\Means;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,4 +27,8 @@ class Source extends Model
     use SoftDeletes;
     
     protected $fillable = ['name', 'company', 'comment', 'logo', 'active', 'coverage', 'means_id'];
+
+    public function mean() {
+        return $this->belongsTo(Means::class, 'means_id');
+    }
 }
