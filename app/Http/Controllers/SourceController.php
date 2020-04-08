@@ -145,4 +145,12 @@ class SourceController extends Controller
 
         return redirect()->route('source.show', ['id' => $source->id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
     }
+
+    public function delete(Request $request, $id) {
+        $source = Source::find($id);
+        $sourceName = $source->name;
+        $source->delete();
+
+        return redirect()->route('sources')->with('status', "¡La fuente: {$sourceName} se ha eliminado satisfactoriamente!");
+    } 
 }

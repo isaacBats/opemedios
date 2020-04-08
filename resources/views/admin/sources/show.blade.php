@@ -56,7 +56,7 @@
             <div class="fm-sidebar">
                 <button class="btn btn-warning btn-lg btn-block btn-edit-logo" data-source="{{ $source->id }}" ><i class="fa fa-image"></i> {{ __('Editar Logo') }}</button>
                 <button class="btn btn-success btn-lg btn-block btn-show-form"><i class="fa fa-pencil"></i> {{ __('Editar Fuente') }}</button>
-                <button class="btn btn-danger btn-lg btn-block"><i class="fa fa-trash"></i> {{ __('Eliminar Fuente') }}</button>
+                <button class="btn btn-danger btn-lg btn-block btn-delete-source" data-source="{{ $source->id }}" data-name="{{ $source->name }}" ><i class="fa fa-trash"></i> {{ __('Eliminar Fuente') }}</button>
             </div>
         </div>
     </div>
@@ -320,7 +320,23 @@
                     </div>
                 `)
                 modal.modal('show')
+            })
 
+            // Modal for delete source
+            $('.btn-delete-source').on('click', function(event){
+                event.preventDefault()
+                var sourceId = $(this).data('source')
+                var sourceName = $(this).data('name')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('action', '{{ route('source.delete', ['id' => $source->id]) }}')
+                form.attr('method', 'POST')
+
+                modal.find('.modal-title').text(`Eliminar fuente`)
+                modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val("{{ __('Eliminar') }}")
+                modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar a ') }}<strong>${sourceName}</strong>?`)
+                modal.modal('show')
             })
         })
     </script>
