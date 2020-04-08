@@ -81,6 +81,10 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
     Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
+    Route::post('fuente/actualizar/{id}', 'SourceController@update')->name('source.update');
+    Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
+    Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
+    Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');

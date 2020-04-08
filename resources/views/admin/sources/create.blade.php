@@ -54,7 +54,8 @@
                             <select name="means_id" class="form-control" id="select-means">
                                 <option value="">Seleccionan un tipo de fuente</option>
                                 @foreach($means as $type)
-                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                    {{-- <option value="{{ $type->id }}" {{ (old("means_id") == $type->id ? "selected":"") }} >{{ $type->name }}</option> --}}
+                                    <option value="{{ $type->id }}" >{{ $type->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -171,9 +172,9 @@
                             <div class="col-sm-8">
                                 <select name="signal" class="form-control select-clean input-tv" disabled >
                                     <option value="">Señal</option>
-                                    <option value="Televisión Abierta">Televisión Abierta</option>
-                                    <option value="Cablevisión">Cablevisión</option>
-                                    <option value="Sky">Sky</option>
+                                    <option value="Televisión Abierta" {{ (old("signal") == 'Televisión Abierta' ? "selected":"") }}>Televisión Abierta</option>
+                                    <option value="Cablevisión" {{ (old("signal") == 'Cablevisión' ? "selected":"") }}>Cablevisión</option>
+                                    <option value="Sky" {{ (old("signal") == 'Sky' ? "selected":"") }}>Sky</option>
                                 </select>
                             </div>
                             @error('signal')
@@ -188,9 +189,9 @@
                         <div class="col-sm-8">
                             <select name="coverage" class="form-control">
                                 <option value="">Cobertura</option>
-                                <option value="Local">Local</option>
-                                <option value="Nacional">Nacional</option>
-                                <option value="Internacional">Internacional</option>
+                                <option value="Local" {{ (old("coverage") == 'Local' ? "selected":"") }}>Local</option>
+                                <option value="Nacional" {{ (old("coverage") == 'Nacional' ? "selected":"") }}>Nacional</option>
+                                <option value="Internacional" {{ (old("coverage") == 'Internacional' ? "selected":"") }}>Internacional</option>
                             </select>
                         </div>
                         @error('coverage')
@@ -202,7 +203,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Comentario</label>
                         <div class="col-sm-8">
-                            <textarea rows="5" name="comment" class="form-control" placeholder="Comentario"></textarea>
+                            <textarea rows="5" name="comment" class="form-control" placeholder="Comentario">{{{ old('comment') }}}</textarea>
                         </div>
                         @error('comment')
                             <label class="error" role="alert">
