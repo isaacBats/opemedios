@@ -25,6 +25,7 @@
                             <th class="text-center"></th>
                             <th class="text-center">{{ __('Nombre') }}</th>
                             <th class="text-center">{{ __('Empresa') }}</th>
+                            <th class="text-center">{{ __('Activa') }}</th>
                             <th class="text-center">{{ __('Logo') }}</th>
                             <th class="text-center">{{ __('Acciones') }}</th>
                         </tr>
@@ -36,6 +37,9 @@
                                 <td class="text-center"><i class="fa {{ $source->mean->icon }} fa-3x"></i></td>
                                 <td>{{ $source->name }}</td>  
                                 <td>{{ $source->company }}</td>  
+                                <td>
+                                    <input type="checkbox" {{ ($source->active == 1 ? 'checked' : '') }} data-toggle="toggle" data-onstyle="success" data-source="{{ $source->id }}" data-name="{{ $source->name }}" class="btn-status">
+                                </td>  
                                 <td class="text-center"><img src="{{ asset("images/{$source->logo}") }}" alt="{{ $source->name }}"></td>  
                                 <td class="table-options">
                                     <a href="{{ route('source.show', ['id' => $source->id]) }}"><i class="fa fa-eye fa-2x"></i></a>
@@ -53,7 +57,11 @@
         </div>
     </div>
 @endsection
+@section('styles')
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+@endsection
 @section('scripts')
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function (){
             // Modal for delete source
@@ -73,6 +81,43 @@
                 modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val("{{ __('Eliminar') }}")
                 modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar a ') }}<strong>${sourceName}</strong>?`)
                 modal.modal('show')
+            })
+
+            // status of the source
+            $('#table-sources').on('change', '.btn-status', function (){
+                var sourceId = $(this).data('source')
+                var sourceName = $(this).data('name')
+
+                if($(this).is(':checked')) {
+                    $.post(`/panel/fuente/estatus/${sourceId}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 1, 'source': sourceId }, function(res){
+                        $.gritter.add({
+                            title: 'Fuente Activa',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus de la fuente',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
+                else{
+                    $.post(`/panel/fuente/estatus/${sourceId}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 0, 'source': sourceId }, function(res){
+                        $.gritter.add({
+                            title: 'Fuente Inactiva',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus de la fuente',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
             })
         })
     </script>

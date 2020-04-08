@@ -85,6 +85,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
     Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
     Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
+    Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="description" content="Este es el administrador de Opemedios. Sistema Integral de Administración de Opemedios">
   <meta name="author" content="Isaac Batista ">
+  <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   <!--<link rel="shortcut icon" href="../images/favicon.png" type="image/png">-->
 
   <title>Opemedios @yield('admin-title', '- Admin')</title>
@@ -15,6 +17,7 @@
   <link rel="stylesheet" href="{{ asset('lib/ionicons/css/ionicons.css') }}">
   <link rel="stylesheet" href="{{ asset('lib/jquery-toggles/toggles-full.css') }}">
   <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
+  <link rel="stylesheet" href="{{ asset('lib/jquery.gritter/jquery.gritter.css') }}">
   <link rel="stylesheet" href="{{ asset('css/quirk.css') }}">
 
   <script src="https://kit.fontawesome.com/82c0428c5a.js" crossorigin="anonymous"></script>
@@ -48,6 +51,7 @@
 <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
 <script src="{{ asset('lib/bootstrap/js/bootstrap.js') }}"></script>
 <script src="{{ asset('lib/jquery-toggles/toggles.js') }}"></script>
+<script src="{{ asset('lib/jquery.gritter/jquery.gritter.js') }}"></script>
 @yield('scripts')
 <script src="{{ asset('js/quirk.js') }}"></script>
 </body>

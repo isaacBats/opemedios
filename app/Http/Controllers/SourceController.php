@@ -1,5 +1,21 @@
 <?php
-
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2020
+  * @version 1.0.0
+  * @package App\
+  * Type: Controller
+  * Description: Description
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
+        
 namespace App\Http\Controllers;
 
 use App\Means;
@@ -87,7 +103,6 @@ class SourceController extends Controller
         $source->save();
 
         return redirect()->route('source.show', ['id' => $source->id])->with('status', '¡Exito!. La fuente se ha editado correctamente');
-
     }
 
     private function saveExtraFields($inputs, $mean) {
@@ -152,5 +167,18 @@ class SourceController extends Controller
         $source->delete();
 
         return redirect()->route('sources')->with('status', "¡La fuente: {$sourceName} se ha eliminado satisfactoriamente!");
-    } 
+    }
+
+    public function status(Request $request, $id) {
+        $source = Source::find($id);
+        try {
+            $source->active = $request->input('status');
+            $status = $request->input('status') ? 'Activa' : 'Inactiva';
+            $source->save();
+            
+            return response()->json(['message' => "La fuente a quedado {$status}"]);
+        } catch (Exception $e) {
+            return response()->json(['error' => "Error al actualizar el estatus de la fuente"]);
+        }
+    }
 }
