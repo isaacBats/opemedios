@@ -61,4 +61,26 @@ class SectionController extends Controller
 
         return redirect()->route('source.show', ['id' => $section->source_id])->with('status', 'Sección editada satisfactoriamente');
     }
+
+    public function delete(Request $request, $id) {
+        $section = Section::find($id);
+        $sectionName = $section->name;
+        $sourceId = $section->source_id; 
+        $section->delete();
+
+        return redirect()->route('source.show', ['id' => $sourceId])->with('status', "¡La sección: {$sectionName} se ha eliminado satisfactoriamente!");
+    }
+
+    public function status(Request $request, $id) {
+        $section = Section::find($id);
+        try {
+            $section->active = $request->input('status');
+            $status = $request->input('status') ? 'Activa' : 'Inactiva';
+            $section->save();
+            
+            return response()->json(['message' => "La sección a quedado {$status}"]);
+        } catch (Exception $e) {
+            return response()->json(['error' => "Error al actualizar el estatus de la sección"]);
+        }
+    }
 }

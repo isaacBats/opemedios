@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover" id="table-list-sections">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
@@ -68,8 +68,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $section->name }}</td>
                                     <td>{{ $section->author }}</td>
-                                    <td>
-                                        <input type="checkbox" {{ ($section->active == 1 ? 'checked' : '') }} data-toggle="toggle" data-onstyle="success" data-section="{{ $section->id }}" data-name="{{ $section->name }}" class="btn-status">
+                                    <td class="text-center">
+                                        <input type="checkbox" {{ ($section->active == 1 ? 'checked' : '') }} data-toggle="toggle" data-onstyle="success" data-section="{{ $section->id }}" data-name="{{ $section->name }}" class="btn-section-status">
                                     </td>
                                     <td>{{ $section->description }}</td>
                                     <td class="table-options">
@@ -310,7 +310,11 @@
         </form>
     </div>
 @endsection
+@section('styles')
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+@endsection
 @section('scripts')
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // show form for edit the source
@@ -415,6 +419,60 @@
                     <input type="hidden" name="source_id" value="${source}"/>
                 `
             }
+
+            // Modal for delete section
+            $('#table-list-sections').on('click', '.btn-delete-section', function(event){
+                event.preventDefault()
+                var sectionId = $(this).data('section')
+                var sectionName = $(this).data('name')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('action', `/panel/seccion/eliminar/${sectionId}`)
+                form.attr('method', 'POST')
+
+                modal.find('.modal-title').text(`Eliminar sección`)
+                modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val("{{ __('Eliminar') }}")
+                modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar la sección de ') }}<strong>${sectionName}</strong>?`)
+                modal.modal('show')
+            })
+
+            // status of the section
+            $('#table-list-sections').on('change', '.btn-section-status', function (){
+                var sectionId = $(this).data('section')
+                var sectionName = $(this).data('name')
+
+                if($(this).is(':checked')) {
+                    $.post(`/panel/seccion/estatus/${sectionId}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 1, 'section_id': sectionId }, function(res){
+                        $.gritter.add({
+                            title: 'Sección Activa',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus de la sección',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
+                else{
+                    $.post(`/panel/seccion/estatus/${sectionId}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 0, 'section_id': sectionId }, function(res){
+                        $.gritter.add({
+                            title: 'Sección Inactiva',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus de la sección',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
+            })
         })
     </script>
 @endsection

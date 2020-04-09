@@ -50,7 +50,7 @@
         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
             <div class="fm-sidebar">
                 <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-pencil"></i> {{ __('Actualizar Sección') }}</button>
-                <button class="btn btn-danger btn-lg btn-block"><i class="fa fa-remove"></i> {{ __('Cancelar') }}</button>
+                <a href="{{ route('source.show', ['id' => $section->source_id]) }}" class="btn btn-danger btn-lg btn-block"><i class="fa fa-remove"></i> {{ __('Cancelar') }}</a>
             </div>
         </div>
     </form>
