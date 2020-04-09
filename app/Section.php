@@ -18,21 +18,16 @@
         
 namespace App;
 
-use App\Means;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Source extends Model
+class Section extends Model
 {
     use SoftDeletes;
-    
-    protected $fillable = ['name', 'company', 'comment', 'logo', 'active', 'coverage', 'means_id'];
 
-    public function mean() {
-        return $this->belongsTo(Means::class, 'means_id');
-    }
+    protected $fillable = ['name', 'author', 'description', 'active', 'source_id'];
 
-    public function sections() {
-      return $this->hasMany(Section::class);
+    public function source() {
+        return $this->belongsTo(Source::class);
     }
 }

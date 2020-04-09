@@ -86,6 +86,10 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
     Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
     Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
+
+    Route::post('seccion/nueva', 'SectionController@create')->name('section.create');
+    Route::get('seccion/actualizar/{id}', 'SectionController@editForm')->name('section.edit');
+    Route::post('seccion/actualizar/{id}', 'SectionController@update')->name('section.edit');
     
     Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
     Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');

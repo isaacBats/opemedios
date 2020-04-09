@@ -46,9 +46,44 @@
                             <h4 class="panel-title">{{ __('Secciones') }}</h4>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 text-right">
-                            <a href="javascript:void(0)" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Nueva Sección') }}</a>
+                            <a href="{{ route('section.create') }}" id="btn-add-section" data-source="{{ $source->id }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Nueva Sección') }}</a>
                         </div>
                     </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">{{ __('Sección') }}</th>
+                                <th class="text-center">{{ __('Autor') }}</th>
+                                <th class="text-center">{{ __('Activo') }}</th>
+                                <th class="text-center">{{ __('Descripción') }}</th>
+                                <th class="text-center">{{ __('Acciones') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($source->sections as $section)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $section->name }}</td>
+                                    <td>{{ $section->author }}</td>
+                                    <td>
+                                        <input type="checkbox" {{ ($section->active == 1 ? 'checked' : '') }} data-toggle="toggle" data-onstyle="success" data-section="{{ $section->id }}" data-name="{{ $section->name }}" class="btn-status">
+                                    </td>
+                                    <td>{{ $section->description }}</td>
+                                    <td class="table-options">
+                                        <a href="{{ route('section.edit', ['id' => $section->id]) }}" style="margin-right: 1em;" ><i class="fa fa-pencil fa-2x"></i></a> 
+                                        <a href="javascript:void(0)" data-section="{{ $section->id }}" data-name="{{ $section->name }}"  class="btn-delete-section"> <i class="fa fa-trash fa-2x"></i></a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">{{ __('No hay seciones para esta esta fuente') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -338,6 +373,48 @@
                 modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar a ') }}<strong>${sourceName}</strong>?`)
                 modal.modal('show')
             })
+
+            // modal for add section
+            $('#btn-add-section').on('click', function (event){
+                event.preventDefault()
+                var sourceId = $(this).data('source')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var action = $(this).attr('href')
+
+                form.attr('action', action)
+                form.attr('method', 'POST')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').text('Nueva Sección')
+                modal.find('.modal-body').html(getHtmlForNewSection(sourceId))
+                modal.find('#md-btn-submit').val("{{ __('Crear Sección') }}")
+                modal.modal('show')
+            })
+
+            function getHtmlForNewSection(source) {
+                return `
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nombre de la sección<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" class="form-control" placeholder="Nombre de la sección" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Autor</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="author" class="form-control" placeholder="Autor, Conductor, Locutor, etc..." />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Descripción</label>
+                        <div class="col-sm-8">
+                            <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="source_id" value="${source}"/>
+                `
+            }
         })
     </script>
 @endsection
