@@ -205,7 +205,7 @@ class SourceController extends Controller
             if($oldSource->id_tipo_fuente == 1){
                 $extrasTV = DB::connection('opemediosold')->table('fuente_tel')->where('id_fuente', $oldSource->id_fuente)->first();
                 $extra = [
-                    'Conductor' => $extrasTV->condutor,
+                    'Conductor' => $extrasTV->conductor,
                     'Canal' => $extrasTV->canal,
                     'Horario' => $extrasTV->horario,
                     'Señal' => rand(1,3),
