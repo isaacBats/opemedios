@@ -68,8 +68,9 @@ class CompanyController extends Controller
     public function show (Request $request, $id) {
 
         $company = Company::find($id);
+        $turns = Turn::all();
 
-        return view('admin.company.show', compact('company'));
+        return view('admin.company.show', compact('company', 'turns'));
     }
 
     public function getOldCompanies () {
@@ -117,5 +118,17 @@ class CompanyController extends Controller
         $user->metas()->save($meta_company);
 
         return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
+    }
+
+    public function update (Request $request, $id) {
+        $inputs = $request->all();
+        $company = Company::find($id);
+
+        $company->name = $inputs['name'];
+        $company->address = $inputs['address'];
+        $company->turn_id = $inputs['turn_id'];
+        $company->save();
+
+        return redirect()->route('company.show', ['id' => $id])->with('status', "¡Exito!. Datos actualizados");
     }
 }

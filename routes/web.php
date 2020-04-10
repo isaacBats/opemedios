@@ -77,6 +77,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
     Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
     Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
+    Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
 
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');

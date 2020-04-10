@@ -70,13 +70,14 @@
         </div>
     </div>
     <div class="col-md-9 col-lg-8 people-list">
-        <div class="people-options clearfix">
+        <div class="people-options clearfix" id="btn-group-list">
             <div class="btn-toolbar pull-left">
                 <a href="{{ route('user.add.company', ['companyId' => $company->id]) }}" class="btn btn-success btn-quirk">{{ __('Agregar usuario') }}</a>
                 <button data-company="{{ $company->id }}" id="btn-add-theme" class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
+                <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
             </div>
         </div>
-        <div class="panel">
+        <div class="panel" id="panel-show-company">
             <div class="panel-heading">
                 <h1 class="panel-title">{{ $company->name }}</h1>
             </div>
@@ -94,6 +95,62 @@
                     </p>
                 @endif
             </div>
+        </div>
+        <div class="panel" id="form-edit-company" style="display: none;">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {{ __("Editar ") }} {{ $company->name }}
+                </h4>
+            </div>
+            <form action="{{ route('company.update', ['id' => $company->id]) }}" method="POST" class="form-horizontal">
+                <div class="panel-body">
+                    @csrf
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nombre de la empresa<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" class="form-control" placeholder="Nombre de la empresa" value="{{ old('name', $company->name) }}" required />
+                        </div>
+                        @error('name')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Direcci&oacute;n<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="address" class="form-control" placeholder="Direcci&oacute;n de la empresa" value="{{ old('address', $company->address) }}" required />
+                        </div>
+                        @error('address')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Giro<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select id="select-turn" name="turn_id" class="form-control">
+                                <option value="">Seleccionan un Giro</option>
+                                @foreach($turns as $turn)
+                                    <option value="{{ $turn->id }}" {{ ($turn->id == $company->turn_id ? 'selected' : '') }} >{{ $turn->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('turn_id')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-11 text-right">
+                            <button type="button" id="btn-cancel-form" class="btn btn-danger btn-quirk">Cancelar</button>
+                            <input type="submit" value="{{ __('Actualizar') }}" class="btn btn-success btn-quirk btn-wide mr5">
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -238,6 +295,30 @@
                     .val('Remover')
 
                 modal.modal('show')
+            })
+
+            // edit company
+            $('#btn-edit-company').on('click', function(event){
+                event.preventDefault()
+                var buttonsGroup = $('#btn-group-list')
+                var panelShow = $('#panel-show-company')
+                var form = $('#form-edit-company')
+
+                buttonsGroup.hide('slow')
+                panelShow.hide('slow')
+                form.show('slow')
+            })
+
+            // cancel Edit company
+            $('#btn-cancel-form').on('click', function(event){
+                event.preventDefault()
+                var buttonsGroup = $('#btn-group-list')
+                var panelShow = $('#panel-show-company')
+                var form = $('#form-edit-company')
+
+                buttonsGroup.show('slow')
+                panelShow.show('slow')
+                form.hide('slow')
             })
         })
     </script>
