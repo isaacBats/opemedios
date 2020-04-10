@@ -186,8 +186,9 @@ class SourceController extends Controller
     public function migrationSources(){
         $oldSources = DB::connection('opemediosold')->table('fuente')->get();
         $count = array();
+        $count['fuentes'] = 0;
+        $count['secciones'] = 0;
         foreach ($oldSources as $oldSource) {
-            // dd($oldSource);
             $source = new Source();
             $source->name = $oldSource->nombre;
             $source->company = $oldSource->empresa;
