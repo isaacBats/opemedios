@@ -83,7 +83,7 @@
             </div>
             <div class="panel-body">
                 <img class="img-responsive" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
-                <p class="text-center"><a href="javascript:void(0)">Cambiar Imagen</a></p>
+                <p class="text-center"><a href="javascript:void(0)" id="btn-change-logo" data-company="{{ $company->id }}" >Cambiar Imagen</a></p>
                 <p class="text-center">{{ "{$company->address} | {$company->turn->name}" }}</p>
                 @if($company->old_company_id)
                     @if($oldCompany = $company->oldCompany())
@@ -319,6 +319,29 @@
                 buttonsGroup.show('slow')
                 panelShow.show('slow')
                 form.hide('slow')
+            })
+
+            // Modal to edit logo
+            $('#btn-change-logo').on('click', function (event){
+                event.preventDefault()
+                var companyId = $(this).data('company')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('action', '{{ route('company.update.logo', ['id' => $company->id]) }}')
+                form.attr('method', 'POST')
+                form.attr('enctype', 'multipart/form-data')
+                form.append($('<input>').attr('type', 'hidden').attr('name', 'source').val(companyId))
+
+                modal.find('.modal-title').text("{{ __('Cambiar Logo') }}")
+                modal.find('#md-btn-submit').val("{{ __('Actualizar Logo') }}")
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label>{{ __('Logo') }}</label>
+                        <input type="file" name="logo" class="form-control">
+                    </div>
+                `)
+                modal.modal('show')
             })
         })
     </script>

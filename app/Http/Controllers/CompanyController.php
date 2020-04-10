@@ -25,6 +25,7 @@ use App\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Validator;
 
@@ -130,5 +131,22 @@ class CompanyController extends Controller
         $company->save();
 
         return redirect()->route('company.show', ['id' => $id])->with('status', "¡Exito!. Datos actualizados");
+    }
+
+    public function updateLogo (Request $request, $id) {
+        $company = Company::find($id);
+        try {
+            if(Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            } 
+            
+            $company->logo = $request->file('logo')->store('company_logos');
+            $company->save();
+            
+        } catch (Exception $e) {
+            return back()->with('status', 'Could not update image: ' . $e->getMessage());
+        }
+
+        return redirect()->route('company.show', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
     }
 }

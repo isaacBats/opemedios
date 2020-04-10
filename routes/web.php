@@ -71,12 +71,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('usuario/borrar/{id}', 'UserController@delete')->name('user.delete');
 
     Route::get('empresas', 'CompanyController@index')->name('companies');
-    Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
-    Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
     Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
-    Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
+    Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
     Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
     Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
+    Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
+    Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
+    Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
     Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
 
     Route::get('fuentes', 'SourceController@index')->name('sources');
