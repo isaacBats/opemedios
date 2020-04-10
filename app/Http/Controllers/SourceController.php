@@ -185,7 +185,7 @@ class SourceController extends Controller
 
     public function migrationSources(){
         $oldSources = DB::connection('opemediosold')->table('fuente')->get();
-        $counts = array();
+        $count = array();
         foreach ($oldSources as $oldSource) {
             // dd($oldSource);
             $source = new Source();
@@ -245,6 +245,6 @@ class SourceController extends Controller
         }
 
         echo 'Numero de fuentes y secciones agregadas';
-        var_dump($counts);
+        var_dump($count);
     }
 }
