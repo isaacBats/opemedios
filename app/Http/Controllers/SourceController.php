@@ -19,6 +19,7 @@
 namespace App\Http\Controllers;
 
 use App\Means;
+use App\Section;
 use App\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
