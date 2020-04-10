@@ -215,7 +215,7 @@ class SourceController extends Controller
             }elseif($oldSource->id_tipo_fuente == 2){
                 $extrasRad = DB::connection('opemediosold')->table('fuente_rad')->where('id_fuente', $oldSource->id_fuente)->first();
                 $extra = [
-                    'Conductor' => $extrasRad->condutor,
+                    'Conductor' => $extrasRad->conductor,
                     'Estación' => $extrasRad->estacion,
                     'Horario' => $extrasRad->horario,
                 ];
