@@ -189,61 +189,65 @@ class SourceController extends Controller
         $count = array();
         $count['fuentes'] = 0;
         $count['secciones'] = 0;
-        foreach ($oldSources as $oldSource) {
-            $source = new Source();
-            $source->name = $oldSource->nombre;
-            $source->company = $oldSource->empresa;
-            $source->comment = $oldSource->comentario;
-            $source->active = $oldSource->activo;
-            $source->means_id = $oldSource->id_tipo_fuente;
-            if($oldSource->id_cobertura == 1)
-                $source->coverage = 'Local';
-            elseif($oldSource->id_cobertura == 2)
-                $source->coverage = 'Nacional';
-            else
-                $source->coverage = 'Internacional';
+        try {
+            foreach ($oldSources as $oldSource) {
+                $source = new Source();
+                $source->name = $oldSource->nombre;
+                $source->company = $oldSource->empresa;
+                $source->comment = $oldSource->comentario;
+                $source->active = $oldSource->activo;
+                $source->means_id = $oldSource->id_tipo_fuente;
+                if($oldSource->id_cobertura == 1)
+                    $source->coverage = 'Local';
+                elseif($oldSource->id_cobertura == 2)
+                    $source->coverage = 'Nacional';
+                else
+                    $source->coverage = 'Internacional';
 
-            $extra = array();
-            if($oldSource->id_tipo_fuente == 1){
-                $extrasTV = DB::connection('opemediosold')->table('fuente_tel')->where('id_fuente', $oldSource->id_fuente)->first();
-                $extra = [
-                    'Conductor' => $extrasTV->conductor,
-                    'Canal' => $extrasTV->canal,
-                    'Horario' => $extrasTV->horario,
-                    'Señal' => rand(1,3),
-                ];
-            }elseif($oldSource->id_tipo_fuente == 2){
-                $extrasRad = DB::connection('opemediosold')->table('fuente_rad')->where('id_fuente', $oldSource->id_fuente)->first();
-                $extra = [
-                    'Conductor' => $extrasRad->conductor,
-                    'Estación' => $extrasRad->estacion,
-                    'Horario' => $extrasRad->horario,
-                ];
-            }elseif($oldSource->id_tipo_fuente == 3){
-                $extrasPer = DB::connection('opemediosold')->table('fuente_per')->where('id_fuente', $oldSource->id_fuente)->first();
-                $extra = ['Tiraje' => $extrasPer->tiraje,];
-            }elseif($oldSource->id_tipo_fuente == 4){
-                $extrasRev = DB::connection('opemediosold')->table('fuente_rev')->where('id_fuente', $oldSource->id_fuente)->first();
-                $extra = ['Tiraje' => $extrasRev->tiraje,];
-            }elseif($oldSource->id_tipo_fuente == 5){
-                $extrasInt = DB::connection('opemediosold')->table('fuente_int')->where('id_fuente', $oldSource->id_fuente)->first();
-                $extra = ['Url' => $extrasInt->url,];
+                $extra = array();
+                if($oldSource->id_tipo_fuente == 1){
+                    $extrasTV = DB::connection('opemediosold')->table('fuente_tel')->where('id_fuente', $oldSource->id_fuente)->first();
+                    $extra = [
+                        'Conductor' => $extrasTV->conductor,
+                        'Canal' => $extrasTV->canal,
+                        'Horario' => $extrasTV->horario,
+                        'Señal' => rand(1,3),
+                    ];
+                }elseif($oldSource->id_tipo_fuente == 2){
+                    $extrasRad = DB::connection('opemediosold')->table('fuente_rad')->where('id_fuente', $oldSource->id_fuente)->first();
+                    $extra = [
+                        'Conductor' => $extrasRad->conductor,
+                        'Estación' => $extrasRad->estacion,
+                        'Horario' => $extrasRad->horario,
+                    ];
+                }elseif($oldSource->id_tipo_fuente == 3){
+                    $extrasPer = DB::connection('opemediosold')->table('fuente_per')->where('id_fuente', $oldSource->id_fuente)->first();
+                    $extra = ['Tiraje' => $extrasPer->tiraje,];
+                }elseif($oldSource->id_tipo_fuente == 4){
+                    $extrasRev = DB::connection('opemediosold')->table('fuente_rev')->where('id_fuente', $oldSource->id_fuente)->first();
+                    $extra = ['Tiraje' => $extrasRev->tiraje,];
+                }elseif($oldSource->id_tipo_fuente == 5){
+                    $extrasInt = DB::connection('opemediosold')->table('fuente_int')->where('id_fuente', $oldSource->id_fuente)->first();
+                    $extra = ['Url' => $extrasInt->url,];
+                }
+
+                $source->extra_fields = serialize($extra);
+                $source->save();
+                $count['fuentes'] ++;
+
+                $oldSections = DB::connection('opemediosold')->table('seccion')->where('id_fuente', $oldSource->id_fuente)->get();
+                foreach ($oldSections as $oldSection) {
+                    $section = new Section();
+                    $section->name = $oldSection->nombre;
+                    $section->description = $oldSection->descripcion;
+                    $section->active = $oldSection->activo;
+                    $section->source_id = $source->id;
+                    $section->save();
+                    $count['secciones']++;
+                }
             }
-
-            $source->extra_fields = serialize($extra);
-            $source->save();
-            $count['fuentes'] ++;
-
-            $oldSections = DB::connection('opemediosold')->table('seccion')->where('id_fuente', $oldSource->id_fuente)->get();
-            foreach ($oldSections as $oldSection) {
-                $section = new Section();
-                $section->name = $oldSection->nombre;
-                $section->description = $oldSection->descripcion;
-                $section->active = $oldSection->activo;
-                $section->source_id = $source->id;
-                $section->save();
-                $count['secciones']++;
-            }
+        } catch (Exception $e) {
+            Log::error("Hay un error con una fuente {$e->getMessage()}");
         }
 
         echo 'Numero de fuentes y secciones agregadas';
