@@ -53,6 +53,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                {{ $sources->links() }}
             </div>
         </div>
     </div>

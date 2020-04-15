@@ -30,7 +30,7 @@ class SourceController extends Controller
 {
     public function index() {
 
-        $sources = Source::all();
+        $sources = Source::paginate(25);
         
         return view('admin.sources.index', compact('sources'));
     }

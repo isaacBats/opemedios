@@ -88,7 +88,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
     Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
     Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
-    Route::get('fuente/migracion', 'SourceController@migrationSources');
+    // Route::get('fuente/migracion', 'SourceController@migrationSources');
 
     Route::post('seccion/nueva', 'SectionController@create')->name('section.create');
     Route::get('seccion/actualizar/{id}', 'SectionController@editForm')->name('section.edit');
