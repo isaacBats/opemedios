@@ -185,7 +185,7 @@ class SourceController extends Controller
     }
 
     public function migrationSources(){
-        $oldSources = DB::connection('opemediosold')->table('fuente')->where('id_fuente', '>', 5430)->get();
+        $oldSources = DB::connection('opemediosold')->table('fuente')->where('id_fuente', '>', 5900)->get();
         $count = array();
         $count['fuentes'] = 0;
         $count['secciones'] = 0;
