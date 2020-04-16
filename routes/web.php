@@ -59,52 +59,59 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
     
-    Route::get('/', 'AdminController@index')->name('panel');
+    // Route::group(['middleware' => ['role:admin|manager']], function() {
 
-    Route::get('usuarios', 'UserController@index')->name('users');
-    Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
-    Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
-    Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
-    Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
-    Route::get('usuario/editar/{id}', 'UserController@edit')->name('user.edit');
-    Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
-    Route::get('usuario/borrar/{id}', 'UserController@delete')->name('user.delete');
+    // });
+    Route::group(['middleware' => ['can:view menu']], function () {
+        Route::get('/', 'AdminController@index')->name('panel');
 
-    Route::get('empresas', 'CompanyController@index')->name('companies');
-    Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
-    Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
-    Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
-    Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
-    Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
-    Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
-    Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
-    Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
+        Route::get('usuarios', 'UserController@index')->name('users');
+        Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
+        Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
+        Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
+        Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
+        Route::get('usuario/editar/{id}', 'UserController@edit')->name('user.edit');
+        Route::post('usuario/editar/{id}', 'UserController@update')->name('edit.user');
+        Route::get('usuario/borrar/{id}', 'UserController@delete')->name('user.delete');
 
-    Route::get('fuentes', 'SourceController@index')->name('sources');
-    Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
-    Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
-    Route::post('fuente/actualizar/{id}', 'SourceController@update')->name('source.update');
-    Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
-    Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
-    Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
-    Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
-    // Route::get('fuente/migracion', 'SourceController@migrationSources');
+        Route::get('empresas', 'CompanyController@index')->name('companies');
+        Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
+        Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
+        Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
+        Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
+        Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
+        Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
+        Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
+        Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
 
-    Route::post('seccion/nueva', 'SectionController@create')->name('section.create');
-    Route::get('seccion/actualizar/{id}', 'SectionController@editForm')->name('section.edit');
-    Route::post('seccion/actualizar/{id}', 'SectionController@update')->name('section.edit');
-    Route::post('seccion/eliminar/{id}', 'SectionController@delete')->name('section.delete');
-    Route::post('seccion/estatus/{id}', 'SectionController@status')->name('section.status');
-    
-    Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
-    Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
-    Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
-    Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
-    
-    Route::post('giro/nuevo', 'TurnController@create')->name('turn.create');
+        Route::get('fuentes', 'SourceController@index')->name('sources');
+        Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
+        Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
+        Route::post('fuente/actualizar/{id}', 'SourceController@update')->name('source.update');
+        Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
+        Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
+        Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
+        Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
+        // Route::get('fuente/migracion', 'SourceController@migrationSources');
 
-    Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
-    Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
-    Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
+        Route::post('seccion/nueva', 'SectionController@create')->name('section.create');
+        Route::get('seccion/actualizar/{id}', 'SectionController@editForm')->name('section.edit');
+        Route::post('seccion/actualizar/{id}', 'SectionController@update')->name('section.edit');
+        Route::post('seccion/eliminar/{id}', 'SectionController@delete')->name('section.delete');
+        Route::post('seccion/estatus/{id}', 'SectionController@status')->name('section.status');
+        
+        Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
+        Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
+        Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
+        Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
+        
+        Route::post('giro/nuevo', 'TurnController@create')->name('turn.create');
+
+        Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
+        Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
+        Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
+    });
+
+    Route::get('noticias', 'NewsController@index')->name('news');
 
 });

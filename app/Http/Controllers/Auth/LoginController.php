@@ -62,6 +62,12 @@ class LoginController extends Controller
             return "{$slug}/dashboard";
         }
 
-        return '/panel';
+        if($user->hasRole('admin') || $user->hasRole('manager')) {
+            $path = '/panel';
+        } elseif($user->hasRole('monitor')) {
+            $path = '/panel/noticias';
+        }
+
+        return $path;
     }
 }

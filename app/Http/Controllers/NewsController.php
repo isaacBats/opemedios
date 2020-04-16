@@ -111,4 +111,9 @@ class NewsController extends Controller
 
         return $metas;
     }
+
+    public function index() {
+
+        return view('admin.news.index');
+    }
 }
