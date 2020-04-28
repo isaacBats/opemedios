@@ -113,5 +113,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     });
 
     Route::get('noticias', 'NewsController@index')->name('news');
+    Route::get('administrador-archivos', 'FileManagerController@index')->name('filemanager');
 
 });
