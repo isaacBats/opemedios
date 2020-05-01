@@ -60,8 +60,10 @@ return [
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
+            'version' => '2006-03-01',
+            'endpoint' => env('AWS_ENDPOINT'),
             'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            // 'url' => env('AWS_URL'),
         ],
 
     ],
