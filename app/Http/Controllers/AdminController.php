@@ -45,8 +45,10 @@ class AdminController extends Controller
         if($request->get('uri') == 'fuentes') {
             $sources = Source::where('name', 'LIKE', "%{$request->get('query')}%")
                 ->orWhere('company', 'LIKE', "%{$request->get('query')}%")
-                ->orWhere('comment', 'LIKE', "%{$request->get('query')}%")->paginate(25);
-            $sources->setPath("/panel/global-search?query={$request->get('query')}&uri={$request->get('uri')}");
+                ->orWhere('comment', 'LIKE', "%{$request->get('query')}%")
+                ->orderBy('id', 'desc')
+                ->paginate(25);
+            $sources->setPath("/panel/fuentes?query={$request->get('query')}&uri={$request->get('uri')}");
 
             return view('admin.sources.table_sources', compact('sources'))->render();
         } elseif($request->get('uri') == 'empresas') {

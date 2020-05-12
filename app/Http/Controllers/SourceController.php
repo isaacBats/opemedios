@@ -28,9 +28,20 @@ use Illuminate\Support\Facades\Validator;
 
 class SourceController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
 
-        $sources = Source::orderBy('id', 'desc')->paginate(25);
+        if($request->has('query') && $request->get('uri') == 'fuentes') {
+            
+            $sources = Source::where('name', 'LIKE', "%{$request->get('query')}%")
+                ->orWhere('company', 'LIKE', "%{$request->get('query')}%")
+                ->orWhere('comment', 'LIKE', "%{$request->get('query')}%")
+                ->orderBy('id', 'desc')
+                ->paginate(25);
+        
+        } else {
+            
+            $sources = Source::orderBy('id', 'desc')->paginate(25);
+        }
         
         return view('admin.sources.index', compact('sources'));
     }
