@@ -54,5 +54,6 @@
 <script src="{{ asset('lib/jquery.gritter/jquery.gritter.js') }}"></script>
 @yield('scripts')
 <script src="{{ asset('js/quirk.js') }}"></script>
+<script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

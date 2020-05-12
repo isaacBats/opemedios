@@ -114,4 +114,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
     Route::get('noticias', 'NewsController@index')->name('news');
 
+    Route::get('global-search', 'AdminController@search')->name('global.search');
+
 });
