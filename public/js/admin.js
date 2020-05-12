@@ -4,7 +4,7 @@ $(document).ready(function (){
     $('#input-search-item').on('keyup', function() {
         var actualUri = window.location 
         var uriSplit = actualUri.toString().split('/')
-        var lastElementUri = uriSplit[uriSplit.length - 1]
+        var lastElementUri = uriSplit[uriSplit.length - 1].split('?').shift()
         var inputValue = $(this).val()
         var token = $('meta[name=csrf-token]').attr('content')
 
