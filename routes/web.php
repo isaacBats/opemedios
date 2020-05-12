@@ -117,4 +117,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
     Route::get('/administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
 
+    Route::get('global-search', 'AdminController@search')->name('global.search');
+
 });
