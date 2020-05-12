@@ -29,6 +29,7 @@ $(document).ready(function (){
                         container.empty()
                         container.append(response)
                     }
+                    //TODO: falta poner aqui un else if para cuando se hagan busquedas desde compañias o noticias o usuarios
                 })
         }
     })
