@@ -37,6 +37,7 @@ class SourceController extends Controller
                 ->orWhere('comment', 'LIKE', "%{$request->get('query')}%")
                 ->orderBy('id', 'desc')
                 ->paginate(25);
+            $sources->setPath("/panel/fuentes?query={$request->get('query')}&uri={$request->get('uri')}");
         
         } else {
             
