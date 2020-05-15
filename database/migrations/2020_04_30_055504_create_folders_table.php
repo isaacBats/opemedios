@@ -35,6 +35,7 @@ class CreateFoldersTable extends Migration
             $table->string('name')->nullable();
             $table->unsignedBigInteger('parent')->nullable();
             $table->string('filesystem', 12)->nullable();
+            $table->string('path')->nullable();
             $table->smallInteger('is_public')->nullable();
             $table->smallInteger('level')->nullable();
 

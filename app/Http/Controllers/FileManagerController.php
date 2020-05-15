@@ -18,6 +18,7 @@
         
 namespace App\Http\Controllers;
 
+use App\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,7 +26,9 @@ class FileManagerController extends Controller
 {
     public function index() {
 
-        return view('admin.fm.index');
+        $folders = Folder::where('level', 1)->get();
+
+        return view('admin.fm.index', compact('folders'));
     }
 
     public function getDirectoriesS3() {

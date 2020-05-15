@@ -22,5 +22,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Folder extends Model
 {
-    protected $fillable = ['name', 'parent', 'filesystem', 'is_public', 'level'];
+    protected $fillable = ['name', 'parent', 'filesystem', 'path', 'is_public', 'level'];
 }

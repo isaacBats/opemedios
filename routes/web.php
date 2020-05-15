@@ -114,8 +114,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
     Route::get('noticias', 'NewsController@index')->name('news');
     Route::get('administrador-archivos', 'FileManagerController@index')->name('filemanager');
-
-    Route::get('/administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
+    Route::get('administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
+    Route::post('administrador-archivos/nueva-carpeta', 'FolderController@create')->name('cfm.create.folder');
 
     Route::get('global-search', 'AdminController@search')->name('global.search');
 

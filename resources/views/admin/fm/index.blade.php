@@ -1,5 +1,14 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @elseif(session('warning'))
+        <div class="alert alert-warning">
+            {{ session('warning') }}
+        </div>
+    @endif
     <div class="row">
         {{-- <div class="panel"> --}}
             {{-- <div class="panel-body"> --}}
@@ -16,7 +25,7 @@
                         </div>
                         <div class="collapse navbar-collapse" id="menu-cloud-opemedios">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Link 1</a></li>
+                                <li><a href="javascript:void(0)" id="btn-create-folder">{{ __('Crear Folder') }}</a></li>
                                 <li><a href="#">Link 2</a></li>
                                 <li><a href="#">Link 3</a></li>
                             </ul>
@@ -29,17 +38,29 @@
                             <div class="col-md-3">
                                 <nav class="nav-sidebar nav-sidebar-custom">
                                     <ul class="nav-custom">
-                                        <li class="active"><i class="fa fa-folder-o"></i> Documentos</li>
+                                        @forelse($folders as $folder)
+                                            <li><i class="fa fa-folder-o"></i> {{ $folder->name }}</li>
+                                        @empty
+                                            <li>{{ __('No hay elementos que mostrar') }}</li>
+                                        @endforelse
+                                        {{-- <li class="active"><i class="fa fa-folder-o"></i> Documentos</li>
                                         <li><i class="fa fa-folder-open-o"></i> Documentos
                                             <ul class="nav-custom">
                                                 <li><i class="fa fa-folder-o"></i> Documents _ 1</li>
                                             </ul>
                                         </li>
-                                        <li><i class="fa fa-folder-o"></i> Documentos</li>
+                                        <li><i class="fa fa-folder-o"></i> Documentos</li> --}}
                                     </ul>
                                 </nav>
                             </div>
                             <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ol class="breadcrumb" id="cfm-breadcrumb">
+                                            <li>{{ __('Cloud') }}</li>
+                                        </ol>
+                                    </div>
+                                </div>
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                   <div class="thmb">
                                     <div class="thmb-prev">
@@ -107,4 +128,46 @@
         }
 
     </style>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            //Create folder function
+            $('#btn-create-folder').on('click', function (event) {
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var lastFolder = $('ol#cfm-breadcrumb > li:last-child')
+                var cfmBreadcrumb = $('ol#cfm-breadcrumb')
+
+                form.attr('method', 'POST')
+                    .attr('action', '{{ route("cfm.create.folder") }}')
+                    .addClass('form-horizontal')
+                    .append($('<input>').attr({
+                        type: 'hidden',
+                        name: 'last-folder',
+                        value: lastFolder.text()
+                    }))
+                    .append($('<input>').attr({
+                        type: 'hidden',
+                        name: 'level',
+                        value: cfmBreadcrumb.children.length
+                    }))
+
+                modal.find('.modal-title').text('Carpeta Nueva')
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nombre de la carepeta</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" class="form-control" placeholder="Carpeta" required />
+                        </div>
+                    </div>
+                `)
+                modal.find('#md-btn-submit').val('Crear')
+                modal.modal('show')
+            })
+        })
+        
+    </script>
 @endsection
