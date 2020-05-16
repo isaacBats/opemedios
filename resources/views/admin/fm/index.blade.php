@@ -32,8 +32,8 @@
                         </div>
                     </div>
                 </nav>
-                <div class="panel">
-                    <div class="panel body">
+                {{-- <div class="panel"> --}}
+                    {{-- <div class="panel body"> --}}
                         <div class="row filemanager">
                             <div class="col-md-3">
                                 <nav class="nav-sidebar nav-sidebar-custom">
@@ -54,50 +54,45 @@
                                 </nav>
                             </div>
                             <div class="col-md-9">
-                                <div class="row">
+                                {{-- <div class="row"> --}}
                                     <div class="col-md-12">
                                         <ol class="breadcrumb" id="cfm-breadcrumb">
                                             <li>{{ __('Cloud') }}</li>
                                         </ol>
                                     </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                  <div class="thmb">
-                                    <div class="thmb-prev">
-                                      {{-- <img src="../images/mp3.png" class="img-responsive" alt="" /> --}}
-                                      <span class="fa fa-folder-o fa-14x"></span>
-                                    </div>
-                                    <h5 class="fm-title"><a href="">Happy.mp3</a></h5>
-                                  </div><!-- thmb -->
-                                </div><!-- col-xs-6 -->
-
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                  <div class="thmb">
-                                    <label class="ckbox">
-                                      <input type="checkbox"><span></span>
-                                    </label>
-                                    <div class="btn-group fm-group">
-                                      <button type="button" class="btn btn-default dropdown-toggle fm-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                      </button>
-                                      <ul class="dropdown-menu pull-right fm-menu" role="menu">
-                                        <li><a href="#"><i class="fa fa-share"></i> Share</a></li>
-                                        <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-                                        <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                      </ul>
-                                    </div><!-- btn-group -->
-                                    <div class="thmb-prev">
-                                      <img src="../images/mp3.png" class="img-responsive" alt="" />
-                                    </div>
-                                    <h5 class="fm-title"><a href="">Happy.mp3</a></h5>
-                                    <small class="text-muted">Added: July 1, 2015</small>
-                                  </div><!-- thmb -->
-                                </div><!-- col-xs-6 -->
+                                {{-- </div> --}}
+                                @forelse($folders as $folder)
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 folder">
+                                        <div class="thmb">
+                                            {{-- <label class="ckbox">
+                                                <input type="checkbox"><span></span>
+                                            </label> --}}
+                                            <div class="btn-group fm-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle fm-toggle" data-toggle="dropdown">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right fm-menu" role="menu">
+                                                    {{-- <li><a href="#"><i class="fa fa-share"></i> Share</a></li> --}}
+                                                    <li><a href="#"><i class="fa fa-pencil"></i> {{ __('Cambiar Nombre') }}</a></li>
+                                                    {{-- <li><a href="#"><i class="fa fa-download"></i> Download</a></li> --}}
+                                                    <li><a href="#"><i class="fa fa-trash-o"></i> {{ __('Eliminar') }}</a></li>
+                                                </ul>
+                                            </div><!-- btn-group -->
+                                            <div class="thmb-prev">
+                                                <a href="javascript:void(0)" data-folder="{{ $folder->name }}" class="img-folder-click"><img src="{{ asset('images/folder.png') }}" class="img-responsive" alt="" /></a>
+                                                {{-- <i class="fa fa-folder-o fa-14x img-responsive"></i> --}}
+                                            </div>
+                                            <h5 class="fm-title"><a href="">{{ $folder->name }}</a></h5>
+                                            {{-- <small class="text-muted">Added: July 1, 2015</small> --}}
+                                        </div><!-- thmb -->
+                                    </div><!-- col-xs-6 -->
+                                @empty
+                                    <p>{{ __('No hay elementos que mostrar') }}</p>
+                                @endforelse
                             </div>
                         </div>
-                    </div>
-                </div>
+                    {{-- </div> --}}
+                {{-- </div> --}}
             {{-- </div> --}}
         {{-- </div> --}}
     </div>
@@ -106,6 +101,10 @@
     <style>
         .fa-14x {
             font-size: 14rem;
+        }
+
+        .folder .filemanager .thmb-prev {
+            /*background-color: none;*/
         }
         .nav-custom {
             list-style: none;
@@ -167,7 +166,91 @@
                 modal.find('#md-btn-submit').val('Crear')
                 modal.modal('show')
             })
+
+            // Click in folder
+            $('.filemanager').on('click', '.img-folder-click', function(event){
+                event.preventDefault()
+                var folderName = $(this).data('folder')
+                alert(`Estas dando click en el folder ${folderName}`)
+            })
         })
         
+    </script>
+    <script>
+        jQuery(document).ready(function(){
+            'use strict';
+
+            jQuery('.thmb').hover(function(){
+                var t = jQuery(this);
+                t.find('.ckbox').show();
+                t.find('.fm-group').show();
+            }, function() {
+                var t = jQuery(this);
+                if(!t.closest('.thmb').hasClass('checked')) {
+                    t.find('.ckbox').hide();
+                    t.find('.fm-group').hide();
+                }
+            });
+
+            jQuery('.ckbox').each(function(){
+                var t = jQuery(this);
+                var parent = t.parent();
+                if(t.find('input').is(':checked')) {
+                    t.show();
+                    parent.find('.fm-group').show();
+                    parent.addClass('checked');
+                }
+            });
+
+
+            jQuery('.ckbox').click(function(){
+                var t = jQuery(this);
+                if(!t.find('input').is(':checked')) {
+                    t.closest('.thmb').removeClass('checked');
+                    enable_itemopt(false);
+                } else {
+                    t.closest('.thmb').addClass('checked');
+                    enable_itemopt(true);
+                }
+            });
+
+            jQuery('#selectall').click(function(){
+                if(jQuery(this).is(':checked')) {
+                    jQuery('.thmb').each(function(){
+                        jQuery(this).find('input').attr('checked',true);
+                        jQuery(this).addClass('checked');
+                        jQuery(this).find('.ckbox, .fm-group').show();
+                    });
+                    enable_itemopt(true);
+                } else {
+                    jQuery('.thmb').each(function(){
+                        jQuery(this).find('input').attr('checked',false);
+                        jQuery(this).removeClass('checked');
+                        jQuery(this).find('.ckbox, .fm-group').hide();
+                    });
+                    enable_itemopt(false);
+                }
+            });
+
+            function enable_itemopt(enable) {
+                if(enable) {
+                    jQuery('.itemopt').removeClass('disabled');
+                } else {
+                    // check all thumbs if no remaining checks
+                    // before we can disabled the options
+                    var ch = false;
+                    jQuery('.thmb').each(function(){
+                        if(jQuery(this).hasClass('checked'))
+                            ch = true;
+                    });
+
+                    if(!ch)
+                        jQuery('.itemopt').addClass('disabled');
+                }
+            }
+
+            // jQuery("a[data-rel^='prettyPhoto']").prettyPhoto();
+        });
+
     </script>
 @endsection
