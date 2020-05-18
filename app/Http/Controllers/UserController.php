@@ -22,6 +22,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Means;
 use App\User;
 use App\UserMeta;
 use Illuminate\Http\Request;
@@ -52,8 +53,10 @@ class UserController extends Controller
     public function showFormNewUser() {
         
         $companies = Company::all();
+
+        $monitors = Means::select('id','name')->get();
         
-        return view('admin.user.create', compact('companies'));
+        return view('admin.user.create', compact('companies', 'monitors'));
     }
 
     public function register (Request $request) {
@@ -91,6 +94,14 @@ class UserController extends Controller
                 $user->metas()->save($meta_old_company);
             }
         }
+
+        if($role->name == 'monitor') {
+            $meta_monitor_type = new UserMeta();
+            $meta_monitor_type->meta_key = 'user_monitor_type';
+            $meta_monitor_type->meta_value = $inputs['monitor_type'];
+            $user->metas()->save($meta_monitor_type);
+        }
+
         if ($request->has('company_route')) {
             return redirect()->route('company.show', ['id' => $company->id])->with('status', 'Usuario agregado satisfactoriamente');
         } else {

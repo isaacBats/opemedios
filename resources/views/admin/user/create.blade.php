@@ -50,12 +50,21 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group" id="select-company" style="display: none;">
+                        <div class="form-group" id="div-select-company" style="display: none;">
                             <label for="company">{{ __('Empresa') }}</label>
                             <select name="company_id" id="company" class="form-control">
                                 <option value="">Selecciona un Empresa</option>
                                 @foreach($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group" id="div-select-monitor-type" style="display: none;">
+                            <label for="select-monitor">{{ __('Tipo de monitor') }}</label>
+                            <select name="monitor_type" id="select-monitor" class="form-control">
+                                <option value="">{{ __('Selecciona que tipo de monitor eres') }}</option>
+                                @foreach($monitors as $monitor)
+                                    <option value="{{ $monitor->id }}">{{ "Monitor de {$monitor->name}" }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -84,13 +93,34 @@
         $(document).ready(function(){
             $('select#rol').change(function(){
                 var option = $(this).val()
-                var company = $('#select-company')
-                if(option == 4) {
+                var role = $('option:selected', this).text()
+                var company = $('#div-select-company')
+                var monitor = $('#div-select-monitor-type')
+
+                if(role =='client') {
+                    hideItems()
                     company.show('fade')
-                } else {
-                    company.hide('fade')
+                }else if(role == 'monitor'){
+                    hideItems()
+                    monitor.show('fade')
+                }else {
+                    hideItems()
                 }
             })
+
+            function hideItems() {
+                var company = $('#div-select-company')
+                var monitor = $('#div-select-monitor-type')
+
+                var selectCompany = company.find('select')
+                var selectMonitor = monitor.find('select')
+
+                selectCompany.prop('selectedIndex', 0)
+                company.hide('fade')
+
+                selectMonitor.prop('selectedIndex', 0)
+                monitor.hide('fade')
+            }
         })
     </script>
 @endsection
