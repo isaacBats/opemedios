@@ -141,7 +141,7 @@
             // const select2 = import 'select2'
             // const select2 = require(' asset('lib/select2/select2.js') }}')
             // select2($)
-            $('#tpBasic').timepicker()
+            // $('#tpBasic').timepicker()
 
             var noteType = $('select#select-mean').val()
             getHTMLSources(noteType)
