@@ -50,4 +50,20 @@ class User extends Authenticatable
     public function metas() {
         return $this->hasMany(UserMeta::class);
     }
+
+    public function getMonitorType() {
+        if($this->isMonitor()) {
+            return  Means::find($this->metas->where('meta_key', 'user_monitor_type')->get()->meta_value)->first();
+        }
+
+        return false;
+    }
+
+    public function isMonitor() {
+        if($this->hasRole('monitor')) {
+            return true;
+        }
+
+        return false;
+    }
 }
