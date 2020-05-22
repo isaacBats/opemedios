@@ -1,5 +1,13 @@
 $(document).ready(function (){
     
+    // add new note
+    $('#link-add-new').on('click', openNewWindow)
+
+    function openNewWindow (event) {
+        event.preventDefault()
+        window.open($(this).attr('href'),'','scrollbars=yes,resizable=yes,width=522,height=660')
+    }
+
     // Search function 
     $('#input-search-item').on('keyup', function() {
         var actualUri = window.location 
