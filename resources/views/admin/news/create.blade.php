@@ -163,7 +163,8 @@
                                     return {
                                         results: data.items
                                     }
-                                }
+                                },
+                                cache: true
                             }
                         })
                     }).fail(function(res){
