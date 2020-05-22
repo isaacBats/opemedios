@@ -276,4 +276,14 @@ class SourceController extends Controller
 
         return view('components.select-form-sources', compact('sources'))->render();
     }
+
+    public function getSourceByAjax (Request $request) {
+
+        return response()->json(['items' => Source::select('id', 'name AS text')->where([
+                ['name', 'like', "%{$request->input('q')}%"],
+                ['means_id', '=', $request->input('mean_id')],
+                ['active', '=', 1],
+            ])->get()->toArray()
+        ]); 
+    }
 }

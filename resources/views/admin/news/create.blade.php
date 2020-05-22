@@ -133,15 +133,8 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            // import '/lib/select2/select2.js';
-            // import select2 from '/lib/select2/select2.js'
-            // import select2 from 'select2'
-            // import 'select2'
-            // window.select2=require('/lib/select2/select2')
-            // const select2 = import 'select2'
-            // const select2 = require(' asset('lib/select2/select2.js') }}')
-            // select2($)
             // $('#tpBasic').timepicker()
+            $('#select-sector').select2()
 
             var noteType = $('select#select-mean').val()
             getHTMLSources(noteType)
@@ -153,7 +146,26 @@
             function getHTMLSources(noteType) {
                 $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
                         var divSelectSources = $('#div-select-sources').html(res)
-                        divSelectSources.find('#select-fuente').select2()
+                        divSelectSources.find('#select-fuente').select2({
+                            minimumInputLength: 3,
+                            ajax: {
+                                type: 'POST',
+                                url: "{{ route('api.getsourceajax') }}",
+                                dataType: 'json',
+                                data: function(params, noteType) {
+                                    return {
+                                        q: params.term,
+                                        mean_id: $('select#select-mean').val(),
+                                        "_token": $('meta[name="csrf-token"]').attr('content')
+                                    } 
+                                },
+                                processResults: function(data) {
+                                    return {
+                                        results: data.items
+                                    }
+                                }
+                            }
+                        })
                     }).fail(function(res){
                         var divSelectSources = $('#div-select-sources').html(`<p>No se pueden obtener las fuentes</p>`)
                         console.error(`Error-Sources: ${res.responseJSON.message}`)
