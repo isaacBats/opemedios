@@ -86,6 +86,7 @@
             </li>
           @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
           <li><a href="index.html"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a></li>
+          <li><a href="{{ route('filemanager') }}"><i class="fa fa-cloud"></i> <span>Archivos</span></a></li>
           {{-- 
             <li class="nav-parent">
               <a href=""><i class="fa fa-check-square"></i> <span>Forms</span></a>

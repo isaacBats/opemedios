@@ -112,16 +112,14 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
     });
 
-
+    Route::get('administrador-archivos', 'FileManagerController@index')->name('filemanager');
+    Route::get('administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
+    Route::post('administrador-archivos/nueva-carpeta', 'FolderController@create')->name('cfm.create.folder');
     Route::get('global-search', 'AdminController@search')->name('global.search');
-
-
-
 
     Route::get('noticias', 'NewsController@index')->name('admin.news');
     Route::get('noticias/nueva', 'NewsController@showForm')->name('admin.new.add');
     Route::post('noticias/nueva', 'NewsController@create')->name('admin.new.add');
-
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/secciones/obtener-secciones', 'SectionController@sendSelectHTMLWithSctionsBySource')->name('api.getsectionshtml');
