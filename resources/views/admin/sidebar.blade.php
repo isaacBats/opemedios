@@ -77,7 +77,13 @@
 
         <h5 class="sidebar-title">Monitoreo</h5>
         <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="index.html"><i class="fa fa-rss"></i> <span>Noticias</span></a></li>
+            <li class="nav-parent">
+                <a href="javascript:void(0)"><i class="fa fa-rss"></i> <span>{{ __('Monitoreo') }}</span></a>
+                <ul class="children">
+                    <li><a href="{{ route('admin.news') }}">{{ __('Noticias') }}</a></li>
+                    <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
+                </ul>
+            </li>
           @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
           <li><a href="index.html"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a></li>
           {{-- 
