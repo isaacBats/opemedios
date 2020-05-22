@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAuthorTypesTable extends Migration
+class CreateSectorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -29,10 +29,13 @@ class CreateAuthorTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('author_types', function (Blueprint $table) {
+        Schema::create('sectors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+
+            $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->smallInteger('active')->nullable();
         });
     }
 
@@ -43,6 +46,6 @@ class CreateAuthorTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('author_types');
+        Schema::dropIfExists('sectors');
     }
 }

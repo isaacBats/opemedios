@@ -9,31 +9,40 @@
   * @copyright 2020
   * @version 1.0.0
   * @package App\
-  * Type: Seeder
+  * Type: Migrate
   * Description: Description
   *
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
         
-use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class DatabaseSeeder extends Seeder
+class CreateGenresTable extends Migration
 {
     /**
-     * Seed the application's database.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
-        // $this->call(UsersTableSeeder::class);
-        $this->call([
-            RolesTableSeeder::class,
-            AuthorTypeSeeder::class,
-            MeansSeeder::class,
-            SectorSeeder::class,
-            GenreSeeder::class,
-        ]);
+        Schema::create('genres', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->string('description')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('genres');
     }
 }
