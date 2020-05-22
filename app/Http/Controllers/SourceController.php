@@ -265,4 +265,15 @@ class SourceController extends Controller
         echo 'Numero de fuentes y secciones agregadas';
         var_dump($count);
     }
+
+    public function sendSelectHTMLWithSourcesByMeanType(Request $request) {
+        
+        $sources = Source::where([
+                ['means_id', '=', $request->input('mean_id')],
+                ['active', '=', 1],
+            ])->orderBy('id', 'desc')
+            ->limit(150)->get();
+
+        return view('components.select-form-sources', compact('sources'))->render();
+    }
 }

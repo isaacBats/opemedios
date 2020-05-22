@@ -20,8 +20,14 @@
 
 namespace App\Http\Controllers;
 
+use App\AuthorType;
+use App\Genre;
+use App\Means;
+use App\Sector;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
 {
@@ -115,5 +121,29 @@ class NewsController extends Controller
     public function index() {
 
         return view('admin.news.index');
+    }
+
+    public function showForm() {
+        $means = Means::all();
+        $user = Auth::user();
+        $defaulNoteType = $user->isMonitor() ? $user->getMonitorType() : Means::where('short_name', 'int')->first();
+        $authors = AuthorType::all();
+        $sectors = Sector::where('active', 1)->get();
+        $genres = Genre::all();
+        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres'));
+    }
+
+    public function create (Request $request) {
+        $validate = Validator::make($request->all(), [
+            'mean_id' => 'required',
+            'title' => 'required',
+            'synthesis' => 'required',
+        ]);
+        if($validate->fails()) {
+            return back()->withErrors($validate)
+                ->withInput();
+        }
+
+        return 'Todo ok';
     }
 }

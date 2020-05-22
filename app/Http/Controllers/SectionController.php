@@ -83,4 +83,14 @@ class SectionController extends Controller
             return response()->json(['error' => "Error al actualizar el estatus de la sección"]);
         }
     }
+
+    public function sendSelectHTMLWithSctionsBySource(Request $request) {
+        $sections = Section::where([
+                ['source_id', '=', $request->input('source_id')],
+                ['active', '=', 1],
+            ])->orderBy('id', 'desc')
+            ->get();
+
+        return view('components.select-form-sections', compact('sections'))->render();
+    }
 }
