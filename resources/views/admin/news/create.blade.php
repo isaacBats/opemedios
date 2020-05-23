@@ -116,10 +116,119 @@
                         </div>
                     </div>    
                 </div>
-                <label>Default Time Picker:</label>
-                <div class="input-group mb15">
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                  <div class="timepicker"><input id="tpBasic" type="text" class="form-control"/></div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-news-date">{{ __('Fecha') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" name="news_date" id="input-news-date">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                @error('news_date')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-page">{{ __('Pagina') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="10" name="page_number" id="input-page" disabled>
+                                <small class="form-text text-muted">{{ __('Escribe solo el número de página') }}</small>    
+                                @error('news_date')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-news-hour">{{ __('Hora') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                                @error('news_hour')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-news-duration">{{ __('Duración') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="hh:mm:ss" name="news_duration" id="input-news-duration" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
+                                @error('news_duration')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="input-url">{{ __('URL') }}:</label>
+                    <div class="col-sm-9">
+                        <input type="url" class="form-control" id="input-url" placeholder="https://www.example.com" name="url" value="{{ old('url') }}" disabled>
+                        @error('url')
+                            <label class="text-danger">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="select-author-type" name="page_type_id" disabled>
+                                    <option value="">{{ __('Tipo de página') }}</option>
+                                    @foreach($ptypes as $ptype)
+                                        <option value="{{ $ptype->id }}" {{ (old('page_type_id') == $ptype->id ? 'selected' : '' ) }} >{{ $ptype->description }}</option>
+                                    @endforeach
+                                </select>
+                                @error('page_type_id')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-page-size">{{ __('Tamaño(%)') }}:</label>
+                            <div class="col-sm-9">
+                                <input type="number" min="0" max="100" step="0.01" class="form-control" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size') }}" disabled>
+                                @error('page_size')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>    
                 </div>
                 <div class="form-group text-right">
                     <button class="btn btn-danger" onclick="window.close()" >{{ __('Cerrar') }}</button>
@@ -133,8 +242,28 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            // $('#tpBasic').timepicker()
+            $('#input-news-hour').timepicker({
+                step: 1, // time in minutes
+                timeFormat: 'H:i:s',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            })
+
+            $('#input-news-duration').timepicker({
+                step: 0.0167, // time in seconds
+                maxTime: '01:59:59',
+                timeFormat: 'H:i:s',
+                scrollbar: true
+            })
+
             $('#select-sector').select2()
+            $('#input-news-date').datepicker({
+                dateFormat: 'dd/mm/yy',
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true
+            })
 
             var noteType = $('select#select-mean').val()
             getHTMLSources(noteType)
@@ -189,5 +318,34 @@
     </script>
 @endsection
 @section('styles')
-    
+    <style>
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
+          font-family: 'FontAwesome';
+          position: absolute;
+          top: 2px;
+        }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-next,
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before {
+          right: 0;
+        }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before {
+          content: '\f054';
+        }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
+          left: 0;
+        }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
+          content: '\f053';
+        }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-next-hover,
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-prev-hover {
+          color: #c0c7d2;
+          cursor: pointer;
+          top: 1px;
+          border: 0;
+          background-color: transparent;
+        }
+    </style>
 @endsection

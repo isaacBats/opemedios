@@ -24,6 +24,7 @@ use App\AuthorType;
 use App\Genre;
 use App\Means;
 use App\Sector;
+use App\TypePage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -130,7 +131,8 @@ class NewsController extends Controller
         $authors = AuthorType::all();
         $sectors = Sector::where('active', 1)->get();
         $genres = Genre::all();
-        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres'));
+        $ptypes = TypePage::all();
+        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes'));
     }
 
     public function create (Request $request) {

@@ -16,25 +16,24 @@
   * file that was distributed with this source code.
   */
         
+use App\TypePage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
-class DatabaseSeeder extends Seeder
+class TypePageSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $this->call([
-            RolesTableSeeder::class,
-            AuthorTypeSeeder::class,
-            MeansSeeder::class,
-            SectorSeeder::class,
-            GenreSeeder::class,
-            TypePageSeeder::class,
+        TypePage::insert([
+            ['description' => 'Portada', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Contraportada', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Par', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Impar', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }
