@@ -23,6 +23,7 @@ namespace App\Http\Controllers;
 use App\AuthorType;
 use App\Genre;
 use App\Means;
+use App\Newsletter;
 use App\Sector;
 use App\TypePage;
 use Illuminate\Http\Request;
@@ -132,7 +133,8 @@ class NewsController extends Controller
         $sectors = Sector::where('active', 1)->get();
         $genres = Genre::all();
         $ptypes = TypePage::all();
-        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes'));
+        $newsletters = Newsletter::where('active', 1)->get();
+        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
     }
 
     public function create (Request $request) {

@@ -181,6 +181,13 @@ class NewsletterController extends Controller
         $metadata = $this->newsController->getMetaNew($new);
 
         return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+    }
 
+    public function sendSelectHTMLWithThemes(Request $request) {
+
+        $themes = Newsletter::find($request->input('newsletter_id'))
+            ->company->themes()->get();
+
+        return view('components.select-themes-newsletters', compact('themes'))->render();
     }
 }

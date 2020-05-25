@@ -6,8 +6,8 @@
                 <h5 class="card-title">{{ __('Nueva noticia') }}</h5>
                 @csrf
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="select-mean">{{ __('Tipo de noticia') }}: <span class="text-danger">*</span></label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="select-mean">{{ __('Tipo de noticia') }}: <span class="text-danger">*</span></label>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
                         <select class="form-control" id="select-mean" name="mean_id">
                             <option value="">{{ __('Tipo de noticia') }}</option>
                             @foreach($means as $mean)
@@ -22,8 +22,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="input-encabezado">{{ __('Encabezado') }}:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="input-encabezado">{{ __('Encabezado') }}: <span class="text-danger">*</span></label>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
                         <input type="text" class="form-control" id="input-encabezado" placeholder="Título de la noticia" name="title" value="{{ old('title') }}">
                         @error('title')
                             <label class="text-danger">
@@ -33,8 +33,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="textarea-sintesis">{{ __('Síntesis') }}:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="textarea-sintesis">{{ __('Síntesis') }}: <span class="text-danger">*</span></label>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
                         <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3" placeholder="Síntesis de la nota">{!! old('synthesis') !!}</textarea>
                         @error('synthesis')
                             <label class="text-danger">
@@ -48,8 +48,8 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="input-author">{{ __('Autor') }}:</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-2 col-md-2 col-lg-2 col-form-label" for="input-author">{{ __('Autor') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-10 col-md-10 col-lg-10">
                                 <input type="text" class="form-control" id="input-author" placeholder="Nombre de autor" name="author" value="{{ old('author') }}">
                                 @error('author')
                                     <label class="text-danger">
@@ -61,8 +61,8 @@
                     </div>    
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="select-author-type">{{ __('Tipo de autor') }}: <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-author-type">{{ __('Tipo de autor') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-md-9 col-lg-10">
                                 <select class="form-control" id="select-author-type" name="author_type_id">
                                     <option value="">{{ __('Tipo de autor') }}</option>
                                     @foreach($authors as $author)
@@ -81,8 +81,8 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="select-sector">{{ __('Sector') }}: <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-sector">{{ __('Sector') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-md-9 col-lg-10">
                                 <select class="form-control" id="select-sector" name="sector_id">
                                     <option value="">{{ __('Selecciona un sector') }}</option>
                                     @foreach($sectors as $sector)
@@ -99,8 +99,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="select-genre">{{ __('Genero') }}: <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-genre">{{ __('Genero') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-md-9 col-lg-10">
                                 <select class="form-control" id="select-genre" name="genre_id">
                                     <option value="">{{ __('Genero') }}</option>
                                     @foreach($genres as $genre)
@@ -187,8 +187,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="input-url">{{ __('URL') }}:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-2 col-md-1 col-lg-1 col-form-label" for="input-url">{{ __('URL') }}: <span class="text-danger">*</span></label>
+                    <div class="col-sm-10 col-md-11 col-lg-11">
                         <input type="url" class="form-control" id="input-url" placeholder="https://www.example.com" name="url" value="{{ old('url') }}" disabled>
                         @error('url')
                             <label class="text-danger">
@@ -200,8 +200,8 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-md-9 col-lg-10">
                                 <select class="form-control" id="select-author-type" name="page_type_id" disabled>
                                     <option value="">{{ __('Tipo de página') }}</option>
                                     @foreach($ptypes as $ptype)
@@ -218,8 +218,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label" for="input-page-size">{{ __('Tamaño(%)') }}:</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="input-page-size">{{ __('Tamaño(%)') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9 col-md-9 col-lg-10">
                                 <input type="number" min="0" max="100" step="0.01" class="form-control" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size') }}" disabled>
                                 @error('page_size')
                                     <label class="text-danger">
@@ -229,6 +229,105 @@
                             </div>
                         </div>
                     </div>    
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-cost">{{ __('Costo Beneficio:') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="105.30" name="cost" id="input-cost">
+                                </div>
+                                @error('cost')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-trend">{{ __('Tendencia') }}: <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="input-trend" name="trend">
+                                    <option value="">{{ __('Tendencia') }}</option>
+                                    <option value="1" {{ (old('trend') == "1" ? 'selected' : '' ) }} >{{ __('Positiva') }}</option>
+                                    <option value="2" {{ (old('trend') == "2" ? 'selected' : '' ) }} >{{ __('Neutral') }}</option>
+                                    <option value="3" {{ (old('trend') == "3" ? 'selected' : '' ) }} >{{ __('Negativa') }}</option>
+                                </select>    
+                                @error('trend')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="input-scope">{{ __('Alcance') }}:</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="scope" id="input-scope">
+                                @error('scope')
+                                    <label class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="textarea-comment">{{ __('Comentarios') }}:</label>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
+                        <textarea name="comments" id="textarea-comment" class="form-control" rows="3" placeholder="Comentarios">{!! old('comments') !!}</textarea>
+                        @error('comments')
+                            <label class="text-danger">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-md-2 col-lg-1">
+                        <label class="form-check-label" for="input-check-newsletter">
+                            {{ __('Incluir a un newsletter') }}
+                        </label>
+                    </div>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="input-check-newsletter" name="in_newsletter">
+                        </div>
+                    </div>
+                </div>
+                <div id="newsletters-items">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-newsletter">{{ __('Newsletter') }}:</label>
+                                <div class="col-sm-9 col-md-9 col-lg-10">
+                                    <select class="form-control" id="select-newsletter" name="newsletter_id">
+                                        <option value="">{{ __('Selecciona un bloque de noticias') }}</option>
+                                        @foreach($newsletters as $newsletter)
+                                            <option value="{{ $newsletter->id }}" {{ (old('newsletter_id') == $newsletter->id ? 'selected' : '' ) }} >{{ $newsletter->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('newsletter_id')
+                                        <label class="text-danger">
+                                            <strong>{{ $message }}</strong>
+                                        </label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <div class="form-group row" id="div-select-nesletter-themes"></div>
+                        </div>    
+                    </div>      
                 </div>
                 <div class="form-group text-right">
                     <button class="btn btn-danger" onclick="window.close()" >{{ __('Cerrar') }}</button>
@@ -242,6 +341,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
+            // settings timepicker
             $('#input-news-hour').timepicker({
                 step: 1, // time in minutes
                 timeFormat: 'H:i:s',
@@ -257,7 +357,10 @@
                 scrollbar: true
             })
 
+            // settings select2
             $('#select-sector').select2()
+
+            // settings datepicker
             $('#input-news-date').datepicker({
                 dateFormat: 'dd/mm/yy',
                 showButtonPanel: true,
@@ -265,6 +368,7 @@
                 changeYear: true
             })
 
+            // Note type
             var noteType = $('select#select-mean').val()
             getHTMLSources(noteType)
 
@@ -302,6 +406,7 @@
                     })
             }
 
+            // Updating sources depending on the type of news
             $('#div-select-sources').on('change', '#select-fuente', function() {
                 var sourceId = $(this).val()
                 $.post('{{ route('api.getsectionshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'source_id': sourceId }, function(res){
@@ -311,6 +416,18 @@
                         var divSelectSections = $('#div-select-sections-sources').html(`<p>No se pueden obtener las seciones de la fuente</p>`)
                         console.error(`Error-Sections: ${res.responseJSON.message}`)
                     }) 
+            })
+
+            // Updating themes for the newsletters
+            $('#select-newsletter').on('change', function () {
+                var newsletterId = $(this).val()
+                $.post("{{ route('api.getnewsletterthemeshtml') }}", { '_token': $('meta[name="csrf-token"]').attr('content'), 'newsletter_id': newsletterId }, function(res){
+                    var divSelectThemes = $('#div-select-nesletter-themes').html(res)
+                    divSelectThemes.find('#select-newsletter-themes').select2()
+                }).fail(function(res){
+                    var divSelectThemes = $('#div-select-nesletter-themes').html(`<p>No se pueden obtener los temas del bloque</p>`)
+                    console.error(`Error-Sections: ${res.responseJSON.message}`)
+                })
             })
 
         })
