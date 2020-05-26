@@ -135,11 +135,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 item-per item-rev" style="display: none;">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label" for="input-page">{{ __('Pagina') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="10" name="page_number" id="input-page" disabled>
+                                <input type="text" class="form-control item-input-clean" placeholder="10" name="page_number" id="input-page" disabled>
                                 <small class="form-text text-muted">{{ __('Escribe solo el número de página') }}</small>    
                                 @error('news_date')
                                     <label class="text-danger">
@@ -149,12 +149,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 item-int item-rad item-tv" style="display: none">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label" for="input-news-hour">{{ __('Hora') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" disabled>
+                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
                                     </div>
@@ -167,12 +167,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 item-rad item-tv" style="display: none;">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label" for="input-news-duration">{{ __('Duración') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="hh:mm:ss" name="news_duration" id="input-news-duration" disabled>
+                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_duration" id="input-news-duration" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
                                     </div>
@@ -186,10 +186,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row item-int" style="display: none;">
                     <label class="col-sm-2 col-md-1 col-lg-1 col-form-label" for="input-url">{{ __('URL') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-11 col-lg-11">
-                        <input type="url" class="form-control" id="input-url" placeholder="https://www.example.com" name="url" value="{{ old('url') }}" disabled>
+                        <input type="url" class="form-control item-input-clean" id="input-url" placeholder="https://www.example.com" name="url" value="{{ old('url') }}" disabled>
                         @error('url')
                             <label class="text-danger">
                                 <strong>{{ $message }}</strong>
@@ -197,12 +197,12 @@
                         @enderror
                     </div>
                 </div>
-                <div class="row">
+                <div class="row item-rev item-per" style="display: none;">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="form-group row">
                             <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9 col-md-9 col-lg-10">
-                                <select class="form-control" id="select-author-type" name="page_type_id" disabled>
+                                <select class="form-control item-select-clean" id="select-author-type" name="page_type_id" disabled>
                                     <option value="">{{ __('Tipo de página') }}</option>
                                     @foreach($ptypes as $ptype)
                                         <option value="{{ $ptype->id }}" {{ (old('page_type_id') == $ptype->id ? 'selected' : '' ) }} >{{ $ptype->description }}</option>
@@ -304,13 +304,13 @@
                         </div>
                     </div>
                 </div>
-                <div id="newsletters-items">
+                <div id="newsletters-items" style="display: none;">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-newsletter">{{ __('Newsletter') }}:</label>
                                 <div class="col-sm-9 col-md-9 col-lg-10">
-                                    <select class="form-control" id="select-newsletter" name="newsletter_id">
+                                    <select class="form-control" id="select-newsletter" name="newsletter_id" disabled>
                                         <option value="">{{ __('Selecciona un bloque de noticias') }}</option>
                                         @foreach($newsletters as $newsletter)
                                             <option value="{{ $newsletter->id }}" {{ (old('newsletter_id') == $newsletter->id ? 'selected' : '' ) }} >{{ $newsletter->name }}</option>
@@ -371,9 +371,12 @@
             // Note type
             var noteType = $('select#select-mean').val()
             getHTMLSources(noteType)
+            getItemsByMean(noteType)
 
             $('#select-mean').on('change', function(event) {
                 getHTMLSources(event.target.value)
+                getItemsByMean(event.target.value)
+                // var mean = $('#select-mean option:selected').text()                
             })
             
             function getHTMLSources(noteType) {
@@ -406,6 +409,84 @@
                     })
             }
 
+            function getItemsByMean(mean) {
+
+                var itemsTV = $('.item-tv')
+                var itemsRad = $('.item-rad')
+                var itemsRev = $('.item-rev')
+                var itemsPer = $('.item-per')
+                var itemsInt = $('.item-int')
+
+                switch(mean) {
+                    case "1":  // Television
+                        hideFields()
+                        cleanFields()
+                        $('.item-tv')
+                            .find('input[name=news_hour], input[name=news_duration]')
+                            .removeAttr('disabled')
+                        itemsTV.show('slow')
+                        break
+                    case "2": // Radio
+                        hideFields()
+                        cleanFields()
+                        $('.item-rad')
+                            .find('input[name=news_hour], input[name=news_duration]')
+                            .removeAttr('disabled')
+                        itemsRad.show('slow')
+                        break
+                    case "3": // Periodico
+                        hideFields()
+                        cleanFields()
+                        $('.item-per')
+                            .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
+                            .removeAttr('disabled')
+                        itemsPer.show('slow')
+                        break
+                    case "4": // Revista
+                        hideFields()
+                        cleanFields()
+                        $('.item-rev')
+                            .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
+                            .removeAttr('disabled')
+                        itemsRev.show('slow')
+                        break
+                    case "5": // Internet
+                        hideFields()
+                        cleanFields()
+                        $('.item-int')
+                            .find('input[name=news_hour], input[name=url]')
+                            .removeAttr('disabled')
+                        itemsInt.show('slow')
+                        break
+                    default:
+                        hideFields()
+                        cleanFields()
+                        // getItemsByMean(mean)
+                        //code here
+                }   
+            }
+
+            function cleanFields() {
+                $('.item-input-clean').val('')
+                    .attr('disabled', true)
+                $('.item-select-clean').prop('selectedIndex','')
+                    .attr('disabled', true)
+            }
+
+            function hideFields(){
+                var itemsTV = $('.item-tv')
+                var itemsRad = $('.item-rad')
+                var itemsRev = $('.item-rev')
+                var itemsPer = $('.item-per')
+                var itemsInt = $('.item-int')
+
+                itemsTV.hide()
+                itemsRad.hide()
+                itemsRev.hide()
+                itemsPer.hide()
+                itemsInt.hide()
+            }
+
             // Updating sources depending on the type of news
             $('#div-select-sources').on('change', '#select-fuente', function() {
                 var sourceId = $(this).val()
@@ -428,6 +509,22 @@
                     var divSelectThemes = $('#div-select-nesletter-themes').html(`<p>No se pueden obtener los temas del bloque</p>`)
                     console.error(`Error-Sections: ${res.responseJSON.message}`)
                 })
+            })
+
+            // Checked for newsletter
+            $('#input-check-newsletter').on('click', function(){
+                var isChecked = $(this).is(':checked')
+                if(isChecked) {
+                    $('select[name=newsletter_id]#select-newsletter').removeAttr('disabled')
+                    $('#newsletters-items').show('slow')
+                } else {
+                    $('#newsletters-items').hide('slow')
+                    $('select[name=newsletter_id]#select-newsletter')
+                        .attr('disabled', true)
+                        .prop('selectedIndex', '')
+                    $('select[name=newsletter_theme_id]#select-newsletter-themes').attr('disabled', true)
+                    $('#div-select-nesletter-themes').html('')
+                }
             })
 
         })
