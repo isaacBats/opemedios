@@ -30,6 +30,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class NewsController extends Controller
 {
@@ -137,13 +138,86 @@ class NewsController extends Controller
         return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
     }
 
-    public function create (Request $request) {
-        $validate = Validator::make($request->all(), [
-            'mean_id' => 'required',
-            'title' => 'required',
-            'synthesis' => 'required',
+    public function validator (array $data) {
+        return Validator::make($data, [
+            'title'             => 'required|string',
+            'synthesis'         => 'required|string',
+            'author'            => 'required|string',
+            'author_type_id'    => 'required|digits_between:1,6',
+            'sector_id'         => 'required|numeric',
+            'genre_id'          => 'required|digits_between:1,11',
+            'source_id'         => 'required|numeric',
+            'section_id'        => 'required|numeric',
+            'mean_id'           => 'required|digits_between:1,5',
+            'news_date'         => 'nullable|date_format:"d-m-Y"',
+            'cost'              => 'required|numeric',
+            'trend'             => 'required|digits_between:1,3',
+            'scope'             => 'required|numeric',
+            'news_hour'         => [
+                                    Rule::requiredIf(function() use ($data){
+                                        $mean = $data['mean_id'];
+                                        if ($mean == 1 || $mean == 2 || $mean == 5) {
+                                            return true;
+                                        } 
+                                        return false;
+                                    }),
+                                    'date_format:"H:i:s"',
+                                ],
+            'news_duration'     => [
+                                    Rule::requiredIf( function() use ($data) {
+                                        $mean = $data['mean_id'];
+                                        if ($mean == 1 || $mean == 2) {
+                                            return true;
+                                        } 
+                                        return false;
+                                    }),
+                                    'date_format:"H:i:s"',
+                                ],
+            'page_number'       => [
+                                    Rule::requiredIf( function() use ($data) {
+                                        $mean = $data['mean_id'];
+                                        if ($mean == 3 || $mean == 4) {
+                                            return true;
+                                        } 
+                                        return false;
+                                    }),
+                                    'numeric',
+                                ],
+            'page_type_id'      => [
+                                    Rule::requiredIf( function() use ($data) {
+                                        $mean = $data['mean_id'];
+                                        if ($mean == 3 || $mean == 4) {
+                                            return true;
+                                        } 
+                                        return false;
+                                    }),
+                                    'digits_between:1,4'
+                                ],
+            'page_size'         => [
+                                    Rule::requiredIf( function() use ($data) {
+                                        $mean = $data['mean_id'];
+                                        if ($mean == 3 || $mean == 4) {
+                                            return true;
+                                        } 
+                                        return false;
+                                    }),
+                                    'digits_between:1,100'
+                                ],
+            'url'               => 'required_if:mean_id,5|url'
+        ], [
+            'required' => 'El campo es requerido',
+            'url.required_if' => 'La URL es requerida',
+            'numeric' => 'El campo debe ser un número',
+            'date_format' => 'El campo debe de tener el siguiente formato :format',
+            'digits_between' => 'Ingresa un número entre :min y :max'
         ]);
+    }
+
+
+    public function create (Request $request) {
+        $validate = $this->validator($request->all());
         if($validate->fails()) {
+            
             return back()->withErrors($validate)
                 ->withInput();
         }

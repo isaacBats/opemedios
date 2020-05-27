@@ -122,7 +122,7 @@
                             <label class="col-sm-3 col-form-label" for="input-news-date">{{ __('Fecha') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" name="news_date" id="input-news-date">
+                                    <input type="text" class="form-control" placeholder="dd-mm-yyyy" name="news_date" id="input-news-date" value="{{ old('news_date') }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
@@ -139,7 +139,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label" for="input-page">{{ __('Pagina') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control item-input-clean" placeholder="10" name="page_number" id="input-page" disabled>
+                                <input type="text" class="form-control item-input-clean" placeholder="10" name="page_number" id="input-page" value="{{ old('page_number') }}" disabled>
                                 <small class="form-text text-muted">{{ __('Escribe solo el número de página') }}</small>    
                                 @error('news_date')
                                     <label class="text-danger">
@@ -154,7 +154,7 @@
                             <label class="col-sm-3 col-form-label" for="input-news-hour">{{ __('Hora') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" disabled>
+                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" value="{{ old('news_hour') }}" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
                                     </div>
@@ -172,7 +172,7 @@
                             <label class="col-sm-3 col-form-label" for="input-news-duration">{{ __('Duración') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_duration" id="input-news-duration" disabled>
+                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_duration" id="input-news-duration" value="{{ old('news_duration') }}" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
                                     </div>
@@ -220,7 +220,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="input-page-size">{{ __('Tamaño(%)') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9 col-md-9 col-lg-10">
-                                <input type="number" min="0" max="100" step="0.01" class="form-control" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size') }}" disabled>
+                                <input type="number" min="0" max="100" step="0.01" class="form-control item-input-clean" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size') }}" disabled>
                                 @error('page_size')
                                     <label class="text-danger">
                                         <strong>{{ $message }}</strong>
@@ -239,7 +239,7 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input type="number" class="form-control" placeholder="105.30" name="cost" id="input-cost">
+                                    <input type="number" class="form-control" step="0.01" placeholder="105.30" name="cost" id="input-cost"  value="{{ old('cost') }}">
                                 </div>
                                 @error('cost')
                                     <label class="text-danger">
@@ -271,7 +271,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label" for="input-scope">{{ __('Alcance') }}:</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" name="scope" id="input-scope">
+                                <input type="number" class="form-control" name="scope" id="input-scope" value="{{ old('scope') }}">
                                 @error('scope')
                                     <label class="text-danger">
                                         <strong>{{ $message }}</strong>
@@ -300,7 +300,7 @@
                     </div>
                     <div class="col-sm-10 col-md-10 col-lg-11">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="input-check-newsletter" name="in_newsletter">
+                            <input class="form-check-input" type="checkbox" id="input-check-newsletter" name="in_newsletter" value="{{ old('in_newsletter') }}">
                         </div>
                     </div>
                 </div>
@@ -329,9 +329,14 @@
                         </div>    
                     </div>      
                 </div>
+                <div class="form-group row justify-content-md-center" style="margin-top: 35px;">
+                    <div class="col col-md-6">
+                        <a href="javascript:void(0)" class="btn btn-success btn-lg btn-block">{{ __('Subir archivos') }}</a>
+                    </div>
+                </div>
                 <div class="form-group text-right">
-                    <button class="btn btn-danger" onclick="window.close()" >{{ __('Cerrar') }}</button>
-                    <input type="submit" class="btn btn-primary" value="{{ __('Crear') }}">
+                    <a class="btn btn-danger btn-lg" href="javascript:window.close();" >{{ __('Cerrar') }}</a>
+                    <input type="submit" class="btn btn-primary btn-lg" value="{{ __('Crear') }}">
                 </div>
             </form>
         </div>
@@ -362,11 +367,17 @@
 
             // settings datepicker
             $('#input-news-date').datepicker({
-                dateFormat: 'dd/mm/yy',
+                dateFormat: 'dd-mm-yy',
                 showButtonPanel: true,
                 changeMonth: true,
                 changeYear: true
             })
+
+            // close window
+            // $('#btn-close-window').on('click', function(event) {
+            //     event.preventDefault()
+            //     window.close()
+            // })
 
             // Note type
             var noteType = $('select#select-mean').val()
