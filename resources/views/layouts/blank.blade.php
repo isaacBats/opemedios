@@ -2,8 +2,9 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Isaac Batista ">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,10 +17,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('lib/jquery-ui/jquery-ui.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/font-awesome.css') }}">
+    <link href="{{ asset('lib/fontawesome/css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/select2/select2.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/timepicker/timepicker.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/dropzone/dropzone.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/bootstrap-4.0.0/css/bootstrap-400.css') }}" rel="stylesheet">
     @yield('styles')
     <style>
         body{
@@ -57,11 +59,13 @@
             @yield('content')
         </main>
     </div>
+    @include('modalb4')
     <script src="{{ asset('lib/jquery/jquery.js') }}"></script>
     <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
-    <script src="{{ asset('lib/bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap-4.0.0/js/bootstrap-400.js') }}"></script>
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script src="{{ asset('lib/timepicker/timepicker.js') }}"></script>
+    <script src="{{ asset('lib/dropzone/dropzone.js') }}"></script>
     @yield('scripts')
 </body>
 </html>

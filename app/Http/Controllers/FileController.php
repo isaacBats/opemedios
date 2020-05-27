@@ -22,5 +22,7 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    //
+    public function uploadFile (Request $reques) {
+      
+    }
 }
