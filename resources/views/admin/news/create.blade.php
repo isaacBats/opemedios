@@ -1,8 +1,13 @@
 @extends('layouts.blank')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.new.add') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.new.add') }}" method="POST" enctype="multipart/form-data" id="form-create-new-news">
                 <h5 class="card-title">{{ __('Nueva noticia') }}</h5>
                 @csrf
                 <div class="form-group row">
@@ -345,7 +350,6 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-
             // settings timepicker
             $('#input-news-hour').timepicker({
                 step: 1, // time in minutes
@@ -540,6 +544,7 @@
 
             $('#btn-add-files').on('click', function(event) {
                 event.preventDefault()
+
                 var modal = $('#modalb4-default')
                 var form = $('#modal-default-form')
 
@@ -547,11 +552,55 @@
                     .attr('method', 'POST')
                     .addClass('dropzone')
                     .attr('action', "{{ route('api.fileupload') }}")
+                
+                form.append(`<div class="fallback">
+                                <input name="files" type="file" multiple />
+                            </div>`)
 
                 modal.find('.modal-title').text("{{ __('Subir imágenes') }}")
-                modal.find('.modal-body').html('').append($('<input>').attr('type', 'file').attr('multiple', true).attr('name', 'files'))
+                // modal.find('.modal-body').html('').append($('<input>').attr('type', 'file').attr('multiple', true).attr('name', 'files'))
+                modal.find('button.btn-secondary').remove()
+                modal.find('#md-btn-submit').remove()
                 modal.modal('show')
             })
+
+            $('#modalb4-default').on('shown.bs.modal', function (e) {
+                Dropzone.options.myAwesomeDropzone = false;
+                Dropzone.autoDiscover = false
+                $('form.dropzone').dropzone({
+                     url: "{{  route('api.fileupload') }}",
+                     paramName: 'files',
+                     maxFilesize: 300, // MG
+                     addRemoveLinks: true,
+                     dictDefaultMessage : '<span class="bigger-150 bolder"><i class=" fa fa-caret-right red"></i> Drop files</span> to upload <span class="smaller-80 grey">(or click)</span> <br /><i class="upload-icon fa fa-cloud-upload blue fa-3x"></i>',
+                     dictResponseError: 'Error while uploading file!',
+                     uploadMultiple: true,
+                     createImageThumbnails: true,
+                     maxThumbnailFilesize: 10,
+                     thumbnailWidth: 120,
+                     thumbnailHeight: 120,
+                     thumbnailMethod: 'crop',
+                     maxFiles: 5,
+                     parallelUploads: 5,
+                     // removefile: function(file) {
+                     //    $.post("{{ route('api.fileremove') }}", { "_token": $('meta[name="csrf-token"]').attr('content'), 'file': file }, 
+                     //        function(res) {
+                     //            // code here
+                     //        }
+                     //    )
+                     // },
+                     // complete: function(file, done) {
+                     //    console.log(done)
+                     // }
+                     successmultiple: function(file, resp) {
+                        var formCreateNews = $('#form-create-new-news')
+                        formCreateNews.append($('<input>').attr('type', 'hidden').attr('name', 'files').attr('value', resp.files))
+                        // console.log(resp)
+                     }
+                })
+
+                $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
+            });
 
         })
 

@@ -19,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
         // setlocale(LC_TIME, 'es_ES');
         setlocale(LC_TIME, 'es_MX.utf8');
         setlocale(LC_MONETARY, 'es_MX.utf8');
+
+        ini_set("memory_limit", "150M");
+        @ini_set("post_max_size", "100M");
+        ini_set("upload_max_filesize", "100M");
+        ini_set("max_execution_time", "350");
+
     }
 
     /**

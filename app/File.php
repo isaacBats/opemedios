@@ -22,5 +22,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    protected $fillable = ['name', 'path_filename', 'public', 'filesystem', 'original_name', 'folder_id', 'type'];
+    protected $fillable = ['name', 'path_filename', 'public', 'filesystem', 'original_name', 'folder_id', 'type', 'news_id', 'main_file', 'file_from_news'];
 }

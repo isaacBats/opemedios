@@ -21,12 +21,15 @@
 namespace App\Http\Controllers;
 
 use App\AuthorType;
+use App\File;
 use App\Genre;
 use App\Means;
+use App\News;
 use App\Newsletter;
 use App\Sector;
 use App\TypePage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -135,6 +138,7 @@ class NewsController extends Controller
         $genres = Genre::all();
         $ptypes = TypePage::all();
         $newsletters = Newsletter::where('active', 1)->get();
+        
         return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
     }
 
@@ -215,13 +219,49 @@ class NewsController extends Controller
 
 
     public function create (Request $request) {
-        $validate = $this->validator($request->all());
+        $data = $request->all();
+        $validate = $this->validator($data);
         if($validate->fails()) {
             
             return back()->withErrors($validate)
                 ->withInput();
         }
+        $mean = Means::find($data['mean_id']);
+        if ($mean->short_name == 'tel' || $mean->short_name == 'rad') {
+            $data['metas_news'] = serialize([
+                'news_hour' => $data['news_hour'], 
+                'news_duration' => $data['news_duration'],
+            ]);
+        } elseif ($mean->short_name == 'per' || $mean->short_name == 'rev') {
+            $data['metas_news'] = serialize([
+                'page_type_id' => $data['page_type_id'], 
+                'page_number' => $data['page_number'], 
+                'page_size' => $data['page_size'],
+            ]);
+        } elseif($mean->short_name == 'int') {
+            $data['metas_news'] = serialize([
+                'news_hour' => $data['news_hour'], 
+                'url' => $data['url'], 
+            ]);
+        }
 
-        return 'Todo ok';
+        $data['news_date'] = Carbon::createFromFormat('d-m-Y', $data['news_date']);
+        $news = News::create($data);
+        $files = explode(',', $data['files']);
+        
+        for ($loop = 0; $loop < sizeof($files); $loop++) {
+            $attachedFile = File::find($files[$loop]);
+            if($loop === 0) {
+                $attachedFile->news_id = $news->id;
+                $attachedFile->main_file = 1;
+                $attachedFile->file_from_news = 1;
+            } else {
+                $attachedFile->news_id = $news->id;
+                $attachedFile->file_from_news = 1;
+            }
+            $attachedFile->save();
+        }
+        
+        return back()->with('status', 'Noticia agregada. Para editar vaya al panel principal');
     }
 }

@@ -126,4 +126,5 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/secciones/obtener-secciones', 'SectionController@sendSelectHTMLWithSctionsBySource')->name('api.getsectionshtml');
     Route::post('api/v2/newsletters/obtener-temas', 'NewsletterController@sendSelectHTMLWithThemes')->name('api.getnewsletterthemeshtml');
     Route::post('api/v2/files/nuevo', 'FileController@uploadFile')->name('api.fileupload');
+    Route::post('api/v2/files/borrar', 'FileController@removeFile')->name('api.fileremove');
 });
