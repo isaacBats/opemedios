@@ -72,6 +72,7 @@ class NewsletterController extends Controller
             $data['banner'] = $request->file('banner')->store('newsletters');
         }
         $data['active'] = 1; // Newsletter active by default
+        $data['status'] = 0; // Newsletter no send today
 
         Newsletter::create($data);
 

@@ -22,31 +22,48 @@ use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class FileController extends Controller
 {
-    public function uploadFile (Request $request) {
-        
-        // validate
-        // max size files: 64MB  -- In dreamhostObjets
+    public function uploadToS3($file) {
 
-        $files = $request->file('files');
         $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
         $date = Carbon::now();
         $path = "{$date->year}/{$date->month}";
+        
+        $fileName = $file->hashName();
+        Storage::disk('s3')->put($path, $file, 'public');
+        $update = new File;
+        $update->name = $fileName;
+        $update->original_name = $file->getClientOriginalName();
+        $update->path_filename = "{$initialPath}/{$path}/{$fileName}";
+        $update->public = 1;
+        $update->filesystem = 'S3';
+        $update->type = $file->getMimeType();
+        $update->save();
+
+        return $update;
+    }
+
+    public function validator ($data) {
+        
+        return Validator::make($data, [
+            'file' => 'file|max:64000',                 // max_file_size in KB: For dreamhost basic is 64MB
+        ], 
+        [
+            'size' => 'El tamaño debe de ser menor a 64MB',
+        ]);
+    }
+
+    public function uploadFile (Request $request) {
+        
+        $files = $request->file('files');
+        
         $arrayFiles = array();
         foreach ($files as $file) {
-            $fileName = $file->hashName();
-            Storage::disk('s3')->put($path, $file, 'public');
-            $update = new File;
-            $update->name = $fileName;
-            $update->original_name = $file->getClientOriginalName();
-            $update->path_filename = "{$initialPath}/{$path}/{$fileName}";
-            $update->public = 1;
-            $update->filesystem = 'S3';
-            $update->type = $file->getMimeType();
-            $update->save();
-
+            $this->validator(array('file' => $file))->validate();
+            $update = $this->uploadToS3($file);
             $arrayFiles[] = $update->id;
         }
 

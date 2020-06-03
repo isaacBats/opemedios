@@ -26,6 +26,7 @@ use App\Genre;
 use App\Means;
 use App\News;
 use App\Newsletter;
+use App\NewsletterThemeNews;
 use App\Sector;
 use App\TypePage;
 use Illuminate\Http\Request;
@@ -220,12 +221,13 @@ class NewsController extends Controller
 
     public function create (Request $request) {
         $data = $request->all();
+        
         $validate = $this->validator($data);
         if($validate->fails()) {
-            
             return back()->withErrors($validate)
                 ->withInput();
         }
+
         $mean = Means::find($data['mean_id']);
         if ($mean->short_name == 'tel' || $mean->short_name == 'rad') {
             $data['metas_news'] = serialize([
@@ -246,21 +248,38 @@ class NewsController extends Controller
         }
 
         $data['news_date'] = Carbon::createFromFormat('d-m-Y', $data['news_date']);
-        $news = News::create($data);
-        $files = explode(',', $data['files']);
         
-        for ($loop = 0; $loop < sizeof($files); $loop++) {
-            $attachedFile = File::find($files[$loop]);
-            if($loop === 0) {
-                $attachedFile->news_id = $news->id;
-                $attachedFile->main_file = 1;
-                $attachedFile->file_from_news = 1;
-            } else {
-                $attachedFile->news_id = $news->id;
-                $attachedFile->file_from_news = 1;
-            }
-            $attachedFile->save();
+        if(array_key_exists('in_newsletter', $data)) {
+            $data['in_newsletter'] = 1;
         }
+        
+        $news = News::create($data);
+        if(isset($data['files'])){
+            $files = explode(',', $data['files']);
+            
+            for ($loop = 0; $loop < sizeof($files); $loop++) {
+                $attachedFile = File::find($files[$loop]);
+                if($loop === 0) {
+                    $attachedFile->news_id = $news->id;
+                    $attachedFile->main_file = 1;
+                    $attachedFile->file_from_news = 1;
+                } else {
+                    $attachedFile->news_id = $news->id;
+                    $attachedFile->file_from_news = 1;
+                }
+                $attachedFile->save();
+            }
+        }
+
+        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
+            // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
+            $newsletter = NewsletterThemeNews::create([
+                'newsletter_id' => $data['newsletter_id'], 
+                'newsletter_theme_id' => $data['newsletter_theme_id'],
+                'news_id' => $news->id,
+            ]);
+        }
+
         
         return back()->with('status', 'Noticia agregada. Para editar vaya al panel principal');
     }

@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Newsletter extends Model
 {
-    protected $fillable = ['name', 'banner', 'active', 'company_id'];
+    protected $fillable = ['name', 'banner', 'active', 'company_id', 'status'];
 
     public function company() {
 
