@@ -262,6 +262,8 @@ class NewsController extends Controller
         if(array_key_exists('in_newsletter', $data)) {
             $data['in_newsletter'] = 1;
         }
+
+        $data['user_id'] = Auth::user()->id;
         
         $news = News::create($data);
         if(isset($data['files'])){
@@ -296,7 +298,8 @@ class NewsController extends Controller
 
     public function show (Request $request, $id) {
         $note = News::findOrFail($id);
-
-        return view('admin.news.show', compact('note'));
+        $main_file = $note->files->where('main_file', 1)->first();
+        // dd($main_file);
+        return view('admin.news.show', compact('note', 'main_file'));
     }
 }

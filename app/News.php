@@ -9,11 +9,12 @@ use App\Means;
 use App\Section;
 use App\Sector;
 use App\Source;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    protected $fillable = ['title', 'synthesis', 'author', 'author_type_id', 'sector_id', 'genre_id', 'source_id', 'section_id', 'mean_id', 'news_date', 'cost', 'trend', 'scope', 'comments', 'in_newsletter', 'metas_news']; 
+    protected $fillable = ['title', 'synthesis', 'author', 'author_type_id', 'sector_id', 'genre_id', 'source_id', 'section_id', 'mean_id', 'news_date', 'cost', 'trend', 'scope', 'comments', 'in_newsletter', 'metas_news', 'user_id']; 
 
     public function source () {
         return $this->belongsTo(Source::class);
@@ -41,5 +42,9 @@ class News extends Model
 
     public function files() {
         return $this->hasMany(File::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

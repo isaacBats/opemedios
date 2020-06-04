@@ -66,4 +66,10 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function news() {
+        if($this->isMonitor()) {
+            return $this->hasMany(News::class);
+        }
+    }
 }
