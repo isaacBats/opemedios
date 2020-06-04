@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function getMonitorType() {
         if($this->isMonitor()) {
-            return  Means::find($this->metas->where('meta_key', 'user_monitor_type')->get()->meta_value)->first();
+            return  Means::find($this->metas->where('meta_key', 'user_monitor_type')->first()->meta_value)->first();
         }
 
         return false;
