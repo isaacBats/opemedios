@@ -125,9 +125,19 @@ class NewsController extends Controller
         return $metas;
     }
 
-    public function index() {
+    public function index(Request $request) {
 
-        return view('admin.news.index');
+        $paginate = 25;
+
+        if($request->has('new_mean')) {
+            $meanId = $request->get('new_mean');
+            $news = News::where('mean_id', $meanId)->orderBy('id', 'DESC')->paginate($paginate);
+            $news->setPath(route('admin.news', ['new_mean' => $meanId]));
+        } else {
+            $news = News::orderBy('id', 'DESC')->paginate($paginate);
+        }
+        
+        return view('admin.news.index', compact('news'));
     }
 
     public function showForm() {
@@ -282,5 +292,11 @@ class NewsController extends Controller
 
         
         return back()->with('status', 'Noticia agregada. Para editar vaya al panel principal');
+    }
+
+    public function show (Request $request, $id) {
+        $note = News::findOrFail($id);
+
+        return view('admin.news.show', compact('note'));
     }
 }
