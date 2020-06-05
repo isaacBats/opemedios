@@ -32,7 +32,7 @@ class MediaController extends Controller
         } elseif(in_array($type, $this->doc_allowed)) {
 
             return "<div class='embed-responsive'>
-                <iframe class='embed-responsive-item' src='{$path}'></iframe>
+                <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
         } elseif(in_array($type, $this->media_allowed_old)) {
@@ -51,22 +51,28 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $this->media_allowed)) {
 
+            // return "<div class='embed-responsive'>
+            //     <video class='embed-responsive-item' controls>
+            //       <source
+            //         src='{$path}'
+            //         type='{$file->tipo}' />
+            //       Your browser doesn't support HTML5 video tag.
+            //     </video>
+            // </div>";
             return "<div class='embed-responsive'>
-                <video class='embed-responsive-item' controls>
-                  <source
-                    src='{$path}'
-                    type='{$file->tipo}' />
-                  Your browser doesn't support HTML5 video tag.
-                </video>
+                <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
         } elseif(in_array($type, $this->audio_allowed)) {
 
+            // return "<div class='embed-responsive'>
+            //     <audio controls='controls'>
+            //       <source src='{$path}' type='{$file->tipo}' />
+            //       Your browser does not support the <code>audio</code> element.
+            //     </audio>
+            // </div>";
             return "<div class='embed-responsive'>
-                <audio controls='controls'>
-                  <source src='{$path}' type='{$file->tipo}' />
-                  Your browser does not support the <code>audio</code> element.
-                </audio>
+                <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
         }
 
