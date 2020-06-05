@@ -9,8 +9,10 @@ use App\Means;
 use App\Section;
 use App\Sector;
 use App\Source;
+use App\TypePage;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class News extends Model
 {
@@ -46,5 +48,55 @@ class News extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function metas() {
+        
+        $fmt = numfmt_create('es_MX', \NumberFormatter::CURRENCY);
+        $fmtn = numfmt_create('es_MX', \NumberFormatter::DECIMAL);
+        $trend = $this->trend == 1 ? 'Positiva' : ($this->trend == 2 ? 'Neutral' : 'Negativa');
+
+        $news_metas = unserialize($this->metas_news);
+
+        $array_metas = [
+            ['label' => 'Encabezado', 'value' => $this->title],
+            ['label' => 'Síntesis', 'value' => $this->synthesis],
+            ['label' => 'Autor', 'value' => $this->author],
+            ['label' => 'Tipo de autor', 'value' => $this->authorType->description],
+            ['label' => 'Fecha', 'value' => Carbon::parse($this->news_date)->formatLocalized('%A %d de %B %Y')],
+            ['label' => 'Sector', 'value' => $this->sector->description],
+            ['label' => 'Genero', 'value' => $this->genre->description],
+            ['label' => 'Fuente', 'value' => $this->source->name],
+            ['label' => 'Sección', 'value' => $this->section->name],
+            ['label' => 'Medio', 'value' => $this->mean->name],
+            ['label' => 'Costo', 'value' => numfmt_format($fmt, $this->cost)],
+            ['label' => 'Alcance', 'value' => numfmt_format($fmtn, $this->scope)],
+            ['label' => 'Tendencia', 'value' => $trend],
+            ['label' => 'Comentarios', 'value' => $this->comments],
+            ['label' => 'Creador', 'value' => $this->user->name],
+        ];
+
+        if($this->mean->short_name == 'tel' || $this->mean->short_name == 'rad') {
+            array_push($array_metas, 
+                ['label' => 'Hora', 'value' => $news_metas['news_hour']],
+                ['label' => 'Duración', 'value' => $news_metas['news_duration']],
+            );
+        } elseif ($this->mean->short_name == 'per' || $this->mean->short_name == 'rev') {
+            
+            $pageType = TypePage::find($news_metas['page_type_id']);
+
+            array_push($array_metas, 
+                ['label' => 'Tipo de página', 'value' => $pageType->description],
+                ['label' => 'Número de página', 'value' => $news_metas['page_number']],
+                ['label' => 'Tamaño de página', 'value' => $news_metas['page_size']],
+            );
+        } elseif ($this->mean->short_name == 'int') {
+            array_push($array_metas, 
+                ['label' => 'URL', 'value' => "<a href='{$news_metas['url']}' target='_blank'>{$news_metas['url']}</a>"],
+                ['label' => 'Hora', 'value' => $news_metas['news_hour']],
+            );
+        }
+        
+        return $array_metas;
     }
 }

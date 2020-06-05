@@ -38,7 +38,12 @@ use Illuminate\Validation\Rule;
 
 class NewsController extends Controller
 {
-    
+    protected $mediaController;
+
+    public function __construct(MediaController $mediaController) {
+        $this->mediaController = $mediaController;
+    }
+
     private function getMinName($id) {
         $dim = [
             1 => 'tel',
@@ -89,6 +94,9 @@ class NewsController extends Controller
         $min = $this->getMinName($new->medio_id);
         $tableNewName = 'noticia_' . $min;
         $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia)->first();
+        
+        $fmt = numfmt_create('es_MX', \NumberFormatter::CURRENCY);
+
         $metas = [
             'Autor' => $new->autor,
             'Alcance' => number_format($new->alcanse),
@@ -98,7 +106,7 @@ class NewsController extends Controller
             'Tipo Autor' => $new->tipo_autor,
             'Genero' => $new->genero,
             'Tendencia' => $new->tendencia, 
-            'Costo' => money_format('%.2n', $newComplement->costo),
+            'Costo' => numfmt_format($fmt, $newComplement->costo),
         ];
 
         if($min == 'per' || $min == 'rev') {
@@ -299,7 +307,8 @@ class NewsController extends Controller
     public function show (Request $request, $id) {
         $note = News::findOrFail($id);
         $main_file = $note->files->where('main_file', 1)->first();
-        // dd($main_file);
-        return view('admin.news.show', compact('note', 'main_file'));
+        $fileTemplate = is_null($main_file) ? 'Esta nota aun no contiene archivos ajuntos' : $this->mediaController->template($main_file);
+
+        return view('admin.news.show', compact('note', 'main_file', 'fileTemplate'));
     }
 }

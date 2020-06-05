@@ -107,10 +107,9 @@ class ClientController extends Controller
                 ->get()->map(function ($adj) use ($new) { 
                     
                     $medio = strtolower($new->medio);
-                    
-                    if($medio == 'peri&oacute;dico') {
+                    if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
                         $medio = 'periodico';
-                    } elseif ($medio == 'Televisi&oacute;n') {
+                    } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
                         $medio = 'television';
                     }
                     

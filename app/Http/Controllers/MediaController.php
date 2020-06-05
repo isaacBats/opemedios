@@ -2,32 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
+    protected $image_allowed = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg'];
+    
+    protected $doc_allowed = ['csv', 'pdf', 'asf'];
+    
+    protected $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4'];
+    
+    protected $media_allowed = ['webm', 'mp4', 'ogv', 'ogg'];
+    
+    protected $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav'];
+
+
     public function getHTMLForMedia ($file, $path) {
-        $img_allowed = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg'];
-        $doc_allowed = ['csv', 'pdf'];
-        $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4'];
-        $media_allowed = ['webm', 'mp4', 'ogv', 'ogg'];
-        $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav'];
+        
         $aux = explode('/', $file->tipo);
         $type = end($aux);
         
         $html = "El sistema no soporta elementos de tipo <strong>{$type}</strong>";
         
-        if(in_array($type, $img_allowed)) {
+        if(in_array($type, $this->image_allowed)) {
 
             return "<img class='media img-responsive' style='width: 100%' src='{$path}' alt='Opemedios - {$file->nombre}' />";
 
-        } elseif(in_array($type, $doc_allowed)) {
+        } elseif(in_array($type, $this->doc_allowed)) {
 
             return "<div class='embed-responsive'>
                 <iframe class='embed-responsive-item' src='{$path}'></iframe>
             </div>";
 
-        } elseif(in_array($type, $media_allowed_old)) {
+        } elseif(in_array($type, $this->media_allowed_old)) {
 
             return "<div class='embed-responsive'>
                 <object class='embed-responsive-item' data='{$path}' type='{$file->tipo}'>
@@ -41,10 +49,10 @@ class MediaController extends Controller
                 </object>
             </div>";
 
-        } elseif(in_array($type, $media_allowed)) {
+        } elseif(in_array($type, $this->media_allowed)) {
 
             return "<div class='embed-responsive'>
-                <video class='embed-responsive-item' controls
+                <video class='embed-responsive-item' controls>
                   <source
                     src='{$path}'
                     type='{$file->tipo}' />
@@ -52,7 +60,7 @@ class MediaController extends Controller
                 </video>
             </div>";
 
-        } elseif(in_array($type, $audio_allowed)) {
+        } elseif(in_array($type, $this->audio_allowed)) {
 
             return "<div class='embed-responsive'>
                 <audio controls='controls'>
@@ -63,5 +71,18 @@ class MediaController extends Controller
         }
 
         return "<a href='{$path}' download='{$file->nombre}'>Descargar Archivo</a>";
+    }
+
+    public function template(File $file) {
+
+        $template = 'components.media-audio';
+        if(in_array($file->extension(), $this->image_allowed)) {
+            return view('components.media-image', compact('file'))->render();
+        } 
+        // elseif(in_array($file->extension(), $this->doc_allowed)) {
+        //     return view('components.media-document', compact('file'))->render();
+        // }
+
+        return view($template, compact('file'))->render();
     }
 }
