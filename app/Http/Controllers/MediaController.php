@@ -31,13 +31,13 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $this->doc_allowed)) {
 
-            return "<div class='embed-responsive'>
+            return "<div class='embed-responsive embed-responsive-16by9'>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
         } elseif(in_array($type, $this->media_allowed_old)) {
 
-            return "<div class='embed-responsive'>
+            return "<div class='embed-responsive embed-responsive-16by9'>
                 <object class='embed-responsive-item' data='{$path}' type='{$file->tipo}'>
                        <param name='src' value='{$path}'>
                        <param name='autostart' value='0'>
@@ -51,7 +51,7 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $this->media_allowed)) {
 
-            // return "<div class='embed-responsive'>
+            // return "<div class='embed-responsive embed-responsive-16by9'>
             //     <video class='embed-responsive-item' controls>
             //       <source
             //         src='{$path}'
@@ -59,19 +59,19 @@ class MediaController extends Controller
             //       Your browser doesn't support HTML5 video tag.
             //     </video>
             // </div>";
-            return "<div class='embed-responsive'>
+            return "<div class='embed-responsive embed-responsive-16by9'>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
         } elseif(in_array($type, $this->audio_allowed)) {
 
-            // return "<div class='embed-responsive'>
+            // return "<div class='embed-responsive embed-responsive-16by9'>
             //     <audio controls='controls'>
             //       <source src='{$path}' type='{$file->tipo}' />
             //       Your browser does not support the <code>audio</code> element.
             //     </audio>
             // </div>";
-            return "<div class='embed-responsive'>
+            return "<div class='embed-responsive embed-responsive-16by9'>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
         }
