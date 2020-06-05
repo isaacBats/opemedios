@@ -77,9 +77,9 @@ class News extends Model
         ];
 
         if($this->mean->short_name == 'tel' || $this->mean->short_name == 'rad') {
-            array_push($array_metas, 
+            array_push($array_metas,
                 ['label' => 'Hora', 'value' => $news_metas['news_hour']],
-                ['label' => 'Duración', 'value' => $news_metas['news_duration']],
+                ['label' => 'Duración', 'value' => $news_metas['news_duration']]
             );
         } elseif ($this->mean->short_name == 'per' || $this->mean->short_name == 'rev') {
             
@@ -88,12 +88,12 @@ class News extends Model
             array_push($array_metas, 
                 ['label' => 'Tipo de página', 'value' => $pageType->description],
                 ['label' => 'Número de página', 'value' => $news_metas['page_number']],
-                ['label' => 'Tamaño de página', 'value' => $news_metas['page_size']],
+                ['label' => 'Tamaño de página', 'value' => $news_metas['page_size']]
             );
         } elseif ($this->mean->short_name == 'int') {
             array_push($array_metas, 
                 ['label' => 'URL', 'value' => "<a href='{$news_metas['url']}' target='_blank'>{$news_metas['url']}</a>"],
-                ['label' => 'Hora', 'value' => $news_metas['news_hour']],
+                ['label' => 'Hora', 'value' => $news_metas['news_hour']]
             );
         }
         
