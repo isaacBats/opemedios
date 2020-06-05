@@ -27,6 +27,8 @@ use App\User;
 use App\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -59,11 +61,39 @@ class UserController extends Controller
         return view('admin.user.create', compact('companies', 'monitors'));
     }
 
+    public function validator($data) {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'rol' => 'required|integer',
+            'user_position' => 'required|string|max:200',
+            'monitor_type' => [
+                            Rule::requiredIf(function() use ($data){
+                                $rol = $data['rol'];
+                                if ($rol == 3) {
+                                    return true;
+                                } 
+                                return false;
+                            }),
+                              ],
+            'company_id' => [
+                            Rule::requiredIf(function() use ($data){
+                                $rol = $data['rol'];
+                                if ($rol == 4) {
+                                    return true;
+                                } 
+                                return false;
+                            }),
+                            ],
+        ]);
+    }
+
     public function register (Request $request) {
 
         $inputs = $request->all();
 
-        $this->registerController->validator($inputs)->validate();
+        $this->validator($inputs)->validate();
 
         $user = $this->registerController->create($inputs);
 

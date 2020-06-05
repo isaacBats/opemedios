@@ -12,7 +12,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">{{ __('Nombre') }}</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
                             @error('name')
                                 <label class="error" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email">{{ __('Correo') }}</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
                             @error('email')
                                 <label class="error" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -43,34 +43,39 @@
                         </div>
                         <div class="form-group">
                             <label for="rol">{{ __('Rol') }}</label>
-                            <select name="rol" id="rol" class="form-control">
+                            <select name="rol" id="rol" class="form-control" required >
                                 <option value="">Selecciona un rol</option>
                                 @foreach(Spatie\Permission\Models\Role::all() as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                 @endforeach
                             </select>
+                            @error('rol')
+                                <label class="error" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </label>
+                            @enderror
                         </div>
                         <div class="form-group" id="div-select-company" style="display: none;">
                             <label for="company">{{ __('Empresa') }}</label>
-                            <select name="company_id" id="company" class="form-control">
+                            <select name="company_id" id="company" class="form-control" disabled >
                                 <option value="">Selecciona un Empresa</option>
                                 @foreach($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group" id="div-select-monitor-type" style="display: none;">
                             <label for="select-monitor">{{ __('Tipo de monitor') }}</label>
-                            <select name="monitor_type" id="select-monitor" class="form-control">
+                            <select name="monitor_type" id="select-monitor" class="form-control" disabled >
                                 <option value="">{{ __('Selecciona que tipo de monitor eres') }}</option>
                                 @foreach($monitors as $monitor)
-                                    <option value="{{ $monitor->id }}">{{ "Monitor de {$monitor->name}" }}</option>
+                                    <option value="{{ $monitor->id }}" {{ old('monitor_type') == $monitor->id ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="ocupation">{{ __('Puesto') }}</label>
-                            <input type="text" class="form-control" id="ocupation" name="user_position">
+                            <input type="text" class="form-control" id="ocupation" name="user_position" value="{{ old('user_position') }}" required>
                             @error('user_position')
                                 <label class="error" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -99,9 +104,13 @@
 
                 if(role =='client') {
                     hideItems()
+                    company.find('select#company').removeAttr('disabled')
+                    company.find('select#company').attr('required', true)
                     company.show('fade')
                 }else if(role == 'monitor'){
                     hideItems()
+                    monitor.find('select#select-monitor').removeAttr('disabled')
+                    monitor.find('select#select-monitor').attr('required', true)
                     monitor.show('fade')
                 }else {
                     hideItems()
@@ -116,9 +125,13 @@
                 var selectMonitor = monitor.find('select')
 
                 selectCompany.prop('selectedIndex', 0)
+                selectCompany.attr('disabled', true)
+                selectCompany.removeAttr('required')
                 company.hide('fade')
 
                 selectMonitor.prop('selectedIndex', 0)
+                selectMonitor.attr('disabled', true)
+                selectMonitor.removeAttr('required')
                 monitor.hide('fade')
             }
         })
