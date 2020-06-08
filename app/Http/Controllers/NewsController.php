@@ -311,4 +311,42 @@ class NewsController extends Controller
 
         return view('admin.news.show', compact('note', 'main_file', 'fileTemplate'));
     }
+
+    public function edit (Request $request, $id) {
+        $note = News::findOrFail($id);
+        $authors = AuthorType::all();
+        $sectors = Sector::where('active', 1)->get();
+        $genres = Genre::all();
+        $ptypes = TypePage::all();
+
+        return view('admin.news.edit', compact('note', 'authors', 'sectors', 'genres', 'ptypes'));
+    }
+
+    public function update (Request $request, $id) {
+        $note = News::findOrFail($id);
+        $data = $request->all();
+        
+        if ($note->mean->short_name == 'tel' || $note->mean->short_name == 'rad') {
+            $data['metas_news'] = serialize([
+                'news_hour' => $data['news_hour'], 
+                'news_duration' => $data['news_duration'],
+            ]);
+        } elseif ($note->mean->short_name == 'per' || $note->mean->short_name == 'rev') {
+            $data['metas_news'] = serialize([
+                'page_type_id' => $data['page_type_id'], 
+                'page_number' => $data['page_number'], 
+                'page_size' => $data['page_size'],
+            ]);
+        } elseif($note->mean->short_name == 'int') {
+            $data['metas_news'] = serialize([
+                'news_hour' => $data['news_hour'], 
+                'url' => $data['url'], 
+            ]);
+        }
+        $data['news_date'] = Carbon::createFromFormat('d-m-Y', $data['news_date']);
+        
+        $note->update($data);
+
+        return redirect()->route('admin.new.show', ['id' => $note->id])->with('status', '¡Noticia actualizada satisfactoriamente!');
+    }
 }

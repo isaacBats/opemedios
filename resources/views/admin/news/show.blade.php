@@ -1,6 +1,36 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="col-sm-12 col-md-12">
+        <div class="well well-asset-options clearfix">
+            <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                {{-- <div class="btn-group" role="group"> --}}
+                    {{-- <button type="button" class="btn btn-default"><i class="fa fa-share"></i> {{ __('Compartir') }}</button> --}}
+                    {{-- <button type="button" class="btn btn-default"><i class="fa fa-download"></i> Download</button> --}}
+                {{-- </div> --}}
+                <div class="btn-group" role="group">
+                    <a href="{{ route('admin.new.edit', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i> {{ __('Editar') }}</a>
+                    <button type="button" class="btn btn-default"><i class="fa fa-file"></i> {{ __('Adjuntos') }}</button>
+                    <button type="button" class="btn btn-default"><i class="fa fa-folder-open"></i> {{ __('Incluir a Newsletter') }}</button>
+                    <button type="button" class="btn btn-default"><i class="fa fa-envelope"></i> {{ __('Enviar') }}</button>
+              </div>
+            </div><!-- btn-toolbar -->
+
+            {{-- Esta parte es para tener botones del lado derecho --}}
+            <div class="btn-group pull-right" data-toggle="buttons">
+                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> {{ __('Eliminar') }}</button>
+                {{-- <label class="btn btn-default-active active">
+                    <input type="checkbox" checked> All
+                </label>
+                <label class="btn btn-default-active">
+                    <input type="checkbox"> Images
+                </label> --}}
+            </div>
+        </div>
         <div class="jumbotron">
             <div class="container">
                 <h1>{{ $note->title }}</h1>
