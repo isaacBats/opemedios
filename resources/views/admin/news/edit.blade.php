@@ -226,7 +226,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
                                 <div class="col-sm-9 col-md-9 col-lg-10">
-                                    <select class="form-control item-select-clean" id="select-author-type" name="page_type_id" disabled>
+                                    <select class="form-control item-select-clean" id="select-author-type" name="page_type_id">
                                         <option value="">{{ __('Tipo de página') }}</option>
                                         @foreach($ptypes as $ptype)
                                             <option value="{{ $ptype->id }}" {{ (old('page_type_id', unserialize($note->metas_news)['page_type_id']) == $ptype->id ? 'selected' : '' ) }} >{{ $ptype->description }}</option>
@@ -244,7 +244,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="input-page-size">{{ __('Tamaño(%)') }}: <span class="text-danger">*</span></label>
                                 <div class="col-sm-9 col-md-9 col-lg-10">
-                                    <input type="number" min="0" max="100" step="0.01" class="form-control item-input-clean" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size', unserialize($note->metas_news)['page_zise']) }}" disabled>
+                                    <input type="number" min="0" max="100" step="0.01" class="form-control item-input-clean" id="input-page-size" placeholder="20" name="page_size" value="{{ old('page_size', unserialize($note->metas_news)['page_size']) }}" >
                                     @error('page_size')
                                         <label class="text-danger">
                                             <strong>{{ $message }}</strong>
