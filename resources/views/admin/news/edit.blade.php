@@ -221,7 +221,7 @@
                     </div>
                 @endif
                 @if($note->mean->short_name == 'per')
-                    <div class="row item-rev item-per">
+                    <div class="row item-rev item-per item-note">
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-md-3 col-lg-2 col-form-label" for="select-page-type">{{ __('Tipo') }}: <span class="text-danger">*</span></label>
