@@ -68,7 +68,7 @@ class News extends Model
             ['label' => 'Autor', 'value' => $this->author],
             ['label' => 'Tipo de autor', 'value' => $this->authorType->description],
             ['label' => 'Fecha', 'value' => Carbon::parse($this->news_date)->formatLocalized('%A %d de %B %Y')],
-            ['label' => 'Sector', 'value' => $this->sector->description],
+            ['label' => 'Sector', 'value' => $this->sector->name],
             ['label' => 'Genero', 'value' => $this->genre->description],
             ['label' => 'Fuente', 'value' => $this->source->name],
             ['label' => 'Sección', 'value' => $this->section->name],
