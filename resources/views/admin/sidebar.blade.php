@@ -82,6 +82,7 @@
                 <ul class="children">
                     <li><a href="{{ route('admin.news') }}">{{ __('Noticias') }}</a></li>
                     <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
+                    <li><a href="{{ route('admin.sectors') }}">{{ __('Sectores') }}</a></li>
                 </ul>
             </li>
           @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan

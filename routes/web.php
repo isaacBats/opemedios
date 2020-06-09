@@ -110,6 +110,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
         Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
         Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
+
+        Route::get('sectores', 'SectorController@index')->name('admin.sectors');
+        Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
+        Route::post('sector/nuevo', 'SectorController@store')->name('admin.sector.store');
+        Route::get('sector/editar/{id}', 'SectorController@edit')->name('admin.sector.edit');
+        Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
+        Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
     });
 
     Route::get('administrador-archivos', 'FileManagerController@index')->name('filemanager');
