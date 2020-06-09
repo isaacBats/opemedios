@@ -72,6 +72,7 @@
               <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
               <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
               <li><a href="{{ route('companies') }}"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
+              <li><a href="{{ route('admin.sectors') }}"><i class="fa fa-archive"></i><span>{{ __('Sectores') }}</span></a></li>
             </ul>
         @endcan
 
@@ -82,7 +83,6 @@
                 <ul class="children">
                     <li><a href="{{ route('admin.news') }}">{{ __('Noticias') }}</a></li>
                     <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
-                    <li><a href="{{ route('admin.sectors') }}">{{ __('Sectores') }}</a></li>
                 </ul>
             </li>
           @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
