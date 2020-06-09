@@ -140,7 +140,7 @@ class CompanyController extends Controller
                 Storage::delete($company->logo);
             } 
             
-            $company->logo = $request->file('logo')->store('company_logos');
+            $company->logo = $request->file('logo')->store('company_logos', 'local');
             $company->save();
             
         } catch (Exception $e) {
