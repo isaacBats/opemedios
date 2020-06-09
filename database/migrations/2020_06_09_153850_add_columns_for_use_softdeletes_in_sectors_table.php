@@ -9,28 +9,40 @@
   * @copyright 2020
   * @version 1.0.0
   * @package App\
-  * Type: Model
+  * Type: Migrate
   * Description: Description
   *
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
         
-namespace App;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-class Sector extends Model
+class AddColumnsForUseSoftdeletesInSectorsTable extends Migration
 {
-    use SoftDeletes;
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('sectors', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+    }
 
     /**
-     * The attributes that are mass assignable.
+     * Reverse the migrations.
      *
-     * @var array
+     * @return void
      */
-    protected $fillable = [
-        'name', 'description', 'active'
-    ];
+    public function down()
+    {
+        Schema::table('sectors', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+    }
 }
