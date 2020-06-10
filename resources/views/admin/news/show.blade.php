@@ -14,7 +14,7 @@
                 {{-- </div> --}}
                 <div class="btn-group" role="group">
                     <a href="{{ route('admin.new.edit', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i> {{ __('Editar') }}</a>
-                    <button type="button" class="btn btn-default"><i class="fa fa-file"></i> {{ __('Adjuntos') }}</button>
+                    <a href="{{ route('admin.new.adjunto.show', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-file"></i> {{ __('Adjuntos') }}</a>
                     <button type="button" class="btn btn-default"><i class="fa fa-folder-open"></i> {{ __('Incluir a Newsletter') }}</button>
                     <button type="button" class="btn btn-default"><i class="fa fa-envelope"></i> {{ __('Enviar') }}</button>
               </div>

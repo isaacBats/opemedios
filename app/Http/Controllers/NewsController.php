@@ -23,6 +23,7 @@ namespace App\Http\Controllers;
 use App\AuthorType;
 use App\File;
 use App\Genre;
+use App\Http\Controllers\FileController;
 use App\Means;
 use App\News;
 use App\Newsletter;
@@ -39,9 +40,11 @@ use Illuminate\Validation\Rule;
 class NewsController extends Controller
 {
     protected $mediaController;
+    protected $fileController;
 
-    public function __construct(MediaController $mediaController) {
+    public function __construct(MediaController $mediaController, FileController $fileController) {
         $this->mediaController = $mediaController;
+        $this->fileController = $fileController;
     }
 
     private function getMinName($id) {
@@ -348,5 +351,31 @@ class NewsController extends Controller
         $note->update($data);
 
         return redirect()->route('admin.new.show', ['id' => $note->id])->with('status', '¡Noticia actualizada satisfactoriamente!');
+    }
+
+    public function adjuntos (Request $request, $id) {
+
+        $note = News::findOrFail($id);
+        $main_file = $note->files->where('main_file', 1)->first();
+        $fileTemplate = is_null($main_file) ? '<p>Esta nota aun no contiene archivos ajuntos</p>' : $this->mediaController->template($main_file);
+        $_mediaController = $this->mediaController;
+
+        return view('admin.news.adjuntos', compact('note', 'main_file', 'fileTemplate', '_mediaController'));
+    }
+
+    public function adjuntosUpload(Request $request, $id) {
+        $note = News::findOrFail($id);
+        $files = json_decode($this->fileController->uploadFile($request)->getContent());
+        $response_files = array();
+        foreach ($files->files as $fileId) {
+            $attachedFile = File::find($fileId);
+            $attachedFile->news_id = $note->id;
+            $attachedFile->file_from_news = 1;
+            $response_files[] = ['file' => $attachedFile->pluck('original_name', 'path_filename', 'main_file')];
+            $attachedFile->save();
+        }
+
+        return response()->json(['files' => $response_files, 'status' => 'ok']);
+
     }
 }
