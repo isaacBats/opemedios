@@ -389,8 +389,9 @@ class NewsController extends Controller
     }
 
     public function removeFile(Request $request) {
-        $file = File::findOrFail($request->query('file'));
-        $newsID = $request->query('news');
+        
+        $file = File::findOrFail($request->input('file'));
+        $newsID = $request->input('news');
         $fileName = $file->original_name; 
         if($this->fileController->removeTrashS3($file)) {
             $file->delete();
@@ -399,7 +400,5 @@ class NewsController extends Controller
         }
         
         return redirect()->route('admin.new.show', ['id' => $newsID])->with('danger', "Algo malo paso !!!");
-
-
     }
 }

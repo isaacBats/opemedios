@@ -133,7 +133,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/ver/adjuntos/{id}', 'NewsController@adjuntos')->name('admin.new.adjunto.show');
     Route::post('noticias/ver/adjuntos/subir/{id}', 'NewsController@adjuntosUpload')->name('admin.new.adjunto.upload');
     Route::get('noticias/ver/adjunto/asignar-primario', 'NewsController@assignMainFileForNews')->name('admin.new.adjunto.main');
-    Route::get('noticias/ver/adjunto/eliminar', 'NewsController@removeFile')->name('admin.new.adjunto.remove');
+    Route::post('noticias/ver/adjunto/eliminar', 'NewsController@removeFile')->name('admin.new.adjunto.remove');
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');

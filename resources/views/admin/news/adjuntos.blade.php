@@ -14,7 +14,7 @@
                             <div class="embed-responsive embed-responsive-16by9">
                                 {!! $main_file->getHTML() !!}
                             </div>
-                            <p class="text-right"><a class="btn btn-danger btn-sm" href="{{ route('admin.new.adjunto.remove', ['news' => $note->id, 'file' => $main_file->id]) }}">{{ __('Eliminar') }}</a></p>
+                            <p class="text-right"><a class="btn btn-danger btn-sm" id="btn-remove-main-file" data-news="{{$note->id}}" data-file="{{ $main_file->id }}" data-name="{{ $main_file->original_name }}" href="{{ route('admin.new.adjunto.remove') }}">{{ __('Eliminar') }}</a></p>
                         @else
                             <p class="text-center">{{ __('Esta nota aun no contiene un archivo principal') }}</p>
                         @endif
@@ -31,7 +31,7 @@
                                 </div>
                                 <br>
                                 <p><strong>{{ $file->original_name }}</strong></p>
-                                <p><a class="btn btn-danger btn-sm" href="{{ route('admin.new.adjunto.remove', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Eliminar') }}</a> <a class="btn btn-info btn-sm" href="{{ route('admin.new.adjunto.main', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Marcar como principal') }}</a></p>
+                                <p><a class="btn btn-danger btn-sm btn-remove-file" data-news="{{ $note->id }}" data-file="{{ $file->id }}" data-name="{{ $file->original_name }}" href="javascript:void(0)">{{ __('Eliminar') }}</a> <a class="btn btn-info btn-sm" href="{{ route('admin.new.adjunto.main', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Marcar como principal') }}</a></p>
                             </div>
                         @endforeach
                     @endif
@@ -63,6 +63,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
+            // show form for upload files
             $('#btn-update-files').on('click', function(){
                 $('#main-file-content').hide('fast')
                 $('#list-files-content').hide('fast')
@@ -70,6 +71,7 @@
                 $('#row-form-update-files').show('slow')
             })
 
+            // cancel upload files
             $('#btn-cancel-upload-files').on('click', function(){
                 $('#main-file-content').show('slow')
                 $('#list-files-content').show('slow')
@@ -112,6 +114,39 @@
                 //     formCreateNews.append($('<input>').attr('type', 'hidden').attr('name', 'files').attr('value', resp.files))
                 //  }
             })
+
+            // delete files
+            $('#list-files-content').on('click', 'a.btn-remove-file', removeFile)
+
+            $('#btn-remove-main-file').on('click', removeFile)
+
+            function removeFile(event) {
+                event.preventDefault()
+
+                var fileName = $(this).data('name')
+                var news = $(this).data('news')
+                var file = $(this).data('file')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var urlAction = "{{ route('admin.new.adjunto.remove') }}"
+                
+                form.attr('action', urlAction)
+                form.attr('method', 'POST')
+                form.append($('<input>', {
+                    'type': 'hidden',
+                    'name': 'news',
+                    'value': news 
+                })).append($('<input>', {
+                    'type': 'hidden',
+                    'name': 'file',
+                    'value': file 
+                }))
+
+                modal.find('.modal-title').text(`Eliminar archivo`)
+                modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val("{{ __('Eliminar') }}")
+                modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar el archivo ') }}<strong>${fileName}</strong>?`)
+                modal.modal('show')  
+            }
         })
     </script>
 @endsection
