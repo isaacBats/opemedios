@@ -37,7 +37,7 @@
                       <input type="checkbox"><span></span>
                     </label>
                   </td>
-                  <td class="text-center" >{{ $loop->iteration }}</td>
+                  <td class="text-center" >{{ ($companies->currentPage() - 1) * $companies->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $company->name }}</td>
                   <td class="text-left">{{ $company->turn->name }}</td>
                   <td class="table-options">
@@ -48,6 +48,7 @@
             @endforeach
           </tbody>
         </table>
+        {!! $companies->links() !!}
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->

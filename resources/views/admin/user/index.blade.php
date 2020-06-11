@@ -44,7 +44,7 @@
                       <input type="checkbox"><span></span>
                     </label>
                   </td> --}}
-                  <td class="text-center" >{{ $loop->iteration }}</td>
+                  <td class="text-center" >{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $user->name }}</td>
                   <td class="text-left">{{ $user->email }}</td>
                   <td class="text-left">{{ strtoupper(implode(',',$user->getRoleNames()->toArray())) }}</td>
