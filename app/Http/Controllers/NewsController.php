@@ -356,26 +356,50 @@ class NewsController extends Controller
     public function adjuntos (Request $request, $id) {
 
         $note = News::findOrFail($id);
-        $main_file = $note->files->where('main_file', 1)->first();
-        $fileTemplate = is_null($main_file) ? '<p>Esta nota aun no contiene archivos ajuntos</p>' : $this->mediaController->template($main_file);
-        $_mediaController = $this->mediaController;
-
-        return view('admin.news.adjuntos', compact('note', 'main_file', 'fileTemplate', '_mediaController'));
+        
+        return view('admin.news.adjuntos', compact('note'));
     }
 
     public function adjuntosUpload(Request $request, $id) {
         $note = News::findOrFail($id);
         $files = json_decode($this->fileController->uploadFile($request)->getContent());
-        $response_files = array();
         foreach ($files->files as $fileId) {
             $attachedFile = File::find($fileId);
             $attachedFile->news_id = $note->id;
             $attachedFile->file_from_news = 1;
-            $response_files[] = ['file' => $attachedFile->pluck('original_name', 'path_filename', 'main_file')];
             $attachedFile->save();
         }
 
-        return response()->json(['files' => $response_files, 'status' => 'ok']);
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function assignMainFileForNews(Request $request) {
+        $note = News::findOrFail($request->query('news'));
+        if($noteMainFile = $note->files->where('main_file', 1)->first()) {
+            $mainFile = File::first($noteMainFile->id);
+            $mainFile->main_file = 0;
+            $mainFile->save();
+        }
+
+        $newMainFile = File::find($request->query('file'));
+        $newMainFile->main_file = 1;
+        $newMainFile->save();
+
+        return redirect()->route('admin.new.show', ['id' => $note->id])->with('status', '¡Se ha asignado un nuevo archivo principal!');
+    }
+
+    public function removeFile(Request $request) {
+        $file = File::findOrFail($request->query('file'));
+        $newsID = $request->query('news');
+        $fileName = $file->original_name; 
+        if($this->fileController->removeTrashS3($file)) {
+            $file->delete();
+            
+            return redirect()->route('admin.new.show', ['id' => $newsID])->with('status', "Se ha eliminado el archivo {$fileName} de forma correcta");
+        }
+        
+        return redirect()->route('admin.new.show', ['id' => $newsID])->with('danger', "Algo malo paso !!!");
+
 
     }
 }

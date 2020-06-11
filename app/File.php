@@ -18,6 +18,8 @@
         
 namespace App;
 
+use App\Http\Controllers\MediaController;
+use App\News;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -32,5 +34,19 @@ class File extends Model
      */
     public function extension() {
         return pathinfo($this->path_filename, PATHINFO_EXTENSION);
+    }
+
+    public function getHTML() {
+        $mediaController = new MediaController();
+
+        return $mediaController->template($this);
+    }
+
+    public function news() {
+        if(!is_null($this->news_id)) {
+            return $this->belongsTo(News::class);
+        }
+
+        return false;
     }
 }

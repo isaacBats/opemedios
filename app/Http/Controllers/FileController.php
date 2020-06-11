@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
@@ -44,6 +45,16 @@ class FileController extends Controller
         $update->save();
 
         return $update;
+    }
+
+    public static function removeTrashS3($file) {
+      $date = Carbon::now();
+      $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media/';
+      $path_file = Str::after($file->path_filename, $initialPath);
+      $path_trash = "trash/{$date->year}/{$file->news->mean->short_name}";
+      Storage::disk('s3')->move($path_file, "{$path_trash}/$file->name");
+
+      return true;
     }
 
     public function validator ($data) {

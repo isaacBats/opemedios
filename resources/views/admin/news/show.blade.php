@@ -5,6 +5,11 @@
             {{ session('status') }}
         </div>
     @endif
+    @if (session('danger'))
+        <div class="alert alert-danger">
+            {{ session('danger') }}
+        </div>
+    @endif
     <div class="col-sm-12 col-md-12">
         <div class="well well-asset-options clearfix">
             <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
@@ -57,9 +62,13 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
-                <div class="embed-responsive embed-responsive-16by9">
-                    {!! $fileTemplate !!}
-                </div>
+                @if($mainFile = $note->files->where('main_file', 1)->first())
+                    <div class="embed-responsive embed-responsive-16by9">
+                        {!! $mainFile->getHTML() !!}
+                    </div>
+                @else
+                    <p class="text-center">{{ __('Esta nota aun no contiene archivos ajuntos') }}</p>
+                @endif
             </div>
         </div>
         <div class="row mt20">

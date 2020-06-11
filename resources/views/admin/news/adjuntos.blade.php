@@ -6,34 +6,53 @@
                 <h4 class="panel-title" style="padding: 12px 0;">{{ __('Adjuntos de ') . $note->title }}</h4>
             </div>
             <div class="panel-body">
-                <div class="row item-note">
+                <div class="row item-note" id="main-file-content">
                     <h2><strong>{{ __('Archivo Principal') }}</strong></h2>
+                    <hr>
                     <div class="col-md-12">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            {!! $fileTemplate !!}
-                        </div>
+                        @if($main_file = $note->files->where('main_file', 1)->first())
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {!! $main_file->getHTML() !!}
+                            </div>
+                            <p class="text-right"><a class="btn btn-danger btn-sm" href="{{ route('admin.new.adjunto.remove', ['news' => $note->id, 'file' => $main_file->id]) }}">{{ __('Eliminar') }}</a></p>
+                        @else
+                            <p class="text-center">{{ __('Esta nota aun no contiene un archivo principal') }}</p>
+                        @endif
                     </div>
                 </div>
-                @if($note->files->count() > 0 )
-                    <div class="row item-note">
+                <div class="row item-note" id="list-files-content">
+                    @if($note->files->where('main_file', '!=', 1)->count() > 0)
+                        <h3>{{ __('Otros archivos adjuntos a esta nota') }}</h3>
+                        <hr>
                         @foreach($note->files->where('main_file', '!=', 1) as $file)
-                            @if($file->main_file != 1)
-                                <div class="col-sm-12 col-md-4">
-                                    <div class="embed-responsive embed-responsive-4by3">
-                                        {!! $_mediaController->template($file) !!}
-                                    </div>
+                            <div class="col-sm-12 col-md-4 text-center">
+                                <div class="embed-responsive embed-responsive-4by3">
+                                    {!! $file->getHTML() !!}
                                 </div>
-                            @endif
+                                <br>
+                                <p><strong>{{ $file->original_name }}</strong></p>
+                                <p><a class="btn btn-danger btn-sm" href="{{ route('admin.new.adjunto.remove', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Eliminar') }}</a> <a class="btn btn-info btn-sm" href="{{ route('admin.new.adjunto.main', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Marcar como principal') }}</a></p>
+                            </div>
                         @endforeach
+                    @endif
+                </div>
+                <div class="row item-note" id="row-btn-update-files">
+                    <div class="col-sm-12 col-md-8 col-md-offset-2">
+                        <button class="btn btn-success btn-block btn-lg" id="btn-update-files">{{ _('Subir archivos') }}</button>
                     </div>
-                @endif
-                <div class="row item-note">
+                </div>
+                <div class="row item-note" style="display: none;" id="row-form-update-files">
                     <form action="{{ route('admin.new.adjunto.upload', ['id' => $note->id]) }}" class="dropzone" method="POST" id="form-update-files" enctype="multipart/form-data">
                         @csrf
                         <div class="fallback">
                             <input name="files" type="file" multiple />
                         </div>
                     </form>
+                    <br>
+                    <div class="col-sm-12 col-md-12 text-right">
+                        <a href="javascript:void(0)" class="btn btn-danger btn-lg" id="btn-cancel-upload-files">{{ __('Cancelar') }}</a>
+                        <a href="{{ route('admin.new.adjunto.show', ['id' => $note->id]) }}" class="btn btn-default btn-lg">{{ __('Guardar') }}</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,6 +62,20 @@
     <script type="text/javascript" src="{{ asset('lib/dropzone/dropzone.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+
+            $('#btn-update-files').on('click', function(){
+                $('#main-file-content').hide('fast')
+                $('#list-files-content').hide('fast')
+                $('#row-btn-update-files').hide('fast')
+                $('#row-form-update-files').show('slow')
+            })
+
+            $('#btn-cancel-upload-files').on('click', function(){
+                $('#main-file-content').show('slow')
+                $('#list-files-content').show('slow')
+                $('#row-btn-update-files').show('slow')
+                $('#row-form-update-files').hide('fast')
+            })
 
             //Upload file
             Dropzone.autoDiscover = false;
@@ -61,8 +94,24 @@
                 thumbnailMethod: 'crop',
                 maxFiles: 5,
                 parallelUploads: 5,
-            })
+                // successmultiple: function(file, resp) {
 
+                //     if($('#list-files-content').length > 0) { // el content para los archivos adjuntos existe
+
+                //     } else { // El content no existe
+                //         $('#main-file-content').after($('<div>', {
+                //             'class': 'row item-note',
+                //             'id': 'list-files-content'})
+                //             .append($('<h3>', { 'text': 'Otros archivos adjuntos a esta nota' }))
+                //             .append($('<br />'))
+                //             .append(getHTMLContentFiles(resp.files))
+                //         )
+
+                //     }
+                //     var formCreateNews = $('#form-create-new-news')
+                //     formCreateNews.append($('<input>').attr('type', 'hidden').attr('name', 'files').attr('value', resp.files))
+                //  }
+            })
         })
     </script>
 @endsection
