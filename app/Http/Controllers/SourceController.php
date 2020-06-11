@@ -79,7 +79,7 @@ class SourceController extends Controller
             $source->comment = $inputs['comment'];
         }
         $source->active = 1;
-        $source->logo = $request->file('logo')->store('sources_logos');
+        $source->logo = $request->file('logo')->store('sources_logos', 'local');
         
         // TODO: crear un metodo para que estos campos (campos extra) se puedan guardad en la base de datos y dependiendo del medio se agregen o quiten campos, de esta forma se guardaian los campos extra sin necesidad de un switch y agregar un case mas en caso de agregar otro medio.
         $extra = $this->saveExtraFields($inputs, $mean);
@@ -161,11 +161,11 @@ class SourceController extends Controller
             'dimensions' => 'El logo debe de ser de 300x150 máximo'
         ])->validate();
         try {
-            if(Storage::exists($source->logo)) {
-                Storage::delete($source->logo);
+            if(Storage::drive('local')->exists($source->logo)) {
+                Storage::drive('local')->delete($source->logo);
             } 
             
-            $source->logo = $request->file('logo')->store('sources_logos');
+            $source->logo = $request->file('logo')->store('sources_logos', 'local');
             $source->save();
             
         } catch (Exception $e) {

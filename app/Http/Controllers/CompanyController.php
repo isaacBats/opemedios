@@ -58,7 +58,7 @@ class CompanyController extends Controller
         ])->validate();
         
         if($file = $request->hasFile('logo')) {
-            $input['logo'] = $request->file('logo')->store('company_logos');
+            $input['logo'] = $request->file('logo')->store('company_logos', 'local');
         }
 
         Company::create($input);
@@ -136,8 +136,8 @@ class CompanyController extends Controller
     public function updateLogo (Request $request, $id) {
         $company = Company::find($id);
         try {
-            if(Storage::exists($company->logo)) {
-                Storage::delete($company->logo);
+            if(Storage::drive('local')->exists($company->logo)) {
+                Storage::drive('local')->delete($company->logo);
             } 
             
             $company->logo = $request->file('logo')->store('company_logos', 'local');
