@@ -19,6 +19,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\News;
+use App\Sector;
 use App\Source;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,9 +36,11 @@ class AdminController extends Controller
     public function index()
     {
         $count = array();
-        $count['clients'] = Company::all()->count();
-        $count['users'] = User::all()->count();
-        $count['news'] = DB::connection('opemediosold')->table('noticia')->count();
+        $count['clients'] = Company::count();
+        $count['users'] = User::count();
+        $count['news'] = News::count();
+        $count['sources'] = Source::count();
+        $count['sectors'] = Sector::count();
         return view('admin.home', compact('count'));
     }
 
