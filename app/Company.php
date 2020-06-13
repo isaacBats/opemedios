@@ -23,10 +23,14 @@ use App\Theme;
 use App\Turn;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
+
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *

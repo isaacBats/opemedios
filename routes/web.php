@@ -105,7 +105,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         
-        Route::post('giro/nuevo', 'TurnController@create')->name('turn.create');
+        Route::get('giros', 'TurnController@index')->name('admin.turns');
+        Route::get('giros/nuevo', 'TurnController@create')->name('admin.turns.create');
+        Route::post('giros/nuevo', 'TurnController@store')->name('admin.turns.store');
+        Route::post('giros/ajax-nuevo', 'TurnController@ajaxCreate')->name('admin.turns.ajaxcreate');
+        Route::get('giros/editar/{id}', 'TurnController@edit')->name('admin.turns.edit');
+        Route::post('giros/editar/{id}', 'TurnController@update')->name('admin.turns.update');
+        Route::post('giros/eliminar/{id}', 'TurnController@destroy')->name('admin.turns.destroy');
 
         Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
         Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');

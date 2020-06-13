@@ -69,9 +69,15 @@
 
             <h5 class="sidebar-title">Catálogo</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">
-              <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
-              <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
-              <li><a href="{{ route('companies') }}"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
+                <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
+                <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
+                <li class="nav-parent">
+                    <a href="javascript:void(0)"><i class="fa fa-building"></i> <span>{{ __('Empresas') }}</span></a>
+                    <ul class="children">
+                        <li><a href="{{ route('companies') }}">{{ __('Empresas') }}</a></li>
+                        <li><a href="{{ route('admin.turns') }}">{{ __('Giros') }}</a></li>
+                    </ul>
+              </li>
               <li><a href="{{ route('admin.sectors') }}"><i class="fa fa-archive"></i><span>{{ __('Sectores') }}</span></a></li>
             </ul>
         @endcan

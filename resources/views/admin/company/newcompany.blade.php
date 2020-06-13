@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <div class="col-sm-3"></div>
                         <div class="col-sm-8">
-                            <a id="btn-add-turn" href="{{ route('turn.create') }}" >
+                            <a id="btn-add-turn" href="{{ route('admin.turns.ajaxcreate') }}" >
                                 <span id="add-turn">
                                     <i class="fa fa-plus-circle"></i>
                                 </span>

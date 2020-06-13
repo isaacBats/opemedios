@@ -20,9 +20,12 @@ namespace App;
 
 use App\Company;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Turn extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = ['name', 'description',];
 
     public function companies () {
