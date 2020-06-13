@@ -94,7 +94,7 @@
                             <h4 class="panel-title">{{ __('Giros') }}</h4>
                         </div>
                         <div class="panel-body">
-                            <div class="page-icon"><i class="fa fa-gears"></i></div>
+                            <a href="{{ route('admin.turns') }}"><div class="page-icon"><i class="fa fa-gears"></i></div></a>
                         </div>
                     </div>
                 </div>
