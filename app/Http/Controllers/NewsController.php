@@ -24,6 +24,7 @@ use App\AuthorType;
 use App\File;
 use App\Genre;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\NewsletterThemeNewsController;
 use App\Means;
 use App\News;
 use App\Newsletter;
@@ -40,11 +41,15 @@ use Illuminate\Validation\Rule;
 class NewsController extends Controller
 {
     protected $mediaController;
+    
     protected $fileController;
 
-    public function __construct(MediaController $mediaController, FileController $fileController) {
+    protected $ntnController;
+
+    public function __construct(MediaController $mediaController, FileController $fileController, NewsletterThemeNewsController $ntnController) {
         $this->mediaController = $mediaController;
         $this->fileController = $fileController;
+        $this->ntnController = $ntnController;
     }
 
     private function getMinName($id) {
@@ -400,5 +405,31 @@ class NewsController extends Controller
         }
         
         return redirect()->route('admin.new.show', ['id' => $newsID])->with('danger', "Algo malo paso !!!");
+    }
+
+    public function showNewsletters(Request $request, $id) {
+
+        $note = News::findOrFail($id);
+        $newsletters = Newsletter::where('active', 1)->get();
+
+        return view('admin.news.newsletters', compact('note', 'newsletters'));
+    }
+
+    public function includeToNewsletters(Request $request, $id) {
+
+        $newsletterId = $request->input('newsletter_id');
+        $newsletterThemeId = $request->input('newsletter_theme_id');
+        $note = News::findOrFail($id);
+        $newsletter = Newsletter::findOrFail($newsletterId);
+        $theme = $newsletter->company->themes->where('id', $newsletterThemeId)->first();
+        $data = [
+            'newsletter_id' => $newsletterId,
+            'newsletter_theme_id' => $newsletterThemeId,
+            'news_id' => $id,
+        ];
+        // dd($data);
+        $this->ntnController->create($data);
+
+        return redirect()->route('admin.new.newletter.show', ['id' => $id])->with('status', "Se ha incluido la nota {$note->title} al newsletter de {$newsletter->name} al tema {$theme->name}");
     }
 }

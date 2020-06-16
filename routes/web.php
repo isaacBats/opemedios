@@ -38,7 +38,9 @@ Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+]);
 
 Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
@@ -140,6 +142,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('noticias/ver/adjuntos/subir/{id}', 'NewsController@adjuntosUpload')->name('admin.new.adjunto.upload');
     Route::get('noticias/ver/adjunto/asignar-primario', 'NewsController@assignMainFileForNews')->name('admin.new.adjunto.main');
     Route::post('noticias/ver/adjunto/eliminar', 'NewsController@removeFile')->name('admin.new.adjunto.remove');
+    Route::get('noticias/ver/newsletters/{id}', 'NewsController@showNewsletters')->name('admin.new.newletter.show');
+    Route::post('noticias/ver/newsletters/incluir/{id}', 'NewsController@includeToNewsletters')->name('admin.new.newletter.include');
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');

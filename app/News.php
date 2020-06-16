@@ -6,6 +6,7 @@ use App\AuthorType;
 use App\File;
 use App\Genre;
 use App\Means;
+use App\NewsletterThemeNews;
 use App\Section;
 use App\Sector;
 use App\Source;
@@ -102,5 +103,9 @@ class News extends Model
         }
         
         return $array_metas;
+    }
+
+    public function newsletters() {
+        return $this->hasMany(NewsletterThemeNews::class);
     }
 }
