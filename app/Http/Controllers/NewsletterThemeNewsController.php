@@ -27,4 +27,9 @@ class NewsletterThemeNewsController extends Controller
             'news_id' => 'required',
         ]);
     }
+
+    public function remove($id) {
+        $newsletterThemeNews = NewsletterThemeNews::findOrFail($id);
+        return $newsletterThemeNews->delete();
+    }
 }

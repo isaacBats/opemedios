@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered table-inverse table-striped nomargin">
+                <table class="table table-bordered table-inverse table-striped nomargin" id="table-newsletters">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -34,7 +34,7 @@
                                 <td class="text-left">{{ $newsletter->newsletter->name }}</td>
                                 <td class="text-left">{{ $newsletter->theme->name }}</td>
                                 <td class="table-options">
-                                    <a href="javascript:void(0)"><i class="fa fa-remove"></i> {{ __('Remover') }}</a>
+                                    <a href="{{ route('admin.new.newletter.remove', ['id' => $note->id]) }}" data-name="{{ $newsletter->newsletter->name }}" data-newsletter="{{ $newsletter->id }}" class="btn-remove-newsletter"><i class="fa fa-remove"></i> {{ __('Remover') }}</a>
                                 </td>
                             </tr>
                         @empty
@@ -111,6 +111,38 @@
                     var divSelectThemes = $('#div-select-nesletter-themes').html(`<p>No se pueden obtener los temas del bloque</p>`)
                     console.error(`Error-Sections: ${res.responseJSON.message}`)
                 })
+            })
+
+            $('#table-newsletters').on('click', '.btn-remove-newsletter', function(event) {
+                event.preventDefault()
+                var newsletterThemeNewsId = $(this).data('newsletter')
+                var newsletterName = $(this).data('name')
+                var action = $(this).attr('href')
+                var modal = $('#modal-default')
+                var form = modal.find('#modal-default-form')
+
+                if($('#input-newslletter-theme').length > 0){
+                    var input = $("#input-newslletter-theme").val(newsletterThemeNewsId)
+                } else {
+                    form.prepend($('<input>',{
+                        type: 'hidden',
+                        value: newsletterThemeNewsId,
+                        name: 'newsletter_theme_news_id',
+                        id: 'input-newslletter-theme'
+                    }))
+                }
+
+                form.attr({
+                    action: action,
+                    method: 'POST'
+                }).find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.find('.modal-title').text('Remover noticia de Newsletter')
+                modal.find('.modal-body').html(`<p>¿Estas seguro que quieres <strong>remover esta noticia del newsletter ${newsletterName}</strong>?<\p>`)
+
+                modal.modal('show')
             })
         })
     </script>

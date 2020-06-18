@@ -427,9 +427,19 @@ class NewsController extends Controller
             'newsletter_theme_id' => $newsletterThemeId,
             'news_id' => $id,
         ];
-        // dd($data);
         $this->ntnController->create($data);
 
         return redirect()->route('admin.new.newletter.show', ['id' => $id])->with('status', "Se ha incluido la nota {$note->title} al newsletter de {$newsletter->name} al tema {$theme->name}");
     }
+
+    public function removeNewsletter(Request $request, $id) {
+        $note = News::findOrFail($id);
+        
+        $newsletterThemeNews = $note->newsletters->find($request->input('newsletter_theme_news_id'));
+        $NameOfNewsletter = $newsletterThemeNews->newsletter->name;
+        $newsletterThemeNews->delete();
+
+        return back()->with('status', "La nota se ha removido de {$NameOfNewsletter}");
+    }
+
 }
