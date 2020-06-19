@@ -38,7 +38,6 @@
         </div>
         <div class="jumbotron">
             <div class="container">
-                <strong><small class="text-left">{{ __("Noticia #: OPE-$note->id") }}</small></strong>
                 <h1>{{ $note->title }}</h1>
                 <p>
                     {!! $note->synthesis !!}
@@ -51,9 +50,8 @@
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <div class="panel">
-                    <div class="panel-body">
-                        <strong><small class="text-left">{{ __("Noticia #: OPE-$note->id") }}</small></strong>
-                        <br />
+                    <div class="panel-body" >
+                        <h4 style="color: #d9534f">{{ __("Noticia #: OPE-$note->id") }}</h4>
                         @foreach($note->metas() as $newMetas)
                             @if($newMetas['label'] == 'Comentarios' || $newMetas['label'] == 'Creador' || $newMetas['label'] == 'Encabezado' || $newMetas['label'] == 'Síntesis')
                                 @continue

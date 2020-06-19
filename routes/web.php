@@ -145,6 +145,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/ver/newsletters/{id}', 'NewsController@showNewsletters')->name('admin.new.newletter.show');
     Route::post('noticias/ver/newsletters/incluir/{id}', 'NewsController@includeToNewsletters')->name('admin.new.newletter.include');
     Route::post('noticias/ver/newsletters/remover/{id}', 'NewsController@removeNewsletter')->name('admin.new.newletter.remove');
+    Route::get('noticias/ver/notificacion/{id}', 'NewsController@notice')->name('admin.new.notice.show');
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');

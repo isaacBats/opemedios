@@ -442,4 +442,11 @@ class NewsController extends Controller
         return back()->with('status', "La nota se ha removido de {$NameOfNewsletter}");
     }
 
+    public function notice (Request $request, $id) {
+        $note = News::findOrFail($id);
+        $mainFile = $note->files->where('main_file', 1)->first();
+
+        return view('admin.news.send', compact('note', 'mainFile'));
+    }
+
 }

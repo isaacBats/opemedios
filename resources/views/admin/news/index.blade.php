@@ -41,7 +41,12 @@
                                     <td class="text-center">
                                         <span class="fa {{ $note->mean->icon }} fa-3x"></span>
                                     </td>
-                                    <td><a href="{{ route('admin.new.show', ['id' => $note->id]) }}">{{ $note->title }}</a></td>
+                                    <td>
+                                        <a href="{{ route('admin.new.show', ['id' => $note->id]) }}">
+                                            {{ "OPE-{$note->id}" }} <br />
+                                            {{ $note->title }}
+                                        </a>
+                                    </td>
                                     <td>{{ $note->source->name }}</td>
                                     <td></td>
                                 </tr>
