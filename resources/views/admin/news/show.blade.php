@@ -21,7 +21,7 @@
                     <a href="{{ route('admin.new.edit', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i> {{ __('Editar') }}</a>
                     <a href="{{ route('admin.new.adjunto.show', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-file"></i> {{ __('Adjuntos') }}</a>
                     <a href="{{ route('admin.new.newletter.show', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-folder-open"></i> {{ __('Incluir a Newsletter') }}</a>
-                    <button type="button" class="btn btn-default"><i class="fa fa-envelope"></i> {{ __('Enviar') }}</button>
+                    <a href="{{ route('admin.new.notice.show', ['id' => $note->id]) }}" class="btn btn-default"><i class="fa fa-envelope"></i> {{ __('Enviar') }}</a>
               </div>
             </div><!-- btn-toolbar -->
 
@@ -38,6 +38,7 @@
         </div>
         <div class="jumbotron">
             <div class="container">
+                <strong><small class="text-left">{{ __("Noticia #: OPE-$note->id") }}</small></strong>
                 <h1>{{ $note->title }}</h1>
                 <p>
                     {!! $note->synthesis !!}
@@ -51,6 +52,8 @@
             <div class="col-sm-12 col-md-6">
                 <div class="panel">
                     <div class="panel-body">
+                        <strong><small class="text-left">{{ __("Noticia #: OPE-$note->id") }}</small></strong>
+                        <br />
                         @foreach($note->metas() as $newMetas)
                             @if($newMetas['label'] == 'Comentarios' || $newMetas['label'] == 'Creador' || $newMetas['label'] == 'Encabezado' || $newMetas['label'] == 'Síntesis')
                                 @continue
