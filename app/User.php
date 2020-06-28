@@ -19,6 +19,7 @@
 namespace App;
 
 use App\Company;
+use App\Theme;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -67,9 +68,34 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isClient() {
+        if($this->hasRole('client')) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function news() {
         if($this->isMonitor()) {
             return $this->hasMany(News::class);
         }
+    }
+
+    public function themes() {
+        if(!$this->isClient()) {
+            return false;
+        }
+
+        return $this->belongsToMany(Theme::class, 'theme_user');
+    }
+
+    public function company() {
+        if($this->isClient()) {
+            $companyId = $this->metas->where('meta_key', 'company_id')->first()->meta_value;
+            return Company::findOrFail($companyId);
+        }
+
+        return false;
     }
 }

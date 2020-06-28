@@ -20,6 +20,7 @@
 namespace App;
 
 use App\Company;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,5 +34,9 @@ class Theme extends Model
     public function company () {
 
         return $this->belongsTo(Company::class);
+    }
+
+    public function accounts() {
+        return $this->belongsToMany(User::class, 'theme_user');
     }
 }
