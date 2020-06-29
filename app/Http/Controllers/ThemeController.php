@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Theme;
 use App\User;
 use Illuminate\Http\Request;
@@ -60,5 +61,22 @@ class ThemeController extends Controller
         $user = User::findOrFail($request->input('user_id'));
 
         return back()->with('status', "Se ha asociado al usuario {$user->name} al tema {$theme->name}");
+    }
+
+    public function sendSelectHTMLWithThemesByCompany(Request $request) {
+        $themes = Company::where([
+                ['id', '=', $request->input('company_id')],
+                // ['active', '=', 1],
+            ])->orderBy('id', 'desc')
+            ->first()
+            ->themes;
+
+        return view('components.select-themes', compact('themes'))->render();
+    }
+
+    public function getAccountsAjax(Request $request) {
+        $theme = Theme::findOrFail($request->input('theme_id'));
+
+        return response()->json($theme->accounts);
     }
 }

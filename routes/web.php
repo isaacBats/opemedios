@@ -154,4 +154,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/newsletters/obtener-temas', 'NewsletterController@sendSelectHTMLWithThemes')->name('api.getnewsletterthemeshtml');
     Route::post('api/v2/files/nuevo', 'FileController@uploadFile')->name('api.fileupload');
     Route::post('api/v2/files/borrar', 'FileController@removeFile')->name('api.fileremove');
+    Route::post('api/v2/clientes/obtener-clientes-ajax', 'CompanyController@getCompaniesAjax')->name('api.getcompaniesajax');
+    Route::post('api/v2/cliente/obtener-temas', 'ThemeController@sendSelectHTMLWithThemesByCompany')->name('api.getthemeshtml');
+    Route::post('api/v2/cliente/obtener-cuentas', 'CompanyController@getAccountsAjax')->name('api.company.getaccounts');
+    Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
 });

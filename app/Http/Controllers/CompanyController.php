@@ -149,4 +149,19 @@ class CompanyController extends Controller
 
         return redirect()->route('company.show', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
     }
+
+    public function getCompaniesAjax (Request $request) {
+
+        return response()->json(['items' => Company::select('id', 'name AS text')->where([
+                ['name', 'like', "%{$request->input('q')}%"],
+                // ['active', '=', 1],
+            ])->get()->toArray()
+        ]); 
+    }
+
+    public function getAccountsAjax(Request $request) {
+        $company = Company::findOrFail($request->input('company_id'));
+
+        return response()->json($company->accounts());
+    }
 }

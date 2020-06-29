@@ -35,14 +35,18 @@
                         @endforelse
                     </ol>
                 </p>
-                <div class="col-sm-12 col-md-6">
-                    <label for="input-company">{{ __('Buscar cliente:') }}</label>
-                    <div class="input-group">
-                        <input id="input-company" type="company" class="form-control">
-                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="select-company">{{ __('Buscar cliente:') }}</label>
+                        <select name="company_id" id="select-company" class="form-control"></select>
                     </div>
+                    <div class="col-sm-12 col-md-6" id="div-select-theme"></div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="div-accounts-list"></div>
+            <div class="col-sm-12 col-md-6" id="div-send-news"></div>
         </div>
     </div>
 @endsection
@@ -50,7 +54,119 @@
     <script src="{{ asset('lib/select2/select2.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+            // Select company combo
+            $('#select-company').select2({
+                minimumInputLength: 3,
+                ajax: {
+                    type: 'POST',
+                    url: "{{ route('api.getcompaniesajax') }}",
+                    dataType: 'json',
+                    data: function(params, noteType) {
+                        return {
+                            q: params.term,
+                            "_token": $('meta[name="csrf-token"]').attr('content')
+                        } 
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.items
+                        }
+                    },
+                    cache: true
+                }
+            })
 
+            // show select with themes when channge a company
+            $('#select-company').on('change', function(){
+                var companyId = $(this).val()
+
+                $.post('{{ route('api.getthemeshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function (res) {
+                    var divSelectThemes = $('#div-select-theme')
+                    divSelectThemes.html(res)
+                })
+
+                $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(res) {
+                    var divAccountsList = $('#div-accounts-list')
+                    var table = $('<table>').addClass('table table-bordered table-primary table-striped nomargin').html(
+                        `<thead>
+                            <tr>
+                                <th class="text-center">
+                                    <label class="ckbox ckbox-primary">
+                                        <input type="checkbox" id="input-checkbox-select-all"><span></span>
+                                    </label>
+                                </th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>`
+                    )
+                    var tableBody = table.append($('<tbody>', { id: 'tboby-account-list' }))
+                    $.each(res, function (key, item){
+                        tableBody.append($('<tr>').append(
+                            $('<td>').addClass('text-center').append(
+                                $('<label>').addClass('ckbox ckbox-primary')
+                                    .append(
+                                        $('<input>', {
+                                            type: 'checkbox',
+                                            name: 'accounts[]',
+                                            value: item.id
+                                        }).addClass('input-checkbox-account')
+                                    )
+                                    .append($('<span>'))
+                            )
+                        ).append(
+                            $('<td>').text(item.email)
+                        ))
+                    })
+                    divAccountsList.append($('<div>').addClass('panel')
+                        .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
+                        .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(table)))
+                    )
+                })
+            })
+
+            // Checkbox sellect all accounts
+            $('#div-accounts-list').on('change','#input-checkbox-select-all', function() {
+                var checkboxes = $('.input-checkbox-account')
+                checkboxes.prop('checked', $(this).is(':checked'));
+            })
+
+            // show panel for send new
+            $('#div-select-theme').on('change', '#select-theme', function(){
+                var themeId = $(this).val()
+
+                $.post('{{ route('api.theme.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'theme_id': themeId }, function(res) {
+                    var divSendNews = $('#div-send-news')
+                    var emails = res.map(function(item) { 
+                            return `<strong>${item.email}</strong> (${item.name})` 
+                    })
+
+                    var accountsIds = res.map(function(item) { 
+                            return item.id 
+                    })
+
+                    var pEmailList = $('<p>').html(`La nota se enviara a los siguientes correos: ${emails}`)
+                    var panelSendNews = $('#panel-send-news')
+                    var btnSend = $('<a>', {
+                        href: 'javascript:void(0)',
+                        class: 'btn btn-primary',
+                        id: 'btn-send-news',
+                        text: 'Enviar'
+                    }).data('accounts', accountsIds.toString())
+                    
+                    if(panelSendNews.length == 0) {
+                        divSendNews.append($('<div>', { id: 'panel-send-news' }).addClass('panel')
+                            .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Enviar nota a:')))
+                            .append($('<div>').addClass('panel-body')
+                                .append(pEmailList)
+                                .append(btnSend)
+                        ))
+                    } else {
+                        panelSendNews.find('.panel-body').html(pEmailList)
+                    }
+
+                    panelSendNews.find('.panel-body').append(btnSend)
+                })
+            })
         })
     </script>
 @endsection
