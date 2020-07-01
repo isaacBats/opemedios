@@ -449,4 +449,8 @@ class NewsController extends Controller
         return view('admin.news.send', compact('note', 'mainFile'));
     }
 
+    public function sendNews(Request $request) {
+        dd($request->all());
+    }
+
 }

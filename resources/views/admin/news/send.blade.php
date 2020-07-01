@@ -79,6 +79,8 @@
             // show select with themes when channge a company
             $('#select-company').on('change', function(){
                 var companyId = $(this).val()
+                var divAccountsList = $('#div-accounts-list')
+                divAccountsList.html('') 
 
                 $.post('{{ route('api.getthemeshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function (res) {
                     var divSelectThemes = $('#div-select-theme')
@@ -86,7 +88,6 @@
                 })
 
                 $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(res) {
-                    var divAccountsList = $('#div-accounts-list')
                     var table = $('<table>').addClass('table table-bordered table-primary table-striped nomargin').html(
                         `<thead>
                             <tr>
@@ -96,6 +97,7 @@
                                     </label>
                                 </th>
                                 <th>Email</th>
+                                <th>Nombre</th>
                             </tr>
                         </thead>`
                     )
@@ -115,9 +117,10 @@
                             )
                         ).append(
                             $('<td>').text(item.email)
-                        ))
+                        )
+                        .append($('<td>').text(item.name)))
                     })
-                    divAccountsList.append($('<div>').addClass('panel')
+                    divAccountsList.append($('<div>', { id: 'div-panel-account-list' }).addClass('panel')
                         .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
                         .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(table)))
                     )
@@ -146,25 +149,51 @@
 
                     var pEmailList = $('<p>').html(`La nota se enviara a los siguientes correos: ${emails}`)
                     var panelSendNews = $('#panel-send-news')
-                    var btnSend = $('<a>', {
-                        href: 'javascript:void(0)',
+                    var btnSend = $('<input>', {
+                        type: 'submit',
                         class: 'btn btn-primary',
-                        id: 'btn-send-news',
-                        text: 'Enviar'
-                    }).data('accounts', accountsIds.toString())
+                        value: 'Enviar'
+                    })
                     
                     if(panelSendNews.length == 0) {
                         divSendNews.append($('<div>', { id: 'panel-send-news' }).addClass('panel')
                             .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Enviar nota a:')))
                             .append($('<div>').addClass('panel-body')
-                                .append(pEmailList)
-                                .append(btnSend)
-                        ))
+                                .append($('<form>', {
+                                    method: 'POST',
+                                    action: '{{ route('admin.new.send.news') }}'
+                                })
+                                    .append($('<input>', {
+                                        type: 'hidden',
+                                        name: '_token',
+                                        value: $('meta[name="csrf-token"]').attr('content')
+                                    }))
+                                    .append($('<input>', {
+                                        type: 'hidden',
+                                        name: 'theme_id',
+                                        value: themeId
+                                    }))
+                                    .append($('<input>', {
+                                        type: 'hidden',
+                                        name: 'news_id',
+                                        value: '{{ $note->id }}'
+                                    }))
+                                    .append($('<input>', {
+                                        type: 'hidden',
+                                        name: 'accounts_ids',
+                                        value: accountsIds
+                                    }))
+                                    .append(pEmailList)
+                                    .append(btnSend)
+                        )))
                     } else {
                         panelSendNews.find('.panel-body').html(pEmailList)
                     }
 
                     panelSendNews.find('.panel-body').append(btnSend)
+
+                    // vamos a ver como checkeamos los correos que estan en la lista de envios
+                    var inputChecks = $('#tboby-account-list')
                 })
             })
         })
