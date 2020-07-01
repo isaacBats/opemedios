@@ -133,7 +133,7 @@
                 checkboxes.prop('checked', $(this).is(':checked'));
             })
 
-            // show panel for send new
+            // select theme and select accounts
             $('#div-select-theme').on('change', '#select-theme', function(){
                 var themeId = $(this).val()
 
@@ -196,6 +196,25 @@
                     var inputChecks = $('#tboby-account-list')
                 })
             })
+
+            // function create table for account list 
+            function createTableAccounst (headers, items, accounts = null) {
+                var table = $('<table>').addClass('table table-bordered table-primary table-striped nomargin')
+                table.append($('<thead>')
+                    .append($('<tr>')
+                        .append($('<th>').addClass('text-center')
+                            .append($('<label>').addClass('ckbox ckbox-primary')
+                                .append($('<input>', {
+                                        type: 'checkbox',
+                                        id: 'input-checkbox-select-all'
+                                    })
+                                )
+                                .append($('<span>'))
+                            )
+                        )
+                    )
+                )
+            }
         })
     </script>
 @endsection
