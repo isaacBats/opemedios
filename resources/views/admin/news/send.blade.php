@@ -92,6 +92,11 @@
 
             // Checkbox sellect all accounts
             $('#div-accounts-list').on('change','#input-checkbox-select-all', function() {
+                if($('#select-theme').val() === '') {
+                    alert('Debes de seleccionar primero un Tema')
+                    return false
+                }
+
                 var checkboxes = $('.input-checkbox-account')
                 checkboxes.prop('checked', $(this).is(':checked'));
             })
@@ -107,14 +112,14 @@
                     var divSendNews = $('#div-send-news')
                     var themesAccounts = res
                     var emails = res.map(function(item) { 
-                            return `<strong>${item.email}</strong> (${item.name})` 
+                            return `<br /> => <strong>${item.email}</strong> (${item.name})` 
                     })
 
                     var accountsIds = res.map(function(item) { 
                             return item.id 
                     })
 
-                    var pEmailList = $('<p>').html(`La nota se enviara a los siguientes correos: ${emails}`)
+                    var pEmailList = $('<p id="p-list-string" >').html(`La nota se enviara a los siguientes correos: ${emails}`)
                     var panelSendNews = $('#panel-send-news')
                     var btnSend = $('<input>', {
                         type: 'submit',
@@ -147,6 +152,7 @@
                                     }))
                                     .append($('<input>', {
                                         type: 'hidden',
+                                        id: 'input-accounts-ids',
                                         name: 'accounts_ids',
                                         value: accountsIds
                                     }))
@@ -162,6 +168,30 @@
                     getCompanyAccounts(divAccountsList, companyId, themesAccounts)
                     
                 })
+            })
+
+            // checked other account
+            $('#div-accounts-list').on('change', 'input[type=checkbox].input-checkbox-account', function() {
+                try {
+                    var inputSendAccounts = $('#input-accounts-ids')
+                    if ($(this).is(':checked') ) {
+                        var publicAccounts = $('#p-list-string')
+                        var arrayAccounts = inputSendAccounts.val().split(',')
+                        arrayAccounts.push($(this).val())
+                        inputSendAccounts.val(arrayAccounts.toString())
+                        console.log("Checkbox " + $(this).prop("id") +  " (" + $(this).val() + ") => Seleccionado")
+                        var emailHermano = $(this).parents('td').next()
+                        var nameHermano = $(this).parents('td').next().next()
+                        var newElementList = `<br />=> <strong>${emailHermano.text()}</strong> (${nameHermano.text()})`
+                        publicAccounts.append(newElementList)
+                        console.log(`${emailHermano.text()} (${nameHermano.text()})`)
+                    } else {
+                        console.log("Checkbox " + $(this).prop("id") +  " (" + $(this).val() + ") => Deseleccionado")
+                    }
+                } catch (error) {
+                    console.error(error)
+                }
+
             })
 
             // function create table for account list 
@@ -227,6 +257,7 @@
                         </div>`)
             }
 
+            // get Accounts of a company 
             function getCompanyAccounts(nodo, companyId, themesAccounts = null) {
                 return $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(accounts) {
                         var panelAccountsTable = createPanel()
