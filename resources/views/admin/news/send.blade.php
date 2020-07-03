@@ -87,12 +87,7 @@
                     divSelectThemes.html(res)
                 })
 
-                $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(res) {
-                    divAccountsList.append($('<div>', { id: 'div-panel-account-list' }).addClass('panel')
-                        .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
-                        .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(createTableAccounst(['Email', 'Nombre'], res))))
-                    )
-                })
+                getCompanyAccounts(divAccountsList, companyId)
             })
 
             // Checkbox sellect all accounts
@@ -164,13 +159,8 @@
 
                     panelSendNews.find('.panel-body').append(btnSend)
 
-                    // vamos a ver como checkeamos los correos que estan en la lista de envios
-                    $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(items) {
-                        divAccountsList.append($('<div>', { id: 'div-panel-account-list' }).addClass('panel')
-                            .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
-                            .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(createTableAccounst(['Email', 'Nombre'], items, themesAccounts))))
-                        )
-                    })
+                    getCompanyAccounts(divAccountsList, companyId, themesAccounts)
+                    
                 })
             })
 
@@ -225,6 +215,26 @@
                     .append($('<td>').text(item.name)))
                 })
                 return table
+            }
+
+            // create a panel
+            function createPanel() {
+                return $(`<div class="panel">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"></h4>
+                            </div>
+                            <div class="panel-body"></div>
+                        </div>`)
+            }
+
+            function getCompanyAccounts(nodo, companyId, themesAccounts = null) {
+                return $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(accounts) {
+                        var panelAccountsTable = createPanel()
+                        panelAccountsTable.attr('id', 'div-panel-account-list')
+                        panelAccountsTable.find('.panel-title').text('Cuentas')
+                        panelAccountsTable.find('.panel-body').append(createTableAccounst(['Email', 'Nombre'], accounts, themesAccounts))
+                        nodo.append(panelAccountsTable)
+                })
             }
         })
     </script>
