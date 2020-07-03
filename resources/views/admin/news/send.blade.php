@@ -88,41 +88,9 @@
                 })
 
                 $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(res) {
-                    var table = $('<table>').addClass('table table-bordered table-primary table-striped nomargin').html(
-                        `<thead>
-                            <tr>
-                                <th class="text-center">
-                                    <label class="ckbox ckbox-primary">
-                                        <input type="checkbox" id="input-checkbox-select-all"><span></span>
-                                    </label>
-                                </th>
-                                <th>Email</th>
-                                <th>Nombre</th>
-                            </tr>
-                        </thead>`
-                    )
-                    var tableBody = table.append($('<tbody>', { id: 'tboby-account-list' }))
-                    $.each(res, function (key, item){
-                        tableBody.append($('<tr>').append(
-                            $('<td>').addClass('text-center').append(
-                                $('<label>').addClass('ckbox ckbox-primary')
-                                    .append(
-                                        $('<input>', {
-                                            type: 'checkbox',
-                                            name: 'accounts[]',
-                                            value: item.id
-                                        }).addClass('input-checkbox-account')
-                                    )
-                                    .append($('<span>'))
-                            )
-                        ).append(
-                            $('<td>').text(item.email)
-                        )
-                        .append($('<td>').text(item.name)))
-                    })
                     divAccountsList.append($('<div>', { id: 'div-panel-account-list' }).addClass('panel')
                         .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
-                        .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(table)))
+                        .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(createTableAccounst(['Email', 'Nombre'], res))))
                     )
                 })
             })
@@ -136,9 +104,13 @@
             // select theme and select accounts
             $('#div-select-theme').on('change', '#select-theme', function(){
                 var themeId = $(this).val()
+                var divAccountsList = $('#div-accounts-list')
+                var companyId = $('#select-company').val()
+                divAccountsList.html('')
 
                 $.post('{{ route('api.theme.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'theme_id': themeId }, function(res) {
                     var divSendNews = $('#div-send-news')
+                    var themesAccounts = res
                     var emails = res.map(function(item) { 
                             return `<strong>${item.email}</strong> (${item.name})` 
                     })
@@ -193,27 +165,66 @@
                     panelSendNews.find('.panel-body').append(btnSend)
 
                     // vamos a ver como checkeamos los correos que estan en la lista de envios
-                    var inputChecks = $('#tboby-account-list')
+                    $.post('{{ route('api.company.getaccounts') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function(items) {
+                        divAccountsList.append($('<div>', { id: 'div-panel-account-list' }).addClass('panel')
+                            .append($('<div>').addClass('panel-heading').append($('<h4>').addClass('panel-title').text('Cuentas')))
+                            .append($('<div>').addClass('panel-body').append($('<div>').addClass('table-responsive').append(createTableAccounst(['Email', 'Nombre'], items, themesAccounts))))
+                        )
+                    })
                 })
             })
 
             // function create table for account list 
             function createTableAccounst (headers, items, accounts = null) {
-                var table = $('<table>').addClass('table table-bordered table-primary table-striped nomargin')
-                table.append($('<thead>')
-                    .append($('<tr>')
-                        .append($('<th>').addClass('text-center')
-                            .append($('<label>').addClass('ckbox ckbox-primary')
-                                .append($('<input>', {
+                var table = $(`<div class="table-responsive">
+                                    <table class="table table-bordered table-primary table-striped nomargin">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    <label class="ckbox ckbox-primary">
+                                                        <input type="checkbox" id="input-checkbox-select-all"><span></span>
+                                                    </label>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tboby-account-list"></tbody>
+                                    </table>
+                                </div>`)
+                var tableBody = table.find('#tboby-account-list')
+                // create headers 
+                headers.map(function (title) {
+                    table.find('thead > tr').append($('<th>').text(title))
+                })
+                //items in the table
+                $.each(items, function (key, item) {
+                    tableBody.append($('<tr>').append(
+                        $('<td>').addClass('text-center').append(
+                            $('<label>').addClass('ckbox ckbox-primary')
+                                .append(
+                                    $('<input>', {
                                         type: 'checkbox',
-                                        id: 'input-checkbox-select-all'
-                                    })
+                                        name: 'accounts[]',
+                                        checked: function() {
+                                            if(accounts === undefined || accounts === null) {
+                                                return false
+                                            }
+                                            
+                                            if(accounts.find(acc => acc.email == item.email) != undefined) {
+                                                return true
+                                            }
+                                            return false
+                                        },
+                                        value: item.id
+                                    }).addClass('input-checkbox-account')
                                 )
                                 .append($('<span>'))
-                            )
                         )
+                    ).append(
+                        $('<td>').text(item.email)
                     )
-                )
+                    .append($('<td>').text(item.name)))
+                })
+                return table
             }
         })
     </script>
