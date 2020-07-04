@@ -112,14 +112,14 @@
                     var divSendNews = $('#div-send-news')
                     var themesAccounts = res
                     var emails = res.map(function(item) { 
-                            return `<br /> => <strong>${item.email}</strong> (${item.name})` 
+                            return `<li><strong>${item.email}</strong> (${item.name})</li>` 
                     })
 
                     var accountsIds = res.map(function(item) { 
                             return item.id 
                     })
 
-                    var pEmailList = $('<p id="p-list-string" >').html(`La nota se enviara a los siguientes correos: ${emails}`)
+                    var pEmailList = $('<p id="p-list-string" >').text(`La nota se enviara a los siguientes correos:`).append($('<ul id="ul-list-accounts">').html(emails))
                     var panelSendNews = $('#panel-send-news')
                     var btnSend = $('<input>', {
                         type: 'submit',
@@ -174,24 +174,33 @@
             $('#div-accounts-list').on('change', 'input[type=checkbox].input-checkbox-account', function() {
                 try {
                     var inputSendAccounts = $('#input-accounts-ids')
+                    var publicAccounts = $('#ul-list-accounts')
+                    var emailHermano = $(this).parents('td').next()
+                    var nameHermano = $(this).parents('td').next().next()
+                    var arrayAccounts = inputSendAccounts.val().split(',')    
+                    
                     if ($(this).is(':checked') ) {
-                        var publicAccounts = $('#p-list-string')
-                        var arrayAccounts = inputSendAccounts.val().split(',')
                         arrayAccounts.push($(this).val())
                         inputSendAccounts.val(arrayAccounts.toString())
-                        console.log("Checkbox " + $(this).prop("id") +  " (" + $(this).val() + ") => Seleccionado")
-                        var emailHermano = $(this).parents('td').next()
-                        var nameHermano = $(this).parents('td').next().next()
-                        var newElementList = `<br />=> <strong>${emailHermano.text()}</strong> (${nameHermano.text()})`
+                        var newElementList = `<li><strong>${emailHermano.text()}</strong> (${nameHermano.text()})</li>`
                         publicAccounts.append(newElementList)
-                        console.log(`${emailHermano.text()} (${nameHermano.text()})`)
                     } else {
-                        console.log("Checkbox " + $(this).prop("id") +  " (" + $(this).val() + ") => Deseleccionado")
+                        var indexToDelete = arrayAccounts.indexOf($(this).val())
+                        if(indexToDelete > -1) {
+                            arrayAccounts.splice(indexToDelete, 1)
+                        }
+                        inputSendAccounts.val(arrayAccounts.toString())
+                        publicAccounts.children().map(function (key, el) {
+                            if(el.innerText.indexOf(emailHermano.text()) > -1) {
+                                el.remove()
+                            }
+                        })
                     }
                 } catch (error) {
-                    console.error(error)
+                    console.error('Hay un problema, tal vez se soluciones seleccionando un tema')
+                    // console.error(error)
+                    // console.error(error.message)
                 }
-
             })
 
             // function create table for account list 
