@@ -5,6 +5,11 @@
             {{ session('status') }}
         </div>
     @endif
+    @if (session('danger'))
+        <div class="alert alert-danger">
+            {{ session('danger') }}
+        </div>
+    @endif
     <div class="col-sm-12 col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -202,6 +207,15 @@
                     // console.error(error.message)
                 }
             })
+
+            // TODO: Validar cuando no hay cuentas de correos el la vista
+            // validateListAccounts()
+            // function validateListAccounts() {
+            //     if($('#ul-list-accounts').children().length == 0 ) {
+            //         var btnForm = $('#p-list-string').next()
+            //         btnForm.attr('disabled', true)
+            //     }
+            // }
 
             // function create table for account list 
             function createTableAccounst (headers, items, accounts = null) {

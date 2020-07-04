@@ -25,16 +25,20 @@ use App\File;
 use App\Genre;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NewsletterThemeNewsController;
+use App\Mail\NoticeNewsEmail;
 use App\Means;
 use App\News;
 use App\Newsletter;
 use App\NewsletterThemeNews;
 use App\Sector;
+use App\Theme;
 use App\TypePage;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -450,7 +454,25 @@ class NewsController extends Controller
     }
 
     public function sendNews(Request $request) {
-        dd($request->all());
+        
+        if(empty($request->input('accounts_ids'))) {
+            return back()->with('danger', 'No se hay correos seleccionados, para enviar la nota.');
+        }
+
+        $news = News::findOrFail($request->input('news_id'));
+        $themeCompany = Theme::findOrFail($request->input('theme_id'));
+        $accounts = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+
+        // dd($accounts);
+
+        Mail::to($accounts)->send(new NoticeNewsEmail($news, $themeCompany));
+
+        return [
+            'code' => '201',
+            'status' => 'OK',
+            'message' => 'Se ha enviado el correo'
+        ];
+
     }
 
 }

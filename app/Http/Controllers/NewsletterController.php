@@ -158,30 +158,40 @@ class NewsletterController extends Controller
         } catch (DecryptException $e) {
             return abort(403, 'Noticia no encontrada');
         }
-        $company = Company::find(end($data));
-        $newId = $data[0];
-        $new = $this->newsController->getNewById($newId);
-        $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
-                ->where('id_noticia', $new->id_noticia)
-                ->get()->map(function ($adj) use ($new) { 
-                    
-                    $medio = strtolower($new->medio);
-                    
-                    if($medio == 'peri&oacute;dico') {
-                        $medio = 'periodico';
-                    } elseif ($medio == 'Televisi&oacute;n') {
-                        $medio = 'television';
-                    }
-                    
-                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
-                    
-                    return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
-                });
+        $endString = end($data);
+        if($endString == 'local') {
+            return [
+                'code' => '200',
+                'status' => 'OK',
+                'message' => 'Aqui va la vista de la nota'
+            ];
+        } else {
+            $company = Company::find(end($data));
+            $newId = $data[0];
+            $new = $this->newsController->getNewById($newId);
+            $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+                    ->where('id_noticia', $new->id_noticia)
+                    ->get()->map(function ($adj) use ($new) { 
+                        
+                        $medio = strtolower($new->medio);
+                        
+                        if($medio == 'peri&oacute;dico') {
+                            $medio = 'periodico';
+                        } elseif ($medio == 'Televisi&oacute;n') {
+                            $medio = 'television';
+                        }
+                        
+                        $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                        
+                        return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
+                                                :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
+                    });
 
-        $metadata = $this->newsController->getMetaNew($new);
+            $metadata = $this->newsController->getMetaNew($new);
 
-        return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+            return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+        }
+
     }
 
     public function sendSelectHTMLWithThemes(Request $request) {
