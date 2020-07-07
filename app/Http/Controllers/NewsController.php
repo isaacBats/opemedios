@@ -35,9 +35,11 @@ use App\Sector;
 use App\Theme;
 use App\TypePage;
 use App\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -475,6 +477,22 @@ class NewsController extends Controller
         Mail::to($accounts)->send(new NoticeNewsEmail($news, $themeCompany));
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
+    }
+
+    public function showDetailNews(Request $request) {
+        if(!$request->has('qry')) {
+            return redirect()->route('home');
+        }
+        
+        try {
+            $data = explode('-',Crypt::decryptString($request->get('qry')));
+        } catch (DecryptException $e) {
+            return abort(403, 'Noticia no encontrada');
+        }
+
+        $news = News::findOrFail($data[0]);
+
+        return view('clients.frontdetailnews', compact('news'));
     }
 
 }

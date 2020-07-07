@@ -201,7 +201,7 @@
                 <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
                     <tr>
                         <td align="center" class="section-img" style="background-color: {{ $news->mean->getColor() }};  -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;">
-                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}-local")]) }}" style=" border-style: none !important; display: block; border: 0 !important;">
+                            <a href="{{ route('front.detail.news', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}")]) }}" style=" border-style: none !important; display: block; border: 0 !important;">
                                 <img src="{{ asset("images/mails/{$news->mean->icon}.svg") }}" style="display: block; max-width: 35%;" width="590" border="0" alt="{{ $news->title }}" />
                             </a>
                         </td>
@@ -285,7 +285,7 @@
 
 
                                         <div style="line-height: 26px;">
-                                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}-local")]) }}" style="color: #ffffff; text-decoration: none;">{{ __('Ver noticia completa') }}</a>
+                                            <a href="{{ route('front.detail.news', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}")]) }}" style="color: #ffffff; text-decoration: none;">{{ __('Ver noticia completa') }}</a>
                                         </div>
                                     </td>
                                 </tr>
