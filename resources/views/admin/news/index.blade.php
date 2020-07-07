@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-12 col-md-2">
             <div class="panel panel-primary">
@@ -48,7 +53,7 @@
                                         </a>
                                     </td>
                                     <td>{{ $note->source->name }}</td>
-                                    <td></td>
+                                    <td>{{ $note->isAssigned() ? $note->assignedNews->first()->company->name : 'No enviada' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

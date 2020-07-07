@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AssignedNews;
 use App\AuthorType;
 use App\File;
 use App\Genre;
@@ -13,6 +14,7 @@ use App\Source;
 use App\TypePage;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 class News extends Model
@@ -105,7 +107,25 @@ class News extends Model
         return $array_metas;
     }
 
+    // public function getAttribute($attr) {
+    //     return Arr::first($this->metas(), function($value, $key) use($attr) {
+    //         return $value['label'] == $attr;
+    //     });
+    // }
+
     public function newsletters() {
         return $this->hasMany(NewsletterThemeNews::class);
+    }
+
+    public function assignedNews() {
+        return $this->hasMany(AssignedNews::class);
+    }
+
+    public function isAssigned() {
+        if($this->assignedNews->count() > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

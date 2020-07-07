@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 
 class NoticeNewsEmail extends Mailable
 {
@@ -16,6 +17,10 @@ class NoticeNewsEmail extends Mailable
     public $news;
 
     public $theme;
+
+    public $cost;
+
+    public $scope;
 
     /**
      * Create a new message instance.
@@ -26,6 +31,15 @@ class NoticeNewsEmail extends Mailable
     {
         $this->news = $news;
         $this->theme = $theme;
+
+        $this->cost = $this->getAttribute('Costo');
+        $this->scope = $this->getAttribute('Alcance');
+    }
+
+    protected function getAttribute($attr) {
+        return Arr::first($this->news->metas(), function($value, $key) use($attr) {
+            return $value['label'] == $attr;
+        });
     }
 
     /**
@@ -35,6 +49,8 @@ class NoticeNewsEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.noticeNews');
+        return $this->from('noticia@opemedios.com.mx', 'Noticias OPEMEDIOS')
+                ->subject($this->news->title)
+                ->view('mail.noticeNews');
     }
 }

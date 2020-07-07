@@ -20,6 +20,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AssignedNews;
 use App\AuthorType;
 use App\File;
 use App\Genre;
@@ -463,16 +464,17 @@ class NewsController extends Controller
         $themeCompany = Theme::findOrFail($request->input('theme_id'));
         $accounts = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
 
-        // dd($accounts);
+        AssignedNews::create([
+            'news_id' => $news->id,
+            'company_id' => $themeCompany->company->id,
+            'theme_id' => $themeCompany->id,
+            'num_users' => $accounts->count(),
+            'users_ids' => $request->input('accounts_ids')
+        ]);
 
         Mail::to($accounts)->send(new NoticeNewsEmail($news, $themeCompany));
 
-        return [
-            'code' => '201',
-            'status' => 'OK',
-            'message' => 'Se ha enviado el correo'
-        ];
-
+        return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
 
 }

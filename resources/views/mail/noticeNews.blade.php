@@ -54,6 +54,9 @@
             .main-header {
                 font-size: 20px !important;
             }
+            .main-header span {
+                font-size: 16px !important;
+            }
             .main-section-header {
                 font-size: 28px !important;
             }
@@ -89,6 +92,10 @@
                 width: 220px !important;
             }
             /*-------- secions ----------*/
+            .section-img div {
+                width: 320px !important;
+                height: 320px !important;
+            }
             .section-img img {
                 width: 320px !important;
                 height: auto !important;
@@ -103,6 +110,9 @@
             /*------ top header ------ */
             .main-header {
                 font-size: 18px !important;
+            }
+            .main-header span {
+                font-size: 13px !important;
             }
             .main-section-header {
                 font-size: 26px !important;
@@ -122,6 +132,10 @@
                 width: 260px !important;
             }
             /*-------- secions ----------*/
+            .section-img div {
+                width: 280px !important;
+                height: 280px !important;
+            }
             .section-img img {
                 width: 280px !important;
                 height: auto !important;
@@ -143,7 +157,7 @@
         <tr>
             <td>
                 <div style="overflow:hidden;display:none;font-size:1px;color:#ffffff;line-height:1px;font-family:Arial;maxheight:0px;max-width:0px;opacity:0;">
-                    Pre-header for the newsletter template
+                    {{ config('app.name', 'Opemedios') }}
                 </div>
             </td>
         </tr>
@@ -151,33 +165,28 @@
     <!-- pre-header end -->
     <!-- header -->
     <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff">
-
         <tr>
             <td align="center">
                 <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
                     <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
-
                     <tr>
                         <td align="center">
-
                             <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
                                 <tr>
                                     <td align="center" height="70" style="height:70px;">
-                                        <a href="{{ route('home') }}" style="display: block; border-style: none !important; border: 0 !important;"><img width="100" border="0" style="display: block; width: 100px;" src="http://staging.opemedios.com.mx/images/logo.png" alt="Opemedios" /></a>
+                                        <a href="{{ route('home') }}" style="display: block; border-style: none !important; border: 0 !important;">
+                                            <img width="100" border="0" style="display: block; width: 100px;" src="http://staging.opemedios.com.mx/images/logo.png" alt="Opemedios" />
+                                        </a>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-
                     <tr>
                         <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
                     </tr>
-
                 </table>
             </td>
         </tr>
@@ -191,9 +200,10 @@
             <td align="center">
                 <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
                     <tr>
-
-                        <td align="center" class="section-img">
-                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}-local")]) }}" style=" border-style: none !important; display: block; border: 0 !important;"><img src="https://mdbootstrap.com/img/Mockups/Lightbox/Original/img (67).jpg" style="display: block; width: 590px;" width="590" border="0" alt="" /></a>
+                        <td align="center" class="section-img" style="background-color: {{ $news->mean->getColor() }};  -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;">
+                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}-local")]) }}" style=" border-style: none !important; display: block; border: 0 !important;">
+                                <img src="{{ asset("images/mails/{$news->mean->icon}.svg") }}" style="display: block; max-width: 35%;" width="590" border="0" alt="{{ $news->title }}" />
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -201,20 +211,21 @@
                     </tr>
                     <tr>
                         <td align="center" style="color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;" class="main-header">
-
-
                             <div style="line-height: 35px">
-
                                 {{ $news->title }}
-
                             </div>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td align="right" style="color: #343434; font-size: 16px; font-family: Quicksand, Calibri, sans-serif; font-weight:700; letter-spacing: 3px; line-height: 25px;" class="main-header">
+                            <div style="line-height: 25px; font-style: italic;">
+                                <span>{{ "Fuente: {$news->source->name} ({$news->section->name})" }}</span>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
                     </tr>
-
                     <tr>
                         <td align="center">
                             <table border="0" width="40" align="center" cellpadding="0" cellspacing="0" bgcolor="eeeeee">
@@ -224,11 +235,25 @@
                             </table>
                         </td>
                     </tr>
-
                     <tr>
                         <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
                     </tr>
-
+                    <tr>
+                        <td align="left">
+                            <table border="0" width="400" align="left" cellpadding="0" cellspacing="0" class="container590">
+                                <tr>
+                                    <td align="left" style="color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                                        <div style="line-height: 24px">
+                                            {{ "Alcance: {$scope['value']} | Costo: {$cost['value']}" }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                    </tr>
                     <tr>
                         <td align="center">
                             <table border="0" width="400" align="center" cellpadding="0" cellspacing="0" class="container590">
