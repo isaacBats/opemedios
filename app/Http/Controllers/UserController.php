@@ -27,7 +27,9 @@ use App\User;
 use App\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
@@ -162,5 +164,41 @@ class UserController extends Controller
         return view('admin.company.addUser', compact('company', 'role', 'clients')); 
     }
 
-    // TODO: Relacionar un usuario cliente con los temas de las empresas a las que pertenecen
+    public function edit(Request $request, $id) {
+
+        $user = User::findOrFail($id);
+        $monitors = Means::select('id','name')->get();
+
+        return view('admin.user.edit', compact('user', 'monitors'));
+    }
+
+    public function update(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $data = $request->all();
+        
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+
+        if(!is_null($data['password']) && !is_null($data['new_password'])) {
+            if(Hash::check($data['password'], $user->password)) {
+                $user->password = Hash::make($data['new_password']);
+            } else {
+                Session::flash('error', 'No es posible cambiar la contraseña. Intente mas tarde');
+            }
+        }
+        foreach ($data as $key => $value) {
+            if(Str::contains($key, 'user_')) {
+                if(!is_null($value)) {
+                    $user->metas()->updateOrCreate(
+                        // ['user_id' => $user->id],
+                        ['meta_key' => $key, 'meta_value' => $value],
+                    );
+                }
+            }
+        }
+
+        $user->save();
+        
+        return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
+    }
 }

@@ -46,7 +46,7 @@
                             <select name="rol" id="rol" class="form-control" required >
                                 <option value="">Selecciona un rol</option>
                                 @foreach(Spatie\Permission\Models\Role::all() as $role)
-                                    <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }}>{{ App\User::getRoleNameCustom($role->name) }}</option>
                                 @endforeach
                             </select>
                             @error('rol')

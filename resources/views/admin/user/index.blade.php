@@ -51,7 +51,7 @@
                   <td class="text-left">{{ $user->metas->where('meta_key', 'user_position')->first()->meta_value }}</td>
                   <td class="table-options">
                       <li><a href="{{ route('user.show', ['id' => $user->id]) }}"><i class="fa fa-eye"></i></a></li>
-                      <li><a href="{{ route('user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash"></i></a></li>
+                      <li><a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach

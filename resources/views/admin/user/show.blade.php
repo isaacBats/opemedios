@@ -1,6 +1,16 @@
 @extends('layouts.admin')
 @section('admin-title', " - Perdil de {$profile->name}")
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <div class="row profile-wrapper">
     <div class="col-xs-12 col-md-3 col-lg-2 profile-left">
         <div class="profile-left-heading">
@@ -18,31 +28,25 @@
             </ul>
 
 
-            <a href="{{ route('user.edit', ['id' => $profile->id ]) }}" class="btn btn-danger btn-quirk btn-block profile-btn-follow">Editar</a>
+            <a href="{{ route('admin.user.edit', ['id' => $profile->id ]) }}" class="btn btn-danger btn-quirk btn-block profile-btn-follow">Editar</a>
         </div>
         <div class="profile-left-body">
-            <h4 class="panel-title">Sobre mi</h4>
-            <p>Social media ninja. Pop culture enthusiast. Zombie fanatic. General tv evangelist.</p>
-            <p>Alcohol fanatic. Explorer. Passionate reader. Entrepreneur. Lifelong coffee advocate. Avid bacon aficionado. Travel evangelist.</p>
-
+            <h4 class="panel-title">{{ __('Sobre mi') }}</h4>
+            <p>{!! $profile->getMetaByKey('user_aboutme') ? $profile->getMetaByKey('user_aboutme')->meta_value : "No hay información hacerca de {$profile->name}" !!}</p>
             <hr class="fadeout">
 
-            <h4 class="panel-title">Dirección</h4>
-            <p><i class="glyphicon glyphicon-user mr5"></i> San Francisco, CA, USA</p>
+            <h4 class="panel-title">{{ __('Dirección') }}</h4>
+            <p><i class="glyphicon glyphicon-user mr5"></i> {{ $profile->getMetaByKey('user_address') ? $profile->getMetaByKey('user_address')->meta_value : "-" }}</p>
 
-            {{-- Si pertenece a una empresa mostrar este atributo. --}}
-            @if( $companyId = $profile->metas->where('meta_key', 'company_id')->first())
-                @php
-                    $company = App\Company::find($companyId)->first();
-                @endphp
+            @if($profile->company())
                 <hr class="fadeout">
-                <h4 class="panel-title">Company</h4>
-                <p><i class="glyphicon glyphicon-briefcase mr5"></i> {{ $company->name }}</p>
+                <h4 class="panel-title">{{ __('Empresa') }}</h4>
+                <p><i class="glyphicon glyphicon-briefcase mr5"></i> {{ $profile->company()->name }}</p>
             @endif
             <hr class="fadeout">
 
-            <h4 class="panel-title">Tipo de usuario</h4>
-            <p><i class="glyphicon glyphicon-briefcase mr5"></i> {{ strtoupper(implode(',',$profile->getRoleNames()->toArray())) }}</p>
+            <h4 class="panel-title">{{ __('Tipo de usuario') }}</h4>
+            <p><i class="glyphicon glyphicon-briefcase mr5"></i> {{ strtoupper($profile->toStringRoles()) }}</p>
 
             <hr class="fadeout">
 

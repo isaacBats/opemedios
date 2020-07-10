@@ -98,4 +98,48 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public static function getRoleNameCustom($name) {
+        switch ($name) {
+            case 'admin':   $customName = 'Super Administrador';    break;
+            case 'manager': $customName = 'Ejecutivo de Cuentas';   break;
+            case 'monitor': $customName = 'Monitorista';            break;
+            case 'client':  $customName = 'Cliente';                break;
+            case 'disable':  $customName = 'Deshabilitado';         break;
+            default:        $customName = 'Indefinido';             break;
+        }
+
+        return $customName;
+    }
+
+    public function toStringRoles() {
+        $roles = $this->getRoleNames();
+        if($roles->count() == 1){
+            return $this->getRoleNameCustom($roles[0]);
+        }
+
+        if($roles->count() > 1 ) {
+            $names = $roles->map(function($rol) {
+                return $this->getRoleNameCustom($rol);
+            });
+
+            return implode(',', $names);
+        }
+
+        return false;
+    }
+
+    public function getMetaByKey($key) {
+
+        $meta = UserMeta::where([
+            ['meta_key', '=', $key],
+            ['user_id', '=', $this->id],
+        ])->first();
+        
+        if(is_null($meta)) {
+            return false;
+        }
+
+        return $meta;
+    }
 }
