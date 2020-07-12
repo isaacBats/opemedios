@@ -69,9 +69,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
         Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
-        Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
-        Route::get('usuario/editar/{id}', 'UserController@edit')->name('admin.user.edit');
-        Route::post('usuario/editar/{id}', 'UserController@update')->name('admin.edit.user');
         Route::get('usuario/borrar/{id}', 'UserController@delete')->name('admin.user.delete');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
@@ -125,6 +122,10 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
     });
+
+    Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
+    Route::get('usuario/editar/{id}', 'UserController@edit')->name('admin.user.edit');
+    Route::post('usuario/editar/{id}', 'UserController@update')->name('admin.edit.user');
 
     Route::get('administrador-archivos', 'FileManagerController@index')->name('filemanager');
     Route::get('administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
