@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Num;
+
 if (! function_exists('number_decimal')) {
     /**
      * @param  $number

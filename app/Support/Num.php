@@ -20,23 +20,19 @@ namespace App\Support;
 
 class Num 
 {
+    const STR_LOCALE = 'es_MX';
 
-    protected static $format_decimal;
-    
-    protected static $format_coin;
-
-    const static LOCALE = 'es_MX';
-
-    public function __construct() {
-        $this->format_coin = numfmt_create(static::LOCALE, \NumberFormatter::CURRENCY);
-        $this->format_decimal = numfmt_create(static::LOCALE, \NumberFormatter::DECIMAL);
-    }
+    private static function setFormat($formatter) {
+        return numfmt_create(self::STR_LOCALE, $formatter);
+    } 
 
     public static function formatNumber($number) {
-        return numfmt_format($this->format_decimal, $number);
+        $format = self::setFormat(\NumberFormatter::DECIMAL);
+        return numfmt_format($format, $number);
     }
 
     public static function formatCoin($number) {
-        return numfmt_format($this->format_coin, $number);
+        $format = self::setFormat(\NumberFormatter::CURRENCY);
+        return numfmt_format($format, $number);
     } 
 }

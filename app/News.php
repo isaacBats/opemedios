@@ -128,4 +128,8 @@ class News extends Model
 
         return false;
     }
+
+    public static function latestNews($limit = 10) {
+        return News::latest()->limit($limit)->get();
+    }
 }

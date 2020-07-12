@@ -20,12 +20,15 @@
 
 namespace App\Http\Controllers;
 
+use App\AssignedNews;
 use App\Company;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Means;
+use App\News;
 use App\User;
 use App\UserMeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,8 +53,37 @@ class UserController extends Controller
 
     public function show (Request $request, $id) {
         $profile = User::find($id);
+        $countNews = array();
+        $date = Carbon::now()->toDateString();
+        $allNews = News::count();
+        $newsToday = News::whereDate('created_at', $date)->count();
+        $newsSendToday = AssignedNews::whereDate('created_at', $date)->count();
+        $notesActivity = false;
+        $limitNotes = 10;
 
-        return view('admin.user.show', compact('profile'));
+        if($profile->hasRole('admin') || $profile->hasRole('manager')) {
+            $countNews = [
+                ['label' => 'Todas las noticias', 'value' => $allNews],
+                ['label' => 'Noticias de hoy', 'value' => $newsToday],
+                ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
+                ['label' => 'Noticias sin enviar hoy', 'value' => ($newsToday - $newsSendToday)],
+            ];
+            $notesActivity = News::latestNews($limitNotes);
+        } elseif($profile->hasRole('client')) {
+            $countNews = [
+                ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
+                ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
+            ];
+            $assignedNotes = AssignedNews::select('news_id')->where('company_id', $profile->company()->id)->latest()->limit($limitNotes)->get();
+            $notesActivity = News::whereIn('id', $assignedNotes)->get();
+        } elseif($profile->hasRole('monitor')) {
+            $countNews = [
+                ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],
+            ];
+            $notesActivity = News::where('user_id', $profile->id)->latest()->limit($limitNotes)->get();
+        }
+
+        return view('admin.user.show', compact('profile', 'countNews', 'notesActivity'));
     }
 
     public function showFormNewUser() {
