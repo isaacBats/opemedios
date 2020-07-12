@@ -16,31 +16,39 @@
     </div><!-- leftpanel-profile -->
 
     <div class="leftpanel-userinfo collapse" id="loguserinfo">
-      <h5 class="sidebar-title">Address</h5>
+      <h5 class="sidebar-title">{{ __('Dirección') }}</h5>
       <address>
-        4975 Cambridge Road
-        Miami Gardens, FL 33056
+        {{ Auth::user()->getMetaByKey('user_address') ? Auth::user()->getMetaByKey('user_address')->meta_value : "-" }}
       </address>
-      <h5 class="sidebar-title">Contact</h5>
+      <h5 class="sidebar-title">{{ __('Contacto') }}</h5>
       <ul class="list-group">
         <li class="list-group-item">
-          <label class="pull-left">Email</label>
-          <span class="pull-right">me@themepixels.com</span>
+          <label class="pull-left">{{ __('Email') }}</label>
+          <span class="pull-right">{{ Auth::user()->email }}</span>
         </li>
         <li class="list-group-item">
-          <label class="pull-left">Home</label>
-          <span class="pull-right">(032) 1234 567</span>
+          <label class="pull-left">{{ __('Oficina') }}</label>
+          <span class="pull-right">{{ $profile->getMetaByKey('user_phone') ? $profile->getMetaByKey('user_phone')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
-          <label class="pull-left">Mobile</label>
-          <span class="pull-right">+63012 3456 789</span>
+          <label class="pull-left">{{ __('WhatsApp') }}</label>
+          <span class="pull-right">{{ $profile->getMetaByKey('user_whatsapp') ? $profile->getMetaByKey('user_whatsapp')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
           <label class="pull-left">Social</label>
           <div class="social-icons pull-right">
-            <a href="#"><i class="fa fa-facebook-official"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-pinterest"></i></a>
+            @if($profile->getMetaByKey('user_facebook'))
+                <a href="{{ $profile->getMetaByKey('user_facebook')->meta_value }}"><i class="fa fa-facebook-official"></i></a>
+            @endif
+            @if($profile->getMetaByKey('user_twitter'))
+                <a href="{{ $profile->getMetaByKey('user_twitter')->meta_value}}"><i class="fa fa-twitter"></i></a>
+            @endif
+            @if($profile->getMetaByKey('user_instagram'))
+                <a href="{{ $profile->getMetaByKey('user_instagram')->meta_value}}"><i class="fa fa-instagram"></i></a>
+            @endif
+            @if($profile->getMetaByKey('user_linkedin'))
+                <a href="{{ $profile->getMetaByKey('user_linkedin')->meta_value}}"><i class="fa fa-linkedin"></i></a>
+            @endif
           </div>
         </li>
       </ul>
