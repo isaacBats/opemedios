@@ -28,26 +28,26 @@
         </li>
         <li class="list-group-item">
           <label class="pull-left">{{ __('Oficina') }}</label>
-          <span class="pull-right">{{ $profile->getMetaByKey('user_phone') ? $profile->getMetaByKey('user_phone')->meta_value : "-" }}</span>
+          <span class="pull-right">{{ Auth::user()->getMetaByKey('user_phone') ? Auth::user()->getMetaByKey('user_phone')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
           <label class="pull-left">{{ __('WhatsApp') }}</label>
-          <span class="pull-right">{{ $profile->getMetaByKey('user_whatsapp') ? $profile->getMetaByKey('user_whatsapp')->meta_value : "-" }}</span>
+          <span class="pull-right">{{ Auth::user()->getMetaByKey('user_whatsapp') ? Auth::user()->getMetaByKey('user_whatsapp')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
           <label class="pull-left">Social</label>
           <div class="social-icons pull-right">
-            @if($profile->getMetaByKey('user_facebook'))
-                <a href="{{ $profile->getMetaByKey('user_facebook')->meta_value }}"><i class="fa fa-facebook-official"></i></a>
+            @if(Auth::user()->getMetaByKey('user_facebook'))
+                <a href="{{ Auth::user()->getMetaByKey('user_facebook')->meta_value }}"><i class="fa fa-facebook-official"></i></a>
             @endif
-            @if($profile->getMetaByKey('user_twitter'))
-                <a href="{{ $profile->getMetaByKey('user_twitter')->meta_value}}"><i class="fa fa-twitter"></i></a>
+            @if(Auth::user()->getMetaByKey('user_twitter'))
+                <a href="{{ Auth::user()->getMetaByKey('user_twitter')->meta_value}}"><i class="fa fa-twitter"></i></a>
             @endif
-            @if($profile->getMetaByKey('user_instagram'))
-                <a href="{{ $profile->getMetaByKey('user_instagram')->meta_value}}"><i class="fa fa-instagram"></i></a>
+            @if(Auth::user()->getMetaByKey('user_instagram'))
+                <a href="{{ Auth::user()->getMetaByKey('user_instagram')->meta_value}}"><i class="fa fa-instagram"></i></a>
             @endif
-            @if($profile->getMetaByKey('user_linkedin'))
-                <a href="{{ $profile->getMetaByKey('user_linkedin')->meta_value}}"><i class="fa fa-linkedin"></i></a>
+            @if(Auth::user()->getMetaByKey('user_linkedin'))
+                <a href="{{ Auth::user()->getMetaByKey('user_linkedin')->meta_value}}"><i class="fa fa-linkedin"></i></a>
             @endif
           </div>
         </li>
