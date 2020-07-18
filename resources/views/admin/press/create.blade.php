@@ -140,7 +140,7 @@
                     case "1":  // Primeras Planas
                     case "2": // Portadas Financieras
                     case "5": // Cartones
-                        // hideFields()
+                        hideFields()
                         // cleanFields()
                         // $('.item-rad')
                         //     .find('input[name=news_hour], input[name=news_duration]')
@@ -149,7 +149,7 @@
                         break
                     case "3": // Columnas politicas
                     case "4": // Columnas financieras
-                        // hideFields()
+                        hideFields()
                         // cleanFields()
                         // $('.item-rev')
                         //     .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
@@ -157,44 +157,17 @@
                         itemsColumn.show('slow')
                         break
                     default:
-                        // hideFields()
+                        hideFields()
                         // cleanFields()
                         // getItemsByMean(mean)
                         //code here
                 }   
             }
 
-            // disabled and hide items
-            // $('.column').each(function(index, element) {
-            //     var input = element.getElementsByTagName('input')
-            //     if(input.length > 0)
-            //         input[0].setAttribute('disabled', true)
-
-            //     var select = element.getElementsByTagName('select')
-            //     if(select.length > 0)
-            //         select[0].setAttribute('disabled', true)
-
-            //     var textarea = element.getElementsByTagName('textarea')
-            //     if(textarea.length > 0)
-            //         textarea[0].setAttribute('disabled', true)
-            // })
-
             // Select cover type
             $('#select-cover-type').on('change', function(){
                 var coverId = $(this).val()
                 getItemsByCover(coverId) 
-                // var coverType = $(this).val()
-                // var itemsColumns = $('.column')
-                // var itemsCovers = $('.cover')
-                // if(coverType == 1 || coverType == 2 || coverType == 5) {
-                //     itemsColumns.each(function(index, element){
-                //         element.classList.remove('hidden')
-                //     })
-                // } else if(coverType == 3 || coverType == 4) {
-                //     itemsCovers.each(function(index, element){
-                //         element.classList.remove('hidden')
-                //     })
-                // }
             })
 
              function cleanFields() {
@@ -202,6 +175,11 @@
                     .attr('disabled', true)
                 $('.item-select-clean').prop('selectedIndex','')
                     .attr('disabled', true)
+            }
+
+            function hideFields(){
+                $('.cover').hide()
+                $('.column').hide()
             }
         })
     </script>

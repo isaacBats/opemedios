@@ -100,7 +100,13 @@
                 </ul>
             </li>
           @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
-          <li><a href="index.html"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a></li>
+          <li class="nav-parent">
+                <a href="javascript:void(0);"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a>
+                <ul class="children">
+                    <li><a href="{{ route('admin.press.show') }}">{{ __('Administrar portadas') }}</a></li>
+                    <li><a href="{{ route('admin.press.add') }}">{{ __('Subir portadas') }}</a></li>
+                </ul>
+          </li>
           {{-- <li><a href="{{ route('filemanager') }}"><i class="fa fa-cloud"></i> <span>Archivos</span></a></li> --}}
           {{-- 
             <li class="nav-parent">
