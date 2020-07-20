@@ -7,7 +7,7 @@
             </div>
             <div class="panel-body">
                 <hr>
-                <form action="{{ route('admin.press.add') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.press.add') }}" class="form-horizontal" method="POST" enctype="multipart/form-data" id="form-add-cover">
                     @csrf
                     <div class="form-group">
                         <label for="select-cover-type" class="col-sm-3 control-label">{{ __('Tipo de portada') }} <span class="text-danger">*</span></label>
@@ -36,7 +36,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group hidden column" style="display: none;">
+                    <div class="form-group column" style="display: none;">
                         <label class="col-sm-3 control-label">{{ __('Autor') }} <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="text" name="author" class="form-control item-input-clean" disabled>
@@ -122,7 +122,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             // settings select2
-            $('#select-source').select2()
+            $('#select-source').select2({ width: '100%' })
 
             // settings datepicker
             $('#input-date-cover').datepicker({
@@ -141,26 +141,30 @@
                     case "2": // Portadas Financieras
                     case "5": // Cartones
                         hideFields()
-                        // cleanFields()
-                        // $('.item-rad')
-                        //     .find('input[name=news_hour], input[name=news_duration]')
-                        //     .removeAttr('disabled')
+                        $('#select-cover-type').each(function() {
+                            $(this).val(cover); 
+                        });
+                        itemsCover.find('input[name=date_cover]').removeAttr('disabled').attr('required', true)
+                        itemsCover.find('input[name=image]').removeAttr('disabled').attr('required', true)
+                        itemsCover.find('#select-source').removeAttr('disabled').attr('required', true)
                         itemsCover.show('slow')
                         break
                     case "3": // Columnas politicas
                     case "4": // Columnas financieras
                         hideFields()
-                        // cleanFields()
-                        // $('.item-rev')
-                        //     .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
-                        //     .removeAttr('disabled')
+                        $('#select-cover-type').each(function() {
+                            $(this).val(cover); 
+                        });
+                        itemsColumn.find('input[name=title]').removeAttr('disabled').attr('required', true)
+                        itemsColumn.find('input[name=author]').removeAttr('disabled').attr('required', true)
+                        itemsColumn.find('input[name=date_cover]').removeAttr('disabled').attr('required', true)
+                        itemsColumn.find('input[name=image]').removeAttr('disabled').attr('required', true)
+                        itemsColumn.find('#select-source').removeAttr('disabled').attr('required', true)
+                        itemsColumn.find('#textarea-content').removeAttr('disabled').attr('required', true)
                         itemsColumn.show('slow')
                         break
                     default:
                         hideFields()
-                        // cleanFields()
-                        // getItemsByMean(mean)
-                        //code here
                 }   
             }
 
@@ -173,13 +177,17 @@
              function cleanFields() {
                 $('.item-input-clean').val('')
                     .attr('disabled', true)
-                $('.item-select-clean').prop('selectedIndex','')
-                    .attr('disabled', true)
+                    .removeAttr('required')
+                $('#select-source').select2({ 'val': '' }).trigger('change')
+                $('#select-source').attr('disabled', true)
+                $('#select-source').removeAttr('required')
+                $('#textarea-content').val('')
             }
 
             function hideFields(){
                 $('.cover').hide()
                 $('.column').hide()
+                $('#form-add-cover').trigger('reset')
             }
         })
     </script>
