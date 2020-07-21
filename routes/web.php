@@ -148,7 +148,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/ver/notificacion/{id}', 'NewsController@notice')->name('admin.new.notice.show');
     Route::post('noticias/enviar-noticia', 'NewsController@sendNews')->name('admin.new.send.news');
 
-    Route::get('prensa/ver/portadas', 'CoverController@show')->name('admin.press.show');
+    Route::get('prensa/ver/portadas', 'CoverController@index')->name('admin.press.show');
     Route::get('prensa/nueva-portada', 'CoverController@create')->name('admin.press.add');
     Route::post('prensa/nueva-portada', 'CoverController@store')->name('admin.press.add');
 

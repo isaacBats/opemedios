@@ -16,6 +16,18 @@ class CreateCoversTable extends Migration
         Schema::create('covers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->smallInteger('cover_type');
+            $table->string('title')->nullable();
+            $table->string('author')->nullable();
+            $table->timestamp('date_cover')->useCurrent();
+            $table->unsignedBigInteger('source_id');
+            $table->text('content')->nullable();
+            $table->text('image');
+
+            $table->foreign('source_id')
+                ->references('id')
+                ->on('sources')
+                ->onDelete('cascade');
         });
     }
 
