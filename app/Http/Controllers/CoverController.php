@@ -113,6 +113,10 @@ class CoverController extends Controller
                             return false;
                         })],
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2000'
+        ],[
+            'required' => 'El campo :input es requerido',
+            'image' => 'Debe de ser una imagen',
+            'mimes' => 'El archivo debe de ser de tipo :values'
         ]);
     }
 

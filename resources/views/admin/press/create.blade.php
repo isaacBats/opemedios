@@ -1,6 +1,15 @@
 @extends('layouts.admin')
 @section('content')
     <div class="col-sm-12 col-md-12 col-lg-12">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="panel">
             <div class="panel-heading">
                 <h4 class="panel-title">{{ __('Agregar una portada') }}</h4>
