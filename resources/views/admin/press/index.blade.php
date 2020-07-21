@@ -22,6 +22,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
+                            <th class="text-center">{{ __('Tipo') }}</th>
                             <th class="text-center">{{ __('Fecha') }}</th>
                             <th class="text-center">{{ __('Fuente') }}</th>
                             <th class="text-center">{{ __('Imagen') }}</th>
@@ -31,14 +32,18 @@
                     <tbody>
                         @forelse($covers as $cover)
                             <tr>
+                                @php
+                                    $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
+                                @endphp
                                 <th class="text-center">{{ ($covers->currentPage() - 1) * $covers->perPage() + $loop->iteration }}</th>
+                                <th class="text-center">{{ $coverType[$cover->cover_type] }}</th>
                                 <th class="text-center">{{ $cover->date_cover->toDateString() }}</th>
                                 <th class="text-center">{{ $cover->source->name }}</th>
                                 <th style="width: 12%;">
                                     <img src="{{ $cover->image }}" alt="{{ $cover->source->name }}" height="180" style="width: auto;">
                                 </th>
                                 <th class="text-center">
-                                    <a href="javascript:void(0)"><i class="fa fa-pencil"></i></a>
+                                    <a href="{{ route('admin.press.edit', ['id' => $cover->id]) }}"><i class="fa fa-pencil"></i></a>
                                     <a href="javascript:void(0)"><i class="fa fa-trash"></i></a>
                                 </th>
                             </tr>

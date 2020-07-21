@@ -20,8 +20,10 @@ class CoverController extends Controller
      */
     public function index()
     {
-        $covers = Cover::orderBy('id', 'desc')->paginate(25);;
-        return view('admin.press.index', compact('covers'));
+        $covers = Cover::orderBy('id', 'desc')->paginate(25);
+        $types = $this->coverTypes();
+
+        return view('admin.press.index', compact('covers', 'types'));
     }
 
     /**
@@ -39,11 +41,11 @@ class CoverController extends Controller
 
     public function coverTypes() {
         return [
-            1 => 'Primeras planas',
-            2 => 'Portadas financieras',
-            3 => 'Columnas políticas',
-            4 => 'Columnas financieras',
-            5 => 'Cartones'
+            1 => 'Primera plana',
+            2 => 'Portada financiera',
+            3 => 'Columna política',
+            4 => 'Columna financiera',
+            5 => 'Carton'
         ];
     }
 
@@ -131,21 +133,34 @@ class CoverController extends Controller
      * @param  \App\Cover  $cover
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cover $cover)
+    public function edit(Request $response, $id)
     {
-        //
+        $cover = Cover::findOrFail($id);
+        $types = $this->coverTypes();
+        $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
+        $neswpaperMean = Means::where('short_name', 'per')->first();
+        $sources = Source::where('means_id', $neswpaperMean->id)->get();
+        
+        return view('admin.press.edit', compact('cover', 'coverType', 'sources'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cover  $cover
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cover $cover)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $cover = Cover::findOrFail($id);
+        $data['date_cover'] = Carbon::createFromFormat('d-m-Y', $data['date_cover']);
+        $cover->update($data);
+        $types = $this->coverTypes();
+        $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
+
+        return redirect()->route('admin.press.show')->with('status',"¡{$coverType[$cover->cover_type]} actualizada satisfactoriamente!"); 
     }
 
     /**

@@ -151,6 +151,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('prensa/ver/portadas', 'CoverController@index')->name('admin.press.show');
     Route::get('prensa/nueva-portada', 'CoverController@create')->name('admin.press.add');
     Route::post('prensa/nueva-portada', 'CoverController@store')->name('admin.press.add');
+    Route::get('prensa/editar/portada/{id}', 'CoverController@edit')->name('admin.press.edit');
+    Route::post('prensa/editar/portada/{id}', 'CoverController@update')->name('admin.press.update');
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
