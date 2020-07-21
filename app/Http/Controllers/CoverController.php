@@ -112,7 +112,7 @@ class CoverController extends Controller
                             } 
                             return false;
                         })],
-            'image' => 'required'
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2000'
         ]);
     }
 
