@@ -53,7 +53,7 @@
                                         </a>
                                     </td>
                                     <td>{{ $note->source->name }}</td>
-                                    <td>{{ $note->isAssigned() ? $note->assignedNews->first()->company->name : 'No enviada' }}</td>
+                                    <td>{{ $note->isAssigned() ? ($note->assignedNews->first()->company->name) : 'No enviada' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
