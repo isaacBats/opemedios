@@ -123,17 +123,6 @@ class CoverController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Cover  $cover
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cover $cover)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Cover  $cover
@@ -185,8 +174,18 @@ class CoverController extends Controller
      * @param  \App\Cover  $cover
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cover $cover)
+    public function destroy(Request $request, $id)
     {
-        //
+        $cover = Cover::findOrFail($id);
+        $types = $this->coverTypes();
+        $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
+        $type = $coverType[$cover->cover_type];
+
+        $this->fileController->removeTrashS3($cover->image, true);
+        $cover->image->delete();
+        $cover->delete();
+
+         return redirect()->route('admin.press.show')->with('status', "¡El / La {$type} se ha eliminado satisfactoriamente!");
+
     }
 }

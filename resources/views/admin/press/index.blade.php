@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-striped table-bordered table-hover table-responsive">
+                <table class="table table-striped table-bordered table-hover table-responsive" id="table-list-covers">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
@@ -44,7 +44,7 @@
                                 </th>
                                 <th class="text-center">
                                     <a href="{{ route('admin.press.edit', ['id' => $cover->id]) }}"><i class="fa fa-pencil"></i></a>
-                                    <a href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                    <a href="{{ route('admin.press.destroy', ['id' => $cover->id]) }}" data-date="{{ $cover->date_cover->toDateString() }}" data-type="{{ $coverType[$cover->cover_type] }}" id="btn-remove-cover"><i class="fa fa-trash"></i></a>
                                 </th>
                             </tr>
                         @empty
@@ -58,4 +58,28 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function (){
+            // delete cover
+            $('#table-list-covers').on('click', '#btn-remove-cover', function(event) {
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var type = $(this).data('type')
+                var day = $(this).data('date') 
+
+                form.attr('action', $(this).attr('href'))
+                form.attr('method', 'POST')
+                
+                modal.find('.modal-title').text("{{ __('Eliminar') }}")
+                modal.find('#md-btn-submit').val("{{ __('Eliminar') }}").removeClass('btn-primary').addClass('btn-danger')
+                modal.find('.modal-body').html(`
+                    <p>En verdad quieres eliminar el/la <strong>${type}</strong> del día ${day}?</p>
+                `)
+                modal.modal('show')
+            })
+        })
+    </script>
 @endsection

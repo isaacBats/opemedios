@@ -172,7 +172,7 @@
                 $('#form-add-cover').trigger('reset')
             }
 
-             // Modal to edit file
+            // Modal to edit file
             $('#btn-edit-file').on('click', function (event){
                 event.preventDefault()
                 var coverId = $(this).data('cover')

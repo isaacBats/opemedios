@@ -154,6 +154,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('prensa/editar/portada/{id}', 'CoverController@edit')->name('admin.press.edit');
     Route::post('prensa/editar/portada/{id}', 'CoverController@update')->name('admin.press.update');
     Route::post('prensa/editar/portada/{id}/archivo', 'CoverController@updateFile')->name('admin.press.update.file');
+    Route::post('prensa/eliminar/portada/{id}', 'CoverController@destroy')->name('admin.press.destroy');
 
     Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
     Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
