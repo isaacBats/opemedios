@@ -22,11 +22,16 @@ class CreateCoversTable extends Migration
             $table->timestamp('date_cover')->useCurrent();
             $table->unsignedBigInteger('source_id');
             $table->text('content')->nullable();
-            $table->text('image');
+            $table->unsignedBigInteger('image_id');
 
             $table->foreign('source_id')
                 ->references('id')
                 ->on('sources')
+                ->onDelete('cascade');
+
+            $table->foreign('image_id')
+                ->references('id')
+                ->on('files')
                 ->onDelete('cascade');
         });
     }

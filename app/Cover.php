@@ -14,4 +14,8 @@ class Cover extends Model
     public function source () {
         return $this->belongsTo(Source::class);
     }
+
+    public function image () {
+        return $this->belongsTo(File::class);
+    }
 }

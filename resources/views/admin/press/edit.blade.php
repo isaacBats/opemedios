@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-sm-12 col-md-8 col-lg-8">
         <div class="panel">
             <div class="panel-heading">
                 <h4 class="panel-title">{{ __("Editar ") }} {{ $coverType[$cover->cover_type] }}</h4>
@@ -88,6 +88,21 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-12 col-md-4 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">{{ __('Editar Archivo') }}</h4>
+            </div>
+            <div class="panel-body">
+                <figure class="text-center">
+                    <img src="{{ $cover->image->path_filename }}" alt="{{ $cover->source->name }}" style="max-width: 100%;">
+                    <figcaption class="text-right">
+                        <a href="javascript:void(0);" class="btn btn-primary" data-cover="{{ $cover->id }}" id="btn-edit-file">{{ __('Cambiar Archivo') }}</a>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
@@ -151,21 +166,34 @@
                 getItemsByCover(coverId) 
             })
 
-             function cleanFields() {
-                $('.item-input-clean').val('')
-                    .attr('disabled', true)
-                    .removeAttr('required')
-                $('#select-source').select2({ 'val': '' }).trigger('change')
-                $('#select-source').attr('disabled', true)
-                $('#select-source').removeAttr('required')
-                $('#textarea-content').val('')
-            }
-
             function hideFields(){
                 $('.cover').hide()
                 $('.column').hide()
                 $('#form-add-cover').trigger('reset')
             }
+
+             // Modal to edit file
+            $('#btn-edit-file').on('click', function (event){
+                event.preventDefault()
+                var coverId = $(this).data('cover')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('action', '{{ route('admin.press.update.file', ['id' => $cover->id]) }}')
+                form.attr('method', 'POST')
+                form.attr('enctype', 'multipart/form-data')
+                form.append($('<input>').attr('type', 'hidden').attr('name', 'cover').val(coverId))
+
+                modal.find('.modal-title').text("{{ __('Cambiar Archivo') }}")
+                modal.find('#md-btn-submit').val("{{ __('Actualizar Archivo') }}")
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label>{{ __('Archivo') }}</label>
+                        <input type="file" name="image">
+                    </div>
+                `)
+                modal.modal('show')
+            })
         })
     </script>
 @endsection

@@ -40,7 +40,7 @@
                                 <th class="text-center">{{ $cover->date_cover->toDateString() }}</th>
                                 <th class="text-center">{{ $cover->source->name }}</th>
                                 <th style="width: 12%;">
-                                    <img src="{{ $cover->image }}" alt="{{ $cover->source->name }}" height="180" style="width: auto;">
+                                    <img src="{{ $cover->image->path_filename }}" alt="{{ $cover->source->name }}" height="180" style="width: auto;">
                                 </th>
                                 <th class="text-center">
                                     <a href="{{ route('admin.press.edit', ['id' => $cover->id]) }}"><i class="fa fa-pencil"></i></a>

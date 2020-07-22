@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cover;
+use App\Http\Controllers\FileController;
 use App\Means;
 use App\Source;
 use Illuminate\Http\Request;
@@ -13,6 +14,12 @@ use Illuminate\Validation\Rule;
 
 class CoverController extends Controller
 {
+    protected $fileController;
+    
+    public function __construct(FileController $fileController) {
+        $this->fileController = $fileController;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -73,13 +80,8 @@ class CoverController extends Controller
             $newCover->content = $data['content'];
         }
         if($request->hasFile('image')) {
-            $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
-            $date = Carbon::now();
-            $path = "covers/{$date->year}/{$date->month}";
-            $file = $data['image'];
-            $fileName = $file->hashName();
-            Storage::disk('s3')->put($path, $file, 'public');
-            $newCover->image = "{$initialPath}/{$path}/{$fileName}";
+            $file = $this->fileController->uploadToS3($data['image'], true);
+            $newCover->image_id = $file->id;
         }
         $newCover->save();
 
@@ -165,6 +167,16 @@ class CoverController extends Controller
         $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
 
         return redirect()->route('admin.press.show')->with('status',"¡{$coverType[$cover->cover_type]} actualizada satisfactoriamente!"); 
+    }
+
+    public function updateFile(Request $request, $id) {
+        $cover = Cover::findOrFail($id);
+        
+        $data = $request->all();
+        
+        $this->fileController->update($cover->image, $data['image'], true);
+
+        return redirect()->route('admin.press.show')->with('status', 'Se ha actualizado el archivo correctamente');
     }
 
     /**
