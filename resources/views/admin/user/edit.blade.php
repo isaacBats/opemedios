@@ -108,10 +108,6 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group col-sm-12 col-md-6">
-                            <label for="input-user-password">{{ __('Contraseña anterior') }}</label>
-                            <input type="password" id="input-user-password" class="form-control" name="password" >
-                        </div>
-                        <div class="form-group col-sm-12 col-md-6">
                             <label for="input-user-new-password">{{ __('Nueva contraseña') }}</label>
                             <input type="password" id="input-user-new-password" class="form-control" name="new_password">
                         </div>

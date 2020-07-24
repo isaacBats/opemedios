@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -210,14 +211,8 @@ class UserController extends Controller
         
         $user->name = $data['name'];
         $user->email = $data['email'];
+        $user->password = Hash::make($data['new_password']);
 
-        if(!is_null($data['password']) && !is_null($data['new_password'])) {
-            if(Hash::check($data['password'], $user->password)) {
-                $user->password = Hash::make($data['new_password']);
-            } else {
-                Session::flash('error', 'No es posible cambiar la contraseña. Intente mas tarde');
-            }
-        }
         foreach ($data as $key => $value) {
             if(Str::contains($key, 'user_')) {
                 if(!is_null($value)) {
