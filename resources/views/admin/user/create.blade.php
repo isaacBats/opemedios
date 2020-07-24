@@ -115,13 +115,13 @@
                 var role = $('option:selected', this).text()
                 var company = $('#div-select-company')
                 var monitor = $('#div-select-monitor-type')
-
-                if(role =='client') {
+                
+                if(role =='Cliente') {
                     hideItems()
                     company.find('select#company').removeAttr('disabled')
                     company.find('select#company').attr('required', true)
                     company.show('fade')
-                }else if(role == 'monitor'){
+                }else if(role == 'Monitorista'){
                     hideItems()
                     monitor.find('select#select-monitor').removeAttr('disabled')
                     monitor.find('select#select-monitor').attr('required', true)
