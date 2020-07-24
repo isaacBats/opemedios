@@ -27,6 +27,7 @@ use App\Means;
 use App\News;
 use App\User;
 use App\UserMeta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -45,11 +46,27 @@ class UserController extends Controller
         $this->registerController = $registerController;
     }
 
-    public function index () {
-        
-        $users = User::orderBy('id', 'DESC')->paginate(25);
+    public function index (Request $request) {
+        $paginate = 5;
+        if($request->has('query') && !is_null($request->get('query'))) {
+            $users = User::where('name', 'like', "'%{$request->get('query')}%'")
+                ->orWhere('email', 'like', "'%{$request->get('query')}%'")
+                ->orderBy('id', 'DESC')
+                ->paginate($paginate)
+                ->appends('query', request('query'));
+        }elseif($request->has('roll') && !is_null($request->get('roll'))) {
+            $users = User::whereHas('roles', function (Builder $query) use($request) {
+                        $query->where('id', $request->get('roll'));
+                    })
+                ->orderBy('id', 'DESC')
+                ->paginate($paginate)->appends('roll', request('roll'));
+        } else {
+            $users = User::orderBy('id', 'DESC')->paginate($paginate);
+        }
 
-        return view('admin.user.index', compact('users'));
+        $roles = Role::all();
+
+        return view('admin.user.index', compact('users', 'roles'));
     }
 
     public function show (Request $request, $id) {

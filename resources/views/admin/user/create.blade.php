@@ -40,6 +40,11 @@
                         <div class="form-group">
                             <label for="password-confirm">{{ __('Confirmar contraseña') }}</label>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            @error('password-confirm')
+                                <label class="error" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </label>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="rol">{{ __('Rol') }}</label>

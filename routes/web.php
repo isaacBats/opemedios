@@ -39,9 +39,7 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
 
-Auth::routes([
-    'register' => false,
-]);
+Auth::routes();
 
 Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');

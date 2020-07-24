@@ -6,7 +6,7 @@
         {{ session('status') }}
     </div>
 @endif
-<div class="col-md-12">
+<div class="col-sm-8 col-md-9 col-lg-10">
   <div class="panel">
     <div class="panel-heading">
       <div class="row">
@@ -63,6 +63,34 @@
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->
+</div>
+<div class="col-sm-4 col-md-3 col-lg-2">
+    <div class="panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{ __('Filtrar Usuarios') }}</h4>
+        </div>
+        <div class="panel-body">
+            <form action="{{ route('users') }}" method="GET">
+                <div class="form-group">
+                    <label class="control-label center-block">{{ __('Buscar por nombre o correo') }}</label>
+                    <input type="text" name="query" class="form-control" placeholder="{{ __('Buscar por nombre o correo') }}" value="{{ request()->get('query') }}">
+                </div>
+                <div class="form-group">
+                    <label class="control-label center-block">{{ __('Tipo de usuario') }}</label>
+                    <select name="roll" class="form-control">
+                        <option value="">{{ __('Filtrar por tipo de usuario') }}</option>
+                        @foreach($roles as $rol)
+                            @if($rol->name == 'disable')
+                                @continue
+                            @endif
+                            <option value="{{ $rol->id }}" {{ request()->get('roll') == $rol->id ? 'selected' : '' }}>{{ App\User::getRoleNameCustom($rol->name) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-success btn-quirk btn-block" value="{{ __('Filtrar') }}">
+            </form>
+        </div>
+    </div><!-- panel -->
 </div>
 @endsection
 @section('scripts')
