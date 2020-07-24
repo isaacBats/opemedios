@@ -47,7 +47,7 @@ class UserController extends Controller
     }
 
     public function index (Request $request) {
-        $paginate = 5;
+        $paginate = 25;
         if($request->has('query') && !is_null($request->get('query'))) {
             $users = User::where('name', 'like', "'%{$request->get('query')}%'")
                 ->orWhere('email', 'like', "'%{$request->get('query')}%'")
