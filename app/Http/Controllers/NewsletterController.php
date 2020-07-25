@@ -72,6 +72,7 @@ class NewsletterController extends Controller
             $data['banner'] = $request->file('banner')->store('newsletters');
         }
         $data['active'] = 1; // Newsletter active by default
+        $data['status'] = 0; // Newsletter no send today
 
         Newsletter::create($data);
 
@@ -157,6 +158,7 @@ class NewsletterController extends Controller
         } catch (DecryptException $e) {
             return abort(403, 'Noticia no encontrada');
         }
+
         $company = Company::find(end($data));
         $newId = $data[0];
         $new = $this->newsController->getNewById($newId);
@@ -181,6 +183,13 @@ class NewsletterController extends Controller
         $metadata = $this->newsController->getMetaNew($new);
 
         return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+    }
 
+    public function sendSelectHTMLWithThemes(Request $request) {
+
+        $themes = Newsletter::find($request->input('newsletter_id'))
+            ->company->themes()->get();
+
+        return view('components.select-themes-newsletters', compact('themes'))->render();
     }
 }

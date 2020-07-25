@@ -8,7 +8,7 @@
           <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
             <h4 class="panel-title" style="padding: 12px 0;">Administrador de empresas</h4>  
           </div>
-          <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+          <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
               <a href="{{ route('company.create') }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> Nueva empresa</a>
           </div>
       </div>
@@ -23,10 +23,10 @@
                   <input type="checkbox"><span></span>
                 </label>
               </th>
-              <th>#</th>
-              <th>Nombre</th>
+              <th class="text-center">#</th>
+              <th class="text-center">Nombre</th>
               <th class="text-center">Giro</th>
-              <th class="text-right">Acciones</th>
+              <th class="text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -37,17 +37,18 @@
                       <input type="checkbox"><span></span>
                     </label>
                   </td>
-                  <td class="text-center" >{{ $loop->iteration }}</td>
+                  <td class="text-center" >{{ ($companies->currentPage() - 1) * $companies->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $company->name }}</td>
                   <td class="text-left">{{ $company->turn->name }}</td>
                   <td class="table-options">
-                      <li><a href=""><i class="fa fa-pencil"></i></a></li>
+                      <li><a href="{{ route('company.show', ['id' => $company->id]) }}"><i class="fa fa-eye"></i></a></li>
                       <li><a href=""><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach
           </tbody>
         </table>
+        {!! $companies->links() !!}
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->

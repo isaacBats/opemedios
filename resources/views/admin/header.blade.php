@@ -9,7 +9,7 @@
 
       <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
 
-      {{-- @include('admin.searchpanel') --}}
+      @include('admin.searchpanel')
       <div class="header-right">
         <ul class="headermenu">
           {{-- <li>
@@ -164,9 +164,9 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right">
-                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li>
+                <li><a href="{{ route('user.show', ['id' => Auth::user()->id]) }}"><i class="glyphicon glyphicon-user"></i> {{ __('Mi perfil') }}</a></li>
+                {{-- <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> Help</a></li> --}}
                 <li>
                   <a href="{{ route('logout') }}"
                     onclick="event.preventDefault();

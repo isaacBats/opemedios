@@ -16,31 +16,39 @@
     </div><!-- leftpanel-profile -->
 
     <div class="leftpanel-userinfo collapse" id="loguserinfo">
-      <h5 class="sidebar-title">Address</h5>
+      <h5 class="sidebar-title">{{ __('Dirección') }}</h5>
       <address>
-        4975 Cambridge Road
-        Miami Gardens, FL 33056
+        {{ Auth::user()->getMetaByKey('user_address') ? Auth::user()->getMetaByKey('user_address')->meta_value : "-" }}
       </address>
-      <h5 class="sidebar-title">Contact</h5>
+      <h5 class="sidebar-title">{{ __('Contacto') }}</h5>
       <ul class="list-group">
         <li class="list-group-item">
-          <label class="pull-left">Email</label>
-          <span class="pull-right">me@themepixels.com</span>
+          <label class="pull-left">{{ __('Email') }}</label>
+          <span class="pull-right">{{ Auth::user()->email }}</span>
         </li>
         <li class="list-group-item">
-          <label class="pull-left">Home</label>
-          <span class="pull-right">(032) 1234 567</span>
+          <label class="pull-left">{{ __('Oficina') }}</label>
+          <span class="pull-right">{{ Auth::user()->getMetaByKey('user_phone') ? Auth::user()->getMetaByKey('user_phone')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
-          <label class="pull-left">Mobile</label>
-          <span class="pull-right">+63012 3456 789</span>
+          <label class="pull-left">{{ __('WhatsApp') }}</label>
+          <span class="pull-right">{{ Auth::user()->getMetaByKey('user_whatsapp') ? Auth::user()->getMetaByKey('user_whatsapp')->meta_value : "-" }}</span>
         </li>
         <li class="list-group-item">
           <label class="pull-left">Social</label>
           <div class="social-icons pull-right">
-            <a href="#"><i class="fa fa-facebook-official"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-pinterest"></i></a>
+            @if(Auth::user()->getMetaByKey('user_facebook'))
+                <a href="{{ Auth::user()->getMetaByKey('user_facebook')->meta_value }}"><i class="fa fa-facebook-official"></i></a>
+            @endif
+            @if(Auth::user()->getMetaByKey('user_twitter'))
+                <a href="{{ Auth::user()->getMetaByKey('user_twitter')->meta_value}}"><i class="fa fa-twitter"></i></a>
+            @endif
+            @if(Auth::user()->getMetaByKey('user_instagram'))
+                <a href="{{ Auth::user()->getMetaByKey('user_instagram')->meta_value}}"><i class="fa fa-instagram"></i></a>
+            @endif
+            @if(Auth::user()->getMetaByKey('user_linkedin'))
+                <a href="{{ Auth::user()->getMetaByKey('user_linkedin')->meta_value}}"><i class="fa fa-linkedin"></i></a>
+            @endif
           </div>
         </li>
       </ul>
@@ -61,23 +69,45 @@
       <!-- ################# MAIN MENU ################### -->
 
       <div class="tab-pane active" id="mainmenu">
-        <h5 class="sidebar-title">Home</h5>
-        <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="{{ route('panel') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-        </ul>
+        @can('view menu')
+            <h5 class="sidebar-title">Home</h5>
+            <ul class="nav nav-pills nav-stacked nav-quirk">
+              <li><a href="{{ route('panel') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+            </ul>
 
-        <h5 class="sidebar-title">Catálogo</h5>
-        <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
-          <li><a href="widgets.html"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
-          <li><a href="{{ route('companies') }}"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
-        </ul>
+            <h5 class="sidebar-title">Catálogo</h5>
+            <ul class="nav nav-pills nav-stacked nav-quirk">
+                <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
+                <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
+                <li class="nav-parent">
+                    <a href="javascript:void(0)"><i class="fa fa-building"></i> <span>{{ __('Empresas') }}</span></a>
+                    <ul class="children">
+                        <li><a href="{{ route('companies') }}">{{ __('Empresas') }}</a></li>
+                        <li><a href="{{ route('admin.turns') }}">{{ __('Giros') }}</a></li>
+                    </ul>
+              </li>
+              <li><a href="{{ route('admin.sectors') }}"><i class="fa fa-archive"></i><span>{{ __('Sectores') }}</span></a></li>
+            </ul>
+        @endcan
 
         <h5 class="sidebar-title">Monitoreo</h5>
         <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="index.html"><i class="fa fa-rss"></i> <span>Noticias</span></a></li>
-          <li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>
-          <li><a href="index.html"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a></li>
+            <li class="nav-parent">
+                <a href="javascript:void(0)"><i class="fa fa-rss"></i> <span>{{ __('Monitoreo') }}</span></a>
+                <ul class="children">
+                    <li><a href="{{ route('admin.news') }}">{{ __('Noticias') }}</a></li>
+                    <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
+                </ul>
+            </li>
+          @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
+          <li class="nav-parent">
+                <a href="javascript:void(0);"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a>
+                <ul class="children">
+                    <li><a href="{{ route('admin.press.show') }}">{{ __('Administrar portadas') }}</a></li>
+                    <li><a href="{{ route('admin.press.add') }}">{{ __('Subir portadas') }}</a></li>
+                </ul>
+          </li>
+          {{-- <li><a href="{{ route('filemanager') }}"><i class="fa fa-cloud"></i> <span>Archivos</span></a></li> --}}
           {{-- 
             <li class="nav-parent">
               <a href=""><i class="fa fa-check-square"></i> <span>Forms</span></a>
@@ -121,17 +151,19 @@
             </li>
           --}}
         </ul>
-
-        <h5 class="sidebar-title">Reportes</h5>
-        <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="index.html"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
-          <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
-        </ul>
-        <h5 class="sidebar-title">CMS</h5>
-        <ul class="nav nav-pills nav-stacked nav-quirk">
-          <li><a href="index.html"><i class="fa fa-file-text"></i> <span>Pages</span></a></li>
-          {{-- <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Others</span></a></li> --}}
-        </ul>
+        
+        @can('view menu')
+            <h5 class="sidebar-title">Reportes</h5>
+            <ul class="nav nav-pills nav-stacked nav-quirk">
+              <li><a href="index.html"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
+              <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
+            </ul>
+            <h5 class="sidebar-title">CMS</h5>
+            <ul class="nav nav-pills nav-stacked nav-quirk">
+              <li><a href="index.html"><i class="fa fa-file-text"></i> <span>Pages</span></a></li>
+              {{-- <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Others</span></a></li> --}}
+            </ul>
+        @endcan
       </div><!-- tab-pane -->
 
       <!-- ######################## EMAIL MENU ##################### -->

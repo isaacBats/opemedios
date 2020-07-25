@@ -1,14 +1,36 @@
 <?php
-
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2019
+  * @version 1.0.0
+  * @package App\
+  * Type: Model
+  * Description: Description
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
+        
 namespace App;
 
 use App\Newsletter;
+use App\Theme;
 use App\Turn;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
+
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -64,5 +86,21 @@ class Company extends Model
         }
 
         return $companyOld;
+    }
+
+    public function themes() {
+
+        return $this->hasMany(Theme::class);
+    }
+
+    public function oldCompany() {
+
+        if(!empty($this->old_company_id)) {
+
+            return DB::connection('opemediosold')->table('empresa')
+                ->where('id_empresa', $this->old_company_id)->first();
+        }
+
+        return false;
     }
 }

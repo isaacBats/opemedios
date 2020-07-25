@@ -33,25 +33,33 @@
                             </label>
                         @enderror
                     </div>
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Giro<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select id="select1" name="turn" class="form-control">
-                                <option value="">Giro</option>
+                            <select id="select-turn" name="turn_id" class="form-control">
+                                <option value="">Seleccionan un Giro</option>
+                                @foreach($turns as $turn)
+                                    <option value="{{ $turn->id }}">{{ $turn->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <a href="{{ route('turn.create') }}" >
-                            <span id="add-turn">
-                                <i class="fa fa-plus-circle"></i>
-                            </span>
-                            Nuevo Giro
-                        </a>
-                        @error('turn')
-                            <span class="error" role="alert">
+                        @error('turn_id')
+                            <label class="error" role="alert">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </label>
                         @enderror
-                    </div> --}}
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-8">
+                            <a id="btn-add-turn" href="{{ route('admin.turns.ajaxcreate') }}" >
+                                <span id="add-turn">
+                                    <i class="fa fa-plus-circle"></i>
+                                </span>
+                                Nuevo Giro
+                            </a>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Logo de la empresa<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
@@ -67,37 +75,32 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="row">
                 <div class="col-sm-5 col-md-12 col-lg-6">
                     <div class="panel panel-primary list-announcement">
                         <div class="panel-heading">
                             <h4 class="panel-title">Giro de la empresa</h4>
-                            <p>Últimos Giros</p>
                         </div>
                         <div class="panel-body">
-                            @error('turn_id')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
-                            @enderror
-                            <ul class="list-unstyled mb20">
-                                {{-- // TODO: Poner una altura fija a este cotenedor y agregarle el scroll, o mejorar el UX de este componente --}}
-                                @foreach($turns as $turn)
-                                    <li>
-                                        <input type="radio" name="turn_id" value="{{ $turn->id }}">
-                                        <span>{{ $turn->name }}</span>
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div class="form-group">
+                                <select id="select1" name="turn" class="form-control">
+                                    <option value="">Seleccionan un Giro</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="panel-footer">
-                            {{-- <button class="btn btn-primary btn-block">Asignar <i class="fa check-square-o"></i></button> --}}
+                            <a href="" >
+                                <span id="add-turn">
+                                    <i class="fa fa-plus-circle"></i>
+                                </span>
+                                Nuevo Giro
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </form>
 @endsection
 @section('styles')
@@ -123,8 +126,59 @@
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
-        $(function(){
-            $('#select1').select2();
+        $(document).ready(function(){
+            
+            $('#select-turn').select2();
+
+            $('#btn-add-turn').on('click', function(event) {
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var modalForm = $('#modal-default-form')
+                
+                modal.find('.modal-title').html('Agregar nuevo Giro')
+
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label for="turn-name">Giro</label>
+                        <input type="text" name="name" id="turn-name" class="form-control" value="{{old('name')}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="turn-description">Descripción</label>
+                        <textarea name="description" class="form-control" id="turn-description">{{old('description')}}</textarea>
+                    </div>
+                `)
+
+                modalForm.attr('action', $(this).attr('href'))
+                modalForm.attr('method', 'POST')
+
+                modal.find('#md-btn-submit').val('Agregar nuevo')
+
+                modal.modal('show')
+            })
+
+            $('#modal-default-form').on('submit', function (event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var actionurl = event.currentTarget.action
+                modal.modal('hide')
+                $.ajax({
+                    url: actionurl,
+                    type: 'post',
+                    // dataType: 'application/json',
+                    data: $("#modal-default-form").serialize(),
+                    success: function(data) {
+                        
+                        var selectTurn = $('#select-turn')
+                        selectTurn.append(`<option value="${data.id}" selected>${data.name}</option>`)
+                        selectTurn.trigger('change')
+                    },
+                    error: function(err) {
+                        console.error(err)
+                    }
+                })
+
+            })
+
         })
     </script>
 @endsection
