@@ -122,7 +122,7 @@
 
     <!-- GMAP3 -->
     <script type="text/javascript" src="{{ asset('js/gmap3/gmap3.min.js') }}"></script>
-    <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
+    <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyAypI43RY-ssw2p2LwVrGSL_mTuFrZPXA8"></script>
     <script src="{{ asset('js/owl/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/home/scripts.js') }}"></script>
 
