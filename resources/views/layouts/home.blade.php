@@ -73,7 +73,7 @@
         <script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
         <!-- GMAP3 -->
         <script type="text/javascript" src="{{ asset('js/gmap3/gmap3.min.js') }}"></script>
-        <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyDNWJrJgodmdVVk0lGK7YXQTAmsAgCnKgc"></script>
+        <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyAypI43RY-ssw2p2LwVrGSL_mTuFrZPXA8"></script>
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
         

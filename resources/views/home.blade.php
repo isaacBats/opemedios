@@ -103,7 +103,7 @@
                 <div class="col-md-6">
                     <h3>NUESTRO EQUIPO</h3>
                     <p>Contamos con personal altamente calificado, mediante el cual estaremos atentos a cualquier información directa o indirecta de su empresa, así como el comportamiento de su competencia.</p>
-                    <button class="btn-white" onclick="location.href='http://opemedios.mx/quienes-somos'">ACERCA DE NOSOTROS</button>
+                    <button class="btn-white" onclick="location.href='{{ route('about') }}'">ACERCA DE NOSOTROS</button>
                 </div>
                 <div class="col-md-6 adjust">
                     <img src="{{ asset('images/site-img01.png') }}" class="img-fluid">
