@@ -26,6 +26,7 @@ use App\Cover;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
 use App\News;
+use App\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -179,9 +180,9 @@ class ClientController extends Controller
         // $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
         
         $defaultThemeId = $company->themes->first()->id;
-         $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function($assigned) {
-                return $assigned->news_id;
-            });
+        $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function($assigned) {
+            return $assigned->news_id;
+        });
 
             $news = News::whereIn('id', $idsNewsAssigned)
                 ->orderBy('id', 'desc')
@@ -204,14 +205,21 @@ class ClientController extends Controller
             // ->get();
     }
 
-    public function newsByTheme(Request $request) {
+    public function newsByTheme(Request $request, $slug_company) {
         $data = $request->all();
-        $news = $this->getNewsByTheme($data['themeid'], $data['companyid']);
-        $company = Company::where('slug', $data['companyslug'])->first();
-        $idCompany = $data['companyid'];
-        $theme = $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->where('id_tema', $data['themeid'])->first();
-        // return response()->json($this->getNewsByTheme($data['themeid'], $data['companyid']));
-        return view('components.listNews', compact('news', 'company', 'theme', 'idCompany'))->render();
+        $company = Company::where('slug', $slug_company)->first();
+        
+        $idsNewsAssigned = $company->assignedNews->where('theme_id', $data['themeid'])->map(function($assigned) {
+            return $assigned->news_id;
+        });
+        // TODO: error al buscar por paginas
+        $theme = Theme::findOrFail($data['themeid']);
+        $news = News::whereIn('id', $idsNewsAssigned)
+            ->orderBy('id', 'desc')
+            ->paginate(30);
+            // ->appends(['companyid' => $company->id, 'themeid' => $theme->id, 'companyslug' => $company->slug]);
+
+        return view('components.listNews', compact('news', 'company', 'theme'))->render();
     }
 
     public function search(Request $request, $slug_company) {
