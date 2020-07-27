@@ -41,7 +41,7 @@
         </header>
     </div>
     <!-- /.navbar -->
-    @if(auth()->user()->hasRole('client'))
+    @hasrole('client'))
         <!-- Page Heading -->
         <div class="row card-company">
             <div class="col-sm-3">
@@ -61,7 +61,7 @@
         </div>
         <div class="loader">Cargando...</div>
         <!-- /.row -->
-    @endif
+    @endhasrole
     @yield('content')
 
     <footer id="footer" class="top-space">
