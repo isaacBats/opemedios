@@ -93,31 +93,33 @@ class ClientController extends Controller
         return view('clients.oldnews', compact('company', 'newsAssigned', 'themes', 'count'));
     }
 
-    public function showNew(Request $request, $company, $newId) {
+    public function showNew(Request $request, $slug_company, $newId) {
 
-        $new = $this->newsController->getNewById($newId);
+        // $new = $this->newsController->getNewById($newId);
 
-        $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
-                ->where('id_noticia', $new->id_noticia)
-                ->get()->map(function ($adj) use ($new) { 
+        // $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+        //         ->where('id_noticia', $new->id_noticia)
+        //         ->get()->map(function ($adj) use ($new) { 
                     
-                    $medio = strtolower($new->medio);
-                    if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
-                        $medio = 'periodico';
-                    } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
-                        $medio = 'television';
-                    }
+        //             $medio = strtolower($new->medio);
+        //             if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
+        //                 $medio = 'periodico';
+        //             } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
+        //                 $medio = 'television';
+        //             }
                     
-                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+        //             $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
                     
-                    return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
-                });
+        //             return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
+        //                                     :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
+        //         });
 
-        $metadata = $this->newsController->getMetaNew($new);
+        // $metadata = $this->newsController->getMetaNew($new);
+        $note = News::findOrFail($newId);
+        $company = Company::where('slug', $slug_company)->first();
             
 
-        return view('clients.shownew', compact('new', 'metadata', 'adjuntosHTML'));
+        return view('clients.shownew', compact('note', 'company'));
     }
 
     public function getCovers(Request $request, $slug_company) {
@@ -167,20 +169,27 @@ class ClientController extends Controller
 
         $company = Company::where('slug', $slug_company)->first();
 
-        $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
-        if($userMetaOldCompany) {
-            $idCompany = $userMetaOldCompany->meta_value;
-        } else {
-            $idCompany = $company->id;
-        }
+        // $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
+        // if($userMetaOldCompany) {
+        //     $idCompany = $userMetaOldCompany->meta_value;
+        // } else {
+        //     $idCompany = $company->id;
+        // }
 
-        $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
+        // $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
         
-        $defaultThemeId = $themes->first()->id_tema;
+        $defaultThemeId = $company->themes->first()->id;
+         $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function($assigned) {
+                return $assigned->news_id;
+            });
 
-        $news = $this->getNewsByTheme($defaultThemeId, $idCompany);
+            $news = News::whereIn('id', $idsNewsAssigned)
+                ->orderBy('id', 'desc')
+                ->paginate(15);
 
-        return view('clients.themes', compact('themes', 'news', 'company', 'defaultThemeId', 'idCompany'));
+        // $news = $this->getNewsByTheme($defaultThemeId, $idCompany);
+
+        return view('clients.themes', compact('news', 'company', 'defaultThemeId'));
     }
 
     protected function getNewsByTheme ($themeId, $idCompany) {

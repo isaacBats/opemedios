@@ -12,8 +12,8 @@
                     </div>
                     <div class="panel-body themes-list-p0">
                         <ul class="list-group" id="list-group-themes">
-                            @foreach ($themes as $theme)
-                                <li class="list-group-item theme-transition"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $idCompany }}" data-themeid="{{ $theme->id_tema }}">@if($theme->id_tema == $defaultThemeId) <i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> @endif {{ $theme->nombre }}</a></li>
+                            @foreach ($company->themes as $theme)
+                                <li class="list-group-item theme-transition"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">@if($theme->id == $defaultThemeId) <i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> @endif {{ $theme->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -26,8 +26,4 @@
         </div>
     </div>
     <!-- /.container -->
-@endsection
-
-@section('scripts')
-    <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script>
 @endsection

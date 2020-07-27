@@ -1,28 +1,27 @@
-@foreach($news as $new)
+@foreach($news as $note)
     <div class="row f-col">
         <div class="col-md-4">
             <div class="bloque-new item-center">
                 <a class="img-responsive">
-                    {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-                  <img src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->logo }}" alt="{{ $new->nombre}}">
+                    <img src="{{ asset("images/{$note->source->logo}") }}" alt="{{ $note->source->name }}">
                 </a>
             </div>
         </div>
         <div class="col-md-8">
             <h4 class="f-h4 text-muted">
-                {{ $new->nombre }} | {{ Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans() }}
+                {{ $note->source->name }} | {{ $note->news_date->diffForHumans() }}
             </h4>
             <h3 class="f-h3">
-                {{ $new->encabezado  }}
+                {{ $note->title  }}
             </h3>
             <p class="text-muted f-p">
-                 {{ $new->empresa }} | Autor: {{ $new->autor }}
+                 {{ $note->source->company }} | Autor: {{ $note->author }}
             </p>
-            <p class="f-p">{{ Illuminate\Support\Str::limit($new->sintesis, 200) }}</p>
-            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $new->id_noticia, 'company' => $company->slug ]) }}">Ver más</a>
+            <p class="f-p">{{ Illuminate\Support\Str::limit($note->synthesis, 200) }}</p>
+            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">Ver más</a>
         </div>
     </div>
 @endforeach
-<div class="text-right" id="news-pagination" data-companyslug="{{ $company->slug }}" data-companyid="{{ $idCompany }}" data-themeid="{{ $theme->id_tema }}">
+<div class="text-right" id="news-pagination" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id_tema }}">
     {!! $news->links() !!}
 </div>
