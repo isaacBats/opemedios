@@ -233,9 +233,7 @@ img.pull-left { margin-right: 10px; }
 
 
 .card-company {
-
-	padding: 35px;
-
+	margin: 14rem 1.5rem .5rem 1.5rem;
 }
 
 
@@ -996,9 +994,9 @@ h1.new {
 }
 
 .btn-ope {
-	-webkit-border-radius: 28px;
-	-moz-border-radius: 28px;
-	border-radius: 28px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 
 .themes-list-p0 {

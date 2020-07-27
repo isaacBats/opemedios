@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row mt-5 mb-5">
             <div class="col-12 col-sm-12 col-md-8 col-lg-9">
-               <img class="media thumbnail new" style="max-width: 220px;" src="{{ asset("images/{$news->source->logo}") }}" alt="{{ $news->source->name }}">
+               <img class="media thumbnail new" width="300" height="150" src="{{ asset("images/{$news->source->logo}") }}" alt="{{ $news->source->name }}">
             </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-3">
                 <small>{{ Illuminate\Support\Carbon::parse($news->news_date)->formatLocalized('%A %d de %B %Y') }}</small>

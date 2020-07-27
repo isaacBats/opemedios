@@ -33,11 +33,11 @@
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
                                     <ul class="dropdown-menu pull-right ope-menu" role="menu" aria-labelledby="menuArchivo">
-                                        <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras', ['company' => $slug]) }}">Primeras Planas</a></li>
-                                        <li><a class="{{ $route == 'politicas' ? ' active' : '' }}" href="{{ route('politicas', ['company' => $slug]) }}">Columnas Pol&iacute;ticas</a></li>
-                                        <li><a class="{{ $route == 'financieras' ? ' active' : '' }}" href="{{ route('financieras', ['company' => $slug]) }}">Columnas Financieras</a></li>
-                                        <li><a class="{{ $route == 'portadas' ? ' active' : '' }}" href="{{ route('portadas', ['company' => $slug]) }}">Portadas Financieras</a></li>
-                                        <li><a class="{{ $route == 'cartones' ? ' active' : '' }}" href="{{ route('cartones', ['company' => $slug]) }}">Cartones</a></li>
+                                        <li><a class="{{ request('type') == 'primeras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
+                                        <li><a class="{{ request('type') == 'politicas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
+                                        <li><a class="{{ request('type') == 'financieras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
+                                        <li><a class="{{ request('type') == 'portadas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
+                                        <li><a class="{{ request('type') == 'cartones' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -110,11 +110,11 @@
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
                                         <ul class="dropdown-menu pull-right ope-menu" role="menu" aria-labelledby="menuArchivo">
-                                            <li><a class="{{ $route == 'primeras' ? ' active' : '' }}" href="{{ route('primeras', ['company' => $slug]) }}">Primeras Planas</a></li>
-                                            <li><a class="{{ $route == 'politicas' ? ' active' : '' }}" href="{{ route('politicas', ['company' => $slug]) }}">Columnas Pol&iacute;ticas</a></li>
-                                            <li><a class="{{ $route == 'financieras' ? ' active' : '' }}" href="{{ route('financieras', ['company' => $slug]) }}">Columnas Financieras</a></li>
-                                            <li><a class="{{ $route == 'portadas' ? ' active' : '' }}" href="{{ route('portadas', ['company' => $slug]) }}">Portadas Financieras</a></li>
-                                            <li><a class="{{ $route == 'cartones' ? ' active' : '' }}" href="{{ route('cartones', ['company' => $slug]) }}">Cartones</a></li>
+                                            <li><a class="{{ request('type') == 'primeras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
+                                            <li><a class="{{ request('type') == 'politicas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
+                                            <li><a class="{{ request('type') == 'financieras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
+                                            <li><a class="{{ request('type') == 'portadas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
+                                            <li><a class="{{ request('type') == 'cartones' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -182,9 +182,9 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="/primeras-planas">Primeras Planas</a></li>
-                                            <li><a href="/portadas-financieras">Portadas Financieras</a></li>
-                                            <li><a href="/cartones">Cartones</a></li>
+                                            <li><a class="{{ request('type') == 'primeras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
+                                            <li><a class="{{ request('type') == 'portadas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
+                                            <li><a class="{{ request('type') == 'cartones' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown">
@@ -193,8 +193,8 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="/columnas-financieras">Columnas Financieras</a></li>
-                                            <li><a href="/columnas-politicas">Columnas Politicas</a></li>
+                                            <li><a class="{{ request('type') == 'politicas' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
+                                            <li><a class="{{ request('type') == 'financieras' ? ' active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown">

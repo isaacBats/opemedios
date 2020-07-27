@@ -1,25 +1,23 @@
 @extends('layouts.home2')
-@section('title', " - Primeras Planas")
+@section('title', " - {$title}")
 @section('content')
     <!--Page Content -->
     <div class="container op-content-mt">
-        <h1 class="page-header">Primeras Planas</h1>
+        <h1 class="page-header">{{ $title }}</h1>
         <div class="row">
-            @foreach ($covers as $cover)
+            @forelse ($covers as $cover)
                 <div class="col-sm-2 col-xs-6" style="margin-bottom: 10px;">
-                    <a href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen }}" data-fancybox="roadtrip">
-                        <img class="img-responsive portfolio-item" src="http://sistema.opemedios.com.mx/data/thumbs/{{ $cover->imagen }}_pp.jpg" alt="{{ $cover->imagen }}" style="max-height: 350px;">
-                        {{-- URL base 
-                            http://sistema.opemedios.com.mx/data/thumbs/ID1704873056_24.jpg_pp.jpg 
-                            para mostrar la imagen original
-                            <img class="img-responsive portfolio-item" src="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen }}" alt="{{ $cover->imagen }}" style="max-height: 350px;"> --}}
+                    <a href="{{ $cover->image->path_filename }}" data-fancybox="roadtrip">
+                        <img class="img-responsive portfolio-item" src="{{ $cover->image->path_filename }}" alt="{{ $cover->image->original_name }}" height="120">
                         <figcaption class="items-descripcion">
-                            <strong>{{ $cover->nombre }}</strong>
-                            <p>{{ $cover->fecha }}</p>
+                            <strong>{{ $cover->source->name }}</strong>
+                            <p>{{ $cover->date_cover->diffForHumans() }}</p>
                         </figcaption>
                     </a>
-                </div>                
-            @endforeach
+                </div>
+            @empty
+                <p>{{ __('No hay archivos aun...') }}</p>               
+            @endforelse
         </div>
     </div>
     <!-- /.container -->

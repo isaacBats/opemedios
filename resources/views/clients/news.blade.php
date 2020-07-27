@@ -2,59 +2,37 @@
 @section('title', " - {$company->name}")
 @section('content')
     <!-- Page Content -->
+    <div class="row">
         <div class="container op-content-mt">
-
-            <!-- Page Heading -->
-            <div class="row card-company">
-                <div class="col-sm-3">
-                    <img src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
-                </div>
-                <div class="col-sm-8 page-header card-company-name">
-                    <h1>{{ $company->name }}</h1>
-                    <small class="card-filters">
-                          Noticias de hoy: <strong>{{ $count['day'] }}</strong> 
-                        | Noticias del mes: <strong>{{ $count['month'] }}</strong> 
-                        | Total: <strong>{{ $count['total'] }}</strong>
-                    </small>
-                </div>
-                <div id="search">
-                    @include('components.search-bar')
-                </div>
-            </div>
-            <div class="loader">Cargando...</div>
-            <!-- /.row -->
             <div class="row" id="list-news">
-                @foreach($themes as $theme)
-                    <h2>{{ $theme->nombre }}</h2>
+                @foreach($company->themes as $theme)
+                    <h2>{{ $theme->name }}</h2>
                     <hr>
-                    @if($newsAssigned)
-                        @foreach($newsAssigned as $array)
-                            @if($array[0] == $theme->id_tema)
-                                @foreach($array[1] as $new)
-                                    <div class="row f-col">
-                                        <div class="col-md-4">
-                                            <div class="bloque-new item-center">
-                                                <a class="img-responsive">
-                                                    {{-- TODO: cuando los logos se alojen en la nueva aplataforma, se va a cambiar esta url --}}
-                                                  <img src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->logo }}" alt="{{ $new->nombre}}">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h4 class="f-h4 text-muted">
-                                                {{ $new->nombre }} | {{ Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans() }}
-                                            </h4>
-                                            <h3 class="f-h3">
-                                                {{ $new->encabezado  }}
-                                            </h3>
-                                            <p class="text-muted f-p">
-                                                 {{ $new->empresa }} | Autor: {{ $new->autor }}
-                                            </p>
-                                            <p class="f-p">{{ Illuminate\Support\Str::limit($new->sintesis, 200) }}</p>
-                                            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $new->id_noticia, 'company' => $company->slug ]) }}">Ver más</a>
+                    @if($company->assignedNews->count() > 0)
+                        @foreach($company->assignedNews()->limit(30)->orderBy('id', 'desc')->get() as $assigned)
+                            @if($assigned->theme_id == $theme->id)
+                                <div class="row f-col">
+                                    <div class="col-md-4">
+                                        <div class="bloque-new item-center">
+                                            <a class="img-responsive">
+                                              <img src="{{ asset("images/{$assigned->news->source->logo}") }}" alt="{{ $assigned->news->source->name }}">
+                                            </a>
                                         </div>
                                     </div>
-                                @endforeach
+                                    <div class="col-md-8">
+                                        <h4 class="f-h4 text-muted">
+                                            {{ $assigned->news->source->name }} | {{ $assigned->news->news_date->diffForHumans() }}
+                                        </h4>
+                                        <h3 class="f-h3">
+                                            {{ $assigned->news->title  }}
+                                        </h3>
+                                        <p class="text-muted f-p">
+                                             {{ $assigned->news->source->company }} | Autor: {{ $assigned->news->author }}
+                                        </p>
+                                        <p class="f-p">{!! Illuminate\Support\Str::limit($assigned->news->synthesis, 200) !!}</p>
+                                        <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $assigned->news_id, 'company' => $company->slug ]) }}">Ver más</a>
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     @else
@@ -63,9 +41,10 @@
                 @endforeach
             </div>
         </div>
+    </div>
     <!-- /.container -->
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script> --}}
 @endsection

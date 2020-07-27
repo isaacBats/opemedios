@@ -20,11 +20,15 @@
 
 namespace App\Http\Controllers;
 
+use App\AssignedNews;
 use App\Company;
+use App\Cover;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
+use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -39,27 +43,20 @@ class ClientController extends Controller
         $this->newsController = $newsController;
     }
 
-    public function index($slug_company) {
-        // Analizar si es necesario la paginación 
-        // Crear el buscador de noticias
-        // crear filtros para las noticias
-
+    public function index($slug_company) {  
         $company = Company::where('slug', $slug_company)->first();
-        $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
-        if($userMetaOldCompany) {
-            $idCompany = $userMetaOldCompany->meta_value;
-        } else {
-            $idCompany = $company->id;
-        }
-        
-        $assignedNews = DB::connection('opemediosold')->select('SELECT * FROM asigna WHERE id_empresa = ? ORDER BY id_noticia DESC LIMIT 200', [$idCompany]);
-        
+
+        return view('clients.news', compact('company'));
+    }
+
+    public function previousNews(Request $request, $slug_company) {
+        $company = Company::where('slug', $slug_company)->first();
+        $assignedNews = DB::connection('opemediosold')->select('SELECT * FROM asigna WHERE id_empresa = ? ORDER BY id_noticia DESC LIMIT 200', [$company->old_company_id]);
         $idThemeAssigned = array_values(array_unique(array_map(function ($assign) {
             return $assign->id_tema;
         }, $assignedNews)));
         $lastFiveIdThemes = array_slice($idThemeAssigned, 0, 5);
         $themes = DB::connection('opemediosold')->table('tema')->whereIn('id_tema', $lastFiveIdThemes)->get();
-        
         $newsAssigned = array_map(function ($theme) use ($idCompany) {
             
                 $newsByTheme = DB::connection('opemediosold')->table('asigna')
@@ -81,9 +78,7 @@ class ClientController extends Controller
                     ->whereIn('id_noticia', $idNewsAssigned)->get());
 
         }, $themes->toArray());
-
         $date = \Carbon\Carbon::now();
-        // dd($date->format('Y-m'));
         $count = array();
         $count['total'] = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
         $count['month'] = DB::connection('opemediosold')->table('asigna')
@@ -95,7 +90,7 @@ class ClientController extends Controller
             ->where('id_empresa', $idCompany)
             ->where('noticia.fecha', $date->format('Y-m-d'))->count();
         
-        return view('clients.news', compact('company', 'newsAssigned', 'themes', 'count'));
+        return view('clients.oldnews', compact('company', 'newsAssigned', 'themes', 'count'));
     }
 
     public function showNew(Request $request, $company, $newId) {
@@ -125,64 +120,47 @@ class ClientController extends Controller
         return view('clients.shownew', compact('new', 'metadata', 'adjuntosHTML'));
     }
 
-    public function primeras (Request $request, $company) {
-
-        $date = \Carbon\Carbon::now()->subDay();
-
-        $covers = DB::connection('opemediosold')->table('primera_plana as pp')
-            ->select('pp.fecha', 'pp.imagen', 'f.nombre')
-            ->join('fuente as  f', 'pp.id_fuente', '=', 'f.id_fuente')
-            ->where('pp.fecha', $date->format('Y-m-d'))->get();
-
-        return view('clients.primeras', compact('covers'));
-    }
-    
-    public function portadas (Request $request, $company) {
-
-        $date = \Carbon\Carbon::now()->subDay();
-
-        $covers = DB::connection('opemediosold')->table('portada_financiera as pf')
-            ->select('pf.fecha', 'pf.imagen', 'f.nombre')
-            ->join('fuente as  f', 'pf.id_fuente', '=', 'f.id_fuente')
-            ->where('pf.fecha', $date->format('Y-m-d'))->get();
-
-        return view('clients.portadas', compact('covers'));
-    }
-
-    public function cartones (Request $request, $company) {
-
-        $date = \Carbon\Carbon::now()->subDay();
-
-        $covers = DB::connection('opemediosold')->table('carton')
-            ->select('carton.fecha', 'carton.imagen', 'fuente.nombre', 'carton.titulo')
-            ->join('fuente', 'carton.id_fuente', '=', 'fuente.id_fuente')
-            ->where('carton.fecha', $date->format('Y-m-d'))->get();
-
-        return view('clients.cartones', compact('covers'));
-    }
-
-    public function financieras (Request $request, $company) {
-
-        $date = \Carbon\Carbon::now()->subDay();
-
-        $covers = DB::connection('opemediosold')->table('columna_financiera as cf')
-            ->select('cf.titulo', 'cf.fecha', 'cf.imagen_jpg', 'f.nombre', 'cf.autor')
-            ->join('fuente as  f', 'cf.id_fuente', '=', 'f.id_fuente')
-            ->where('cf.fecha', $date->format('Y-m-d'))->get();
-
-        return view('clients.financieras', compact('covers'));
-    }
-
-    public function politicas (Request $request, $company) {
-
-        $date = \Carbon\Carbon::now()->subDay();
-
-        $covers = DB::connection('opemediosold')->table('columna_politica as cp')
-            ->select('cp.titulo', 'cp.fecha', 'cp.imagen_jpg', 'f.nombre', 'cp.autor')
-            ->join('fuente as  f', 'cp.id_fuente', '=', 'f.id_fuente')
-            ->where('cp.fecha', $date->format('Y-m-d'))->get();
-
-        return view('clients.politicas', compact('covers'));
+    public function getCovers(Request $request, $slug_company) {
+        $type = $request->get('type');
+        $company = Company::where('slug', $slug_company)->first();
+        $coverType = null;
+        $template = '';
+        $title = '';
+        
+        switch ($type) {
+            case 'primeras':
+                $coverType = 1;
+                $template = 'clients.primeras';
+                $title = 'Primeras Planas';
+                break;
+            case 'politicas':
+                $coverType = 3;
+                //Actualizar la vista de las columnas para poder verlas en la pag
+                // Por el momento solo se mostrara el archivo
+                // $template = 'clients.politicas'
+                $template = 'clients.primeras';
+                $title = 'Columnas Políticas';
+                break;
+            case 'financieras':
+                $coverType = 4;
+                // $template = 'clients.politicas'
+                $template = 'clients.primeras';
+                $title = 'Columnas Financieras';
+                break;
+            case 'portadas':
+                $coverType = 2;
+                $template = 'clients.primeras';
+                $title = 'Portadas Financieras';
+                break;
+            case 'cartones':
+                $coverType = 5;
+                $template = 'clients.primeras';
+                $title = 'Cartones';
+                break;
+        }
+        $covers = Cover::whereDate('date_cover', Carbon::today()->format('Y-m-d'))
+            ->where('cover_type', $coverType)->get();
+        return view($template, compact('covers', 'company', 'title'));
     }
 
     public function themes (Request $request, $slug_company) {
@@ -227,23 +205,40 @@ class ClientController extends Controller
         return view('components.listNews', compact('news', 'company', 'theme', 'idCompany'))->render();
     }
 
-    public function search(Request $request) {
+    public function search(Request $request, $slug_company) {
         $query = $request->query();
-        $company = Company::find($query['company']);
-        $user = Auth::user();
-        $metaOldCompanyID = $user->metas()->where(['meta_key' => 'old_company_id'])->first();
+        $company = Company::where('slug', $slug_company)->first();
+        
+        if($request['last'] == 'noticias-pasadas'){
 
-        $news = DB::connection('opemediosold')->table('noticia')
-            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
-            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
-            ->where([
-                ['asigna.id_empresa', '=', $metaOldCompanyID->meta_value],
-                ['noticia.encabezado', 'like', "%{$query['query']}%"]])
-            ->orWhere('noticia.sintesis', 'like', "%{$query['query']}%")
-            ->orderBy('fecha', 'desc')
-            ->get();
+            if(is_null($company->old_company_id)){
+                // regresar un mensaje de que la compañia no esta relacionada con una empresa vieja
+            }
 
-        return view('components.listSearch', compact('news', 'company'))->render();
+            $news = DB::connection('opemediosold')->table('noticia')
+                ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
+                ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
+                ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+                ->where([
+                    ['asigna.id_empresa', '=', $company->old_company_id],
+                    ['noticia.encabezado', 'like', "%{$query['query']}%"]])
+                ->orWhere('noticia.sintesis', 'like', "%{$query['query']}%")
+                ->orderBy('fecha', 'desc')
+                ->get();
+
+            return view('components.listSearchOldNews', compact('news', 'company'))->render();
+        } else {
+            
+            $idsNewsAssigned = $company->assignedNews->map(function($assigned) {
+                return $assigned->news_id;
+            });
+
+            $news = News::whereIn('id', $idsNewsAssigned)
+                    ->where('title', 'like', "%{$query['query']}%")
+                    ->orWhere('synthesis', 'like', "%{$query['query']}%")
+                    ->get();
+
+            return view('components.listSearch', compact('news', 'company'))->render();
+        }
     }
 }

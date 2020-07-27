@@ -18,6 +18,7 @@
         
 namespace App;
 
+use App\AssignedNews;
 use App\Newsletter;
 use App\Theme;
 use App\Turn;
@@ -102,5 +103,9 @@ class Company extends Model
         }
 
         return false;
+    }
+
+    public function assignedNews() {
+        return $this->hasMany(AssignedNews::class);
     }
 }

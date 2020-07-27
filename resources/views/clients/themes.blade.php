@@ -2,15 +2,7 @@
 @section('title', " - Mis temas")
 @section('content')
     <!--Page Content -->
-    <div class="container op-content-mt">
-        <div class="row card-company">
-            <div class="col-sm-3">
-                <img src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
-            </div>
-            <div class="col-sm-8 page-header card-company-name">
-                <h1>{{ $company->name }}</h1>
-            </div>
-        </div>
+    <div class="container">
         <h1 class="page-header"> Noticias por tema</h1>
         <div class="row">
             <div class="col-md-3">

@@ -1,9 +1,9 @@
 @extends('layouts.home2')
-@section('title', " - Columnas Políticas")
+@section('title', " - {$title}")
 @section('content')
     <!--Page Content -->
     <div class="container op-content-mt">
-        <h1 class="page-header">Columnas Pol&iacute;ticas</h1>
+        <h1 class="page-header">{{ $title }}</h1>
         <div class="row">
             @foreach ($covers as $cover)
                 <div class="col-sm-2 col-xs-6" style="margin-bottom: 10px;">

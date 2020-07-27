@@ -114,11 +114,13 @@ $(document).ready(function(){
           var token = $('meta[name=csrf-token]').attr('content')
           var container = $('#list-news')
           var spinner = $('.loader')
+          var uri = window.location.pathname
+          var last = uri.split('/').pop()
 
           container.empty()
           spinner.show()
 
-          var news = $.get(`/${companyslug}/search?company=${companyid}&query=${input.val()}&_token=${token}`)
+          var news = $.get(`/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}`)
             .error( function(err){
               spinner.hide() 
               var beautifullHTML = `<div class="jumbotron">
