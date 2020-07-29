@@ -75,16 +75,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
 
-        Route::get('fuentes', 'SourceController@index')->name('sources');
-        Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
-        Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
-        Route::post('fuente/actualizar/{id}', 'SourceController@update')->name('source.update');
-        Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
-        Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
-        Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
-        Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
-        // Route::get('fuente/migracion', 'SourceController@migrationSources');
-
         Route::post('seccion/nueva', 'SectionController@create')->name('section.create');
         Route::get('seccion/actualizar/{id}', 'SectionController@editForm')->name('section.edit');
         Route::post('seccion/actualizar/{id}', 'SectionController@update')->name('section.edit');
@@ -125,6 +115,15 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
     Route::post('administrador-archivos/nueva-carpeta', 'FolderController@create')->name('cfm.create.folder');
     Route::get('global-search', 'AdminController@search')->name('global.search');
+
+    Route::get('fuentes', 'SourceController@index')->name('sources');
+    Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
+    Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
+    Route::post('fuente/actualizar/{id}', 'SourceController@update')->name('source.update');
+    Route::post('fuente/actualizar/logo/{id}', 'SourceController@updateLogo')->name('source.update.logo');
+    Route::get('fuente/ver/{id}', 'SourceController@show')->name('source.show');
+    Route::post('fuente/eliminar/{id}', 'SourceController@delete')->name('source.delete');
+    Route::post('fuente/estatus/{id}', 'SourceController@status')->name('source.status');
 
     Route::get('noticias', 'NewsController@index')->name('admin.news');
     Route::get('noticias/nueva', 'NewsController@showForm')->name('admin.new.add');

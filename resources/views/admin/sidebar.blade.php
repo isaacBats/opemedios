@@ -78,7 +78,6 @@
             <h5 class="sidebar-title">Catálogo</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">
                 <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
-                <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
                 <li class="nav-parent">
                     <a href="javascript:void(0)"><i class="fa fa-building"></i> <span>{{ __('Empresas') }}</span></a>
                     <ul class="children">
@@ -92,6 +91,7 @@
 
         <h5 class="sidebar-title">Monitoreo</h5>
         <ul class="nav nav-pills nav-stacked nav-quirk">
+            <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
             <li class="nav-parent">
                 <a href="javascript:void(0)"><i class="fa fa-rss"></i> <span>{{ __('Monitoreo') }}</span></a>
                 <ul class="children">
