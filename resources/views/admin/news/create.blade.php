@@ -570,7 +570,7 @@
                 $('form.dropzone').dropzone({
                      url: "{{  route('api.fileupload') }}",
                      paramName: 'files',
-                     maxFilesize: 64, // MB
+                     maxFilesize: 1024, // MB
                      addRemoveLinks: true,
                      dictDefaultMessage : '<span class="bigger-150 bolder"><i class=" fa fa-caret-right red"></i> Arrastra los archivos</span> para subirlos <span class="smaller-80 grey">(o da click)</span> <br /><i class="upload-icon fa fa-cloud-upload blue fa-3x"></i>',
                      dictResponseError: 'Error while uploading file!',

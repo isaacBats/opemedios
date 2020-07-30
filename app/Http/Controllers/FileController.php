@@ -64,10 +64,10 @@ class FileController extends Controller
     public function validator ($data) {
         
         return Validator::make($data, [
-            'file' => 'file|max:64000',                 // max_file_size in KB: For dreamhost basic is 64MB
+            'file' => 'file|max:1048576',                 // max_file_size in KB: 1GB
         ], 
         [
-            'size' => 'El tamaño debe de ser menor a 64MB',
+            'size' => 'El tamaño debe de ser menor a 1GB',
         ]);
     }
 
