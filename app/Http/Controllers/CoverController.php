@@ -130,7 +130,7 @@ class CoverController extends Controller
                             } 
                             return false;
                         })],
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2000'
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:154112'  // Max size 128MB
         ],[
             'required' => 'El campo :input es requerido',
             'image' => 'Debe de ser una imagen',
