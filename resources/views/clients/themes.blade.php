@@ -1,6 +1,7 @@
 @extends('layouts.home2')
 @section('title', " - Mis temas")
 @section('content')
+    @include('components.clientHeading')
     <!--Page Content -->
     <div class="container">
         <h1 class="page-header"> Noticias por tema</h1>

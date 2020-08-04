@@ -1,6 +1,7 @@
 @extends('layouts.home2')
 @section('title', " - {$title}")
 @section('content')
+    @include('components.clientHeading')
     <!--Page Content -->
     <div class="container op-content-mt">
         <h1 class="page-header">{{ $title }}</h1>

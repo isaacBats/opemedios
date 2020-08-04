@@ -1,6 +1,7 @@
 @extends('layouts.home2')
 @section('title', " - {$company->name}")
 @section('content')
+    @include('components.clientHeading')
     <!-- Page Content -->
     <div class="row">
         <div class="container op-content-mt">
