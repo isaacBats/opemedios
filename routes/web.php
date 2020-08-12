@@ -47,10 +47,10 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
-
     Route::get('mis-temas', 'ClientController@themes')->name('themes');
     Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
     Route::get('search', 'ClientController@search')->name('search');
+    Route::get('otras-notas', 'ClientController@previousNews')->name('client.others.news');
 });
 
 

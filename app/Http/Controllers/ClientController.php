@@ -52,46 +52,10 @@ class ClientController extends Controller
 
     public function previousNews(Request $request, $slug_company) {
         $company = Company::where('slug', $slug_company)->first();
-        $assignedNews = DB::connection('opemediosold')->select('SELECT * FROM asigna WHERE id_empresa = ? ORDER BY id_noticia DESC LIMIT 200', [$company->old_company_id]);
-        $idThemeAssigned = array_values(array_unique(array_map(function ($assign) {
-            return $assign->id_tema;
-        }, $assignedNews)));
-        $lastFiveIdThemes = array_slice($idThemeAssigned, 0, 5);
-        $themes = DB::connection('opemediosold')->table('tema')->whereIn('id_tema', $lastFiveIdThemes)->get();
-        $newsAssigned = array_map(function ($theme) use ($idCompany) {
-            
-                $newsByTheme = DB::connection('opemediosold')->table('asigna')
-                ->select('id_noticia')
-                ->where([
-                    ['id_empresa', '=',  $idCompany], 
-                    ['id_tema', '=', $theme->id_tema],
-                ])
-                ->orderBy('id_noticia', 'desc')
-                ->limit(7)
-                ->get();
-
-                $idNewsAssigned = array_map(function ($assignNew) {
-                    return $assignNew->id_noticia;
-                }, $newsByTheme->toArray());
-            
-                return array($theme->id_tema, DB::connection('opemediosold')->table('noticia')
-                    ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-                    ->whereIn('id_noticia', $idNewsAssigned)->get());
-
-        }, $themes->toArray());
-        $date = \Carbon\Carbon::now();
-        $count = array();
-        $count['total'] = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
-        $count['month'] = DB::connection('opemediosold')->table('asigna')
-            ->join('noticia', 'noticia.id_noticia', '=', 'asigna.id_noticia')
-            ->where('id_empresa', $idCompany)
-            ->whereRaw("date_format(noticia.fecha, '%Y-%m') = '{$date->format('Y-m')}'")->count();
-        $count['day'] = DB::connection('opemediosold')->table('asigna')
-            ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
-            ->where('id_empresa', $idCompany)
-            ->where('noticia.fecha', $date->format('Y-m-d'))->count();
-        
-        return view('clients.oldnews', compact('company', 'newsAssigned', 'themes', 'count'));
+        $newsAssigned = DB::connection('opemediosold')->table('view_noticia_asignada')
+            ->where('id_empresa', $company->old_company_id)
+            ->paginate(15);
+        return view('clients.oldnews', compact('company', 'newsAssigned'));
     }
 
     public function showNew(Request $request, $slug_company, $newId) {
