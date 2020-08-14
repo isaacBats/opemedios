@@ -52,75 +52,41 @@ class ClientController extends Controller
 
     public function previousNews(Request $request, $slug_company) {
         $company = Company::where('slug', $slug_company)->first();
-        $assignedNews = DB::connection('opemediosold')->select('SELECT * FROM asigna WHERE id_empresa = ? ORDER BY id_noticia DESC LIMIT 200', [$company->old_company_id]);
-        $idThemeAssigned = array_values(array_unique(array_map(function ($assign) {
-            return $assign->id_tema;
-        }, $assignedNews)));
-        $lastFiveIdThemes = array_slice($idThemeAssigned, 0, 5);
-        $themes = DB::connection('opemediosold')->table('tema')->whereIn('id_tema', $lastFiveIdThemes)->get();
-        $newsAssigned = array_map(function ($theme) use ($idCompany) {
-            
-                $newsByTheme = DB::connection('opemediosold')->table('asigna')
-                ->select('id_noticia')
-                ->where([
-                    ['id_empresa', '=',  $idCompany], 
-                    ['id_tema', '=', $theme->id_tema],
-                ])
-                ->orderBy('id_noticia', 'desc')
-                ->limit(7)
-                ->get();
-
-                $idNewsAssigned = array_map(function ($assignNew) {
-                    return $assignNew->id_noticia;
-                }, $newsByTheme->toArray());
-            
-                return array($theme->id_tema, DB::connection('opemediosold')->table('noticia')
-                    ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-                    ->whereIn('id_noticia', $idNewsAssigned)->get());
-
-        }, $themes->toArray());
-        $date = \Carbon\Carbon::now();
-        $count = array();
-        $count['total'] = DB::connection('opemediosold')->table('asigna')->where('id_empresa', $idCompany)->count();
-        $count['month'] = DB::connection('opemediosold')->table('asigna')
-            ->join('noticia', 'noticia.id_noticia', '=', 'asigna.id_noticia')
-            ->where('id_empresa', $idCompany)
-            ->whereRaw("date_format(noticia.fecha, '%Y-%m') = '{$date->format('Y-m')}'")->count();
-        $count['day'] = DB::connection('opemediosold')->table('asigna')
-            ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
-            ->where('id_empresa', $idCompany)
-            ->where('noticia.fecha', $date->format('Y-m-d'))->count();
-        
-        return view('clients.oldnews', compact('company', 'newsAssigned', 'themes', 'count'));
+        $newsAssigned = DB::connection('opemediosold')->table('view_noticia_asignada')
+            ->where('id_empresa', $company->old_company_id)
+            ->paginate(15);
+        return view('clients.oldnews', compact('company', 'newsAssigned'));
     }
 
     public function showNew(Request $request, $slug_company, $newId) {
-
-        // $new = $this->newsController->getNewById($newId);
-
-        // $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
-        //         ->where('id_noticia', $new->id_noticia)
-        //         ->get()->map(function ($adj) use ($new) { 
-                    
-        //             $medio = strtolower($new->medio);
-        //             if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
-        //                 $medio = 'periodico';
-        //             } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
-        //                 $medio = 'television';
-        //             }
-                    
-        //             $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
-                    
-        //             return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-        //                                     :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
-        //         });
-
-        // $metadata = $this->newsController->getMetaNew($new);
-        $note = News::findOrFail($newId);
         $company = Company::where('slug', $slug_company)->first();
-            
+        if($request->get('type') == 'old') {
+            $new = $this->newsController->getNewById($newId);
 
-        return view('clients.shownew', compact('note', 'company'));
+            $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
+                    ->where('id_noticia', $new->id_noticia)
+                    ->get()->map(function ($adj) use ($new) { 
+                        
+                        $medio = strtolower($new->medio);
+                        if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
+                            $medio = 'periodico';
+                        } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
+                            $medio = 'television';
+                        }
+                        
+                        $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
+                        
+                        return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
+                                                :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
+                    });
+
+            $metadata = $this->newsController->getMetaNew($new);
+            return view('clients.showoldnew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+        } else {
+            $note = News::findOrFail($newId);
+            return view('clients.shownew', compact('note', 'company'));
+        }
+
     }
 
     public function getCovers(Request $request, $slug_company) {
@@ -226,24 +192,21 @@ class ClientController extends Controller
         $query = $request->query();
         $company = Company::where('slug', $slug_company)->first();
         
-        if($request['last'] == 'noticias-pasadas'){
+        if($request['last'] == 'otras-notas'){
 
             if(is_null($company->old_company_id)){
                 // regresar un mensaje de que la compañia no esta relacionada con una empresa vieja
             }
 
-            $news = DB::connection('opemediosold')->table('noticia')
-                ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
-                ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-                ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
+            $newsAssigned = DB::connection('opemediosold')->table('view_noticia_asignada')
                 ->where([
-                    ['asigna.id_empresa', '=', $company->old_company_id],
-                    ['noticia.encabezado', 'like', "%{$query['query']}%"]])
-                ->orWhere('noticia.sintesis', 'like', "%{$query['query']}%")
+                    ['id_empresa', '=', $company->old_company_id],
+                    ['title', 'like', "%{$query['query']}%"]])
+                ->orWhere('sintesis', 'like', "%{$query['query']}%")
                 ->orderBy('fecha', 'desc')
-                ->get();
+                ->paginate(15);
 
-            return view('components.listSearchOldNews', compact('news', 'company'))->render();
+            return view('components.listOldNews', compact('newsAssigned', 'company'))->render();
         } else {
             
             $idsNewsAssigned = $company->assignedNews->map(function($assigned) {

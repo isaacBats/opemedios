@@ -29,6 +29,7 @@
                         @hasrole('client')
                             <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
                             <li><a class="{{ $route == 'themes' ? ' active' : '' }}" href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
+                            <li><a class="{{ $route == 'client.others.news' ? ' active' : '' }}" href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
                             <li>
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
@@ -41,18 +42,6 @@
                                     </ul>
                                 </div>
                             </li>
-                            {{-- <li class="dropdown">
-                              <div class="dropdown">
-                                  <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                      Reportes <span class="caret"></span>
-                                  </a>
-                                      <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu">
-                                    
-                                    <li><a href="/reporte/cliente">Noticias por cliente</a></li>
-                                    <li><a href="#">Reporte de notas por día</a></li>
-                                  </ul>
-                              </div>
-                            </li> --}}
                             <li>
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle user btn-ope" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -106,6 +95,8 @@
                         @else
                             @hasrole('client')
                                 <li><a class="{{ $route == 'news' ? ' active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+                                <li><a class="{{ $route == 'themes' ? ' active' : '' }}" href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
+                                <li><a class="{{ $route == 'client.others.news' ? ' active' : '' }}" href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
                                 <li>
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
@@ -118,18 +109,6 @@
                                         </ul>
                                     </div>
                                 </li>
-                                {{-- <li class="dropdown">
-                                  <div class="dropdown">
-                                      <a id="report" class="btn dropdown-toggle user" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" href="javascript:void(0);">
-                                          Reportes <span class="caret"></span>
-                                      </a>
-                                          <ul class="dropdown-menu " role="menu" aria-labelledby="dropdownMenu">
-                                        
-                                        <li><a href="/reporte/cliente">Noticias por cliente</a></li>
-                                        <li><a href="#">Reporte de notas por día</a></li>
-                                      </ul>
-                                  </div>
-                                </li> --}}
                                 <li>
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle user" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
