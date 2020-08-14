@@ -18,7 +18,7 @@
                  {{ $note->source->company }} | Autor: {{ $note->author }}
             </p>
             <p class="f-p">{{ Illuminate\Support\Str::limit($note->synthesis, 200) }}</p>
-            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">Ver más</a>
+            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug]) }}">Ver más</a>
         </div>
     </div>
 @endforeach
