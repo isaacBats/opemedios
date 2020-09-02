@@ -48,12 +48,12 @@ class NewsletterController extends Controller
     }
 
     public function index(){
-        $newsletters = Newsletter::all();
+        $newsletters = Newsletter::orderBy('id', 'DESC')->paginate(25);
 
         return view('admin.newsletter.index', compact('newsletters'));
     }
 
-    public function showFormCreateNewsletter () {
+    public function showFormCreateNewsletter() {
 
         $companies = Company::all();
 
@@ -156,6 +156,17 @@ class NewsletterController extends Controller
         Log::info("Newsletters of the day {$yesterday} have been sent");
 
         return 'Se ha enviado la noticia con satisfacción';
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function view(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+
+        return view('admin.newsletter.view', compact('newsletter'));
     }
 
     public function showNew(Request $request) {

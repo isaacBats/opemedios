@@ -92,6 +92,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
         Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
         Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
+        Route::get('newsletter/show/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
+        Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
+        Route::post('newsletter/remove/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
 
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');

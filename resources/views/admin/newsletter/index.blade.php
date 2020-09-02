@@ -42,19 +42,20 @@
                       <input type="checkbox"><span></span>
                     </label>
                   </td>
-                  <td class="text-center" >{{ $loop->iteration }}</td>
+                  <td class="text-center" >{{ ($newsletters->currentPage() - 1) * $newsletters->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $newsletter->name }}</td>
                   <td class="text-left">{{ $newsletter->company->name }}</td>
                   <td class="table-options">
-                      <li><a href=""><i class="fa fa-eye"></i></a></li>
-                      <li><a href=""><i class="fa fa-trash"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.config', ['id' => $newsletter->id]) }}"><i class="fa fa-gear"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.view', ['id' => $newsletter->id]) }}"><i class="fa fa-eye"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.remove', ['id' => $newsletter->id]) }}"><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach
           </tbody>
         </table>
         <div>
-          {{-- pagination --}}
+          {{ $newsletters->links() }}
         </div>
       </div><!-- table-responsive -->
     </div>
