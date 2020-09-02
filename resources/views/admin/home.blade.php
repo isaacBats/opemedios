@@ -63,7 +63,7 @@
                                 {{-- <h3>23.30%</h3> --}}
                                 {{-- <h5 class="text-success">2.00% increased</h5> --}}
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                             <h4 class="panel-title">{{ __('Newsletters') }}</h4>
                         </div>
                         <div class="panel-body">
-                            <a href="{{ route('newsletters') }}"><div class="page-icon"><i class="fa fa-send-o"></i></div></a>
+                            <a href="{{ route('admin.newsletters') }}"><div class="page-icon"><i class="fa fa-send-o"></i></div></a>
                         </div>
                     </div>
                 </div>
