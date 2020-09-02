@@ -1,13 +1,12 @@
 @extends('layouts.admin')
 @section('admin-title', ' - Nuevo Newsletter')
 @section('content')
-    <form method="post" action="{{ route('newsletter.create') }}" class="form-horizontal" enctype="multipart/form-data">
+    <form method="post" action="{{ route('admin.newsletter.create') }}" class="form-horizontal" enctype="multipart/form-data">
         @csrf
         <div class="col-md-8">
             <div class="panel">
                 <div class="panel-heading nopaddingbottom">
                     <h4 class="panel-title">Nuevo newsletter</h4>
-                    <p>Un Newsletter es un correo que se envia automaticamente a las 7 am de cada día, con noticias de un día anterior.</p>
                 </div>
                 <div class="panel-body">
                     <hr>
@@ -66,7 +65,7 @@
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
         $(function(){
-            // $('#select-company').select2();
+            $('#select-company').select2();
         })
     </script>
 @endsection

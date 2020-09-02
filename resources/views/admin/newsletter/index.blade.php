@@ -1,15 +1,20 @@
 @extends('layouts.admin')
 @section('admin-title', ' - Configuración newsletters')
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="col-md-12">
   <div class="panel">
     <div class="panel-heading">
       <div class="row">
           <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
-            <h4 class="panel-title" style="padding: 12px 0;">Lista de configuración newsletters</h4>  
+            <h4 class="panel-title" style="padding: 12px 0;">Lista de configuración newsletters</h4>
           </div>
           <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
-              <a href="{{ route('newsletter.create') }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> Nuevo newsletter</a>
+              <a href="{{ route('admin.newsletter.create') }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> Nuevo newsletter</a>
           </div>
       </div>
     </div>
@@ -37,19 +42,20 @@
                       <input type="checkbox"><span></span>
                     </label>
                   </td>
-                  <td class="text-center" >{{ $loop->iteration }}</td>
+                  <td class="text-center" >{{ ($newsletters->currentPage() - 1) * $newsletters->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $newsletter->name }}</td>
                   <td class="text-left">{{ $newsletter->company->name }}</td>
                   <td class="table-options">
-                      <li><a href=""><i class="fa fa-eye"></i></a></li>
-                      <li><a href=""><i class="fa fa-trash"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.config', ['id' => $newsletter->id]) }}"><i class="fa fa-gear"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.view', ['id' => $newsletter->id]) }}"><i class="fa fa-eye"></i></a></li>
+                      <li><a href="{{ route('admin.newsletter.remove', ['id' => $newsletter->id]) }}"><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach
           </tbody>
         </table>
         <div>
-          {{-- pagination --}}
+          {{ $newsletters->links() }}
         </div>
       </div><!-- table-responsive -->
     </div>

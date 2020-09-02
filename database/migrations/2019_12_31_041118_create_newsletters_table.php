@@ -19,10 +19,10 @@ class CreateNewslettersTable extends Migration
             $table->softDeletes();
 
             $table->string('name');
-            $table->string('banner');
-            $table->smallInteger('active');
+            $table->string('banner')->nullable();
+            $table->smallInteger('active')->nullable();
             $table->unsignedBigInteger('company_id');
-            
+
             $table->foreign('company_id')->references('id')->on('companies');
         });
     }

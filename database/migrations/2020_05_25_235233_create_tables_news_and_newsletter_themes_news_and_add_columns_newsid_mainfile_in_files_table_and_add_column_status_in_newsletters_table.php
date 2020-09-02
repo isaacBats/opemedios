@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -59,7 +59,7 @@ class CreateTablesNewsAndNewsletterThemesNewsAndAddColumnsNewsidMainfileInFilesT
             $table->foreign('section_id')->references('id')->on('sections');
             $table->foreign('mean_id')->references('id')->on('means');
         });
-        
+
         // Table newsletter_themes_news
         Schema::create('newsletter_themes_news', function (BluePrint $table){
             $table->bigIncrements('id');
@@ -73,8 +73,8 @@ class CreateTablesNewsAndNewsletterThemesNewsAndAddColumnsNewsidMainfileInFilesT
             $table->foreign('newsletter_theme_id')->references('id')->on('themes');
             $table->foreign('news_id')->references('id')->on('news');
 
-        }); 
-               
+        });
+
         // add columns in files table
         Schema::table('files', function (Blueprint $table) {
             $table->unsignedBigInteger('news_id')->nullable();
@@ -84,9 +84,6 @@ class CreateTablesNewsAndNewsletterThemesNewsAndAddColumnsNewsidMainfileInFilesT
             $table->foreign('news_id')->references('id')->on('news');
         });
 
-        Schema::table('newsletters', function(Blueprint $table){
-            $table->smallInteger('status');
-        });
     }
 
     /**
@@ -100,11 +97,6 @@ class CreateTablesNewsAndNewsletterThemesNewsAndAddColumnsNewsidMainfileInFilesT
         Schema::table('files', function (Blueprint $table) {
             $table->dropForeing('files_news_id_foreing');
             $table->dropColumn(['news_id', 'main_file', 'file_from_news']);
-        });
-
-        // Rollback columns in newsletter table
-        Schema::table('newsletters', function (Blueprint $table){
-            $table->dropColumn('status');
         });
 
         // drop table newsletter_themes_news

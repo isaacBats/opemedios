@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 
 namespace App\Http\Controllers;
 
@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
 {
-    
+
     protected $newsController;
 
     protected $mediaController;
@@ -48,35 +48,48 @@ class NewsletterController extends Controller
     }
 
     public function index(){
-        $newsletters = Newsletter::all();
+        $newsletters = Newsletter::orderBy('id', 'DESC')->paginate(25);
 
         return view('admin.newsletter.index', compact('newsletters'));
     }
 
-    public function showFormCreateNewsletter () {
+    public function showFormCreateNewsletter() {
 
         $companies = Company::all();
 
         return view('admin.newsletter.create', compact('companies'));
     }
 
+    protected function validator(array $data) {
+        return Validator::make($data,
+            ['name' => 'required|max:200|',],
+            ['name.required' => 'Es necesario elegir un nombre para el Newsletter.',]
+        );
+    }
+
     public function create (Request $request) {
 
         $data = $request->all();
-        Validator::make($data, 
-            ['name' => 'required|max:200|',], 
-            ['name.required' => 'Es necesario elegir un nombre para el Newsletter.',]
-        )->validate();
-        
+        $company = Company::find($data['company_id']);
+
+        if ($company->newsletter) {
+
+            return redirect()->route('admin.newsletters')->with('status', 'El newsletter ya existe!');
+        }
+
+        if (!$request->has('name')) {
+            $data['name'] = $company->name;
+        }
+        $this->validator($data)->validate();
+
         if($file = $request->hasFile('banner')) {
             $data['banner'] = $request->file('banner')->store('newsletters');
         }
         $data['active'] = 1; // Newsletter active by default
-        $data['status'] = 0; // Newsletter no send today
 
         Newsletter::create($data);
 
-        return redirect()->route('newsletters')->with('alert-success', 'El newsletter se ha creado con éxito');
+        return redirect()->route('admin.newsletters')->with('status', 'El newsletter se ha creado con éxito');
     }
 
     public function sendMail() {
@@ -88,7 +101,7 @@ class NewsletterController extends Controller
                 foreach ($newsletters as $newsletter) {
                     $company = $newsletter->company;
                     $emails = $company->emailsNewsLetters();
-                    $companyOld = $company->getOldCompanyId();              
+                    $companyOld = $company->getOldCompanyId();
                     if($companyOld){
                         $news = DB::connection('opemediosold')->table('noticia')
                             ->select('noticia.encabezado', 'fuente.nombre as fuente', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia', 'tema.nombre as tema', 'tipo_fuente.descripcion as medio')
@@ -145,12 +158,23 @@ class NewsletterController extends Controller
         return 'Se ha enviado la noticia con satisfacción';
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function view(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+
+        return view('admin.newsletter.view', compact('newsletter'));
+    }
+
     public function showNew(Request $request) {
 
         if(!$request->has('qry')) {
             return redirect()->route('home');
         }
-        
+
         try {
 
             $data = explode('-',Crypt::decryptString($request->get('qry')));
@@ -164,20 +188,20 @@ class NewsletterController extends Controller
         $new = $this->newsController->getNewById($newId);
         $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
                 ->where('id_noticia', $new->id_noticia)
-                ->get()->map(function ($adj) use ($new) { 
-                    
+                ->get()->map(function ($adj) use ($new) {
+
                     $medio = strtolower($new->medio);
-                    
+
                     if($medio == 'peri&oacute;dico') {
                         $medio = 'periodico';
                     } elseif ($medio == 'Televisi&oacute;n') {
                         $medio = 'television';
                     }
-                    
-                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
-                    
+
+                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}";
+
                     return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
+                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>";
                 });
 
         $metadata = $this->newsController->getMetaNew($new);

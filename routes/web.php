@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,7 +55,7 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
 
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
-    
+
     Route::group(['middleware' => ['can:view menu']], function () {
         Route::get('/', 'AdminController@index')->name('panel');
 
@@ -80,7 +80,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
-        
+
         Route::get('giros', 'TurnController@index')->name('admin.turns');
         Route::get('giros/nuevo', 'TurnController@create')->name('admin.turns.create');
         Route::post('giros/nuevo', 'TurnController@store')->name('admin.turns.store');
@@ -89,9 +89,12 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('giros/editar/{id}', 'TurnController@update')->name('admin.turns.update');
         Route::post('giros/eliminar/{id}', 'TurnController@destroy')->name('admin.turns.destroy');
 
-        Route::get('newsletters', 'NewsletterController@index')->name('newsletters');
-        Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('newsletter.create');
-        Route::post('newsletter/crear', 'NewsletterController@create')->name('newsletter.create');
+        Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
+        Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
+        Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
+        Route::get('newsletter/show/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
+        Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
+        Route::post('newsletter/remove/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
 
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
