@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
 use App\AssignedNews;
@@ -31,7 +31,7 @@ class Company extends Model
 {
 
     use SoftDeletes;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,9 +45,9 @@ class Company extends Model
 
     }
 
-    public function newsletters() {
+    public function newsletter() {
 
-        return $this->hasMany(Newsletter::class);
+        return $this->hasOne(Newsletter::class);
     }
 
     public function accounts() {
@@ -66,13 +66,13 @@ class Company extends Model
         $emails = array();
         foreach ($users as $user) {
             if($user->metas()->where([
-                ['meta_key', '=', 'user_newsletter'], 
+                ['meta_key', '=', 'user_newsletter'],
                 ['meta_value', '=', 1],
             ])->first()) {
                 $emails[] = $user->email;
             }
         }
-        
+
         return $emails;
     }
 
