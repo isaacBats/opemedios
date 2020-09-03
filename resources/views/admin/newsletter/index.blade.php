@@ -20,7 +20,7 @@
     </div>
     <div class="panel-body">
       <div class="table-responsive">
-        <table class="table table-bordered table-inverse table-striped nomargin">
+        <table id="table-newsletters" class="table table-bordered table-inverse table-striped nomargin">
           <thead>
             <tr>
               <th class="text-center">
@@ -31,6 +31,7 @@
               <th class="text-center">#</th>
               <th class="text-center">Nombre</th>
               <th class="text-center">Compañia</th>
+              <th class="text-center">Activo</th>
               <th class="text-center">Acciones</th>
             </tr>
           </thead>
@@ -45,6 +46,9 @@
                   <td class="text-center" >{{ ($newsletters->currentPage() - 1) * $newsletters->perPage() + $loop->iteration }}</td>
                   <td class="text-left" >{{ $newsletter->name }}</td>
                   <td class="text-left">{{ $newsletter->company->name }}</td>
+                  <td class="text-center">
+                      <input type="checkbox" {{ ($newsletter->active == 1 ? 'checked' : '') }} data-toggle="toggle" data-onstyle="success" data-id="{{ $newsletter->id }}" data-href="{{ route('admin.newsletter.status', ['id' => $newsletter->id]) }}" class="btn-status">
+                  </td>
                   <td class="table-options">
                       <li><a href="{{ route('admin.newsletter.config', ['id' => $newsletter->id]) }}"><i class="fa fa-gear"></i></a></li>
                       <li><a href="{{ route('admin.newsletter.view', ['id' => $newsletter->id]) }}"><i class="fa fa-eye"></i></a></li>
@@ -61,4 +65,52 @@
     </div>
   </div><!-- panel -->
 </div>
+@endsection
+@section('styles')
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+@endsection
+@section('scripts')
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            // status of the newsletter
+            $('#table-newsletters').on('change', '.btn-status', function (){
+                var newsletterId = $(this).data('id')
+                var action = $(this).data('href')
+
+                if($(this).is(':checked')) {
+                    $.post(`${action}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 1 }, function(res){
+                        $.gritter.add({
+                            title: 'Newsletter Activo',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus del newsletter',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
+                else{
+                    $.post(`${action}`, { "_token": $('meta[name="csrf-token"]').attr('content'), 'status': 0 }, function(res){
+                        $.gritter.add({
+                            title: 'Newsletter Inactivo',
+                            text: res.message,
+                            class_name: 'with-icon check-circle success'
+                        })
+                    }).fail(function(res){
+                        $.gritter.add({
+                            title: 'Error al cambiar el estatus del newsletter',
+                            text: res.error,
+                            class_name: 'with-icon times-circle danger'
+                        })
+                    })
+                }
+            })
+        })
+    </script>
+
 @endsection

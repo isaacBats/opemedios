@@ -203,6 +203,24 @@ class NewsletterController extends Controller
         return redirect()->route('admin.newsletter.config', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el banner correctamente');
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+        try {
+            $newsletter->active = $request->input('status');
+            $status = $request->input('status') ? 'Activo' : 'Inactivo';
+            $newsletter->save();
+
+            return response()->json(['message' => "El newsletter a quedado {$status}"]);
+        } catch (Exception $e) {
+            return response()->json(['error' => "Error al actualizar el estatus del newsletter"]);
+        }
+    }
+
     public function showNew(Request $request) {
 
         if(!$request->has('qry')) {
