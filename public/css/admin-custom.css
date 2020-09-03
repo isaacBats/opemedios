@@ -1,0 +1,27 @@
+.rectangle-banner {
+    border-style: dashed;
+    margin: 0 auto;
+    height: 250px;
+    width: 90%;
+
+    color: rgba(52, 166, 214, 0.4);
+    font-size: 15em;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .rectangle-banner {
+        font-size: 5em;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .rectangle-banner {
+        font-size: 5em;
+    }
+}
+@media (min-width: 992px) and (max-width: 1649px) {
+    .rectangle-banner {
+        font-size: 10em;
+    }
+}

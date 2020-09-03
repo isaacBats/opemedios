@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
   <link rel="stylesheet" href="{{ asset('lib/jquery.gritter/jquery.gritter.css') }}">
   <link rel="stylesheet" href="{{ asset('css/quirk.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/admin-custom.css') }}">
 
   <script src="https://kit.fontawesome.com/82c0428c5a.js" crossorigin="anonymous"></script>
   <script src="{{ asset('lib/modernizr/modernizr.js') }}"></script>
