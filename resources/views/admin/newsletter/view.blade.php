@@ -13,7 +13,7 @@
                         <h4 class="panel-title" style="padding: 12px 0;">Bienvenido al newsletter de {{ $newsletter->company->name }}</h4>
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
-                        <a href="" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> Nuevo</a>
+                        <button id="btn-create-nwlt" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Nuevo') }}</button>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         </thead>
                         <tbody>
                         @php
-                            $newsletters_send = $newsletter->newsletter_send()->paginate(25);
+                            $newsletters_send = $newsletter->newsletter_send()->orderBy('id', 'DESC')->paginate(25);
                         @endphp
                         @forelse($newsletters_send as $oneNewsletter)
                             <tr>
@@ -47,11 +47,11 @@
                                                 @break
                                             @else
                                                 <span class="text-primary"><i class="fa fa-check-circle"></i><span>
-                                                    @endif
-                                                        @endfor
-                                                        @else
-                                                            <span class="text-warning"><i class="fa fa-pause-circle"></i><span>
                                             @endif
+                                        @endfor
+                                    @else
+                                        <span class="text-warning"><i class="fa fa-pause-circle"></i><span>
+                                    @endif
                                 </th>
                                 <th>
                                     <a href=""><button type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button></a>
@@ -79,6 +79,18 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
+
+            // crate news newsletter for send
+            $('#btn-create-nwlt').on('click', function(){
+                var form = $('#modal-default-form')
+                var urlAction = `{{ route('admin.newsletter.newforsend', ['id' => $newsletter->id]) }}`
+
+                form.attr('action', urlAction)
+                form.attr('method', 'POST')
+                form.submit()
+                // $.post(`{{-- route('admin.newsletter.newforsend', ['id' => $newsletter->id]) --}}`, { "_token": $('meta[name="csrf-token"]').attr('content') })
+            })
+        })
 
             // envio manual
         //     $('#table-newsletters').on('click', 'button.send-mail-manual', function(event) {

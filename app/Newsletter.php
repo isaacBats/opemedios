@@ -22,17 +22,37 @@ use App\Company;
 use App\NewsletterSend;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Newsletter
+ * @package App
+ */
 class Newsletter extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = ['name', 'banner', 'active', 'company_id',];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company() {
 
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function newsletter_send() {
 
         return $this->hasMany(NewsletterSend::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function newsletter_theme_news() {
+        return $this->hasMany(NewsletterThemeNews::class);
     }
 }
