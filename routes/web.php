@@ -92,11 +92,12 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
         Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
         Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
-        Route::get('newsletter/show/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
+        Route::get('newsletter/ver/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
         Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
-        Route::post('newsletter/remove/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
+        Route::post('newsletter/remover/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
         Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
-        Route::post('newsletter/status/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
+        Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
+        Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
 
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
