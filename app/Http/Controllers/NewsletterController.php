@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
@@ -83,7 +84,7 @@ class NewsletterController extends Controller
         $this->validator($data)->validate();
 
         if($file = $request->hasFile('banner')) {
-            $data['banner'] = $request->file('banner')->store('newsletters');
+            $data['banner'] = $request->file('banner')->store('newsletters', 'local');
         }
         $data['active'] = 1; // Newsletter active by default
 
@@ -167,6 +168,57 @@ class NewsletterController extends Controller
         $newsletter = Newsletter::findOrFail($id);
 
         return view('admin.newsletter.view', compact('newsletter'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function config(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+
+        return view('admin.newsletter.config', compact('newsletter'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateBanner(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+        try {
+            if(Storage::drive('local')->exists($newsletter->banner)) {
+                Storage::drive('local')->delete($newsletter->logo);
+            }
+
+            $newsletter->banner = $request->file('banner')->store('newsletters', 'local');
+            $newsletter->save();
+
+        } catch (Exception $e) {
+            return back()->with('status', 'Could not update image: ' . $e->getMessage());
+        }
+
+        return redirect()->route('admin.newsletter.config', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el banner correctamente');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status(Request $request, $id) {
+        $newsletter = Newsletter::findOrFail($id);
+        try {
+            $newsletter->active = $request->input('status');
+            $status = $request->input('status') ? 'Activo' : 'Inactivo';
+            $newsletter->save();
+
+            return response()->json(['message' => "El newsletter a quedado {$status}"]);
+        } catch (Exception $e) {
+            return response()->json(['error' => "Error al actualizar el estatus del newsletter"]);
+        }
     }
 
     public function showNew(Request $request) {

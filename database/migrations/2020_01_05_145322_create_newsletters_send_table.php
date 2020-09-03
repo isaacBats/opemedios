@@ -20,9 +20,9 @@ class CreateNewslettersSendTable extends Migration
 
             $table->unsignedBigInteger('newsletter_id');
             $table->smallInteger('status');
-            $table->text('news_ids');
-            $table->smallInteger('num_notes');
-            $table->smallInteger('num_email');
+            $table->text('news_ids')->nullable();
+            $table->smallInteger('num_notes')->nullable();
+            $table->smallInteger('num_email')->nullable();
 
             $table->foreign('newsletter_id')
                 ->references('id')->on('newsletters')
