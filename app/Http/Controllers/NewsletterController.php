@@ -268,4 +268,23 @@ class NewsletterController extends Controller
 
         return view('components.select-themes-newsletters', compact('themes'))->render();
     }
+
+    public function sendSelectHTMLWithSends(Request $request) {
+
+        $newsletterId = $request->input('newsletter_id');
+        $newslettersSends = NewsletterSend::where('newsletter_id',$newsletterId)
+            ->where('status', 0)->orderBy('id', 'DESC')->get();
+
+        if($newslettersSends->count()) {
+            return view('components.select-newsletter-send', compact('newslettersSends'))->render();
+        }
+
+        NewsletterSend::create([
+            'newsletter_id' => $newsletterId,
+            'status' => 0,
+        ]);
+
+        return $this->sendSelectHTMLWithSends($request);
+
+    }
 }
