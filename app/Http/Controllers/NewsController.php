@@ -30,6 +30,7 @@ use App\Mail\NoticeNewsEmail;
 use App\Means;
 use App\News;
 use App\Newsletter;
+use App\NewsletterSend;
 use App\NewsletterThemeNews;
 use App\Sector;
 use App\Theme;
@@ -308,9 +309,26 @@ class NewsController extends Controller
 
         if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
             // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
+            $newsletterSend = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
+                ->where('status', 0)
+                ->orderBy('id', 'DESC')
+                ->get();
+
+            if(!$newsletterSend->count()) {
+                $newsletterSend = NewsletterSend::create([
+                    'newsletter_id' => $data['newsletter_id'],
+                    'status' => 0,
+                ]);
+            }
+
+            if(get_class($newsletterSend) === Illuminate\Database\Eloquent\Collection::class) {
+                $newsletterSend = $newsletterSend->first();
+            }
+
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
                 'newsletter_theme_id' => $data['newsletter_theme_id'],
+                'newsletter_send_id' => $newsletterSend->id,
                 'news_id' => $news->id,
             ]);
         }
