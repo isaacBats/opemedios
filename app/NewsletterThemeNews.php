@@ -15,17 +15,18 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
 use App\News;
 use App\Newsletter;
+use App\NewsletterSend;
 use App\Theme;
 use Illuminate\Database\Eloquent\Model;
 
 class NewsletterThemeNews extends Model
 {
-    protected $fillable = ['newsletter_id', 'newsletter_theme_id', 'news_id'];
+    protected $fillable = ['newsletter_id', 'newsletter_theme_id', 'newsletter_send_id', 'news_id'];
 
     protected $table = 'newsletter_themes_news';
 
@@ -39,5 +40,9 @@ class NewsletterThemeNews extends Model
 
     public function news() {
         return $this->belongsTo(News::class);
+    }
+
+    public function newsletter_send() {
+        return $this->belongsTo(NewsletterSend::class, 'newsletter_send_id');
     }
 }

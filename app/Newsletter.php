@@ -20,6 +20,7 @@ namespace App;
 
 use App\Company;
 use App\NewsletterSend;
+use App\NewsletterThemeNews;
 use Illuminate\Database\Eloquent\Model;
 
 /**
