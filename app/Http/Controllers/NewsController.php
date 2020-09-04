@@ -314,21 +314,20 @@ class NewsController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
 
+            $newsletterSendId = $newsletterSend->first()->id;
+
             if(!$newsletterSend->count()) {
                 $newsletterSend = NewsletterSend::create([
                     'newsletter_id' => $data['newsletter_id'],
                     'status' => 0,
                 ]);
-            }
-
-            if(get_class($newsletterSend) === Illuminate\Database\Eloquent\Collection::class) {
-                $newsletterSend = $newsletterSend->first();
+                $newsletterSendId = $newsletterSend->id;
             }
 
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
                 'newsletter_theme_id' => $data['newsletter_theme_id'],
-                'newsletter_send_id' => $newsletterSend->id,
+                'newsletter_send_id' => $newsletterSendId,
                 'news_id' => $news->id,
             ]);
         }
