@@ -98,6 +98,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
         Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
         Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
+        Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
+        Route::post('newsletter/newsletter-a-enviar/agregar-nota/{id}', 'NewsletterSendController@addNote')->name('admin.newsletter.send.add.note');
+        Route::post('newsletter/newsletter-a-enviar/remover-nota/{id}', 'NewsletterSendController@remove')->name('admin.newsletter.send.remove.note');
 
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
