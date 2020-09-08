@@ -16,6 +16,11 @@
                 </div>
             </div>
             <div class="panel-body">
+                <div class="col-md-10 col-md-offset-1">
+                    <form action="" class="form-horizontal" method="POST">
+                        @csrf
+                    </form>
+                </div>
                 <ul class="media-list">
                 @foreach($newsletterSend->newsletter->company->themes as $theme)
                     <h2 class="block-title">{{ $theme->name }}</h2>
@@ -27,7 +32,7 @@
                                     <img class="media-object" src="https://ui-avatars.com/api/?name={{ $loop->iteration }}&size=32&background=0D8ABC&color=fff" alt="...">
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{ $ntn->news->title }}</h4>
+                                    <u><a class="" href="{{ route('admin.new.show', ['id' => $ntn->news->id]) }}" target="_blank"><h4 class="media-heading">{{ $ntn->news->title }}</h4></a></u>
                                     <p>
                                         <small><strong>{{ "OPE-{$ntn->news->id}" }}</strong></small> <br />
                                         {!! Illuminate\Support\Str::limit($ntn->news->synthesis, 120) !!}
@@ -43,6 +48,9 @@
                     @endforelse
                 @endforeach
                 </ul>
+                <div class="col-md-12 text-right mt-1">
+                    <a href="{{ route('admin.newsletter.edit.send', ['id' => $newsletterSend->id]) }}" class="btn btn-primary btn-lg">{{ __('Guardar') }}</a>
+                </div>
             </div>
         </div>
     </div>
