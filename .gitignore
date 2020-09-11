@@ -18,3 +18,5 @@ yarn-error.log
 /.phpintel
 .phpunit.result.cache
 /*.sublime-*
+/storage/app.old
+/storage/storage_app.tar.gz
