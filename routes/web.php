@@ -102,6 +102,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('newsletter/newsletter-a-enviar/agregar-nota/{id}', 'NewsletterSendController@addNote')->name('admin.newsletter.send.add.note');
         Route::post('newsletter/newsletter-a-enviar/remover-nota/{id}', 'NewsletterSendController@remove')->name('admin.newsletter.send.remove.note');
 
+        Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
+
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
         Route::post('sector/nuevo', 'SectorController@store')->name('admin.sector.store');

@@ -497,7 +497,12 @@ class NewsController extends Controller
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
-
+    
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
     public function showDetailNews(Request $request) {
         if(!$request->has('qry')) {
             return redirect()->route('home');
@@ -513,5 +518,44 @@ class NewsController extends Controller
 
         return view('clients.frontdetailnews', compact('news'));
     }
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
+    public function searchByIdOrTitleAjax(Request $request) {
+        
+        $themes = NewsletterSend::findOrFail($request->input('newssend'))->newsletter->company->themes;
+        
+        if($request->input('newsid')) {
+            $request->validate([
+                'newsid' => 'numeric'
+            ],[
+                'numeric' => 'Debe de ser solo número'
+            ]);
+
+            $note = News::findOrFail($request->input('newsid'));
+
+            return response()->json(compact('note', 'themes'));
+        }
+
+        if($request->input('newstitle')) {
+            $request->validate([
+                'newstitle' => 'string|min:4'
+            ],[
+                'min' => 'El título ingresado debe de ser mínimo de 4 caracteres'
+            ]);
+
+            $notes = News::where('title', 'like', "%{$request->input('newstitle')}%")->get();
+
+            return response()->json(compact('notes', 'themes'));
+        }
+
+        return response()->json([
+            'error' => 'OK',
+            'message' => 'No hay argumentos suficientes para realizar una busqueda'
+        ]);
+    }
 
 }
+ 
