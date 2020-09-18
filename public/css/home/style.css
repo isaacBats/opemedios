@@ -1,363 +1,204 @@
-.red {
-  color: #ff1a3e; }
-
-body, html {
-  height: 100%; }
-
-body {
-  background-color: #1976D2;
-  font-family: "geomanist_regularregular", Arial, Helvetica, sans-serif;
-  color: #929CA4; }
-
-header {
-  overflow: hidden;
-  width: 100%;
-  height: 100px;
-  position: fixed;
-  top: 0;
-  z-index: 9999;
-  background: #f0efe6; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: black*/
-  -webkit-transition: all 400ms ease-in-out;
-  -moz-transition: all 400ms ease-in-out;
-  -o-transition: all 400ms ease-in-out;
-  transition: all 400ms ease-in-out; }
-  header nav.menu {
-    float: right;
-    margin-top: 25px;
-    -webkit-transition: all 400ms ease-in-out;
-    -moz-transition: all 400ms ease-in-out;
-    -o-transition: all 400ms ease-in-out;
-    transition: all 400ms ease-in-out; }
-    header nav.menu ul {
-      overflow: hidden;
-      list-style-type: none;
-      margin: 0;
-      padding: 0; }
-    header nav.menu li {
-      float: right; }
-      header nav.menu li a {
-        padding: 10px;
-        font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-        font-size: 12px;
-        color: #00659b !important;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-        text-transform: uppercase;
-        -webkit-transition: all 200ms ease-in-out;
-        -moz-transition: all 200ms ease-in-out;
-        -o-transition: all 200ms ease-in-out;
-        transition: all 200ms ease-in-out; }
-        @media screen and (max-width: 960px) {
-          header nav.menu li a {
-            padding: 10px 5px; } }
-        header nav.menu li a:hover {
-          text-decoration: none;
-          color: #97caff !important; }
-      header nav.menu li a.login {
-        border: solid 1px #97caff; }
-      header nav.menu li a.active {
-        color: #ff1a3e !important; }
-  header nav.mobile ul {
-    overflow: hidden;
-    list-style-type: none;
-    margin: 0;
-    padding: 0; }
-    header nav.mobile ul li a {
-      font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      display: block;
-      padding: 20px 0;
-      text-decoration: none;
-      text-transform: uppercase;
-      -webkit-transition: all 200ms ease-in-out;
-      -moz-transition: all 200ms ease-in-out;
-      -o-transition: all 200ms ease-in-out;
-      transition: all 200ms ease-in-out;
-      color: #929CA4 !important; }
-    header nav.mobile ul > li:last-child a {
-      padding-bottom: 40px; }
-  header figure {
-    margin-top: 8px;
-    width: 100%;
-    overflow: hidden;
-    -webkit-transition: all 400ms ease-in-out;
-    -moz-transition: all 400ms ease-in-out;
-    -o-transition: all 400ms ease-in-out;
-    transition: all 400ms ease-in-out; }
-    header figure img {
-      width: 200px;
-      -webkit-transition: all 400ms ease-in-out;
-      -moz-transition: all 400ms ease-in-out;
-      -o-transition: all 400ms ease-in-out;
-      transition: all 400ms ease-in-out; }
-  header.active {
-    height: 60px; }
-    header.active nav {
-      margin-top: 10px; }
-    header.active img {
-      width: 120px; }
-    header.active a {
-      padding: 10px 14px; }
-      @media screen and (max-width: 960px) {
-        header.active a {
-          padding: 10px 5px; } }
-
-.navbar {
-  padding: 0 !important;
-  float: right;
-  margin-top: 25px; }
-
-.op-hero {
-  background-image: url("../../images/digitalagency.jpg");
-  background-position: center center;
-  background-size: cover;
-  width: 100%;
-  padding: 300px 0 200px;
-  overflow: hidden;
-  background-color: #000; }
-  .op-hero .hero-content {
-    width: 100%;
-    color: #fff; }
-    .op-hero .hero-content h1 {
-      font-size: 58px;
-      text-transform: uppercase;
-      font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-      font-weight: normal; }
-    .op-hero .hero-content h1 + div {
-      width: 700px;
-      border-bottom: dotted 1px #fff;
-      margin: 0 auto;
-      margin-bottom: 20px; }
-    .op-hero .hero-content h2 {
-      font-size: 18px;
-      font-weight: normal; }
-
-.op-services {
-  width: 100%;
-  padding: 90px 0;
-  background-color: #D9DEE2; }
-  .op-services article {
-    background-color: #fff;
-    padding: 20px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    border-radius: 4px;
-    min-height: 540px;
-    -webkit-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
-    box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer; }
-    .op-services article:hover {
-      -webkit-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.4);
-      -moz-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.4);
-      box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.4); }
-  .op-services h3 {
-    font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    text-transform: uppercase;
-    color: #00659b; }
-  .op-services figure {
-    width: 100%;
-    margin-bottom: 20px;
-    background-image: url("../../images/radio.jpg");
-    background-position: center center;
-    background-size: cover;
-    padding: 90px 0;
-    background-image: url("../../images/radio.jpg"); }
-    .op-services figure.bg-1 {
-      background-image: url("../../images/tv.jpg"); }
-    .op-services figure.bg-2 {
-      background-image: url("../../images/newspapper.jpg"); }
-    .op-services figure.bg-3 {
-      background-image: url("../../images/websites.jpg"); }
-    .op-services figure div {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto;
-      color: #fff;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      -ms-border-radius: 50%;
-      border-radius: 50%;
-      border: solid 5px #fff;
-      text-align: center;
-      line-height: 100px; }
-
-.owl-one .item {
-  padding: 10px; }
-
-.op-we {
-  background-color: #00659b; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: #1976D2 */
-  padding: 90px 0 0 0;
-  color: #FFF; }
-  .op-we h3 {
-    margin-top: 0;
-    font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-    font-size: 48px;
-    text-transform: uppercase; }
-    @media screen and (max-width: 960px) {
-      .op-we h3 {
-        margin-top: 0PX; } }
-  @media screen and (min-width: 768px) {
-    .op-we .adjust {
-      position: relative; } }
-  @media screen and (min-width: 768px) {
-    .op-we img {
-      position: absolute;
-      bottom: 0; } }
-  .op-we .btn-white {
-    margin-bottom: 60px; }
-
-.btn-white {
-  color: #fff;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  -ms-border-radius: 25px;
-  border-radius: 25px;
-  border: solid 2px #fff;
-  background: none;
-  padding: 15px 30px;
-  margin-top: 10px;
-  font-size: 12px;
-  font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-  cursor: pointer; }
-
-.op-analysis {
-  background-color: #fff;
-  padding: 90px 0;
-  background-image: url("../../images/analysis.jpg");
-  background-position: center center;
-  background-size: cover;
-  color: #fff; }
-  .op-analysis h4 {
-    margin-top: 30px;
-    font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    text-transform: uppercase;
-    color: #fff;
-    margin-bottom: 20px; }
-  .op-analysis h4 + div {
-    width: 100%;
-    border-bottom: dotted 1px #fff;
-    margin-bottom: 20px; }
-
-.op-icons {
-  width: 100%;
-  color: #00659b;
-  background-color: #fff;
-  text-align: center; }
-  .op-icons .icon {
-    margin-top: 20px; }
-  .op-icons .item {
-    padding: 60px 0;
-    width: 100%;
-    cursor: pointer; }
-    .op-icons .item.active {
-      color: #ff1a3e; }
-
-.op-clientes {
-  background-color: #D9DEE2;
-  padding: 60px; }
-  .op-clientes h3 {
-    margin-top: 30px;
-    font-family: "geomanistbold", Arial, Helvetica, sans-serif;
-    font-size: 24px;
-    text-transform: uppercase;
-    margin-bottom: 30px; }
-
-#map {
-  width: 100%;
-  height: 500px; }
-
-.op-icons-mark {
-  width: 100%;
-  color: #fff;
-  background-color: #00659b; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: #1976D2 */
+body{
+    color: #000c1c;
+    font-family: 'Open Sans', Arial, sans-serif;
+    background: #fff;
 }
-  .op-icons-mark .icon {
-    margin-top: 20px; }
-  .op-icons-mark .item {
-    padding: 60px 0;
-    width: 100%; }
-
-footer {
-  background-color: #f0efe6; /*Se cambia al color amarillito que tenia en su pag original para resaltar el logo 14/11/2019. Color anterior: black*/
-  min-height: 120px; }
-  footer p {
-    font-size: 12px;
-    font-family: "geomanistbold", Arial, Helvetica, sans-serif; }
-  footer .legal {
-    margin-top: 55px; }
-  footer .legal-spacer {
-    margin: 0 5px; }
-  footer a {
-    text-decoration: none;
-    color: #fff; }
-  footer a:hover, footer footer a:active, footer footer a:focus {
-    text-decoration: none;
-    color: #429BD5; }
-  footer .social {
-    margin-top: 30px; }
-    @media screen and (max-width: 540px) {
-      footer .social {
-        margin-bottom: 30px; } }
-    footer .social div {
-      width: 60px;
-      height: 60px;
-      font-size: 18px;
-      text-align: center;
-      line-height: 60px;
-      margin-left: 1px;
-      margin-bottom: 1px;
-      float: right;
-      color: #FFF; }
-      @media screen and (max-width: 540px) {
-        footer .social div {
-          float: left; } }
-  footer .social a, footer .social a:hover {
+body h1,
+body h2,
+body h3,
+body h4,
+body h5{
+    font-family: 'Fjalla One', sans-serif;
+}
+body .uk-navbar-nav>li>a{
+    color: #000c1c !important;
+}
+.uk-sticky.uk-sticky-below.uk-sticky-fixed{
+    background: #f8f8f8;
+}
+.expertos{
+    margin-top: -80px;
+}
+.expertos h1{
+    font-size: 4.5em;
+    text-transform: uppercase;
+    color: #2a3bae;
+}
+.expertos h2{
+    font-size: 1.7em;
+    color: #382e55;
+}
+.expertos p{
+    font-size: 1.2em;
+}
+.hacemos-por-ti{
+    background-position: right 70%;
+}
+.hacemos-por-ti .uk-container{
+    width: 100%;
+}
+.hacemos-por-ti h2{
+    font-size: 2.5em;
+}
+.hacemos-por-ti ul{
+    font-weight: 600;
     color: #fff;
-    display: block; }
-  footer .social-fb {
-    background-color: #3b5998; }
-  footer .social-tw {
-    background-color: #00aced; }
-  footer .social-sc {
-    background-color: #ff7700; }
-  footer .social-yt {
-    background-color: #c4302b; }
+    font-size: 1.1em;
+}
+.analisis.uk-light .uk-grid-divider>:not(.uk-first-column)::before,
+.hacemos-por-ti.uk-light .uk-grid-divider>:not(.uk-first-column)::before{
+    border-left-color: rgba(255,255,255,.7);
+}
 
-.top {
-  display: none;
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 45px;
-  height: 45px;
-  background-color: #1976D2;
-  line-height: 45px;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  border-radius: 50%;
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  color: #fff; }
-  .top:hover {
-    background-color: #ff1a3e; }
-  .top.active {
-    display: block; }
 
-    a.ope-contact {
-      color: #fff;
-    }
+.servicios-medios ul{
+    padding: 0;
+    list-style: none;
+    height: 700px;
+    margin: 0;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+}
+.servicios-medios ul li{
+    list-style: none;
+    width: 10%;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+}
+.servicios-medios ul li h3{
+    margin: 0;
+    display: inline-block;
+    padding-right: 1em;
+    font-size: 2.2em;
+}
+.servicios-medios ul li.accordion-open h3{
+    font-size: 3em;
+    padding-right: 0;
+    display: block;
+}
+.servicios-medios ul li a{
+    white-space: nowrap;
+    transform: rotate(-90deg);
+  /* Legacy vendor prefixes that you probably don't need... */
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  /*transition: width ease-in-out .4s;*/
+  padding: 5em 300px;
+}
+.servicios-medios ul li.accordion-open{
+    width: 70%;
+    transition: width ease-in-out .2s;
+}
+.servicios-medios ul li.accordion-open a{
+    transform: none;
+  /* Legacy vendor prefixes that you probably don't need... */
+  /* Safari */
+  -webkit-transform: none;
+  /* Firefox */
+  -moz-transform: none;
+  /* IE */
+  -ms-transform: none;
+  /* Opera */
+  -o-transform: none;
+  /* Internet Explorer */
+  filter: none;
+  /*transition: all ease-in-out .4s;*/
+  cursor: text;
+  padding: 0;
+}
+.servicios-medios ul li.accordion-open a span{
+    display: none;
+}
+.servicios-medios ul li p{
+    display: none;
+}
+.servicios-medios ul li.accordion-open p{
+    display: block;
+    font-size: 1.1em;
+    color: #fff;
+}
+.servicios-medios ul a{
+    display: block;
+}
+.servicios-medios ul li a span{
+    background: rgba(255,255,255,.5);
+    color: #000;
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    line-height: 2em;
+    position: relative;
+    bottom: 10px;
+}
+.servicios-medios ul li a span.icon-l{
+    line-height: 2.3em;
+}
+.servicios-medios ul li a span.icon-r{
+    display: none;
+}
+.servicios-medios ul li.accordion-open + li + li + li a span.icon-r,
+.servicios-medios ul li.accordion-open + li + li a span.icon-r,
+.servicios-medios ul li.accordion-open + li a span.icon-r{
+    display: inline-block;
+}
+.servicios-medios ul li.accordion-open + li + li + li a span.icon-l,
+.servicios-medios ul li.accordion-open + li + li a span.icon-l,
+.servicios-medios ul li.accordion-open + li a span.icon-l{
+    display: none;
+}
+.analisis h4{
+  font-size: 2.2em;
+}
+.analisis p{
+  font-size: 1.1em;
+}
+
+.fade-in {
+animation: fadeIn ease 2s;
+-webkit-animation: fadeIn ease 2s;
+-moz-animation: fadeIn ease 2s;
+-o-animation: fadeIn ease 2s;
+-ms-animation: fadeIn ease 2s;
+}
+@keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+
+
+footer.uk-section-secondary{
+  background: rgb(2,0,36);
+  background: linear-gradient(0deg, rgba(12,10,117,1) 35%, rgba(187,20,73,1) 100%);
+}
