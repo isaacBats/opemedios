@@ -72,11 +72,14 @@
 <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; top: 250;">
     <div class="uk-container uk-dark">
         <nav class="uk-navbar-container uk-navbar-transparent uk-container" uk-navbar>
-            <div class="uk-navbar-left">
+            <div class="uk-navbar-left uk-hidden@m">
+                <a class="uk-navbar-toggle" uk-navbar-toggle-icon href=""></a>
+            </div>
+            <div class="uk-navbar-left uk-visible@m">
                 <a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a>
             </div>
-            <div class="uk-navbar-right uk-hidden@m">
-                <a class="uk-navbar-toggle" uk-navbar-toggle-icon href=""></a>
+            <div class="uk-navbar-center uk-hidden@m">
+                <a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a>
             </div>
             <div class="uk-navbar-right uk-visible@m">
                 <ul class="uk-navbar-nav">

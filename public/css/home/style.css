@@ -13,6 +13,10 @@ body h5{
 body .uk-navbar-nav>li>a{
     color: #000c1c !important;
 }
+body nav .uk-navbar-center .uk-logo,
+body nav .uk-navbar-left .uk-logo{
+  padding: 10px 0;
+}
 .uk-sticky.uk-sticky-below.uk-sticky-fixed{
     background: #f8f8f8;
 }

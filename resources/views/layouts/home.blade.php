@@ -89,32 +89,33 @@
             </div>
         </div>
 
-        <footer class="uk-section uk-section-secondary">
+        <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
             <section class="op-icons-mark uk-container">
 
-                <div class="social uk-text-center">
+                <div class="social uk-grid-divider uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-flex uk-flex-center" uk-grid>
                    <!-- <div class="social-yt">
                         <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
                     </div>-->
-                    <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
-                    <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
-               
                     
-                    <div class="item go-0">
+                    <div class="item go-0 uk-text-center uk-text-left@m">
                         <div class="icon"><i class="fas fa-map-marker-alt fa-lg"></i> Ures 69, Col. Roma Sur<br> CP. 06760, México,<br> DF, Del. Cuauhtémoc</div>
                     </div>
-                    <br>
-                    <div class="item go-1">
+                    
+                    <div class="item go-1 uk-text-center">
                         <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
                             <div class="icon"><i class="far fa-envelope fa-lg"></i> contacto@opemedios.com.mx</div>
                         </a>
-                    </div>
-                    <br>
-                    <div class="item go-2">
+                        <br>
                         <a class="ope-contact" href="tel:5555846410" target="_blank">
                             <div class="icon"><i class="fas fa-phone fa-lg"></i> 55-5584-64-10</div>
                         </a>
                     </div>
+
+                    <div class="uk-text-center uk-flex-first uk-flex-last@s links-sociales">
+                        <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
+                        <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
+                    </div>
+
                 </div>
                 
                 <div class="legal uk-text-center uk-padding-large uk-padding-remove-bottom uk-padding-remove-horizontal">
