@@ -1,4 +1,4 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - Noticia")
 @section('content')
     @include('components.clientHeading')

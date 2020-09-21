@@ -1,6 +1,6 @@
 body{
     color: #000c1c;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: 'Nunito', Arial, sans-serif;
     background: #fff;
 }
 body h1,
@@ -10,33 +10,103 @@ body h4,
 body h5{
     font-family: 'Fjalla One', sans-serif;
 }
+body nav{
+  font-size: 1.1em;
+  font-weight: 500;
+}
 body .uk-navbar-nav>li>a{
     color: #000c1c !important;
 }
-body nav .uk-navbar-center .uk-logo,
 body nav .uk-navbar-left .uk-logo{
   padding: 10px 0;
+  margin: 0 auto;
+}
+body nav .uk-navbar-toggle-icon{
+  width: 3.5rem;
+}
+@media only screen and (max-width: 959px) {
+  body nav .contacto a{
+    padding: 0 15px;
+  }
+  body nav .contacto a .uk-icon{
+    width: 2rem;
+  }
+}
+@media only screen and ( max-width: 639px){
+  header{
+    position: relative;
+    z-index: 10;
+  }
+}
+body .uk-navbar-container:not(.uk-navbar-transparent),
+.uk-sticky.uk-sticky-below.uk-sticky-fixed{
+    background: #fff;
 }
 .uk-sticky.uk-sticky-below.uk-sticky-fixed{
-    background: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
 .expertos{
-    margin-top: -80px;
+    margin-top: -100px;
 }
 .expertos h1{
     font-size: 4.5em;
     text-transform: uppercase;
     color: #2a3bae;
+    line-height: 1;
+    position: relative;
+    margin: 0;
+}
+.expertos h1:after{
+  content: '';
+  height: 1px;
+  width: 125%;
+  display: block;
+  background: #fff;
+  margin: 15px 0 20px;
 }
 .expertos h2{
     font-size: 1.7em;
     color: #382e55;
+    margin-top: 0;
 }
 .expertos p{
     font-size: 1.2em;
 }
+@media only screen and ( max-width: 959px){
+  .expertos h1:after{
+    width: 100%;
+  }
+}
+@media only screen and ( max-width: 639px){
+  .expertos {
+    background-position: 65% top;
+    overflow: hidden;
+  }
+  .expertos:before{
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+    opacity: .5;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .expertos h1{
+    font-size: 3.5em;
+    position: relative;
+  }
+  .expertos ul,
+  .expertos p,
+  .expertos h2{
+    position: relative;
+  }
+}
 .hacemos-por-ti{
     background-position: right 70%;
+    min-height: 300px;
+    position: relative;
 }
 .hacemos-por-ti .uk-container{
     width: 100%;
@@ -53,7 +123,40 @@ body nav .uk-navbar-left .uk-logo{
 .hacemos-por-ti.uk-light .uk-grid-divider>:not(.uk-first-column)::before{
     border-left-color: rgba(255,255,255,.7);
 }
+@media only screen and ( max-width: 639px){
+  .hacemos-por-ti{
+    padding-top: 60px;
+    padding-bottom: 60px;
+    overflow: hidden;
+  }
+  .hacemos-por-ti:before{
+    background: #000;
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    opacity: .3;
+    left: 0;
+  }
+  .hacemos-por-ti > *{
+    position: relative;
+  }
+  .hacemos-por-ti ul li:before{
+    border-top-color: #fff !important;
+  }
+}
 
+.servicio-personalizado{
+  min-height: 260px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.servicio-personalizado img{
+  max-width: 320px;
+  width: 100%;
+}
 
 .servicios-medios ul{
     padding: 0;
@@ -119,6 +222,8 @@ body nav .uk-navbar-left .uk-logo{
   /*transition: all ease-in-out .4s;*/
   cursor: text;
   padding: 0;
+  white-space: normal;
+  text-decoration: none;
 }
 .servicios-medios ul li.accordion-open a span{
     display: none;
@@ -161,13 +266,95 @@ body nav .uk-navbar-left .uk-logo{
 .servicios-medios ul li.accordion-open + li a span.icon-l{
     display: none;
 }
+@media only screen and ( max-width: 639px){
+  .servicios-medios ul{
+    height: auto;
+  }
+  .servicios-medios ul li{
+      list-style: none;
+      width: 100%;
+      float: none;
+      height: auto;
+      overflow: hidden;
+      justify-content: left;
+  }
+  .servicios-medios ul li h3{
+      margin: 0;
+      display: block;
+      padding-right: 1em;
+      font-size: 2.2em;
+  }
+  .servicios-medios ul li.accordion-open h3{
+      font-size: 2.2em;
+      padding-right: 0;
+      display: block;
+  }
+  .servicios-medios ul li a span{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5%;
+  }
+  .servicios-medios ul li a{
+      white-space: normal;
+      transform: none;
+    /* Legacy vendor prefixes that you probably don't need... */
+    /* Safari */
+    -webkit-transform: none;
+    /* Firefox */
+    -moz-transform: none;
+    /* IE */
+    -ms-transform: none;
+    /* Opera */
+    -o-transform: none;
+    /* Internet Explorer */
+    filter: none;
+    /*transition: width ease-in-out .4s;*/
+    padding: 3em 30px;
+    display: block;
+    width: 100%;
+  }
+  .servicios-medios ul li.accordion-open{
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .servicios-medios ul li a span.icon-r{
+    display: none !important;
+  }
+  .servicios-medios ul li a span.icon-l{
+    display: block !important;
+  }
+  .servicios-medios ul li.accordion-open a span{
+    display: none !important;
+  }
+}
+
+
+.analisis{
+  min-height: 400px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
 .analisis h4{
   font-size: 2.2em;
 }
 .analisis p{
   font-size: 1.1em;
 }
-
+@media only screen and ( max-width: 639px){
+  .analisis{
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .analisis .uk-container{
+    padding: 30px;
+  }
+  .analisis.uk-light .uk-grid-divider>:not(.uk-first-column)::before{
+    border-color: rgba(255,255,255,.7) !important;
+  }
+}
 .fade-in {
 animation: fadeIn ease 2s;
 -webkit-animation: fadeIn ease 2s;
@@ -202,7 +389,18 @@ animation: fadeIn ease 2s;
 
 
 
-footer.uk-section-secondary{
+footer.uk-section{
   background: rgb(2,0,36);
   background: linear-gradient(0deg, rgba(12,10,117,1) 35%, rgba(187,20,73,1) 100%);
+  font-family: 'Fjalla One', sans-serif;
+  color: #fff;
+  font-size: 1.1em;
+  line-height: 2;
+}
+footer.uk-section a{
+  color: #fff;
+}
+footer.uk-section .legal{
+  font-family: 'Open Sans', sans-serif;
+  font-size: .7em;
 }

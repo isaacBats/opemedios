@@ -17,9 +17,9 @@
         <title>{{ config('app.name', 'Opemedios') }} @yield('title')</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+         <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
         <!-- UIkit CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css" />
+        <link rel="stylesheet" href="{{ asset('uikit/css/uikit.min.css') }}" />
 
         <!-- Style -->
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
+        <footer class="uk-section uk-padding-remove-bottom">
             <section class="op-icons-mark uk-container">
 
                 <div class="social uk-grid-divider uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-flex uk-flex-center" uk-grid>
@@ -126,8 +126,8 @@
         </footer>
         <!--<div class="top"><i class="fas fa-arrow-up fa-lg"></i></div>-->
         <!-- UIkit JS -->
-        <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js"></script>
+        <script src="{{ asset('uikit/js/uikit.min.js') }}"></script>
+        <script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 

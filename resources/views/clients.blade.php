@@ -1,11 +1,7 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('content')
-    <div class="container clientes op-content-mt">
-        <ol class="breadcrumb">
-            <li><a href="{{ route('home') }}">Inicio</a></li>
-            <li class="active">Clientes</li>
-        </ol>
-        <div class="row">
+    <div class="uk-container clientes op-content-mt">
+        <div class="uk-padding-large uk-padding-remove-horizontal">
         <h1 class="page-title">Algunos de Nuestros Clientes</h1>
             <figure id="img_client">
                 <img src="{{ asset('images/clientes/1.jpg') }}" width="auto" height="auto" alt="MTV">

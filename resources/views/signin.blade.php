@@ -1,15 +1,10 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', ' - Entrar a mi cuenta')
 @section('content')
         <!-- container -->
-        <div class="container op-content-mt">
+        <div class="uk-container op-content-mt">
 
-            <ol class="breadcrumb">
-                <li><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="active">Acceso a tu cuenta</li>
-            </ol>
-
-            <div class="row">
+            <div class="uk-padding-large uk-padding-remove-horizontal">
                 
                 <!-- Article main content -->
                 <article class="col-xs-12 maincontent">

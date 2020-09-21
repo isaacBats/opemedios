@@ -2,10 +2,10 @@
 @section('title', ' - Operadora de medios Informativos')
 @section('content')
 
-<section class="uk-height-large uk-background-cover uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh">
-    <div class="uk-container uk-margin-auto-vertical">
+<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh" >
+    <div class="uk-container uk-margin-auto-vertical uk-padding-large">
         <div class="uk-width-5-6@s uk-width-2-3@m">
-            <h1>Expertos en monitoreo</h1>
+            <h1 class="uk-text-center uk-text-left@s">Expertos en monitoreo</h1>
             <h2>Tus ojos y oídos para tu toma de decisiones</h2>
             <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
             <ul class="uk-iconnav uk-ligth">
@@ -18,9 +18,9 @@
     </div>
 </section>
 
-<section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top uk-padding-large hacemos-por-ti" style="background-image: url('{{ asset('images/home/network.jpg') }}');">
-    <div class="uk-container uk-margin-auto-vertical">
-        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal">Lo qué podemos hacer por ti</h2>
+<section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top uk-padding-large hacemos-por-ti" style="background-image: url('{{ asset('images/home/network.jpg') }}');" uk-parallax="bgy: -100">
+    <div class="uk-container uk-margin-auto-vertical uk-padding-remove-horizontal">
+        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
         <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large" uk-grid>
             <li>Monitoreo de medios<br> 24 x 7 x 365</li>
             <li>Evidencia en<br> formato digital</li>
@@ -30,12 +30,12 @@
     </div>
 </section>
 
-<section class="servicio-personalizado uk-container">
-    <div class="uk-child-width-expand@s " uk-grid>
-        <div class="uk-width-1-3 uk-padding">
-            <img src="{{ asset('images/home/graph.png') }}"/>
+<section class="servicio-personalizado uk-container uk-flex uk-flex-middle uk-padding-large">
+    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large" uk-grid>
+        <div class="uk-width-1-3@m uk-text-center">
+            <img src="{{ asset('images/home/business.jpg') }}"/>
         </div>
-        <div class="uk-padding uk-padding-large uk-padding-remove-right">
+        <div>
             <h2>Nos distinguimos por nuestro servicio personalizado.</h2>
             <p>Somos una empresa líder en el monitoreo y análisis de medios. Nuestro capital y talento humano está conformado por profesionales especializados en el área de la comunicación. Contamos con personal altamente calificado, mediante el cual estaremos atentos a cualquier información directa o indirecta de su empresa, así como el comportamiento de su competencia.</p>
         </div>
@@ -65,7 +65,7 @@
     </div>
 </section>
 
-<section class="uk-height-large uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top analisis" style="background-image: url('{{ asset('images/home/analysis.jpg') }}');">
+<section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top analisis" style="background-image: url('{{ asset('images/home/analysis.jpg') }}');">
     <div class="uk-container uk-margin-auto-vertical">
         <div class="uk-child-width-expand@s uk-grid-divider uk-grid-large" uk-grid>
             <div>

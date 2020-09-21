@@ -1,10 +1,10 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - {$company->name}")
 @section('content')
     @include('components.clientHeading')
     <!-- Page Content -->
-    <div class="row">
-        <div class="container op-content-mt">
+    <div class="uk-container">
+        <div class="uk-padding-large uk-padding-remove-horizontal op-content-mt">
             <div class="row" id="list-news">
                 @foreach($company->themes as $theme)
                     <h2>{{ $theme->name }}</h2>
