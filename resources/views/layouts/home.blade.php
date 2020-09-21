@@ -15,18 +15,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{{ config('app.name', 'Opemedios') }} @yield('title')</title>
-        
+
         <!-- Fonts -->
-        <link href="{{ asset('fonts/04.Geomanist_Regular_webfontkit/stylesheet.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('fonts/07.Geomanist_Bold_webfontkit/stylesheet.css') }}" rel="stylesheet" type="text/css">
-        
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        
-        <!--Owl -->
-        <link rel="stylesheet" href="{{ asset('css/owl/owl.carousel.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/owl/owl.theme.default.min.css') }}">
-        
+        <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+        <!-- UIkit CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css" />
+
         <!-- Style -->
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
@@ -35,48 +29,113 @@
         <header>
             @include('components.menu-client')
         </header>
-            
+
         @yield('content')
 
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="legal">
-                            <p><span>&#169; {{ $anio }} OPEMEDIOS</span>  <!--<span class="legal-spacer">|</span> AVISO DE PRIVACIDAD <span class="legal-spacer">|</span> TERMINOS Y CONDICIONES--></p>
+
+        <div id="contact-form" class="uk-modal-full" uk-modal>
+            <div class="uk-modal-dialog">
+                <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+                <div class="uk-container" uk-height-viewport>
+                    <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                        <div class="uk-padding-large">
+                            <h1>Contáctanos</h1>
+                            <p>Nos encantaría saber de usted. ¿Interesados en trabajar juntos? Rellene el siguiente formulario con una breve información sobre su proyecto y nos pondremos en contacto tan pronto como sea posible. Por favor espere un par de días nuestra respuesta.</p>
+                            <hr>
+                            <div class="widget">
+                                <address>
+                                    Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
+                                </address>
+                                <address>
+                                    <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
+                                </address>
+                                <email>
+                                    <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a>
+                                </email>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="social">
-                           <!-- <div class="social-yt">
-                                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-                            </div>-->
-                            <div class="social-tw">
-                                <a href="https://twitter.com/DeMonitoreo" target="_blank"><i class="fab fa-twitter"></i></a>
-                            </div>
-                            <div class="social-fb">
-                                <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                            </div>
+                        <div class="uk-padding-large">
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
+                            @csrf
+                            
+                                <div class="uk-margin">
+                                    <input class="form-control uk-input" type="text" name="name" placeholder="*Nombre" required>
+                                </div>
+                                <div class="uk-margin">
+                                    <input class="form-control uk-input" type="email" name="email" placeholder="*Email" required>
+                                </div>
+                                <div class="uk-margin">
+                                    <input class="form-control uk-input" type="text" name="phone" placeholder="Teléfono">
+                                </div>
+                                <div class="uk-margin">
+                                    <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control uk-textarea" rows="9" required></textarea>
+                                </div>
+                            
+                                <hr>
+                            
+                                <div class="uk-margin">
+                                    <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Enviar mensaje">
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
+            <section class="op-icons-mark uk-container">
+
+                <div class="social uk-grid-divider uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-flex uk-flex-center" uk-grid>
+                   <!-- <div class="social-yt">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>-->
+                    
+                    <div class="item go-0 uk-text-center uk-text-left@m">
+                        <div class="icon"><i class="fas fa-map-marker-alt fa-lg"></i> Ures 69, Col. Roma Sur<br> CP. 06760, México,<br> DF, Del. Cuauhtémoc</div>
+                    </div>
+                    
+                    <div class="item go-1 uk-text-center">
+                        <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
+                            <div class="icon"><i class="far fa-envelope fa-lg"></i> contacto@opemedios.com.mx</div>
+                        </a>
+                        <br>
+                        <a class="ope-contact" href="tel:5555846410" target="_blank">
+                            <div class="icon"><i class="fas fa-phone fa-lg"></i> 55-5584-64-10</div>
+                        </a>
+                    </div>
+
+                    <div class="uk-text-center uk-flex-first uk-flex-last@s links-sociales">
+                        <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
+                        <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
+                    </div>
+
+                </div>
+                
+                <div class="legal uk-text-center uk-padding-large uk-padding-remove-bottom uk-padding-remove-horizontal">
+                    <p><span>&#169; {{ $anio }} OPEMEDIOS</span>  <!--<span class="legal-spacer">|</span> AVISO DE PRIVACIDAD <span class="legal-spacer">|</span> TERMINOS Y CONDICIONES--></p>
+                </div>
+            </section>
+                    
         </footer>
-        <div class="top"><i class="fas fa-arrow-up fa-lg"></i></div>
+        <!--<div class="top"><i class="fas fa-arrow-up fa-lg"></i></div>-->
+        <!-- UIkit JS -->
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js"></script>
+        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-        <!-- OWL -->
-        <script src="{{ asset('js/owl/owl.carousel.min.js') }}"></script>
-        <!-- Bootstrap -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
         <!-- FA -->
         <script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
-        <!-- GMAP3 -->
-        <script type="text/javascript" src="{{ asset('js/gmap3/gmap3.min.js') }}"></script>
-        <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&amp;language=es&amp;key=AIzaSyAypI43RY-ssw2p2LwVrGSL_mTuFrZPXA8"></script>
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
-        
+
         @yield('scripts')
     </body>
 </html>
