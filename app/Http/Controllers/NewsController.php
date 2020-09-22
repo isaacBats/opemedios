@@ -526,7 +526,7 @@ class NewsController extends Controller
     public function searchByIdOrTitleAjax(Request $request) {
         
         $themes = NewsletterSend::findOrFail($request->input('newssend'))->newsletter->company->themes;
-        
+        $status = 'error';
         if($request->input('newsid')) {
             $request->validate([
                 'newsid' => 'numeric'
@@ -535,8 +535,9 @@ class NewsController extends Controller
             ]);
 
             $note = News::findOrFail($request->input('newsid'));
+            $status = 'OK';
 
-            return response()->json(compact('note', 'themes'));
+            return response()->json(compact('status', 'note', 'themes'));
         }
 
         if($request->input('newstitle')) {
@@ -547,12 +548,13 @@ class NewsController extends Controller
             ]);
 
             $notes = News::where('title', 'like', "%{$request->input('newstitle')}%")->get();
+            $status = 'OK';
 
-            return response()->json(compact('notes', 'themes'));
+            return response()->json(compact('status', 'notes', 'themes'));
         }
 
         return response()->json([
-            'error' => 'OK',
+            'status' => $status,
             'message' => 'No hay argumentos suficientes para realizar una busqueda'
         ]);
     }

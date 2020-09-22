@@ -21,31 +21,10 @@
                     <h3 class="panel-title">Newsletter #{{ $newsletterSend->id }} para {{ $newsletterSend->newsletter->name }}</h3>
                 </div>
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
-                    <a id="btn-add-note" href="{{ route('admin.newsletter.send.add.note', ['id' => $newsletterSend->id]) }}" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Agregar Nota') }}</a>
+                    <a id="btn-add-note" href="javascript:void(0)" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Agregar Nota') }}</a>
                 </div>
             </div>
             <div class="panel-body">
-                <div class="col-md-8">
-                    <form action="{{ route('api.news.getnotesbyidortitle') }}" class="form-horizontal" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="newsid" class="col-sm-3 control-label">Buscar por ID: OPE-</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="newsid" id="newsid" placeholder="346">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newstitle" class="col-sm-3 control-label text-right">Buscar por título</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="newstitle" id="newstitle" placeholder="Título de la noticia">
-                            </div>
-                        </div>
-                        <input type="hidden" name="newssend" value={{ $newsletterSend->id }} >
-                        <div class="col-sm-2 col-sm-offset-9 text-right">
-                            <input type="submit" id="btn-form-search-news" class="btn btn-info" value="Buscar"> 
-                        </div>
-                    </form>
-                </div>
                 <div class="col-md-12">
                     <ul class="media-list">
                         @foreach($newsletterSend->newsletter->company->themes as $theme)
@@ -95,22 +74,106 @@
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
 
+                form.attr('action', '{{ route('api.news.getnotesbyidortitle') }}')
+                form.addClass('form-horizontal')
+                form.attr('method', 'POST')
+
                 modal.find('.modal-title').text('Buscar noticia')
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label for="newsid" class="col-sm-3 control-label">Buscar por ID: OPE-</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="newsid" id="newsid" placeholder="346">
+                        </div>
+                        @error('newsid')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="newstitle" class="col-sm-3 control-label text-right">Buscar por título</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="newstitle" id="newstitle" placeholder="Título de la noticia">
+                        </div>
+                        @error('newstitle')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <input type="hidden" name="newssend" value={{ $newsletterSend->id }} >
+                `)
+                modal.find('#md-btn-submit').val('Buscar')
                 modal.modal('show')
             })
-            //
-            // $('ul#sections').on('click', 'li.list-group-item.section-view div.btns a.btn-data-delete', function (event) {
-            //     event.preventDefault()
-            //
-            //     var sectionId = $(this).data('sectionid')
-            //     var form = $('#form-modal-delete-section')
-            //     var modal = $('#modalDeleteSection')
-            //
-            //     form.attr('action', `/newsletter/seccion/delete/${sectionId}`)
-            //
-            //     modal.modal('show')
-            //
-            // })
+            
+            // submit form for add news
+            $('#modal-default').on('click', '#md-btn-submit', function(event) {
+                event.preventDefault()
+                var form = $('#modal-default-form')
+                $.post(form.attr('action'), form.serialize(), function (req){
+                    console.log(req)
+                    if(req.status == 'OK') {
+                        var modal = $('#modal-default')
+                        var formsec = $('#modal-default-form')
+                        var selectThemes = $('<select class="form-control" name="themeid">')
+                        var defaultOption = $('<option>', {
+                            value: '',
+                            text: 'Selecciona un Tema'
+                        })
+
+                        selectThemes.append(defaultOption)
+                        $.each(req.themes, function (index, theme){
+                            selectThemes.append($('<option>',{
+                                value: theme.id,
+                                text: theme.name
+                            }))
+                        })
+
+                        if(req.note) {
+                            var divNote = $('<div class="form-group" >')
+                                .append($('<label>', {
+                                    for: 'id-news',
+                                    class: 'col-sm-3 control-label text-right',
+                                    text: 'Titulo'
+                                }))
+                                .append($('<input>', {
+                                    type: 'hidden',
+                                    name: 'news_id',
+                                    value: req.note.id
+                                }))
+                                .append($('<div>', {
+                                    class: 'col-sm-8'
+                                    })
+                                    .append($('<input>', {
+                                        type: 'text',
+                                        class: 'form-control',
+                                        value: req. note.title,
+                                        id: 'id-news',
+                                        disabled: true
+                                    }))
+                                )
+                                // divNote.appendTo(selectThemes)
+
+                        } else if(req.notes) {
+
+                        }
+
+
+                        formsec.attr('action', '{{ route('api.newslettersend.addnote') }}')
+                        formsec.addClass('form-horizontal')
+                        formsec.attr('method', 'POST')
+
+                        modal.find('.modal-title').text('Agregar noticia(s)')
+                        modal.find('.modal-body').html(`
+                            <input type="hidden" name="newssend" value={{ $newsletterSend->id }} >
+                        `).append(divNote).append(selectThemes)
+                    }
+                })
+            })
+
+
         })
     </script>
 @endsection
