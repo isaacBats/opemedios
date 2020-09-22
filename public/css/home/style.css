@@ -39,10 +39,10 @@ body nav .uk-navbar-toggle-icon{
   }
 }
 body .uk-navbar-container:not(.uk-navbar-transparent),
-.uk-sticky.uk-sticky-below.uk-sticky-fixed{
+header .uk-sticky.uk-sticky-below.uk-sticky-fixed{
     background: #fff;
 }
-.uk-sticky.uk-sticky-below.uk-sticky-fixed{
+header .uk-sticky.uk-sticky-below.uk-sticky-fixed{
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
 .expertos{

@@ -10,10 +10,11 @@
                 <br> Total: <strong>{{ $company->assignedNews->count() }}</strong>
             </small>
         </div>
-    </div>
-    <div id="search">
-        @include('components.search-bar')
+        <div id="search">
+            @include('components.search-bar')
+        </div>
     </div>
 </div>
+
 <div class="loader">Cargando...</div>
 <!-- /.row -->

@@ -130,7 +130,15 @@
         <script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-
+        @php
+            $slug = session()->get('slug_company');
+            $route = Route::getCurrentRoute()->getName();
+        @endphp
+        @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+        @else
+        <script src="{{ asset('js/home/template.js') }}"></script>
+        <script src="{{ asset('js/home/client.js') }}"></script>
+        @endif
         <!-- FA -->
         <script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
         <!-- Scripts-->
