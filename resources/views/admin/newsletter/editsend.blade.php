@@ -113,10 +113,11 @@
                 event.preventDefault()
                 var form = $('#modal-default-form')
                 $.post(form.attr('action'), form.serialize(), function (req){
-                    console.log(req)
                     if(req.status == 'OK') {
                         var modal = $('#modal-default')
                         var formsec = $('#modal-default-form')
+                        var divSelect = $('<div class="form-group">')
+                        var divItems = $('<div id="div-items-form">')
                         var selectThemes = $('<select class="form-control" name="themeid">')
                         var defaultOption = $('<option>', {
                             value: '',
@@ -130,50 +131,63 @@
                                 text: theme.name
                             }))
                         })
+                        divSelect.append($('<label>', {
+                            class: 'col-sm-3 control-label text-right',
+                            text: 'Tema'
+                        })).append($('<div class="col-sm-8">').append(selectThemes))
+
+
 
                         if(req.note) {
-                            var divNote = $('<div class="form-group" >')
-                                .append($('<label>', {
-                                    for: 'id-news',
-                                    class: 'col-sm-3 control-label text-right',
-                                    text: 'Titulo'
-                                }))
+                            var divNote = getItemForNoteTemplate(req.note)
+                            divItems.append(divNote)
+                                .append(divSelect)
                                 .append($('<input>', {
                                     type: 'hidden',
-                                    name: 'news_id',
-                                    value: req.note.id
+                                    name: 'multi',
+                                    value: false
                                 }))
-                                .append($('<div>', {
-                                    class: 'col-sm-8'
-                                    })
-                                    .append($('<input>', {
-                                        type: 'text',
-                                        class: 'form-control',
-                                        value: req. note.title,
-                                        id: 'id-news',
-                                        disabled: true
-                                    }))
-                                )
-                                // divNote.appendTo(selectThemes)
+                            modal.find('.modal-title').text('Agregar noticia')
+                            formsec.attr('action', '{{ route('api.newslettersend.addnote') }}')
+                            formsec.addClass('form-horizontal')
+                            formsec.attr('method', 'POST')
 
+                            modal.find('.modal-body').html(`
+                                <input type="hidden" name="newssend" value={{ $newsletterSend->id }} >
+                                <input type="hidden" name="newsletterid" value={{ $newsletterSend->newsletter->id }} >
+                            `).append(divItems)
+                            modal.find('#md-btn-submit').val('Agregar')
                         } else if(req.notes) {
+                            $.each(req.notes, function(index, note) {
 
+                            })
                         }
-
-
-                        formsec.attr('action', '{{ route('api.newslettersend.addnote') }}')
-                        formsec.addClass('form-horizontal')
-                        formsec.attr('method', 'POST')
-
-                        modal.find('.modal-title').text('Agregar noticia(s)')
-                        modal.find('.modal-body').html(`
-                            <input type="hidden" name="newssend" value={{ $newsletterSend->id }} >
-                        `).append(divNote).append(selectThemes)
                     }
                 })
             })
 
-
+            function getItemForNoteTemplate (note) {
+                return $('<div class="form-group" >')
+                    .append($('<label>', {
+                        class: 'col-sm-3 control-label text-right',
+                        text: 'Titulo'
+                    }))
+                    .append($('<input>', {
+                        type: 'hidden',
+                        name: 'news_id',
+                        value: note.id
+                    }))
+                    .append($('<div>', {
+                        class: 'col-sm-8'
+                        })
+                        .append($('<input>', {
+                            type: 'text',
+                            class: 'form-control',
+                            value: note.title,
+                            disabled: true
+                        }))
+                    )
+            }
         })
     </script>
 @endsection
