@@ -3,13 +3,6 @@
 @section('content')
     @include('components.clientHeading')
     <!-- Page Content -->
-    <ul uk-sticky="offset: 140" class="scroll-to">
-    @foreach($company->themes as $theme)
-        <li>
-        <a href="#" id="link{{ $theme->name }}">{{ $theme->name }}</a>
-        </li>
-    @endforeach
-    </ul>
     <div class="uk-container">
         <div class="uk-padding-large uk-padding-remove-horizontal op-content-mt">
             <div class="row" id="list-news">
@@ -37,7 +30,7 @@
                                                  {{ $assigned->news->source->company }} | Autor: {{ $assigned->news->author }}
                                             </p>
                                             <p class="f-p">{!! Illuminate\Support\Str::limit($assigned->news->synthesis, 200) !!}</p>
-                                            <a class="btn btn-primary" href="{{ route('client.shownew', ['id' => $assigned->news_id, 'company' => $company->slug ]) }}">Ver más</a>
+                                            <a class="btn btn-primary uk-button uk-button-large uk-button-default" href="{{ route('client.shownew', ['id' => $assigned->news_id, 'company' => $company->slug ]) }}">Ver más</a>
                                         </div>
                                         
                                     </div>
@@ -45,6 +38,7 @@
                             @endif
                         @endforeach
                         </div>
+                        <hr>
                     @else
                         <strong>No hay Noticias que mostrar</strong>
                     @endif

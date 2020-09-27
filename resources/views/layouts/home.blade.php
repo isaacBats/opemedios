@@ -1,3 +1,6 @@
+@php
+    $route = Route::getCurrentRoute()->getName();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -7,6 +10,9 @@
         @endphp
         <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
+        @if( $route != 'home' &&  $route != 'about' &&  $route != 'clients' &&  $route != 'signin' &&  $route != 'contact')
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        @endif
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.js"></script>
@@ -25,7 +31,8 @@
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
     </head>
-    <body class="home">
+    <body class="{{ str_replace('.', '-', $route) }}">
+        {{-- $route --}}
         <header>
             @include('components.menu-client')
         </header>
@@ -129,21 +136,24 @@
         <script src="{{ asset('uikit/js/uikit.min.js') }}"></script>
         <script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>
         
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script
+              src="https://code.jquery.com/jquery-3.5.1.min.js"
+              integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+              crossorigin="anonymous"></script>
         @php
             $slug = session()->get('slug_company');
             $route = Route::getCurrentRoute()->getName();
         @endphp
-        @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
-        @else
-        <script src="{{ asset('js/home/template.js') }}"></script>
-        <script src="{{ asset('js/home/client.js') }}"></script>
-        @endif
         <!-- FA -->
         <script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
 
+        @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+        @else
+        <script src="{{ asset('js/home/template.js') }}"></script>
+        <script src="{{ asset('js/home/client.js') }}"></script>
+        @endif
         @yield('scripts')
     </body>
 </html>

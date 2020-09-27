@@ -8,7 +8,7 @@
             
             <h1 class="page-header">Noticias por tema</h1>
             <div class="col-md-3">
-                <div class="panel panel-success">
+                <div class="panel panel-success uk-hidden">
                     <div class="panel-heading">
                         Temas
                     </div>

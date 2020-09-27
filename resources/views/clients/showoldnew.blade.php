@@ -3,7 +3,7 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="container op-content-mt">
+    <div class="uk-container op-content-mt">
         <div class="row padding-top-40">
             <div class="col-lg-12">
                <img class="thumbnail new" style="max-width: 220px;" src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->fuente_logo }}" alt="{{ $new->fuente_nombre}}">

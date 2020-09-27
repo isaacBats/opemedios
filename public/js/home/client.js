@@ -30,19 +30,14 @@ $(document).ready(function(){
             var listThemes = $('#list-group-themes')
             
             listThemes.find('#item-indicator').remove()
-            item.prepend(`<i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> `)
+            item.attr('uk-icon','icon:triangle-right');
             container.empty()
             spinner.show()
-
-            var news = $.post(`/${companyslug}/news-by-theme`, 
-                {
-                    '_token': $('meta[name=csrf-token]').attr('content'), 
-                    companyid: companyid, 
-                    themeid: themeid,
-                    companyslug: companyslug
-                }).error(
-                    function (data) {
-                        spinner.hide() 
+            var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
+              spinner.hide()
+              container.html(news)
+            }).fail(function(data) {
+                spinner.hide() 
 
                         var beautifullHTML = `<div class="jumbotron">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
@@ -51,15 +46,9 @@ $(document).ready(function(){
                         container.append(beautifullHTML)
                         // TODO: poner el error en un log
                         console.log(`Error-Themes: ${data.responseJSON.message}`)
-                    }
-                ).success(
-                    function (news) {
+              });
 
-                        spinner.hide()
-                        container.html(news)
-                        
-                    }
-                )
+            
        })    
 
         // pagination 
@@ -120,18 +109,9 @@ $(document).ready(function(){
           container.empty()
           spinner.show()
 
-          var news = $.get(`/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}`)
-            .error( function(err){
-              spinner.hide() 
-              var beautifullHTML = `<div class="jumbotron">
-                      <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
-                  </div>`
+          
 
-              container.append(beautifullHTML)
-              // TODO: poner el error en un log
-              console.error(`Error-search: ${err.responseJSON.message}`)
-            })
-            .success( function(news) {
+            var news = $.get( `/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}` , function(news) {
               spinner.hide()
               var titleHTML = `
                 <h2>Resultados de la busqueda</h2>
@@ -139,7 +119,18 @@ $(document).ready(function(){
               `;
               container.append(titleHTML)
               container.append(news)
-            })
+            }).fail(function(err) {
+                spinner.hide() 
+              var beautifullHTML = `<div class="jumbotron">
+                      <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                  </div>`
+
+              container.append(beautifullHTML)
+              // TODO: poner el error en un log
+              console.error(`Error-search: ${err.responseJSON.message}`)
+              });
+
+
         })
 
     })
