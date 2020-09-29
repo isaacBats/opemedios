@@ -1,9 +1,9 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - {$company->name}")
 @section('content')
     <!-- Page Content -->
     @include('components.clientHeading')
-    <div class="row" id="list-news">
+    <div class="uk-container op-content-mt" id="list-news">
         @include('components.listOldNews')
     </div>
     <!-- /.container -->

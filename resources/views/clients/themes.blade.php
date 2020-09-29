@@ -1,13 +1,14 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - Mis temas")
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="container">
-        <h1 class="page-header"> Noticias por tema</h1>
-        <div class="row">
+    <div class="uk-container">
+        <div class="uk-padding-large uk-padding-remove-horizontal">
+            
+            <h1 class="page-header">Noticias por tema</h1>
             <div class="col-md-3">
-                <div class="panel panel-success">
+                <div class="panel panel-success uk-hidden">
                     <div class="panel-heading">
                         Temas
                     </div>
@@ -24,6 +25,7 @@
             <div id="news-by-theme" class="col-md-9">
                 @include('components/listNews')
             </div>
+            
         </div>
     </div>
     <!-- /.container -->
