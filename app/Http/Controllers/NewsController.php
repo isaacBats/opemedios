@@ -525,7 +525,11 @@ class NewsController extends Controller
      */
     public function searchByIdOrTitleAjax(Request $request) {
         
-        $themes = NewsletterSend::findOrFail($request->input('newssend'))->newsletter->company->themes;
+        $newsletterSend = NewsletterSend::findOrFail($request->input('newssend'));
+        $themes = $newsletterSend->newsletter->company->themes;
+
+        // TODO: buscar notas que no se encuentren en el newsletter
+
         $status = 'error';
         if($request->input('newsid')) {
             $request->validate([
@@ -534,10 +538,11 @@ class NewsController extends Controller
                 'numeric' => 'Debe de ser solo número'
             ]);
 
-            $note = News::findOrFail($request->input('newsid'));
+            $notes[] = News::findOrFail($request->input('newsid'));
             $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
 
-            return response()->json(compact('status', 'note', 'themes'));
+            return response()->json(compact('status', 'html'));
         }
 
         if($request->input('newstitle')) {
@@ -549,8 +554,9 @@ class NewsController extends Controller
 
             $notes = News::where('title', 'like', "%{$request->input('newstitle')}%")->get();
             $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
 
-            return response()->json(compact('status', 'notes', 'themes'));
+            return response()->json(compact('status', 'html'));
         }
 
         return response()->json([
