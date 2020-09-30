@@ -134,25 +134,52 @@
             $('#panel-body-form').on('click', '#btn-submit-form-search-note', function(event) {
                 event.preventDefault()
                 var form = $('#form-search-note')
+                var divResult = $('#panel-body-response')
+                
                 $.post(form.attr('action'), form.serialize(), function (req){
-                    var divResult = $('#panel-body-response')
                     var divForm = $('#panel-body-form')
                     if(req.status == 'OK') {
                         divForm.hide('fast')
                         divResult.html(req.html)
+                        divResult.append($('<a href="javascript:window.location.reload(true);" style="font-size: 20px; display: block; ">Regresar</a>'))
                     } else {
                         divForm.hide('fast')
                         divResult.html(`<p>No se encontraron resultados...</p>`)
+                        divResult.append($('<a href="javascript:window.location.reload(true);" style="font-size: 20px; display: block; ">Regresar</a>'))
                     }
                 })
+
             })
 
             // submit add news
             $('#panel-body-response').on('click', '.btn-send-news-form-newsletter', function(event) {
                 event.preventDefault()
                 var form = $(this).parent().parent('form')
-                form.submit()
+                $.post(form.attr('action'), form.serialize(), function(res){
+                    var divAdded = form.parent('div')
+                    $.gritter.add({
+                        title: 'Nueva noticia',
+                        text: res.message,
+                        class_name: 'with-icon check-circle success'
+                    })
+                    divAdded.hide('slow')
+                }).fail(function (){
+                    $.gritter.add({
+                        title: 'Nueva noticia',
+                        text: 'El tema es requerido. Selecciona un tema',
+                        class_name: 'with-icon times-circle danger'
+                    })
+                    return 0;
+                })
+                reloadPage()
             })
+            
+            function reloadPage() {
+                var notes = $('#panel-body-response > div:not([style*="display: none"])').length -1
+                if( notes == 0) {
+                    window.location.reload()
+                }
+            }
         })
     </script>
 @endsection
