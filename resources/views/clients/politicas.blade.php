@@ -1,11 +1,11 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - {$title}")
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="container op-content-mt">
-        <h1 class="page-header">{{ $title }}</h1>
-        <div class="row">
+    <div class="uk-container op-content-mt">
+        <div class="uk-padding uk-padding-large uk-padding-remove-horizontal">
+            <h1 class="page-header">{{ $title }}</h1>
             @foreach ($covers as $cover)
                 <div class="col-sm-2 col-xs-6" style="margin-bottom: 10px;">
                     <a href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen_jpg }}" data-fancybox="roadtrip">

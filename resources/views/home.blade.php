@@ -1,160 +1,108 @@
 @extends('layouts.home')
 @section('title', ' - Operadora de medios Informativos')
 @section('content')
-    <section class="op-hero text-center" id="video">
-        <div class="container">
-            <div class="row">
-                <div class="hero-content">
-                    <h1>Expertos en monitoreo</h1>
-                    <div></div>
-                    <h2>Somos una empresa especializada en el monitoreo de medios y análisis de información,<br> con más veinte años de experiencia.</h2>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="op-icons">
-        <div class="container">
-            <div class="row">
-                <div class="col-6 col-sm-3">
-                    <div class="item go-0">
-                        <i class="fas fa-microphone fa-2x"></i>
-                        <div class="icon">Radio</div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3">
-                    <div class="item go-1">
-                        <i class="fas fa-tv fa-2x"></i> 
-                        <div class="icon">Televisión</div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3">
-                    <div class="item go-2">
-                        <i class="far fa-newspaper fa-2x"></i>
-                        <div class="icon">Periódicos y Revistas</div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3">
-                    <div class="item go-3">
-                        <i class="fas fa-laptop fa-2x"></i>
-                    <div class="icon">Sitios Web y Redes Sociales</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="op-services">
-        <div class="container">
-            <div class="owl-one owl-carousel  owl-theme">
-                <div class="item">
-                    <article>
-                        <figure class="bg-0">
-                            <div>
-                                <i class="fas fa-microphone fa-2x"></i>
-                            </div>
-                        </figure>
-                        <h3>Radio</h3>
-                        <div></div>
-                        <p>Durante los 365 días del año, las 24 horas, grabamos de manera continua 48 estaciones de radio en las frecuencias de AM y FM. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, de portes. </p>
-                    </article>
-                </div>
-                <div class="item">
-                    <article>
-                        <figure class="bg-1">
-                            <div>
-                                <i class="fas fa-tv fa-2x"></i> 
-                            </div>
-                        </figure>
-                        <h3>Televisión</h3>
-                        <div></div>
-                        <p>Grabamos las 24 horas, de lunes a domingo, los 365 días del año, 25 canales de televisión de señales abiertas y del servicio de paga. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
-                    </article>
-                </div>
 
-                <div class="item">
-                    <article>
-                        <figure class="bg-2">
-                            <div>
-                                <i class="far fa-newspaper fa-2x"></i>
-                            </div>
-                        </figure>
-                        <h3>Periódicos y Revistas</h3>
-                        <div></div>
-                        <p>Búsqueda de información en los principales diarios y revistas de circulación nacional como Reforma, El Universal, Milenio, La Jornada, Excélsior, Economista, El Financiero; Unomásuno, El Sol de México, La Crónica de Hoy, revistas de diferentes cortes: política, moda, espectáculos, salud, deportes, turismo, entretenimiento, arte, entre otras</p>
-                    </article>
-                </div>
-                <div class="item">
-                    <article>
-                        <figure class="bg-3">
-                            <div>
-                                <i class="fas fa-laptop fa-2x"></i>
-                            </div>
-                        </figure>
-                        <h3>Sitios Web y Redes Sociales</h3>
-                        <div></div>
-                        <p>Búsqueda de información de temas encomendados en muchos portales existentes de información general y especializados en temas como política, moda, espectáculos, cultura, salud, deportes, por mencionar algunos. Rankeo integral (tu posicionamiento y el de tus competidores ante búsquedas), análisis estratégico.</p>
-                    </article>
-                </div>
+<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh" >
+    <div class="uk-container uk-margin-auto-vertical uk-padding-large">
+        <div class="uk-width-5-6@s uk-width-2-3@m">
+            <h1 class="uk-text-center uk-text-left@s">Expertos en monitoreo</h1>
+            <h2>Tus ojos y oídos para tu toma de decisiones</h2>
+            <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
+            <ul class="uk-iconnav uk-ligth">
+                <li><i class="fas fa-microphone fa-2x"></i></li>
+                <li><i class="fas fa-tv fa-2x"></i></li>
+                <li><i class="far fa-newspaper fa-2x"></i></li>
+                <li><i class="fas fa-laptop fa-2x"></i></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top uk-padding-large hacemos-por-ti" style="background-image: url('{{ asset('images/home/network.jpg') }}');" uk-parallax="bgy: -100">
+    <div class="uk-container uk-margin-auto-vertical uk-padding-remove-horizontal">
+        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
+        <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large" uk-grid>
+            <li>Monitoreo de medios<br> 24 x 7 x 365</li>
+            <li>Evidencia en<br> formato digital</li>
+            <li>Reportes generales y<br> personalizados</li>
+            <li>Envío de<br> notificaciones</li>
+        </ul>
+    </div>
+</section>
+
+<section class="servicio-personalizado uk-container uk-flex uk-flex-middle uk-padding-large">
+    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large" uk-grid>
+        <div class="uk-width-1-3@m uk-text-center">
+            <img src="{{ asset('images/home/business.jpg') }}"/>
+        </div>
+        <div>
+            <h2>Nos distinguimos por nuestro servicio personalizado.</h2>
+            <p>Somos una empresa líder en el monitoreo y análisis de medios. Nuestro capital y talento humano está conformado por profesionales especializados en el área de la comunicación. Contamos con personal altamente calificado, mediante el cual estaremos atentos a cualquier información directa o indirecta de su empresa, así como el comportamiento de su competencia.</p>
+        </div>
+    </div>
+</section>
+
+<section class="servicios-medios" style="background-image: url({{ asset('images/network.jpg') }});">
+    <div class="">
+        <ul class="accordion-h uk-light">
+            <li class="accordion-open uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle uk-flex-column uk-padding-large" style="background-image: url({{ asset('images/radio.jpg') }});">
+                <a class="accordion-title" href="javascript:void(0);"><h3 >Radio</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <p class="uk-container-small">Durante los 365 días del año, las 24 horas, grabamos de manera continua 48 estaciones de radio en las frecuencias de AM y FM. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
+            </li>
+            <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/tv.jpg') }});">
+                <a class="accordion-title" href="javascript:void(0);"><h3>Televisión</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <p class="uk-container-small">Grabamos las 24 horas, de lunes a domingo, los 365 días del año, 25 canales de televisión de señales abiertas y del servicio de paga. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
+            </li>
+            <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/newspapper.jpg') }});">
+                <a class="accordion-title" href="javascript:void(0);"><h3>Periódicos y Revistas</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <p class="uk-container-small">Búsqueda de información en los principales diarios y revistas de circulación nacional como Reforma, El Universal, Milenio, La Jornada, Excélsior, Economista, El Financiero; Unomásuno, El Sol de México, La Crónica de Hoy, revistas de diferentes cortes: política, moda, espectáculos, salud, deportes, turismo, entretenimiento, arte, entre otras</p>
+            </li>
+            <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/websites.jpg') }});">
+                <a class="accordion-title" href="javascript:void(0);"><h3>Sitios Web y Redes Sociales</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <p class="uk-container-small">Búsqueda de información de temas encomendados en muchos portales existentes de información general y especializados en temas como política, moda, espectáculos, cultura, salud, deportes, por mencionar algunos. Rankeo integral (tu posicionamiento y el de tus competidores ante búsquedas), análisis estratégico.</p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top analisis" style="background-image: url('{{ asset('images/home/analysis.jpg') }}');">
+    <div class="uk-container uk-margin-auto-vertical">
+        <div class="uk-child-width-expand@s uk-grid-divider uk-grid-large" uk-grid>
+            <div>
+                <h4>Análisis de Contenido</h3>
+                <p>Nuestros análisis se realizan en función de lo que tú necesitas; para ello, se hace un estudio con el que, entre otras variables, se determina la cantidad de notas positivas, negativas, neutras; el rating de los programas en los cuales se transmitió, el tipo de público al que se impactó, costos-beneficios, del propio y de la competencia. Se elaboran gráficas para la mejor comprensión del estudio.</p>
+            </div>
+            <div>
+                <h4>Análisis de Cobertura Mediática</h3>
+                <p>Estos estudios están centrados básicamente en los medios de impacto visual como la televisión, periódicos, revistas e internet. El objetivo central es determinar los momentos y espacios en que aparece el objeto del estudio para finalmente evaluar los costos por esas publicidades que no generaron costos directos.</p>
             </div>
         </div>
-    </section>
-    <section class="op-we">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h3>NUESTRO EQUIPO</h3>
-                    <p>Contamos con personal altamente calificado, mediante el cual estaremos atentos a cualquier información directa o indirecta de su empresa, así como el comportamiento de su competencia.</p>
-                    <button class="btn-white" onclick="location.href='{{ route('about') }}'">ACERCA DE NOSOTROS</button>
-                </div>
-                <div class="col-md-6 adjust">
-                    <img src="{{ asset('images/site-img01.png') }}" class="img-fluid">
-                </div>
-            </div>
+    </div>
+</section>
+
+<section class="clientes uk-container uk-padding-large">
+    <div class="uk-child-width-expand@s uk-grid-divider uk-grid-large" uk-grid>
+        <h1 class="uk-width-auto@s">Algunos de<br> Nuestros Clientes</h1>
+        <div class="uk-width-expand@s">
+            <figure id="img_client" class="uk-grid-large uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-5@m" uk-grid>
+                <img src="{{ asset('images/clientes/1.jpg') }}" width="auto" height="auto" alt="MTV">
+                <img src="{{ asset('images/clientes/2.jpg') }}" width="auto" height="auto" alt="OCESA">
+                <img src="{{ asset('images/clientes/3.jpg') }}" width="auto" height="auto" alt="MUSEO FRANZ MAYER">
+                <img src="{{ asset('images/clientes/4.jpg') }}" width="auto" height="auto" alt="VIDEOCINE">
+                <img src="{{ asset('images/clientes/5.jpg') }}" width="auto" height="auto" alt="FEDERACIÓN MEXICANA DE FÚTBOL">
+                <img src="{{ asset('images/clientes/6.jpg') }}" width="auto" height="auto" alt="NFL
+        ">
+                <img src="{{ asset('images/clientes/7.jpg') }}" width="auto" height="auto" alt="FÓRMULA UNO">
+                <img src="{{ asset('images/clientes/8.jpg') }}" width="auto" height="auto" alt="SONY PICTURES">
+                <img src="{{ asset('images/clientes/9.jpg') }}" width="auto" height="auto" alt="FOX NETWORKS  GROUP MÉXICO">
+                <img src="{{ asset('images/clientes/10.jpg') }}" width="auto" height="auto" alt="JAFRA
+        ">
+                <img src="{{ asset('images/clientes/11.jpg') }}" width="auto" height="auto" alt="PARTIDO NUEVA ALIANZA">
+                <img src="{{ asset('images/clientes/12.jpg') }}" width="auto" height="auto" alt="DOCUMENTAL AMBULANTE">
+                <img src="{{ asset('images/clientes/13.jpg') }}" width="auto" height="auto" alt="ACADEMIA MEXICANA DE ARTES Y CIENCIAS CINEMATOGRÁFICAS (AMACC)">
+                <img src="{{ asset('images/clientes/14.jpg') }}" width="auto" height="auto" alt="AGROBIO MÉXICO">
+            </figure>
         </div>
-    </section>
-    <section class="op-analysis">
-        <div class="container">
-            <div class="row">
-                <div div class="col-md-6">
-                    <h4>Análisis de Contenido</h3>
-                    <div></div>
-                    <p>Nuestros análisis se realizan en función de lo que tú necesitas; para ello, se hace un estudio con el que, entre otras variables, se determina la cantidad de notas positivas, negativas, neutras; el rating de los programas en los cuales se transmitió, el tipo de público al que se impactó, costos-beneficios, del propio y de la competencia. Se elaboran gráficas para la mejor comprensión del estudio.</p>
-                </div>
-                <div div class="col-md-6">
-                    <h4>Análisis de Cobertura Mediática</h3>
-                    <div></div>
-                    <p>Estos estudios están centrados básicamente en los medios de impacto visual como la televisión, periódicos, revistas e internet. El objetivo central es determinar los momentos y espacios en que aparece el objeto del estudio para finalmente evaluar los costos por esas publicidades que no generaron costos directos.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="op-icons-mark text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-4 col-lg-6">
-                    <div class="item go-0">
-                        <i class="fas fa-map-marker-alt fa-lg"></i>
-                        <div class="icon">Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc</div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item go-1">
-                        <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
-                            <i class="far fa-envelope fa-lg"></i>   
-                            <div class="icon">contacto@opemedios.com.mx</div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="item go-2">
-                        <a class="ope-contact" href="tel:5555846410" target="_blank">
-                            <i class="fas fa-phone fa-lg"></i>
-                            <div class="icon">55-5584-64-10</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="map">
-    </section>
+    </div>
+</section>
 @endsection
