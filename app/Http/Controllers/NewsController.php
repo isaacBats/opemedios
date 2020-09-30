@@ -497,7 +497,12 @@ class NewsController extends Controller
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
-
+    
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
     public function showDetailNews(Request $request) {
         if(!$request->has('qry')) {
             return redirect()->route('home');
@@ -513,5 +518,52 @@ class NewsController extends Controller
 
         return view('clients.frontdetailnews', compact('news'));
     }
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
+    public function searchByIdOrTitleAjax(Request $request) {
+        
+        $newsletterSend = NewsletterSend::findOrFail($request->input('newssend'));
+        $themes = $newsletterSend->newsletter->company->themes;
+
+        // TODO: buscar notas que no se encuentren en el newsletter
+
+        $status = 'error';
+        if($request->input('newsid')) {
+            $request->validate([
+                'newsid' => 'numeric'
+            ],[
+                'numeric' => 'Debe de ser solo número'
+            ]);
+
+            $notes[] = News::findOrFail($request->input('newsid'));
+            $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
+
+            return response()->json(compact('status', 'html'));
+        }
+
+        if($request->input('newstitle')) {
+            $request->validate([
+                'newstitle' => 'string|min:4'
+            ],[
+                'min' => 'El título ingresado debe de ser mínimo de 4 caracteres'
+            ]);
+
+            $notes = News::where('title', 'like', "%{$request->input('newstitle')}%")->get();
+            $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
+
+            return response()->json(compact('status', 'html'));
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => 'No hay argumentos suficientes para realizar una busqueda'
+        ]);
+    }
 
 }
+ 

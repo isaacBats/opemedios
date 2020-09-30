@@ -48,11 +48,18 @@ class NewsletterSendController extends Controller
         return view('admin.newsletter.editsend', compact('newsletterSend'));
     }
 
-    public function addNote (Request $request, $id) {
-        $data = $request->all();
+    public function addNote (Request $request) {
+        
+        $data['newsletter_id'] = $request->input('newsletterid');
+        $data['newsletter_theme_id'] = $request->input('themeid');
+        $data['newsletter_send_id'] = $request->input('newssend');
+        $data['news_id'] = $request->input('news_id');
         $this->ntnc->create($data);
 
-        return redirect()->route('admin.newsletter.edit.send', ['id' => $id])->with('status', 'Nota agregada correctamente!');
+        return response()->json([
+            'status' => 'OK',
+            'message' => '¡Nota agregada correctamente!'
+        ]);
     }
 
     public function remove (Request $request, $id) {
