@@ -14,9 +14,9 @@
   * file that was distributed with this source code.
   */
 $(document).ready(function(){
-        
         // spinner in off
-        $('.loader').hide()
+        $('.loader').hide();
+        $('span.tema-actual').text($('ul.list-group li.uk-active a').text());
 
         // get new by theme
         $('ul.list-group').on('click', 'a.item-theme', function(event){
@@ -29,8 +29,10 @@ $(document).ready(function(){
             var spinner = $('.loader')
             var listThemes = $('#list-group-themes')
             
-            listThemes.find('#item-indicator').remove()
-            item.attr('uk-icon','icon:triangle-right');
+            $('ul.list-group li').removeClass('uk-active');
+            $(this).parent().addClass("uk-active");
+            $('span.tema-actual').text($('ul.list-group li.uk-active a').text());
+
             container.empty()
             spinner.show()
             var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
@@ -109,7 +111,7 @@ $(document).ready(function(){
           container.empty()
           spinner.show()
 
-          
+          $('.scroll-to.uk-list').hide();
 
             var news = $.get( `/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}` , function(news) {
               spinner.hide()

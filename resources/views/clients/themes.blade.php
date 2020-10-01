@@ -3,30 +3,33 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="uk-container">
-        <div class="uk-padding-large uk-padding-remove-horizontal">
-            
-            <h1 class="page-header">Noticias por tema</h1>
-            <div class="col-md-3">
-                <div class="panel panel-success uk-hidden">
-                    <div class="panel-heading">
-                        Temas
-                    </div>
-                    <div class="panel-body themes-list-p0">
-                        <ul class="list-group" id="list-group-themes">
-                            @foreach ($company->themes as $theme)
-                                <li class="list-group-item theme-transition"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">@if($theme->id == $defaultThemeId) <i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> @endif {{ $theme->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
+    <div class="uk-padding op-content-mt">
+        <h1 class="page-header">Noticias de: <span class="tema-actual"></span></h1>
+        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+            <div class="uk-navbar-container" uk-navbar>
+                <div class="uk-navbar-left">
+                    <ul class="uk-navbar-nav list-group" id="list-group-themes">
+                        <li>
+                            <a href="#" uk-icon="chevron-down">Temas</a>
+                            <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                @foreach ($company->themes as $theme)
+                                <li class="list-group-item theme-transition @if($theme->id == $defaultThemeId) uk-active @endif"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">{{ $theme->name }}</a></li>
+                                @endforeach
+                            </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>
+        <div class="uk-padding uk-padding-remove-horizontal">
             <div class="loader">Cargando...</div>
             <div id="news-by-theme" class="col-md-9">
                 @include('components/listNews')
             </div>
-            
         </div>
+        
     </div>
     <!-- /.container -->
 @endsection

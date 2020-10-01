@@ -1,7 +1,7 @@
 @extends('layouts.home')
 @section('title', " - Noticia")
 @section('content')
-    @include('components.clientHeading')
+    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
         <div class="row padding-top-40">

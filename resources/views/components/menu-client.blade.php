@@ -2,205 +2,105 @@
     $slug = session()->get('slug_company');
     $route = Route::getCurrentRoute()->getName();
 @endphp
-
-@if( $route != 'home' && false )
-    <div class="navbar navbar-inverse navbar-fixed-top headroom" >
-        <div class="container">
-            <div class="navbar-header">
-                <!-- Button for smallest screens -->
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Opemedios" class="op-logo">
-                </a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav pull-right op-nav">
-                    @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
-                        <li><a href="{{ route('home') }}" class="{{ $route == 'home' ? ' uk-active' : '' }}">Inicio</a></li>
-                        <li><a href="{{ route('about') }}" class="{{ $route == 'about' ? ' uk-active' : '' }}">Quiénes somos</a></li>
-                        <li><a href="{{ route('clients') }}" class="{{ $route == 'clients' ? ' uk-active' : '' }}">Clientes</a></li>
-                        <!--<li><a href="{{ route('contact') }}" class="{{ $route == 'contact' ? ' uk-active' : '' }}">Contacto</a></li>-->
-                        <li class="uk-navbar-right contanto">
-                            <a class="uk-button uk-button-secondary" href="#contact-form">
-                                <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                                <span class="uk-visible@m">Contáctanos</span>
-                            </a>
-                        </li>
-                        @hasrole('client')
-                        <li class="uk-navbar-right">
-                            <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
-                                <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                                <span class="uk-visible@m">Dashboard</span>
-                            </a>
-                        </li>
-                        @else
-                        <li class="uk-navbar-right">
-                            <a class="uk-button uk-button-secondary btn{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
-                                <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                                <span class="uk-visible@m">Iniciar Sesión</span>
-                            </a>
-                        </li>
-                        @endhasrole
-
-                        <!--@hasrole('client')
-                            <li><a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                        @else
-                            <li><a class="btn{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">Iniciar Sesión</a></li>
-                        @endhasrole-->
-
-                    @else
-                        @hasrole('client')
-                            <li><a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                            <li><a class="{{ $route == 'themes' ? ' uk-active' : '' }}" href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
-                            <li><a class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}" href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
-                            <li>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle user btn-ope" type="button" id="menuArchivo" data-toggle="dropdown" > ARCHIVO <span class="caret"></span></button>
-                                    <ul class="dropdown-menu pull-right ope-menu" role="menu" aria-labelledby="menuArchivo">
-                                        <li><a class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
-                                        <li><a class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
-                                        <li><a class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
-                                        <li><a class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
-                                        <li><a class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle user btn-ope" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {{ strtoupper(Auth::user()->name) }}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu ope-menu" aria-labelledby="dropdownMenu1">
-                                        <li>
-                                            <a href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                                Salir
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
-                                        </li>
-                                  </ul>
-                                </div>
-                            </li>
-                        @endhasrole
-                    @endif
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </div>
-@else
+@if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
 <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-dark; top: 250;">
     <div class="uk-container uk-dark">
         <nav class="uk-navbar-container uk-navbar-transparent uk-container" uk-navbar>
-            <div class="uk-navbar-left uk-hidden@s">
-                <a class="uk-navbar-toggle" uk-navbar-toggle-icon href=""></a>
+            <div class="uk-navbar-left uk-hidden@m">
+                <button id="menu-sitio-toggle" class="uk-button uk-button-default" type="button" uk-navbar-toggle-icon uk-toggle="target: #menu-sitio"></button>
             </div>
-            <div class="uk-navbar-left uk-width-auto@s">
+            <div class="uk-navbar-left logo-opemedios">
                 <a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a>
             </div>
-            <div class="uk-navbar-right uk-visible@s uk-width-expand uk-flex uk-flex-right">
+            <div class="uk-navbar-right uk-width-expand uk-flex uk-flex-right" id="menu-sitio">
                 <ul class="uk-navbar-nav">
-                    @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
-                        @if( $route != 'home')
-                        <li><a href="{{ route('home') }}" class="{{ $route == 'home' ? ' uk-active' : '' }}">Inicio</a></li>
-                        @endif
-                        <li class="{{ $route == 'about' ? ' uk-active' : '' }}"><a href="{{ route('about') }}">Quiénes somos</a></li>
-                        <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
-
-                        <!--@hasrole('client')
-                            <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                        @else
-                            <li class="btn {{ $route == 'signin' ? ' uk-active' : '' }}"><a href="{{ route('signin') }}">Iniciar Sesión</a></li>
-                        @endhasrole-->
-
-                    @else
-                        @hasrole('client')
-                            <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-                            <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
-                            <li class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}"><a href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
-                            <li>
-                                <a href="javascript:void();" uk-icon="chevron-down"> Archivo</a>
-                                <div class="uk-navbar-dropdown">
-                                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                                        <li><a class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
-                                        <li><a class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
-                                        <li><a class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
-                                        <li><a class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
-                                        <li><a class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}" href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="javascript:void();" uk-icon="chevron-down">
-                                    <span uk-icon="user"></span>
-                                </a>
-                                <div class="uk-navbar-dropdown">
-                                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                                        <li>{{ strtoupper(Auth::user()->name) }}</li>
-                                        <li>
-                                            <a href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                                Salir
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                            Salir
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                </ul>-->
-                            </li>
-                        @endhasrole
+                    <li class="uk-hidden@m uk-text-center">
+                        <img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" />
+                        <hr>
+                    </li>
+                    @if( $route != 'home')
+                    <li><a href="{{ route('home') }}" class="{{ $route == 'home' ? ' uk-active' : '' }}">Inicio</a></li>
                     @endif
-                </ul>
-            </div>
-            @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
-            <div class="uk-navbar-right uk-padding uk-padding-remove-vertical uk-padding-remove-right">
-                <ul uk-grid >
+                    <li class="{{ $route == 'about' ? ' uk-active' : '' }}"><a href="{{ route('about') }}">Quiénes somos</a></li>
+                    <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
                     @hasrole('client')
-                    <li>
-                        <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
-                            <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                            <span class="uk-visible@m">Dashboard</span>
+                    <li class="uk-hidden@m">
+                        <hr>
+                        <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
+                            <span >Dashboard</span>
                         </a>
                     </li>
                     @else
-                    <li>
-                        <a class="uk-button uk-button-secondary btn{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
-                            <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                            <span class="uk-visible@m">Iniciar Sesión</span>
+                    <li class="uk-hidden@m">
+                        <hr>
+                        <a class="{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
+                            <span >Iniciar Sesión</span>
                         </a>
                     </li>
                     @endhasrole
-                    <li>
-                        <a class="uk-button uk-button-secondary" href="#contact-form" uk-toggle>
-                            <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                            <span class="uk-visible@m">Contáctanos</span>
-                        </a>
+                    <li class="uk-hidden@m uk-text-center">
+                        <hr>
+                        <hr>
+                        <div class="uk-flex-center uk-grid-divider" uk-grid>
+                            <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.2;" style="color: #333;"></a>
+                            <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.2;" style="color: #333;"></a>
+                        </div>
                     </li>
                 </ul>
-                <!--<a class="uk-button uk-button-secondary" href="#contact-form">
-                    <span class=" uk-hidden@m" uk-icon="icon: mail;"></span>
-                    <span class="uk-visible@m">Contáctanos</span>
-                </a>-->
+                <div class="uk-visible@m" style="padding-left: 40px;">
+                    @hasrole('client')
+                    <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
+                        <span >Dashboard</span>
+                    </a>
+                    @else
+                    <a class="uk-button uk-button-secondary {{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
+                        <span >Iniciar Sesión</span>
+                    </a>
+                    @endhasrole
+                </div>
             </div>
-            @endif
+            <div class="uk-navbar-right contact" style="padding-left: 30px;">
+                <a id="contact-button" class="uk-button uk-button-secondary" href="#contact-form" uk-toggle>
+                    <span class="uk-visible@s">Contáctanos</span>
+                    <span uk-icon="mail" class="uk-hidden@s"></span>
+                </a>
+            </div>
         </nav>
+    </div>
+</div>
+@else
+
+<button class="uk-button uk-button-default uk-hidden@l" type="button" uk-toggle="target: #offcanvas-nav" uk-navbar-toggle-icon></button>
+    
+<div id="offcanvas-nav" uk-offcanvas="mode: push; overlay: true;">
+    <div class="uk-offcanvas-bar">
+        <ul class="uk-nav uk-nav-default uk-text-bold uk-text-uppercase">
+            <li><a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a><br><br></li>
+            @hasrole('client')
+            <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
+            <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
+            <li class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}"><a href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
+            <li class="uk-nav-header uk-text-light">Archivo</li>
+            <li class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
+            <li class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
+            <li class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
+            <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
+            <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
+            <li class="uk-nav-divider"></li>
+            <li class="uk-nav-header uk-text-light">{{ strtoupper(Auth::user()->name) }}</li>
+            <li>
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                    Salir
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
+            @endhasrole
+        </ul>
+
     </div>
 </div>
 @endif
