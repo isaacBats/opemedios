@@ -69,7 +69,7 @@
                                         @if($ntn->newsletter_theme_id == $theme->id)
                                             <li class="media">
                                                 <div class="media-left">
-                                                    <img class="media-object" src="https://ui-avatars.com/api/?name={{ $loop->iteration }}&size=32&background=0D8ABC&color=fff" alt="...">
+                                                    <img class="media-object" src="https://ui-avatars.com/api/?name={{ $theme->name }}&size=32&background=0D8ABC&color=fff" alt="...">
                                                 </div>
                                                 <div class="media-body">
                                                     <u><a class="" href="{{ route('admin.new.show', ['id' => $ntn->news->id]) }}" target="_blank"><h4 class="media-heading">{{ $ntn->news->title }}</h4></a></u>
@@ -78,7 +78,7 @@
                                                         {!! Illuminate\Support\Str::limit($ntn->news->synthesis, 120) !!}
                                                     </p>
                                                     <p class="text-right">
-                                                        <a href="" class="text-danger"><i class="fa fa-times"></i> {{ __('Remover') }}</a>
+                                                        <a href="javascript:void(0);" class="text-danger btn-newssend-remove" data-theme="{{ $theme->name }}" data-title="{{ $ntn->news->title }}" data-ntn="{{ $ntn->id }}"><i class="fa fa-times"></i> {{ __('Remover') }}</a>
                                                     </p>
                                                 </div>
                                             </li>
@@ -180,6 +180,56 @@
                     window.location.reload()
                 }
             }
+
+            // remove note 
+            $('#panel-body-list').on('click', '.btn-newssend-remove', function(event) {
+                event.preventDefault()
+                var ntnId = $(this).data('ntn')
+                var title = $(this).data('title')
+                var theme = $(this).data('theme')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var btnSubmit = form.find('#md-btn-submit')
+                var nodeParent = $(this).parent().parent().parent('li')
+                nodeParent.attr('id', 'remove-element')
+
+                modal.find('.modal-title').text('Eliminar nota')
+                modal.find('.modal-body').html(`<p>Vas a eliminar la nota <strong>${title}</strong> del tema <strong>${theme}</strong>>.</p>
+                <p class="text-center" style="font-size: 16px; "><strong>¿Estas seguro?</strong></p>`)
+                form.attr('action', "{{ route('admin.newsletter.send.remove.note') }}")
+                form.attr('method', 'POST')
+                form.append($('<input>', {type: 'hidden', name: 'ntn', value: ntnId}))
+                btnSubmit.val('Eliminar')
+
+                modal.modal('show')
+
+            })
+
+            $('#md-btn-submit').on('click', function(event) {
+                event.preventDefault()
+                var form = $('#modal-default-form')
+                var modal = $('#modal-default')
+                var element = $('#remove-element')
+                
+                modal.modal('hide')
+
+                $.post(form.attr('action'), form.serialize(), function(res) {
+                    $.gritter.add({
+                        title: 'Eliminar nota',
+                        text: res.message,
+                        class_name: 'with-icon check-circle success'
+                    })
+                    element.hide("slow", function(){ $(this).remove() })
+
+                }).fail(function(){
+                    $.gritter.add({
+                        title: 'Eliminar nota',
+                        text: 'No es posible eliminar esta nota!',
+                        class_name: 'with-icon times-circle danger'
+                    })
+                })
+
+            })
         })
     </script>
 @endsection

@@ -55,7 +55,7 @@
                                 </th>
                                 <th>
                                     <a href="{{ route('admin.newsletter.edit.send', ['id' => $oneNewsletter->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                    <a href="" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
+                                    <a href="{{ route('admin.newsletter.preview.send', ['id' => $oneNewsletter->id]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
                                     <button type="button" class="btn btn-primary send-mail-manual" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
                                     <button type="button" class="btn btn-danger delete-newsletter" data-id="{{$oneNewsletter->id }}"><i class="fa fa-trash"></i></button>
                                 </th>
