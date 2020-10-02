@@ -62,9 +62,9 @@ class NewsletterSendController extends Controller
         ]);
     }
 
-    public function remove (Request $request, $id) {
-        $this->ntnc->remove($request->input('newsletter_theme_news_id'));
+    public function remove (Request $request) {
+        $this->ntnc->remove($request->input('ntn'));
 
-        return redirect()->route('admin.newsletter.edit.send', ['id' => $id])->with('status', 'Nota eliminada correctamente!');
+        return response()->json(['status' => 'OK', 'message' => '¡Nota eliminada correctamente!']);
     }
 }
