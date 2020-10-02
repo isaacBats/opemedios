@@ -220,7 +220,7 @@
                         text: res.message,
                         class_name: 'with-icon check-circle success'
                     })
-                    element.hide('slow')
+                    element.hide("slow", function(){ $(this).remove() })
 
                 }).fail(function(){
                     $.gritter.add({
