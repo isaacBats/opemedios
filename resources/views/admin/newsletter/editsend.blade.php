@@ -191,7 +191,6 @@
                 var form = $('#modal-default-form')
                 var btnSubmit = form.find('#md-btn-submit')
                 var nodeParent = $(this).parent().parent().parent('li')
-                console.log(nodeParent)
                 nodeParent.attr('id', 'remove-element')
 
                 modal.find('.modal-title').text('Eliminar nota')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewsletterEmail;
 use App\Newsletter;
 use App\NewsletterSend;
 use App\NewsletterThemeNews;
@@ -66,5 +67,12 @@ class NewsletterSendController extends Controller
         $this->ntnc->remove($request->input('ntn'));
 
         return response()->json(['status' => 'OK', 'message' => '¡Nota eliminada correctamente!']);
+    }
+
+    public function previewEmail(Request $request, $id) {
+        
+        $newsletterSend = NewsletterSend::findOrFail($id);
+
+        return new NewsletterEmail($newsletterSend);
     }
 }
