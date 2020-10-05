@@ -99,10 +99,11 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
         Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
         Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
-        Route::post('newsletter/newsletter-a-enviar/remover-nota/{id}', 'NewsletterSendController@remove')->name('admin.newsletter.send.remove.note');
+        Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
 
         Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
         Route::post('api/v2/newsletter/newsletter-a-enviar/agregar-nota', 'NewsletterSendController@addNote')->name('api.newslettersend.addnote');
+        Route::post('api/v2/newsletter/newsletter-a-enviar/remover-nota', 'NewsletterSendController@remove')->name('admin.newsletter.send.remove.note');
 
         Route::get('sectores', 'SectorController@index')->name('admin.sectors');
         Route::get('sector/nuevo', 'SectorController@create')->name('admin.sector.create');
