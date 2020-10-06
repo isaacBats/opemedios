@@ -6,8 +6,8 @@
     <div>
         <h3>{{ "Bienvenido " . $company->name }}</h3>
         <small class="card-filters">
-              Noticias de hoy: <strong>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong> 
-            <br> Noticias del mes: <strong>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today()->format('Y-m'))->count() }}</strong> 
+              Noticias de hoy: <strong>{{ $company->assignedNews->where('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong> 
+            <br> Noticias del mes: <strong>{{ $company->assignedNews->where('created_at', Carbon\Carbon::today()->format('Y-m'))->count() }}</strong> 
             <br> Total: <strong>{{ $company->assignedNews->count() }}</strong>
         </small>
     </div>
