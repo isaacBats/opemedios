@@ -3,7 +3,7 @@
 @section('content')
     @include('components.clientHeading')
     <!-- Page Content -->
-    <div class="uk-padding op-content-mt">
+    <div class="uk-padding op-content-mt main-content">
         <div class="row" id="list-news">
             @foreach($company->themes as $theme)
                 <h2 id="theme{{ $theme->id }}">{{ $theme->name }}</h2>

@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-visible@l">
     <div class="uk-navbar-container uk-padding uk-padding-remove-vertical" uk-navbar>
         <div class="uk-navbar-left">
             <ul class="uk-navbar-nav scroll-to uk-list">

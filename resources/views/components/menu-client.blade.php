@@ -25,19 +25,21 @@
                     <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
                     @hasrole('client')
                     <li class="uk-hidden@m">
-                        <hr>
                         <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
                             <span >Dashboard</span>
                         </a>
                     </li>
                     @else
                     <li class="uk-hidden@m">
-                        <hr>
                         <a class="{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
                             <span >Iniciar Sesión</span>
                         </a>
                     </li>
                     @endhasrole
+                    <li>
+                        <a class="uk-hidden@m" href="{{ route('contact') }}">Contáctanos</a>
+                    </a>
+                    </li>
                     <li class="uk-hidden@m uk-text-center">
                         <hr>
                         <hr>
@@ -60,7 +62,7 @@
                 </div>
             </div>
             <div class="uk-navbar-right contact" style="padding-left: 30px;">
-                <a id="contact-button" class="uk-button uk-button-secondary" href="#contact-form" uk-toggle>
+                <a id="contact-button" class="uk-button uk-button-secondary" href="{{ route('contact') }}">
                     <span class="uk-visible@s">Contáctanos</span>
                     <span uk-icon="mail" class="uk-hidden@s"></span>
                 </a>
@@ -69,8 +71,51 @@
     </div>
 </div>
 @else
-
-<button class="uk-button uk-button-default uk-hidden@l" type="button" uk-toggle="target: #offcanvas-nav" uk-navbar-toggle-icon></button>
+<div class="uk-hidden@l" uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-dark; top: 250;">
+    <div class="uk-container uk-dark">
+        <nav class="uk-navbar-container uk-navbar-transparent uk-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <button id="menu-sitio-toggle" class="uk-button uk-button-default" type="button" uk-toggle="target: #offcanvas-nav" uk-navbar-toggle-icon></button>
+            </div>
+            <div class="uk-navbar-left logo-opemedios uk-width-expand">
+                <a class="uk-navbar-item uk-logo" href="{{ route('home') }}" style="margin: 0 auto;"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios"/></a>
+            </div>
+            @if( $route == 'news')
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav scroll-to uk-list">
+                    <li>
+                        <a href="#" uk-icon="chevron-down">Temas</a>
+                        <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
+                            @foreach($company->themes as $theme)
+                            <li style="margin-top: 10px;">
+                                <a href="#theme{{ $theme->id }}">{{ $theme->name }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            @elseif( $route == 'themes')
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav list-group" id="list-group-themes">
+                    <li>
+                        <a href="#" uk-icon="chevron-down">Temas</a>
+                        <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav" id="themes">
+                            @foreach ($company->themes as $theme)
+                            <li class="list-group-item theme-transition @if($theme->id == $defaultThemeId) uk-active @endif"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">{{ $theme->name }}</a></li>
+                            @endforeach
+                        </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            @endif
+        </nav>
+    </div>
+</div>
     
 <div id="offcanvas-nav" uk-offcanvas="mode: push; overlay: true;">
     <div class="uk-offcanvas-bar">

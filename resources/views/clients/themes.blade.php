@@ -3,9 +3,9 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="uk-padding op-content-mt">
+    <div class="uk-padding op-content-mt main-content">
         <h1 class="page-header">Noticias de: <span class="tema-actual"></span></h1>
-        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky;" class="uk-visible@l">
             <div class="uk-navbar-container" uk-navbar>
                 <div class="uk-navbar-left">
                     <ul class="uk-navbar-nav list-group" id="list-group-themes">

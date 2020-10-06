@@ -16,11 +16,10 @@
 $(document).ready(function(){
         // spinner in off
         $('.loader').hide();
-        $('span.tema-actual').text($('ul.list-group li.uk-active a').text());
+        $('span.tema-actual').text($('ul#themes li.uk-active a').text());
 
         // get new by theme
         $('ul.list-group').on('click', 'a.item-theme', function(event){
-            event.preventDefault()
             var themeid = $(this).data('themeid')
             var companyid = $(this).data('companyid')
             var companyslug = $(this).data('companyslug')
@@ -31,17 +30,19 @@ $(document).ready(function(){
             
             $('ul.list-group li').removeClass('uk-active');
             $(this).parent().addClass("uk-active");
-            $('span.tema-actual').text($('ul.list-group li.uk-active a').text());
+            $('span.tema-actual').text($('ul#themes li.uk-active a').text());
+            
 
             container.empty()
             spinner.show()
             var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
               spinner.hide()
               container.html(news)
+
             }).fail(function(data) {
                 spinner.hide() 
 
-                        var beautifullHTML = `<div class="jumbotron">
+                        var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                             </div>`
 
@@ -50,7 +51,6 @@ $(document).ready(function(){
                         console.log(`Error-Themes: ${data.responseJSON.message}`)
               });
 
-            
        })    
 
         // pagination 
@@ -85,9 +85,9 @@ $(document).ready(function(){
                 },
                 error: function(data) {
                     spinner.hide() 
-                    var beautifullHTML = `<div class="jumbotron">
-                            <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
-                        </div>`
+                    var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
+                                <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                            </div>`
 
                     container.append(beautifullHTML)
                     // TODO: poner el error en un log

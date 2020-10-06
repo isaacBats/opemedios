@@ -59,7 +59,7 @@ body .uk-navbar-container:not(.uk-navbar-transparent),
 header .uk-sticky.uk-sticky-below.uk-sticky-fixed{
     background: #fff;
 }
-header .uk-sticky.uk-sticky-below.uk-sticky-fixed{
+header .uk-sticky.uk-sticky-fixed{
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
 .expertos{
@@ -404,13 +404,13 @@ animation: fadeIn ease 2s;
 100% {opacity:1;}
 }
 
+body.news .op-content-mt.main-content,
+body.themes .op-content-mt.main-content,
 body.about .uk-container.op-content-mt,
 body.clients .uk-container.clientes,
 body.contact .uk-container.op-content-mt,
 body.client-others-news .uk-container,
 body.client-sections .uk-container,
-body.themes .uk-container,
-body.news .uk-container,
 body.signin .uk-container{
   flex: 1 0 auto;
 }
@@ -567,16 +567,15 @@ body .uk-offcanvas-bar .uk-nav-default .uk-nav-header{
     height: 70px;
   }
 }
+#menu-sitio-toggle{
+  height: 100%;
+  color: #333;
+  padding: 0 15px;
+  border: none;
+}
 @media (max-width: 959px){
   #menu-sitio {
       display: none;
-  }
-  #menu-sitio-toggle{
-    height: 100%;
-    color: #333;
-    padding: 0 15px;
-    border: none;
-    margin-left: -15px;
   }
   #contact-button{
     padding: 0 15px;
