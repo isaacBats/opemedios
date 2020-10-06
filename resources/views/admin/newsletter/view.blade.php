@@ -60,7 +60,7 @@
                                     <button type="button" class="btn btn-danger delete-newsletter" data-id="{{$oneNewsletter->id }}"><i class="fa fa-trash"></i></button>
                                 </th>
                                 <th>
-                                    <a href="" class="btn btn-primary"><i class="fa fa-envelope"></i></a>
+                                    <a href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" class="btn btn-primary btn-send-newsletter"><i class="fa fa-envelope"></i></a>
                                 </th>
                             </tr>
                         @empty
@@ -92,15 +92,28 @@
         })
 
             // envio manual
-        //     $('#table-newsletters').on('click', 'button.send-mail-manual', function(event) {
-        //         event.preventDefault()
-        //         var id = $(this).data('id')
-        //         var modal = $('#modalSendManual')
-        //         var form = $('#form-modal-send-manual')
-        //
-        //         form.attr('action', `/newsletter/enviar-mail/${id}`)
-        //         modal.modal('show')
-        //     })
+        $('#table-newsletters').on('click', 'a.btn-send-newsletter', function(event) {
+            event.preventDefault()
+            var newsletterId = "{{ $newsletter->id }}"
+            var action = $(this).attr('href')
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+
+            form.attr('method', 'POST')
+            form.attr('action', action)
+            
+            modal.find('.modal-title').text('Enviar Newsletter')
+            modal.find('.modal-body').html(`
+                <p>Vas a enviar el newsletter a los siguientes correos</p>
+                <ul>
+                    @foreach($newsletter->newsletter_users as $item)
+                    <li>{{ $item->email }}</li>
+                    @endforeach
+                </ul>
+            `)
+            modal.find('#md-btn-submit').val('Enviar')
+            modal.modal('show')
+        })
         //
         //     // borrar newsletter
         //     $('#table-newsletters').on('click', 'button.delete-newsletter', function(event) {

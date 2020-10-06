@@ -23,6 +23,7 @@ use App\NewsletterSend;
 use App\NewsletterThemeNews;
 use App\NewsletterUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Newsletter

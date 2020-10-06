@@ -22,6 +22,24 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Lista de correos para este Newsletter</h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="media-list user-list">
+                        @forelse($newsletter->newsletter_users as $item)
+                            <li class="media">
+                                <div class="media-body">
+                                    <h4 class="media-heading nomargin">{{ $item->email }}</h4>
+                                </div>
+                            </li>
+                        @empty
+                            <li class="media">No hay direcciones de correo para este newsletter</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

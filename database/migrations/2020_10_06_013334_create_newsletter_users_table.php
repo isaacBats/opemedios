@@ -25,7 +25,7 @@ class CreateNewsletterUsersTable extends Migration
                 ->references('id')->on('newsletters')
                 ->onDelete('cascade');
 
-            $table->index(['newsletter_id', 'email']);
+            $table->unique(['newsletter_id', 'email']);
         });
     }
 
