@@ -103,7 +103,7 @@ class NewsletterController extends Controller
             $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
                 return $ntn->news_id;
             });
-            $newsletterSend->status = 1;
+            $newsletterSend->status ++;
             $newsletterSend->news_ids = serialize($newsIds);
             $newsletterSend->num_notes = $newsletterSend->newsletter_theme_news->count();
             $newsletterSend->num_email = sizeof($emails);
