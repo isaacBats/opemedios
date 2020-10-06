@@ -1,70 +1,81 @@
 @extends('layouts.home')
 @section('title', " - Noticia")
 @section('content')
-    @include('components.clientHeading')
+    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
         <div class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-grid-divider" uk-grid>
             <div class="uk-width-1-3@s">
-                <div uk-sticky="offset: 140; media: @s; ">
+                <div>
+                    <p class="uk-badge uk-padding-small uk-padding-remove-vertical">{{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</p>
                     <img class="thumbnail new" src="{{ asset("images/{$note->source->logo}") }}" alt="{{ $note->source->name }}">
-                    <p class="uk-text-bold">{{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</p>
-                    <span class="uk-badge uk-padding-small"> {{ $note->source->name }} </span>
-                    <span class="uk-badge uk-padding-small"> Sección: {{ $note->section->name }} </span>
-                </div>
-            </div>
-        <!-- NOTICIA HEADER -->
-            <div class="uk-width-2-3@s">
-                <div class="col-lg-12">
-                    <h1 class="new">{{ $note->title }}</h1>
-                </div>
-
-                <div class="uk-padding uk-padding-remove-horizontal">
-                    {!! $note->synthesis !!}
-                </div>
-
-                <div class="col-lg-9" uk-grid>
+                    <hr class="uk-visible@s">
+                    <div class="uk-visible@s">
+                        <dl class="uk-text-small uk-text-break uk-description-list">
                     @foreach($note->metas() as $meta)
                         @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
                             @continue
                         @endif
-                        <dl class="col-lg-3 uk-width-1-2@s">
-                            <dt>{{ $meta['label'] }}:</dt>
+                            <dt><b class="uk-text-emphasis">{{ $meta['label'] }}:</b></dt>
                             <dd>{!! $meta['value'] !!}</dd>
-                        </dl>
                     @endforeach
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        <!-- NOTICIA HEADER -->
+            <div class="uk-width-2-3@s">
+                <h1 class="new">{{ $note->title }}</h1>
+                <p class="uk-padding uk-padding-remove-horizontal">{!! $note->synthesis !!}</p>
+
+                <div class="uk-hidden@s uk-padding uk-padding uk-padding-remove-horizontal uk-padding-remove-top">
+                    <dl class="uk-text-small uk-text-break uk-description-list">
+                @foreach($note->metas() as $meta)
+                    @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
+                        @continue
+                    @endif
+                        <dt><b class="uk-text-emphasis">{{ $meta['label'] }}:</b></dt>
+                        <dd>{!! $meta['value'] !!}</dd>
+                @endforeach
+                    </dl>
                 </div>
                 <div class="col-lg-3 text-right">
                     {{-- Compartir con redes sociales --}}
                 </div>
-                <div class="uk-padding uk-padding-large uk-padding-remove-horizontal">
+                <div id="doc">
                  
                  <!-- Portfolio Item Row -->            
 
                 {{-- Archivos adjuntos --}}
                 @if($mainFile = $note->files->where('main_file', 1)->first())                   
                    @php
-                    if( !preg_match('(.mp3|.ogg|.wav|.mpga)', $mainFile->original_name ) ) {
+                    if( !preg_match('(.mp3|.ogg|.wav|.mpga|.mp4)', $mainFile->original_name ) ) {
                         if( preg_match('(.pdf)', $mainFile->original_name ) ) {
-                            echo '<div class="uk-box-shadow-small uk-text-center lightbox" uk-lightbox>
+                            echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox pdf" uk-lightbox>
                                 <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'</a>
-                            </div>';
+                            </div>
+                            <h3 class="uk-hidden no-pdf-inline uk-text-center uk-text-warning">PDF</h3>
+                            ';
                         }
                         else{
-                            echo '<div class="uk-box-shadow-small uk-text-center lightbox" uk-lightbox>
+                            echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox" uk-lightbox>
                                 '.$mainFile->getHTML().'
                             </div>';
                         }
                     } 
+                    elseif( preg_match('(.mp4|.mov|.avi)', $mainFile->original_name ) ) {
+                        echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox video" uk-lightbox>
+                            <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'</a>
+                        </div>';
+                    }
                     else{
                         echo '<div class="embed-responsive embed-responsive-16by9 uk-text-center">
                            '.$mainFile->getHTML().'
                         </div>';
                     }
                     @endphp
-                   <hr>
-                    <p class="uk-text-center">
-                       {{ __('Descargar Archivo: ') }} <a href="{{ $mainFile->path_filename }}" target="_blank" class="uk-button uk-button-default uk-button-large">{{ $mainFile->original_name }}</a>
+                    <p class="uk-text-center uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom">
+                       {{ __('Descargar Archivo: ') }} <a href="{{ $mainFile->path_filename }}" target="_blank" class="uk-button uk-button-default uk-button-large uk-text-truncate">{{ $mainFile->original_name }}</a>
                    </p>
                @else
                    <p class="text-center">{{ __('Esta noticia no contiene archivos ajuntos') }}</p>

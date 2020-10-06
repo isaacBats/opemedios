@@ -1,7 +1,7 @@
 @extends('layouts.home')
 @section('title', " - Columnas Financieras")
 @section('content')
-    @include('components.clientHeading')
+    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
         <div class="uk-padding uk-padding-large uk-padding-remove-horizontal">

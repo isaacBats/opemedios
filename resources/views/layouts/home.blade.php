@@ -31,70 +31,19 @@
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
     </head>
+    @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
     <body class="{{ str_replace('.', '-', $route) }}">
+    @elseif ( $route == 'about' )
+    <body class="{{ str_replace('.', '-', $route) }} uk-background-cover" style="background-image: url({{ asset('images/home/aboutus.jpg') }});">
+    @else
+        <body class="{{ str_replace('.', '-', $route) }} with-side-menu">
+    @endif
         {{-- $route --}}
         <header>
             @include('components.menu-client')
         </header>
 
         @yield('content')
-
-
-        <div id="contact-form" class="uk-modal-full" uk-modal>
-            <div class="uk-modal-dialog">
-                <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-                <div class="uk-container" uk-height-viewport>
-                    <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle" uk-grid>
-                        <div class="uk-padding-large">
-                            <h1>Contáctanos</h1>
-                            <p>Nos encantaría saber de usted. ¿Interesados en trabajar juntos? Rellene el siguiente formulario con una breve información sobre su proyecto y nos pondremos en contacto tan pronto como sea posible. Por favor espere un par de días nuestra respuesta.</p>
-                            <hr>
-                            <div class="widget">
-                                <address>
-                                    Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
-                                </address>
-                                <address>
-                                    <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
-                                </address>
-                                <email>
-                                    <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a>
-                                </email>
-                            </div>
-                        </div>
-                        <div class="uk-padding-large">
-                            @if (session('status'))
-                                <div class="alert alert-success">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-                            <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
-                            @csrf
-                            
-                                <div class="uk-margin">
-                                    <input class="form-control uk-input" type="text" name="name" placeholder="*Nombre" required>
-                                </div>
-                                <div class="uk-margin">
-                                    <input class="form-control uk-input" type="email" name="email" placeholder="*Email" required>
-                                </div>
-                                <div class="uk-margin">
-                                    <input class="form-control uk-input" type="text" name="phone" placeholder="Teléfono">
-                                </div>
-                                <div class="uk-margin">
-                                    <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control uk-textarea" rows="9" required></textarea>
-                                </div>
-                            
-                                <hr>
-                            
-                                <div class="uk-margin">
-                                    <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Enviar mensaje">
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <footer class="uk-section uk-padding-remove-bottom">
             <section class="op-icons-mark uk-container">
@@ -155,5 +104,16 @@
         <script src="{{ asset('js/home/client.js') }}"></script>
         @endif
         @yield('scripts')
+        @if( $route == 'client.shownew')
+        <style>
+        </style>
+            <script src="{{ asset('js/pdfobject.min.js') }}"></script>
+            <script>
+            if(!PDFObject.supportsPDFs){
+                $(".lightbox.pdf").addClass('uk-hidden');
+                $(".no-pdf-inline").removeClass('uk-hidden');
+            }
+            </script>
+        @endif
     </body>
 </html>
