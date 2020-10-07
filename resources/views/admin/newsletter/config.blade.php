@@ -35,8 +35,20 @@
                                 </div>
                             </li>
                         @empty
-                            <li class="media">No hay direcciones de correo para este newsletter</li>
+                            <li class="media">
+                                <p>
+                                    No hay direcciones de correo para este newsletter
+                                </p>
+                                <button class="btn btn-primary" id="btn-add-emails">Agregar cuentas relacionadas con {{ $newsletter->company->name }}</button>
+                            </li>
                         @endforelse
+                        @if($newsletter->newsletter_users->count() > 0)
+                            <li>
+                                <div class="col-md-1 col-md-offset-11">
+                                    <button class="btn btn-primary" id="btn-add-email">Agregar otro correo</button>
+                                </div>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -62,6 +74,63 @@
                     <div class="form-group">
                         <label>{{ __('Banner') }}</label>
                         <input type="file" name="banner">
+                    </div>
+                `)
+                modal.modal('show')
+            })
+
+            // modal for add emails
+            $('#btn-add-emails').on('click', function(event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var accounts = `@json($newsletter->company->accounts()->toArray())`
+                accounts = $.parseJSON(accounts)
+                var fields = $.map(accounts, function (item) {
+                    return `
+                        <label class="ckbox">
+                            <input id="accounts[]" type="checkbox" name="accounts[]" value="${item.email}" checked>
+                            <span>${item.email}</span>
+                        </label>
+                    `  
+                })
+                form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
+                form.attr('method', 'POST')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').text("{{ __('Agregar las siguientes cuentas') }}")
+                modal.find('#md-btn-submit').val("{{ __('Agregar') }}")
+                modal.find('.modal-body').html(`
+                    <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label nopaddingtop">Lista de correos</label>
+                        <div class="col-sm-9">
+                            ${fields}          
+                        </div>
+                    </div>
+                `)
+                modal.modal('show')
+            })
+
+            // modal for add one email
+            $('#btn-add-email').on('click', function(event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                
+                form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
+                form.attr('method', 'POST')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').text("{{ __('Agregar correo') }}")
+                modal.find('#md-btn-submit').val("{{ __('Agregar') }}")
+                modal.find('.modal-body').html(`
+                    <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label nopaddingtop">Email</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="accounts[]" class="form-control">          
+                        </div>
                     </div>
                 `)
                 modal.modal('show')
