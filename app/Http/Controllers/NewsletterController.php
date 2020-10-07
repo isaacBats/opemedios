@@ -93,68 +93,29 @@ class NewsletterController extends Controller
         return redirect()->route('admin.newsletters')->with('status', 'El newsletter se ha creado con éxito');
     }
 
-    public function sendMail() {
+    public function sendMail(Request $request, $sendId) {
 
-        $newsletters = Newsletter::all();
-        $yesterday = \Carbon\Carbon::yesterday();
         try {
-            if($newsletters->count() > 0) {
-                foreach ($newsletters as $newsletter) {
-                    $company = $newsletter->company;
-                    $emails = $company->emailsNewsLetters();
-                    $companyOld = $company->getOldCompanyId();
-                    if($companyOld){
-                        $news = DB::connection('opemediosold')->table('noticia')
-                            ->select('noticia.encabezado', 'fuente.nombre as fuente', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia', 'tema.nombre as tema', 'tipo_fuente.descripcion as medio')
-                            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-                            ->join('asigna', 'noticia.id_noticia', '=', 'asigna.id_noticia')
-                            ->join('tema', 'asigna.id_tema', '=', 'tema.id_tema')
-                            ->join('tipo_fuente', 'noticia.id_tipo_fuente', '=', 'tipo_fuente.id_tipo_fuente')
-                            ->where([
-                                ['asigna.id_empresa', '=', $companyOld],
-                                ['noticia.fecha', '=', $yesterday->format('Y-m-d')]])
-                            ->orderBy('fecha', 'desc')
-                            ->get();
+            $newsletterSend = NewsletterSend::findOrFail($sendId);
+            $newsletter = $newsletterSend->newsletter;
+            $emails = $newsletter->newsletter_users->map(function($item){ return $item->email; });
+            Mail::to($emails)->send(new NewsletterEmail($newsletterSend));
+            $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
+                return $ntn->news_id;
+            });
+            $newsletterSend->status ++;
+            $newsletterSend->news_ids = serialize($newsIds);
+            $newsletterSend->num_notes = $newsletterSend->newsletter_theme_news->count();
+            $newsletterSend->num_email = sizeof($emails);
+            $newsletterSend->save();
 
-                        $newsByTheme = array();
-                        foreach ($news as $n) {
-                            // if(in_array($newsByTheme[$n->tema])) {
-                            //     $newsByTheme[$n->tema] = $n;
-                            // }
-
-                            $newsByTheme[$n->tema] = $n;
-                        }
-
-
-                        if($news->count() > 0){
-                            Mail::to($emails)->send(new NewsletterEmail($newsletter, $news, $company, $newsByTheme));
-                            $newsIds = $news->map(function($new) {
-                                return $new->id_noticia;
-                            });
-                            NewsletterSend::create([
-                                'newsletter_id' => $newsletter->id,
-                                'status' => 1,
-                                'news_ids' => serialize($newsIds),
-                                'num_notes' => $news->count(),
-                                'num_email' => sizeof($emails),
-                            ]);
-                        } else {
-                            Log::info("The number of news for the ${$newsletter->name} is insufficient");
-                            continue;
-                        }
-                    } else {
-                        Log::info('There is no related company');
-                        continue;
-                    }
-                }
-            } else {
-                Log::info('There are no newsletters to send.');
-            }
+            $today = \Carbon\Carbon::today();
+            
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
 
-        Log::info("Newsletters of the day {$yesterday} have been sent");
+        Log::info("Newsletters of the day {$today} have been sent");
 
         return 'Se ha enviado la noticia con satisfacción';
     }

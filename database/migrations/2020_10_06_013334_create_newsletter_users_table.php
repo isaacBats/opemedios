@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNewslettersSendTable extends Migration
+class CreateNewsletterUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,19 @@ class CreateNewslettersSendTable extends Migration
      */
     public function up()
     {
-        Schema::create('newsletters_send', function (Blueprint $table) {
+        Schema::create('newsletter_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
             $table->softDeletes();
 
             $table->unsignedBigInteger('newsletter_id');
-            $table->smallInteger('status');
-            $table->text('news_ids')->nullable();
-            $table->smallInteger('num_notes')->nullable();
-            $table->smallInteger('num_email')->nullable();
+            $table->string('email');
 
             $table->foreign('newsletter_id')
                 ->references('id')->on('newsletters')
                 ->onDelete('cascade');
+
+            $table->unique(['newsletter_id', 'email']);
         });
     }
 
@@ -37,6 +36,6 @@ class CreateNewslettersSendTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('newsletters_send');
+        Schema::dropIfExists('newsletter_users');
     }
 }

@@ -21,7 +21,9 @@ namespace App;
 use App\Company;
 use App\NewsletterSend;
 use App\NewsletterThemeNews;
+use App\NewsletterUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Newsletter
@@ -29,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Newsletter extends Model
 {
+    use SoftDeletes;
+
     /**
      * @var string[]
      */
@@ -55,5 +59,13 @@ class Newsletter extends Model
      */
     public function newsletter_theme_news() {
         return $this->hasMany(NewsletterThemeNews::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function newsletter_users() {
+
+        return $this->hasMany(NewsletterUser::class);
     }
 }

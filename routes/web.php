@@ -100,6 +100,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
         Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
         Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
+        Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')->name('admin.newsletter.send');
+        
+        Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
 
         Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
         Route::post('api/v2/newsletter/newsletter-a-enviar/agregar-nota', 'NewsletterSendController@addNote')->name('api.newslettersend.addnote');

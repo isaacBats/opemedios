@@ -20,6 +20,7 @@ namespace App;
 
 use App\Newsletter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class NewsletterSend
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NewsletterSend extends Model
 {
+    use SoftDeletes;
+    
     /**
      * @var string[]
      */
