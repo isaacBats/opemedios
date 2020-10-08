@@ -56,8 +56,8 @@
                                 <th>
                                     <a href="{{ route('admin.newsletter.edit.send', ['id' => $oneNewsletter->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('admin.newsletter.preview.send', ['id' => $oneNewsletter->id]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
-                                    <button type="button" class="btn btn-primary send-mail-manual" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
-                                    <button type="button" class="btn btn-danger delete-newsletter" data-id="{{$oneNewsletter->id }}"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-primary send-mail-manual" data-href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
+                                    <button class="btn btn-danger delete-newsletter" data-href="{{ route('admin.newsletter.delete', ['sendid' => $oneNewsletter->id]) }}"><i class="fa fa-trash"></i></button>
                                 </th>
                                 <th>
                                     <a href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" class="btn btn-primary btn-send-newsletter"><i class="fa fa-envelope"></i></a>
@@ -89,42 +89,71 @@
                 form.submit()
                 // $.post(`{{-- route('admin.newsletter.newforsend', ['id' => $newsletter->id]) --}}`, { "_token": $('meta[name="csrf-token"]').attr('content') })
             })
-        })
-
-            // envio manual
-        $('#table-newsletters').on('click', 'a.btn-send-newsletter', function(event) {
-            event.preventDefault()
-            var newsletterId = "{{ $newsletter->id }}"
-            var action = $(this).attr('href')
-            var modal = $('#modal-default')
-            var form = $('#modal-default-form')
-
-            form.attr('method', 'POST')
-            form.attr('action', action)
             
-            modal.find('.modal-title').text('Enviar Newsletter')
-            modal.find('.modal-body').html(`
-                <p>Vas a enviar el newsletter a los siguientes correos</p>
-                <ul>
-                    @foreach($newsletter->newsletter_users as $item)
-                    <li>{{ $item->email }}</li>
-                    @endforeach
-                </ul>
-            `)
-            modal.find('#md-btn-submit').val('Enviar')
-            modal.modal('show')
+            // envio manual
+            $('#table-newsletters').on('click', 'a.btn-send-newsletter', function(event) {
+                event.preventDefault()
+                var newsletterId = "{{ $newsletter->id }}"
+                var action = $(this).attr('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+                
+                modal.find('.modal-title').text('Enviar Newsletter')
+                modal.find('.modal-body').html(`
+                    <p>Vas a enviar el newsletter a los siguientes correos</p>
+                    <ul>
+                        @foreach($newsletter->newsletter_users as $item)
+                        <li>{{ $item->email }}</li>
+                        @endforeach
+                    </ul>
+                `)
+                modal.find('#md-btn-submit').val('Enviar')
+                modal.modal('show')
+            })
+
+            // envio manual con correos
+            $('#table-newsletters').on('click', 'button.send-mail-manual', function(event) {
+                event.preventDefault()
+                var action = $(this).data('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+                
+                modal.find('.modal-title').text('Ingresa los correos a los que se enviara el newsletter')
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label for="emails">Emails</label>
+                        <span id="helpBlock" class="help-block">{{ __('Multiples correos separados por coma y sin espacios ejemplo@mail.com,ejemplo@mail.com.') }}</span>
+                        <textarea name="emails" id="emails" rows="10" class="form-control"></textarea>
+                    </div>
+                `)
+                modal.find('#md-btn-submit').val('Enviar')
+                modal.modal('show')
+            })
+        
+            // borrar newsletter
+            $('#table-newsletters').on('click', 'button.delete-newsletter', function(event) {
+                event.preventDefault()
+                var action = $(this).data('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+                
+                modal.find('.modal-title').text('Borrar Newsletter')
+                modal.find('.modal-body').html(`
+                    <p>¿Estas seguro que quieres borrar este Newsletter?</p>
+                `)
+                modal.find('#md-btn-submit').val('Eliminar').removeClass('btn-primary').addClass('btn-danger')
+                modal.modal('show')
+            })
         })
-        //
-        //     // borrar newsletter
-        //     $('#table-newsletters').on('click', 'button.delete-newsletter', function(event) {
-        //         event.preventDefault()
-        //         var id = $(this).data('id')
-        //         var modal = $('#modalDeleteNewsletter')
-        //         var form = $('#form-modal-delete-newsletter')
-        //
-        //         form.attr('action', `/newsletter/borrar/${id}`)
-        //         modal.modal('show')
-        //     })
-        // })
+
     </script>
 @endsection
