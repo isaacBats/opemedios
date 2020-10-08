@@ -27,11 +27,12 @@
                     <h4 class="panel-title">Lista de correos para este Newsletter</h4>
                 </div>
                 <div class="panel-body">
-                    <ul class="media-list user-list">
+                    <ul class="media-list user-list" id="media-list-emails">
                         @forelse($newsletter->newsletter_users as $item)
                             <li class="media">
                                 <div class="media-body">
                                     <h4 class="media-heading nomargin">{{ $item->email }}</h4>
+                                    <a href="javascript:void(0);" data-email="{{ $item->email }}" data-id="{{ $item->id }}" class="text-danger btn-remove-email">Remover</a>
                                 </div>
                             </li>
                         @empty
@@ -132,6 +133,26 @@
                             <input type="text" name="accounts[]" class="form-control">          
                         </div>
                     </div>
+                `)
+                modal.modal('show')
+            })
+
+            // modal for remove one email
+            $('#media-list-emails').on('click', '.btn-remove-email', function(event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var id = $(this).data('id')
+                var email = $(this).data('email')
+                
+                form.attr('action', '{{ route('admin.newsletter.config.removeemails') }}')
+                form.attr('method', 'POST')
+
+                modal.find('.modal-title').text("{{ __('Remover correo') }}")
+                modal.find('#md-btn-submit').val("{{ __('Eliminar') }}").removeClass('btn-primary').addClass('btn-danger')
+                modal.find('.modal-body').html(`
+                    <input type="hidden" name="id" value="${id}">
+                    <p>¿Vas a eliminar a <strong>${email}</strong>?</p>
                 `)
                 modal.modal('show')
             })

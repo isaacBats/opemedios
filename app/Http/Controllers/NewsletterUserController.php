@@ -24,4 +24,13 @@ class NewsletterUserController extends Controller
             Log::error($e->getMessage());
         }
     }
+
+    public function removeEmail(Request $request) {
+        $email = NewsletterUser::findOrFail($request->input('id'));
+        $correo = $email->email;
+        $newsletter = $email->newsletter;
+        $email->delete();
+
+        return back()->with('status', "Se ha eliminado el la cuenta de {$correo} del newsletter {$newsletter->name} satisfactoriamente");
+    }
 }
