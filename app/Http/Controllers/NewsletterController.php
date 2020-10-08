@@ -98,7 +98,11 @@ class NewsletterController extends Controller
         try {
             $newsletterSend = NewsletterSend::findOrFail($sendId);
             $newsletter = $newsletterSend->newsletter;
-            $emails = $newsletter->newsletter_users->map(function($item){ return $item->email; });
+            if($request->has('emails')){
+                $emails = explode(',',$request->input('emails'));
+            } else {
+                $emails = $newsletter->newsletter_users->map(function($item){ return $item->email; });
+            }
             Mail::to($emails)->send(new NewsletterEmail($newsletterSend));
             $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
                 return $ntn->news_id;
@@ -247,5 +251,12 @@ class NewsletterController extends Controller
 
         return $this->sendSelectHTMLWithSends($request);
 
+    }
+
+    public function removeNewsletterSend(Request $request, $sendId) {
+        $newsletterSend = NewsletterSend::findOrFail($sendId);
+        $newsletterSend->delete();
+
+        return back()->with('status', "Se ha eliminado el newsletter satisfactoriamente");
     }
 }
