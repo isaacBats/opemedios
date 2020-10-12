@@ -449,13 +449,27 @@ footer.uk-section .legal{
   margin: 7px 0;
 }
 
+.cover-top img.uk-cover{
+  top: 0;
+  transform: translate(-50%, 0);
+}
+
 body .uk-lightbox-iframe{
-  width: 95%;
+  width: 90%;
   height: 90%;
+  margin: 0 auto;
+  margin-top: 2.5%;
+  display: block;
 }
 body .lightbox{
   max-height: 600px;
   overflow: hidden;
+}
+body .lightbox .uk-lightbox-caption>*,
+body .lightbox .uk-lightbox-caption{
+  display: inline-block !important;
+  margin: 0 auto !important;
+  background: #000 !important;
 }
 body .lightbox.pdf{
   height: 600px;
@@ -492,7 +506,10 @@ body .embed-responsive embed{
     height: 300px;
   }
 }
-body .uk-lightbox-items li{
+body .uk-lightbox-items li[tabindex="-1"]{
+  display: none;
+}
+body .uk-lightbox-items li.uk-active{
   overflow-y: auto;
   height: 100%;
   display: block;
@@ -506,6 +523,9 @@ body .uk-lightbox-items img{
   max-height: none;
   align-items: unset !important;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 100px 0;
 }
 body .uk-lightbox{
   background: rgba(0,0,0,.8);

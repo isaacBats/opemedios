@@ -31,7 +31,7 @@
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
     </head>
-    @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+    @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
     <body class="{{ str_replace('.', '-', $route) }}">
     @elseif ( $route == 'about' )
     <body class="{{ str_replace('.', '-', $route) }} uk-background-cover" style="background-image: url({{ asset('images/home/aboutus.jpg') }});">
@@ -98,7 +98,7 @@
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
 
-        @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+        @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
         @else
         <script src="{{ asset('js/home/template.js') }}"></script>
         <script src="{{ asset('js/home/client.js') }}"></script>

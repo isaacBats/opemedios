@@ -19,9 +19,9 @@
 </section>
 
 <section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top uk-padding-large hacemos-por-ti" style="background-image: url('{{ asset('images/home/porti.jpg') }}');" uk-parallax="bgy: -100">
-    <div class="uk-container uk-margin-auto-vertical uk-padding-remove-horizontal">
-        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
-        <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large" uk-grid>
+    <div class="uk-container uk-margin-auto-vertical uk-padding-large uk-padding-remove-horizontal">
+        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
+        <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top" uk-grid>
             <li>Monitoreo de medios<br> 24 x 7 x 365</li>
             <li>Evidencia en<br> formato digital</li>
             <li>Reportes generales y<br> personalizados</li>
@@ -31,7 +31,7 @@
 </section>
 
 <section class="servicio-personalizado uk-container uk-flex uk-flex-middle uk-padding-large">
-    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large" uk-grid>
+    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large uk-padding-large uk-padding-remove-horizontal" uk-grid>
         <div class="uk-width-1-3@m uk-text-center">
             <img src="{{ asset('images/home/business.jpg') }}"/>
         </div>

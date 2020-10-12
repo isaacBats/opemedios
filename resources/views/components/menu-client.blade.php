@@ -2,7 +2,7 @@
     $slug = session()->get('slug_company');
     $route = Route::getCurrentRoute()->getName();
 @endphp
-@if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+@if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin'  )
 <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-dark; top: 250;">
     <div class="uk-container uk-dark">
         <nav class="uk-navbar-container uk-navbar-transparent uk-container" uk-navbar>
