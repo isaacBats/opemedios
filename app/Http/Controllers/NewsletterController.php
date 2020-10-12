@@ -23,6 +23,7 @@ use App\Company;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
+use App\News;
 use App\Newsletter;
 use App\NewsletterSend;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -193,37 +194,14 @@ class NewsletterController extends Controller
         }
 
         try {
-
             $data = explode('-',Crypt::decryptString($request->get('qry')));
-
         } catch (DecryptException $e) {
             return abort(403, 'Noticia no encontrada');
         }
-
         $company = Company::find(end($data));
-        $newId = $data[0];
-        $new = $this->newsController->getNewById($newId);
-        $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
-                ->where('id_noticia', $new->id_noticia)
-                ->get()->map(function ($adj) use ($new) {
+        $note = News::findOrFail($data[0]);
 
-                    $medio = strtolower($new->medio);
-
-                    if($medio == 'peri&oacute;dico') {
-                        $medio = 'periodico';
-                    } elseif ($medio == 'Televisi&oacute;n') {
-                        $medio = 'television';
-                    }
-
-                    $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}";
-
-                    return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                            :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>";
-                });
-
-        $metadata = $this->newsController->getMetaNew($new);
-
-        return view('newsletter.shownew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
+        return view('newsletter.shownew', compact('note'));
     }
 
     public function sendSelectHTMLWithThemes(Request $request) {
