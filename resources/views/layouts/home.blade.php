@@ -26,6 +26,7 @@
          <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
         <!-- UIkit CSS -->
         <link rel="stylesheet" href="{{ asset('uikit/css/uikit.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('icomoon/style.css') }}" />
 
         <!-- Style -->
         <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
@@ -34,7 +35,7 @@
     @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
     <body class="{{ str_replace('.', '-', $route) }}">
     @elseif ( $route == 'about' )
-    <body class="{{ str_replace('.', '-', $route) }} uk-background-cover" style="background-image: url({{ asset('images/home/aboutus.jpg') }});">
+    <body class="{{ str_replace('.', '-', $route) }} uk-background-cover" style="background-image: url({{ asset('images/home/aboutus.jpg') }}); background-attachment: fixed;">
     @else
         <body class="{{ str_replace('.', '-', $route) }} with-side-menu">
     @endif
@@ -54,22 +55,22 @@
                     </div>-->
                     
                     <div class="item go-0 uk-text-center uk-text-left@m">
-                        <div class="icon"><i class="fas fa-map-marker-alt fa-lg"></i> Ures 69, Col. Roma Sur<br> CP. 06760, México,<br> DF, Del. Cuauhtémoc</div>
+                        <div class="icon"><i class="icon-map-pin"></i> Ures 69, Col. Roma Sur<br> CP. 06760, México,<br> DF, Del. Cuauhtémoc</div>
                     </div>
                     
                     <div class="item go-1 uk-text-center">
                         <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
-                            <div class="icon"><i class="far fa-envelope fa-lg"></i> contacto@opemedios.com.mx</div>
+                            <div class="icon"><i class="icon-mail"></i> contacto@opemedios.com.mx</div>
                         </a>
                         <br>
                         <a class="ope-contact" href="tel:5555846410" target="_blank">
-                            <div class="icon"><i class="fas fa-phone fa-lg"></i> 55-5584-64-10</div>
+                            <div class="icon"><i class="icon-phone"></i> 55-5584-64-10</div>
                         </a>
                     </div>
 
                     <div class="uk-text-center uk-flex-first uk-flex-last@s links-sociales">
-                        <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
-                        <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.5;" class="uk-padding uk-padding-remove-top"></a>
+                        <a href="https://twitter.com/DeMonitoreo" target="_blank" class="uk-padding uk-padding-remove-top icon-twitter"></a>
+                        <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" class="uk-padding uk-padding-remove-top icon-facebook"></a>
                     </div>
 
                 </div>
@@ -83,7 +84,7 @@
         <!--<div class="top"><i class="fas fa-arrow-up fa-lg"></i></div>-->
         <!-- UIkit JS -->
         <script src="{{ asset('uikit/js/uikit.min.js') }}"></script>
-        <script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>
+        <!--<script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>-->
         
         <script
               src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -94,7 +95,7 @@
             $route = Route::getCurrentRoute()->getName();
         @endphp
         <!-- FA -->
-        <script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+        <!--<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>-->
         <!-- Scripts-->
         <script src="{{ asset('js/home/scripts.js') }}"></script>
 

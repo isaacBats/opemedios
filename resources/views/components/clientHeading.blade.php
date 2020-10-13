@@ -25,7 +25,7 @@
         <div class="uk-navbar-left">
             <ul class="uk-navbar-nav scroll-to uk-list">
                 <li>
-                    <a href="#" uk-icon="chevron-down">Temas</a>
+                    <a href="#">Temas<i class="icon-chevron-down"></i></a>
                     <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
                         @foreach($company->themes as $theme)

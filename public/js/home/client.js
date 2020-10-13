@@ -18,6 +18,12 @@ $(document).ready(function(){
         $('.loader').hide();
         $('span.tema-actual').text($('ul#themes li.uk-active a').text());
 
+        if( $("ul.pagination").length ){
+          $("ul.pagination").addClass("uk-pagination");
+          $("ul.pagination li.active").addClass("uk-active");
+          $("ul.pagination li.disabled").addClass("uk-disabled");
+        }
+
         // get new by theme
         $('ul.list-group').on('click', 'a.item-theme', function(event){
             var themeid = $(this).data('themeid')

@@ -9,10 +9,10 @@
             <h2>Tus ojos y oídos para tu toma de decisiones</h2>
             <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
             <ul class="uk-iconnav uk-ligth">
-                <li><i class="fas fa-microphone fa-2x"></i></li>
-                <li><i class="fas fa-tv fa-2x"></i></li>
-                <li><i class="far fa-newspaper fa-2x"></i></li>
-                <li><i class="fas fa-laptop fa-2x"></i></li>
+                <li><i class="icon-microphone"></i></li>
+                <li><i class="icon-screen"></i></li>
+                <li><i class="icon-newspaper"></i></li>
+                <li><i class="icon-laptop"></i></li>
             </ul>
         </div>
     </div>
@@ -46,19 +46,19 @@
     <div class="">
         <ul class="accordion-h uk-light">
             <li class="accordion-open uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle uk-flex-column uk-padding-large" style="background-image: url({{ asset('images/radio.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3 >Radio</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Radio</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Durante los 365 días del año, las 24 horas, grabamos de manera continua 48 estaciones de radio en las frecuencias de AM y FM. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/tv.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Televisión</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Televisión</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Grabamos las 24 horas, de lunes a domingo, los 365 días del año, 25 canales de televisión de señales abiertas y del servicio de paga. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/newspapper.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Periódicos y Revistas</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Periódicos y Revistas</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Búsqueda de información en los principales diarios y revistas de circulación nacional como Reforma, El Universal, Milenio, La Jornada, Excélsior, Economista, El Financiero; Unomásuno, El Sol de México, La Crónica de Hoy, revistas de diferentes cortes: política, moda, espectáculos, salud, deportes, turismo, entretenimiento, arte, entre otras</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/websites.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Sitios Web y Redes Sociales</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Sitios Web y Redes Sociales</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Búsqueda de información de temas encomendados en muchos portales existentes de información general y especializados en temas como política, moda, espectáculos, cultura, salud, deportes, por mencionar algunos. Rankeo integral (tu posicionamiento y el de tus competidores ante búsquedas), análisis estratégico.</p>
             </li>
         </ul>

@@ -89,6 +89,10 @@ header .uk-sticky.uk-sticky-fixed{
 .expertos p{
     font-size: 1.2em;
 }
+.expertos ul{
+  font-size: 2em;
+  letter-spacing: 10px;
+}
 @media only screen and ( max-width: 959px){
   .expertos h1:after{
     width: 100%;
@@ -243,45 +247,45 @@ header .uk-sticky.uk-sticky-fixed{
   text-decoration: none;
 }
 .servicios-medios ul li.accordion-open a span{
-    display: none;
+  display: none;
 }
 .servicios-medios ul li p{
-    display: none;
+  display: none;
 }
 .servicios-medios ul li.accordion-open p{
-    display: block;
-    font-size: 1.1em;
-    color: #fff;
+  display: block;
+  font-size: 1.1em;
+  color: #fff;
 }
 .servicios-medios ul a{
-    display: block;
+  display: block;
+  text-decoration: none;
 }
 .servicios-medios ul li a span{
-    background: rgba(255,255,255,.5);
-    color: #000;
-    border-radius: 50%;
-    width: 2.5em;
-    height: 2.5em;
-    text-align: center;
-    line-height: 2em;
-    position: relative;
-    bottom: 10px;
-}
-.servicios-medios ul li a span.icon-l{
-    line-height: 2.3em;
+  background: rgba(255,255,255,.5);
+  color: #000;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  position: relative;
+  font-size: 2.3rem;
 }
 .servicios-medios ul li a span.icon-r{
-    display: none;
+  display: none;
+}
+.servicios-medios ul li a span.icon-l{
+  bottom: -.1em;
 }
 .servicios-medios ul li.accordion-open + li + li + li a span.icon-r,
 .servicios-medios ul li.accordion-open + li + li a span.icon-r,
 .servicios-medios ul li.accordion-open + li a span.icon-r{
-    display: inline-block;
+  display: inline-block;
 }
 .servicios-medios ul li.accordion-open + li + li + li a span.icon-l,
 .servicios-medios ul li.accordion-open + li + li a span.icon-l,
 .servicios-medios ul li.accordion-open + li a span.icon-l{
-    display: none;
+  display: none;
 }
 @media only screen and ( max-width: 639px){
   .servicios-medios ul{
@@ -438,6 +442,15 @@ body.signin footer.uk-section{
 }
 footer.uk-section a{
   color: #fff;
+  text-decoration: none;
+}
+footer div.icon i{
+  font-size: 1.4em;
+  padding-right: 7px;
+}
+footer .links-sociales a{
+  font-size: 1.4em;
+  font-weight: 400;
 }
 footer.uk-section .legal{
   font-family: 'Open Sans', sans-serif;
@@ -669,4 +682,20 @@ body .uk-offcanvas-bar .uk-nav-default .uk-nav-header{
     margin-left: auto;
     padding-right: 300px;
   }
+}
+
+#doc{
+  position: relative;
+}
+#doc .icon-maximize{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 5;
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  font-size: 2em;
+  padding: .3em;
+  border-radius: 7px;
+  text-decoration: none;
 }
