@@ -32,9 +32,9 @@
                             <p style="margin: 0;padding: 0;font-size: 12px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;">
                                 <span style="font-weight: bold">{{ $note->theme->name }}</span>
                                 <br>
-                                <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none">{{ $note->news->title }}</a>
+                                <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none" target="_blank">{{ $note->news->title }}</a>
                                 <br>
-                                {{ $note->news->synthesis }}
+                                {!! $note->news->synthesis !!}
                                 <br>
                                 <span style="color: #950a16;font-weight: bold;">{{ $note->news->mean->name }} | {{ $note->news->source->name }}, {{ $note->news->author }}</span>
                             </p>

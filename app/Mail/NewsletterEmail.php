@@ -47,7 +47,7 @@ class NewsletterEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.newsletter1')
+        return $this->view("mail.{$this->newsletterSend->newsletter->template}")
                 ->from('newsletter@opemedios.com.mx', 'Newsletter')
                 ->subject("Newsletter - {$this->newsletterSend->newsletter->company->name}");
     }
