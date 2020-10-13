@@ -105,6 +105,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         
         Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
         Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')->name('admin.newsletter.config.removeemails');
+        Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')->name('admin.newsletter.config.updatetemplate');
 
         Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
         Route::post('api/v2/newsletter/newsletter-a-enviar/agregar-nota', 'NewsletterSendController@addNote')->name('api.newslettersend.addnote');

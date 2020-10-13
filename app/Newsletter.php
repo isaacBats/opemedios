@@ -36,7 +36,7 @@ class Newsletter extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'banner', 'active', 'company_id',];
+    protected $fillable = ['name', 'banner', 'active', 'company_id', 'template'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

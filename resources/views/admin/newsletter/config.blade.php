@@ -53,6 +53,33 @@
                     </ul>
                 </div>
             </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Elige un template para este Newsletter</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <form action="{{ route('admin.newsletter.config.updatetemplate') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                            <div class="form-group">
+                                <label for="template" class="control-label">Selecciona una plantilla para el Newsletter</label>
+                                <select name="template" id="template" class="form-control">
+                                    @foreach($templates as $template)
+                                        <option value="{{ $template['name'] }}" {{ $template['name'] == $newsletter->template ? 'selected' : '' }}>{{ $template['label'] }}</option>
+                                    @endforeach()
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-1 col-md-offset-11">
+                                    <input type="submit" class="btn btn-success" value="Guardar">
+                                </div>
+                            </div>                          
+                        </form>
+                    </div>
+                    <div class="col-md-6" id="img-newsletter"></div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -156,6 +183,37 @@
                 `)
                 modal.modal('show')
             })
+
+            // update image from newsletter select
+            $('select#template').on('change', function(){
+                var divImage = $('#img-newsletter')
+                var templateSelected = $(this).val()
+                switch (templateSelected) {
+                    case  'newsletter1':
+                        viewImageTemplate()
+                        break
+                    case  'newsletter2':
+                        viewImageTemplate()
+                        break
+                    case  'newsletter3':
+                        viewImageTemplate()
+                        break
+                    default:
+                        viewImageTemplate()
+                        break
+                }
+            })
+
+            function viewImageTemplate() {
+                var divImage = $('#img-newsletter')
+                var option = $('select#template option:selected')
+                var pathImage = `opemedios_${option.val()}.png`
+                divImage.html($('<img>', {
+                            'src': `{{ asset('images') }}/${pathImage}`,
+                            'class': 'img-responsive'
+                        }))
+            }
+            viewImageTemplate()
         })
     </script>
 @endsection

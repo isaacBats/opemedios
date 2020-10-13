@@ -88,6 +88,7 @@ class NewsletterController extends Controller
             $data['banner'] = $request->file('banner')->store('newsletters', 'local');
         }
         $data['active'] = 1; // Newsletter active by default
+        $data['template'] = 'newsletter1'; // Newsletter template by default
 
         Newsletter::create($data);
 
@@ -143,8 +144,13 @@ class NewsletterController extends Controller
      */
     public function config(Request $request, $id) {
         $newsletter = Newsletter::findOrFail($id);
+        $templates = [
+            ['name' => 'newsletter1', 'label' => 'Plantilla 1'],
+            ['name' => 'newsletter2', 'label' => 'Plantilla 2'],
+            ['name' => 'newsletter3', 'label' => 'Plantilla 3'],
+        ];
 
-        return view('admin.newsletter.config', compact('newsletter'));
+        return view('admin.newsletter.config', compact('newsletter', 'templates'));
     }
 
     /**
@@ -236,5 +242,12 @@ class NewsletterController extends Controller
         $newsletterSend->delete();
 
         return back()->with('status', "Se ha eliminado el newsletter satisfactoriamente");
+    }
+
+    public function updateTemplate(Request $request) {
+        $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
+        $newsletter->template = $request->input('template');
+        $newsletter->save();
+        return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
     }
 }
