@@ -2,7 +2,7 @@
 @section('content')
     <article class="clientes uk-container uk-padding-large">
         <div class="uk-child-width-expand@s uk-grid-divider uk-grid-large" uk-grid>
-            <h1 class="uk-width-auto@s">Algunos de<br> Nuestros Clientes</h1>
+            <h1 class="page-title uk-width-auto@s">Algunos de<br> Nuestros Clientes</h1>
             <div class="uk-width-expand@s">
                 <figure id="img_client" class="uk-grid-large uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m" uk-grid>
                     <img src="{{ asset('images/clientes/1.jpg') }}" width="auto" height="auto" alt="MTV">

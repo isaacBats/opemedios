@@ -10,7 +10,7 @@
                 <div class="uk-navbar-left">
                     <ul class="uk-navbar-nav list-group" id="list-group-themes">
                         <li>
-                            <a href="#" uk-icon="chevron-down">Temas</a>
+                            <a href="#">Temas<i class="icon-chevron-down"></i></a>
                             <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 @foreach ($company->themes as $theme)

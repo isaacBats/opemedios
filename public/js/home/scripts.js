@@ -35,6 +35,9 @@ if( $(window).width() < 960 ){
     $('#menu-sitio ul.uk-navbar-nav').addClass("uk-offcanvas-bar");
 }
 $(window).resize( function(){
+    /*-----------------------------> Home menu are transparent and is hover background <-----------------------------*/
+    $('.home .expertos').css("margin-top","-"+$('header nav').height()+"px");
+    
     if( $(window).width() < 960 ){
         $('#menu-sitio').attr("uk-offcanvas","mode: push; overlay: true;");
         $('#menu-sitio ul.uk-navbar-nav').addClass("uk-offcanvas-bar");

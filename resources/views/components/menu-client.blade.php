@@ -2,7 +2,7 @@
     $slug = session()->get('slug_company');
     $route = Route::getCurrentRoute()->getName();
 @endphp
-@if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin' && auth()->guest())
+@if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin'  )
 <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-dark; top: 250;">
     <div class="uk-container uk-dark">
         <nav class="uk-navbar-container uk-navbar-transparent uk-container" uk-navbar>
@@ -44,8 +44,8 @@
                         <hr>
                         <hr>
                         <div class="uk-flex-center uk-grid-divider" uk-grid>
-                            <a href="https://twitter.com/DeMonitoreo" target="_blank" uk-icon="icon: twitter; ratio: 1.2;" style="color: #333;"></a>
-                            <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" uk-icon="icon: facebook; ratio: 1.2;" style="color: #333;"></a>
+                            <a href="https://twitter.com/DeMonitoreo" target="_blank" style="color: #333;"><i class="icon-twitter"></i></a>
+                            <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" style="color: #333;"><i class="icon-facebook"></i></a>
                         </div>
                     </li>
                 </ul>
@@ -64,7 +64,7 @@
             <div class="uk-navbar-right contact" style="padding-left: 30px;">
                 <a id="contact-button" class="uk-button uk-button-secondary" href="{{ route('contact') }}">
                     <span class="uk-visible@s">Contáctanos</span>
-                    <span uk-icon="mail" class="uk-hidden@s"></span>
+                    <span class="uk-hidden@s icon-mail"></span>
                 </a>
             </div>
         </nav>
@@ -86,7 +86,7 @@
                     <li>
                         <a href="#" uk-icon="chevron-down">Temas</a>
                         <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
+                        <ul class="uk-nav uk-navbar-dropdown-nav uk-panel-scrollable" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
                             @foreach($company->themes as $theme)
                             <li style="margin-top: 10px;">
                                 <a href="#theme{{ $theme->id }}">{{ $theme->name }}</a>
@@ -101,7 +101,7 @@
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav list-group" id="list-group-themes">
                     <li>
-                        <a href="#" uk-icon="chevron-down">Temas</a>
+                        <a href="#">Temas<i class="icon-chevron-down"></i></a>
                         <div class="uk-navbar-dropdown">
                         <ul class="uk-nav uk-navbar-dropdown-nav" id="themes">
                             @foreach ($company->themes as $theme)
@@ -132,7 +132,7 @@
             <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
             <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
             <li class="uk-nav-divider"></li>
-            <li class="uk-nav-header uk-text-light">{{ strtoupper(Auth::user()->name) }}</li>
+            <li class="uk-nav-header uk-text-light"><i class="icon-user"></i> {{ strtoupper(Auth::user()->name) }}</li>
             <li>
                 <a href="{{ route('logout') }}"
                     onclick="event.preventDefault();

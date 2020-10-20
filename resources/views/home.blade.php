@@ -2,26 +2,26 @@
 @section('title', ' - Operadora de medios Informativos')
 @section('content')
 
-<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh" >
+<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh">
     <div class="uk-container uk-margin-auto-vertical uk-padding-large">
-        <div class="uk-width-5-6@s uk-width-2-3@m">
-            <h1 class="uk-text-center uk-text-left@s">Expertos en monitoreo</h1>
+        <div class="uk-width-5-6@s uk-width-2-3@m uk-text-center uk-text-left@s">
+            <h1 class="uk-heading-medium">Expertos en monitoreo</h1>
             <h2>Tus ojos y oídos para tu toma de decisiones</h2>
             <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
-            <ul class="uk-iconnav uk-ligth">
-                <li><i class="fas fa-microphone fa-2x"></i></li>
-                <li><i class="fas fa-tv fa-2x"></i></li>
-                <li><i class="far fa-newspaper fa-2x"></i></li>
-                <li><i class="fas fa-laptop fa-2x"></i></li>
+            <ul class="uk-iconnav uk-ligth uk-flex uk-flex-center uk-flex-left@s">
+                <li><i class="icon-microphone"></i></li>
+                <li><i class="icon-screen"></i></li>
+                <li><i class="icon-newspaper"></i></li>
+                <li><i class="icon-laptop"></i></li>
             </ul>
         </div>
     </div>
 </section>
 
 <section class="uk-background-cover uk-overflow-hidden uk-light uk-flex uk-flex-top uk-padding-large hacemos-por-ti" style="background-image: url('{{ asset('images/home/porti.jpg') }}');" uk-parallax="bgy: -100">
-    <div class="uk-container uk-margin-auto-vertical uk-padding-remove-horizontal">
-        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
-        <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large" uk-grid>
+    <div class="uk-container uk-margin-auto-vertical uk-padding-large uk-padding-remove-horizontal">
+        <h2 class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-text-center uk-text-left@s">Lo qué podemos hacer por ti</h2>
+        <ul class="uk-grid-divider uk-child-width-expand@s uk-text-center uk-grid-large uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top" uk-grid>
             <li>Monitoreo de medios<br> 24 x 7 x 365</li>
             <li>Evidencia en<br> formato digital</li>
             <li>Reportes generales y<br> personalizados</li>
@@ -31,7 +31,7 @@
 </section>
 
 <section class="servicio-personalizado uk-container uk-flex uk-flex-middle uk-padding-large">
-    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large" uk-grid>
+    <div class="uk-child-width-expand@m uk-flex-middle uk-grid-large uk-padding-large uk-padding-remove-horizontal" uk-grid>
         <div class="uk-width-1-3@m uk-text-center">
             <img src="{{ asset('images/home/business.jpg') }}"/>
         </div>
@@ -46,19 +46,19 @@
     <div class="">
         <ul class="accordion-h uk-light">
             <li class="accordion-open uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle uk-flex-column uk-padding-large" style="background-image: url({{ asset('images/radio.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3 >Radio</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Radio</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Durante los 365 días del año, las 24 horas, grabamos de manera continua 48 estaciones de radio en las frecuencias de AM y FM. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/tv.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Televisión</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Televisión</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Grabamos las 24 horas, de lunes a domingo, los 365 días del año, 25 canales de televisión de señales abiertas y del servicio de paga. Monitoreamos los programas más importantes de noticias, opinión, salud, espectáculos, cultura, finanzas, deportes.</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/newspapper.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Periódicos y Revistas</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Periódicos y Revistas</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Búsqueda de información en los principales diarios y revistas de circulación nacional como Reforma, El Universal, Milenio, La Jornada, Excélsior, Economista, El Financiero; Unomásuno, El Sol de México, La Crónica de Hoy, revistas de diferentes cortes: política, moda, espectáculos, salud, deportes, turismo, entretenimiento, arte, entre otras</p>
             </li>
             <li class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url({{ asset('images/websites.jpg') }});">
-                <a class="accordion-title" href="javascript:void(0);"><h3>Sitios Web y Redes Sociales</h3><span uk-icon="icon: chevron-up; ratio: 1.5;" class="icon-r"></span><span uk-icon="icon: chevron-down; ratio: 1.5;" class="icon-l"></span></a>
+                <a class="accordion-title" href="javascript:void(0);"><h3>Sitios Web y Redes Sociales</h3><span class="icon-r icon-chevron-up"></span><span class="icon-l icon-chevron-down"></span></a>
                 <p class="uk-container-small">Búsqueda de información de temas encomendados en muchos portales existentes de información general y especializados en temas como política, moda, espectáculos, cultura, salud, deportes, por mencionar algunos. Rankeo integral (tu posicionamiento y el de tus competidores ante búsquedas), análisis estratégico.</p>
             </li>
         </ul>

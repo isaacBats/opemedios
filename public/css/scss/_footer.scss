@@ -1,0 +1,26 @@
+body.about footer.uk-section,
+body.clients footer.uk-section,
+body.contact footer.uk-section,
+body.client-others-news footer.uk-section,
+body.client-sections footer.uk-section,
+body.themes footer.uk-section,
+body.news footer.uk-section,
+body.signin footer.uk-section{
+  flex-shrink: 0;
+}
+footer.uk-section a{
+  color: #fff;
+  text-decoration: none;
+}
+footer div.icon i{
+  font-size: 1.4em;
+  padding-right: 7px;
+}
+footer .links-sociales a{
+  font-size: 1.4em;
+  font-weight: 400;
+}
+footer.uk-section .legal{
+  font-family: 'Open Sans', sans-serif;
+  font-size: .7em;
+}
