@@ -29,13 +29,13 @@
         <link rel="stylesheet" href="{{ asset('icomoon/style.css') }}" />
 
         <!-- Style -->
-        <link href="{{ asset('css/home/style.css') }}" media="all" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
     </head>
     @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
     <body class="{{ str_replace('.', '-', $route) }}">
     @elseif ( $route == 'about' )
-    <body class="{{ str_replace('.', '-', $route) }} uk-background-cover" style="background-image: url({{ asset('images/home/aboutus.jpg') }}); background-attachment: fixed;">
+    <body class="{{ str_replace('.', '-', $route) }}" style="background-image: url({{ asset('images/home/aboutus.jpg') }});">
     @else
         <body class="{{ str_replace('.', '-', $route) }} with-side-menu">
     @endif

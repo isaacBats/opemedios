@@ -51,8 +51,8 @@
                    @php
                     if( !preg_match('(.mp3|.ogg|.wav|.mpga|.mp4)', $mainFile->original_name ) ) {
                         if( preg_match('(.pdf)', $mainFile->original_name ) ) {
-                            echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox pdf" uk-lightbox>
-                                <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'<span class="icon-maximize"></span></a>
+                            echo '<div id="lightbox" class="uk-box-shadow-medium uk-text-center lightbox pdf" uk-lightbox>
+                                <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'<span class="icon-maximize uk-box-shadow-medium"></span></a>
                             </div>
                             <h3 class="uk-hidden no-pdf-inline uk-text-center uk-text-warning">PDF</h3>
                             ';
@@ -60,12 +60,12 @@
                         else{
                             echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox" uk-lightbox>
                                 '.$mainFile->getHTML().'
-                            <a href="'.$mainFile->path_filename.'" class="icon-maximize"></a></div>';
+                            <span class="icon-maximize uk-box-shadow-medium"></span></div>';
                         }
                     } 
                     elseif( preg_match('(.mp4|.mov|.avi)', $mainFile->original_name ) ) {
                         echo '<div id="lightbox" class="uk-box-shadow-small uk-text-center lightbox video" uk-lightbox>
-                            <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'<span class="icon-maximize"></span></a>
+                            <a href="'.$mainFile->path_filename.'" data-type="iframe" class="link-source">'.$mainFile->getHTML().'<span class="icon-maximize uk-box-shadow-medium"></span></a>
                         </div>';
                     }
                     else{

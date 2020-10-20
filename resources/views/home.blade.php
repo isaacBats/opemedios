@@ -2,13 +2,13 @@
 @section('title', ' - Operadora de medios Informativos')
 @section('content')
 
-<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh" >
+<section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh">
     <div class="uk-container uk-margin-auto-vertical uk-padding-large">
-        <div class="uk-width-5-6@s uk-width-2-3@m">
-            <h1 class="uk-text-center uk-text-left@s">Expertos en monitoreo</h1>
+        <div class="uk-width-5-6@s uk-width-2-3@m uk-text-center uk-text-left@s">
+            <h1 class="uk-heading-medium">Expertos en monitoreo</h1>
             <h2>Tus ojos y oídos para tu toma de decisiones</h2>
             <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
-            <ul class="uk-iconnav uk-ligth">
+            <ul class="uk-iconnav uk-ligth uk-flex uk-flex-center uk-flex-left@s">
                 <li><i class="icon-microphone"></i></li>
                 <li><i class="icon-screen"></i></li>
                 <li><i class="icon-newspaper"></i></li>

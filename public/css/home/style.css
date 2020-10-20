@@ -21,6 +21,14 @@ body.signin{
   display: flex;
   flex-direction: column;
 }
+body.about{
+   background-size: cover;
+   background-attachment: fixed;
+   min-height: 100%;
+   height: auto;
+   background-position: center top;
+   background-repeat: no-repeat;
+}
 body h1,
 body h2,
 body h3,
@@ -64,9 +72,10 @@ header .uk-sticky.uk-sticky-fixed{
 }
 .expertos{
     margin-top: -100px;
+    height: auto;
 }
 .expertos h1{
-    font-size: 4.5em;
+    font-family: 'Fjalla One', sans-serif;
     text-transform: uppercase;
     color: #2a3bae;
     line-height: 1;
@@ -102,21 +111,17 @@ header .uk-sticky.uk-sticky-fixed{
   .expertos {
     background-position: 65% top;
     overflow: hidden;
+    position: relative;
   }
   .expertos:before{
     content: '';
     width: 100%;
-    height: 100%;
-    background: #f2f2f2;
-    opacity: .5;
+    height: 200%;
+    background: rgba(255,255,255,.4);
     display: block;
     position: absolute;
     left: 0;
     top: 0;
-  }
-  .expertos h1{
-    font-size: 3.5em;
-    position: relative;
   }
   .expertos ul,
   .expertos p,
@@ -149,16 +154,16 @@ header .uk-sticky.uk-sticky-fixed{
     padding-top: 60px;
     padding-bottom: 60px;
     overflow: hidden;
+    background-position: 60% 50%;
   }
   .hacemos-por-ti:before{
-    background: #000;
+    background: rgba(0,0,0,.1);
     content: '';
     width: 100%;
     height: 100%;
     display: block;
     position: absolute;
     top: 0;
-    opacity: .3;
     left: 0;
   }
   .hacemos-por-ti > *{
@@ -487,6 +492,52 @@ body .lightbox .uk-lightbox-caption{
 body .lightbox.pdf{
   height: 600px;
 }
+body .lightbox a embed,
+body .lightbox a img{
+  transition: all ease-in-out .2s;
+}
+body .lightbox a:hover embed,
+body .lightbox a:hover img{
+  opacity: .75;
+  transition: all ease-in-out .3s;
+}
+body #lightbox > a:after{
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+#doc{
+  position: relative;
+}
+#doc #lightbox{
+  position: relative;
+}
+#doc .icon-maximize{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 5;
+  background: rgba(255,255,255,1);
+  color: #000;
+  font-size: 2em;
+  padding: .3em;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all ease-in-out .2s;
+  z-index: 2;
+}
+body #doc .lightbox:hover .icon-maximize{
+  font-size: 3em;
+  transition: all ease-in-out .3s;
+}
+
 body.home section.expertos .uk-container{
   padding-top: 160px;
 }
@@ -536,12 +587,14 @@ body .uk-lightbox-items img{
   max-height: none;
   align-items: unset !important;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 100px 0;
+  margin: 2.5% auto;
 }
 body .uk-lightbox{
   background: rgba(0,0,0,.8);
+}
+body .uk-lightbox .uk-lightbox-toolbar-icon.uk-close-large.uk-icon{
+  display: block;
+  width: 100%;
 }
 
 body .link-source{
@@ -684,18 +737,21 @@ body .uk-offcanvas-bar .uk-nav-default .uk-nav-header{
   }
 }
 
-#doc{
-  position: relative;
+.uk-card.uk-card-default .uk-cover-container img.uk-cover{
+  transition: width ease-in-out .2s, height ease-in-out .2s;
 }
-#doc .icon-maximize{
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  z-index: 5;
-  background: rgba(0,0,0,.85);
-  color: #fff;
-  font-size: 2em;
-  padding: .3em;
-  border-radius: 7px;
-  text-decoration: none;
+.uk-card.uk-card-default:hover .uk-cover-container img.uk-cover{
+  width: 110% !important;
+  height: auto !important;
+  transition: width ease-in-out .3s, height ease-in-out .3s;
+}
+
+
+body .uk-padding{
+  padding-left: 5%;
+  padding-right: 5%;
+}
+body .uk-card-body{
+  padding-left: 5%;
+  padding-right: 5%;
 }

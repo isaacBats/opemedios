@@ -22,17 +22,5 @@
             </div>
         </article>
         <!-- /Article -->
-        
-        <!-- Sidebar -->
-        <!-- <aside class="col-sm-4 sidebar sidebar-right">
-
-            <div class="widget">
-                <div class="jumbotron top-space">
-                    <h4>En OPEMEDIOS nos distinguimos por nuestro servicio personalizado.</h4>
-                </div>                  
-            </div>
-
-        </aside> -->
-        <!-- /Sidebar -->
     </div>  <!-- /container -->
 @endsection

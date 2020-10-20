@@ -12,7 +12,7 @@
         
         <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle uk-padding-large uk-padding-remove-horizontal" uk-grid>
             <div>
-                <h1>Contáctanos</h1>
+                <h1 class="page-title">Contáctanos</h1>
                 <p>Nos encantaría saber de usted. ¿Interesados en trabajar juntos? Rellene el siguiente formulario con una breve información sobre su proyecto y nos pondremos en contacto tan pronto como sea posible. Por favor espere un par de días nuestra respuesta.</p>
                 <hr>
                 <div class="widget">
