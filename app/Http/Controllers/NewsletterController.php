@@ -25,7 +25,9 @@ use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
 use App\News;
 use App\Newsletter;
+use App\NewsletterFooter;
 use App\NewsletterSend;
+use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -51,8 +53,15 @@ class NewsletterController extends Controller
 
     public function index(){
         $newsletters = Newsletter::orderBy('id', 'DESC')->paginate(25);
+        $covers = NewsletterFooter::limit(5)->orderBy('id', 'DESC')->get();
+        $coverToday = false;
+        if($covers->count() > 0 ) {
+            $coverToday = $covers->filter(function($cover) {
+                return $cover->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d');
+            })->first();
+        }
 
-        return view('admin.newsletter.index', compact('newsletters'));
+        return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday'));
     }
 
     public function showFormCreateNewsletter() {
@@ -99,13 +108,17 @@ class NewsletterController extends Controller
 
         try {
             $newsletterSend = NewsletterSend::findOrFail($sendId);
+            $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
             $newsletter = $newsletterSend->newsletter;
             if($request->has('emails')){
                 $emails = explode(',',$request->input('emails'));
             } else {
                 $emails = $newsletter->newsletter_users->map(function($item){ return $item->email; });
             }
-            Mail::to($emails)->send(new NewsletterEmail($newsletterSend));
+            if( !$covers ) {
+                return back()->with('status', 'No se puede enviar el newsletter por que hace falta agregar las portadas del día de hoy');
+            }
+            Mail::to($emails)->send(new NewsletterEmail($newsletterSend, $covers));
             $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
                 return $ntn->news_id;
             });
@@ -123,7 +136,7 @@ class NewsletterController extends Controller
 
         Log::info("Newsletters of the day {$today} have been sent");
 
-        return 'Se ha enviado la noticia con satisfacción';
+        return back()->with('status','Se ha enviado la noticia con satisfacción');
     }
 
     /**
@@ -249,5 +262,10 @@ class NewsletterController extends Controller
         $newsletter->template = $request->input('template');
         $newsletter->save();
         return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
+    }
+
+    public function addCovers() {
+
+        return view('admin.newsletter.addcovers');
     }
 }

@@ -6,7 +6,7 @@
         {{ session('status') }}
     </div>
 @endif
-<div class="col-md-12">
+<div class="col-md-9 col-lg-8 dash-left">
   <div class="panel">
     <div class="panel-heading">
       <div class="row">
@@ -64,6 +64,50 @@
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->
+</div>
+<div class="col-md-3 col-lg-4 dash-right">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-primary list-announcement">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Carga de portadas, columnas y cartones</h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled mb20">
+                        @if($coverToday)
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <p class="text-success"><strong>Ya se cargaron las portadas para el día de hoy: {{ $coverToday->created_at->format('d-m-Y') }}</strong></p>
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <p class="text-danger"><strong>Es necesario cargar las portadas para el día de hoy: {{ Carbon\Carbon::today()->format('d-m-Y') }}</strong></p>
+                                </a>
+                            </li>
+                        @endif
+                        @forelse($covers as $cover)
+                            @if($cover->created_at->format('d-m-Y') == Carbon\Carbon::today()->format('d-m-Y'))
+                                @continue
+                            @endif
+                            <li>
+                                <a href="javascript:void(0);"><p class="text-info">Portadas del día</p></a>
+                                <small>{{ $cover->created_at->format('d-m-Y') }}</small>
+                            </li>
+                        @empty
+                            <li>
+                                No hay Portadas. Por favor ingresa las portadas para los newletters
+                            </li>
+                        @endforelse
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <a href="{{ route('admin.newsletter.config.footer') }}" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"></i>  Configurar footer</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @section('styles')

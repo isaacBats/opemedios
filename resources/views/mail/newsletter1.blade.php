@@ -47,12 +47,11 @@
                 <tr>
                     <td style="padding: 30px 30px;">
                         <p style="margin: 0;padding: 0;text-align: center;">
-                            <a href="" style="color: #015199;text-decoration: none;">PRIMERAS PLANAS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | PORTADAS NEGOCIOS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | CARTONES</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | COLUMNAS NEGOCIOS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | COLUMNAS POLÍTICAS</a>
-                            {{-- <a href="#" style="color: #015199;text-decoration: none;"> | PORTADA ESPECTACULOS</a> --}}
+                            <a href="{{ $covers['primeras_planas'] }}" style="color: #015199;text-decoration: none;">PRIMERAS PLANAS</a>
+                            <a href="{{ $covers['portadas_financieras'] }}" style="color: #015199;text-decoration: none;"> | PORTADAS FINANCIERAS</a>
+                            <a href="{{ $covers['cartones'] }}" style="color: #015199;text-decoration: none;"> | CARTONES</a>
+                            <a href="{{ $covers['columnas_financieras'] }}" style="color: #015199;text-decoration: none;"> | COLUMNAS FINANCIERAS</a>
+                            <a href="{{ $covers['portadas_politicas'] }}" style="color: #015199;text-decoration: none;"> | COLUMNAS POLÍTICAS</a>
                          </p>
                     </td>
                 </tr>
