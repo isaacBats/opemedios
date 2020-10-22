@@ -18,6 +18,7 @@
         
 namespace App\Mail;
 
+use App\NewsletterFooter;
 use App\NewsletterSend;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,15 +30,19 @@ class NewsletterEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $newsletterSend;
+    
+    public $covers;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(NewsletterSend $newsletterSend)
+    public function __construct(NewsletterSend $newsletterSend, NewsletterFooter $covers)
     {
         $this->newsletterSend = $newsletterSend;
+        
+        $this->covers = unserialize($covers->urls);
     }
 
     /**
