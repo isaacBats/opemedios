@@ -309,25 +309,24 @@ class NewsController extends Controller
 
         if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
             // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
-            $newsletterSend = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
+            $newsletterSendPaused = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
                 ->where('status', 0)
                 ->orderBy('id', 'DESC')
                 ->get();
-
-            $newsletterSendId = $newsletterSend->first()->id;
-
-            if(!$newsletterSend->count()) {
+            
+            if($newsletterSendPaused->isEmpty()) {
                 $newsletterSend = NewsletterSend::create([
                     'newsletter_id' => $data['newsletter_id'],
                     'status' => 0,
                 ]);
-                $newsletterSendId = $newsletterSend->id;
+            } else {
+                $newsletterSend = $newsletterSendPaused->first();
             }
-
+            
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
                 'newsletter_theme_id' => $data['newsletter_theme_id'],
-                'newsletter_send_id' => $newsletterSendId,
+                'newsletter_send_id' => $newsletterSend->id,
                 'news_id' => $news->id,
             ]);
         }
