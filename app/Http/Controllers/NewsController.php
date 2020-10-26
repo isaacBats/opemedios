@@ -22,6 +22,7 @@ namespace App\Http\Controllers;
 
 use App\AssignedNews;
 use App\AuthorType;
+use App\Exports\NewsExport;
 use App\File;
 use App\Genre;
 use App\Http\Controllers\FileController;
@@ -45,6 +46,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NewsController extends Controller
 {
@@ -562,6 +564,13 @@ class NewsController extends Controller
             'status' => $status,
             'message' => 'No hay argumentos suficientes para realizar una busqueda'
         ]);
+    }
+
+    public function report() {
+
+        $date = Carbon::today()->timestamp;
+
+        return Excel::download(new NewsExport, "reporte_{$date}.xlsx");
     }
 
 }

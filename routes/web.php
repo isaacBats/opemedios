@@ -38,6 +38,8 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
+Route::get('test-report', 'NewsController@report');
+
 
 Auth::routes([
     'register' => false,
