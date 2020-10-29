@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewsletterEmail;
 use App\Newsletter;
+use App\NewsletterFooter;
 use App\NewsletterSend;
 use App\NewsletterThemeNews;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -72,7 +74,12 @@ class NewsletterSendController extends Controller
     public function previewEmail(Request $request, $id) {
         
         $newsletterSend = NewsletterSend::findOrFail($id);
+        $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
 
-        return new NewsletterEmail($newsletterSend);
+        if( !$covers ) {
+            return back()->with('status', 'No se puede visualizar la vista previa porque hace falta agregar las portadas del día de hoy');
+        }
+
+        return new NewsletterEmail($newsletterSend, $covers);
     }
 }

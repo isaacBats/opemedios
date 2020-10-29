@@ -87,13 +87,13 @@
 				<!-- start footer -->
 				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;background-color: #283593;color: #ffffff;">
 					<td style="padding: 30px  0 30px 60px;">
-						&#9656; &nbsp; <a href="" style="color: #ffffff;text-decoration: none;">Primeras Planas</a><br>
-						&#9656; &nbsp; <a href="" style="color: #ffffff;text-decoration: none;">Portadas Financieras</a><br>
-						&#9656; &nbsp; <a href="" style="color: #ffffff;text-decoration: none;">Cartones</a>
+						&#9656; &nbsp; <a href="{{ $covers['primeras_planas'] }}" style="color: #ffffff;text-decoration: none;">Primeras Planas</a><br>
+						&#9656; &nbsp; <a href="{{ $covers['portadas_financieras'] }}" style="color: #ffffff;text-decoration: none;">Portadas Financieras</a><br>
+						&#9656; &nbsp; <a href="{{ $covers['cartones'] }}" style="color: #ffffff;text-decoration: none;">Cartones</a>
 					</td>
 					<td style="padding: 30px  60px 30px 0;">
-						&#9656; &nbsp; <a href="" style="color: #ffffff;text-decoration: none;">Columnas Financieras</a><br>
-						&#9656; &nbsp; <a href="" style="color: #ffffff;text-decoration: none;">Portadas Politicas</a>
+						&#9656; &nbsp; <a href="{{ $covers['columnas_financieras'] }}" style="color: #ffffff;text-decoration: none;">Columnas Financieras</a><br>
+						&#9656; &nbsp; <a href="{{ $covers['portadas_politicas'] }}" style="color: #ffffff;text-decoration: none;">Portadas Politicas</a>
 					</td>
 				</tr>
 			</table>
