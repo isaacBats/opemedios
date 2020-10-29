@@ -28,15 +28,16 @@
                
                 @foreach ($newsletterSend->newsletter_theme_news as $note) 
                     <tr>
-                        <td style="padding: 15px 30px;background: white;border-bottom: solid 1px #e8e8e8">
+                        <td style="padding: 30px 30px;background: white;border-bottom: solid 1px #f2f2f2">
                             <p style="margin: 0;padding: 0;font-size: 12px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;">
-                                <span style="font-weight: bold">{{ $note->theme->name }}</span>
+                                <p style="font-weight: bold;">{{ $note->theme->name }}</p>
                                 <br>
-                                <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none" target="_blank">{{ $note->news->title }}</a>
-                                <br>
+                                <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none; font-size:18px;" target="_blank">{{ $note->news->title }}</a>
+                                <p>
                                 {!! $note->news->synthesis !!}
+                                </p>
                                 <br>
-                                <span style="color: #950a16;font-weight: bold;">{{ $note->news->mean->name }} | {{ $note->news->source->name }}, {{ $note->news->author }}</span>
+                                <p style="color: #950a16;font-weight: bold;">{{ $note->news->mean->name }} | {{ $note->news->source->name }}, {{ $note->news->author }}</p>
                             </p>
                         </td>
                     </tr>
@@ -46,13 +47,13 @@
             <table style="width: 580px;border-collapse: collapse;font-size: 12px;font-family: Arial, Helvetica, sans-serif;" align="center">
                 <tr>
                     <td style="padding: 30px 30px;">
-                        <p style="margin: 0;padding: 0;text-align: center;">
-                            <a href="" style="color: #015199;text-decoration: none;">PRIMERAS PLANAS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | PORTADAS NEGOCIOS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | CARTONES</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | COLUMNAS NEGOCIOS</a>
-                            <a href="" style="color: #015199;text-decoration: none;"> | COLUMNAS POLÍTICAS</a>
-                            {{-- <a href="#" style="color: #015199;text-decoration: none;"> | PORTADA ESPECTACULOS</a> --}}
+                        <p style="margin: 0;padding: 0;text-align: center; line-height: 30px;">
+                            <a href="" style="color: #015199;text-decoration: none; line-height: 12px;">PRIMERAS PLANAS</a>
+                            <a href="" style="color: #015199;text-decoration: none; line-height: 12px;"> | PORTADAS NEGOCIOS</a>
+                            <a href="" style="color: #015199;text-decoration: none; line-height: 12px;"> | CARTONES</a>
+                            <a href="" style="color: #015199;text-decoration: none; line-height: 12px;"> | COLUMNAS NEGOCIOS</a>
+                            <a href="" style="color: #015199;text-decoration: none; line-height: 12px;"> | COLUMNAS POLÍTICAS</a>
+                            {{-- <a href="#" style="color: #015199;text-decoration: none; line-height: 12px;"> | PORTADA ESPECTACULOS</a> --}}
                          </p>
                     </td>
                 </tr>

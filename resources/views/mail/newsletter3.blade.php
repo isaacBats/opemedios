@@ -197,11 +197,11 @@
                                                     @php
                                                         $day = date('Y-m-d H:i:s');
                                                     @endphp
-                                                    <td align="right"><b>{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}</b></td>
+                                                    <td align="right" style="padding: 15px 0;"><b>{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center">
-                                                        <h3>Resumen Diario</h3>
+                                                        <h3 style="border-bottom: 1px solid #f2f2f2; padding-bottom: 15px;">Resumen Diario</h3>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -212,11 +212,11 @@
                                                 </tr>
                                                 @foreach ($newsletterSend->newsletter_theme_news as $note)
                                                     <tr>
-                                                        <td style="background-color:#f2eeee;height:40px;font-size:18px;color:#251d93;text-align:center;border:1px solid #f2eeee;border-radius:5px">
+                                                        <td style="background-color:#f2f2f2;font-size:18px;color:#251d93;text-align:center;border:1px solid #f2eeee;border-radius:5px; padding: 15px 10px;">
                                                             <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color:#251d93;text-decoration:none" rel="noreferrer" target="_blank">{{ strtoupper($note->news->title) }}</a>
                                                         </td>
                                                     </tr>
-                                                    <tr style="height:20px">
+                                                    <tr style="height:12px">
                                                         <td></td>
                                                     </tr>
                                                 @endforeach

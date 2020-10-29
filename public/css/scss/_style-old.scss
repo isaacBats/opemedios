@@ -1,4 +1,3 @@
-
 body.about,
 body.clients,
 body.contact,
@@ -25,7 +24,7 @@ body.about .uk-container.op-content-mt,
 body.clients .uk-container.clientes,
 body.contact .uk-container.op-content-mt,
 body.client-others-news .uk-container,
-body.client-sections .uk-container,
+body.client-sections .op-content-mt.main-content,
 body.signin .uk-container{
   flex: 1 0 auto;
 }
@@ -189,13 +188,17 @@ body .uk-card.uk-card-default a.uk-button.uk-button-default:after{
   left: 0;
 }
 
-.uk-card.uk-card-default .uk-cover-container img.uk-cover{
-  transition: width ease-in-out .2s, height ease-in-out .2s;
+.uk-card.uk-card-default{
+  overflow: hidden;
 }
-.uk-card.uk-card-default:hover .uk-cover-container img.uk-cover{
-  width: 110% !important;
-  height: auto !important;
-  transition: width ease-in-out .3s, height ease-in-out .3s;
+.uk-card.uk-card-default .uk-cover-container{
+  transition: transform ease-in-out .2s;
+}
+.uk-card.uk-card-default:hover .uk-cover-container{
+  transform: scale(1.05);
+  transition: transform ease-in-out .3s;
 }
 
-
+a.card-primeras{
+  text-decoration: none;
+}
