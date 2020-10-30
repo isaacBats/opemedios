@@ -9,8 +9,9 @@
                 <div class="row item-note" id="main-file-content">
                     <h2><strong>{{ __('Archivo Principal') }}</strong></h2>
                     <hr>
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         @if($main_file = $note->files->where('main_file', 1)->first())
+                            <a href="{{ $main_file->path_filename }}" target="_blank"><strong>{{ $main_file->original_name }}</strong></a>
                             <div class="embed-responsive embed-responsive-16by9">
                                 {!! $main_file->getHTML() !!}
                             </div>
@@ -30,7 +31,9 @@
                                     {!! $file->getHTML() !!}
                                 </div>
                                 <br>
-                                <p><strong>{{ $file->original_name }}</strong></p>
+                                <p>
+                                    <a href="{{ $file->path_filename }}" target="_blank"><strong>{{ $file->original_name }}</strong></a>
+                                </p>
                                 <p><a class="btn btn-danger btn-sm btn-remove-file" data-news="{{ $note->id }}" data-file="{{ $file->id }}" data-name="{{ $file->original_name }}" href="javascript:void(0)">{{ __('Eliminar') }}</a> <a class="btn btn-info btn-sm" href="{{ route('admin.new.adjunto.main', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Marcar como principal') }}</a></p>
                             </div>
                         @endforeach
