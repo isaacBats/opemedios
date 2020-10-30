@@ -30,4 +30,11 @@ class NewsletterFooterController extends Controller
 
         return redirect()->route('admin.newsletters')->with('status', 'Portadas agregadas correctamente.');
     }
+
+    public function deleteCovers (Request $request, $id) {
+        $covers = NewsletterFooter::findOrFail($id);
+        $covers->delete();
+
+        return back()->with('status', "Se han eliminado las portadas satisfactoriamente");
+    }
 }
