@@ -27,6 +27,7 @@ use App\News;
 use App\Newsletter;
 use App\NewsletterFooter;
 use App\NewsletterSend;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
@@ -118,7 +119,15 @@ class NewsletterController extends Controller
             if( !$covers ) {
                 return back()->with('status', 'No se puede enviar el newsletter por que hace falta agregar las portadas del día de hoy');
             }
-            Mail::to($emails)->send(new NewsletterEmail($newsletterSend, $covers));
+
+            foreach ($emails as $email) {
+                $reciver = User::where('email', trim($email))->first();
+                if($reciver) {
+                    Mail::to($reciver)->send(new NewsletterEmail($newsletterSend, $covers));
+                } else {
+                    Mail::to(trim($email))->send(new NewsletterEmail($newsletterSend, $covers));
+                }
+            }
             $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
                 return $ntn->news_id;
             });

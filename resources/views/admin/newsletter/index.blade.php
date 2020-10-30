@@ -73,11 +73,12 @@
                     <h4 class="panel-title">Carga de portadas, columnas y cartones</h4>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-unstyled mb20">
+                    <ul class="list-unstyled mb20" id="cover-list-date">
                         @if($coverToday)
                             <li>
                                 <a href="javascript:void(0);">
                                     <p class="text-success"><strong>Ya se cargaron las portadas para el día de hoy: {{ $coverToday->created_at->format('d-m-Y') }}</strong></p>
+                                    <a href="{{ route('admin.newsletter.config.delete.footer', ['id' => $coverToday->id ]) }}" id="btn-remove-footers" class="text-danger"><small><i class="fa fa-close"></i> Borrar</small></a>
                                 </a>
                             </li>
                         @else
@@ -153,6 +154,24 @@
                         })
                     })
                 }
+            })
+
+            // remove covers
+            $('#cover-list-date').on('click', '#btn-remove-footers', function(event) {
+                event.preventDefault()
+                var action = $(this).attr('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                                                                        
+                form.attr('method', 'POST')
+                form.attr('action', action)
+                
+                modal.find('.modal-title').text('Borrar Portadas, Columnas...')
+                modal.find('.modal-body').html(`
+                    <p>¿Estas seguro que quieres borrar las portadas de este día?</p>
+                `)
+                modal.find('#md-btn-submit').val('Eliminar').removeClass('btn-primary').addClass('btn-danger')
+                modal.modal('show')
             })
         })
     </script>
