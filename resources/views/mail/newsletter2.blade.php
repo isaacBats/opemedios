@@ -33,7 +33,7 @@
 					<td style="padding: 20px 0 20px 20px;">
 						{{-- <img src="" width="150px"> --}}
 					</td>
-					<td style="text-align: right;font-size: 12px;padding: 20px 20px 20px 0;">
+					<td style="text-align: right;font-size: 12px;padding: 20px 20px 20px 0; font-weight: bold;">
 						@php
                             $day = date('Y-m-d H:i:s');
                         @endphp
@@ -50,7 +50,7 @@
 			</table>
 			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;margin-bottom: 100px;">
 				<tr>
-					<td colspan="2" style="padding: 30px;">
+					<td colspan="2" style="padding: 20px;">
 					</td>
 				</tr>
 				@foreach ($newsletterSend->newsletter->company->themes as $theme)
@@ -58,8 +58,8 @@
 						<td colspan="2">
 							<table style="width: 580px;border: 0;border-collapse: collapse;">
 								<tr>
-									<td style="width: 20px;height: 30px;background-color: #1976D2;"></td>
-									<td style="padding-left: 10px;font-size: 20px;font-family: &quot;Times New Roman&quot;, Times, serif;color: #1976D2;">
+									<td style="width: 20px;background-color: #283593;"></td>
+									<td style="padding-left: 10px;font-size: 16px;color: #283593;">
 										{{ strtoupper($theme->name) }}
 									</td>
 								</tr>
@@ -73,15 +73,15 @@
 						@if($note->theme->id == $theme->id) 
 						<tr>
 							<td colspan="2" style="padding: 10px 30px;">
-								<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size: 14px;color: #1976D2;text-decoration: none;" target="_blank">{{ strtoupper($note->news->title) }}</a>
-								<p style="color: #263238;font-size: 14px;margin: 0;margin-top: 2px;margin-bottom: 5px;">{!! $note->news->synthesis !!} </p>
-								<p style="font-size: 11px;margin-bottom: 20px;margin-top: 5px;color: #546E7A;"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
+								<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size: 18px;color: #1976D2;text-decoration: none;" target="_blank">{{ strtoupper($note->news->title) }}</a>
+								<p style="color: #263238;font-size: 14px;margin: 0;margin-top: 10px;margin-bottom: 10px; line-height: 20px;">{!! $note->news->synthesis !!} </p>
+								<p style="font-size: 12px;margin-bottom: 20px;margin-top: 5px;color: #546E7A;"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
 							</td>
 						</tr>
 						@endif
 					@endforeach
 					<tr>
-						<td colspan="2" style="padding: 15px;"></td>
+						<td colspan="2" style="padding: 12px;"></td>
 					</tr>
 				@endforeach
 				<!-- start footer -->

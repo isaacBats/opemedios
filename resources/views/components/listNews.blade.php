@@ -9,13 +9,13 @@
             </div>
             <div class="uk-card-body">
                 <h4 class="f-h4 text-muted">
-                    {{ $note->source->name }} | {{ $note->news_date->diffForHumans() }}
+                    {{ $note->source->name }} &mdash; <small>{{ $note->news_date->diffForHumans() }}</small>
                 </h4>
                 <h3 class="f-h3">
                     {{ $note->title  }}
                 </h3>
                 <p class="text-muted f-p">
-                    {{ $note->source->company }} | Autor: {{ $note->author }}
+                    {{ $note->source->company }} &mdash; <small>Autor: {{ $note->author }}</small>
                 </p>
                 <p class="f-p">{{ Illuminate\Support\Str::limit($note->synthesis, 200) }}</p>
                 <a class="btn btn-primary uk-button uk-button-large uk-button-default" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">Ver más</a>
