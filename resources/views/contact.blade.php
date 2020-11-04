@@ -4,24 +4,6 @@
     <!-- container -->
     <div class="uk-container op-content-mt">
 
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-            <div id="modal-center" class="uk-flex-top alert alert-success" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                    <button class="uk-modal-close-default" type="button" uk-close></button>
-                    <p>{{ session('status') }}</p>
-                </div>
-            </div>
-        @endif
-        <div id="modal-center" class="uk-flex-top uk-modal uk-flex uk-open" uk-modal="" style="display: block;">
-            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                <button class="uk-modal-close-default uk-icon uk-close" type="button" uk-close=""><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" data-svg="close-icon"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
-                <p>{{ session('status') }}</p>
-            </div>
-        </div>
-
         <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle uk-padding-large uk-padding-remove-horizontal" uk-grid>
             <div>
                 <h1 class="page-title">Contáctanos</h1>
@@ -61,8 +43,13 @@
                     <div class="uk-margin">
                         <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Enviar mensaje">
                     </div>
-
                 </form>
+                @if (session('status'))
+                <hr>
+                <div class="alert alert-success uk-text-success">
+                    {{ session('status') }}
+                </div>
+                @endif
             </div>
         </div>
     </div>  <!-- /container -->
