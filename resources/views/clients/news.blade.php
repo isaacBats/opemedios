@@ -4,7 +4,7 @@
     @include('components.clientHeading')
     <!-- Page Content -->
     <div class="uk-padding op-content-mt main-content">
-        <div class="row" id="list-news">
+        <div class="row uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top" id="list-news">
             @foreach($company->themes as $theme)
                 <h2 id="theme{{ $theme->id }}">{{ $theme->name }}</h2>
                 @if($company->assignedNews->count() > 0)
@@ -20,13 +20,13 @@
                                     </div>
                                     <div class="uk-card-body">
                                         <h4 class="f-h4 text-muted">
-                                    {{ $assigned->news->source->name }} | {{ $assigned->news->news_date->diffForHumans() }}
+                                    {{ $assigned->news->source->name }} &mdash; <small>{{ $assigned->news->news_date->diffForHumans() }}</small>
                                         </h4>
                                         <h3 class="f-h3">
                                             {{ $assigned->news->title  }}
                                         </h3>
                                         <p class="text-muted f-p">
-                                             {{ $assigned->news->source->company }} | Autor: {{ $assigned->news->author }}
+                                             {{ $assigned->news->source->company }} &mdash; <small>Autor: {{ $assigned->news->author }}</small>
                                         </p>
                                         <p class="f-p">{!! Illuminate\Support\Str::limit($assigned->news->synthesis, 200) !!}</p>
                                         <a class="btn btn-primary uk-button uk-button-large uk-button-default" href="{{ route('client.shownew', ['id' => $assigned->news_id, 'company' => $company->slug ]) }}">Ver más</a>
