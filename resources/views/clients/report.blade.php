@@ -4,8 +4,9 @@
     @include('components.clientHeading')
     <!--Page Content -->
     <div class="uk-padding op-content-mt main-content">
-        <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
-        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky;" class="uk-visible@l">
+        <div class="uk-width-large uk-padding-large uk-padding-remove-horizontal reporte-container">
+            <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
+            <br>
             <form action="{{ route('client.report', ['company' => session()->get('slug_company')]) }}" method="POST">
                 @csrf
                 <input type="hidden" name="company_id" value="{{ Auth::user()->company()->id }}">
@@ -48,7 +49,7 @@
                     </select>
                 </div>
                 <div class="uk-margin">
-                    <input class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Generar">
+                    <input class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Generar">
                 </div>
             </form>
         </div>
@@ -57,7 +58,6 @@
             <div id="news-by-theme" class="col-md-9">
             </div>
         </div>
-        
     </div>
     <!-- /.container -->
 @endsection
