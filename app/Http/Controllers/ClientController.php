@@ -136,15 +136,6 @@ class ClientController extends Controller
 
         $company = Company::where('slug', $slug_company)->first();
 
-        // $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
-        // if($userMetaOldCompany) {
-        //     $idCompany = $userMetaOldCompany->meta_value;
-        // } else {
-        //     $idCompany = $company->id;
-        // }
-
-        // $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
-        
         $defaultThemeId = $company->themes->first()->id;
         $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function($assigned) {
             return $assigned->news_id;
@@ -154,7 +145,6 @@ class ClientController extends Controller
                 ->orderBy('id', 'desc')
                 ->paginate(15);
 
-        // $news = $this->getNewsByTheme($defaultThemeId, $idCompany);
 
         return view('clients.themes', compact('news', 'company', 'defaultThemeId'));
     }
@@ -220,5 +210,15 @@ class ClientController extends Controller
 
             return view('components.listSearch', compact('news', 'company'))->render();
         }
+    }
+
+    public function report (Request $request) {
+
+        return view('clients.report');
+    }
+
+    public function createReport( Request $request, $company ) {
+        $data = $request->all();
+        dd([$data, $company]);
     }
 }
