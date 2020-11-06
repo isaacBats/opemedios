@@ -1,3 +1,4 @@
+body.client-report,
 body.about,
 body.clients,
 body.contact,
@@ -18,6 +19,7 @@ body.about{
    background-repeat: no-repeat;
 }
 
+body.client-report .op-content-mt.main-content,
 body.news .op-content-mt.main-content,
 body.themes .op-content-mt.main-content,
 body.about .uk-container.op-content-mt,
@@ -201,4 +203,10 @@ body .uk-card.uk-card-default a.uk-button.uk-button-default:after{
 
 a.card-primeras{
   text-decoration: none;
+}
+
+@media only screen and ( max-width: 1199px){
+  body.client-report .reporte-container{
+    margin: 0 auto;
+  }
 }
