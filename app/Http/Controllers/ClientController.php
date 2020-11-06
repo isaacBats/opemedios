@@ -217,8 +217,17 @@ class ClientController extends Controller
         return view('clients.report');
     }
 
-    public function createReport( Request $request, $company ) {
-        $data = $request->all();
-        dd([$data, $company]);
+    public function createReport( Request $request ) {
+        // "_token" => "fm5A2wt3VtOQYnCdOvhnO0CPsN1wqTpKMwmbAetn"
+        // "company_id" => "10"
+        // "fstart" => null
+        // "fend" => null
+        // "theme_id" => "default"
+        // "sector_id" => "default"
+        // "genre_id" => "default"
+        // "trend" => "default"
+        // "mean_id" => "default"
+
+        // return Excel::download(new NewsExport($rows), "reporte_{$date}.xlsx");
     }
 }
