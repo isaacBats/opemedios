@@ -23,15 +23,17 @@ namespace App\Http\Controllers;
 use App\AssignedNews;
 use App\Company;
 use App\Cover;
+use App\Exports\NewsExport;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
 use App\News;
 use App\Theme;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -227,7 +229,8 @@ class ClientController extends Controller
         // "genre_id" => "default"
         // "trend" => "default"
         // "mean_id" => "default"
+        $date = Carbon::today()->timestamp;
 
-        // return Excel::download(new NewsExport($rows), "reporte_{$date}.xlsx");
+        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
     }
 }
