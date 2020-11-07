@@ -54,21 +54,23 @@
 					</td>
 				</tr>
 				@foreach ($newsletterSend->newsletter->company->themes as $theme)
-					<tr>
-						<td colspan="2">
-							<table style="width: 580px;border: 0;border-collapse: collapse;">
-								<tr>
-									<td style="width: 20px;background-color: #283593;"></td>
-									<td style="padding-left: 10px;font-size: 16px;color: #283593;">
-										{{ strtoupper($theme->name) }}
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" style="padding: 15px;"></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
+					@if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
+						<tr>
+							<td colspan="2">
+								<table style="width: 580px;border: 0;border-collapse: collapse;">
+									<tr>
+										<td style="width: 20px;background-color: #283593;"></td>
+										<td style="padding-left: 10px;font-size: 16px;color: #283593;">
+											{{ strtoupper($theme->name) }}
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" style="padding: 15px;"></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					@endif
 					@foreach ($newsletterSend->newsletter_theme_news as $note)
 						@if($note->theme->id == $theme->id) 
 						<tr>

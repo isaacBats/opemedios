@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('uikit/css/uikit.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('icomoon/style.css') }}" />
     <!-- Style -->
-    <link href="{{ asset('css/style.css') }}" media="all" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/newsletter.css') }}" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
     <article class="uk-container">        

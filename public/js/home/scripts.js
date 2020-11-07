@@ -15,6 +15,11 @@ $('.accordion-h a').click( function(){
     $(this).parent().addClass('uk-flex-column');
     $(this).addClass('fade-in');
     $(this).next().addClass('fade-in');
+    if($(window).width() < 640 ){
+        $('html, body').animate({
+            scrollTop: $(this).parent().offset().top - $("header nav.uk-navbar-container").height()
+        }, 500);
+    }
 });
 /**/
 $('#doc #lightbox a').click( function(){
