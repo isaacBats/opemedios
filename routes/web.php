@@ -38,6 +38,8 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
+Route::get('test-report', 'NewsController@report');
+
 
 Auth::routes([
     'register' => false,
@@ -51,6 +53,8 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']],
     Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
     Route::get('search', 'ClientController@search')->name('search');
     Route::get('otras-notas', 'ClientController@previousNews')->name('client.others.news');
+    Route::get('reporte', 'ClientController@report')->name('client.report');
+    Route::post('reporte', 'ClientController@createReport')->name('client.report');
 });
 
 
