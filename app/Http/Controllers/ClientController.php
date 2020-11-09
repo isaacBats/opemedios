@@ -24,9 +24,12 @@ use App\AssignedNews;
 use App\Company;
 use App\Cover;
 use App\Exports\NewsExport;
+use App\Genre;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
+use App\Means;
 use App\News;
+use App\Sector;
 use App\Theme;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -216,7 +219,11 @@ class ClientController extends Controller
 
     public function report (Request $request) {
 
-        return view('clients.report');
+        $sectors = Sector::all();
+        $genres = Genre::all();
+        $means = Means::all();
+
+        return view('clients.report', compact('sectors', 'genres', 'means'));
     }
 
     public function createReport( Request $request ) {
