@@ -131,6 +131,8 @@
             <li class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
             <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
             <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
+            <li class="uk-nav-header uk-text-light">Reporte</li>
+            <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $slug]) }}">Reportes</a><br></li>
             <li class="uk-nav-divider"></li>
             <li class="uk-nav-header uk-text-light"><i class="icon-user"></i> {{ strtoupper(Auth::user()->name) }}</li>
             <li>
