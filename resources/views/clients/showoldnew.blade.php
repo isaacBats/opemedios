@@ -4,11 +4,11 @@
     {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
-        <div class="row padding-top-40">
-            <div class="col-lg-12">
-               <img class="thumbnail new" style="max-width: 220px;" src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->fuente_logo }}" alt="{{ $new->fuente_nombre}}">
-                <small style="position: absolute; right: 0px; top: 0px">{{ Illuminate\Support\Carbon::parse($new->fecha)->formatLocalized('%A %d de %B %Y') }}</small>
-                {{-- 
+        <div class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-grid-divider" uk-grid>
+            <div class="uk-width-1-3@s">
+                <div>
+                    <p class="uk-badge uk-padding-small uk-padding-remove-vertical">{{ Illuminate\Support\Carbon::parse($new->fecha)->formatLocalized('%A %d de %B %Y') }}</p>
+                    {{-- 
                     Para que las fechas salgan en español y conacentos se debe instalar el paquete de idiomas es_MX y es_MX.UTF8
                     con el siguiente comando
                     sudo locale-gen es_MX.UTF8
@@ -17,45 +17,52 @@
                     Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans()
                     Illuminate\Support\Carbon::parse($new->fecha)->formatLocalized('%A %d %B %Y')
                 --}}
-            </div>
-        </div>
-        <!-- NOTICIA HEADER -->
-        <div class="row spacer-20">
-            <div class="col-lg-12">
-                <h1 class="new">{{ $new->encabezado }}</h1>
-                <small style="font-size: 12px">SECCION: {{ $new->seccion }}</small>
-            </div>
-        </div>
-
-        <div class="row spacer-20">
-            <div class="col-lg-12">
-                {{ $new->sintesis }}
-            </div>
-        </div>
-        <div class="row spacer-20">
-            <div class="col-lg-9">
-                @foreach($metadata as $label => $meta)
-                    <div class="col-lg-3">
-                        <p><span class="label-red">{{ $label }}: </span> {!! $meta !!}</p>
+                    <img class="thumbnail new" src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->fuente_logo }}" alt="{{ $new->fuente_nombre}}">
+                    <hr class="uk-visible@s">
+                    <div class="uk-visible@s">
+                        <dl class="uk-text-small uk-text-break uk-description-list">
+                     @foreach($metadata as $label => $meta)
+                            <dt><b class="uk-text-emphasis">{{ $label }}:</b></dt>
+                            <dd>{!! $meta !!}</dd>
+                    @endforeach
+                        </dl>
                     </div>
-                @endforeach
+                </div>
             </div>
-            <div class="col-lg-3 text-right">
-                {{-- Compartir con redes sociales --}}
-            </div>
-        </div>
+        <!-- NOTICIA HEADER -->
+            <div class="uk-width-2-3@s">
+                <h1 class="new">{{ $new->encabezado }}</h1>
+                <p class="uk-padding uk-padding-remove-horizontal">{{ $new->sintesis }}</p>
 
-        <!-- Portfolio Item Row -->
-        <div class="row">
-            <div class="col-md-12">
+                <div class="uk-hidden@s uk-padding uk-padding uk-padding-remove-horizontal uk-padding-remove-top">
+                    <dl class="uk-text-small uk-text-break uk-description-list">
+                @foreach($note->metas() as $meta)
+                    @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
+                        @continue
+                    @endif
+                        <dt><b class="uk-text-emphasis">{{ $meta['label'] }}:</b></dt>
+                        <dd>{!! $meta['value'] !!}</dd>
+                @endforeach
+                    </dl>
+                </div>
+                <div class="col-lg-3 text-right">
+                    {{-- Compartir con redes sociales --}}
+                </div>
+                <div id="doc">
+                 
+                 <!-- Portfolio Item Row -->            
+
                 {{-- Archivos adjuntos --}}
-                <hr>
                 @foreach($adjuntosHTML as $html)
                     {!! $html !!}
                 @endforeach
+
+                </div>
+
             </div>
         </div>
-        <hr>
     </div>
+
+
     <!-- /.container -->
 @endsection
