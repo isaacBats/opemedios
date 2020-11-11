@@ -61,12 +61,28 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Archivos Adjuntos</h4>
+                    </div>
+                    <div class="panel-body">
+                        <ol>
+                            @forelse($note->files as $secondary)
+                                <li><a href="{{ $secondary->path_filename }}" target="_blank">{{ $secondary->original_name }}</a></li>
+                            @empty
+                                <p>{{ __('No hay archivos adjuntos') }}</p>
+                            @endforelse
+                        </ol>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 col-md-6 text-center">
                 @if($mainFile = $note->files->where('main_file', 1)->first())
                     <div class="embed-responsive embed-responsive-16by9">
                         {!! $mainFile->getHTML() !!}
                     </div>
+                    <br>
+                    <a class="text-info" href="{{ $mainFile->path_filename }}" target="_blank">{{ $mainFile->original_name }}</a>
                 @else
                     <p class="text-center">{{ __('Esta nota aun no contiene archivos ajuntos') }}</p>
                 @endif

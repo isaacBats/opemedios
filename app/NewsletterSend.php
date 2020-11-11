@@ -15,20 +15,43 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
 use App\Newsletter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class NewsletterSend
+ * @package App
+ */
 class NewsletterSend extends Model
 {
+    use SoftDeletes;
+    
+    /**
+     * @var string[]
+     */
     protected $fillable = ['newsletter_id', 'status', 'news_ids', 'num_notes', 'num_email'];
 
+    /**
+     * @var string
+     */
     protected $table = 'newsletters_send';
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function newsletter() {
 
         return $this->belongsTo(Newsletter::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function newsletter_theme_news() {
+        return $this->hasMany(NewsletterThemeNews::class);
     }
 }

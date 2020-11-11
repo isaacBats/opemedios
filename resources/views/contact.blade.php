@@ -1,87 +1,59 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', ' - Contacto')
 @section('content')
     <!-- container -->
-    <div class="container op-content-mt">
+    <div class="uk-container op-content-mt">
 
-        <ol class="breadcrumb">
-            <li><a href="{{ route('home') }}">Inicio</a></li>
-            <li class="active">Contacto</li>
-        </ol>
-
-        <div class="row">
-            @if (session('status'))
-                <div class="alert alert-success">
+        <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle uk-padding-large uk-padding-remove-horizontal" uk-grid>
+            <div>
+                <h1 class="page-title">Contáctanos</h1>
+                <p>Nos encantaría saber de usted. ¿Interesados en trabajar juntos? Rellene el siguiente formulario con una breve información sobre su proyecto y nos pondremos en contacto tan pronto como sea posible. Por favor espere un par de días nuestra respuesta.</p>
+                <hr>
+                <div class="widget">
+                    <address>
+                        <i class="icon-map-pin"></i> Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
+                    </address>
+                    <address>
+                        <i class="icon-phone"></i> <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
+                    </address>
+                    <email>
+                        <i class="icon-mail"></i> <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a>
+                    </email>
+                </div>
+            </div>
+            <div>
+                <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
+                @csrf
+                
+                    <div class="uk-margin">
+                        <input class="form-control uk-input" type="text" name="name" placeholder="*Nombre" required>
+                    </div>
+                    <div class="uk-margin">
+                        <input class="form-control uk-input" type="email" name="email" placeholder="*Email" required>
+                    </div>
+                    <div class="uk-margin">
+                        <input class="form-control uk-input" type="text" name="phone" placeholder="Teléfono">
+                    </div>
+                    <div class="uk-margin">
+                        <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control uk-textarea" rows="9" required></textarea>
+                    </div>
+                
+                    <hr>
+                
+                    <div class="uk-margin">
+                        <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Enviar mensaje">
+                    </div>
+                </form>
+                @if (session('status'))
+                <hr>
+                <div class="alert alert-success uk-text-success">
                     {{ session('status') }}
                 </div>
-            @endif
-            
-            <!-- Article main content -->
-            <article class="col-sm-9 maincontent">
-                <header class="page-header">
-                    <h1 class="page-title">Contactanos</h1>
-                </header>
-                
-                <p>
-                    Nos encantaría saber de usted. Interesados en trabajar juntos? Rellene el siguiente formulario con algo de información sobre su proyecto y yo pondremos en contacto con usted tan pronto como pueda. Por favor espere de un par de días para que responda.
-                </p>
-                <br>
-                    <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
-                        @csrf
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <input class="form-control" type="text" name="name" placeholder="*Nombre" required>
-                            </div>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="email" name="email" placeholder="*Email" required>
-                            </div>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="text" name="phone" placeholder="Teléfono">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control" rows="9" required></textarea>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <!-- <div class="col-sm-6">
-                                <label class="checkbox"><input type="checkbox"> Sign up for newsletter</label>
-                            </div> -->
-                            <div class="col-sm-12 text-right">
-                                <input id="btn-send-form-contact" class="btn btn-action" type="submit" value="Enviar mensaje">
-                            </div>
-                        </div>
-                    </form>
-
-            </article>
-            <!-- /Article -->
-            
-            <!-- Sidebar -->
-            <aside class="col-sm-3 sidebar sidebar-right">
-
-                <div class="widget">
-                    <h4>Direccion</h4>
-                    <address>
-                        Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
-                    </address>
-                    <h4>Teléfono:</h4>
-                    <address>
-                        <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
-                    </address>
-                </div>
-
-            </aside>
-            <!-- /Sidebar -->
-
+                @endif
+            </div>
         </div>
     </div>  <!-- /container -->
 
-    <section class="container-full top-space f-map">
-        <div id="map"></div>
-    </section>
 @endsection
 @section('scripts')
     <script type="text/javascript">

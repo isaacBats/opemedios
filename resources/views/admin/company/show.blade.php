@@ -35,7 +35,7 @@
                                       {{ $account->metas->where('meta_key', 'user_position')->first()->meta_value }}
                                       <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account" data-company="{{ $company->name }}" data-userid="{{ $account->id }}" data-username="{{ $account->name }}">Remover</a></small>
                                     </div>
-                                    
+
                                 </li>
                             @empty
                                 <li class="media">No hay cuentas para esta empresa</li>
@@ -43,7 +43,7 @@
                             @endforelse
                         </ul>
                     </div>
-                </div>    
+                </div>
             </div>
             <div class="col-sm-5 col-md-12 col-lg-6">
                 <div class="panel panel-default list-announcement">
@@ -74,6 +74,9 @@
             <div class="btn-toolbar pull-left">
                 <a href="{{ route('user.add.company', ['companyId' => $company->id]) }}" class="btn btn-success btn-quirk">{{ __('Agregar usuario') }}</a>
                 <button data-company="{{ $company->id }}" id="btn-add-theme" class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
+                @if (! $company->newsletter)
+                    <button data-company="{{ $company->id }}" id="btn-add-newsletter" class="btn btn-success btn-quirk" type="button">{{ __('Crear newsletter') }}</button>
+                @endif
                 <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
             </div>
         </div>
@@ -179,7 +182,7 @@
 
                 form.attr('method', 'POST')
                 form.attr('action', '/panel/empresa/relacionar')
-                
+
                 modal.find('.modal-title').html('Relacionar con una empresa del sistema pasado');
                 modal.find('#md-btn-submit').val('Relacionar')
                 $.get('/api/v2/clientes/antiguas', function (companies) {
@@ -188,29 +191,29 @@
                         .attr('name', 'old_company_id')
                         .addClass('form-control')
                     select.append($('<option></option>').attr('value', '').text('Selecciona un Cliente'))
-                    
+
                     $.each(companies, function (key, obj) {
                         select.append($('<option></option>').attr('value', obj.id).text(obj.nombre))
                     })
-                    
+
                     // select.select2()
                     modalBody.html(select)
-                    
+
                     var helpText = $('<p></p>').addClass('text-center mt-3').text('La compañia que elija, sera para actualizar las noticias de años anteriores.')
                     var inputHiden = $('<input>')
                         .attr('type', 'hidden')
                         .attr('name', 'company')
                         .attr('value', companyID)
-                    
+
                     modalBody.append(inputHiden)
                     modalBody.append(helpText)
                 })
-                
+
 
                 modal.modal('show')
             })
 
-            //create theme 
+            //create theme
             $('#btn-add-theme').on('click', function(){
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
@@ -220,7 +223,7 @@
                 form.attr('method', 'POST')
                 form.attr('action', '/panel/tema/nuevo')
                 form.addClass('form-horizontal')
-                
+
                 modal.find('.modal-title').html('Crear un tema para esta empresa');
                 modal.find('#md-btn-submit').val('Crear')
                 modalBody.html(getTemplateForCreateTheme())
@@ -228,7 +231,7 @@
                         .attr('type', 'hidden')
                         .attr('name', 'company_id')
                         .attr('value', companyID)
-                    
+
                 modalBody.append(inputHiden)
 
                 modal.modal('show')
@@ -249,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                ` 
+                `
             }
 
             // delete theme
@@ -263,7 +266,7 @@
                 var themeName = $(this).data('name')
 
                 form.attr('method', 'POST')
-                    .attr('action', `/panel/tema/eliminar/${themeID}`) 
+                    .attr('action', `/panel/tema/eliminar/${themeID}`)
 
                 modal.find('.modal-title').html('Eliminar tema');
                 modalBody.html(`<p>¿Estas seguro que quieres eliminar el tema: <strong>${themeName}</strong>?</p>`)
@@ -341,6 +344,30 @@
                         <input type="file" name="logo" class="form-control">
                     </div>
                 `)
+                modal.modal('show')
+            })
+
+            // modal create newsletter for company
+            $('#btn-add-newsletter').on('click', function() {
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var companyID = $(this).data('company')
+
+                form.attr('method', 'POST')
+                form.attr('action', '{{ route('admin.newsletter.create') }}')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').html('Crear newsletter para {{ $company->name }}')
+                modal.find('#md-btn-submit').val('Crear')
+                modalBody.html(`<p> <strong>Vas a crear un Nesletter para la Empresa {{ $company->name }} </strong></p>`)
+                var inputHiden = $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'company_id')
+                    .attr('value', companyID)
+
+                modalBody.append(inputHiden)
+
                 modal.modal('show')
             })
         })

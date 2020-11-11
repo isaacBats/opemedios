@@ -4,28 +4,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Opemedios Newsletter</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="{{ asset('uikit/css/uikit.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('icomoon/style.css') }}" />
+    <!-- Style -->
+    <link href="{{ asset('css/newsletter.css') }}" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="container d-flex justify-content-between">
-                <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center">
-                    {{-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> --}}
-                    <strong>Opemedios - {{ isset($company) ? $company->name : 'Noticia' }}</strong>
-                </a>
-            </div>
-        </div>
-    </header>
+    <article class="uk-container">        
     @yield('content')
-    <footer class="text-muted">
-        <div class="container">
-            <p class="float-right">
-                <a href="https://opemedios.com.mx">Copyright &copy; {{ date('Y') }}, Opemedios</a>
+    </article>
+
+    <footer class="uk-text-muted uk-container">
+        <div class="uk-flex uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-bottom" uk-grid>
+            <p>
+                <a href="https://opemedios.com.mx" class="uk-text-muted">Copyright &copy; {{ date('Y') }}, Opemedios</a>
             </p>
-            <p><strong>Power by:</strong> <a href="https://twitter.com/codeisaac">{{ '@codeisaac' }}</a> <a href="mailto:{{ 'daniel@danielbat.com' }}">{{ 'daniel@danielbat.com' }}</a></p>
+            <p class="uk-flex-first@s">
+                <strong>Power by:</strong> <a href="https://twitter.com/codeisaac" class="uk-text-muted">{{ '@codeisaac' }}</a> <a href="mailto:{{ 'daniel@danielbat.com' }}" class="uk-text-muted">{{ 'daniel@danielbat.com' }}</a>
+            </p>
         </div>
     </footer>
+    <script src="{{ asset('uikit/js/uikit.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/pdfobject.min.js') }}"></script>
+    <script>
+    if(!PDFObject.supportsPDFs){
+        $(".lightbox.pdf").addClass('uk-hidden');
+        $(".no-pdf-inline").removeClass('uk-hidden');
+    }
+    </script>
 </body>
 </html>

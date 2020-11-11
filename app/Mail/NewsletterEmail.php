@@ -18,7 +18,8 @@
         
 namespace App\Mail;
 
-use App\Newsletter;
+use App\NewsletterFooter;
+use App\NewsletterSend;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,25 +29,20 @@ class NewsletterEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $newsletter;
-
-    public $news;
-
-    public $company;
-
-    public $newsByTheme;
+    public $newsletterSend;
+    
+    public $covers;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Newsletter $newsletter, $news, $company, $newsByTheme)
+    public function __construct(NewsletterSend $newsletterSend, NewsletterFooter $covers)
     {
-        $this->newsletter = $newsletter;
-        $this->news = $news;
-        $this->company = $company;
-        $this->newsByTheme = $newsByTheme;
+        $this->newsletterSend = $newsletterSend;
+        
+        $this->covers = unserialize($covers->urls);
     }
 
     /**
@@ -56,8 +52,8 @@ class NewsletterEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.newsletter2')
+        return $this->view("mail.{$this->newsletterSend->newsletter->template}")
                 ->from('newsletter@opemedios.com.mx', 'Newsletter')
-                ->subject("Newsletter - {$this->company->name}");
+                ->subject("Newsletter - {$this->newsletterSend->newsletter->company->name}");
     }
 }
