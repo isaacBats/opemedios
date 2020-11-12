@@ -42,16 +42,13 @@
                 <div class="uk-hidden@s uk-padding-large uk-padding-remove-horizontal">
                     <div class="uk-text-small uk-text-break uk-description-list" uk-grid>
                 @foreach($metadata as $label => $meta)
-                    @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
-                        @continue
-                    @endif
                         @if( $label == 'URL')
                         <p class="uk-width-1-1">
                         @else
                         <p class="uk-width-1-2">
                         @endif
-                            <span class="{{ $meta['label'] }}-meta"><b class="uk-text-emphasis">{{ $label }}: </b></span>
-                            <span class="{{ $meta['label'] }}-value">{!! $meta !!}</span>
+                            <span class="{{ $label }}-meta"><b class="uk-text-emphasis">{{ $label }}: </b></span>
+                            <span class="{{ $label }}-value">{!! $meta !!}</span>
                         </p>
                 @endforeach
                     </div>
