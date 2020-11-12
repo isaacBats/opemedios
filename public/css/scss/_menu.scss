@@ -11,6 +11,38 @@ body nav .uk-navbar-left .uk-logo{
 body nav .uk-navbar-toggle-icon{
   width: 3.5rem;
 }
+body nav .uk-navbar-right .uk-button{
+  transition: all ease-in-out .2s;
+}
+body nav .uk-navbar-right .uk-button:hover{
+  background: #fff;
+  color: #333;
+  border: 1px solid #b2b2b2;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  transition: all ease-in-out .3s;
+}
+@media only screen and ( min-width: 960px){
+  body nav .uk-navbar-right > .uk-navbar-nav > li > a{
+    position: relative;
+    &:before{
+      position: absolute;
+      content: '';
+      display: block;
+      width: .1em;
+      height: 3px;
+      left: 50%;
+      top: 75%;
+      transform: translateX(-50%);
+      background: transparent;
+      transition: all ease-in-out .1s;
+    }
+    &:hover::before{
+      width: 90%;      
+      background: #333;
+      transition: all ease-in-out .2s;
+    }
+  }
+}
 @media only screen and (max-width: 959px) {
   body nav .contacto a{
     padding: 0 15px;
