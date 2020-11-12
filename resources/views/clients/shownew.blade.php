@@ -1,7 +1,6 @@
 @extends('layouts.home')
 @section('title', " - Noticia")
 @section('content')
-    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
         <div class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-grid-divider" uk-grid>

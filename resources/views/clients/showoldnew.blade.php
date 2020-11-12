@@ -1,22 +1,12 @@
 @extends('layouts.home')
 @section('title', " - Noticia")
 @section('content')
-    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
     <div class="uk-container op-content-mt">
         <div class="uk-padding uk-padding-large uk-padding-remove-horizontal uk-grid-divider" uk-grid>
             <div class="uk-width-1-3@s">
                 <div>
                     <p class="uk-badge uk-padding-small uk-padding-remove-vertical">{{ Illuminate\Support\Carbon::parse($new->fecha)->formatLocalized('%A %d de %B %Y') }}</p>
-                    {{-- 
-                    Para que las fechas salgan en español y conacentos se debe instalar el paquete de idiomas es_MX y es_MX.UTF8
-                    con el siguiente comando
-                    sudo locale-gen es_MX.UTF8
-                    sudo dpkg-reconfigure locales
-                    y configurar en el service provider AppServiceProvider
-                    Illuminate\Support\Carbon::parse($new->fecha)->diffForHumans()
-                    Illuminate\Support\Carbon::parse($new->fecha)->formatLocalized('%A %d %B %Y')
-                --}}
                     <img class="thumbnail new" src="http://sistema.opemedios.com.mx/data/fuentes/{{ $new->fuente_logo }}" alt="{{ $new->fuente_nombre}}">
                     <hr class="uk-visible@s">
                     <div class="uk-visible@s">
