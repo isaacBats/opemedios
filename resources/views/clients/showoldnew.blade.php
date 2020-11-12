@@ -21,10 +21,10 @@
                     <hr class="uk-visible@s">
                     <div class="uk-visible@s">
                         <dl class="uk-text-small uk-text-break uk-description-list">
-                     @foreach($metadata as $label => $meta)
+                        @foreach($metadata as $label => $meta)
                             <dt><b class="uk-text-emphasis">{{ $label }}:</b></dt>
                             <dd>{!! $meta !!}</dd>
-                    @endforeach
+                        @endforeach
                         </dl>
                     </div>
                 </div>
@@ -34,20 +34,10 @@
                 <h1 class="new">{{ $new->encabezado }}</h1>
                 <p class="uk-padding uk-padding-remove-horizontal">{{ $new->sintesis }}</p>
 
-                <div class="uk-hidden@s uk-padding uk-padding uk-padding-remove-horizontal uk-padding-remove-top">
-                    <dl class="uk-text-small uk-text-break uk-description-list">
-                @foreach($note->metas() as $meta)
-                    @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
-                        @continue
-                    @endif
-                        <dt><b class="uk-text-emphasis">{{ $meta['label'] }}:</b></dt>
-                        <dd>{!! $meta['value'] !!}</dd>
-                @endforeach
-                    </dl>
-                </div>
                 <div class="col-lg-3 text-right">
                     {{-- Compartir con redes sociales --}}
                 </div>
+
                 <div id="doc">
                  
                  <!-- Portfolio Item Row -->            
@@ -57,6 +47,24 @@
                     {!! $html !!}
                 @endforeach
 
+                </div>
+
+                <div class="uk-hidden@s uk-padding-large uk-padding-remove-horizontal">
+                    <div class="uk-text-small uk-text-break uk-description-list" uk-grid>
+                @foreach($metadata as $label => $meta)
+                    @if($meta['label'] == 'Comentarios' || $meta['label'] == 'Creador' || $meta['label'] == 'Encabezado' || $meta['label'] == 'Síntesis' || $meta['label'] == 'Fecha')
+                        @continue
+                    @endif
+                        @if( $label == 'URL')
+                        <p class="uk-width-1-1">
+                        @else
+                        <p class="uk-width-1-2">
+                        @endif
+                            <span class="{{ $meta['label'] }}-meta"><b class="uk-text-emphasis">{{ $label }}: </b></span>
+                            <span class="{{ $meta['label'] }}-value">{!! $meta !!}</span>
+                        </p>
+                @endforeach
+                    </div>
                 </div>
 
             </div>

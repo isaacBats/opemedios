@@ -37,7 +37,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-4 text-right">
-                                            <input type="submit" value="Entrar" class="uk-button uk-button-default uk-button-large btn btn-action">
+                                            <input type="submit" value="Entrar" class="uk-button uk-button-default uk-button-large uk-box-shadow-medium btn btn-action">
                                         </div>
                                     </div>
                                 </form>
