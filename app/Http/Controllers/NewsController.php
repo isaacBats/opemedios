@@ -515,9 +515,9 @@ class NewsController extends Controller
             return abort(403, 'Noticia no encontrada');
         }
 
-        $news = News::findOrFail($data[0]);
+        $note = News::findOrFail($data[0]);
 
-        return view('clients.frontdetailnews', compact('news'));
+        return view('clients.frontdetailnews', compact('note'));
     }
     /**
      * Description
