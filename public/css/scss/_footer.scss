@@ -25,3 +25,49 @@ footer.uk-section .legal{
   font-family: 'Open Sans', sans-serif;
   font-size: .7em;
 }
+@media only screen and ( min-width: 960px){
+	footer section a{
+		> div{
+			position: relative;
+		    &:after{
+		      position: absolute;
+		      content: '';
+		      display: block;
+		      width: .1em;
+		      height: 2px;
+		      left: 50%;
+		      top: 105%;
+		      transform: translateX(-50%);
+		      background: transparent;
+		      transition: all ease-in-out .1s;
+		      z-index: 3;
+		    }
+		    &:hover::after{
+		      width: 6em;
+		      background: #fff;
+		      transition: all ease-in-out .2s;
+		    }
+		}
+	}
+	footer section .links-sociales a{
+		position: relative;
+	    &:after{
+	      position: absolute;
+	      content: '';
+	      display: block;
+	      width: .1em;
+	      height: 2px;
+	      left: 50%;
+	      top: 52%;
+	      transform: translateX(-50%);
+	      background: transparent;
+	      transition: all ease-in-out .1s;
+	      z-index: 3;
+	    }
+	    &:hover::after{
+	      width: 60%;
+	      background: #fff;
+	      transition: all ease-in-out .2s;
+	    }
+	}
+}

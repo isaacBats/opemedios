@@ -41,7 +41,7 @@
                     <hr>
                 
                     <div class="uk-margin">
-                        <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default" type="submit" value="Enviar mensaje">
+                        <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Enviar mensaje">
                     </div>
                 </form>
                 @if (session('status'))
