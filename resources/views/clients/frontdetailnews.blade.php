@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                {{-- Compartir con redes sociales --}}
+                @include('components.buttonsshare', ['note' => $news])
             </div>
         </div>
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    @yield('metas')
     <title>Opemedios Newsletter</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -13,6 +14,7 @@
     <link href="{{ asset('css/newsletter.css') }}" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
+    @yield('shared-scripts')
     <article class="uk-container">        
     @yield('content')
     </article>
@@ -20,7 +22,7 @@
     <footer class="uk-text-muted uk-container">
         <div class="uk-flex uk-padding uk-padding-large uk-padding-remove-horizontal uk-padding-remove-bottom" uk-grid>
             <p>
-                <a href="https://opemedios.com.mx" class="uk-text-muted">Copyright &copy; {{ date('Y') }}, Opemedios</a>
+                <a href="{{ route('home') }}" class="uk-text-muted">Copyright &copy; {{ date('Y') }}, Opemedios</a>
             </p>
             <p class="uk-flex-first@s">
                 <strong>Power by:</strong> <a href="https://twitter.com/codeisaac" class="uk-text-muted">{{ '@codeisaac' }}</a> <a href="mailto:{{ 'daniel@danielbat.com' }}" class="uk-text-muted">{{ 'daniel@danielbat.com' }}</a>

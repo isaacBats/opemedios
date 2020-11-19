@@ -61,6 +61,7 @@
                         </div>';
                     }
                     @endphp
+                    @include('components.buttonsshare', compact('note'))
                     <p class="uk-text-center uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom">
                        {{ __('Descargar Archivo: ') }} <a href="{{ $mainFile->path_filename }}" target="_blank" class="uk-button uk-button-default uk-button-large uk-text-truncate uk-box-shadow-medium"><i class="icon-download"></i> {{ $mainFile->original_name }}</a>
                    </p>

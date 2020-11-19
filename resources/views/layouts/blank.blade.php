@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Isaac Batista ">
-
+    @yield('metas')
+    
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -54,6 +55,7 @@
     </style>
 </head>
 <body>
+    @yield('shared-scripts')
     <div id="app">
         <main class="py-4">
             @yield('content')

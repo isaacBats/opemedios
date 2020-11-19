@@ -10,6 +10,7 @@
         @endphp
         <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
+        @yield('metas')
         @if( $route != 'home' &&  $route != 'about' &&  $route != 'clients' &&  $route != 'signin' &&  $route != 'contact')
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         @endif
@@ -39,6 +40,7 @@
     @else
         <body class="{{ str_replace('.', '-', $route) }} with-side-menu">
     @endif
+    @yield('shared-scripts')
         {{-- $route --}}
         <header>
             @include('components.menu-client')
