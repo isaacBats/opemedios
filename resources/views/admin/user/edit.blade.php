@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row">
         <form action="{{ route('admin.edit.user', ['id' => $user->id]) }}" method="POST">
             @csrf
