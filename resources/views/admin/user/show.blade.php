@@ -54,6 +54,7 @@
 
             <p><i class="glyphicon glyphicon-phone mr5"></i>Tel: {{ $profile->getMetaByKey('user_phone') ? $profile->getMetaByKey('user_phone')->meta_value : "-" }}</p>
             <p><i class="glyphicon glyphicon-phone mr5"></i>Whatsapp: {{ $profile->getMetaByKey('user_whatsapp') ? $profile->getMetaByKey('user_whatsapp')->meta_value : "-" }}</p>
+            <p><i class="glyphicon glyphicon-phone mr5"></i>Email: {{ $profile->email }}</p>
 
             <hr class="fadeout">
 
