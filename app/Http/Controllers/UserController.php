@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -48,22 +49,20 @@ class UserController extends Controller
 
     public function index (Request $request) {
         $paginate = 25;
-        if($request->has('query') && !is_null($request->get('query'))) {
-            $users = User::where('name', 'like', "'%{$request->get('query')}%'")
-                ->orWhere('email', 'like', "'%{$request->get('query')}%'")
-                ->orderBy('id', 'DESC')
-                ->paginate($paginate)
-                ->appends('query', request('query'));
-        }elseif($request->has('roll') && !is_null($request->get('roll'))) {
-            $users = User::whereHas('roles', function (Builder $query) use($request) {
-                        $query->where('id', $request->get('roll'));
-                    })
-                ->orderBy('id', 'DESC')
-                ->paginate($paginate)->appends('roll', request('roll'));
-        } else {
-            $users = User::orderBy('id', 'DESC')->paginate($paginate);
-        }
-
+        $query = User::query();
+        $query->orderBy('id', 'DESC')
+            ->when($request->has('query') && !is_null($request->get('query')), function($q) use ($request) {
+                return $q->where('name', 'like', "%{$request->get('query')}%")
+                    ->orWhere('email', 'like', "%{$request->get('query')}%");
+            })
+            ->when($request->has('roll') && !is_null($request->get('roll')), function($q) use ($request) {
+                return $q->whereHas('roles', function (Builder $qry) use($request) {
+                            $qry->where('id', $request->get('roll'));
+                        });
+            });
+        $users = $query->paginate($paginate)
+            ->appends('query', request('query'))
+            ->appends('roll', request('roll'));
         $roles = Role::all();
 
         return view('admin.user.index', compact('users', 'roles'));
@@ -223,24 +222,36 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $user = User::findOrFail($id);
-        $data = $request->all();
-        
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['new_password']);
-
-        foreach ($data as $key => $value) {
-            if(Str::contains($key, 'user_')) {
-                if(!is_null($value)) {
-                    $user->metas()->updateOrCreate(
-                        ['meta_key' => $key, 'meta_value' => $value]
-                    );
+        try {
+            $user = User::findOrFail($id);
+            $data = $request->all();
+            $user->name = $data['name'];
+            if($user->email != $data['email']) {
+                $userValidationEmail = User::where('email', $data['email'])->get();
+                if($userValidationEmail->isEmpty()) {
+                    $user->email = $data['email'];
+                } else {
+                    return back()->withInput()->with('status', "El correo {$data['email']} ya se encuentra registrado en nuestra base de datos, use otro correo.");
                 }
             }
-        }
+            if (!is_null($data['new_password'])) {
+                $user->password = Hash::make($data['new_password']);
+            }
 
-        $user->save();
+            foreach ($data as $key => $value) {
+                if(Str::contains($key, 'user_')) {
+                    if(!is_null($value)) {
+                        $user->metas()->updateOrCreate(
+                            ['meta_key' => $key, 'meta_value' => $value]
+                        );
+                    }
+                }
+            }
+
+            $user->save();
+        } catch (Exception $e) {
+            Log::error("User ERROR: {$e->getMessage()}");
+        }
         
         return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
     }
