@@ -35,7 +35,10 @@ class CompanyController extends Controller
 
         $companies = Company::name($request->get('name'))
             ->turn($request->get('turn'))
-            ->orderBy('id', 'DESC')->paginate(25);
+            ->orderBy('id', 'DESC')
+            ->paginate(25)
+            ->appends('name', request('name'))
+            ->appends('turn', request('turn'));
         $turns = Turn::all();
         return view('admin.company.index', compact('companies', 'turns'));
     }

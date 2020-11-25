@@ -61,7 +61,7 @@
 <div class="col-sm-4 col-md-3 col-lg-2">
     <div class="panel">
         <div class="panel-heading">
-            <h4 class="panel-title">{{ __('Filtrar Usuarios') }}</h4>
+            <h4 class="panel-title">{{ __('Filtrar Empresas') }}</h4>
         </div>
         <div class="panel-body">
             <form action="{{ route('companies') }}" method="GET">

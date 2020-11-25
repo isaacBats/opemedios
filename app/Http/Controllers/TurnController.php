@@ -33,8 +33,13 @@ class TurnController extends Controller
         ]);
     }
 
-    public function index () {
-        $turns = Turn::orderBy('id', 'DESC')->paginate(25);
+    public function index (Request $request) {
+        
+        $turns = Turn::name($request->get('name'))
+            ->orderBy('id', 'DESC')
+            ->paginate(25)
+            ->appends('name', request('name'));
+        
         return view('admin.turn.index', compact('turns'));
     }
 

@@ -31,4 +31,10 @@ class Turn extends Model
     public function companies () {
         return $this->hasMany(Company::class);
     }
+
+    public function scopeName($query, $name) {
+      if($name) {
+        return $query->where('name', 'like', "%{$name}%");
+      }
+    }
 }
