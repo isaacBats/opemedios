@@ -160,7 +160,11 @@ class NewsController extends Controller
             $news = News::where('mean_id', $meanId)->orderBy('id', 'DESC')->paginate($paginate);
             $news->setPath(route('admin.news', ['new_mean' => $meanId]));
         } else {
-            $news = News::orderBy('id', 'DESC')->paginate($paginate);
+            $news = News::searchBy($request->get('option'), $request->get('query'))
+                ->orderBy('id', 'DESC')
+                ->paginate($paginate)
+                ->appends('option', request('option'))
+                ->appends('query', request('query'));
         }
 
         return view('admin.news.index', compact('news'));

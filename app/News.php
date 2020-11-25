@@ -132,4 +132,10 @@ class News extends Model
     public static function latestNews($limit = 10) {
         return News::latest()->limit($limit)->get();
     }
+
+    public function scopeSearchBy($query, $type, $value) {
+        if(($type) && ($value)) {
+            return $query->where($type, 'like', "%{$value}%");
+        }
+    }
 }
