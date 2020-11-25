@@ -108,4 +108,16 @@ class Company extends Model
     public function assignedNews() {
         return $this->hasMany(AssignedNews::class);
     }
+
+    public function scopeName($query, $name) {
+      if($name) {
+        return $query->where('name', 'like', "%{$name}%");
+      }
+    }
+
+    public function scopeTurn($query, $turn) {
+      if($turn) {
+        return $query->where('turn_id', $turn);
+      }
+    }
 }
