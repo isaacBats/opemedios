@@ -5,7 +5,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="col-md-12">
+    <div class="col-sm-8 col-md-9 col-lg-10">
         <div class="panel">
             <div class="panel-heading">
                 <div class="row">
@@ -21,6 +21,26 @@
                 @include('admin.sources.table_sources')
             </div>
         </div>
+    </div>
+    <div class="col-sm-4 col-md-3 col-lg-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">{{ __('Filtrar Fuentes') }}</h4>
+            </div>
+            <div class="panel-body">
+                <form action="{{ route('sources') }}" method="GET">
+                    <div class="form-group">
+                        <label class="control-label center-block">{{ __('Buscar por nombre') }}</label>
+                        <input type="text" name="name" class="form-control" placeholder="{{ __('Buscar por nombre') }}" value="{{ request()->get('name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label center-block">{{ __('Buscar por empresa') }}</label>
+                        <input type="text" name="company" class="form-control" placeholder="{{ __('Buscar por empresa') }}" value="{{ request()->get('company') }}">
+                    </div>
+                    <input type="submit" class="btn btn-success btn-quirk btn-block" value="{{ __('Filtrar') }}">
+                </form>
+            </div>
+        </div><!-- panel -->
     </div>
 @endsection
 @section('styles')

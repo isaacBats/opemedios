@@ -5,7 +5,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="col-sm-12 col-md-12">
+    <div class="col-sm-8 col-md-9 col-lg-10">
         <div class="panel">
             <div class="panel-heading">
                 <div class="row">
@@ -44,6 +44,22 @@
                 {{ $turns->links() }}
             </div>
         </div>
+    </div>
+    <div class="col-sm-4 col-md-3 col-lg-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">{{ __('Filtrar Giros') }}</h4>
+            </div>
+            <div class="panel-body">
+                <form action="{{ route('admin.turns') }}" method="GET">
+                    <div class="form-group">
+                        <label class="control-label center-block">{{ __('Buscar por nombre') }}</label>
+                        <input type="text" name="name" class="form-control" placeholder="{{ __('Buscar por nombre') }}" value="{{ request()->get('name') }}">
+                    </div>
+                    <input type="submit" class="btn btn-success btn-quirk btn-block" value="{{ __('Filtrar') }}">
+                </form>
+            </div>
+        </div><!-- panel -->
     </div>
 @endsection
 @section('scripts')

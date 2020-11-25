@@ -31,10 +31,16 @@ use Validator;
 
 class CompanyController extends Controller
 {
-    public function index () {
+    public function index (Request $request) {
 
-        $companies = Company::orderBy('id', 'DESC')->paginate(25);
-        return view('admin.company.index', compact('companies'));
+        $companies = Company::name($request->get('name'))
+            ->turn($request->get('turn'))
+            ->orderBy('id', 'DESC')
+            ->paginate(25)
+            ->appends('name', request('name'))
+            ->appends('turn', request('turn'));
+        $turns = Turn::all();
+        return view('admin.company.index', compact('companies', 'turns'));
     }
 
     public function showFormNewCompany() {
