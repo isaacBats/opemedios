@@ -28,9 +28,12 @@ class SectorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sectors = Sector::orderBy('id', 'DESC')->paginate(25);
+        $sectors = Sector::name($request->get('name'))
+            ->orderBy('id', 'DESC')
+            ->paginate(25)
+            ->appends('name', request('name'));
         return view('admin.sector.index', compact('sectors'));
     }
 
