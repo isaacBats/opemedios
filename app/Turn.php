@@ -33,8 +33,8 @@ class Turn extends Model
     }
 
     public function scopeName($query, $name) {
-      if($name) {
-        return $query->where('name', 'like', "%{$name}%");
-      }
+        if($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        }
     }
 }
