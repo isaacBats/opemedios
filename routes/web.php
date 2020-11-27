@@ -82,6 +82,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
+        Route::post('tema/remover-usuario/{id}', 'ThemeController@themeUserRemove')->name('admin.theme.remove.user');
 
         Route::get('giros', 'TurnController@index')->name('admin.turns');
         Route::get('giros/nuevo', 'TurnController@create')->name('admin.turns.create');
