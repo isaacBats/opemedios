@@ -75,12 +75,14 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
+        Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
 
         Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
         Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
+        Route::post('tema/remover-usuario/{id}', 'ThemeController@themeUserRemove')->name('admin.theme.remove.user');
 
         Route::get('giros', 'TurnController@index')->name('admin.turns');
         Route::get('giros/nuevo', 'TurnController@create')->name('admin.turns.create');

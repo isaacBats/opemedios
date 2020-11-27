@@ -170,4 +170,25 @@ class CompanyController extends Controller
 
         return response()->json($company->accounts());
     }
+
+    public function delete (Request $request, $id) {
+        $company = Company::findOrFail($id);
+        $name = $company->name;
+        if($company->themes->isNotEmpty()) {
+            $company->themes->each(function ($theme, $key) {
+                $theme->delete();
+            });
+        }
+        if($company->accounts()->isNotEmpty()) {
+            $company->accounts()->each(function ($user, $key){
+                $user->delete();
+            });
+        }
+        if($company->newsletter) {
+            $company->newsletter->delete();
+        }
+        $company->delete();
+
+        return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas y newsletters relacionados");
+    }
 }

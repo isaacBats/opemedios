@@ -20,7 +20,7 @@
     </div>
     <div class="panel-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-inverse table-striped nomargin">
+            <table class="table table-bordered table-inverse table-striped nomargin" id="table-company-list">
               <thead>
                 <tr>
                   <th class="text-center">
@@ -47,7 +47,7 @@
                       <td class="text-left">{{ $company->turn->name }}</td>
                       <td class="table-options">
                           <li><a href="{{ route('company.show', ['id' => $company->id]) }}"><i class="fa fa-eye"></i></a></li>
-                          <li><a href=""><i class="fa fa-trash"></i></a></li>
+                          <li><a href="{{ route('admin.company.delete', ['id' => $company->id]) }}" class="btn-delete-company" data-name="{{ $company->name }}"><i class="fa fa-trash"></i></a></li>
                       </td>
                     </tr>
                 @endforeach
@@ -86,4 +86,29 @@
         </div>
     </div><!-- panel -->
 </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function (){
+            // Modal for delete a company
+            $('#table-company-list').on('click', '.btn-delete-company', function(event){
+                event.preventDefault()
+                var companyName = $(this).data('name')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var urlAction = $(this).attr('href')
+
+                form.attr('action', urlAction)
+                form.attr('method', 'POST')
+
+                modal.find('.modal-title').text(`Eliminar Empresa`)
+                modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val("{{ __('Eliminar') }}")
+                modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar a ') }}<strong>${companyName}</strong>?
+                    <br />
+                    <p>Si eliminas la empresa ${companyName} tambien se van a borrar las cuentas y los temas asociados a la empresa.</p>
+                `)
+                modal.modal('show')
+            })
+        })
+    </script>
 @endsection
