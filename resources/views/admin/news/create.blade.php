@@ -127,7 +127,7 @@
                             <label class="col-sm-3 col-form-label" for="input-news-date">{{ __('Fecha') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="dd-mm-yyyy" name="news_date" id="input-news-date" value="{{ old('news_date') }}">
+                                    <input type="text" class="form-control" placeholder="dd-mm-yyyy" name="news_date" id="input-news-date" value="{{ old('news_date', \Carbon\Carbon::now()->format('d-m-Y')) }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
@@ -159,7 +159,7 @@
                             <label class="col-sm-3 col-form-label" for="input-news-hour">{{ __('Hora') }}: <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" value="{{ old('news_hour') }}" disabled>
+                                    <input type="text" class="form-control item-input-clean" placeholder="hh:mm:ss" name="news_hour" id="input-news-hour" value="{{ old('news_hour', \Carbon\Carbon::now()->format('H:i:s')) }}" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
                                     </div>
@@ -351,9 +351,11 @@
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
+            console.log(new Date().toTimeString())
             $('#input-news-hour').timepicker({
                 step: 1, // time in minutes
                 timeFormat: 'H:i:s',
+                defaultTime: new Date().toTimeString(),
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true
