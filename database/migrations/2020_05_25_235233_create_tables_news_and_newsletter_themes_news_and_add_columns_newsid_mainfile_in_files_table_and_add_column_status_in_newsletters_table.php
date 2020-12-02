@@ -45,8 +45,8 @@ class CreateTablesNewsAndNewsletterThemesNewsAndAddColumnsNewsidMainfileInFilesT
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('mean_id');
             $table->timestamp('news_date')->nullable();
-            $table->float('cost', 8, 2);
-            $table->smallInteger('trend')->defaulr(2);
+            $table->float('cost', 14, 2);
+            $table->smallInteger('trend')->default(2);
             $table->smallInteger('scope')->nullable();
             $table->text('comments')->nullable();
             $table->smallInteger('in_newsletter')->default(0);
