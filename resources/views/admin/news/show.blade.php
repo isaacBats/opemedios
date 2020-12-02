@@ -27,7 +27,7 @@
 
             {{-- Esta parte es para tener botones del lado derecho --}}
             <div class="btn-group pull-right" data-toggle="buttons">
-                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> {{ __('Eliminar') }}</button>
+                {{-- <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> {{ __('Eliminar') }}</button> --}}
                 {{-- <label class="btn btn-default-active active">
                     <input type="checkbox" checked> All
                 </label>
