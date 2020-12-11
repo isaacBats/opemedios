@@ -156,6 +156,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/editar/{id}', 'NewsController@edit')->name('admin.new.edit');
     Route::post('noticias/editar/{id}', 'NewsController@update')->name('admin.new.edit');
     Route::post('noticias/asignar/{id}', 'NewsController@toAssign')->name('admin.new.notice.toassign');
+    Route::post('noticias/remover/{id}', 'NewsController@toremovenews')->name('admin.assignednews.remove');
     Route::get('noticias/ver/adjuntos/{id}', 'NewsController@adjuntos')->name('admin.new.adjunto.show');
     Route::post('noticias/ver/adjuntos/subir/{id}', 'NewsController@adjuntosUpload')->name('admin.new.adjunto.upload');
     Route::get('noticias/ver/adjunto/asignar-primario', 'NewsController@assignMainFileForNews')->name('admin.new.adjunto.main');

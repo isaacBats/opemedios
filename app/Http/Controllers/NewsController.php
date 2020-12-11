@@ -587,5 +587,16 @@ class NewsController extends Controller
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');   
     }
 
+    public function toremovenews(Request $request, $assigned_id) {
+        $assigned = AssignedNews::findOrFail($assigned_id);
+        $title = $assigned->news->title;
+        $company = $assigned->company->name;
+        $company_id = $assigned->company->id;
+        
+        $assigned->delete();
+
+        return redirect()->route('company.show', ['id' => $company_id])->with('status', "¡La noticia {$title} se ha desvinculado  satisfactoriamente de {$company}!");
+    }
+
 }
  
