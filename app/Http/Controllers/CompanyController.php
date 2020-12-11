@@ -75,7 +75,9 @@ class CompanyController extends Controller
     public function show (Request $request, $id) {
 
         $company = Company::find($id);
+        $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $turns = Turn::all();
+
 
         return view('admin.company.show', compact('company', 'turns'));
     }

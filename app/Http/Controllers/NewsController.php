@@ -577,5 +577,26 @@ class NewsController extends Controller
         return Excel::download(new NewsExport, "reporte_{$date}.xlsx");
     }
 
+    public function toAssign(Request $request, $id) {
+         $assigned = AssignedNews::create([
+            'news_id' => $id,
+            'company_id' => $request->input('company_id'),
+            'theme_id' => $request->input('theme_id'),
+        ]);
+
+        return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');   
+    }
+
+    public function toremovenews(Request $request, $assigned_id) {
+        $assigned = AssignedNews::findOrFail($assigned_id);
+        $title = $assigned->news->title;
+        $company = $assigned->company->name;
+        $company_id = $assigned->company->id;
+        
+        $assigned->delete();
+
+        return redirect()->route('company.show', ['id' => $company_id])->with('status', "¡La noticia {$title} se ha desvinculado  satisfactoriamente de {$company}!");
+    }
+
 }
  
