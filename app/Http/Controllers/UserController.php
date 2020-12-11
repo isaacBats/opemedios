@@ -242,7 +242,8 @@ class UserController extends Controller
                 if(Str::contains($key, 'user_')) {
                     if(!is_null($value)) {
                         $user->metas()->updateOrCreate(
-                            ['meta_key' => $key, 'meta_value' => $value]
+                            ['user_id' => $user->id, 'meta_key' => $key],
+                            ['meta_value' => $value]
                         );
                     }
                 }
