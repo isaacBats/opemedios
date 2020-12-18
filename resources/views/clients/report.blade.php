@@ -3,8 +3,8 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="uk-padding op-content-mt main-content">
-        <div class="uk-width-2xlarge uk-padding-large uk-padding-remove-horizontal reporte-container">
+    <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
+        <div class="uk-width-2xlarge uk-padding reporte-container" style="background: #fff;">
             <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
             <br>
             <form action="{{ route('client.report', ['company' => session()->get('slug_company')]) }}" method="POST">

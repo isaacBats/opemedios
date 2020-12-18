@@ -80,24 +80,7 @@
             <div class="uk-navbar-left logo-opemedios uk-width-expand">
                 <a class="uk-navbar-item uk-logo" href="{{ route('home') }}" style="margin: 0 auto;"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios"/></a>
             </div>
-            @if( $route == 'news')
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav scroll-to uk-list">
-                    <li>
-                        <a href="#" uk-icon="chevron-down">Temas</a>
-                        <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav uk-panel-scrollable" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
-                            @foreach($company->themes as $theme)
-                            <li style="margin-top: 10px;">
-                                <a href="#theme{{ $theme->id }}">{{ $theme->name }}</a>
-                            </li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @elseif( $route == 'themes')
+            @if( $route == 'themes')
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav list-group" id="list-group-themes">
                     <li>

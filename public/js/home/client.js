@@ -14,9 +14,16 @@
   * file that was distributed with this source code.
   */
 $(document).ready(function(){
+        /*used for put a count on the themes titles*/
+        $('span.count').each(function( ){
+          if($("#"+$(this).attr('target')))
+            $("#"+$(this).attr('target')).text( "("+$(this).text() + ")");
+        });
+     
         // spinner in off
         $('.loader').hide();
-        $('span.tema-actual').text($('ul#themes li.uk-active a').text());
+        $('#list-news h2.theme-name').text( $('#list-group-themes li.uk-active a').html() );
+
 
         if( $("ul.pagination").length ){
           $("ul.pagination").addClass("uk-pagination");
@@ -34,17 +41,13 @@ $(document).ready(function(){
             var spinner = $('.loader')
             var listThemes = $('#list-group-themes')
             
-            $('ul.list-group li').removeClass('uk-active');
-            $(this).parent().addClass("uk-active");
-            $('span.tema-actual').text($('ul#themes li.uk-active a').text());
-            
 
             container.empty()
             spinner.show()
             var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
-              spinner.hide()
-              container.html(news)
-
+              spinner.hide();
+              container.html(news);
+              $('#list-news h2.theme-name').text( $('#list-group-themes li.active a').html() );
             }).fail(function(data) {
                 spinner.hide() 
 
@@ -56,7 +59,6 @@ $(document).ready(function(){
                         // TODO: poner el error en un log
                         console.log(`Error-Themes: ${data.responseJSON.message}`)
               });
-
        })    
 
         // pagination 
@@ -86,8 +88,9 @@ $(document).ready(function(){
                     companyslug: companyslug
                 },
                 success:function(news) {
-                    spinner.hide()
-                    container.html(news)
+                    spinner.hide();
+                    container.html(news);
+                    $('#list-news h2.theme-name').text($('#list-group-themes li.uk-active a').text());
                 },
                 error: function(data) {
                     spinner.hide() 
@@ -103,7 +106,8 @@ $(document).ready(function(){
         }
 
         // search news
-        $('#btn-search').on('click', function(event){
+        $('#input-search').on('keypress', function(event){
+          if(event.keyCode == 13) {
           event.preventDefault()
           var input = $('#input-search')
           var companyid = input.data('companyid')
@@ -122,8 +126,7 @@ $(document).ready(function(){
             var news = $.get( `/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}` , function(news) {
               spinner.hide()
               var titleHTML = `
-                <h2>Resultados de la busqueda</h2>
-                <hr>
+                <h2>Resultados de la busqueda: ${input.val()}</h2>
               `;
               container.append(titleHTML)
               container.append(news)
@@ -137,8 +140,44 @@ $(document).ready(function(){
               // TODO: poner el error en un log
               console.error(`Error-search: ${err.responseJSON.message}`)
               });
-
-
+          }
         })
+  /* Display more news on dashboard by theme*/
+  $('.more-theme-news').click(function(e){
+    $(this).parent().parent().find('.news-single').removeClass("uk-hidden");
+    e.stopPropagation();
+    e.preventDefault();
+    $(this).addClass("uk-hidden");
+  });
 
-    })
+
+  var slider = UIkit.slider('#slider', {
+    finite : false,
+  });
+
+  $(window).resize(function(){
+
+    $options = {
+      "offset": $("body > header").height(),
+      "animation" : "uk-animation-slide-bottom",
+    };
+    UIkit.sticky(".sticky-this", $options);
+  });
+
+
+  $(".uk-subnav.uk-slider-items a").click(function(){
+    $toShow = $(this).parent().attr("uk-filter-control");    
+    $(".js-temas .row").fadeOut();
+    $(".js-temas .row"+$toShow).fadeIn();
+    $(".uk-subnav.uk-slider-items li").removeClass("active");
+    $(this).parent().addClass("active");
+  })
+
+  $options = {
+    "offset": $("body > header").height(),
+    "animation" : "uk-animation-slide-bottom",
+  };
+  UIkit.sticky(".sticky-this", $options);
+
+})
+
