@@ -123,6 +123,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('sector/editar/{id}', 'SectorController@edit')->name('admin.sector.edit');
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
+
+        Route::get('reporte/por-cliente', 'AdminController@reportByClient')->name('admin.report.client');
+        Route::get('reporte/por-dia', 'AdminController@reportByDay')->name('admin.report.day');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
