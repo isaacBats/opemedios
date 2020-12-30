@@ -19,6 +19,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Genre;
+use App\Means;
 use App\News;
 use App\Sector;
 use App\Source;
@@ -58,6 +60,19 @@ class AdminController extends Controller
         } elseif($request->get('uri') == 'empresas') {
             // ...
         }
+    }
+
+    public function reportByClient() {
+
+        $sectors = Sector::all();
+        $genres = Genre::all();
+        $means = Means::all();
+        return view('admin.report.byclient', compact('sectors', 'genres', 'means'));
+    }
+
+    public function reportByDay() {
+      
+        return view('admin.report.byday');
     }
 
 
