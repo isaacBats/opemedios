@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <label for="" class="col-sm-3 control-label">Tendencia</label>
                         <div class="col-sm-8">
-                            <select class="form-control uk-select" name="trend" id="">
+                            <select class="form-control" name="trend" id="">
                                 <option value="default">** Todas **</option>
                                 <option value="1" {{ (old('trend') == "1" ? 'selected' : '' ) }} >{{ __('Positiva') }}</option>
                                 <option value="2" {{ (old('trend') == "2" ? 'selected' : '' ) }} >{{ __('Neutral') }}</option>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label for="" class="col-sm-3 control-label">Medio</label>
                         <div class="col-sm-8">
-                            <select class="form-control uk-select" name="mean_id" id="">
+                            <select class="form-control" name="mean_id" id="select-mean">
                                 <option value="default">** Todos **</option>
                                 @foreach($means as $mean)
                                     <option value="{{ $mean->id }}" {{ (old('mean_id') == $mean->id ? 'selected' : '' ) }}>{{ $mean->name }}</option>
@@ -88,11 +88,12 @@
                             </select>
                         </div>
                     </div>
+                     <div class="form-group row" id="div-select-sources"></div>
+                     <div class="form-group row" id="div-select-sections-sources"></div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <button class="btn btn-success btn-quirk btn-wide mr5">Submit</button>
-                            <button type="reset" class="btn btn-quirk btn-wide btn-default">Reset</button>
+                            <button class="btn btn-success btn-quirk btn-wide mr5">Generar Reporte</button>
                         </div>
                     </div>
                 </form>
@@ -124,6 +125,110 @@
                     },
                     cache: true
                 }
+            })
+
+            $('#select-mean').on('change', function(event) {
+                getHTMLSources(event.target.value)
+                getItemsByMean(event.target.value)
+            })
+
+            function getHTMLSources(noteType) {
+                $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
+                        var divSelectSources = $('#div-select-sources').html(res)
+                        divSelectSources.find('#select-fuente').select2({
+                            minimumInputLength: 3,
+                            ajax: {
+                                type: 'POST',
+                                url: "{{ route('api.getsourceajax') }}",
+                                dataType: 'json',
+                                data: function(params, noteType) {
+                                    return {
+                                        q: params.term,
+                                        mean_id: $('select#select-mean').val(),
+                                        "_token": $('meta[name="csrf-token"]').attr('content')
+                                    } 
+                                },
+                                processResults: function(data) {
+                                    return {
+                                        results: data.items
+                                    }
+                                },
+                                cache: true
+                            }
+                        })
+                    }).fail(function(res){
+                        var divSelectSources = $('#div-select-sources').html(`<p>No se pueden obtener las fuentes</p>`)
+                        console.error(`Error-Sources: ${res.responseJSON.message}`)
+                    })
+            }
+
+            function getItemsByMean(mean) {
+
+                var itemsTV = $('.item-tv')
+                var itemsRad = $('.item-rad')
+                var itemsRev = $('.item-rev')
+                var itemsPer = $('.item-per')
+                var itemsInt = $('.item-int')
+
+                switch(mean) {
+                    case "1":  // Television
+                        hideFields()
+                        cleanFields()
+                        $('.item-tv')
+                            .find('input[name=news_hour], input[name=news_duration]')
+                            .removeAttr('disabled')
+                        itemsTV.show('slow')
+                        break
+                    case "2": // Radio
+                        hideFields()
+                        cleanFields()
+                        $('.item-rad')
+                            .find('input[name=news_hour], input[name=news_duration]')
+                            .removeAttr('disabled')
+                        itemsRad.show('slow')
+                        break
+                    case "3": // Periodico
+                        hideFields()
+                        cleanFields()
+                        $('.item-per')
+                            .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
+                            .removeAttr('disabled')
+                        itemsPer.show('slow')
+                        break
+                    case "4": // Revista
+                        hideFields()
+                        cleanFields()
+                        $('.item-rev')
+                            .find('input[name=page_number], input[name=page_size], select[name=page_type_id]')
+                            .removeAttr('disabled')
+                        itemsRev.show('slow')
+                        break
+                    case "5": // Internet
+                        hideFields()
+                        cleanFields()
+                        $('.item-int')
+                            .find('input[name=news_hour], input[name=url]')
+                            .removeAttr('disabled')
+                        itemsInt.show('slow')
+                        break
+                    default:
+                        hideFields()
+                        cleanFields()
+                        // getItemsByMean(mean)
+                        //code here
+                }   
+            }
+
+            // Updating sources depending on the type of news
+            $('#div-select-sources').on('change', '#select-fuente', function() {
+                var sourceId = $(this).val()
+                $.post('{{ route('api.getsectionshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'source_id': sourceId }, function(res){
+                        var divSelectSections = $('#div-select-sections-sources').html(res)
+                        divSelectSections.find('#select-seccion').select2()
+                    }).fail(function(res){
+                        var divSelectSections = $('#div-select-sections-sources').html(`<p>No se pueden obtener las seciones de la fuente</p>`)
+                        console.error(`Error-Sections: ${res.responseJSON.message}`)
+                    }) 
             })
         })
     </script>
