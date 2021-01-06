@@ -25,11 +25,17 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Fecha inicio <span class="text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" name="fstart" class="form-control hasDatepicker" required="" aria-required="true">
+                            <div class="input-group">
+                                <input type="text" name="fstart" class="form-control" placeholder="mm/dd/yyyy" id="datepicker">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
                         </div>
                         <label class="col-sm-1 control-label">Fecha fin <span class="text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" name="fend" class="form-control hasDatepicker" required="" aria-required="true">
+                            <div class="input-group">
+                                <input type="text" name="fend" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-end">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
                         </div>
                     </div>
                     
@@ -105,6 +111,9 @@
     <script src="{{ asset('lib/select2/select2.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#datepicker').datepicker();
+            $('#datepicker-end').datepicker();
+            
             // Select company combo
             $('#select-company').select2({
                 minimumInputLength: 3,
