@@ -26,7 +26,7 @@
         nonce="EQRPW2lb">
     </script>
 @endsection
-<div class="uk-position-small uk-position-bottom uk-overlay uk-overlay-default uk-text-center">
+<div class="uk-text-center uk-padding  uk-padding-remove-horizontal uk-padding-remove-bottom">
     <div class="fb-share-button" 
     data-href="{{ url()->current() }}" 
     data-layout="button_count" 

@@ -35,10 +35,28 @@ footer.uk-section{
   transform: translate(-50%, 0);
 }
 body .uk-padding{
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
 }
 body .uk-card-body{
-  padding-left: 5%;
-  padding-right: 5%;
+  padding: 15px 5%;
+  h4{
+    margin: 0;
+    + p{
+      margin-top: 0;
+      line-height: 1;
+    }
+  }
+}
+a.cartones:hover{
+  text-decoration: none;
+}
+
+body.themes,
+body.news{
+  .op-content-mt.main-content{
+    .uk-container{
+      margin-left: 0;
+    }
+  }
 }
