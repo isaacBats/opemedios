@@ -187,6 +187,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/files/borrar', 'FileController@removeFile')->name('api.fileremove');
     Route::post('api/v2/clientes/obtener-clientes-ajax', 'CompanyController@getCompaniesAjax')->name('api.getcompaniesajax');
     Route::post('api/v2/cliente/obtener-temas', 'ThemeController@sendSelectHTMLWithThemesByCompany')->name('api.getthemeshtml');
+    Route::get('api/v2/cliente/temas', 'ThemeController@getThemesByCompany')->name('api.getthemes');
     Route::post('api/v2/cliente/obtener-cuentas', 'CompanyController@getAccountsAjax')->name('api.company.getaccounts');
     Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
 });

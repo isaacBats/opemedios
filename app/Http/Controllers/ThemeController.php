@@ -63,13 +63,13 @@ class ThemeController extends Controller
         return back()->with('status', "Se ha asociado al usuario {$user->name} al tema {$theme->name}");
     }
 
+    public function getThemesByCompany(Request $request) {
+        
+        return Company::findOrFail($request->input('company_id'))->themes;
+    }
+
     public function sendSelectHTMLWithThemesByCompany(Request $request) {
-        $themes = Company::where([
-                ['id', '=', $request->input('company_id')],
-                // ['active', '=', 1],
-            ])->orderBy('id', 'desc')
-            ->first()
-            ->themes;
+        $themes = $this->getThemesByCompany($request);
 
         return view('components.select-themes', compact('themes'))->render();
     }

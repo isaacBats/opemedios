@@ -136,6 +136,14 @@
                 }
             })
 
+            $('#select-company').on('change', function(event) {
+                var companyId = event.target.value
+                $.get(`/panel/api/v2/cliente/temas?company_id=${companyId}`, function (res){
+
+                    console.log(res)
+                })
+            })
+
             $('#select-mean').on('change', function(event) {
                 getHTMLSources(event.target.value)
                 getItemsByMean(event.target.value)
