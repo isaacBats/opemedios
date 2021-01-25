@@ -34,6 +34,7 @@ use App\Theme;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -227,17 +228,7 @@ class ClientController extends Controller
     }
 
     public function createReport( Request $request ) {
-        // "_token" => "fm5A2wt3VtOQYnCdOvhnO0CPsN1wqTpKMwmbAetn"
-        // "company_id" => "10"
-        // "fstart" => null
-        // "fend" => null
-        // "theme_id" => "default"
-        // "sector_id" => "default"
-        // "genre_id" => "default"
-        // "trend" => "default"
-        // "mean_id" => "default"
         $date = Carbon::today()->timestamp;
-
         return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
     }
 }
