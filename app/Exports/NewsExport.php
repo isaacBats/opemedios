@@ -28,6 +28,7 @@ class NewsExport implements FromView
     {
         $last = News::all()->last();
         $collection = collect();
+        $filterData = [ 'start' => $this->filter['fstart'], 'end' => $this->filter['fend'], 'today' => Carbon::parse(Carbon::today())->formatLocalized('%A %d de %B %Y')];
         $company = Company::findOrFail($this->filter['company_id']);
         $assignedNews = $company->assignedNews()
             ->select('news_id')
@@ -76,8 +77,7 @@ class NewsExport implements FromView
             $data['Link'] = route('front.detail.news', ['qry' => \Illuminate\Support\Facades\Crypt::encryptString("{$note->id}-{$note->title}-{$company->id}")]);
 
             $collection->push($data);
-
         }
-        return view('clients.report.report', compact('last', 'collection'));
+        return view('clients.report.report', compact('last', 'collection', 'company', 'filterData'));
     }
 }
