@@ -5,12 +5,13 @@ namespace App\Exports;
 use App\Company;
 use App\News;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class NewsExport implements FromCollection, WithHeadings
+
+class NewsExport implements FromView
 {
     use Exportable; 
 
@@ -19,40 +20,15 @@ class NewsExport implements FromCollection, WithHeadings
     public function __construct(array $filter) {
         $this->filter = $filter;
     }
-    
-    public function headings(): array
-    {
-        $data = array();
-        $last = News::all()->last();
-        $data[] = 'ID Noticia';
-        $data[] = 'Tema';
-
-        foreach ($last->metas() as $meta) {
-            if($meta['label'] == 'Hora' || 
-               $meta['label'] == 'Duración' || 
-               $meta['label'] == 'Tipo de página' ||
-               $meta['label'] == 'Número de página' ||
-               $meta['label'] == 'Tamaño de página' ||
-               $meta['label'] == 'URL' ||
-               $meta['label'] == 'Creador' 
-           ) {
-                continue;
-            }
-
-            $data[] = $meta['label'];
-        }
-        $data[] = 'Link';
-
-        return $data;
-    }
-
 
     /**
-    * @return \Illuminate\Support\Collection
+    * @return \Illuminate\Contracts\View\View
     */
-    public function collection()
+    public function view(): View
     {
+        $last = News::all()->last();
         $collection = collect();
+        $filterData = [ 'start' => $this->filter['fstart'], 'end' => $this->filter['fend'], 'today' => Carbon::parse(Carbon::today())->formatLocalized('%A %d de %B %Y')];
         $company = Company::findOrFail($this->filter['company_id']);
         $assignedNews = $company->assignedNews()
             ->select('news_id')
@@ -98,12 +74,10 @@ class NewsExport implements FromCollection, WithHeadings
 
                 $data[$meta['label']] = $meta['value'];
             }
-            $data['Link'] = "<a href='" . route('front.detail.news', ['qry' => \Illuminate\Support\Facades\Crypt::encryptString("{$note->id}-{$note->title}-{$company->id}")]) ."' >Ir a la noticia</a>";
+            $data['Link'] = route('front.detail.news', ['qry' => \Illuminate\Support\Facades\Crypt::encryptString("{$note->id}-{$note->title}-{$company->id}")]);
 
             $collection->push($data);
-
         }
-
-        return $collection;
+        return view('clients.report.report', compact('last', 'collection', 'company', 'filterData'));
     }
 }
