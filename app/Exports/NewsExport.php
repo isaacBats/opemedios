@@ -41,6 +41,7 @@ class NewsExport implements FromCollection, WithHeadings
 
             $data[] = $meta['label'];
         }
+        $data[] = 'Link';
 
         return $data;
     }
@@ -97,6 +98,7 @@ class NewsExport implements FromCollection, WithHeadings
 
                 $data[$meta['label']] = $meta['value'];
             }
+            $data['Link'] = "<a href='" . route('front.detail.news', ['qry' => \Illuminate\Support\Facades\Crypt::encryptString("{$note->id}-{$note->title}-{$company->id}")]) ."' >Ir a la noticia</a>";
 
             $collection->push($data);
 
