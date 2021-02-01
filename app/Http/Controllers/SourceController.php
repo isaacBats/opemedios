@@ -48,16 +48,16 @@ class SourceController extends Controller
 
     public function create(Request $request) {
         $inputs = $request->all();
-
         Validator::make($inputs, [
             'name' => 'required|max:150',
             'coverage' => 'required',
             'means_id' => 'required',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|dimensions:max_width=300,max_height=150',
+            'logo' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|dimensions:max_width=300,max_height=150',
         ], [
             'name.required' => 'El nombre de la fuente es requerido.',
             'required' => 'El :attribute es necesario.',
-            'dimensions' => 'El logo debe de ser de 300x150 máximo'
+            'dimensions' => 'El logo debe de ser de 300x150 máximo',
+            'mimes' => 'El logo debe de ser una imagen en los siguientes formatos :values'
         ])->validate();
 
         $mean = Means::find($inputs['means_id']);
