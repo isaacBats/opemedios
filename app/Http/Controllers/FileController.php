@@ -87,9 +87,8 @@ class FileController extends Controller
 
     public function validateCover($data) {
         return Validator::make($data, [
-                'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:154112',  // Max size 128MB
+                'image' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|max:154112',  // Max size 128MB
             ], [
-                'image' => 'Debe de ser una imagen',
                 'mimes' => 'El archivo debe de ser de tipo :values'
         ]);
     }
