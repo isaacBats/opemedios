@@ -148,7 +148,7 @@ class SourceController extends Controller
         $source = Source::find($id);
         
         Validator::make($request->all(), [
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|dimensions:max_width=300,max_height=150',
+            'logo' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|dimensions:max_width=300,max_height=150',
         ], [
             'required' => 'El :attribute es necesario.',
             'dimensions' => 'El logo debe de ser de 300x150 máximo'
