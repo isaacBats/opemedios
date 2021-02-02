@@ -76,6 +76,13 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isExecutive() {
+        if($this->hasRole('manager')) {
+            return true;
+        }
+        return false;
+    }
+
     public function news() {
         if($this->isMonitor()) {
             return $this->hasMany(News::class);
@@ -88,6 +95,12 @@ class User extends Authenticatable
         }
 
         return $this->belongsToMany(Theme::class, 'theme_user');
+    }
+
+    public function companies() {
+        if($this->isExecutive()) {
+            return $this->belongsToMany(Company::class, 'client_executive');
+        }
     }
 
     public function company() {

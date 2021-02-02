@@ -120,4 +120,8 @@ class Company extends Model
         return $query->where('turn_id', $turn);
       }
     }
+
+    public function executives() {
+        return $this->belongsToMany(User::class, 'client_executive');
+    }
 }
