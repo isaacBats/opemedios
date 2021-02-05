@@ -28,6 +28,7 @@ use App\News;
 use App\User;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -259,11 +260,16 @@ class UserController extends Controller
     }
 
     public function addCompanyToExecutive(Request $request) {
-        $user = User::findOrFail($request->input('user_id'));
-        $user->companies()->attach($request->input('company_id'));
-        $company = Company::findOrFail($request->input('company_id'));
-
-        return back()->with('status', "Se ha asociado al usuario {$user->name} con la empresa {$company->name}");
+        try {
+            $user = User::findOrFail($request->input('user_id'));
+            $user->companies()->attach($request->input('company_id'));
+            $company = Company::findOrFail($request->input('company_id'));
+                
+            return back()->with('status', "Se ha asociado al usuario {$user->name} con la empresa {$company->name}");
+        } catch (QueryException $e) {
+            Log::error("User ERROR: {$e->getMessage()}");
+            return back()->with('error', "No se puede asociar");
+        }
     }
 
     public function removeCAssigned(Request $request) {
