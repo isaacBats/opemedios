@@ -65,6 +65,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
         Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
         Route::get('usuario/borrar/{id}', 'UserController@delete')->name('admin.user.delete');
+        Route::post('usuario/agregar/empresa', 'UserController@addCompanyToExecutive')->name('admin.executive.add.company');
+        Route::post('usuario/remover/empresa', 'UserController@removeCAssigned')->name('admin.executive.remove.company');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
         Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');

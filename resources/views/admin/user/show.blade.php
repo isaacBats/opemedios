@@ -156,78 +156,105 @@
                     </div><!-- panel -->
                 </div>
             @endif
+            @if($profile->isExecutive())
             <div class="col-sm-6 col-md-12">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h4 class="panel-title">Empresas asignadas (lista)</h4> {{-- borrar eso de lista, solo es referencia para saber que ahi va el listado de empresas y temas o cosas que tienen que ver con el usuario que se muestra --}}
+                        <h4 class="panel-title">Empresas asignadas</h4> 
                     </div>
                     <div class="panel-body">
-                        <ul class="media-list user-list">
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    is now following <a href="">Christina R. Hill</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Just now</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user10.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Roberta F. Horn</a></h4>
-                                    commented on <a href="">HTML5 Tutorial</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Yesterday</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user3.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Jennie S. Gray</a></h4>
-                                    posted a video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 25, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user5.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Nicholas T. Hinkle</a></h4>
-                                    liked your video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    liked your photo on <a href="">My Life Adventure</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
+                        <ul class="media-list user-list" id="assigned-list">
+                            @foreach ($profile->companies as $cAssigned)
+                                <li class="media">
+                                    <div class="media-left">
+                                        <a href="{{ route('company.show', ['id' => $cAssigned->id]) }}">
+                                            <img class="media-object img-circle" src="{{ asset("images/{$cAssigned->logo}") }}" alt="{{ $cAssigned->name }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading nomargin">
+                                            <a href="{{ route('company.show', ['id' => $cAssigned->id]) }}">{{ $cAssigned->name }}</a>
+                                        </h4>
+                                        <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" class="btn-remove-cassigned" data-company="{{ $cAssigned->name }}" data-companyid="{{ $cAssigned->id }}" data-userid="{{ $profile->id }}" data-username="{{ $profile->name }}">Remover</a></small>
+                                    </div>
+                                </li>
+                            @endforeach
                         </ul>
+                        <hr>
+                        <a href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-add-company">Asignar Empresa</a>
                     </div>
                 </div><!-- panel -->
             </div>
+            @endif
         </div><!-- row -->
     </div>
 </div><!-- row -->
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+@endsection
+@section('scripts')
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            // modal for add client to manager roll
+            $('a#btn-add-company').on('click', function(event){
+                event.preventDefault()
+                var action = $(this).attr('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var executive = $(this).data('executive')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+
+                modal.find('.modal-title').html(`Asignar cuenta a ${executive}`)
+                modal.find('.modal-body').html(`
+                    <input name="user_id" type="hidden" value="{{ $profile->id }}">
+                    <div>
+                            <select name="company_id" id="select-company" class="form-control" style="width: 100%; ">
+                                <option value="">Selecciona un cliente</option>
+                                @foreach($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                `)
+                modal.find('#select-company').select2({
+                    dropdownParent: modal
+                })
+                modal.find('#md-btn-submit').attr('value', 'Agregar')
+
+                modal.modal('show')
+
+            })
+
+            //remove company assigned
+            $('#assigned-list').on('click', '.btn-remove-cassigned', function (event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var userID = $(this).data('userid')
+                var userName = $(this).data('username')
+                var companyID = $(this).data('companyid')
+                var company = $(this).data('company')
+
+                form.attr('method', 'POST')
+                    .attr('action', `{{ route('admin.executive.remove.company') }}`)
+                form.append($('<input>').attr('type', 'hidden').attr('name', 'company_id').val(companyID))
+                form.append($('<input>').attr('type', 'hidden').attr('name', 'user_id').val(userID))
+
+                modal.find('.modal-title').html(`Desasociar cliente.`)
+                modalBody.html(`<p>¿Estas seguro que remover a <strong>${company}</strong> de las cuentas de ${userName}?</p>`)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.modal('show')
+            })
+        })
+    </script>
 @endsection

@@ -98,9 +98,11 @@ class User extends Authenticatable
     }
 
     public function companies() {
-        if($this->isExecutive()) {
-            return $this->belongsToMany(Company::class, 'client_executive');
+        if(!$this->isExecutive()) {
+            return false;
         }
+        
+        return $this->belongsToMany(Company::class, 'client_executive');
     }
 
     public function company() {

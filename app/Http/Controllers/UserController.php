@@ -75,6 +75,7 @@ class UserController extends Controller
         $allNews = News::count();
         $newsToday = News::whereDate('created_at', $date)->count();
         $newsSendToday = AssignedNews::whereDate('created_at', $date)->count();
+        $companies = Company::all();
         $notesActivity = false;
         $limitNotes = 10;
 
@@ -100,7 +101,7 @@ class UserController extends Controller
             $notesActivity = News::where('user_id', $profile->id)->latest()->limit($limitNotes)->get();
         }
 
-        return view('admin.user.show', compact('profile', 'countNews', 'notesActivity'));
+        return view('admin.user.show', compact('profile', 'countNews', 'notesActivity', 'companies'));
     }
 
     public function showFormNewUser() {
@@ -255,5 +256,21 @@ class UserController extends Controller
         }
         
         return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
+    }
+
+    public function addCompanyToExecutive(Request $request) {
+        $user = User::findOrFail($request->input('user_id'));
+        $user->companies()->attach($request->input('company_id'));
+        $company = Company::findOrFail($request->input('company_id'));
+
+        return back()->with('status', "Se ha asociado al usuario {$user->name} con la empresa {$company->name}");
+    }
+
+    public function removeCAssigned(Request $request) {
+        $user = User::findOrFail($request->input('user_id'));
+        $user->companies()->detach($request->input('company_id'));
+        $company = Company::findOrFail($request->input('company_id'));
+
+        return back()->with('status', "Se ha desasociado la empresa {$company->name} de la cuenta de {$user->name}");
     }
 }
