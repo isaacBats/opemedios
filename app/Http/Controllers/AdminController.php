@@ -60,5 +60,8 @@ class AdminController extends Controller
         }
     }
 
+    public function managerAccess(Request $request) {
+        return view('manager');
+    }
 
 }
