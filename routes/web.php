@@ -35,15 +35,16 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
-Route::get('control-acceso', 'AdminController@managerAccess')->name('front.manageraccess');
+Route::get('control-acceso', 'AdminController@managerAccess')->name('front.manageraccess')->middleware('auth');
+Route::post('control-acceso', 'AdminController@redirectTo')->name('front.manageraccess.login')->middleware('auth');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
 Auth::routes([
     'register' => false,
-]);
+])->middleware('auth.manager');
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client', 'auth.manager']], function () {
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager', 'auth.manager']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');

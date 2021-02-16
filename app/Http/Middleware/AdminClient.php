@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AdminClient
 {
@@ -15,8 +16,10 @@ class AdminClient
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->isExecutive())
-            return redirect()->route('front.manageraccess', compact('request'));
+        $credentials = $request->only('email', 'password');
+        if($request->user()->isExecutive()){
+            return redirect()->route('front.manageraccess', compact('credentials'));
+        }
         
         return $next($request);
     }
