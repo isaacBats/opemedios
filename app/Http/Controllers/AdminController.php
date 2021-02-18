@@ -76,15 +76,18 @@ class AdminController extends Controller
 
     public function redirectTo(Request $request) {
 
-        dd($request->all());
-        if( $request->input('access_type') == 'client' ) {
-            $company = Company::findOrFail($request->input('client_id'));
-            $slug = $company->slug;
-            session()->put('slug_company', $slug);
-            return redirect("{$slug}/dashboard");
+        if(Auth::attempt([$request->input('email'), $request->input('password')])){
+            
+            if( $request->input('access_type') == 'client' ) {
+                $company = Company::findOrFail($request->input('client_id'));
+                $slug = $company->slug;
+                session()->put('slug_company', $slug);
+                return redirect("{$slug}/dashboard");
+            }
+            
+            return redirect()->route('panel');
         }
-        
-        return redirect()->route('panel');
+
     }
 
 }

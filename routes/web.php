@@ -42,9 +42,9 @@ Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
 Auth::routes([
     'register' => false,
-])->middleware('auth.manager');
+]);
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager', 'auth.manager']], function () {
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
@@ -57,7 +57,7 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|man
 });
 
 
-Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager', 'auth.manager'],], function () {
+Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|manager'],], function () {
 
     Route::group(['middleware' => ['can:view menu']], function () {
         Route::get('/', 'AdminController@index')->name('panel');

@@ -10,6 +10,8 @@
     <form method="POST" action="{{ route('front.manageraccess.login') }}" aria-label="Acceso">
         @csrf
         <input type="hidden" name="access" value="true">
+        <input type="hidden" name="email" value="{{ $credentials['email'] }}">
+        <input type="hidden" name="password" value="{{ $credentials['password'] }}">
         <div class="form-group">
             <select class="form-control" name="access_type" id="select-access-type">
                 <option value="">¿Cómo quieres entrar?</option>

@@ -51,7 +51,6 @@ class LoginController extends Controller
     protected function redirectTo () {
         
         $user = auth()->user();
-        $is_client = $user->hasRole('client');
         
         if($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
