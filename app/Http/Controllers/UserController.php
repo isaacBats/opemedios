@@ -76,7 +76,6 @@ class UserController extends Controller
         $allNews = News::count();
         $newsToday = News::whereDate('created_at', $date)->count();
         $newsSendToday = AssignedNews::whereDate('created_at', $date)->count();
-        $companies = Company::all();
         $notesActivity = false;
         $limitNotes = 10;
 
@@ -87,22 +86,19 @@ class UserController extends Controller
                 ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
                 ['label' => 'Noticias sin enviar hoy', 'value' => ($newsToday - $newsSendToday)],
             ];
-            $notesActivity = News::latestNews($limitNotes);
         } elseif($profile->hasRole('client')) {
             $countNews = [
                 ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
                 ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
             ];
             $assignedNotes = AssignedNews::select('news_id')->where('company_id', $profile->company()->id)->latest()->limit($limitNotes)->get();
-            $notesActivity = News::whereIn('id', $assignedNotes)->get();
         } elseif($profile->hasRole('monitor')) {
             $countNews = [
                 ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],
             ];
-            $notesActivity = News::where('user_id', $profile->id)->latest()->limit($limitNotes)->get();
         }
 
-        return view('admin.user.show', compact('profile', 'countNews', 'notesActivity', 'companies'));
+        return view('admin.user.show', compact('profile', 'countNews'));
     }
 
     public function showFormNewUser() {

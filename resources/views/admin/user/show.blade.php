@@ -80,51 +80,258 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified nav-line">
                 <li class="active"><a href="#activity" data-toggle="tab"><strong>{{ __('Ultimas notas') }}</strong></a></li>
-                <li><a href="#companies" data-toggle="tab"><strong>Empresas (10)</strong></a></li>
-                <li><a href="#themes" data-toggle="tab"><strong>Temas (20)</strong></a></li>
-                <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @if ($profile->isMonitor())
+                    <li><a href="#send-news" data-toggle="tab"><strong>Noticias Enviadas</strong></a></li>
+                    <li><a href="#total" data-toggle="tab"><strong>Total</strong></a></li>
+                @endif
+                @if ($profile->isExecutive())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas ({{ $profile->companies->count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                    {{-- <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li> --}}
+                @endif
+                @if ($profile->isAdmin())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas({{ App\Company::count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @endif
+                @if ($profile->isClient())
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @endif
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
-                    @foreach($notesActivity as $activity)
-                        <div class="panel panel-post-item">
-                            <div class="panel-heading">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
-                                        </a>
+                    @if($profile->isMonitor())
+                        @php
+                            $notes = $profile->news()->simplePaginate(15);
+                        @endphp
+                        @foreach($notes as $activity)
+                            <div class="panel panel-post-item">
+                                <div class="panel-heading">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="javascript:void(0);">
+                                                <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{ $activity->title }}</h4>
+                                            <p class="media-usermeta">
+                                                <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
+                                            </p>
+                                        </div>
+                                    </div><!-- media -->
+                                </div><!-- panel-heading -->
+                                <div class="panel-body">
+                                    <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
+                                    <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="col-sm-2 col-sm-offset-10">
+                                        @if ($activity->isAssigned())
+                                            <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
+                                        @else
+                                            <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
+                                        @endif
                                     </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{ $activity->title }}</h4>
-                                        <p class="media-usermeta">
-                                            <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
-                                        </p>
+                                </div>
+                            </div><!-- panel panel-post -->
+                        @endforeach
+                        {{ $notes->links() }}
+                    @endif
+                    @if ($profile->isAdmin())
+                        @php
+                            $notes = App\News::orderBy('id', 'asc')->simplePaginate(15);
+                        @endphp
+                        @foreach($notes as $activity)
+                            <div class="panel panel-post-item">
+                                <div class="panel-heading">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="javascript:void(0);">
+                                                <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{ $activity->title }}</h4>
+                                            <p class="media-usermeta">
+                                                <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
+                                            </p>
+                                        </div>
+                                    </div><!-- media -->
+                                </div><!-- panel-heading -->
+                                <div class="panel-body">
+                                    <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
+                                    <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="col-sm-2 col-sm-offset-10">
+                                        @if ($activity->isAssigned())
+                                            <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
+                                        @else
+                                            <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
+                                        @endif
                                     </div>
-                                </div><!-- media -->
-                            </div><!-- panel-heading -->
-                            <div class="panel-body">
-                                <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
-                                <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
-                            </div>
-                            <div class="panel-footer">
-                                {{-- <ul class="list-inline">
-                                    <li><a href=""><i class="glyphicon glyphicon-heart"></i> Like</a></li>
-                                    <li><a><i class="glyphicon glyphicon-comment"></i> Comments (0)</a></li>
-                                    <li class="pull-right">5 liked this</li>
-                                </ul> --}}
-                            </div>
-                            {{-- <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Write some comments">
-                            </div> --}}
-                        </div><!-- panel panel-post -->
-                    @endforeach
+                                </div>
+                            </div><!-- panel panel-post -->
+                        @endforeach
+                        {{ $notes->links() }}
+                    @endif
                 </div><!-- tab-pane -->
+                @if ($profile->isExecutive() || $profile->isAdmin())
+                    <div class="tab-pane" id="companies">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-9">
+                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-add-company-{{ $profile->isAdmin() ? 'admin' : 'executive' }}">Asignar empresa</button>
+                            </div>
+                        </div>
+                        @if($profile->isAdmin())
+                            @php
+                                $companies = App\Company::orderBy('id', 'asc')->simplePaginate(15);
+                            @endphp
+                            @foreach($companies as $company)
+                                <div class="panel panel-profile list-view">
+                                    <div class="panel-heading">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                                    <img class="media-object img-circle" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ $company->name }}</h4>
+                                                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> {{ $company->turn->name }}</p>
+                                            </div>
+                                        </div><!-- media -->
+                                        <ul class="panel-options">
+                                            <li><a class="tooltips" href="" data-toggle="tooltip" title="View Options"><i class="glyphicon glyphicon-option-vertical"></i></a></li>
+                                        </ul>
+                                    </div><!-- panel-heading -->
 
-                <div class="tab-pane" id="companies">
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
+                                    <div class="panel-body people-info">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Direcci&oacute;n</label>
+                                                    {{ $company->address }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Email</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Phone</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Notas enviadas hoy</label>
+                                                    <h4>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today())->get()->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Total de notas enviadas</label>
+                                                    <h4>{{ $company->assignedNews->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Social</label>
+                                                        <div class="social-account-list">
+                                                            <i class="fa fa-facebook-official"></i>
+                                                            <i class="fa fa-twitter"></i>
+                                                            <i class="fa fa-dribbble"></i>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                    </div>
+                                </div><!-- panel -->
+                            @endforeach
+                             {{ $companies->links() }}
+                        @else
+                            @php
+                                $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate(15);
+                            @endphp
+                            @foreach($companies as $company)
+                                <div class="panel panel-profile list-view">
+                                    <div class="panel-heading">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                                    <img class="media-object img-circle" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ $company->name }}</h4>
+                                                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> {{ $company->turn->name }}</p>
+                                            </div>
+                                        </div><!-- media -->
+                                        <ul class="panel-options">
+                                            <li><a style="color: red;" href="javascript:void(0)" class="tooltips btn-remove-cassigned" data-company="{{ $company->name }}" data-companyid="{{ $company->id }}" data-userid="{{ $profile->id }}" data-username="{{ $profile->name }}" data-toggle="tooltip" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a></li>
+                                        </ul>
+                                    </div><!-- panel-heading -->
+
+                                    <div class="panel-body people-info">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Direcci&oacute;n</label>
+                                                    {{ $company->address }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Email</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Phone</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Notas enviadas hoy</label>
+                                                    <h4>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today())->get()->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Total de notas enviadas</label>
+                                                    <h4>{{ $company->assignedNews->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Social</label>
+                                                        <div class="social-account-list">
+                                                            <i class="fa fa-facebook-official"></i>
+                                                            <i class="fa fa-twitter"></i>
+                                                            <i class="fa fa-dribbble"></i>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                    </div>
+                                </div><!-- panel -->
+                            @endforeach
+                             {{ $companies->links() }}
+                        @endif
+                    </div>
+                @endif
                 <div class="tab-pane" id="themes">
                     Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
                 </div>
@@ -156,36 +363,6 @@
                     </div><!-- panel -->
                 </div>
             @endif
-            @if($profile->isExecutive())
-            <div class="col-sm-6 col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Empresas asignadas</h4> 
-                    </div>
-                    <div class="panel-body">
-                        <ul class="media-list user-list" id="assigned-list">
-                            @foreach ($profile->companies as $cAssigned)
-                                <li class="media">
-                                    <div class="media-left">
-                                        <a href="{{ route('company.show', ['id' => $cAssigned->id]) }}">
-                                            <img class="media-object img-circle" src="{{ asset("images/{$cAssigned->logo}") }}" alt="{{ $cAssigned->name }}">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading nomargin">
-                                            <a href="{{ route('company.show', ['id' => $cAssigned->id]) }}">{{ $cAssigned->name }}</a>
-                                        </h4>
-                                        <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" class="btn-remove-cassigned" data-company="{{ $cAssigned->name }}" data-companyid="{{ $cAssigned->id }}" data-userid="{{ $profile->id }}" data-username="{{ $profile->name }}">Remover</a></small>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <hr>
-                        <a href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-add-company">Asignar Empresa</a>
-                    </div>
-                </div><!-- panel -->
-            </div>
-            @endif
         </div><!-- row -->
     </div>
 </div><!-- row -->
@@ -199,9 +376,9 @@
         $(document).ready(function(){
 
             // modal for add client to manager roll
-            $('a#btn-add-company').on('click', function(event){
+            $('button#btn-add-company-executive').on('click', function(event){
                 event.preventDefault()
-                var action = $(this).attr('href')
+                var action = $(this).data('href')
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
                 var executive = $(this).data('executive')
@@ -215,7 +392,7 @@
                     <div>
                             <select name="company_id" id="select-company" class="form-control" style="width: 100%; ">
                                 <option value="">Selecciona un cliente</option>
-                                @foreach($companies as $company)
+                                @foreach(App\Company::all() as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
                             </select>
@@ -231,7 +408,7 @@
             })
 
             //remove company assigned
-            $('#assigned-list').on('click', '.btn-remove-cassigned', function (event) {
+            $('.btn-remove-cassigned').on('click', function (event) {
                 event.preventDefault()
 
                 var modal = $('#modal-default')
@@ -244,8 +421,20 @@
 
                 form.attr('method', 'POST')
                     .attr('action', `{{ route('admin.executive.remove.company') }}`)
-                form.append($('<input>').attr('type', 'hidden').attr('name', 'company_id').val(companyID))
-                form.append($('<input>').attr('type', 'hidden').attr('name', 'user_id').val(userID))
+                
+                if(form.find('input[name=company_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'company_id').val(companyID))
+                } else {
+                    var inputCompany = form.find('input[name=company_id]')
+                    inputCompany.val(companyID)
+                }
+
+                if(form.find('input[name=user_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'user_id').val(userID))
+                } else {
+                    var inputUser = form.find('input[name=user_id]')
+                    inputUser.val(userID)
+                }
 
                 modal.find('.modal-title').html(`Desasociar cliente.`)
                 modalBody.html(`<p>¿Estas seguro que remover a <strong>${company}</strong> de las cuentas de ${userName}?</p>`)

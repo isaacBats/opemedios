@@ -83,10 +83,19 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isAdmin() {
+        if($this->hasRole('admin')) {
+            return true;
+        }
+        return false;
+    }
+
     public function news() {
-        if($this->isMonitor()) {
+        if($this->isMonitor() || $this->isAdmin() || $this->isExecutive()) {
             return $this->hasMany(News::class);
         }
+
+        return false;
     }
 
     public function themes() {
@@ -98,11 +107,11 @@ class User extends Authenticatable
     }
 
     public function companies() {
-        if(!$this->isExecutive()) {
-            return false;
+        if($this->isExecutive()) {
+            return $this->belongsToMany(Company::class, 'client_executive');
         }
         
-        return $this->belongsToMany(Company::class, 'client_executive');
+        return false;
     }
 
     public function company() {
