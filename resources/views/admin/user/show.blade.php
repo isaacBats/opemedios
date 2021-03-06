@@ -82,7 +82,7 @@
                 <li class="active"><a href="#activity" data-toggle="tab"><strong>{{ __('Ultimas notas') }}</strong></a></li>
                 @if ($profile->isMonitor())
                     <li><a href="#send-news" data-toggle="tab"><strong>Noticias Enviadas</strong></a></li>
-                    <li><a href="#total" data-toggle="tab"><strong>Total</strong></a></li>
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
                 @endif
                 @if ($profile->isExecutive())
                     <li><a href="#companies" data-toggle="tab"><strong>Empresas ({{ $profile->companies->count() }})</strong></a></li>
@@ -101,82 +101,44 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
-                    @if($profile->isMonitor())
+                    @foreach($notes as $activity)
                         @php
-                            $notes = $profile->news()->simplePaginate(15);
+                            if($profile->isExecutive() || $profile->isClient()){
+                                $activity = $activity->news;
+                            }
                         @endphp
-                        @foreach($notes as $activity)
-                            <div class="panel panel-post-item">
-                                <div class="panel-heading">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="javascript:void(0);">
-                                                <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{ $activity->title }}</h4>
-                                            <p class="media-usermeta">
-                                                <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
-                                            </p>
-                                        </div>
-                                    </div><!-- media -->
-                                </div><!-- panel-heading -->
-                                <div class="panel-body">
-                                    <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
-                                    <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
-                                </div>
-                                <div class="panel-footer">
-                                    <div class="col-sm-2 col-sm-offset-10">
-                                        @if ($activity->isAssigned())
-                                            <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
-                                        @else
-                                            <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
-                                        @endif
+                        <div class="panel panel-post-item">
+                            <div class="panel-heading">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="javascript:void(0);">
+                                            <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
+                                        </a>
                                     </div>
-                                </div>
-                            </div><!-- panel panel-post -->
-                        @endforeach
-                        {{ $notes->links() }}
-                    @endif
-                    @if ($profile->isAdmin())
-                        @php
-                            $notes = App\News::orderBy('id', 'asc')->simplePaginate(15);
-                        @endphp
-                        @foreach($notes as $activity)
-                            <div class="panel panel-post-item">
-                                <div class="panel-heading">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="javascript:void(0);">
-                                                <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">{{ $activity->title }}</h4>
-                                            <p class="media-usermeta">
-                                                <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
-                                            </p>
-                                        </div>
-                                    </div><!-- media -->
-                                </div><!-- panel-heading -->
-                                <div class="panel-body">
-                                    <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
-                                    <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
-                                </div>
-                                <div class="panel-footer">
-                                    <div class="col-sm-2 col-sm-offset-10">
-                                        @if ($activity->isAssigned())
-                                            <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
-                                        @else
-                                            <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
-                                        @endif
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ $activity->title }}</h4>
+                                        <p class="media-usermeta">
+                                            <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
+                                        </p>
                                     </div>
+                                </div><!-- media -->
+                            </div><!-- panel-heading -->
+                            <div class="panel-body">
+                                <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
+                                <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="col-sm-2 col-sm-offset-10">
+                                    @if ($activity->isAssigned())
+                                        <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
+                                    @else
+                                        <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
+                                    @endif
                                 </div>
-                            </div><!-- panel panel-post -->
-                        @endforeach
-                        {{ $notes->links() }}
-                    @endif
+                            </div>
+                        </div><!-- panel panel-post -->
+                    @endforeach
+                    {{ $notes->links() }}
                 </div><!-- tab-pane -->
                 @if ($profile->isExecutive() || $profile->isAdmin())
                     <div class="tab-pane" id="companies">
