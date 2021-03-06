@@ -35,6 +35,8 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
+Route::get('control-acceso', 'AdminController@managerAccess')->name('front.manageraccess')->middleware('auth');
+Route::post('control-acceso', 'AdminController@redirectTo')->name('front.manageraccess.login')->middleware('auth');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
@@ -42,7 +44,7 @@ Auth::routes([
     'register' => false,
 ]);
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
@@ -65,6 +67,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
         Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
         Route::get('usuario/borrar/{id}', 'UserController@delete')->name('admin.user.delete');
+        Route::post('usuario/agregar/empresa', 'UserController@addCompanyToExecutive')->name('admin.executive.add.company');
+        Route::post('usuario/remover/empresa', 'UserController@removeCAssigned')->name('admin.executive.remove.company');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
         Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');

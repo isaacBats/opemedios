@@ -80,14 +80,33 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified nav-line">
                 <li class="active"><a href="#activity" data-toggle="tab"><strong>{{ __('Ultimas notas') }}</strong></a></li>
-                <li><a href="#companies" data-toggle="tab"><strong>Empresas (10)</strong></a></li>
-                <li><a href="#themes" data-toggle="tab"><strong>Temas (20)</strong></a></li>
-                <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @if ($profile->isMonitor())
+                    <li><a href="#send-news" data-toggle="tab"><strong>Noticias Enviadas</strong></a></li>
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @endif
+                @if ($profile->isExecutive())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas ({{ $profile->companies->count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                    {{-- <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li> --}}
+                @endif
+                @if ($profile->isAdmin())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas({{ App\Company::count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @endif
+                @if ($profile->isClient())
+                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
+                @endif
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
-                    @foreach($notesActivity as $activity)
+                    @foreach($notes as $activity)
+                        @php
+                            if($profile->isExecutive() || $profile->isClient()){
+                                $activity = $activity->news;
+                            }
+                        @endphp
                         <div class="panel panel-post-item">
                             <div class="panel-heading">
                                 <div class="media">
@@ -109,22 +128,172 @@
                                 <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
                             </div>
                             <div class="panel-footer">
-                                {{-- <ul class="list-inline">
-                                    <li><a href=""><i class="glyphicon glyphicon-heart"></i> Like</a></li>
-                                    <li><a><i class="glyphicon glyphicon-comment"></i> Comments (0)</a></li>
-                                    <li class="pull-right">5 liked this</li>
-                                </ul> --}}
+                                <div class="col-sm-2 col-sm-offset-10">
+                                    @if ($activity->isAssigned())
+                                        <span style="color: green;"><i class="fa fa-check-circle"></i> Enviada</span>
+                                    @else
+                                        <span style="color: orange;"><i class="fa fa-circle-o"></i> Pendiente</span>
+                                    @endif
+                                </div>
                             </div>
-                            {{-- <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Write some comments">
-                            </div> --}}
                         </div><!-- panel panel-post -->
                     @endforeach
+                    {{ $notes->links() }}
                 </div><!-- tab-pane -->
+                @if ($profile->isExecutive() || $profile->isAdmin())
+                    <div class="tab-pane" id="companies">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-9">
+                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-add-company-{{ $profile->isAdmin() ? 'admin' : 'executive' }}">Asignar empresa</button>
+                            </div>
+                        </div>
+                        @if($profile->isAdmin())
+                            @php
+                                $companies = App\Company::orderBy('id', 'asc')->simplePaginate(15);
+                            @endphp
+                            @foreach($companies as $company)
+                                <div class="panel panel-profile list-view">
+                                    <div class="panel-heading">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                                    <img class="media-object img-circle" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ $company->name }}</h4>
+                                                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> {{ $company->turn->name }}</p>
+                                            </div>
+                                        </div><!-- media -->
+                                        <ul class="panel-options">
+                                            <li><a class="tooltips" href="" data-toggle="tooltip" title="View Options"><i class="glyphicon glyphicon-option-vertical"></i></a></li>
+                                        </ul>
+                                    </div><!-- panel-heading -->
 
-                <div class="tab-pane" id="companies">
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
+                                    <div class="panel-body people-info">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Direcci&oacute;n</label>
+                                                    {{ $company->address }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Email</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Phone</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Notas enviadas hoy</label>
+                                                    <h4>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today())->get()->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Total de notas enviadas</label>
+                                                    <h4>{{ $company->assignedNews->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Social</label>
+                                                        <div class="social-account-list">
+                                                            <i class="fa fa-facebook-official"></i>
+                                                            <i class="fa fa-twitter"></i>
+                                                            <i class="fa fa-dribbble"></i>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                    </div>
+                                </div><!-- panel -->
+                            @endforeach
+                             {{ $companies->links() }}
+                        @else
+                            @php
+                                $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate(15);
+                            @endphp
+                            @foreach($companies as $company)
+                                <div class="panel panel-profile list-view">
+                                    <div class="panel-heading">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                                    <img class="media-object img-circle" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ $company->name }}</h4>
+                                                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> {{ $company->turn->name }}</p>
+                                            </div>
+                                        </div><!-- media -->
+                                        <ul class="panel-options">
+                                            <li><a style="color: red;" href="javascript:void(0)" class="tooltips btn-remove-cassigned" data-company="{{ $company->name }}" data-companyid="{{ $company->id }}" data-userid="{{ $profile->id }}" data-username="{{ $profile->name }}" data-toggle="tooltip" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a></li>
+                                        </ul>
+                                    </div><!-- panel-heading -->
+
+                                    <div class="panel-body people-info">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Direcci&oacute;n</label>
+                                                    {{ $company->address }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Email</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Phone</label>
+                                                    -
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Notas enviadas hoy</label>
+                                                    <h4>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today())->get()->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Total de notas enviadas</label>
+                                                    <h4>{{ $company->assignedNews->count() }}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="info-group">
+                                                    <label>Social</label>
+                                                        <div class="social-account-list">
+                                                            <i class="fa fa-facebook-official"></i>
+                                                            <i class="fa fa-twitter"></i>
+                                                            <i class="fa fa-dribbble"></i>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- row -->
+                                    </div>
+                                </div><!-- panel -->
+                            @endforeach
+                             {{ $companies->links() }}
+                        @endif
+                    </div>
+                @endif
                 <div class="tab-pane" id="themes">
                     Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
                 </div>
@@ -156,78 +325,87 @@
                     </div><!-- panel -->
                 </div>
             @endif
-            <div class="col-sm-6 col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Empresas asignadas (lista)</h4> {{-- borrar eso de lista, solo es referencia para saber que ahi va el listado de empresas y temas o cosas que tienen que ver con el usuario que se muestra --}}
-                    </div>
-                    <div class="panel-body">
-                        <ul class="media-list user-list">
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    is now following <a href="">Christina R. Hill</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Just now</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user10.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Roberta F. Horn</a></h4>
-                                    commented on <a href="">HTML5 Tutorial</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Yesterday</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user3.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Jennie S. Gray</a></h4>
-                                    posted a video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 25, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user5.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Nicholas T. Hinkle</a></h4>
-                                    liked your video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    liked your photo on <a href="">My Life Adventure</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div><!-- panel -->
-            </div>
         </div><!-- row -->
     </div>
 </div><!-- row -->
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+@endsection
+@section('scripts')
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            // modal for add client to manager roll
+            $('button#btn-add-company-executive').on('click', function(event){
+                event.preventDefault()
+                var action = $(this).data('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var executive = $(this).data('executive')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+
+                modal.find('.modal-title').html(`Asignar cuenta a ${executive}`)
+                modal.find('.modal-body').html(`
+                    <input name="user_id" type="hidden" value="{{ $profile->id }}">
+                    <div>
+                            <select name="company_id" id="select-company" class="form-control" style="width: 100%; ">
+                                <option value="">Selecciona un cliente</option>
+                                @foreach(App\Company::all() as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                `)
+                modal.find('#select-company').select2({
+                    dropdownParent: modal
+                })
+                modal.find('#md-btn-submit').attr('value', 'Agregar')
+
+                modal.modal('show')
+
+            })
+
+            //remove company assigned
+            $('.btn-remove-cassigned').on('click', function (event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var userID = $(this).data('userid')
+                var userName = $(this).data('username')
+                var companyID = $(this).data('companyid')
+                var company = $(this).data('company')
+
+                form.attr('method', 'POST')
+                    .attr('action', `{{ route('admin.executive.remove.company') }}`)
+                
+                if(form.find('input[name=company_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'company_id').val(companyID))
+                } else {
+                    var inputCompany = form.find('input[name=company_id]')
+                    inputCompany.val(companyID)
+                }
+
+                if(form.find('input[name=user_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'user_id').val(userID))
+                } else {
+                    var inputUser = form.find('input[name=user_id]')
+                    inputUser.val(userID)
+                }
+
+                modal.find('.modal-title').html(`Desasociar cliente.`)
+                modalBody.html(`<p>¿Estas seguro que remover a <strong>${company}</strong> de las cuentas de ${userName}?</p>`)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.modal('show')
+            })
+        })
+    </script>
 @endsection

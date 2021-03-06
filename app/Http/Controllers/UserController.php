@@ -28,6 +28,7 @@ use App\News;
 use App\User;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -76,31 +77,41 @@ class UserController extends Controller
         $newsToday = News::whereDate('created_at', $date)->count();
         $newsSendToday = AssignedNews::whereDate('created_at', $date)->count();
         $notesActivity = false;
-        $limitNotes = 10;
+        $limitNotes = 15;
+        $notes = null;
 
-        if($profile->hasRole('admin') || $profile->hasRole('manager')) {
+        if($profile->isAdmin()) {
+            $notes = News::orderBy('id', 'asc')->simplePaginate($limitNotes);
+
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
                 ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
                 ['label' => 'Noticias sin enviar hoy', 'value' => ($newsToday - $newsSendToday)],
             ];
-            $notesActivity = News::latestNews($limitNotes);
-        } elseif($profile->hasRole('client')) {
+        } elseif($profile->isExecutive()) {
+            $countNews = [
+                ['label' => 'Todas las noticias', 'value' => $allNews],
+                ['label' => 'Noticias de hoy', 'value' => $newsToday],
+                ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
+            ];
+            $companiesIds = $profile->companies->pluck('id');
+            $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($limitNotes);
+
+        } elseif($profile->isClient()) {
             $countNews = [
                 ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
                 ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
             ];
-            $assignedNotes = AssignedNews::select('news_id')->where('company_id', $profile->company()->id)->latest()->limit($limitNotes)->get();
-            $notesActivity = News::whereIn('id', $assignedNotes)->get();
-        } elseif($profile->hasRole('monitor')) {
+            $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($limitNotes);
+        } elseif($profile->isMonitor()) {
             $countNews = [
                 ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],
             ];
-            $notesActivity = News::where('user_id', $profile->id)->latest()->limit($limitNotes)->get();
+            $notes = $profile->news()->simplePaginate($limitNotes);
         }
 
-        return view('admin.user.show', compact('profile', 'countNews', 'notesActivity'));
+        return view('admin.user.show', compact('profile', 'countNews', 'notes'));
     }
 
     public function showFormNewUser() {
@@ -255,5 +266,26 @@ class UserController extends Controller
         }
         
         return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
+    }
+
+    public function addCompanyToExecutive(Request $request) {
+        try {
+            $user = User::findOrFail($request->input('user_id'));
+            $user->companies()->attach($request->input('company_id'));
+            $company = Company::findOrFail($request->input('company_id'));
+                
+            return back()->with('status', "Se ha asociado al usuario {$user->name} con la empresa {$company->name}");
+        } catch (QueryException $e) {
+            Log::error("User ERROR: {$e->getMessage()}");
+            return back()->with('error', "No se puede asociar");
+        }
+    }
+
+    public function removeCAssigned(Request $request) {
+        $user = User::findOrFail($request->input('user_id'));
+        $user->companies()->detach($request->input('company_id'));
+        $company = Company::findOrFail($request->input('company_id'));
+
+        return back()->with('status', "Se ha desasociado la empresa {$company->name} de la cuenta de {$user->name}");
     }
 }
