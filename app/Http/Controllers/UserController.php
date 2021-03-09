@@ -77,18 +77,21 @@ class UserController extends Controller
         $newsToday = News::whereDate('created_at', $date)->count();
         $newsSendToday = AssignedNews::whereDate('created_at', $date)->count();
         $notesActivity = false;
-        $limitNotes = 15;
+        $paginate = 15;
         $notes = null;
+        $notesSent = null;
+        $companies = null;
 
         if($profile->isAdmin()) {
-            $notes = News::orderBy('id', 'asc')->simplePaginate($limitNotes);
-
+            $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
+            $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
                 ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
                 ['label' => 'Noticias sin enviar hoy', 'value' => ($newsToday - $newsSendToday)],
             ];
+
         } elseif($profile->isExecutive()) {
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
@@ -96,22 +99,24 @@ class UserController extends Controller
                 ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
             ];
             $companiesIds = $profile->companies->pluck('id');
-            $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($limitNotes);
+            $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($paginate);
+            $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate($paginate);
 
         } elseif($profile->isClient()) {
             $countNews = [
                 ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
                 ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
             ];
-            $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($limitNotes);
+            $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($paginate);
         } elseif($profile->isMonitor()) {
             $countNews = [
                 ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],
             ];
-            $notes = $profile->news()->simplePaginate($limitNotes);
+            $notes = $profile->news()->simplePaginate($paginate);
+            $notesSent = $notes->filter(function($note){ return $note->isAssigned(); });
         }
-
-        return view('admin.user.show', compact('profile', 'countNews', 'notes'));
+        
+        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies'));
     }
 
     public function showFormNewUser() {
