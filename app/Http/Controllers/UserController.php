@@ -25,6 +25,7 @@ use App\Company;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Means;
 use App\News;
+use App\Theme;
 use App\User;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,10 +82,12 @@ class UserController extends Controller
         $notes = null;
         $notesSent = null;
         $companies = null;
+        $themes = null;
 
         if($profile->isAdmin()) {
             $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
             $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
+            $themes = Theme::orderBy('name', 'desc')->simplePaginate($paginate);
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
@@ -101,6 +104,7 @@ class UserController extends Controller
             $companiesIds = $profile->companies->pluck('id');
             $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($paginate);
             $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate($paginate);
+            $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate($paginate);
 
         } elseif($profile->isClient()) {
             $countNews = [
@@ -115,8 +119,8 @@ class UserController extends Controller
             $notes = $profile->news()->simplePaginate($paginate);
             $notesSent = $notes->filter(function($note){ return $note->isAssigned(); });
         }
-        
-        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies'));
+
+        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes'));
     }
 
     public function showFormNewUser() {

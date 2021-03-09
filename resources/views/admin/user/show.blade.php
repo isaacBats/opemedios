@@ -75,28 +75,23 @@
             </ul>
         </div>
     </div>
-    <div class="col-md-6 col-lg-8 profile-right">
+    <div class="col-md-9 col-lg-10 profile-right">
         <div class="profile-right-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified nav-line">
                 <li class="active"><a href="#activity" data-toggle="tab"><strong>{{ __('Ultimas notas') }}</strong></a></li>
                 @if ($profile->isMonitor())
                     <li><a href="#send-news" data-toggle="tab"><strong>Noticias Enviadas</strong></a></li>
-                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
                 @endif
                 @if ($profile->isExecutive())
                     <li><a href="#companies" data-toggle="tab"><strong>Empresas ({{ $profile->companies->count() }})</strong></a></li>
                     <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
-                    {{-- <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li> --}}
                 @endif
                 @if ($profile->isAdmin())
                     <li><a href="#companies" data-toggle="tab"><strong>Empresas({{ App\Company::count() }})</strong></a></li>
                     <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
-                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
                 @endif
-                @if ($profile->isClient())
-                    <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
-                @endif
+                <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -123,6 +118,32 @@
                         @endforeach
                         {{ $companies->links() }}
                     </div>
+                    <div class="tab-pane" id="themes">
+                        <div class="nav-wrapper white">
+                            <ul class="nav nav-pills nav-stacked nav-quirk nav-quirk-info">
+                                @foreach($themes as $theme)
+                                    <li class="nav-parent active">
+                                        <a href="javascript:void(0);"><i class="fa fa-archive"></i> <span>{{ $theme->name }}</span></a>
+                                        <ul class="children">
+                                            @php
+                                                $countNote = 0;
+                                            @endphp
+                                            @foreach ($theme->assignedNews as $noteAssigned)
+                                                @if($countNote == 10)
+                                                    @break
+                                                @endif
+                                                <li><a href="{{ route('admin.new.show', ['id' => $noteAssigned->news->id]) }}">{{ $noteAssigned->news->title }}</a></li>
+                                                @php 
+                                                    $countNote++;
+                                                @endphp
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        {{ $themes->links() }}
+                    </div>
                 @endif
                 @if ($profile->isMonitor())
                     <div class="tab-pane" id="send-news">
@@ -131,38 +152,11 @@
                         @endforeach
                     </div>
                 @endif
-                <div class="tab-pane" id="themes">
-                    Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-                </div>
                 <div class="tab-pane" id="stadistics">
                     Temporibus autem quibusdam #Stadistics et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3 col-lg-2 profile-sidebar">
-        <div class="row">
-            @if($profile->isClient())
-                <div class="col-sm-6 col-md-12">
-                    <div class="panel panel-default list-announcement">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Temas asignados ({{ $profile->themes()->count() }})</h4>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-unstyled mb20">
-                                @forelse($profile->themes as $theme)
-                                    <li>
-                                        {{ $theme->name }}
-                                    </li>
-                                @empty
-                                    <li>No hay temas para esta empresa</li>
-                                @endforelse
-                            </ul>
-                        </div>
-                    </div><!-- panel -->
-                </div>
-            @endif
-        </div><!-- row -->
     </div>
 </div><!-- row -->
 @endsection
