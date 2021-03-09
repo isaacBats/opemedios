@@ -61,5 +61,14 @@
                 </div>
             </div>
         </div><!-- row -->
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-8">
+                <div class="info-group">
+                    <label>Entrar como cliente</label>
+                    <a href="javascript:void(0);" class="btn btn-info">Ver como cliente</a>
+                </div>
+                
+            </div>
+        </div>
     </div>
 </div><!-- panel -->

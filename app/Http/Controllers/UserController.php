@@ -87,7 +87,7 @@ class UserController extends Controller
         if($profile->isAdmin()) {
             $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
             $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
-            $themes = Theme::orderBy('name', 'desc')->simplePaginate($paginate);
+            $themes = Theme::orderBy('name', 'desc')->simplePaginate(50);
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
@@ -104,7 +104,7 @@ class UserController extends Controller
             $companiesIds = $profile->companies->pluck('id');
             $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($paginate);
             $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate($paginate);
-            $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate($paginate);
+            $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate(50);
 
         } elseif($profile->isClient()) {
             $countNews = [
