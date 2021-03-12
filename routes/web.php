@@ -35,8 +35,6 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
-Route::get('control-acceso', 'AdminController@managerAccess')->name('front.manageraccess')->middleware('auth');
-Route::post('control-acceso', 'AdminController@redirectTo')->name('front.manageraccess.login')->middleware('auth');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
@@ -127,6 +125,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('sector/editar/{id}', 'SectorController@edit')->name('admin.sector.edit');
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
+
+        // Maganer role enters as a client
+        Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');

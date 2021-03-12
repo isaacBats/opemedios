@@ -62,32 +62,14 @@ class AdminController extends Controller
         }
     }
 
-    public function managerAccess(Request $request) {
-
-        try {
-            $user = $request->user();
-            return view('manager', compact('user'));
-
-        } catch (Exception $e) {
-            Log::error("Admin ERROR: {$e->getMessage()}");
-            return redirect()->route('home')->with('status', 'Paso algo inesperado. Intente más tarde');
-        }
-    }
-
     public function redirectTo(Request $request) {
-
-        if(Auth::attempt([$request->input('email'), $request->input('password')])){
-            
-            if( $request->input('access_type') == 'client' ) {
-                $company = Company::findOrFail($request->input('client_id'));
-                $slug = $company->slug;
-                session()->put('slug_company', $slug);
-                return redirect("{$slug}/dashboard");
-            }
-            
-            return redirect()->route('panel');
-        }
-
+        
+        $company = Company::findOrFail($request->input('company'));
+        $slug = $company->slug;
+        session()->put('slug_company', $slug);
+        return redirect()->action('ClientController@index', ['slug_company' => $slug]);
+        // return redirect("{$slug}/dashboard");
+        // return response()->view('clients.news', compact('company'));
     }
 
 }

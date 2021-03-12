@@ -237,6 +237,17 @@
 
                 modal.modal('show')
             })
+
+            // Go to the client dashboard
+            // if( $('#companies').length ) {
+            //     $('#companies').on('click', '.btn-redirectto', function(event){
+            //         event.preventDefault();
+            //         var href = $(this).data('href');
+            //         var company = $(this).data('company');
+
+            //         return $.post(href, { "_token": $('meta[name="csrf-token"]').attr('content'), "company": company});
+            //     })
+            // }
         })
     </script>
 @endsection
