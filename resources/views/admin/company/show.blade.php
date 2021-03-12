@@ -79,6 +79,11 @@
                         <button data-company="{{ $company->id }}" id="btn-add-newsletter" class="btn btn-success btn-quirk" type="button">{{ __('Crear newsletter') }}</button>
                     @endif
                     <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
+                    @hasrole('manager')
+                    @if(auth()->user()->companies->firstWhere('id', $company->id))
+                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
+                    @endif
+                    @endhasrole
                 </div>
             </div>
             <div class="panel" id="panel-show-company">
