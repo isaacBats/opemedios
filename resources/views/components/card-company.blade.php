@@ -61,5 +61,16 @@
                 </div>
             </div>
         </div><!-- row -->
+        @hasrole('manager')
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-8">
+                <div class="info-group">
+                    <label>Entrar como cliente</label>
+                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
+                </div>
+                
+            </div>
+        </div>
+        @endhasrole
     </div>
 </div><!-- panel -->

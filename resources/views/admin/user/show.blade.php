@@ -237,6 +237,7 @@
 
                 modal.modal('show')
             })
+
         })
     </script>
 @endsection
