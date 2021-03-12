@@ -68,8 +68,6 @@ class AdminController extends Controller
         $slug = $company->slug;
         session()->put('slug_company', $slug);
         return redirect()->action('ClientController@index', ['slug_company' => $slug]);
-        // return redirect("{$slug}/dashboard");
-        // return response()->view('clients.news', compact('company'));
     }
 
 }

@@ -66,7 +66,7 @@
             <div class="col-sm-4 col-sm-offset-8">
                 <div class="info-group">
                     <label>Entrar como cliente</label>
-                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" data-href="{{ route('admin.admin.redirectto') }}" data-company="{{ $company->id }}" class="btn btn-info btn-redirectto">Ver como cliente</a>
+                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
                 </div>
                 
             </div>
