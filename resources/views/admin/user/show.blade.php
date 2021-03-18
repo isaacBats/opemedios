@@ -249,7 +249,7 @@
                     labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
                     datasets: [{
                         label: '# de notas',
-                        data: [12, 19, 32, 55, 25, 36, 35],
+                        data: @json($countNotes),
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1

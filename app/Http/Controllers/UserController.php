@@ -26,11 +26,13 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Means;
 use App\News;
 use App\Theme;
+use App\Traits\StadisticsNotes;
 use App\User;
 use App\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +45,7 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    use StadisticsNotes;
     
     public function __construct(RegisterController $registerController) {
 
@@ -83,11 +86,14 @@ class UserController extends Controller
         $notesSent = null;
         $companies = null;
         $themes = null;
+        $countNotes = array();
+
 
         if($profile->isAdmin()) {
             $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
             $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
             $themes = Theme::orderBy('name', 'desc')->simplePaginate(50);
+            $countNotes = Arr::pluck($this->getNotesPerDay('admin')->toArray(), 'total');
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
@@ -120,7 +126,7 @@ class UserController extends Controller
             $notesSent = $notes->filter(function($note){ return $note->isAssigned(); });
         }
 
-        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes'));
+        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes', 'countNotes'));
     }
 
     public function showFormNewUser() {
