@@ -153,7 +153,9 @@
                     </div>
                 @endif
                 <div class="tab-pane" id="stadistics">
-                    Temporibus autem quibusdam #Stadistics et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                    <div class="row">
+                        <div id="line-chart" style="width: 1400px;" class="body-chart"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,9 +164,12 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script src="{{ asset('lib/raphael/raphael.js') }}"></script>
+    <script src="{{ asset('lib/morrisjs/morris.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 
@@ -237,6 +242,40 @@
 
                 modal.modal('show')
             })
+
+            // line chart
+            var m1 = new Morris.Line({
+                 element: 'line-chart',
+                 data: [
+                     { y: '2006', a: 30 },
+                     { y: '2007', a: 75 },
+                     { y: '2008', a: 50 },
+                     { y: '2009', a: 75 },
+                     { y: '2010', a: 50 },
+                     { y: '2011', a: 75 },
+                     { y: '2012', a: 100 }
+                 ],
+                 xkey: 'y',
+                 ykeys: ['a'],
+                 labels: ['Notas'],
+                 lineColors: ['#428BCA'],
+                 lineWidth: '2px',
+                 hideHover: true
+            });
+
+            var delay = (function() {
+                var timer = 0;
+                return function(callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            $(window).resize(function() {
+                delay(function() {
+                    m1.redraw();
+                }, 200);
+            }).trigger('resize');
 
         })
     </script>
