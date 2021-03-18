@@ -154,7 +154,7 @@
                 @endif
                 <div class="tab-pane" id="stadistics">
                     <div class="row">
-                        <div id="line-chart" style="width: 1400px;" class="body-chart"></div>
+                        <canvas id="line-chart" width="400" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -164,12 +164,11 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
-    <link rel="stylesheet" href="{{ asset('lib/morrisjs/morris.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/chart/Chart.min.css') }}">
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
-    <script src="{{ asset('lib/raphael/raphael.js') }}"></script>
-    <script src="{{ asset('lib/morrisjs/morris.js') }}"></script>
+    <script src="{{ asset('lib/chart/Chart.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 
@@ -243,39 +242,27 @@
                 modal.modal('show')
             })
 
-            // line chart
-            var m1 = new Morris.Line({
-                 element: 'line-chart',
-                 data: [
-                     { y: '2006', a: 30 },
-                     { y: '2007', a: 75 },
-                     { y: '2008', a: 50 },
-                     { y: '2009', a: 75 },
-                     { y: '2010', a: 50 },
-                     { y: '2011', a: 75 },
-                     { y: '2012', a: 100 }
-                 ],
-                 xkey: 'y',
-                 ykeys: ['a'],
-                 labels: ['Notas'],
-                 lineColors: ['#428BCA'],
-                 lineWidth: '2px',
-                 hideHover: true
+            var ctx = document.getElementById('line-chart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                    datasets: [{
+                        label: '# de notas',
+                        data: [12, 19, 32, 55, 25, 36, 35],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
             });
-
-            var delay = (function() {
-                var timer = 0;
-                return function(callback, ms) {
-                    clearTimeout(timer);
-                    timer = setTimeout(callback, ms);
-                };
-            })();
-
-            $(window).resize(function() {
-                delay(function() {
-                    m1.redraw();
-                }, 200);
-            }).trigger('resize');
 
         })
     </script>
