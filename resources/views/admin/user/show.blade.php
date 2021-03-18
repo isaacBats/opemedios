@@ -153,7 +153,9 @@
                     </div>
                 @endif
                 <div class="tab-pane" id="stadistics">
-                    Temporibus autem quibusdam #Stadistics et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                    <div class="row">
+                        <canvas id="line-chart" width="400" height="200"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,9 +164,11 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/chart/Chart.min.css') }}">
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script src="{{ asset('lib/chart/Chart.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
 
@@ -237,6 +241,28 @@
 
                 modal.modal('show')
             })
+
+            var ctx = document.getElementById('line-chart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                    datasets: [{
+                        label: '# de notas',
+                        data: @json($countNotes),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
 
         })
     </script>
