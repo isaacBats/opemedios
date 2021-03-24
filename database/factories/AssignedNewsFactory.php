@@ -3,6 +3,8 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\AssignedNews;
+use App\Company;
+use App\News;
 use Faker\Generator as Faker;
 
 $factory->define(AssignedNews::class, function (Faker $faker) {
