@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class CompanyController extends Controller
@@ -45,22 +46,35 @@ class CompanyController extends Controller
 
     public function showFormNewCompany() {
         $turns = Turn::all();
+        $companies = Company::all();
         
-        return view('admin.company.newcompany', compact('turns'));
+        return view('admin.company.newcompany', compact('turns', 'companies'));
     }
 
     public function create (Request $request) {
         
         $input = $request->all();
+        // dd([$input, isset($input['is_parent'])]);
         $input['slug'] = Str::slug($input['name']);
         Validator::make($input, [
             'name' => 'required|max:200|',
             'slug' => 'required|unique:companies',
-            'turn_id' => 'required'
+            'turn_id' => 'required',
+            'parent' => [
+                Rule::requiredIf(function() use ($input){
+                    if(isset($input['is_parent'])) {
+                        return true;
+                    }
+
+                    return false;
+                }),
+                'numeric'
+            ]
         ], 
         [
             'turn_id.required' => 'Es necesario elegir un Giro.',
-            'required' => 'El :attribute es necesario.'
+            'required' => 'El :attribute es necesario.',
+            'parent.required' => 'Es requerido el padre'
         ])->validate();
         
         if($file = $request->hasFile('logo')) {
