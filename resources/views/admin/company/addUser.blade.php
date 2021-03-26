@@ -21,7 +21,6 @@
                                     $iteration = 1;
                                 @endphp
                                 @foreach($clients as $client)
-                                    @if(!$client->metas()->where('meta_key', 'company_id')->first())
                                         <tr>
                                             <td>{{ $iteration }}</td>
                                             <td>{{ $client->name }}</td>
@@ -34,7 +33,6 @@
                                         @php
                                             $iteration++;
                                         @endphp
-                                    @endif
                                 @endforeach
                                 @if($iteration == 1)
                                     <tr>

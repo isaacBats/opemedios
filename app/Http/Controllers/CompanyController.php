@@ -134,6 +134,10 @@ class CompanyController extends Controller
         $inputs = $request->all();
         $user = User::find($inputs['user']);
         // $company = Company::find($inputs['company']);
+        if($user->metas()->where('meta_key', 'company_id')->first()) {
+            $user->companies()->attach($request->input('company'));
+            return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
+        } 
 
         $meta_company = new UserMeta();
         $meta_company->meta_key = 'company_id';

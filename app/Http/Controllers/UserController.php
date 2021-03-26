@@ -234,28 +234,18 @@ class UserController extends Controller
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
         $clients = null;
-        // if($company->parent) {
-        //     $clients = User::whereHas('metas', function(Builder $query) use($company) {
-        //         $query->where('meta_key', 'company_id');
-        //         $query->where('meta_value', $company->parent);
-        //     })->get();
-        // } else {
-            // $clients = User::role($role)->get();
-        // $clients = User::with(['metas' => function($query) { 
-        //                 $query->where('meta_key', '!=', 'company_id'); 
-        //             }, 'roles' => function ($query){
-        //                 $query->where('name', 'client');
-        //             }])->get();
-        // $clients = User::role($role)->get()->filter(function($user) use($company) {
-        //     return $user->metas->where('meta_key', 'company_id')->where('meta_value', $company->parent);
-        // });
-
-        $clients = User::role('client')->with('metas')->whereExists(function($query){ $query->select(DB::raw(1))->from('user_meta')->where('meta_key', 'company_id'); })->get()
-
-        // }
-
-
-        dd($clients);
+        if($company->parent) {
+            $clients = User::whereHas('metas', function(Builder $query) use($company) {
+                $query->where('meta_key', 'company_id');
+                $query->where('meta_value', $company->parent);
+            })->get();
+        } else {
+            $clients = User::role($role)->get()->filter(function($user){
+                if(!$user->metas()->where('meta_key', 'company_id')->first()) {
+                    return $user;
+                }
+            });
+        }
         return view('admin.company.addUser', compact('company', 'role', 'clients')); 
     }
 
