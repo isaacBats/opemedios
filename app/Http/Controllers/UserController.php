@@ -233,9 +233,23 @@ class UserController extends Controller
     public function addUserCompany(Request $request, $companyId) {
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
-
-        $clients = User::role($role)->get();
-
+        $clients = null;
+        if($company->parent) {
+            $clients = User::whereHas('metas', function(Builder $query) use($company) {
+                $query->where('meta_key', 'company_id');
+                $query->where('meta_value', $company->parent);
+            })->get()->filter(function($user) use($company) {
+                if (!$company->executives->contains($user)) {
+                    return $user;
+                }
+            });
+        } else {
+            $clients = User::role($role)->get()->filter(function($user){
+                if(!$user->metas()->where('meta_key', 'company_id')->first()) {
+                    return $user;
+                }
+            });
+        }
         return view('admin.company.addUser', compact('company', 'role', 'clients')); 
     }
 

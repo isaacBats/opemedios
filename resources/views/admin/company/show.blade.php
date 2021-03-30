@@ -24,7 +24,7 @@
                         </div>
                         <div class="panel-body">
                             <ul class="media-list user-list" id="user-list">
-                                @forelse($company->accounts() as $account)
+                                @forelse($accounts as $account)
                                     <li class="media">
                                         <div class="media-left">
                                           <a href="#">

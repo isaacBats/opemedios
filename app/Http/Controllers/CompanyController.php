@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class CompanyController extends Controller
@@ -45,22 +46,35 @@ class CompanyController extends Controller
 
     public function showFormNewCompany() {
         $turns = Turn::all();
+        $companies = Company::all();
         
-        return view('admin.company.newcompany', compact('turns'));
+        return view('admin.company.newcompany', compact('turns', 'companies'));
     }
 
     public function create (Request $request) {
         
         $input = $request->all();
+        // dd([$input, isset($input['is_parent'])]);
         $input['slug'] = Str::slug($input['name']);
         Validator::make($input, [
             'name' => 'required|max:200|',
             'slug' => 'required|unique:companies',
-            'turn_id' => 'required'
+            'turn_id' => 'required',
+            'parent' => [
+                Rule::requiredIf(function() use ($input){
+                    if(isset($input['is_parent'])) {
+                        return true;
+                    }
+
+                    return false;
+                }),
+                'numeric'
+            ]
         ], 
         [
             'turn_id.required' => 'Es necesario elegir un Giro.',
-            'required' => 'El :attribute es necesario.'
+            'required' => 'El :attribute es necesario.',
+            'parent.required' => 'Es requerido el padre'
         ])->validate();
         
         if($file = $request->hasFile('logo')) {
@@ -77,9 +91,9 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $turns = Turn::all();
+        $accounts = $company->accounts()->merge($company->executives);
 
-
-        return view('admin.company.show', compact('company', 'turns'));
+        return view('admin.company.show', compact('company', 'turns', 'accounts'));
     }
 
     public function getOldCompanies () {
@@ -120,6 +134,10 @@ class CompanyController extends Controller
         $inputs = $request->all();
         $user = User::find($inputs['user']);
         // $company = Company::find($inputs['company']);
+        if($user->metas()->where('meta_key', 'company_id')->first()) {
+            $user->companies()->attach($request->input('company'));
+            return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
+        } 
 
         $meta_company = new UserMeta();
         $meta_company->meta_key = 'company_id';
