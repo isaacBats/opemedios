@@ -30,8 +30,8 @@ class ThemeController extends Controller
 
     public function show (Request $request, $id) {
         $theme = Theme::find($id);
-        $accounts = $theme->company->accounts()->diff($theme->accounts);
-
+        $accounts = $theme->company->accounts()->merge($theme->company->executives);
+        $accounts = $accounts->diff($theme->accounts);
         return view('admin.theme.show', compact('theme', 'accounts'));
     }
 

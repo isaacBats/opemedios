@@ -91,9 +91,9 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $turns = Turn::all();
+        $accounts = $company->accounts()->merge($company->executives);
 
-
-        return view('admin.company.show', compact('company', 'turns'));
+        return view('admin.company.show', compact('company', 'turns', 'accounts'));
     }
 
     public function getOldCompanies () {
