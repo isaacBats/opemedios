@@ -35,6 +35,7 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
+Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 
