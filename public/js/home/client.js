@@ -142,42 +142,49 @@ $(document).ready(function(){
               });
           }
         })
-  /* Display more news on dashboard by theme*/
-  $('.more-theme-news').click(function(e){
-    $(this).parent().parent().find('.news-single').removeClass("uk-hidden");
-    e.stopPropagation();
-    e.preventDefault();
-    $(this).addClass("uk-hidden");
-  });
+          /* Display more news on dashboard by theme*/
+          $('.more-theme-news').click(function(e){
+            $(this).parent().parent().find('.news-single').removeClass("uk-hidden");
+            e.stopPropagation();
+            e.preventDefault();
+            $(this).addClass("uk-hidden");
+          });
 
 
-  var slider = UIkit.slider('#slider', {
-    finite : false,
-  });
+          var slider = UIkit.slider('#slider', {
+            finite : false,
+          });
 
-  $(window).resize(function(){
+          $(window).resize(function(){
 
-    $options = {
-      "offset": $("body > header").height(),
-      "animation" : "uk-animation-slide-bottom",
-    };
-    UIkit.sticky(".sticky-this", $options);
-  });
+            $options = {
+              "offset": $("body > header").height(),
+              "animation" : "uk-animation-slide-bottom",
+            };
+            UIkit.sticky(".sticky-this", $options);
+          });
 
 
-  $(".uk-subnav.uk-slider-items a").click(function(){
-    $toShow = $(this).parent().attr("uk-filter-control");    
-    $(".js-temas .row").fadeOut();
-    $(".js-temas .row"+$toShow).fadeIn();
-    $(".uk-subnav.uk-slider-items li").removeClass("active");
-    $(this).parent().addClass("active");
-  })
+          $(".uk-subnav.uk-slider-items a").click(function(){
+            $toShow = $(this).parent().attr("uk-filter-control");    
+            $(".js-temas .row").fadeOut();
+            $(".js-temas .row"+$toShow).fadeIn();
+            $(".uk-subnav.uk-slider-items li").removeClass("active");
+            $(this).parent().addClass("active");
+          })
 
-  $options = {
-    "offset": $("body > header").height(),
-    "animation" : "uk-animation-slide-bottom",
-  };
-  UIkit.sticky(".sticky-this", $options);
+          $options = {
+            "offset": $("body > header").height(),
+            "animation" : "uk-animation-slide-bottom",
+          };
+          UIkit.sticky(".sticky-this", $options);
+
+        // change company
+        $('select#select-parent').on('change', function(){
+            var slug = $(this).val();
+            window.location = `/cambio-empresa?slug=${slug}`
+            
+        });
 
 })
 
