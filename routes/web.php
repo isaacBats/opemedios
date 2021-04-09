@@ -79,6 +79,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
         Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
+        Route::post('empresa/relacionar/subempresa', 'CompanyController@relateSubcompany')->name('admin.company.createsubcompany');
 
         Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
         Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
