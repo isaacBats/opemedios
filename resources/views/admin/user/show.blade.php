@@ -110,7 +110,7 @@
                     <div class="tab-pane" id="companies">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-9">
-                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-add-company-{{ $profile->isAdmin() ? 'admin' : 'executive' }}">Asignar empresa</button>
+                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-assign-company">Asignar empresa</button>
                             </div>
                         </div>
                         @foreach($companies as $company)
@@ -173,7 +173,7 @@
         $(document).ready(function(){
 
             // modal for add client to manager roll
-            $('button#btn-add-company-executive').on('click', function(event){
+            $('button#btn-assign-company').on('click', function(event){
                 event.preventDefault()
                 var action = $(this).data('href')
                 var modal = $('#modal-default')

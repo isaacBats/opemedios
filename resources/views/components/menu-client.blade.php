@@ -23,7 +23,7 @@
                     @endif
                     <li class="{{ $route == 'about' ? ' uk-active' : '' }}"><a href="{{ route('about') }}">Quiénes somos</a></li>
                     <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
-                    @hasanyrole('client|manager')
+                    @hasanyrole('client|manager|admin')
                     <li class="uk-hidden@m">
                         <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
                             <span >Dashboard</span>
@@ -50,7 +50,7 @@
                     </li>
                 </ul>
                 <div class="uk-visible@m" style="padding-left: 40px;">
-                    @hasanyrole('client|manager')
+                    @hasanyrole('client|manager|admin')
                     <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
                         <span >Dashboard</span>
                     </a>
@@ -118,7 +118,7 @@
                     </li>
                 @endif
             @endhasrole
-            @hasanyrole('client|manager')
+            @hasanyrole('client|manager|admin')
             <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
             <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
             <li class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}"><a href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
@@ -130,10 +130,10 @@
             <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
             <li class="uk-nav-header uk-text-light">Reporte</li>
             <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $slug]) }}">Reportes</a><br></li>
-            @hasrole('manager')
+            @hasanyrole('manager|admin')
             <li class="uk-nav-divider"></li>
             <li ><a href="{{ route('panel') }}">Volver al admin</a><br></li>
-            @endhasrole
+            @endhasanyrole
             <li class="uk-nav-divider"></li>
             <li class="uk-nav-header uk-text-light"><i class="icon-user"></i> {{ strtoupper(Auth::user()->name) }}</li>
             <li>

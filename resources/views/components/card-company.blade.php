@@ -85,7 +85,6 @@
              @if(auth()->user()->companies->firstWhere('id', $company->id))
             <div class="col-sm-4">
                 <div class="info-group">
-                    <label>Entrar como cliente</label>
                     <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
                 </div>
                 

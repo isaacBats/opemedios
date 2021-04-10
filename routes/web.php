@@ -43,7 +43,7 @@ Auth::routes([
     'register' => false,
 ]);
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager']], function () {
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager|admin']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
