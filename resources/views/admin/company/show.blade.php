@@ -25,11 +25,11 @@
                     @endif
                     <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
                     <button id="btn-subcompany" data-company="{{ $company->id }}" class="btn btn-info btn-quirk" type="button">Hacer subcuenta</button>
-                    @hasrole('manager')
+                    @hasanyrole('manager|admin')
                     @if(auth()->user()->companies->firstWhere('id', $company->id))
                     <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
                     @endif
-                    @endhasrole
+                    @endhasanyrole
                 </div>
             </div>
             <div class="panel" id="panel-show-company">
@@ -37,18 +37,13 @@
                     <h1 class="panel-title">{{ $company->name }}</h1>
                 </div>
                 <div class="panel-body">
-                    <img class="img-responsive" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
-                    <p class="text-center"><a href="javascript:void(0)" id="btn-change-logo" data-company="{{ $company->id }}" >Cambiar Imagen</a></p>
-                    <p class="text-center">{{ "{$company->address} | {$company->turn->name}" }}</p>
-                    @if($company->old_company_id)
-                        @if($oldCompany = $company->oldCompany())
-                            <p class="text-center">Empresa relacionada: <strong>{{ $oldCompany->nombre }}</strong></p>
-                        @endif
-                    @else
-                        <p class="text-center">
-                            <button class="btn btn-primary" type="button" data-company="{{ $company->id }}" id="btn-relation">Relacionar con cliente anterior</button>
-                        </p>
-                    @endif
+                    <div class="col-md-6">
+                        @include('components.card-company')
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img class="img-responsive" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
+                        <p><a class="btn btn-info" href="javascript:void(0)" id="btn-change-logo" data-company="{{ $company->id }}" >Cambiar Imagen</a></p>
+                    </div>
                 </div>
             </div>
             <div class="panel" id="form-edit-company" style="display: none;">
