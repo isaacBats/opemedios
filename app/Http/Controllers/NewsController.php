@@ -483,12 +483,15 @@ class NewsController extends Controller
     public function sendNews(Request $request) {
 
         if(empty($request->input('accounts_ids'))) {
-            return back()->with('danger', 'No se hay correos seleccionados, para enviar la nota.');
+            return back()->with('danger', 'No hay correos seleccionados, para enviar la nota.');
         }
 
         $news = News::findOrFail($request->input('news_id'));
         $themeCompany = Theme::findOrFail($request->input('theme_id'));
-        $accounts = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+        $executives = $themeCompany->company->executives;
+        $accountUsers = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+
+        $accounts = $accountUsers->merge($executives);
 
         AssignedNews::create([
             'news_id' => $news->id,
