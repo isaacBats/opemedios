@@ -8,7 +8,7 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading">{{ $company->name }}</h4>
-                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> {{ $company->turn->name }}</p>
+                <p class="media-usermeta"><i style="color: brown;" class="glyphicon glyphicon-info-sign"></i> Giro: {{ $company->turn->name }}</p>
             </div>
         </div><!-- media -->
         <ul class="panel-options">
@@ -61,16 +61,36 @@
                 </div>
             </div>
         </div><!-- row -->
-        @hasrole('manager')
         <div class="row">
-            <div class="col-sm-4 col-sm-offset-8">
+            <div class="col-sm-4">
                 <div class="info-group">
-                    <label>Entrar como cliente</label>
+                    <label>Giro</label>
+                    {{ $company->turn->name }}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="info-group">
+                    @if($company->old_company_id)
+                        @if($oldCompany = $company->oldCompany())
+                            <p class="text-center">Empresa relacionada: <strong>{{ $oldCompany->nombre }}</strong></p>
+                        @endif
+                    @else
+                        <p class="text-center">
+                            <button class="btn btn-primary" type="button" data-company="{{ $company->id }}" id="btn-relation">Relacionar con cliente anterior</button>
+                        </p>
+                    @endif
+                </div>
+            </div>
+            @hasanyrole('manager|admin')
+             @if(auth()->user()->companies->firstWhere('id', $company->id))
+            <div class="col-sm-4">
+                <div class="info-group">
                     <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
                 </div>
                 
             </div>
+            @endif
+            @endhasanyrole
         </div>
-        @endhasrole
     </div>
 </div><!-- panel -->

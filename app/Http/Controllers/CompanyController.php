@@ -54,7 +54,6 @@ class CompanyController extends Controller
     public function create (Request $request) {
         
         $input = $request->all();
-        // dd([$input, isset($input['is_parent'])]);
         $input['slug'] = Str::slug($input['name']);
         Validator::make($input, [
             'name' => 'required|max:200|',
@@ -92,8 +91,24 @@ class CompanyController extends Controller
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $turns = Turn::all();
         $accounts = $company->accounts()->merge($company->executives);
+        $companies = Company::where('id', '<>', $id)->get();
 
-        return view('admin.company.show', compact('company', 'turns', 'accounts'));
+        return view('admin.company.show', compact('company', 'turns', 'accounts', 'companies'));
+    }
+
+    public function relateSubcompany(Request $request) {
+        $input = $request->all();
+        $company = Company::find($input['company_id']);
+        
+        if(!is_null($company->parent)) {
+            return back()->with('status', "{$company->name} ya es subcuenta de {$company->father->name}");
+        }
+        
+        $company->parent = $input['parent'];
+        $company->save();
+
+        return redirect()->route('company.show', ['id' => $company->id])->with('status', "La empresa {$company->name} ahora es una subcuenta de {$company->father->name}");
+
     }
 
     public function getOldCompanies () {
