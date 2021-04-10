@@ -96,27 +96,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('giros/editar/{id}', 'TurnController@update')->name('admin.turns.update');
         Route::post('giros/eliminar/{id}', 'TurnController@destroy')->name('admin.turns.destroy');
 
-        Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
-        Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
-        Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
-        Route::get('newsletter/ver/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
-        Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
-        Route::post('newsletter/remover/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
-        Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
-        Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
-        Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
-        Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
-        Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
-        Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')->name('admin.newsletter.send');
-        Route::post('newsletter/newsletter-a-enviar/eliminar/{sendid}', 'NewsletterController@removeNewsletterSend')->name('admin.newsletter.delete');
-        
-        Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
-        Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')->name('admin.newsletter.config.removeemails');
-        Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')->name('admin.newsletter.config.updatetemplate');
-        Route::get('newsletter/config/agregar/portadas', 'NewsletterController@addCovers')->name('admin.newsletter.config.footer');
-        Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')->name('admin.newsletter.config.add.footer');
-        Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')->name('admin.newsletter.config.delete.footer');
-
         Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
         Route::post('api/v2/newsletter/newsletter-a-enviar/agregar-nota', 'NewsletterSendController@addNote')->name('api.newslettersend.addnote');
         Route::post('api/v2/newsletter/newsletter-a-enviar/remover-nota', 'NewsletterSendController@remove')->name('admin.newsletter.send.remove.note');
@@ -173,6 +152,27 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('noticias/ver/newsletters/remover/{id}', 'NewsController@removeNewsletter')->name('admin.new.newletter.remove');
     Route::get('noticias/ver/notificacion/{id}', 'NewsController@notice')->name('admin.new.notice.show');
     Route::post('noticias/enviar-noticia', 'NewsController@sendNews')->name('admin.new.send.news');
+
+    Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
+    Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
+    Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
+    Route::get('newsletter/ver/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
+    Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
+    Route::post('newsletter/remover/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
+    Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
+    Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
+    Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
+    Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
+    Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
+    Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')->name('admin.newsletter.send');
+    Route::post('newsletter/newsletter-a-enviar/eliminar/{sendid}', 'NewsletterController@removeNewsletterSend')->name('admin.newsletter.delete');
+    
+    Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
+    Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')->name('admin.newsletter.config.removeemails');
+    Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')->name('admin.newsletter.config.updatetemplate');
+    Route::get('newsletter/config/agregar/portadas', 'NewsletterController@addCovers')->name('admin.newsletter.config.footer');
+    Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')->name('admin.newsletter.config.add.footer');
+    Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')->name('admin.newsletter.config.delete.footer');
 
     Route::get('prensa/ver/portadas', 'CoverController@index')->name('admin.press.show');
     Route::get('prensa/nueva-portada', 'CoverController@create')->name('admin.press.add');

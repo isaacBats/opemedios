@@ -99,7 +99,7 @@
                     <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
                 </ul>
             </li>
-          @can('view menu')<li><a href="{{ route('admin.newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
+          <li><a href="{{ route('admin.newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>
           <li class="nav-parent">
                 <a href="javascript:void(0);"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a>
                 <ul class="children">
