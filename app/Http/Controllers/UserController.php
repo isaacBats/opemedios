@@ -34,6 +34,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -182,6 +183,11 @@ class UserController extends Controller
         $meta_position->meta_value = $inputs['user_position'];
         $user->metas()->save($meta_position);
 
+        $meta_pass = new UserMeta();
+        $meta_pass->meta_key = 'user_password';
+        $meta_pass->meta_value = Crypt::encryptString($inputs['password']);
+        $user->metas()->save($meta_pass);
+
         if($role->name == 'client') {
             $meta_company = new UserMeta();
             $meta_company->meta_key = 'company_id';
@@ -276,6 +282,10 @@ class UserController extends Controller
             }
             if (!is_null($data['new_password'])) {
                 $user->password = Hash::make($data['new_password']);
+                $user->metas()->updateOrCreate(
+                    ['user_id' => $user->id, 'meta_key' => 'user_password'],
+                    ['meta_value' => Crypt::encryptString($data['new_password'])]
+                );
             }
 
             foreach ($data as $key => $value) {
