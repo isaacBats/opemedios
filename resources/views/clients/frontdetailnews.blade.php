@@ -57,10 +57,31 @@
                             </div>';
                         }
                         @endphp
-                        @include('components.buttonsshare', compact('note'))
                         <p class="uk-text-center uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom">
                            {{ __('Descargar Archivo: ') }} <a href="{{ $mainFile->path_filename }}" target="_blank" class="uk-button uk-button-default uk-button-large uk-text-truncate uk-box-shadow-medium"><i class="icon-download"></i> {{ $mainFile->original_name }}</a>
-                       </p>
+                        </p>
+                        @include('components.buttonsshare', compact('note'))
+                        @if($note->files->where('main_file', '<>', 1)->count() > 0)
+                            <h2 class="uk-h3 tm-heading-fragment">Otros archivos</h2>
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Archivo</th>
+                                        <th>Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($note->files->where('main_file', '<>', 1) as $itemFile)
+                                        <tr>
+                                            <td>{{ $itemFile->original_name }}</td>
+                                            <td>
+                                                <a href="{{ $itemFile->path_filename }}" target="_blank" class="uk-text-truncate uk-box-shadow-medium"><i class="icon-download"></i> {{ $itemFile->original_name }}</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
                     @else
                        <p class="text-center">{{ __('Esta noticia no contiene archivos ajuntos') }}</p>
                     @endif
