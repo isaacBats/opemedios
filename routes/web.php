@@ -109,6 +109,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         // Maganer role enters as a client
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
+
+        Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
@@ -193,4 +195,5 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/cliente/obtener-temas', 'ThemeController@sendSelectHTMLWithThemesByCompany')->name('api.getthemeshtml');
     Route::post('api/v2/cliente/obtener-cuentas', 'CompanyController@getAccountsAjax')->name('api.company.getaccounts');
     Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
+    Route::post('api/v2/notas/por-cliente', 'AssignedNewsController@getNewsByClient')->name('api.getnewsbyclient');
 });
