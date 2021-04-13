@@ -104,7 +104,7 @@
     <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default uk-text-bold uk-text-uppercase">
             <li><a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a><br><br></li>
-            @hasrole('client')
+            @hasanyrole('client|manager|admin')
                 @if(auth()->user()->companies->count() > 0)
                     <li>
                         <div class="uk-form-controls">
@@ -117,7 +117,7 @@
                         </div>
                     </li>
                 @endif
-            @endhasrole
+            @endhasanyrole
             @hasanyrole('client|manager|admin')
             <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
             <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
