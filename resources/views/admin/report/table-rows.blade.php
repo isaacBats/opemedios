@@ -14,8 +14,8 @@
     <tbody>
         @foreach($notes as $note)
             <tr>
-                {{-- <td>{{ ($note->currentPage() - 1) * $note->perPage() + $loop->iteration }}</td> --}}
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
+                {{-- <td>{{ $loop->iteration }}</td> --}}
                 <td>{{ "OPE-{$note->id}" }}</td>
                 <td>{{ $note->title }}</td>
                 <td>{{ $note->sector->name }}</td>
@@ -27,3 +27,4 @@
         @endforeach
     </tbody>
 </table>
+{!! $notes->links() !!}

@@ -42,9 +42,31 @@
                 $.post('{{ route('api.getnewsbyclient') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company': optionSelected }, function(res){
                     $('#div-table-notes').html(res)
                 });
-
-                console.log(`Has seleccionado el valor de ${optionSelected}`)
             });
+
+            // pagination
+            $(document).on('click', '.pagination a', function (e) {
+                getPosts($(this).attr('href').split('page=')[1]);
+                e.preventDefault();
+            });
+
+            function getPosts(page) {
+                var company = $('#report-select-company').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url : `/panel/api/v2/notas/por-cliente?page=${page}`,
+                    data: {
+                        '_token': $('meta[name=csrf-token]').attr('content'),
+                        'company': company
+                    },
+                }).done(function (data) {
+                    $('#div-table-notes').html(data);
+                    location.hash = page;
+                }).fail(function () {
+                    alert('Posts could not be loaded.');
+                });
+            }
         });
         
     </script>
