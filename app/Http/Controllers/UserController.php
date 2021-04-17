@@ -94,7 +94,7 @@ class UserController extends Controller
             $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
             $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
             $themes = Theme::orderBy('name', 'desc')->simplePaginate(50);
-            $countNotes = Arr::pluck($this->getNotesPerDay('admin')->toArray(), 'total');
+            $countNotes = Arr::pluck($this->getNoteCountPerWeek()->toArray(), 'total');
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
@@ -112,6 +112,9 @@ class UserController extends Controller
             $notes = AssignedNews::with('news')->whereIn('company_id', $companiesIds)->simplePaginate($paginate);
             $companies = $profile->companies()->orderBy('id', 'asc')->simplePaginate($paginate);
             $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate(50);
+            // $countNotes = Arr::pluck($this->getNoteCountPerWeekAndExecutiveRol($companiesIds));
+            $countNotes = $this->getNoteCountPerWeekAndExecutiveRol($companiesIds, '2021-03-08')->toArray();
+            dd([$companiesIds, $countNotes]);
 
         } elseif($profile->isClient()) {
             $countNews = [
