@@ -1,4 +1,6 @@
 <?php
+
+use App\Exports\ReportsExport;
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -38,6 +40,11 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
+
+route::get('reporte-test', function(){
+    return (new ReportsExport(3))->download('noticias.xlsx');
+
+});
 
 Auth::routes([
     'register' => false,

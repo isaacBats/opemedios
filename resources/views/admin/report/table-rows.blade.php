@@ -1,3 +1,7 @@
+<div class="btn-group pull-right people-pager">
+    {!! $notes->links() !!}
+</div>
+<span>Mostrando <strong>{{ "{$notes->firstItem()} de " .  ($notes->firstItem() + $notes->count() - 1)}}</strong> noticias</span>
 <table class="table table-bordered table-primary table-striped nomargin">
     <thead>
         <tr>
@@ -15,7 +19,6 @@
         @foreach($notes as $note)
             <tr>
                 <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
-                {{-- <td>{{ $loop->iteration }}</td> --}}
                 <td>{{ "OPE-{$note->id}" }}</td>
                 <td>{{ $note->title }}</td>
                 <td>{{ $note->sector->name }}</td>
