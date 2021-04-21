@@ -29,7 +29,7 @@ $factory->define(App\News::class, function (Faker $faker) {
         'mean_id' => Means::all()->random()->id, 
         'news_date' => $date, 
         'cost' => mt_rand($st_num*$mul,$end_num*$mul)/$mul, 
-        'trend' => rand(1,400), 
+        'trend' => rand(1,3), 
         'scope' => rand(1,300), 
         'comments' => $faker->text, 
         'in_newsletter' => 0, 
