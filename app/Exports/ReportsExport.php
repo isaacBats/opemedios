@@ -7,9 +7,14 @@ use App\News;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class ReportsExport implements FromQuery, WithMapping
+class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings, WithEvents
 {
     use Exportable;
     
@@ -30,7 +35,7 @@ class ReportsExport implements FromQuery, WithMapping
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
 
         return [
-            $note->id,
+            "OPE-{$note->id}",
             $note->title,
             $note->synthesis,
             $note->author,
@@ -40,9 +45,43 @@ class ReportsExport implements FromQuery, WithMapping
             $note->source->name,
             $note->section->name,
             $note->mean->name,
-            Date::dateTimeToExcel($note->news_date),
-            $note->cost,
-            $trend
+            $note->news_date->format('Y-m-d'),
+            number_coin($note->cost),
+            $trend,
+            number_decimal($note->scope)
+        ];
+    }
+
+    public function headings(): array {
+        return [
+            '#',
+            'Título',
+            'Síntesis',
+            'Autor',
+            'Tipo de autor',
+            'Sector',
+            'Género',
+            'Fuente',
+            'Sección',
+            'Medio',
+            'Fecha nota',
+            'Costo',
+            'Tendencia',
+            'Alcance'
+        ];
+    }
+
+    public function registerEvents(): array {
+        return [
+            AfterSheet::class => function(AfterSheet $event){
+                $event->sheet->getStyle('A1:N1')->applyFromArray([
+                    'font' => [
+                        'bold' => true
+                    ]
+                ],
+                $event->sheet->setAutoFilter('A1:N1'),
+            );
+            }  
         ];
     }
 }
