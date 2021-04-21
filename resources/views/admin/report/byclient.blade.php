@@ -5,9 +5,11 @@
         <div class="col-sm-12 people-list">
             <div class="people-options clearfix">
                 <div class="btn-toolbar">
-                    <form action="{{ route('admin.report.byclient') }}" method="GET">
+                    <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET">
+                        @csrf
                         <div class="row">
                             <div class="col-md-2 form-group">
+                                <label for="report-select-company" class="text-muted">Cliente</label>
                                 <select name="company" class="form-control mt-2" id="report-select-company" style="width: 100%;">
                                     <option value="">Selecciona un cliente</option>
                                     @foreach($companies as $company)
@@ -16,7 +18,8 @@
                                 </select>
                             </div>
                             <div class="col-md-2 form-group">
-                                <select class="form-control select-select2" style="width: 100%;" name="" id="">
+                                <label class="text-muted">Sector</label>
+                                <select class="form-control select-select2" style="width: 100%;" name="sector" >
                                     <option value="">Sector</option>
                                     @foreach(App\Sector::all() as $sector)
                                         <option value="{{ $sector->id }}">{{ $sector->name }}</option>
@@ -24,7 +27,8 @@
                                 </select>
                             </div>
                             <div class="col-md-2 form-group">
-                                <select class="form-control select-select2" style="width: 100%;" name="" id="">
+                                <label class="text-muted">Genero</label>
+                                <select class="form-control select-select2" style="width: 100%;" name="genre">
                                     <option value="">Genero</option>
                                     @foreach(App\Genre::all() as $genre)
                                         <option value="{{ $genre->id }}"> {{ $genre->description }}</option>
@@ -32,24 +36,23 @@
                                 </select>
                             </div>
                             <div class="col-md-2 form-group">
-                                <select class="form-control select-select2" style="width: 100%;" name="" id="">
-                                    <option value="">Fuente</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 form-group">
-                                <select class="form-control select-select2" style="width: 100%;" name="" id="">
+                                <label for="select-report-mean" class="text-muted">Medio</label>
+                                <select class="form-control select-select2" style="width: 100%;" name="mean" id="select-report-mean">
                                     <option value="">Medio</option>
                                     @foreach(App\Means::all() as $mean)
                                         <option value="{{ $mean->id }}">{{ $mean->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group" id="div-select-report-sources">
+                            </div>
                         </div>
                         <div class="row">
+                            <div id="select-report-theme" class="form-group"></div>
                             <div class="col-md-2 form-group">
                                 <label for="" class="text-muted">Fecha inicio</label>
                                 <div class="input-group">
-                                    <input type="date" name="fstart" class="form-control">
+                                    <input type="text" name="fstart" id="input-report-date-start" class="form-control input-date-format">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -58,7 +61,7 @@
                             <div class="col-md-2 form-group">
                                 <label for="" class="text-muted">Fecha fin</label>
                                 <div class="input-group">
-                                    <input type="date" name="fend" class="form-control">
+                                    <input type="text" name="fend" id="input-report-date-end" class="form-control input-date-format">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -67,7 +70,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2 form-group">
-                                <button type="submit" class="btn btn-primary"> Buscar</button>
+                                <button class="btn btn-primary" id="btn-report-search"> Buscar</button>
                             </div>
                         </div>
                     </form>
@@ -77,10 +80,10 @@
                     <a href="" class="btn btn-warning">Exportar</a>
                 </div> --}}
 
-                <div class="btn-group pull-right people-pager" id="btns-paginate">
+                {{-- <div class="btn-group pull-right people-pager" id="btns-paginate">
                     <button type="button" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
                     <button type="button" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
-                </div>
+                </div> --}}
                 <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span>
             </div><!-- people-options -->
             <div id="div-table-notes">
@@ -100,6 +103,53 @@
             $('#report-select-company').select2();
             $('.select-select2').select2();
             
+            // Datepicker 
+            format = "yy-mm-dd",
+            from = $("#input-report-date-start").datepicker({
+                    defaultDate: "+1w",
+                    dateFormat: format,
+                    changeMonth: true,
+                    changeYear: true
+                }).on( "change", function() {
+                    to.datepicker( "option", "minDate", getDate( this ) );
+                }),
+            to = $("#input-report-date-end").datepicker({
+                    defaultDate: "+1w",
+                    dateFormat: format,
+                    changeMonth: true,
+                    changeYear: true
+                }).on( "change", function() {
+                    from.datepicker( "option", "maxDate", getDate( this ) );
+            });
+
+            function getDate( element ) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(format, element.value);
+                } catch( error ) {
+                    date = null;
+                    console.error(error);
+                }
+
+                return date;
+            }
+            
+            
+            // Filter report
+            $('#btn-report-search').on('click', function(event){
+                event.preventDefault();
+                var data = $('#form-report-filter').serialize(); 
+
+                console.log(data);
+                $.get('{{ route('admin.report.byclient') }}', data, function(res){
+                    
+                    var finalNum = res.firstitem + res.count -1;
+
+                    $('#div-table-notes').html(res.render);
+                    $('#num-rows-info').text(`${res.firstitem}-${finalNum}`);
+                });
+            });
+
             // select news by company
             $('#report-select-company').on('change', function(event){
                 var optionSelected = event.target.value;
@@ -110,9 +160,58 @@
 
                     $('#div-table-notes').html(res.render);
                     $('#num-rows-info').text(`${res.firstitem}-${finalNum}`);
-                    $('#btns-paginate').html(btnPaginates);
+
+                    $.post('{{ route('api.getthemeshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': optionSelected }, function (res) {
+                        var divSelectThemes = $('#select-report-theme');
+                        divSelectThemes.addClass('col-md-2').html(res);
+                        divSelectThemes.find('label.col-form-label').removeClass().addClass('text-muted');
+                        var spanLabel = divSelectThemes.find('span.text-danger');
+                        spanLabel.remove();
+                        var selectTheme = divSelectThemes.find('#select-theme');
+                        selectTheme.css("width", "100%");
+                        selectTheme.select2();
+                    })
                 });
             });
+
+            // select mean
+            $('#select-report-mean').on('change', function(event) {
+                getHTMLSources(event.target.value)
+            })
+            
+            function getHTMLSources(noteType) {
+                $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
+                        var divSelectSources = $('#div-select-report-sources')
+                            .addClass('col-md-2')
+                            .html(res)
+                        divSelectSources.find('label.col-form-label').removeClass();
+                        divSelectSources.find('div.col-sm-10.col-md-11.col-lg-11').removeClass();
+                        divSelectSources.find('#select-fuente').select2({
+                            minimumInputLength: 3,
+                            ajax: {
+                                type: 'POST',
+                                url: "{{ route('api.getsourceajax') }}",
+                                dataType: 'json',
+                                data: function(params, noteType) {
+                                    return {
+                                        q: params.term,
+                                        mean_id: $('select#select-report-mean').val(),
+                                        "_token": $('meta[name="csrf-token"]').attr('content')
+                                    } 
+                                },
+                                processResults: function(data) {
+                                    return {
+                                        results: data.items
+                                    }
+                                },
+                                cache: true
+                            }
+                        })
+                    }).fail(function(res){
+                        var divSelectSources = $('#div-select-report-sources').html(`<p>No se pueden obtener las fuentes</p>`)
+                        console.error(`Error-Sources: ${res.responseJSON.message}`)
+                    })
+            }
 
             // pagination
             $(document).on('click', '.pagination a', function (e) {
