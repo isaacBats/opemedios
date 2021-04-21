@@ -74,16 +74,11 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
-                {{-- <div class="btn-group pull-right">
-                    <a href="" class="btn btn-warning">Exportar</a>
-                </div> --}}
+                <div class="btn-group pull-right ml-1">
+                    <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-warning" id="btn-report-export">Exportar</a>
+                </div>
 
-                {{-- <div class="btn-group pull-right people-pager" id="btns-paginate">
-                    <button type="button" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
-                </div> --}}
                 <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span>
             </div><!-- people-options -->
             <div id="div-table-notes">
@@ -140,7 +135,6 @@
                 event.preventDefault();
                 var data = $('#form-report-filter').serialize(); 
 
-                console.log(data);
                 $.get('{{ route('admin.report.byclient') }}', data, function(res){
                     
                     var finalNum = res.firstitem + res.count -1;
@@ -240,6 +234,15 @@
                     alert('Posts could not be loaded.');
                 });
             }
+
+            // Export button
+            $('#btn-report-export').on('click', function(event){
+                event.preventDefault();
+                var form = $('#form-report-filter')
+                    .attr('action', "{{ route('admin.report.export') }}")
+                    .attr('method', 'get');
+                form.submit();
+            });
         });
         
     </script>

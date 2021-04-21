@@ -18,16 +18,43 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
 {
     use Exportable;
     
-    private $companyId;
+    private $request;
 
-    public function __construct($companyId){
-        $this->companyId = $companyId;
+    public function __construct($request){
+        $this->request = $request;
     }
 
     public function query()
     {
-        $notesIds = AssignedNews::where('company_id', $this->companyId)->pluck('news_id');
-        return News::whereIn('id', $notesIds);
+        $notesIds = AssignedNews::query()->where('company_id', $this->request->input('company'))
+            ->when($this->request->input('theme_id') != null, function($q) {
+                return $q->where('theme_id', $this->request->input('theme_id'));
+            })->pluck('news_id');
+
+        return News::query()->whereIn('id', $notesIds)
+            ->when($this->request->input('sector') != null, function($q) {
+                return $q->where('sector_id', $this->request->input('sector'));
+            })
+            ->when($this->request->input('genre') != null, function($q) {
+                return $q->where('genre_id', $this->request->input('genre'));
+            })
+            ->when($this->request->input('mean') != null, function($q) {
+                return $q->where('mean_id', $this->request->input('mean'));
+            })
+            ->when($this->request->input('source_id') != null, function($q) {
+                return $q->where('source_id', $this->request->input('source_id'));
+            })
+            ->when(($this->request->input('fstart') != null && $this->request->input('fend') != null), function($q){
+                $from = Carbon::create($this->request->input('fstart'));
+                $to = Carbon::create($this->request->input('fend'));
+                return $q->whereBetween('news_date', [$from, $to]);
+            })
+            ->when(($this->request->input('fstart') != null && $this->request->input('fend') == null), function($q){
+                return $q->whereDate('news_date', Carbon::create($this->request->input('fstart')));
+            });
+
+        // $notesIds = AssignedNews::where('company_id', $this->companyId)->pluck('news_id');
+        // return News::whereIn('id', $notesIds);
     }
 
     public function map($note): array {

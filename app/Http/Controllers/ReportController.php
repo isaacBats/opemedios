@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AssignedNews;
 use App\Company;
+use App\Exports\ReportsExport;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,5 +53,9 @@ class ReportController extends Controller
         }
 
         return view('admin.report.byclient', compact('companies'));
+    }
+
+    public function export(Request $request) {
+        return (new ReportsExport($request))->download('Reporte.xlsx');
     }
 }

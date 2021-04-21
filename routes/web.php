@@ -1,6 +1,5 @@
 <?php
 
-use App\Exports\ReportsExport;
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -40,11 +39,6 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
-
-route::get('reporte-test', function(){
-    return (new ReportsExport(3))->download('noticias.xlsx');
-
-});
 
 Auth::routes([
     'register' => false,
@@ -118,6 +112,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
+        Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
