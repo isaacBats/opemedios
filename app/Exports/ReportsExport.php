@@ -52,9 +52,6 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
             ->when(($this->request->input('fstart') != null && $this->request->input('fend') == null), function($q){
                 return $q->whereDate('news_date', Carbon::create($this->request->input('fstart')));
             });
-
-        // $notesIds = AssignedNews::where('company_id', $this->companyId)->pluck('news_id');
-        // return News::whereIn('id', $notesIds);
     }
 
     public function map($note): array {

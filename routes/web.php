@@ -38,7 +38,11 @@ Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
 Route::get('cambio-empresa', 'HomeController@changeCompany');
 
+Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
+
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
+Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
+Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
 
 Auth::routes([
     'register' => false,
@@ -112,7 +116,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
-        Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
+        
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
@@ -186,8 +190,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('prensa/editar/portada/{id}/archivo', 'CoverController@updateFile')->name('admin.press.update.file');
     Route::post('prensa/eliminar/portada/{id}', 'CoverController@destroy')->name('admin.press.destroy');
 
-    Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
-    Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
     Route::post('api/v2/secciones/obtener-secciones', 'SectionController@sendSelectHTMLWithSctionsBySource')->name('api.getsectionshtml');
     Route::post('api/v2/newsletters/obtener-temas', 'NewsletterController@sendSelectHTMLWithThemes')->name('api.getnewsletterthemeshtml');
     Route::post('api/v2/newsletters/obtener-activos', 'NewsletterController@sendSelectHTMLWithSends')->name('api.getnewslettersendhtml');
