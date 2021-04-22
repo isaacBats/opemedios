@@ -62,7 +62,7 @@
                     </div>
                     <div class="uk-margin">
                         <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar">
-                        <a href="javascript:void(0)" style="margin-right: 25px;" class="btn btn-action uk-button uk-button-large uk-button-primary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
+                        <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
                     </div>
                 </form>
             </div>
