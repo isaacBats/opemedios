@@ -147,6 +147,7 @@
             // select news by company
             $('#report-select-company').on('change', function(event){
                 var optionSelected = event.target.value;
+                $('#div-table-notes').html("");
 
                 $.get('{{ route('admin.report.byclient') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company': optionSelected }, function(res){
                     var btnPaginates = $('ul.pagination');
