@@ -61,7 +61,7 @@
                         <div class="uk-margin" id="div-select-report-sources"></div>
                     </div>
                     <div class="uk-margin">
-                        <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Generar">
+                        <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar">
                         <a href="javascript:void(0)" style="margin-right: 25px;" class="btn btn-action uk-button uk-button-large uk-button-primary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
                     </div>
                 </form>
