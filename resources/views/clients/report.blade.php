@@ -12,8 +12,8 @@
                     @php
                         $companyClient = App\Company::where('slug', session()->get('slug_company'))->first();
                     @endphp
-                    <input type="hidden" name="company" value="{{ $companyClient->id }}">
                     <div class="uk-child-width-1-1 uk-child-width-1-4@s uk-child-width-1-4@m" uk-grid>
+                        <input type="hidden" name="company" value="{{ $companyClient->id }}">
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Fecha inicio</label>
                             <input id="input-report-date-start" class="form-control uk-input" type="text" name="fstart" value="{{ request('fstart') }}">
