@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\AssignedNews;
 use App\News;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
