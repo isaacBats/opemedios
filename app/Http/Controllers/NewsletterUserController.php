@@ -11,12 +11,21 @@ class NewsletterUserController extends Controller
     public function addAccounts(Request $request) {
         try {
             $newsletterId = $request->input('newsletter_id');
-            foreach ($request->input('accounts') as $email) {
+
+            if($request->has('tareaemails')) {
+                $accounts = explode(",", trim($request->input('tareaemails')));
+
+            } elseif($request->has('accounts')) {
+                $accounts = $request->input('accounts');
+            }
+            
+            foreach ($accounts as $email) {
                 $newsletterUser = new NewsletterUser();
                 $newsletterUser->newsletter_id = $newsletterId;
                 $newsletterUser->email = $email;
                 $newsletterUser->save();
             }
+
 
             return back()->with('status', 'Los correos se han agregado correctamente');
 

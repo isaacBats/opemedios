@@ -41,12 +41,14 @@
                                     No hay direcciones de correo para este newsletter
                                 </p>
                                 <button class="btn btn-primary" id="btn-add-emails">Agregar cuentas relacionadas con {{ $newsletter->company->name }}</button>
+                                <button class="btn btn-info" id="btn-add-emails-textarea">Agregar cuentas desde lista</button>
                             </li>
                         @endforelse
                         @if($newsletter->newsletter_users->count() > 0)
                             <li>
-                                <div class="col-md-1 col-md-offset-11">
+                                <div class="col-md-3 col-md-offset-9">
                                     <button class="btn btn-primary" id="btn-add-email">Agregar otro correo</button>
+                                    <button class="btn btn-info" id="btn-add-emails-textarea">Agregar cuentas desde lista</button>
                                 </div>
                             </li>
                         @endif
@@ -135,6 +137,26 @@
                         <div class="col-sm-9">
                             ${fields}          
                         </div>
+                    </div>
+                `)
+                modal.modal('show')
+            })
+
+            $('#btn-add-emails-textarea').on('click', function(event){
+                event.preventDefault()
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                
+                form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
+                form.attr('method', 'POST')
+
+                modal.find('.modal-title').text("{{ __('Agregar las siguientes cuentas') }}")
+                modal.find('#md-btn-submit').val("{{ __('Agregar') }}")
+                modal.find('.modal-body').html(`
+                    <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                    <div class="form-group">
+                        <label class="control-label">Agrega los correos separados por ","(comas) y sin espacios</label>
+                        <textarea class="form-control" name="tareaemails"></textarea>          
                     </div>
                 `)
                 modal.modal('show')
