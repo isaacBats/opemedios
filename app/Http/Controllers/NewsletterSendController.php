@@ -31,9 +31,11 @@ class NewsletterSendController extends Controller
      */
     public function create(Request $request, $id) {
         $newsletter = Newsletter::findOrFail($id);
+        $label = $request->input('nwl-name') == "" ? "Default" : $request->input('nwl-name');
         $forSend = NewsletterSend::create([
             'newsletter_id' => $newsletter->id,
             'status' => 0,
+            'label' => $label 
         ]);
 
         return redirect()->route('admin.newsletter.view', ['id' => $newsletter->id])->with('status', 'Se ha creado una nueva plantilla para newsletter');

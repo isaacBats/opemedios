@@ -24,6 +24,7 @@
                         <tr>
                             <th>#</th>
                             <th>Fecha</th>
+                            <th>Etiqueta</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                             <th>Enviar</th>
@@ -35,9 +36,10 @@
                         @endphp
                         @forelse($newsletters_send as $oneNewsletter)
                             <tr>
-                                <th>{{ ($newsletters_send->currentPage() - 1) * $newsletters_send->perPage() + $loop->iteration }}</th>
-                                <th>{{ $oneNewsletter->created_at->diffForHumans() }}</th>
-                                <th>
+                                <td>{{ ($newsletters_send->currentPage() - 1) * $newsletters_send->perPage() + $loop->iteration }}</td>
+                                <td>{{ $oneNewsletter->created_at->diffForHumans() }}</td>
+                                <td>{{ $oneNewsletter->label }}</td>
+                                <td>
                                     @if($oneNewsletter->status)
                                         @for($i = 0; $i < $oneNewsletter->status; $i++)
                                             @if($oneNewsletter->status > 5)
@@ -52,16 +54,16 @@
                                     @else
                                         <span class="text-warning"><i class="fa fa-pause-circle"></i><span>
                                     @endif
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     <a href="{{ route('admin.newsletter.edit.send', ['id' => $oneNewsletter->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('admin.newsletter.preview.send', ['id' => $oneNewsletter->id]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
                                     <button class="btn btn-primary send-mail-manual" data-href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
                                     <button class="btn btn-danger delete-newsletter" data-href="{{ route('admin.newsletter.delete', ['sendid' => $oneNewsletter->id]) }}"><i class="fa fa-trash"></i></button>
-                                </th>
-                                <th>
+                                </td>
+                                <td>
                                     <a href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" class="btn btn-primary btn-send-newsletter"><i class="fa fa-envelope"></i></a>
-                                </th>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -81,13 +83,24 @@
 
             // crate news newsletter for send
             $('#btn-create-nwlt').on('click', function(){
-                var form = $('#modal-default-form')
-                var urlAction = `{{ route('admin.newsletter.newforsend', ['id' => $newsletter->id]) }}`
+                var form = $('#modal-default-form');
+                var urlAction = `{{ route('admin.newsletter.newforsend', ['id' => $newsletter->id]) }}`;
+                var modal = $('#modal-default');
+                var form = $('#modal-default-form');
 
-                form.attr('action', urlAction)
-                form.attr('method', 'POST')
-                form.submit()
-                // $.post(`{{-- route('admin.newsletter.newforsend', ['id' => $newsletter->id]) --}}`, { "_token": $('meta[name="csrf-token"]').attr('content') })
+                form.attr('action', urlAction);
+                form.attr('method', 'POST');
+
+                modal.find('.modal-title').text('Crear Newsletter')
+                modal.find('.modal-body').html(`
+                    <div class="form-group">
+                        <label>Nombre del newsletter</label>
+                        <input class="form-control" name="nwl-name" placeholder="Default" type="text">
+                    </div>
+                `);
+
+                modal.find('#md-btn-submit').val('Crear');
+                modal.modal('show');
             })
             
             // envio manual

@@ -33,7 +33,7 @@ class NewsletterSend extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['newsletter_id', 'status', 'news_ids', 'num_notes', 'num_email'];
+    protected $fillable = ['newsletter_id', 'status', 'news_ids', 'num_notes', 'num_email', 'label'];
 
     /**
      * @var string
