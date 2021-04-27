@@ -58,10 +58,12 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
     public function map($note): array {
         
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
+        $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name;
 
         return [
             "OPE-{$note->id}",
             $note->title,
+            $theme,
             $note->synthesis,
             $note->author,
             $note->authorType->description,
@@ -81,6 +83,7 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
         return [
             '#',
             'Título',
+            'Tema',
             'Síntesis',
             'Autor',
             'Tipo de autor',
@@ -99,12 +102,12 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
     public function registerEvents(): array {
         return [
             AfterSheet::class => function(AfterSheet $event){
-                $event->sheet->getStyle('A1:N1')->applyFromArray([
+                $event->sheet->getStyle('A1:O1')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ]
                 ],
-                $event->sheet->setAutoFilter('A1:N1'),
+                $event->sheet->setAutoFilter('A1:O1'),
             );
             }  
         ];
