@@ -331,6 +331,7 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group row" id="div-select-nesletter-themes"></div>
+                            <div class="form-group row" id="div-select-nesletter-sends"></div>
                         </div>    
                     </div>      
                 </div>
@@ -524,6 +525,15 @@
                     divSelectThemes.find('#select-newsletter-themes').select2()
                 }).fail(function(res){
                     var divSelectThemes = $('#div-select-nesletter-themes').html(`<p>No se pueden obtener los temas del bloque</p>`)
+                    console.error(`Error-Sections: ${res.responseJSON.message}`)
+                })
+
+                // get newsletters for send
+                $.post("{{ route('api.getnewslettersendhtml') }}", { '_token': $('meta[name="csrf-token"]').attr('content'), 'newsletter_id': newsletterId }, function(res){
+                    var divSelectSends = $('#div-select-nesletter-sends').html(res)
+                    divSelectSends.find('#select-newsletter-sends').select2()
+                }).fail(function(res){
+                    var divSelectSends = $('#div-select-nesletter-sends').html(`<p>No se pueden obtener los templates para enviar notas</p>`)
                     console.error(`Error-Sections: ${res.responseJSON.message}`)
                 })
             })

@@ -18,7 +18,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
-                    <h3 class="panel-title">Newsletter #{{ $newsletterSend->id }} para {{ $newsletterSend->newsletter->name }}</h3>
+                    <h3 class="panel-title">Newsletter #{{ $newsletterSend->id }} para {{ $newsletterSend->newsletter->name }} - {{ $newsletterSend->label }}</h3>
                 </div>
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right" id="btn-search-note">
                     <a id="btn-add-note" href="javascript:void(0)" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Agregar Nota') }}</a>

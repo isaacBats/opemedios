@@ -313,21 +313,14 @@ class NewsController extends Controller
             }
         }
 
-        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
+        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data) && array_key_exists('newsletter_send_id', $data)) {
             // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
             $newsletterSendPaused = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
-                ->where('status', 0)
-                ->orderBy('id', 'DESC')
+                ->where('id', $data['newsletter_send_id'])
                 ->get();
             
-            if($newsletterSendPaused->isEmpty()) {
-                $newsletterSend = NewsletterSend::create([
-                    'newsletter_id' => $data['newsletter_id'],
-                    'status' => 0,
-                ]);
-            } else {
-                $newsletterSend = $newsletterSendPaused->first();
-            }
+            
+            $newsletterSend = $newsletterSendPaused->first();
             
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
