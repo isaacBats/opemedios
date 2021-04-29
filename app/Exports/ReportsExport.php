@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings, WithEvents
@@ -110,9 +111,25 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
                     'font' => [
                         'bold' => true
                     ]
-                ],
-                $event->sheet->setAutoFilter('A1:P1'),
-            );
+                ]);
+                $event->sheet->setAutoFilter('A1:P1');
+
+                // hiperlink 
+                foreach ($event->sheet->getColumnIterator('P') as $row) {
+                    foreach ($row->getCellIterator() as $cell) {
+                        if (str_contains($cell->getValue(), '://')) {
+                            $cell->setHyperlink(new Hyperlink($cell->getValue()));
+                            $cell->setValue('Ir a la nota');
+                            // Upd: Link styling added
+                            $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
+                               'font' => [
+                                   'color' => ['rgb' => '0000FF'],
+                                   'underline' => 'single'
+                               ]
+                           ]);
+                        }
+                    }
+                }   
             }  
         ];
     }
