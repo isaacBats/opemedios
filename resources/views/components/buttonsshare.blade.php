@@ -33,8 +33,8 @@
     data-size="large">
         <a target="_blank" 
             href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}&amp;src=sdkpreparse" 
-            class="fb-xfbml-parse-ignore">Facebook
+            class="fb-xfbml-parse-ignore button-share-this facebook-btn"><span class="icon-facebook"></span> Compartir
         </a>
     </div>
-    <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}&text={{ "{$note->title}-{$note->author}-{$note->source->name}" }}&via=Opemedios" onclick="window.open(this.href, 'Share', 'width=480, height=500, left=24, top=24, scrollbars, resizable'); return false;" class="btn btn-twitter btn-sm">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}&text={{ "{$note->title}-{$note->author}-{$note->source->name}" }}&via=Opemedios" onclick="window.open(this.href, 'Share', 'width=480, height=500, left=24, top=24, scrollbars, resizable'); return false;" class="btn btn-twitter btn-sm button-share-this twitter-btn"><span class="icon-twitter"></span> Compartir</a>
 </div>

@@ -107,13 +107,13 @@
             @hasanyrole('client|manager|admin')
                 @if(auth()->user()->companies->count() > 0)
                     <li>
-                        <div class="uk-form-controls">
-                            <select name="parent" id="select-parent">
-                                <option value="">Empresas</option>
+                        <div class="uk-form-controls" uk-form-custom="target: true">
+                            <select name="parent" id="select-parent" class="uk-select">
                                 @foreach(auth()->user()->companies as $entity)
                                     <option {{ $entity->slug == session()->get('slug_company') ? 'selected' : ''}} value="{{ $entity->slug }}">{{ $entity->name }}</option>
                                 @endforeach   
                             </select>
+                            <button type="button" class="empresas-btn">EMPRESAS <span class="icon-chevron-down"></span></button>
                         </div>
                     </li>
                 @endif
