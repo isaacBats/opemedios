@@ -106,16 +106,12 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
     public function registerEvents(): array {
         return [
             AfterSheet::class => function(AfterSheet $event){
-                $event->sheet->getStyle('A1:O1')->applyFromArray([
+                $event->sheet->getStyle('A1:P1')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ]
                 ],
-                $event->sheet->setAutoFilter('A1:O1'),
-                // insert hiperlink
-                // $event->sheet->getCell('A2')->getHiperlink()->setUrl(
-                //     route('front.detail.news', ['qry' => \Illuminate\Support\Facades\Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")])
-                // ),
+                $event->sheet->setAutoFilter('A1:P1'),
             );
             }  
         ];
