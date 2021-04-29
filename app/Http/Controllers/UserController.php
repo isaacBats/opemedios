@@ -114,7 +114,6 @@ class UserController extends Controller
             $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate(50);
             // $countNotes = Arr::pluck($this->getNoteCountPerWeekAndExecutiveRol($companiesIds));
             $countNotes = $this->getNoteCountPerWeekAndExecutiveRol($companiesIds, '2021-03-08')->toArray();
-            dd([$companiesIds, $countNotes]);
 
         } elseif($profile->isClient()) {
             $countNews = [
