@@ -6,6 +6,7 @@ use App\AssignedNews;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -59,6 +60,7 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
         
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name;
+        $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
 
         return [
             "OPE-{$note->id}",
@@ -75,7 +77,8 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
             $note->news_date->format('Y-m-d'),
             number_coin($note->cost),
             $trend,
-            number_decimal($note->scope)
+            number_decimal($note->scope),
+            $link
         ];
     }
 
@@ -95,7 +98,8 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
             'Fecha nota',
             'Costo',
             'Tendencia',
-            'Alcance'
+            'Alcance',
+            'Link'
         ];
     }
 
