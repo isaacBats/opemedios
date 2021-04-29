@@ -89,25 +89,25 @@
                     <tbody>
                         @foreach($notes as $note)
                             <tr>
-                                <td><span class="leyenda">#</span> {{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
-                                <td><span class="leyenda">No. Nota</span> 
+                                <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
+                                <td> 
                                     <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ "OPE-{$note->id}" }}
                                     </a>
                                 </td>
-                                <td><span class="leyenda">Título</span> 
+                                <td> 
                                     <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ $note->title }}</td>
                                     </a>
-                                <td><span class="leyenda">Tema</span> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name }}</td>
-                                <td><span class="leyenda">Sector</span> {{ $note->sector->name }}</td>
-                                <td><span class="leyenda">Género</span> {{ $note->genre->description }}</td>
-                                <td><span class="leyenda">Fuente</span> {{ $note->source->name }}</td>
-                                <td><span class="leyenda">Medio</span> {{ $note->mean->name }}</td>
-                                <td><span class="leyenda">Fecha</span> {{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</td>
-                                <td><span class="leyenda">Costo</span> {{  number_coin($note->cost) }}</td>
-                                <td><span class="leyenda">Tendencia</span> {{ $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa') }}</td>
-                                <td><span class="leyenda">Alcance</span> {{ number_decimal($note->scope) }}</td>
+                                <td> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name }}</td>
+                                <td>{{ $note->sector->name }}</td>
+                                <td>{{ $note->genre->description }}</td>
+                                <td>{{ $note->source->name }}</td>
+                                <td>{{ $note->mean->name }}</td>
+                                <td>{{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</td>
+                                <td>{{  number_coin($note->cost) }}</td>
+                                <td>{{ $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa') }}</td>
+                                <td>{{ number_decimal($note->scope) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
