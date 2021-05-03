@@ -76,7 +76,7 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
     public function map($note): array {
         
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
-        $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name;
+        $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
 
         return [
@@ -85,12 +85,12 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
             $theme,
             $note->synthesis,
             $note->author,
-            $note->authorType->description,
-            $note->sector->description,
-            $note->genre->description,
-            $note->source->name,
-            $note->section->name,
-            $note->mean->name,
+            $note->authorType->description ?? 'N/E',
+            $note->sector->description ?? 'N/E',
+            $note->genre->description ?? 'N/E',
+            $note->source->name ?? 'N/E',
+            $note->section->name ?? 'N/E',
+            $note->mean->name ?? 'N/E',
             $note->news_date->format('Y-m-d'),
             number_coin($note->cost),
             $trend,
