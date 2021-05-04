@@ -22,7 +22,8 @@ $(document).ready(function(){
      
         // spinner in off
         $('.loader').hide();
-        $('#list-news h2.theme-name').text( $('#list-group-themes li.uk-active a').html() );
+        $('#list-news h2.theme-name').addClass("uk-hidden");
+        $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
 
 
         if( $("ul.pagination").length ){
@@ -31,23 +32,21 @@ $(document).ready(function(){
           $("ul.pagination li.disabled").addClass("uk-disabled");
         }
 
-        // get new by theme
-        $('ul.list-group').on('click', 'a.item-theme', function(event){
-            var themeid = $(this).data('themeid')
-            var companyid = $(this).data('companyid')
-            var companyslug = $(this).data('companyslug')
-            var item = $(this)
-            var container = $('#news-by-theme')
-            var spinner = $('.loader')
-            var listThemes = $('#list-group-themes')
-            
+        // get new by theme ajax
+        $('select.opciones-temas-ajax').change(function(event) {
+            var themeid = $( "select.opciones-temas-ajax option:selected" ).attr('data-themeid');
+            var companyid = $( "select.opciones-temas-ajax option:selected" ).attr('data-companyid');
+            var companyslug = $( "select.opciones-temas-ajax option:selected" ).attr('data-companyslug');
+            var container = $('#news-by-theme');
+            var spinner = $('.loader');
 
             container.empty()
             spinner.show()
             var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
               spinner.hide();
               container.html(news);
-              $('#list-news h2.theme-name').text( $('#list-group-themes li.active a').html() );
+              $('#list-news h2.theme-name').addClass("uk-hidden");
+              $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
             }).fail(function(data) {
                 spinner.hide() 
 
@@ -164,14 +163,18 @@ $(document).ready(function(){
             UIkit.sticky(".sticky-this", $options);
           });
 
-
-          $(".uk-subnav.uk-slider-items a").click(function(){
-            $toShow = $(this).parent().attr("uk-filter-control");    
+          //Filter by theme dashboard
+          $( "select.opciones-temas" ).change(function() {
+            if( $( "select.opciones-temas option:selected" ).attr("data-show-titles") == "false"){
+              $('#list-new > h2').addClass("uk-hidden");
+            }
+            else{
+              $('#list-new > h2').removeClass("uk-hidden");
+            }
+            $filterBy = $( "select.opciones-temas option:selected" ).attr("value");
             $(".js-temas .row").fadeOut();
-            $(".js-temas .row"+$toShow).fadeIn();
-            $(".uk-subnav.uk-slider-items li").removeClass("active");
-            $(this).parent().addClass("active");
-          })
+            $(".js-temas .row"+$filterBy).fadeIn();
+          });
 
           $options = {
             "offset": $("body > header").height(),

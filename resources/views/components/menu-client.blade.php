@@ -80,22 +80,6 @@
             <div class="uk-navbar-left logo-opemedios uk-width-expand">
                 <a class="uk-navbar-item uk-logo" href="{{ route('home') }}" style="margin: 0 auto;"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios"/></a>
             </div>
-            @if( $route == 'themes')
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav list-group" id="list-group-themes">
-                    <li>
-                        <a href="#">Temas<i class="icon-chevron-down"></i></a>
-                        <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav" id="themes">
-                            @foreach ($company->themes as $theme)
-                            <li class="list-group-item theme-transition @if($theme->id == $defaultThemeId) uk-active @endif"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">{{ $theme->name }}</a></li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @endif
         </nav>
     </div>
 </div>
