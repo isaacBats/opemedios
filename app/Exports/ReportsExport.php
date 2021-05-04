@@ -129,9 +129,9 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
                         'bold' => true
                     ]
                 ]);
-                $event->sheet->getStyle('D')->getAlignment()
-                ->setVertical(Alignment::VERTICAL_TOP)
-                ->setWrapText(true);
+                $event->sheet->getStyle('A1:P1')->getAlignment()
+                    ->setVertical(Alignment::VERTICAL_TOP)
+                    ->setWrapText(true);
                 $event->sheet->setAutoFilter('A1:P1');
 
                 // hiperlink 
