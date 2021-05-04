@@ -129,6 +129,8 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
                         'bold' => true
                     ]
                 ]);
+                $event->sheet->getColumnDimension('B')->setWidth(20);
+                $event->sheet->getColumnDimension('D')->setWidth(20);
                 $event->sheet->getStyle('A1:P1')->getAlignment()
                     ->setVertical(Alignment::VERTICAL_TOP)
                     ->setWrapText(true);
