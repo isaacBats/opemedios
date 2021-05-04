@@ -32,6 +32,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings, WithEvents
 {
@@ -128,6 +129,9 @@ class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadi
                         'bold' => true
                     ]
                 ]);
+                $event->sheet->getStyle('D')->getAlignment()
+                ->setVertical(Alignment::VERTICAL_TOP)
+                ->setWrapText(true);
                 $event->sheet->setAutoFilter('A1:P1');
 
                 // hiperlink 
