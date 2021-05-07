@@ -55,6 +55,8 @@ class UserController extends Controller
 
     public function index (Request $request) {
         $paginate = 25;
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Usuarios']);
         $query = User::query();
         $query->orderBy('id', 'DESC')
             ->when($request->has('query') && !is_null($request->get('query')), function($q) use ($request) {
@@ -71,7 +73,7 @@ class UserController extends Controller
             ->appends('roll', request('roll'));
         $roles = Role::all();
 
-        return view('admin.user.index', compact('users', 'roles'));
+        return view('admin.user.index', compact('users', 'roles', 'breadcrumb'));
     }
 
     public function show (Request $request, $id) {
@@ -88,6 +90,7 @@ class UserController extends Controller
         $companies = null;
         $themes = null;
         $countNotes = array();
+        $breadcrumb = array();
 
 
         if($profile->isAdmin()) {
@@ -129,16 +132,22 @@ class UserController extends Controller
             $notesSent = $notes->filter(function($note){ return $note->isAssigned(); });
         }
 
-        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes', 'countNotes'));
+        array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
+        array_push($breadcrumb, ['label' => $profile->name]);
+
+        return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes', 'countNotes', 'breadcrumb'));
     }
 
     public function showFormNewUser() {
         
         $companies = Company::all();
-
         $monitors = Means::select('id','name')->get();
+        $breadcrumb = array();
+
+        array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
+        array_push($breadcrumb, ['label' => 'Nuevo usuario']);
         
-        return view('admin.user.create', compact('companies', 'monitors'));
+        return view('admin.user.create', compact('companies', 'monitors', 'breadcrumb'));
     }
 
     public function validator($data) {
@@ -265,8 +274,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $monitors = Means::select('id','name')->get();
+        $breadcrumb = array();
+        
+        array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
+        array_push($breadcrumb, ['label' => $user->name, 'url' => route('user.show', ['id' => $user->id])]);
+        array_push($breadcrumb, ['label' => 'Editar']);
 
-        return view('admin.user.edit', compact('user', 'monitors'));
+        return view('admin.user.edit', compact('user', 'monitors', 'breadcrumb'));
     }
 
     public function update(Request $request, $id) {
