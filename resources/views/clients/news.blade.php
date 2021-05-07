@@ -32,7 +32,7 @@
                                 @endphp
                                 <div uk-grid class="news-single @php echo ($contadorEntradas > 4) ? "uk-hidden": "";  @endphp ">
                                     <div class="uk-width-1-1 uk-width-1-3@s uk-width-1-4@m uk-width-1-5@l uk-width-1-6@xl">
-                                        @if($assigned->news->source->logo)
+                                        @if($assigned->news->source)
                                         <img src="{{ asset("images/{$assigned->news->source->logo}") }}" alt="{{ $assigned->news->source->name }}">
                                         @else
                                             <img src="{{ asset("images/sources_logos/default.png") }}" alt="{{ $assigned->news->source->name }}">
