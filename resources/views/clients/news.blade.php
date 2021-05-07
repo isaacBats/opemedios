@@ -34,10 +34,11 @@
                                     <div class="uk-width-1-1 uk-width-1-3@s uk-width-1-4@m uk-width-1-5@l uk-width-1-6@xl">
                                         @if($assigned->news->source)
                                         <img src="{{ asset("images/{$assigned->news->source->logo}") }}" alt="{{ $assigned->news->source->name }}">
+                                        <h4 class="uk-margin-remove-top">{{ $assigned->news->source->name ?? "N/A" }}</h4>
                                         @else
                                             <img src="{{ asset("images/sources_logos/default.png") }}" alt="{{ $assigned->news->source->name }}">
+                                            <h4 class="uk-margin-remove-top">N/A</h4>
                                         @endif
-                                        <h4 class="uk-margin-remove-top">{{ $assigned->news->source->name ?? "N/A" }}</h4>
                                     </div>
                                     <div class="uk-width-1-1 uk-width-2-3@s uk-width-3-4@m uk-width-4-5@l uk-width-5-6@xl">
                                         <h3 class="f-h3">
