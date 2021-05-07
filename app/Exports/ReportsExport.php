@@ -34,7 +34,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class ReportsExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings, WithEvents
+class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
 {
     use Exportable;
     
