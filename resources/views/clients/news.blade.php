@@ -36,7 +36,7 @@
                                         <img src="{{ asset("images/{$assigned->news->source->logo}") }}" alt="{{ $assigned->news->source->name }}">
                                         <h4 class="uk-margin-remove-top">{{ $assigned->news->source->name ?? "N/A" }}</h4>
                                         @else
-                                            <img src="{{ asset("images/sources_logos/default.png") }}" alt="{{ $assigned->news->source->name }}">
+                                            <img src="{{ asset("images/sources_logos/default.png") }}" alt="Opemedios default">
                                             <h4 class="uk-margin-remove-top">N/A</h4>
                                         @endif
                                     </div>
