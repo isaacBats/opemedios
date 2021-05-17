@@ -34,6 +34,9 @@ class CompanyController extends Controller
 {
     public function index (Request $request) {
 
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Empresas']);
+
         $companies = Company::name($request->get('name'))
             ->turn($request->get('turn'))
             ->orderBy('id', 'DESC')
@@ -41,14 +44,18 @@ class CompanyController extends Controller
             ->appends('name', request('name'))
             ->appends('turn', request('turn'));
         $turns = Turn::all();
-        return view('admin.company.index', compact('companies', 'turns'));
+        return view('admin.company.index', compact('companies', 'turns', 'breadcrumb'));
     }
 
     public function showFormNewCompany() {
+        $breadcrumb = array();
         $turns = Turn::all();
         $companies = Company::all();
+
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => 'Nueva Empresa']);
         
-        return view('admin.company.newcompany', compact('turns', 'companies'));
+        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
     public function create (Request $request) {
@@ -86,14 +93,18 @@ class CompanyController extends Controller
     }
 
     public function show (Request $request, $id) {
-
+        $breadcrumb = array();
         $company = Company::find($id);
-        $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $turns = Turn::all();
+
+        $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $accounts = $company->accounts()->merge($company->executives);
         $companies = Company::where('id', '<>', $id)->get();
 
-        return view('admin.company.show', compact('company', 'turns', 'accounts', 'companies'));
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => $company->name]);
+
+        return view('admin.company.show', compact('company', 'turns', 'accounts', 'companies', 'breadcrumb'));
     }
 
     public function relateSubcompany(Request $request) {

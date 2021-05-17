@@ -252,6 +252,7 @@ class UserController extends Controller
     }
 
     public function addUserCompany(Request $request, $companyId) {
+        $breadcrumb = array();
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
         $clients = null;
@@ -271,7 +272,12 @@ class UserController extends Controller
                 }
             });
         }
-        return view('admin.company.addUser', compact('company', 'role', 'clients')); 
+
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => $company->name, 'url' => route('company.show', ['id' => $company->id])]);
+        array_push($breadcrumb, ['label' => 'Agregar Cuenta']);
+
+        return view('admin.company.addUser', compact('company', 'role', 'clients', 'breadcrumb')); 
     }
 
     public function edit(Request $request, $id) {
