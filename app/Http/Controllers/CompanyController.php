@@ -38,16 +38,10 @@ class CompanyController extends Controller
         $breadcrumb = array();
         array_push($breadcrumb,['label' => 'Empresas']);
 
-        $query = Company::query();
-        $query->orderBy('id', 'DESC')
-            ->when($request->has('name') && !is_null($request->get('name')), function($q) use ($request) {
-                return $q->where('name', 'like', "%{$request->get('name')}%");
-            })
-            ->when($request->has('turn') && !is_null($request->get('turn')), function($q) use ($request) {
-                return $q->where('turn_id', $request->get('turn'));
-            });
-        
-        $companies = $query->paginate($paginate)
+        $companies = Company::name($request->get('name'))
+            ->turn($request->get('turn'))
+            ->orderBy('id', 'DESC')
+            ->paginate($paginate)
             ->appends('name', request('name'))
             ->appends('turn', request('turn'));
 

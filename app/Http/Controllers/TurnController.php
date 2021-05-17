@@ -34,13 +34,17 @@ class TurnController extends Controller
     }
 
     public function index (Request $request) {
-        
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Giros']);
+
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;        
+
         $turns = Turn::name($request->get('name'))
             ->orderBy('id', 'DESC')
-            ->paginate(25)
+            ->paginate($paginate)
             ->appends('name', request('name'));
         
-        return view('admin.turn.index', compact('turns'));
+        return view('admin.turn.index', compact('turns', 'breadcrumb', 'paginate'));
     }
 
     /**
@@ -50,7 +54,11 @@ class TurnController extends Controller
      */
     public function create()
     {
-        return view('admin.turn.create');
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Giros', 'url' => route('admin.turns')]);
+        array_push($breadcrumb,['label' => 'Nuevo Giro']);
+
+        return view('admin.turn.create', compact('breadcrumb'));
     }
 
     /**
@@ -82,7 +90,11 @@ class TurnController extends Controller
     {
         $turn = Turn::findOrFail($id);
 
-        return view('admin.turn.edit', compact('turn'));
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Giros', 'url' => route('admin.turns')]);
+        array_push($breadcrumb,['label' => "Editar {$turn->name}"]);
+
+        return view('admin.turn.edit', compact('turn', 'breadcrumb'));
     }
 
     /**

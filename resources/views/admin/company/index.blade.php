@@ -43,7 +43,7 @@
                 </div>
             </form>
         </div>
-        <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">{{ $companies->count() }} de {{ $companies->total() }}</strong> noticias</span>
+        <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">{{ $companies->count() }} de {{ $companies->total() }}</strong> empresas</span>
     </div><!-- filter-options -->
     <div class="panel">
         <div class="panel-heading">
