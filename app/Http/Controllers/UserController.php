@@ -54,14 +54,18 @@ class UserController extends Controller
     }
 
     public function index (Request $request) {
-        $paginate = 25;
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+        
         $breadcrumb = array();
         array_push($breadcrumb,['label' => 'Usuarios']);
+        
         $query = User::query();
         $query->orderBy('id', 'DESC')
-            ->when($request->has('query') && !is_null($request->get('query')), function($q) use ($request) {
-                return $q->where('name', 'like', "%{$request->get('query')}%")
-                    ->orWhere('email', 'like', "%{$request->get('query')}%");
+            ->when($request->has('name') && !is_null($request->get('name')), function($q) use ($request) {
+                return $q->where('name', 'like', "%{$request->get('name')}%");
+            })
+            ->when($request->has('email') && !is_null($request->get('email')), function($q) use ($request) {
+                return $q->where('email', 'like', "%{$request->get('email')}%");
             })
             ->when($request->has('roll') && !is_null($request->get('roll')), function($q) use ($request) {
                 return $q->whereHas('roles', function (Builder $qry) use($request) {
@@ -69,11 +73,11 @@ class UserController extends Controller
                         });
             });
         $users = $query->paginate($paginate)
-            ->appends('query', request('query'))
+            ->appends('name', request('name'))
+            ->appends('email', request('email'))
             ->appends('roll', request('roll'));
-        $roles = Role::all();
-
-        return view('admin.user.index', compact('users', 'roles', 'breadcrumb'));
+        
+        return view('admin.user.index', compact('users', 'breadcrumb', 'paginate'));
     }
 
     public function show (Request $request, $id) {

@@ -2,8 +2,8 @@
 @section('admin-title', '- Reportes por cliente')
 @section('content')
     <div class="row">
-        <div class="col-sm-12 people-list">
-            <div class="people-options clearfix">
+        <div class="col-sm-12 people-list"> 
+            <div class="people-options clearfix"> <!-- filter-options -->
                 <div class="btn-toolbar">
                     <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET">
                         @csrf
@@ -80,10 +80,8 @@
                 </div>
 
                 <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span>
-            </div><!-- people-options -->
-            <div id="div-table-notes">
-                
-            </div>
+            </div><!-- filter-options -->
+            <div id="div-table-notes"></div>
         </div>
     </div>
 @endsection
