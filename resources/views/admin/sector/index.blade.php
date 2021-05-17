@@ -11,8 +11,8 @@
                 <form action="{{ route('admin.sectors') }}" method="GET">
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label for="input-company-name" class="text-muted">Nombre</label>
-                            <input type="text" name="name" class="form-control" id="input-company-name" value="{{ request()->get('name') }}">
+                            <label for="input-sector-name" class="text-muted">Nombre</label>
+                            <input type="text" name="name" class="form-control" id="input-sector-name" value="{{ request()->get('name') }}">
                         </div>
                         <div class="col-md-2 form-group">
                             <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>

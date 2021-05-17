@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover" id="table-sources">
+<table class="table table-bordered table-primary table-striped nomargin" id="table-sources">
     <thead>
         <tr>
             <th class="text-center">#</th>

@@ -5,7 +5,40 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="col-sm-8 col-md-9 col-lg-10">
+    <div class="col-md-12 people-list">
+    <div class="people-options clearfix"> <!-- filter-options -->
+        <div class="btn-toolbar">
+            <form action="{{ route('sources') }}" method="GET">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label for="input-source-name" class="text-muted">Nombre</label>
+                        <input type="text" name="name" class="form-control" id="input-source-name" value="{{ request()->get('name') }}">
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="input-source-company" class="text-muted">Empresa</label>
+                        <input type="text" name="company" class="form-control" id="input-source-company" value="{{ request()->get('company') }}">
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                        <select class="form-control" name="paginate">
+                            <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                            <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                            <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                            <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                            <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group" style="margin-top: 20px">
+                        <button class="btn btn-primary btn-lg"> Buscar</button>
+                        @if(request()->has('name') || request()->has('company') )
+                            <a href="{{ route('sources') }}" class="btn btn-warning ml-2" style="margin-left: .8em"> Limpiar filtros </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
+        </div>
+        <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">{{ $sources->count() }} de {{ $sources->total() }}</strong> fuentes</span>
+    </div><!-- filter-options -->
         <div class="panel">
             <div class="panel-heading">
                 <div class="row">

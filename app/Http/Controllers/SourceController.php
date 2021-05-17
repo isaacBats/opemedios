@@ -28,22 +28,30 @@ use Illuminate\Support\Facades\Validator;
 
 class SourceController extends Controller
 {
-    public function index(Request $request) {            
+    public function index(Request $request) {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Fuentes']);
         
         $sources = Source::name($request->get('name'))
             ->company($request->get('company'))
             ->orderBy('id', 'desc')
-            ->paginate(25)
+            ->paginate($paginate)
             ->appends('name', request('name'))
             ->appends('company', request('company'));
         
-        return view('admin.sources.index', compact('sources'));
+        return view('admin.sources.index', compact('sources', 'paginate', 'breadcrumb'));
     }
 
     public function showForm() {
         $means = Means::all();
+        $breadcrumb = array();
 
-        return view('admin.sources.create', compact('means'));
+        array_push($breadcrumb, ['label' => 'Fuentes', 'url' => route('sources')]);
+        array_push($breadcrumb, ['label' => 'Nueva Fuente']);
+
+        return view('admin.sources.create', compact('means', 'breadcrumb'));
     }
 
     public function create(Request $request) {
@@ -91,8 +99,12 @@ class SourceController extends Controller
         $source = Source::find($id);
         $means = Means::all();
         $extras = unserialize($source->extra_fields);
+        $breadcrumb = array();
+
+        array_push($breadcrumb, ['label' => 'Fuentes', 'url' => route('sources')]);
+        array_push($breadcrumb, ['label' => $source->name]);
         
-        return view('admin.sources.show', compact('source', 'means', 'extras'));
+        return view('admin.sources.show', compact('source', 'means', 'extras', 'breadcrumb'));
     }
 
     public function update(Request $request, $id) {
