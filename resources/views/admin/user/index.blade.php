@@ -31,7 +31,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-1 form-group">
+                    <div class="col-md-2 form-group">
                         <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
                         <select class="form-control" name="paginate">
                             <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
@@ -41,7 +41,7 @@
                             <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
                         </select>
                     </div>
-                    <div class="col-md-2 form-group" style="margin-top: 20px">
+                    <div class="col-md-4 form-group" style="margin-top: 20px">
                         <button class="btn btn-primary btn-lg"> Buscar</button>
                         @if(request()->has('name') || request()->has('email') || request()->has('roll'))
                             <a href="{{ route('users') }}" class="btn btn-warning ml-2" style="margin-left: .8em"> Limpiar filtros </a>
