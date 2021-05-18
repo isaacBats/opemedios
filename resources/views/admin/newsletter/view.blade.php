@@ -37,7 +37,7 @@
                         @forelse($newsletters_send as $oneNewsletter)
                             <tr>
                                 <td>{{ ($newsletters_send->currentPage() - 1) * $newsletters_send->perPage() + $loop->iteration }}</td>
-                                <td>{{ $oneNewsletter->created_at->diffForHumans() }}</td>
+                                <td>{{ $oneNewsletter->created_at->format('d-m-Y H:i') }}</td>
                                 <td>{{ $oneNewsletter->label }}</td>
                                 <td>
                                     @if($oneNewsletter->status)
