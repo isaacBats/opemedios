@@ -53,23 +53,30 @@ class NewsletterController extends Controller
     }
 
     public function index(){
+        $breadcrumb = array();
         $newsletters = Newsletter::orderBy('id', 'DESC')->paginate(25);
         $covers = NewsletterFooter::limit(5)->orderBy('id', 'DESC')->get();
         $coverToday = false;
+
         if($covers->count() > 0 ) {
             $coverToday = $covers->filter(function($cover) {
                 return $cover->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d');
             })->first();
         }
+        
+        array_push($breadcrumb,['label' => 'Newsletters']);
 
-        return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday'));
+        return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday', 'breadcrumb'));
     }
 
     public function showFormCreateNewsletter() {
-
+        $breadcrumb = array();
         $companies = Company::all();
 
-        return view('admin.newsletter.create', compact('companies'));
+        array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
+        array_push($breadcrumb, ['label' => 'Nuevo newsletter']);
+
+        return view('admin.newsletter.create', compact('companies', 'breadcrumb'));
     }
 
     protected function validator(array $data) {
@@ -154,9 +161,13 @@ class NewsletterController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view(Request $request, $id) {
+        $breadcrumb = array();
         $newsletter = Newsletter::findOrFail($id);
 
-        return view('admin.newsletter.view', compact('newsletter'));
+        array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
+        array_push($breadcrumb, ['label' => $newsletter->name]);
+
+        return view('admin.newsletter.view', compact('newsletter', 'breadcrumb'));
     }
 
     /**
@@ -165,6 +176,7 @@ class NewsletterController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function config(Request $request, $id) {
+        $breadcrumb = array();
         $newsletter = Newsletter::findOrFail($id);
         $templates = [
             ['name' => 'newsletter1', 'label' => 'Plantilla 1'],
@@ -172,7 +184,10 @@ class NewsletterController extends Controller
             ['name' => 'newsletter3', 'label' => 'Plantilla 3'],
         ];
 
-        return view('admin.newsletter.config', compact('newsletter', 'templates'));
+        array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
+        array_push($breadcrumb, ['label' => "Configuracion {$newsletter->name}"]);
+
+        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb'));
     }
 
     /**

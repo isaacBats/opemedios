@@ -63,10 +63,14 @@ class NewsletterSendController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit (Request $reques, $id) {
-
+        $breadcrumb = array();
         $newsletterSend = NewsletterSend::findOrFail($id);
 
-        return view('admin.newsletter.editsend', compact('newsletterSend'));
+        array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
+        array_push($breadcrumb, ['label' => $newsletterSend->newsletter->name, 'url' => route('admin.newsletter.view', ['id' => $newsletterSend->newsletter->id])]);
+        array_push($breadcrumb, ['label' => 'Agregar notas']);
+
+        return view('admin.newsletter.editsend', compact('newsletterSend', 'breadcrumb'));
     }
 
     public function addNote (Request $request) {
