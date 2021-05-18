@@ -72,6 +72,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    {!! $newsletters_send->links() !!}
                 </div>
             </div>
         </div>
