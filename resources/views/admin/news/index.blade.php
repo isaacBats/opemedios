@@ -33,7 +33,7 @@
                                             {{ $note->title }}
                                         </a>
                                     </td>
-                                    @@php
+                                    @php
                                         $sourceNote = $note->source->where('id', $note->source_id)->first();
                                     @endphp
                                     <td>{{ $sourceNote ? $sourceNote->name : 'N/E'  }}</td>
