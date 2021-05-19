@@ -34,7 +34,7 @@
                                 <td class="text-center" >{{ $loop->iteration }}</td>
                                 <td class="text-left">{{ $newsletter->newsletter->name }}</td>
                                 <td class="text-left">{{ $newsletter->theme->name }}</td>
-                                <td class="text-center">{{ $newsletter->newsletter_send->created_at->format('d-m-Y') }}</td>
+                                <td class="text-center">{{ $newsletter->newsletter_send->label }}</td>
                                 <td class="table-options">
                                     <a href="{{ route('admin.new.newletter.remove', ['id' => $note->id]) }}" data-name="{{ $newsletter->newsletter->name }}" data-newsletter="{{ $newsletter->id }}" class="btn-remove-newsletter"><i class="fa fa-remove"></i> {{ __('Remover') }}</a>
                                 </td>
