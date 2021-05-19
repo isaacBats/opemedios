@@ -30,9 +30,6 @@
                     </thead>
                     <tbody>
                         @forelse($note->newsletters as $newsletter)
-                            @php
-                                $newsletter = $newsletter->where('news_id', $note->id)->first();
-                            @endphp
                             <tr>
                                 <td class="text-center" >{{ $loop->iteration }}</td>
                                 <td class="text-left">{{ $newsletter->newsletter->name }}</td>
