@@ -292,4 +292,20 @@ class NewsletterController extends Controller
 
         return view('admin.newsletter.addcovers');
     }
+
+    public function remove(Request $request, $id){
+        try{
+            $newsletter = Newsletter::findOrFail($id);
+            $name = $newsletter->name;
+            $newsletter->newsletter_theme_news()->delete();
+            $newsletter->newsletter_users()->forceDelete();
+            $newsletter->forceDelete();
+
+            return back()->with('status', "El newsletter {$name} se ha borrado satisfactoriamente.");
+        } catch(Exception $e) {
+            Log::error("Error al borrar newsletter: {$e->getMessage()}");
+            return back()->with('status', "No se ha podido borrar el newsletter {$name}. Intentelo mas tarde");
+
+        }
+    }
 }

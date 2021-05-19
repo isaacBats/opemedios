@@ -52,7 +52,7 @@
                   <td class="table-options">
                       <li><a href="{{ route('admin.newsletter.config', ['id' => $newsletter->id]) }}"><i class="fa fa-gear"></i></a></li>
                       <li><a href="{{ route('admin.newsletter.view', ['id' => $newsletter->id]) }}"><i class="fa fa-eye"></i></a></li>
-                      <li><a href="{{ route('admin.newsletter.remove', ['id' => $newsletter->id]) }}"><i class="fa fa-trash"></i></a></li>
+                      <li><a class="btn-delete-newsletter" data-name="{{ $newsletter->name }}" href="{{ route('admin.newsletter.remove', ['id' => $newsletter->id]) }}"><i class="fa fa-trash"></i></a></li>
                   </td>
                 </tr>
             @endforeach
@@ -173,6 +173,25 @@
                 modal.find('#md-btn-submit').val('Eliminar').removeClass('btn-primary').addClass('btn-danger')
                 modal.modal('show')
             })
+
+            // remove newsletter
+            $('#table-newsletters').on('click', '.btn-delete-newsletter', function(event) {
+                event.preventDefault();
+                let action = $(this).attr('href');
+                let modal = $('#modal-default');
+                let form = $('#modal-default-form');
+                let newsletterName = $(this).data('name'); 
+                                                                        
+                form.attr('method', 'POST');
+                form.attr('action', action);
+                
+                modal.find('.modal-title').text('Borrar Newsletter');
+                modal.find('.modal-body').html(`
+                    <p>¿Estas seguro que quieres borrar el newsletter de ${newsletterName}?</p>
+                `);
+                modal.find('#md-btn-submit').val('Eliminar').removeClass('btn-primary').addClass('btn-danger');
+                modal.modal('show');
+            });
         })
     </script>
 
