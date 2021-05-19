@@ -33,7 +33,10 @@
                                             {{ $note->title }}
                                         </a>
                                     </td>
-                                    <td>{{ $note->source()->withTrashed()->where('id', $note->source_id)->first()->name }}</td>
+                                    @@php
+                                        $sourceNote = $note->source->where('id', $note->source_id)->first();
+                                    @endphp
+                                    <td>{{ $sourceNote ? $sourceNote->name : 'N/E'  }}</td>
                                     <td>{{ $note->isAssigned() ? ($note->assignedNews->first()->company->name) : 'No enviada' }}</td>
                                 </tr>
                             @endforeach
