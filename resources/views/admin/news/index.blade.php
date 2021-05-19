@@ -35,9 +35,14 @@
                                     </td>
                                     @php
                                         $sourceNote = $note->source->where('id', $note->source_id)->first();
+                                        $noteSendTo = $note->assignedNews;
                                     @endphp
                                     <td>{{ $sourceNote ? $sourceNote->name : 'N/E'  }}</td>
-                                    <td>{{ $note->isAssigned() ? ($note->assignedNews->first()->company->name) : 'No enviada' }}</td>
+                                    @if(count($noteSendTo) > 0)
+                                        <td>{{ $note->isAssigned() ? ($note->assignedNews->first()->company->name) : 'No enviada' }}</td>
+                                    @else
+                                        <td>No enviada</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
