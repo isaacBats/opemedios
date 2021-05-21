@@ -228,6 +228,13 @@ class CompanyController extends Controller
         
         $company->themes()->delete();
 
+        if($company->children->isNotEmpty()){
+            $company->children->each(function ($son){ 
+                $son->parent = NULL;
+                $son->save();
+            });
+        }
+
         
         if($company->accounts()->isNotEmpty()) {
             $company->accounts()->each(function ($user, $key){
