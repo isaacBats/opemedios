@@ -123,11 +123,20 @@ class UserController extends Controller
             $countNotes = $this->getNoteCountPerWeekAndExecutiveRol($companiesIds, '2021-03-08')->toArray();
 
         } elseif($profile->isClient()) {
-            $countNews = [
-                ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
-                ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
-            ];
-            $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($paginate);
+            if($profile->metas()->where('meta_key', 'company_id')->first()){
+                $countNews = [
+                    ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
+                    ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
+                ];
+                $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($paginate);
+            } else {
+                $countNotes = [
+                    ['label' => 'Total de noticias', 'value' => 0],
+                    ['label' => 'Noticias enviadas hoy', 'value' => 0],
+                ];
+                $notes = collect();
+            }
+
         } elseif($profile->isMonitor()) {
             $countNews = [
                 ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],

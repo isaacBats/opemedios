@@ -84,7 +84,7 @@
                         @if($user->hasRole('client'))
                             <div class="form-group col-sm-12 col-md-6">
                                 <label for="select-user-company">{{ __('Empresa') }}</label>
-                                <input type="text" class="form-control" value="{{ $user->company()->name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $user->company() ? $user->company()->name : 'Sin asignar' }}" disabled>
                             </div>
                         @endif
                         <div class="form-group col-sm-12 col-md-6">

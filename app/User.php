@@ -115,7 +115,7 @@ class User extends Authenticatable
     }
 
     public function company() {
-        if($this->isClient()) {
+        if($this->isClient() && $this->metas()->where('meta_key', 'company_id')->first()) {
             $companyId = $this->metas->where('meta_key', 'company_id')->first()->meta_value;
             return Company::findOrFail($companyId);
         }

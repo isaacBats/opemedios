@@ -96,15 +96,17 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
-                    @foreach($notes as $activity)
-                        @php
-                            if($profile->isExecutive() || $profile->isClient()){
-                                $activity = $activity->news;
-                            }
-                        @endphp
-                        @include('components.post-news', ['user' => $profile, 'note' => $activity])
-                    @endforeach
-                    {{ $notes->links() }}
+                    @if($notes->count() > 0)
+                        @foreach($notes as $activity)
+                            @php
+                                if($profile->isExecutive() || $profile->isClient()){
+                                    $activity = $activity->news;
+                                }
+                            @endphp
+                            @include('components.post-news', ['user' => $profile, 'note' => $activity])
+                        @endforeach
+                        {{ $notes->links() }}
+                    @endif
                 </div><!-- tab-pane -->
                 @if ($profile->isExecutive() || $profile->isAdmin())
                     <div class="tab-pane" id="companies">
