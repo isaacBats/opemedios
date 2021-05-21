@@ -224,9 +224,9 @@ class CompanyController extends Controller
         
         $company->assignedNews()->delete();
         
-        $company->newsletter->forceDelete();
+        $company->newsletter->delete();
         
-        $company->themes()->forceDelete();
+        $company->themes()->delete();
 
         
         if($company->accounts()->isNotEmpty()) {
@@ -236,8 +236,8 @@ class CompanyController extends Controller
             });
         }
         
-        $company->forceDelete();
+        $company->delete();
 
-        return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas y newsletters relacionados");
+        return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas,newsletters y noticias relacionadas");
     }
 }
