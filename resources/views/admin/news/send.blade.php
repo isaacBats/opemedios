@@ -22,7 +22,7 @@
                 @if($note->source()->count() > 0)
                     <small>{{ "{$note->source->name}({$note->section->name})" }}</small>
                 @else
-                    <small class="text-danger"><strong>Esta nota no tiene Fuente.</strong></small>
+                    <strong class="text-danger">Esta nota no tiene Fuente. Favor de agregar una antes de enviar</strong>
                 @endif
                 <br>
                 <br>
