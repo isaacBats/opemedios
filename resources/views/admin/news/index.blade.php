@@ -34,7 +34,7 @@
                                         </a>
                                     </td>
                                     @php
-                                        $sourceNote = $note->source->where('id', $note->source_id)->first();
+                                        $sourceNote = $note->source()->count() > 0 ? $note->source->where('id', $note->source_id)->first() : false;
                                     @endphp
                                     <td>{{ $sourceNote ? $sourceNote->name : 'N/E'  }}</td>
                                     <td>{{ $note->isAssigned() ? ($note->assignedNews->first()->company->name) : 'No enviada' }}</td>
