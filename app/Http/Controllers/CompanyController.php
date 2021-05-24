@@ -214,8 +214,9 @@ class CompanyController extends Controller
 
     public function getAccountsAjax(Request $request) {
         $company = Company::findOrFail($request->input('company_id'));
+        $accounts = $company->accounts()->merge($company->executives);
 
-        return response()->json($company->accounts());
+        return response()->json($accounts);
     }
 
     public function delete (Request $request, $id) {
