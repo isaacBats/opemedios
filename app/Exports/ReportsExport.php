@@ -34,7 +34,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
+class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents, ShouldAutoSize
 {
     use Exportable;
     
@@ -87,7 +87,6 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
             $note->synthesis,
             $note->author,
             $note->authorType->description ?? 'N/E',
-            $note->sector->description ?? 'N/E',
             $note->genre->description ?? 'N/E',
             $note->source->name ?? 'N/E',
             $note->section->name ?? 'N/E',
@@ -108,7 +107,6 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
             'Síntesis',
             'Autor',
             'Tipo de autor',
-            'Sector',
             'Género',
             'Fuente',
             'Sección',
@@ -124,20 +122,36 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
     public function registerEvents(): array {
         return [
             AfterSheet::class => function(AfterSheet $event){
-                $event->sheet->getStyle('A1:P1')->applyFromArray([
+                $event->sheet->getStyle('A1:O1')->applyFromArray([
                     'font' => [
-                        'bold' => true
-                    ]
+                        'bold' => true,
+                        'color' => ['rgb' => 'EEEEEE'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'color' => ['rgb' => '2474ac'],
+                    ],
                 ]);
-                $event->sheet->getColumnDimension('B')->setWidth(20);
-                $event->sheet->getColumnDimension('D')->setWidth(20);
-                $event->sheet->getStyle('A1:P1')->getAlignment()
-                    ->setVertical(Alignment::VERTICAL_TOP)
-                    ->setWrapText(true);
-                $event->sheet->setAutoFilter('A1:P1');
+                $event->sheet->getColumnDimension('B')
+                    ->setWidth(20)
+                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('D')
+                    ->setWidth(30)
+                    ->setAutoSize(false);
+                // $event->sheet->getStyle('D')->getAlignment()
+                //     ->setVertical(Alignment::VERTICAL_CENTER)
+                //     ->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                    // ->setWrapText(true);
+                // $event->sheet->getStyle('A1:P1')->getAlignment()
+                //     ->setVertical(Alignment::VERTICAL_TOP)
+                //     ->setWrapText(true);
+                $event->sheet->setAutoFilter('A1:O1');
 
                 // hiperlink 
-                foreach ($event->sheet->getColumnIterator('P') as $row) {
+                foreach ($event->sheet->getColumnIterator('O') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $cell->setHyperlink(new Hyperlink($cell->getValue()));
@@ -149,6 +163,46 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents
                                    'underline' => 'single'
                                ]
                            ]);
+                        }
+                    }
+                }
+
+                // format to impar row
+                foreach($event->sheet->getRowIterator() as $fila) {
+                    foreach ($fila->getCellIterator() as $celda) {
+                        if($celda->getRow() % 2 != 0){
+                            if($celda->getRow() === 1){
+                                continue;
+                            }
+                            $event->sheet->getStyle("A{$celda->getRow()}:O{$celda->getRow()}")->applyFromArray([
+                                'fill' => [
+                                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                                    'color' => ['rgb' => 'e9f4fa'],
+                                ], 
+                            ]);
+                        }
+                    }
+                }
+
+                // format to impar row
+                foreach($event->sheet->getRowIterator() as $fila) {
+                    foreach ($fila->getCellIterator() as $celda) {
+                        if($celda->getColumn() == 'B' || $celda->getColumn() == 'D') {
+                            if($celda->getRow() === 1){
+                                continue;
+                            }
+                            $col = $celda->getColumn();
+                            $num = $celda->getRow();
+                            
+                            // $event->sheet->getColumnDimension("{$col}{$num}")
+                            //     ->setWidth(30)
+                            //     ->setAutoSize(true);
+                            $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(50);
+
+                            $event->sheet->getStyle("{$col}{$num}")->getAlignment()
+                                ->setVertical(Alignment::VERTICAL_CENTER)
+                                ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+                                ->setWrapText(true);
                         }
                     }
                 }   
