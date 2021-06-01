@@ -141,13 +141,6 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                 $event->sheet->getColumnDimension('D')
                     ->setWidth(30)
                     ->setAutoSize(false);
-                // $event->sheet->getStyle('D')->getAlignment()
-                //     ->setVertical(Alignment::VERTICAL_CENTER)
-                //     ->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    // ->setWrapText(true);
-                // $event->sheet->getStyle('A1:P1')->getAlignment()
-                //     ->setVertical(Alignment::VERTICAL_TOP)
-                //     ->setWrapText(true);
                 $event->sheet->setAutoFilter('A1:O1');
 
                 // hiperlink 
@@ -194,9 +187,6 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                             $col = $celda->getColumn();
                             $num = $celda->getRow();
                             
-                            // $event->sheet->getColumnDimension("{$col}{$num}")
-                            //     ->setWidth(30)
-                            //     ->setAutoSize(true);
                             $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(50);
 
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
