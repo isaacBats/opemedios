@@ -136,10 +136,10 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                     ],
                 ]);
                 $event->sheet->getColumnDimension('B')
-                    ->setWidth(20)
+                    ->setWidth(40)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
-                    ->setWidth(30)
+                    ->setWidth(120)
                     ->setAutoSize(false);
                 $event->sheet->setAutoFilter('A1:O1');
 
@@ -187,7 +187,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                             $col = $celda->getColumn();
                             $num = $celda->getRow();
                             
-                            $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(50);
+                            $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(80);
 
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
                                 ->setVertical(Alignment::VERTICAL_CENTER)
