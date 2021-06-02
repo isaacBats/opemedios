@@ -19,7 +19,8 @@
         <div class="op-content-mt main-content js-temas uk-padding uk-padding-remove-bottom" style="background: #fff;">
             @foreach($company->themes as $theme)
             <div class="row theme{{ $theme->id }}" id="list-new">
-                    <h2 id="theme{{ $theme->id }}">{{ $theme->name }} <small class="count" id="count-{{ $theme->id }}"></small></h2>
+                @if($theme->assignedNews()->count())
+                    <h2 id="theme{{ $theme->id }}" >{{ $theme->name }} <small class="count" id="count-{{ $theme->id }}"></small></h2>
                     @if($company->assignedNews->count() > 0)
                     @php
                     $contadorEntradas = 0;
@@ -63,6 +64,7 @@
                     @else
                         <strong>No hay Noticias que mostrar</strong>
                     @endif
+                @endif
             </div>
             @endforeach
         </div>
