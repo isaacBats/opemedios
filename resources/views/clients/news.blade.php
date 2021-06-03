@@ -18,15 +18,14 @@
         </div>
         <div class="op-content-mt main-content js-temas uk-padding uk-padding-remove-bottom" style="background: #fff;">
             @foreach($company->themes as $theme)
-                @if($company->assignedNews->count() > 0)
-                    {{ logger("Id del tema {$theme->id} - Tema: {$theme->name}: {$theme->assignedNews()->limit(30)->orderBy('id', 'desc')->count()}") }}
+                @if($theme->assignedNews->count() > 0)
                     <div class="row theme{{ $theme->id }}" id="list-new">
                         <h2 id="theme{{ $theme->id }}" >{{ $theme->name }} <small class="count" id="count-{{ $theme->id }}"></small></h2>
                         @php
                             $contadorEntradas = 0;
                         @endphp
                         <div class="news-group uk-container">
-                            @foreach($company->assignedNews()->limit(30)->orderBy('id', 'desc')->get() as $assigned)
+                            @foreach($theme->assignedNews()->limit(30)->orderBy('id', 'desc')->get() as $assigned)
                                 @if($assigned->theme_id == $theme->id)
                                     @php
                                         $contadorEntradas++;
@@ -61,10 +60,6 @@
                         @php
                             echo '<span class="count uk-hidden" target="count-'.$theme->id.'">'.$contadorEntradas.'</span>';
                         @endphp
-                    </div>
-                @else
-                    <div class="row">
-                        <strong>No hay Noticias que mostrar</strong>
                     </div>
                 @endif
             @endforeach
