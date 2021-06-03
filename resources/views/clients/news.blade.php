@@ -18,7 +18,7 @@
         </div>
         <div class="op-content-mt main-content js-temas uk-padding uk-padding-remove-bottom" style="background: #fff;">
             @foreach($company->themes as $theme)
-                @if($theme->assignedNews()->count())
+                @if($theme->assignedNews()->limit(30)->orderBy('id', 'desc')->count())
                     <div class="row theme{{ $theme->id }}" id="list-new">
                             <h2 id="theme{{ $theme->id }}" >{{ $theme->name }} <small class="count" id="count-{{ $theme->id }}"></small></h2>
                             @if($company->assignedNews->count() > 0)
