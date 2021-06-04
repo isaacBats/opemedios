@@ -6,15 +6,16 @@
     <!-- Page Content -->
 
     <div id="list-news" class="filter-this">
-        <div class="uk-box-shadow-medium sticky-this" uk-slider="finite: true" style="background: #f2f2f2; margin-left: 0; margin-bottom: 0; position: relative;">
-            <ul class="uk-subnav uk-slider-items" uk-grid  style="background: #f2f2f2; margin-left: 0; margin-bottom: 0">
-                <li class="active uk-active" uk-filter-control style="padding-left: 0;"><a href="#" style="padding: 20px 15px;">Todos los temas</a></li>
-                @foreach($company->themes as $theme)
-                <li uk-filter-control=".theme{{ $theme->id }}" style="padding-left: 0;"><a href="#" style="padding: 20px 15px;">{{ $theme->name }}</a></li>
-                @endforeach
-            </ul>
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+        <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
+            <div class="uk-flex uk-flex-middle uk-position-relative">
+                <label class="uk-text-uppercase label-tema">Tema:</label>
+                <select class="uk-select opciones-temas uk-width-large">
+                    <option value="" data-show-titles="true">Todos los temas</option>
+                    @foreach($company->themes as $theme)
+                    <option value=".theme{{ $theme->id }}" data-show-titles="false">{{ $theme->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="op-content-mt main-content js-temas uk-padding uk-padding-remove-bottom" style="background: #fff;">
             @foreach($company->themes as $theme)
