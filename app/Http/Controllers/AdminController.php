@@ -67,7 +67,7 @@ class AdminController extends Controller
         $company = Company::findOrFail($request->input('company'));
         $slug = $company->slug;
         session()->put('slug_company', $slug);
-        return redirect()->action('ClientController@index', ['slug_company' => $slug]);
+        return redirect()->action('ClientController@index', ['company' => $slug]);
     }
 
 }

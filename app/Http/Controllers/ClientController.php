@@ -50,8 +50,8 @@ class ClientController extends Controller
         $this->newsController = $newsController;
     }
 
-    public function index($slug_company) {  
-        $company = Company::where('slug', $slug_company)->first();
+    public function index(Request $request, $company) {  
+        $company = Company::where('slug', $company)->first();
 
         return view('clients.news', compact('company'));
     }
