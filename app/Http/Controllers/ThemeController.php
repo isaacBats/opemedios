@@ -30,8 +30,8 @@ class ThemeController extends Controller
 
     public function show (Request $request, $id) {
         $theme = Theme::find($id);
-        $accounts = $theme->company->accounts()->diff($theme->accounts);
-
+        $accounts = $theme->company->accounts()->merge($theme->company->executives);
+        $accounts = $accounts->diff($theme->accounts);
         return view('admin.theme.show', compact('theme', 'accounts'));
     }
 
@@ -78,5 +78,14 @@ class ThemeController extends Controller
         $theme = Theme::findOrFail($request->input('theme_id'));
 
         return response()->json($theme->accounts);
+    }
+
+    public function themeUserRemove (Request $request, $id) {
+        $theme = Theme::findOrFail($request->input('theme_id'));
+        $theme->accounts()->detach($id);
+        $user = User::findOrFail($id);
+
+        return back()->with('status', "Se ha removido al usuario {$user->name} del tema {$theme->name}");
+
     }
 }

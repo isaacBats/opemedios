@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row">
         <form action="{{ route('admin.edit.user', ['id' => $user->id]) }}" method="POST">
             @csrf
@@ -79,7 +84,7 @@
                         @if($user->hasRole('client'))
                             <div class="form-group col-sm-12 col-md-6">
                                 <label for="select-user-company">{{ __('Empresa') }}</label>
-                                <input type="text" class="form-control" value="{{ $user->company()->name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $user->company() ? $user->company()->name : 'Sin asignar' }}" disabled>
                             </div>
                         @endif
                         <div class="form-group col-sm-12 col-md-6">
@@ -108,6 +113,13 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group col-sm-12 col-md-6">
+                            <label for="input-user-new-password">Contraseña actual</label>
+                            <div class="input-group">
+                                <input id="input-password-show" type="password" class="form-control" value="{{ $user->getMetaByKey('user_password') ? \Crypt::decryptString($user->getMetaByKey('user_password')->meta_value) : '' }}">
+                                <span id="btn-press-eye" class="input-group-addon"><i class="fa fa-eye-slash"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
                             <label for="input-user-new-password">{{ __('Nueva contraseña') }}</label>
                             <input type="password" id="input-user-new-password" class="form-control" name="new_password">
                         </div>
@@ -121,4 +133,28 @@
             </div>
         </form>
     </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //show password
+            $('span#btn-press-eye').on('click', function(){
+                var inputText = $('#input-password-show');
+                var icon = $(this).find('i');
+                if(inputText.val().length == 0) {
+                    alert('No hay registro de password');
+                } else {
+                    if(inputText.attr('type') == 'password') {
+                        inputText.attr('type', 'text');
+                        icon.removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                    } else {
+                        inputText.attr('type','password');
+                        icon.removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                    }
+                }
+
+            });
+        });
+        
+    </script>
 @endsection

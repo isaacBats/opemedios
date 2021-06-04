@@ -9,8 +9,9 @@
                 <div class="row item-note" id="main-file-content">
                     <h2><strong>{{ __('Archivo Principal') }}</strong></h2>
                     <hr>
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         @if($main_file = $note->files->where('main_file', 1)->first())
+                            <a href="{{ $main_file->path_filename }}" target="_blank"><strong>{{ $main_file->original_name }}</strong></a>
                             <div class="embed-responsive embed-responsive-16by9">
                                 {!! $main_file->getHTML() !!}
                             </div>
@@ -30,7 +31,9 @@
                                     {!! $file->getHTML() !!}
                                 </div>
                                 <br>
-                                <p><strong>{{ $file->original_name }}</strong></p>
+                                <p>
+                                    <a href="{{ $file->path_filename }}" target="_blank"><strong>{{ $file->original_name }}</strong></a>
+                                </p>
                                 <p><a class="btn btn-danger btn-sm btn-remove-file" data-news="{{ $note->id }}" data-file="{{ $file->id }}" data-name="{{ $file->original_name }}" href="javascript:void(0)">{{ __('Eliminar') }}</a> <a class="btn btn-info btn-sm" href="{{ route('admin.new.adjunto.main', ['news' => $note->id, 'file' => $file->id]) }}">{{ __('Marcar como principal') }}</a></p>
                             </div>
                         @endforeach
@@ -84,7 +87,7 @@
             var myDropzone = new Dropzone("#form-update-files",{
                 url: $('#form-update-files').attr('action'),
                 paramName: 'files',
-                maxFilesize: 64, // MB
+                maxFilesize: 1024, // MB
                 addRemoveLinks: true,
                 dictDefaultMessage : '<span class="bigger-150 bolder"><i class=" fa fa-caret-right red"></i> Arrastra los archivos</span> para subirlos <span class="smaller-80 grey">(o da click)</span> <br /><i class="upload-icon fa fa-cloud-upload blue fa-3x"></i>',
                 dictResponseError: 'Error while uploading file!',

@@ -16,12 +16,13 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 
 namespace App\Http\Controllers;
 
 use App\AssignedNews;
 use App\AuthorType;
+use App\Exports\NewsExport;
 use App\File;
 use App\Genre;
 use App\Http\Controllers\FileController;
@@ -30,6 +31,7 @@ use App\Mail\NoticeNewsEmail;
 use App\Means;
 use App\News;
 use App\Newsletter;
+use App\NewsletterSend;
 use App\NewsletterThemeNews;
 use App\Sector;
 use App\Theme;
@@ -44,11 +46,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NewsController extends Controller
 {
     protected $mediaController;
-    
+
     protected $fileController;
 
     protected $ntnController;
@@ -109,7 +112,7 @@ class NewsController extends Controller
         $min = $this->getMinName($new->medio_id);
         $tableNewName = 'noticia_' . $min;
         $newComplement = DB::connection('opemediosold')->table($tableNewName)->where('id_noticia', $new->id_noticia)->first();
-        
+
         $fmt = numfmt_create('es_MX', \NumberFormatter::CURRENCY);
 
         $metas = [
@@ -120,14 +123,14 @@ class NewsController extends Controller
             'Sector' => $new->sector,
             'Tipo Autor' => $new->tipo_autor,
             'Genero' => $new->genero,
-            'Tendencia' => $new->tendencia, 
+            'Tendencia' => $new->tendencia,
             'Costo' => numfmt_format($fmt, $newComplement->costo),
         ];
 
         if($min == 'per' || $min == 'rev') {
             $tipoPag = DB::connection('opemediosold')->table('tipo_pagina')->where('id_tipo_pagina', $newComplement->id_tipo_pagina)->first();
             $tamanoNota = DB::connection('opemediosold')->table('tamano_nota')->where('id_tamano_nota', $newComplement->id_tamano_nota)->first();
-            
+
             $metas += [
                 'Pagina' => $newComplement->pagina,
                 'Porcentaje pagina' => $newComplement->porcentaje_pagina,
@@ -157,9 +160,13 @@ class NewsController extends Controller
             $news = News::where('mean_id', $meanId)->orderBy('id', 'DESC')->paginate($paginate);
             $news->setPath(route('admin.news', ['new_mean' => $meanId]));
         } else {
-            $news = News::orderBy('id', 'DESC')->paginate($paginate);
+            $news = News::searchBy($request->get('option'), $request->get('query'))
+                ->orderBy('id', 'DESC')
+                ->paginate($paginate)
+                ->appends('option', request('option'))
+                ->appends('query', request('query'));
         }
-        
+
         return view('admin.news.index', compact('news'));
     }
 
@@ -172,7 +179,7 @@ class NewsController extends Controller
         $genres = Genre::all();
         $ptypes = TypePage::all();
         $newsletters = Newsletter::where('active', 1)->get();
-        
+
         return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
     }
 
@@ -196,7 +203,7 @@ class NewsController extends Controller
                                         $mean = $data['mean_id'];
                                         if ($mean == 1 || $mean == 2 || $mean == 5) {
                                             return true;
-                                        } 
+                                        }
                                         return false;
                                     }),
                                     'date_format:"H:i:s"',
@@ -206,7 +213,7 @@ class NewsController extends Controller
                                         $mean = $data['mean_id'];
                                         if ($mean == 1 || $mean == 2) {
                                             return true;
-                                        } 
+                                        }
                                         return false;
                                     }),
                                     'date_format:"H:i:s"',
@@ -216,7 +223,7 @@ class NewsController extends Controller
                                         $mean = $data['mean_id'];
                                         if ($mean == 3 || $mean == 4) {
                                             return true;
-                                        } 
+                                        }
                                         return false;
                                     }),
                                     'numeric',
@@ -226,7 +233,7 @@ class NewsController extends Controller
                                         $mean = $data['mean_id'];
                                         if ($mean == 3 || $mean == 4) {
                                             return true;
-                                        } 
+                                        }
                                         return false;
                                     }),
                                     'digits_between:1,4'
@@ -236,7 +243,7 @@ class NewsController extends Controller
                                         $mean = $data['mean_id'];
                                         if ($mean == 3 || $mean == 4) {
                                             return true;
-                                        } 
+                                        }
                                         return false;
                                     }),
                                     'digits_between:1,100'
@@ -254,7 +261,7 @@ class NewsController extends Controller
 
     public function create (Request $request) {
         $data = $request->all();
-        
+
         $validate = $this->validator($data);
         if($validate->fails()) {
             return back()->withErrors($validate)
@@ -264,34 +271,34 @@ class NewsController extends Controller
         $mean = Means::find($data['mean_id']);
         if ($mean->short_name == 'tel' || $mean->short_name == 'rad') {
             $data['metas_news'] = serialize([
-                'news_hour' => $data['news_hour'], 
+                'news_hour' => $data['news_hour'],
                 'news_duration' => $data['news_duration'],
             ]);
         } elseif ($mean->short_name == 'per' || $mean->short_name == 'rev') {
             $data['metas_news'] = serialize([
-                'page_type_id' => $data['page_type_id'], 
-                'page_number' => $data['page_number'], 
+                'page_type_id' => $data['page_type_id'],
+                'page_number' => $data['page_number'],
                 'page_size' => $data['page_size'],
             ]);
         } elseif($mean->short_name == 'int') {
             $data['metas_news'] = serialize([
-                'news_hour' => $data['news_hour'], 
-                'url' => $data['url'], 
+                'news_hour' => $data['news_hour'],
+                'url' => $data['url'],
             ]);
         }
 
         $data['news_date'] = Carbon::createFromFormat('d-m-Y', $data['news_date']);
-        
+
         if(array_key_exists('in_newsletter', $data)) {
             $data['in_newsletter'] = 1;
         }
 
         $data['user_id'] = Auth::user()->id;
-        
+
         $news = News::create($data);
         if(isset($data['files'])){
             $files = explode(',', $data['files']);
-            
+
             for ($loop = 0; $loop < sizeof($files); $loop++) {
                 $attachedFile = File::find($files[$loop]);
                 if($loop === 0) {
@@ -306,16 +313,24 @@ class NewsController extends Controller
             }
         }
 
-        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
+        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data) && array_key_exists('newsletter_send_id', $data)) {
             // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
+            $newsletterSendPaused = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
+                ->where('id', $data['newsletter_send_id'])
+                ->get();
+            
+            
+            $newsletterSend = $newsletterSendPaused->first();
+            
             $newsletter = NewsletterThemeNews::create([
-                'newsletter_id' => $data['newsletter_id'], 
+                'newsletter_id' => $data['newsletter_id'],
                 'newsletter_theme_id' => $data['newsletter_theme_id'],
+                'newsletter_send_id' => $newsletterSend->id,
                 'news_id' => $news->id,
             ]);
         }
 
-        
+
         return back()->with('status', 'Noticia agregada. Para editar vaya al panel principal');
     }
 
@@ -340,26 +355,26 @@ class NewsController extends Controller
     public function update (Request $request, $id) {
         $note = News::findOrFail($id);
         $data = $request->all();
-        
+
         if ($note->mean->short_name == 'tel' || $note->mean->short_name == 'rad') {
             $data['metas_news'] = serialize([
-                'news_hour' => $data['news_hour'], 
+                'news_hour' => $data['news_hour'],
                 'news_duration' => $data['news_duration'],
             ]);
         } elseif ($note->mean->short_name == 'per' || $note->mean->short_name == 'rev') {
             $data['metas_news'] = serialize([
-                'page_type_id' => $data['page_type_id'], 
-                'page_number' => $data['page_number'], 
+                'page_type_id' => $data['page_type_id'],
+                'page_number' => $data['page_number'],
                 'page_size' => $data['page_size'],
             ]);
         } elseif($note->mean->short_name == 'int') {
             $data['metas_news'] = serialize([
-                'news_hour' => $data['news_hour'], 
-                'url' => $data['url'], 
+                'news_hour' => $data['news_hour'],
+                'url' => $data['url'],
             ]);
         }
         $data['news_date'] = Carbon::createFromFormat('d-m-Y', $data['news_date']);
-        
+
         $note->update($data);
 
         return redirect()->route('admin.new.show', ['id' => $note->id])->with('status', '¡Noticia actualizada satisfactoriamente!');
@@ -368,7 +383,7 @@ class NewsController extends Controller
     public function adjuntos (Request $request, $id) {
 
         $note = News::findOrFail($id);
-        
+
         return view('admin.news.adjuntos', compact('note'));
     }
 
@@ -401,16 +416,16 @@ class NewsController extends Controller
     }
 
     public function removeFile(Request $request) {
-        
+
         $file = File::findOrFail($request->input('file'));
         $newsID = $request->input('news');
-        $fileName = $file->original_name; 
+        $fileName = $file->original_name;
         if($this->fileController->removeTrashS3($file)) {
             $file->delete();
-            
+
             return redirect()->route('admin.new.show', ['id' => $newsID])->with('status', "Se ha eliminado el archivo {$fileName} de forma correcta");
         }
-        
+
         return redirect()->route('admin.new.show', ['id' => $newsID])->with('danger', "Algo malo paso !!!");
     }
 
@@ -426,12 +441,14 @@ class NewsController extends Controller
 
         $newsletterId = $request->input('newsletter_id');
         $newsletterThemeId = $request->input('newsletter_theme_id');
+        $newsletterSendId = $request->input('newsletter_send_id');
         $note = News::findOrFail($id);
         $newsletter = Newsletter::findOrFail($newsletterId);
         $theme = $newsletter->company->themes->where('id', $newsletterThemeId)->first();
         $data = [
             'newsletter_id' => $newsletterId,
             'newsletter_theme_id' => $newsletterThemeId,
+            'newsletter_send_id' => $newsletterSendId,
             'news_id' => $id,
         ];
         $this->ntnController->create($data);
@@ -441,7 +458,7 @@ class NewsController extends Controller
 
     public function removeNewsletter(Request $request, $id) {
         $note = News::findOrFail($id);
-        
+
         $newsletterThemeNews = $note->newsletters->find($request->input('newsletter_theme_news_id'));
         $NameOfNewsletter = $newsletterThemeNews->newsletter->name;
         $newsletterThemeNews->delete();
@@ -457,14 +474,17 @@ class NewsController extends Controller
     }
 
     public function sendNews(Request $request) {
-        
+
         if(empty($request->input('accounts_ids'))) {
-            return back()->with('danger', 'No se hay correos seleccionados, para enviar la nota.');
+            return back()->with('danger', 'No hay correos seleccionados, para enviar la nota.');
         }
 
         $news = News::findOrFail($request->input('news_id'));
         $themeCompany = Theme::findOrFail($request->input('theme_id'));
-        $accounts = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+        $executives = $themeCompany->company->executives;
+        $accountUsers = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+
+        $accounts = $accountUsers->merge($executives);
 
         AssignedNews::create([
             'news_id' => $news->id,
@@ -478,21 +498,101 @@ class NewsController extends Controller
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
-
+    
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
     public function showDetailNews(Request $request) {
         if(!$request->has('qry')) {
             return redirect()->route('home');
         }
-        
+
         try {
             $data = explode('-',Crypt::decryptString($request->get('qry')));
         } catch (DecryptException $e) {
             return abort(403, 'Noticia no encontrada');
         }
 
-        $news = News::findOrFail($data[0]);
+        $note = News::findOrFail($data[0]);
 
-        return view('clients.frontdetailnews', compact('news'));
+        return view('clients.frontdetailnews', compact('note'));
+    }
+    /**
+     * Description
+     * @param Request $request 
+     * @return type
+     */
+    public function searchByIdOrTitleAjax(Request $request) {
+        
+        $newsletterSend = NewsletterSend::findOrFail($request->input('newssend'));
+        $themes = $newsletterSend->newsletter->company->themes;
+
+        // TODO: buscar notas que no se encuentren en el newsletter
+
+        $status = 'error';
+        if($request->input('newsid')) {
+            $request->validate([
+                'newsid' => 'numeric'
+            ],[
+                'numeric' => 'Debe de ser solo número'
+            ]);
+
+            $notes[] = News::findOrFail($request->input('newsid'));
+            $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
+
+            return response()->json(compact('status', 'html'));
+        }
+
+        if($request->input('newstitle')) {
+            $request->validate([
+                'newstitle' => 'string|min:4'
+            ],[
+                'min' => 'El título ingresado debe de ser mínimo de 4 caracteres'
+            ]);
+
+            $notes = News::where('title', 'like', "%{$request->input('newstitle')}%")->get();
+            $status = 'OK';
+            $html = view('components.add-note-in-newsletter', compact('notes', 'themes', 'newsletterSend'))->render();
+
+            return response()->json(compact('status', 'html'));
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => 'No hay argumentos suficientes para realizar una busqueda'
+        ]);
+    }
+
+    public function report() {
+
+        $date = Carbon::today()->timestamp;
+
+        return Excel::download(new NewsExport, "reporte_{$date}.xlsx");
+    }
+
+    public function toAssign(Request $request, $id) {
+         $assigned = AssignedNews::create([
+            'news_id' => $id,
+            'company_id' => $request->input('company_id'),
+            'theme_id' => $request->input('theme_id'),
+        ]);
+
+        return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');   
+    }
+
+    public function toremovenews(Request $request, $assigned_id) {
+        $assigned = AssignedNews::findOrFail($assigned_id);
+        $title = $assigned->news->title;
+        $company = $assigned->company->name;
+        $company_id = $assigned->company->id;
+        
+        $assigned->delete();
+
+        return redirect()->route('company.show', ['id' => $company_id])->with('status', "¡La noticia {$title} se ha desvinculado  satisfactoriamente de {$company}!");
     }
 
 }
+ 

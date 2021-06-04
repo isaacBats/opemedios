@@ -9,6 +9,7 @@
         <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        @yield('metas')
 
         <title>{{ config('app.name', 'Opemedios') }} @yield('title')</title>
 
@@ -34,6 +35,7 @@
         <![endif]-->
     </head>
 <body class="home">
+    @yield('shared-scripts')
     <!-- Fixed navbar -->
     <div class="row">
         <header>

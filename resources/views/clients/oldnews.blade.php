@@ -1,10 +1,13 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - {$company->name}")
 @section('content')
     <!-- Page Content -->
-    @include('components.clientHeading')
-    <div class="row" id="list-news">
-        @include('components.listOldNews')
+    <div class="uk-padding op-content-mt main-content" id="list-news" style="background: #f9f9f9;">
+        <div class="uk-padding">
+        	@include('components.listOldNews')
+    	</div>
     </div>
     <!-- /.container -->
 @endsection
+
+

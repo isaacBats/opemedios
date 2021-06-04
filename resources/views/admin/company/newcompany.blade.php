@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Giro<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <select id="select-turn" name="turn_id" class="form-control">
+                            <select id="select-turn" name="turn_id" class="form-control" style="width: 100%;">
                                 <option value="">Seleccionan un Giro</option>
                                 @foreach($turns as $turn)
                                     <option value="{{ $turn->id }}">{{ $turn->name }}</option>
@@ -61,6 +61,31 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label nopaddingtop">Subcuenta</label>
+                        <div class="col-sm-9">
+                            <label for="checkbox-parent" class="ckbox">
+                                <input type="checkbox" id="checkbox-parent" name="is_parent" value="true">
+                                <span>¿Es empresa?</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="div-select-parent" style="display: none;">
+                        <label class="col-sm-3 control-label">Empresa Padre</label>
+                        <div class="col-sm-8">
+                            <select id="select-parent-company" name="parent" class="form-control" style="width: 100%;" disabled="disabled">
+                                <option value="">Seleccionan la empresa padre</option>
+                                @foreach($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('parent')
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Logo de la empresa<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="file" name="logo" class="form-control" required>
@@ -75,32 +100,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-4">
-            <div class="row">
-                <div class="col-sm-5 col-md-12 col-lg-6">
-                    <div class="panel panel-primary list-announcement">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Giro de la empresa</h4>
-                        </div>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <select id="select1" name="turn" class="form-control">
-                                    <option value="">Seleccionan un Giro</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="" >
-                                <span id="add-turn">
-                                    <i class="fa fa-plus-circle"></i>
-                                </span>
-                                Nuevo Giro
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </form>
 @endsection
 @section('styles')
@@ -129,6 +128,7 @@
         $(document).ready(function(){
             
             $('#select-turn').select2();
+            $('#select-parent-company').select2();
 
             $('#btn-add-turn').on('click', function(event) {
                 event.preventDefault()
@@ -178,6 +178,17 @@
                 })
 
             })
+
+            $('#checkbox-parent').on('change', function(){
+                if($(this).is(':checked')) {
+                    $('select#select-parent-company').prop('disabled', false);
+                    $('#div-select-parent').show('slow');
+                } else {
+                    $('select#select-parent-company').prop('disabled', 'disabled');
+                    $('select#select-parent-company option').prop('selected', false).trigger('change');
+                    $('#div-select-parent').hide('fast');
+                }
+            });
 
         })
     </script>

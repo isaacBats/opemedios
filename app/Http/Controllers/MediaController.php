@@ -13,9 +13,9 @@ class MediaController extends Controller
     
     protected $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4'];
     
-    protected $media_allowed = ['webm', 'mp4', 'ogv', 'ogg'];
+    protected $media_allowed = ['webm', 'mp4', 'ogv', 'ogg', '.mov', '.avi'];
     
-    protected $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav'];
+    protected $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav', 'mpeg'];
 
 
     public function getHTMLForMedia ($file, $path) {
@@ -26,11 +26,11 @@ class MediaController extends Controller
         
         if(in_array($type, $this->image_allowed)) {
 
-            return "<img class='media img-responsive' style='width: 100%' src='{$path}' alt='Opemedios - {$file->nombre}' />";
+            return "<img class='img-responsive' style='width: 100%' src='{$path}' alt='Opemedios - {$file->nombre}' />";
 
         } elseif(in_array($type, $this->doc_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div id='lightbox' class='uk-box-shadow-medium uk-text-center lightbox pdf' uk-lightbox>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
@@ -50,13 +50,13 @@ class MediaController extends Controller
 
         } elseif(in_array($type, $this->media_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div id='lightbox' class='uk-box-shadow-small uk-text-center lightbox video' uk-lightbox>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
 
         } elseif(in_array($type, $this->audio_allowed)) {
 
-            return "<div class='embed-responsive embed-responsive-16by9'>
+            return "<div id='lightbox' class='uk-box-shadow-small uk-text-center lightbox video' uk-lightbox>
                 <embed src='{$path}' class='embed-responsive-item'></embed>
             </div>";
         }

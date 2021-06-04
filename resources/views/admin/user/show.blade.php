@@ -54,6 +54,7 @@
 
             <p><i class="glyphicon glyphicon-phone mr5"></i>Tel: {{ $profile->getMetaByKey('user_phone') ? $profile->getMetaByKey('user_phone')->meta_value : "-" }}</p>
             <p><i class="glyphicon glyphicon-phone mr5"></i>Whatsapp: {{ $profile->getMetaByKey('user_whatsapp') ? $profile->getMetaByKey('user_whatsapp')->meta_value : "-" }}</p>
+            <p><i class="glyphicon glyphicon-phone mr5"></i>Email: {{ $profile->email }}</p>
 
             <hr class="fadeout">
 
@@ -74,159 +75,197 @@
             </ul>
         </div>
     </div>
-    <div class="col-md-6 col-lg-8 profile-right">
+    <div class="col-md-9 col-lg-10 profile-right">
         <div class="profile-right-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified nav-line">
                 <li class="active"><a href="#activity" data-toggle="tab"><strong>{{ __('Ultimas notas') }}</strong></a></li>
-                <li><a href="#companies" data-toggle="tab"><strong>Empresas (10)</strong></a></li>
-                <li><a href="#themes" data-toggle="tab"><strong>Temas (20)</strong></a></li>
+                @if ($profile->isMonitor())
+                    <li><a href="#send-news" data-toggle="tab"><strong>Noticias Enviadas</strong></a></li>
+                @endif
+                @if ($profile->isExecutive())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas ({{ $profile->companies->count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                @endif
+                @if ($profile->isAdmin())
+                    <li><a href="#companies" data-toggle="tab"><strong>Empresas({{ App\Company::count() }})</strong></a></li>
+                    <li><a href="#themes" data-toggle="tab"><strong>Temas</strong></a></li>
+                @endif
                 <li><a href="#stadistics" data-toggle="tab"><strong>Estadisticas</strong></a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
-                    @foreach($notesActivity as $activity)
-                        <div class="panel panel-post-item">
-                            <div class="panel-heading">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="javascript:void(0);">
-                                            <img alt="" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($profile->name)) }}" class="media-object img-circle">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{ $activity->title }}</h4>
-                                        <p class="media-usermeta">
-                                            <span class="media-time">{{ $activity->news_date->toDayDateTimeString() }}</span>
-                                        </p>
-                                    </div>
-                                </div><!-- media -->
-                            </div><!-- panel-heading -->
-                            <div class="panel-body">
-                                <p>{!! Illuminate\Support\Str::limit($activity->synthesis, 300) !!}</p>
-                                <p>{{ __('Nota completa:') }} <a href="{{ route('admin.new.show', ['id' => $activity->id]) }}" target="_blank">{{ route('admin.new.show', ['id' => $activity->id]) }}</a></p>
-                            </div>
-                            <div class="panel-footer">
-                                {{-- <ul class="list-inline">
-                                    <li><a href=""><i class="glyphicon glyphicon-heart"></i> Like</a></li>
-                                    <li><a><i class="glyphicon glyphicon-comment"></i> Comments (0)</a></li>
-                                    <li class="pull-right">5 liked this</li>
-                                </ul> --}}
-                            </div>
-                            {{-- <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Write some comments">
-                            </div> --}}
-                        </div><!-- panel panel-post -->
-                    @endforeach
+                    @if($notes->count() > 0)
+                        @foreach($notes as $activity)
+                            @php
+                                if($profile->isExecutive() || $profile->isClient()){
+                                    $activity = $activity->news;
+                                }
+                            @endphp
+                            @include('components.post-news', ['user' => $profile, 'note' => $activity])
+                        @endforeach
+                        {{ $notes->links() }}
+                    @endif
                 </div><!-- tab-pane -->
-
-                <div class="tab-pane" id="companies">
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
-                <div class="tab-pane" id="themes">
-                    Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-                </div>
+                @if ($profile->isExecutive() || $profile->isAdmin())
+                    <div class="tab-pane" id="companies">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-9">
+                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-assign-company">Asignar empresa</button>
+                            </div>
+                        </div>
+                        @foreach($companies as $company)
+                            @include('components.card-company', ['company' => $company])
+                        @endforeach
+                        {{ $companies->links() }}
+                    </div>
+                    <div class="tab-pane" id="themes">
+                        <div class="nav-wrapper white">
+                            <ul class="nav nav-pills nav-stacked nav-quirk nav-quirk-info">
+                                @foreach($themes as $theme)
+                                    <li class="nav-parent active">
+                                        <a href="javascript:void(0);"><i class="fa fa-archive"></i> <span>{{ $theme->name }}</span></a>
+                                        <ul class="children">
+                                            @php
+                                                $countNote = 0;
+                                            @endphp
+                                            @foreach ($theme->assignedNews as $noteAssigned)
+                                                @if($countNote == 10)
+                                                    @break
+                                                @endif
+                                                <li><a href="{{ route('admin.new.show', ['id' => $noteAssigned->news->id]) }}">{{ $noteAssigned->news->title }}</a></li>
+                                                @php 
+                                                    $countNote++;
+                                                @endphp
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        {{ $themes->links() }}
+                    </div>
+                @endif
+                @if ($profile->isMonitor())
+                    <div class="tab-pane" id="send-news">
+                        @foreach($notesSent as $nSent)
+                            @include('components.post-news', ['user' => $profile, 'note' => $nSent])
+                        @endforeach
+                    </div>
+                @endif
                 <div class="tab-pane" id="stadistics">
-                    Temporibus autem quibusdam #Stadistics et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                    <div class="row">
+                        <canvas id="line-chart" width="400" height="200"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-lg-2 profile-sidebar">
-        <div class="row">
-            @if($profile->isClient())
-                <div class="col-sm-6 col-md-12">
-                    <div class="panel panel-default list-announcement">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Temas asignados ({{ $profile->themes()->count() }})</h4>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-unstyled mb20">
-                                @forelse($profile->themes as $theme)
-                                    <li>
-                                        {{ $theme->name }}
-                                    </li>
-                                @empty
-                                    <li>No hay temas para esta empresa</li>
-                                @endforelse
-                            </ul>
-                        </div>
-                    </div><!-- panel -->
-                </div>
-            @endif
-            <div class="col-sm-6 col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Empresas asignadas (lista)</h4> {{-- borrar eso de lista, solo es referencia para saber que ahi va el listado de empresas y temas o cosas que tienen que ver con el usuario que se muestra --}}
-                    </div>
-                    <div class="panel-body">
-                        <ul class="media-list user-list">
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    is now following <a href="">Christina R. Hill</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Just now</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user10.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Roberta F. Horn</a></h4>
-                                    commented on <a href="">HTML5 Tutorial</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> Yesterday</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user3.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Jennie S. Gray</a></h4>
-                                    posted a video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 25, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user5.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Nicholas T. Hinkle</a></h4>
-                                    liked your video on <a href="">The Discovery</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="../images/photos/user2.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading nomargin"><a href="">Floyd M. Romero</a></h4>
-                                    liked your photo on <a href="">My Life Adventure</a>
-                                    <small class="date"><i class="glyphicon glyphicon-time"></i> June 24, 2015</small>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div><!-- panel -->
-            </div>
-        </div><!-- row -->
-    </div>
 </div><!-- row -->
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/chart/Chart.min.css') }}">
+@endsection
+@section('scripts')
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script src="{{ asset('lib/chart/Chart.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            // modal for add client to manager roll
+            $('button#btn-assign-company').on('click', function(event){
+                event.preventDefault()
+                var action = $(this).data('href')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var executive = $(this).data('executive')
+
+                form.attr('method', 'POST')
+                form.attr('action', action)
+
+                modal.find('.modal-title').html(`Asignar cuenta a ${executive}`)
+                modal.find('.modal-body').html(`
+                    <input name="user_id" type="hidden" value="{{ $profile->id }}">
+                    <div>
+                            <select name="company_id" id="select-company" class="form-control" style="width: 100%; ">
+                                <option value="">Selecciona un cliente</option>
+                                @foreach(App\Company::all() as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                `)
+                modal.find('#select-company').select2({
+                    dropdownParent: modal
+                })
+                modal.find('#md-btn-submit').attr('value', 'Agregar')
+
+                modal.modal('show')
+
+            })
+
+            //remove company assigned
+            $('.btn-remove-cassigned').on('click', function (event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var userID = $(this).data('userid')
+                var userName = $(this).data('username')
+                var companyID = $(this).data('companyid')
+                var company = $(this).data('company')
+
+                form.attr('method', 'POST')
+                    .attr('action', `{{ route('admin.executive.remove.company') }}`)
+                
+                if(form.find('input[name=company_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'company_id').val(companyID))
+                } else {
+                    var inputCompany = form.find('input[name=company_id]')
+                    inputCompany.val(companyID)
+                }
+
+                if(form.find('input[name=user_id]').length == 0) {
+                    form.append($('<input>').attr('type', 'hidden').attr('name', 'user_id').val(userID))
+                } else {
+                    var inputUser = form.find('input[name=user_id]')
+                    inputUser.val(userID)
+                }
+
+                modal.find('.modal-title').html(`Desasociar cliente.`)
+                modalBody.html(`<p>¿Estas seguro que remover a <strong>${company}</strong> de las cuentas de ${userName}?</p>`)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.modal('show')
+            })
+
+            var ctx = document.getElementById('line-chart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                    datasets: [{
+                        label: '# de notas',
+                        data: @json($countNotes),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+
+        })
+    </script>
 @endsection

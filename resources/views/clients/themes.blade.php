@@ -1,28 +1,28 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - Mis temas")
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="container">
-        <h1 class="page-header"> Noticias por tema</h1>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        Temas
-                    </div>
-                    <div class="panel-body themes-list-p0">
-                        <ul class="list-group" id="list-group-themes">
-                            @foreach ($company->themes as $theme)
-                                <li class="list-group-item theme-transition"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">@if($theme->id == $defaultThemeId) <i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> @endif {{ $theme->name }}</a></li>
+    <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
+        <div class="">
+            <div  id="list-news">
+                <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
+                    <div class="uk-flex uk-flex-middle uk-position-relative">
+                        <label class="uk-text-uppercase label-tema">Tema:</label>
+                        <select class="uk-select opciones-temas-ajax uk-width-large">
+                            @foreach($company->themes as $theme)
+                            <option data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">{{ $theme->name }}</option>
                             @endforeach
-                        </ul>
+                        </select>
                     </div>
                 </div>
-            </div>
-            <div class="loader">Cargando...</div>
-            <div id="news-by-theme" class="col-md-9">
+            
+                <div class="loader uk-container">Cargando...</div>
+                
+                <div id="news-by-theme">
                 @include('components/listNews')
+                </div>
+                
             </div>
         </div>
     </div>

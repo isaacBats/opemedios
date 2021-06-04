@@ -1,19 +1,21 @@
+@php
+    $route = Route::getCurrentRoute()->getName();
+@endphp
 <!-- Page Heading -->
-<div class="row card-company">
-    <div class="col-sm-3">
-        <img src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}" width="420" height="150">
-    </div>
-    <div class="col-sm-8 page-header card-company-name">
-        <h1>{{ "Bienvenido " . $company->name }}</h1>
-        <small class="card-filters">
-              Noticias de hoy: <strong>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong> 
-            <br> Noticias del mes: <strong>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today()->format('Y-m'))->count() }}</strong> 
-            <br> Total: <strong>{{ $company->assignedNews->count() }}</strong>
-        </small>
-    </div>
-    <div id="search">
-        @include('components.search-bar')
+@if( $route == 'news')
+<div class="uk-padding-small uk-margin-medium-bottom" style="background: #521e54; color: #fff;">
+    <div>
+        <h1 style="color: #fff; font-size: 1.5em;">{{ "Bienvenido " . $company->name }}</h1>
+        <div uk-grid>
+            <p>Noticias de hoy: <strong>{{ $company->assignedNews()->whereDate('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong></p>
+            <p>Noticias del mes: <strong>{{ $company->assignedNews()->whereYear('created_at', Carbon\Carbon::today()->format('Y'))->whereMonth('created_at', Carbon\Carbon::today()->format('m'))->count() }}</strong></p>
+            <p>Total: <strong>{{ $company->assignedNews->count() }}</strong></p>
+            <div id="search">
+                @include('components.search-bar')
+            </div>
+        </div>
     </div>
 </div>
-<div class="loader">Cargando...</div>
+@endif
+<!--<div class="loader">Cargando...</div>-->
 <!-- /.row -->

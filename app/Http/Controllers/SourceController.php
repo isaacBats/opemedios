@@ -29,42 +29,41 @@ use Illuminate\Support\Facades\Validator;
 class SourceController extends Controller
 {
     public function index(Request $request) {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
-        if($request->has('query') && $request->get('uri') == 'fuentes') {
-            
-            $sources = Source::where('name', 'LIKE', "%{$request->get('query')}%")
-                ->orWhere('company', 'LIKE', "%{$request->get('query')}%")
-                ->orWhere('comment', 'LIKE', "%{$request->get('query')}%")
-                ->orderBy('id', 'desc')
-                ->paginate(25);
-            $sources->setPath("/panel/fuentes?query={$request->get('query')}&uri={$request->get('uri')}");
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Fuentes']);
         
-        } else {
-            
-            $sources = Source::orderBy('id', 'desc')->paginate(25);
-        }
+        $sources = Source::name($request->get('name'))
+            ->company($request->get('company'))
+            ->orderBy('id', 'desc')
+            ->paginate($paginate)
+            ->appends('name', request('name'))
+            ->appends('company', request('company'));
         
-        return view('admin.sources.index', compact('sources'));
+        return view('admin.sources.index', compact('sources', 'paginate', 'breadcrumb'));
     }
 
     public function showForm() {
         $means = Means::all();
+        $breadcrumb = array();
 
-        return view('admin.sources.create', compact('means'));
+        array_push($breadcrumb, ['label' => 'Fuentes', 'url' => route('sources')]);
+        array_push($breadcrumb, ['label' => 'Nueva Fuente']);
+
+        return view('admin.sources.create', compact('means', 'breadcrumb'));
     }
 
     public function create(Request $request) {
         $inputs = $request->all();
-
+        
         Validator::make($inputs, [
             'name' => 'required|max:150',
             'coverage' => 'required',
             'means_id' => 'required',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|dimensions:max_width=300,max_height=150',
         ], [
             'name.required' => 'El nombre de la fuente es requerido.',
             'required' => 'El :attribute es necesario.',
-            'dimensions' => 'El logo debe de ser de 300x150 máximo'
         ])->validate();
 
         $mean = Means::find($inputs['means_id']);
@@ -79,7 +78,12 @@ class SourceController extends Controller
             $source->comment = $inputs['comment'];
         }
         $source->active = 1;
-        $source->logo = $request->file('logo')->store('sources_logos', 'local');
+
+        if($request->file('logo')){
+            $source->logo = $request->file('logo')->store('sources_logos', 'local');
+        } else {
+            $source->logo = 'sources_logos/default.png';
+        }
         
         // TODO: crear un metodo para que estos campos (campos extra) se puedan guardad en la base de datos y dependiendo del medio se agregen o quiten campos, de esta forma se guardaian los campos extra sin necesidad de un switch y agregar un case mas en caso de agregar otro medio.
         $extra = $this->saveExtraFields($inputs, $mean);
@@ -95,8 +99,12 @@ class SourceController extends Controller
         $source = Source::find($id);
         $means = Means::all();
         $extras = unserialize($source->extra_fields);
+        $breadcrumb = array();
+
+        array_push($breadcrumb, ['label' => 'Fuentes', 'url' => route('sources')]);
+        array_push($breadcrumb, ['label' => $source->name]);
         
-        return view('admin.sources.show', compact('source', 'means', 'extras'));
+        return view('admin.sources.show', compact('source', 'means', 'extras', 'breadcrumb'));
     }
 
     public function update(Request $request, $id) {
@@ -155,7 +163,7 @@ class SourceController extends Controller
         $source = Source::find($id);
         
         Validator::make($request->all(), [
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|dimensions:max_width=300,max_height=150',
+            'logo' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|dimensions:max_width=300,max_height=150',
         ], [
             'required' => 'El :attribute es necesario.',
             'dimensions' => 'El logo debe de ser de 300x150 máximo'

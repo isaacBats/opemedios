@@ -9,7 +9,6 @@
 
       <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
 
-      @include('admin.searchpanel')
       <div class="header-right">
         <ul class="headermenu">
           {{-- <li>

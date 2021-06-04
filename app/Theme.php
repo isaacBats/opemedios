@@ -39,4 +39,8 @@ class Theme extends Model
     public function accounts() {
         return $this->belongsToMany(User::class, 'theme_user');
     }
+
+    public function assignedNews() {
+        return $this->hasMany(AssignedNews::class);
+    }
 }

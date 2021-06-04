@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover" id="table-sources">
+<table class="table table-bordered table-primary table-striped nomargin" id="table-sources">
     <thead>
         <tr>
             <th class="text-center">#</th>
@@ -13,7 +13,7 @@
     <tbody>
         @forelse($sources as $source)
             <tr>
-                <td>{{ $loop->iteration }}</td>  
+                <td>{{ ($sources->currentPage() - 1) * $sources->perPage() + $loop->iteration }}</td>  
                 <td class="text-center"><i class="fa {{ $source->mean->icon }} fa-3x"></i></td>
                 <td>{{ $source->name }}</td>  
                 <td>{{ $source->company }}</td>  

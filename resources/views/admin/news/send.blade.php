@@ -19,7 +19,11 @@
                 {{-- <h4>{{ __("Noticia #:") }}<span style="color: #d9534f">{{ "OPE-{$note->id}" }}</span></h4> --}}
                 <h2>{{ $note->title }}</h2>
                 <p class="lead">{!! $note->synthesis!!}</p>
-                <small>{{ "{$note->source->name}({$note->section->name})" }}</small>
+                @if($note->source()->count() > 0)
+                    <small>{{ "{$note->source->name}({$note->section->name})" }}</small>
+                @else
+                    <strong class="text-danger">Esta nota no tiene Fuente. Favor de agregar una antes de enviar</strong>
+                @endif
                 <br>
                 <br>
                 <p>

@@ -23,15 +23,21 @@ namespace App\Http\Controllers;
 use App\AssignedNews;
 use App\Company;
 use App\Cover;
+use App\Exports\NewsExport;
+use App\Genre;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
+use App\Means;
 use App\News;
+use App\Sector;
 use App\Theme;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -44,8 +50,8 @@ class ClientController extends Controller
         $this->newsController = $newsController;
     }
 
-    public function index($slug_company) {  
-        $company = Company::where('slug', $slug_company)->first();
+    public function index(Request $request, $company) {  
+        $company = Company::where('slug', $company)->first();
 
         return view('clients.news', compact('company'));
     }
@@ -136,15 +142,6 @@ class ClientController extends Controller
 
         $company = Company::where('slug', $slug_company)->first();
 
-        // $userMetaOldCompany = auth()->user()->metas()->where('meta_key', 'old_company_id')->first();
-        // if($userMetaOldCompany) {
-        //     $idCompany = $userMetaOldCompany->meta_value;
-        // } else {
-        //     $idCompany = $company->id;
-        // }
-
-        // $themes = DB::connection('opemediosold')->table('tema')->where('id_empresa', $idCompany)->get();
-        
         $defaultThemeId = $company->themes->first()->id;
         $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function($assigned) {
             return $assigned->news_id;
@@ -154,7 +151,6 @@ class ClientController extends Controller
                 ->orderBy('id', 'desc')
                 ->paginate(15);
 
-        // $news = $this->getNewsByTheme($defaultThemeId, $idCompany);
 
         return view('clients.themes', compact('news', 'company', 'defaultThemeId'));
     }
@@ -220,5 +216,45 @@ class ClientController extends Controller
 
             return view('components.listSearch', compact('news', 'company'))->render();
         }
+    }
+
+    public function report (Request $request) {
+
+        $paginate = 50;
+        $company = Company::where('slug', $request->session()->get('slug_company'))->first();
+
+        $notesIds = AssignedNews::query()->where('company_id', $company->id)
+            ->when($request->input('theme_id') != null, function($q) use ($request) {
+                return $q->where('theme_id', $request->input('theme_id'));
+            })->pluck('news_id');
+        $notes = News::query()->whereIn('id', $notesIds)
+            ->when($request->input('sector') != null, function($q) use ($request) {
+                return $q->where('sector_id', $request->input('sector'));
+            })
+            ->when($request->input('genre') != null, function($q) use ($request) {
+                return $q->where('genre_id', $request->input('genre'));
+            })
+            ->when($request->input('mean') != null, function($q) use ($request) {
+                return $q->where('mean_id', $request->input('mean'));
+            })
+            ->when($request->input('source_id') != null, function($q) use ($request) {
+                return $q->where('source_id', $request->input('source_id'));
+            })
+            ->when(($request->input('fstart') != null && $request->input('fend') != null), function($q) use ($request){
+                $from = Carbon::create($request->input('fstart'));
+                $to = Carbon::create($request->input('fend'));
+                return $q->whereBetween('news_date', [$from, $to]);
+            })
+            ->when(($request->input('fstart') != null && $request->input('fend') == null), function($q) use ($request){
+                return $q->whereDate('news_date', Carbon::create($request->input('fstart')));
+            })->simplePaginate($paginate);
+
+        return view('clients.report', compact('notes', 'company'));
+
+    }
+
+    public function createReport( Request $request ) {
+        $date = Carbon::today()->timestamp;
+        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
     }
 }
