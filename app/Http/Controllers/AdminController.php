@@ -24,7 +24,9 @@ use App\Sector;
 use App\Source;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -60,5 +62,12 @@ class AdminController extends Controller
         }
     }
 
+    public function redirectTo(Request $request) {
+        
+        $company = Company::findOrFail($request->input('company'));
+        $slug = $company->slug;
+        session()->put('slug_company', $slug);
+        return redirect()->action('ClientController@index', ['company' => $slug]);
+    }
 
 }

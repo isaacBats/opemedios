@@ -5,7 +5,36 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="col-sm-12 col-md-12">
+    <div class="col-md-12 people-list">
+        <div class="people-options clearfix"> <!-- filter-options -->
+            <div class="btn-toolbar">
+                <form action="{{ route('admin.turns') }}" method="GET">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="input-turn-name" class="text-muted">Nombre</label>
+                            <input type="text" name="name" class="form-control" id="input-turn-name" value="{{ request()->get('name') }}">
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                            <select class="form-control" name="paginate">
+                                <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group" style="margin-top: 20px">
+                            <button class="btn btn-primary btn-lg"> Buscar</button>
+                            @if(request()->has('name'))
+                                <a href="{{ route('admin.turns') }}" class="btn btn-warning ml-2" style="margin-left: .8em"> Limpiar filtros </a>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">{{ $turns->count() }} de {{ $turns->total() }}</strong> giros</span>
+        </div><!-- filter-options -->
         <div class="panel">
             <div class="panel-heading">
                 <div class="row">
@@ -18,7 +47,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered table-inverse table-striped nomargin" id="table-turns">
+                <table class="table table-bordered table-primary table-striped nomargin" id="table-turns">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>

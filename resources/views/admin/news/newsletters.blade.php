@@ -24,6 +24,7 @@
                             <th>#</th>
                             <th class="text-center">{{ __('Newsletter') }}</th>
                             <th class="text-center">{{ __('Tema') }}</th>
+                            <th class="text-center">{{ __('Para enviar en') }}</th>
                             <th class="text-center">{{ __('Acciones') }}</th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                                 <td class="text-center" >{{ $loop->iteration }}</td>
                                 <td class="text-left">{{ $newsletter->newsletter->name }}</td>
                                 <td class="text-left">{{ $newsletter->theme->name }}</td>
+                                <td class="text-center">{{ $newsletter->newsletter_send->label }}</td>
                                 <td class="table-options">
                                     <a href="{{ route('admin.new.newletter.remove', ['id' => $note->id]) }}" data-name="{{ $newsletter->newsletter->name }}" data-newsletter="{{ $newsletter->id }}" class="btn-remove-newsletter"><i class="fa fa-remove"></i> {{ __('Remover') }}</a>
                                 </td>
@@ -72,6 +74,7 @@
                             </div>
                         </div>
                         <div class="form-group row" id="div-select-nesletter-themes"></div>
+                        <div class="form-group row" id="div-select-nesletter-sends"></div>
                         <hr>
                         <div class="form-group text-right">
                             <button class="btn btn-danger btn-lg" id="btn-cancel">{{ __('Cancelar') }}</button>
@@ -99,7 +102,7 @@
             $('#btn-cancel').on('click', function(event){
                 event.preventDefault()
                 $('#panel-add-to-newsletter').hide('fast')
-                $('#panel-show-newsletters').show('slow')  
+                $('#panel-show-newsletters').show('slow')
             })
 
             $('#select-newsletter').on('change', function () {
@@ -109,6 +112,15 @@
                     divSelectThemes.find('#select-newsletter-themes').select2()
                 }).fail(function(res){
                     var divSelectThemes = $('#div-select-nesletter-themes').html(`<p>No se pueden obtener los temas del bloque</p>`)
+                    console.error(`Error-Sections: ${res.responseJSON.message}`)
+                })
+
+                // get newsletters for send
+                $.post("{{ route('api.getnewslettersendhtml') }}", { '_token': $('meta[name="csrf-token"]').attr('content'), 'newsletter_id': newsletterId }, function(res){
+                    var divSelectSends = $('#div-select-nesletter-sends').html(res)
+                    divSelectSends.find('#select-newsletter-sends').select2()
+                }).fail(function(res){
+                    var divSelectSends = $('#div-select-nesletter-sends').html(`<p>No se pueden obtener los templates para enviar notas</p>`)
                     console.error(`Error-Sections: ${res.responseJSON.message}`)
                 })
             })

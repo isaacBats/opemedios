@@ -1,22 +1,28 @@
-@extends('layouts.home2')
+@extends('layouts.home')
 @section('title', " - {$title}")
 @section('content')
-    @include('components.clientHeading')
+    {{--@include('components.clientHeading')--}}
     <!--Page Content -->
-    <div class="container op-content-mt">
-        <h1 class="page-header">{{ $title }}</h1>
-        <div class="row">
+    <div class="uk-container op-content-mt">
+        <div class="uk-padding uk-padding-large uk-padding-remove-horizontal">
+            <h1 class="page-header">{{ $title }}</h1>
+            <br>
+            <div uk-grid="masonry: true" uk-lightbox="animation: fade;">
             @foreach ($covers as $cover)
-                <div class="col-sm-2 col-xs-6" style="margin-bottom: 10px;">
-                    <a href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen_jpg }}" data-fancybox="roadtrip">
-                        <img class="img-responsive portfolio-item" src="http://sistema.opemedios.com.mx/data/thumbs/{{ $cover->imagen_jpg }}_pp.jpg" alt="{{ $cover->imagen_jpg }}" style="max-height: 350px;">
-                        <figcaption class="items-descripcion">
-                            <strong>{{ $cover->nombre }}</strong>
-                            <p>{{ $cover->fecha }}</p>
-                        </figcaption>
-                    </a>
-                </div>                
+                <a class="uk-width-1-1 uk-width-1-2@s uk-width-1-2@m uk-width-1-2@l uk-width-1-3@xl" href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen_jpg }}">
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top uk-cover-container cover-top">
+                            <img src="http://sistema.opemedios.com.mx/data/thumbs/{{ $cover->imagen_jpg }}_pp.jpg" alt="{{ $cover->imagen_jpg }}" uk-cover>
+                            <canvas width="700" height="450"></canvas>
+                        </div>
+                        <div class="uk-card-body">
+                            <h4 class="f-h4 text-muted">
+                            {{ $cover->fecha }} | {{ $cover->nombre }}</h4>
+                        </div>
+                    </div>
+                </a>             
             @endforeach
+            </div>
         </div>
     </div>
     <!-- /.container -->

@@ -1,0 +1,74 @@
+body.client-report footer.uk-section,
+body.about footer.uk-section,
+body.clients footer.uk-section,
+body.contact footer.uk-section,
+body.client-others-news footer.uk-section,
+body.client-sections footer.uk-section,
+body.themes footer.uk-section,
+body.news footer.uk-section,
+body.signin footer.uk-section{
+  flex-shrink: 0;
+  background: #1a1a46 !important;
+}
+footer.uk-section a{
+  color: #fff;
+  text-decoration: none;
+}
+footer div.icon i{
+  font-size: 1.4em;
+  padding-right: 7px;
+}
+footer .links-sociales a{
+  font-size: 1.4em;
+  font-weight: 400;
+}
+footer.uk-section .legal{
+  font-family: 'Open Sans', sans-serif;
+  font-size: .7em;
+}
+@media only screen and ( min-width: 960px){
+	footer section a{
+		> div{
+			position: relative;
+		    &:after{
+		      position: absolute;
+		      content: '';
+		      display: block;
+		      width: .1em;
+		      height: 2px;
+		      left: 50%;
+		      top: 105%;
+		      transform: translateX(-50%);
+		      background: transparent;
+		      transition: all ease-in-out .1s;
+		      z-index: 3;
+		    }
+		    &:hover::after{
+		      width: 6em;
+		      background: #fff;
+		      transition: all ease-in-out .2s;
+		    }
+		}
+	}
+	footer section .links-sociales a{
+		position: relative;
+	    &:after{
+	      position: absolute;
+	      content: '';
+	      display: block;
+	      width: .1em;
+	      height: 2px;
+	      left: 50%;
+	      top: 52%;
+	      transform: translateX(-50%);
+	      background: transparent;
+	      transition: all ease-in-out .1s;
+	      z-index: 3;
+	    }
+	    &:hover::after{
+	      width: 60%;
+	      background: #fff;
+	      transition: all ease-in-out .2s;
+	    }
+	}
+}

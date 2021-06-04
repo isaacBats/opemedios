@@ -99,7 +99,7 @@
                     <li><a href="{{ route('admin.new.add') }}" id="link-add-new">{{ __('Nueva noticia') }}</a></li>
                 </ul>
             </li>
-          @can('view menu')<li><a href="{{ route('newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>@endcan
+          <li><a href="{{ route('admin.newsletters') }}"><i class="fa fa-send-o"></i> <span>Newsletter</span></a></li>
           <li class="nav-parent">
                 <a href="javascript:void(0);"><i class="fa fa-newspaper-o"></i> <span>Prensa</span></a>
                 <ul class="children">
@@ -108,7 +108,7 @@
                 </ul>
           </li>
           {{-- <li><a href="{{ route('filemanager') }}"><i class="fa fa-cloud"></i> <span>Archivos</span></a></li> --}}
-          {{-- 
+          {{--
             <li class="nav-parent">
               <a href=""><i class="fa fa-check-square"></i> <span>Forms</span></a>
               <ul class="children">
@@ -151,12 +151,12 @@
             </li>
           --}}
         </ul>
-        
+
         @can('view menu')
             <h5 class="sidebar-title">Reportes</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">
-              <li><a href="index.html"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
-              <li><a href="widgets.html"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
+              <li><a href="{{ route('admin.report.byclient') }}"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
+              <li><a href="javascript:void(0);"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
             </ul>
             <h5 class="sidebar-title">CMS</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">

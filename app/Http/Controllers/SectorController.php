@@ -28,10 +28,19 @@ class SectorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sectors = Sector::orderBy('id', 'DESC')->paginate(25);
-        return view('admin.sector.index', compact('sectors'));
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Sectores']);
+
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+
+        $sectors = Sector::name($request->get('name'))
+            ->orderBy('id', 'DESC')
+            ->paginate($paginate)
+            ->appends('name', request('name'));
+
+        return view('admin.sector.index', compact('sectors', 'breadcrumb', 'paginate'));
     }
 
     /**
@@ -41,7 +50,11 @@ class SectorController extends Controller
      */
     public function create()
     {
-        return view('admin.sector.create');
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Sectores', 'url' => route('admin.sectors')]);
+        array_push($breadcrumb,['label' => 'Nuevo Sector']);
+
+        return view('admin.sector.create', compact('breadcrumb'));
     }
 
     /**
@@ -69,7 +82,11 @@ class SectorController extends Controller
     {
         $sector = Sector::findOrFail($id);
 
-        return view('admin.sector.edit', compact('sector'));
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Sectores', 'url' => route('admin.sectors')]);
+        array_push($breadcrumb,['label' => "Editar {$sector->name}"]);
+
+        return view('admin.sector.edit', compact('sector', 'breadcrumb'));
     }
 
     /**

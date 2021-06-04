@@ -14,52 +14,50 @@
   * file that was distributed with this source code.
   */
 $(document).ready(function(){
-        
+        /*used for put a count on the themes titles*/
+        $('span.count').each(function( ){
+          if($("#"+$(this).attr('target')))
+            $("#"+$(this).attr('target')).text( "("+$(this).text() + ")");
+        });
+     
         // spinner in off
-        $('.loader').hide()
+        $('.loader').hide();
+        $('#list-news h2.theme-name').addClass("uk-hidden");
+        $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
 
-        // get new by theme
-        $('ul.list-group').on('click', 'a.item-theme', function(event){
-            event.preventDefault()
-            var themeid = $(this).data('themeid')
-            var companyid = $(this).data('companyid')
-            var companyslug = $(this).data('companyslug')
-            var item = $(this)
-            var container = $('#news-by-theme')
-            var spinner = $('.loader')
-            var listThemes = $('#list-group-themes')
-            
-            listThemes.find('#item-indicator').remove()
-            item.prepend(`<i id="item-indicator" class="fa fa-arrow-right" style="color: #005b8a;"></i> `)
+
+        if( $("ul.pagination").length ){
+          $("ul.pagination").addClass("uk-pagination");
+          $("ul.pagination li.active").addClass("uk-active");
+          $("ul.pagination li.disabled").addClass("uk-disabled");
+        }
+
+        // get new by theme ajax
+        $('select.opciones-temas-ajax').change(function(event) {
+            var themeid = $( "select.opciones-temas-ajax option:selected" ).attr('data-themeid');
+            var companyid = $( "select.opciones-temas-ajax option:selected" ).attr('data-companyid');
+            var companyslug = $( "select.opciones-temas-ajax option:selected" ).attr('data-companyslug');
+            var container = $('#news-by-theme');
+            var spinner = $('.loader');
+
             container.empty()
             spinner.show()
+            var news = $.post( `/${companyslug}/news-by-theme` , { '_token': $('meta[name=csrf-token]').attr('content'), companyid: companyid, themeid: themeid, companyslug: companyslug } , function(news) {
+              spinner.hide();
+              container.html(news);
+              $('#list-news h2.theme-name').addClass("uk-hidden");
+              $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
+            }).fail(function(data) {
+                spinner.hide() 
 
-            var news = $.post(`/${companyslug}/news-by-theme`, 
-                {
-                    '_token': $('meta[name=csrf-token]').attr('content'), 
-                    companyid: companyid, 
-                    themeid: themeid,
-                    companyslug: companyslug
-                }).error(
-                    function (data) {
-                        spinner.hide() 
-
-                        var beautifullHTML = `<div class="jumbotron">
+                        var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                             </div>`
 
                         container.append(beautifullHTML)
                         // TODO: poner el error en un log
                         console.log(`Error-Themes: ${data.responseJSON.message}`)
-                    }
-                ).success(
-                    function (news) {
-
-                        spinner.hide()
-                        container.html(news)
-                        
-                    }
-                )
+              });
        })    
 
         // pagination 
@@ -89,14 +87,15 @@ $(document).ready(function(){
                     companyslug: companyslug
                 },
                 success:function(news) {
-                    spinner.hide()
-                    container.html(news)
+                    spinner.hide();
+                    container.html(news);
+                    $('#list-news h2.theme-name').text($('#list-group-themes li.uk-active a').text());
                 },
                 error: function(data) {
                     spinner.hide() 
-                    var beautifullHTML = `<div class="jumbotron">
-                            <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
-                        </div>`
+                    var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
+                                <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
+                            </div>`
 
                     container.append(beautifullHTML)
                     // TODO: poner el error en un log
@@ -106,7 +105,8 @@ $(document).ready(function(){
         }
 
         // search news
-        $('#btn-search').on('click', function(event){
+        $('#input-search').on('keypress', function(event){
+          if(event.keyCode == 13) {
           event.preventDefault()
           var input = $('#input-search')
           var companyid = input.data('companyid')
@@ -120,9 +120,17 @@ $(document).ready(function(){
           container.empty()
           spinner.show()
 
-          var news = $.get(`/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}`)
-            .error( function(err){
-              spinner.hide() 
+          $('.scroll-to.uk-list').hide();
+
+            var news = $.get( `/${companyslug}/search?company=${companyid}&query=${input.val()}&last=${last}&_token=${token}` , function(news) {
+              spinner.hide()
+              var titleHTML = `
+                <h2>Resultados de la busqueda: ${input.val()}</h2>
+              `;
+              container.append(titleHTML)
+              container.append(news)
+            }).fail(function(err) {
+                spinner.hide() 
               var beautifullHTML = `<div class="jumbotron">
                       <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                   </div>`
@@ -130,16 +138,56 @@ $(document).ready(function(){
               container.append(beautifullHTML)
               // TODO: poner el error en un log
               console.error(`Error-search: ${err.responseJSON.message}`)
-            })
-            .success( function(news) {
-              spinner.hide()
-              var titleHTML = `
-                <h2>Resultados de la busqueda</h2>
-                <hr>
-              `;
-              container.append(titleHTML)
-              container.append(news)
-            })
+              });
+          }
         })
+          /* Display more news on dashboard by theme*/
+          $('.more-theme-news').click(function(e){
+            $(this).parent().parent().find('.news-single').removeClass("uk-hidden");
+            e.stopPropagation();
+            e.preventDefault();
+            $(this).addClass("uk-hidden");
+          });
 
-    })
+
+          var slider = UIkit.slider('#slider', {
+            finite : false,
+          });
+
+          $(window).resize(function(){
+
+            $options = {
+              "offset": $("body > header").height(),
+              "animation" : "uk-animation-slide-bottom",
+            };
+            UIkit.sticky(".sticky-this", $options);
+          });
+
+          //Filter by theme dashboard
+          $( "select.opciones-temas" ).change(function() {
+            if( $( "select.opciones-temas option:selected" ).attr("data-show-titles") == "false"){
+              $('#list-new > h2').addClass("uk-hidden");
+            }
+            else{
+              $('#list-new > h2').removeClass("uk-hidden");
+            }
+            $filterBy = $( "select.opciones-temas option:selected" ).attr("value");
+            $(".js-temas .row").fadeOut();
+            $(".js-temas .row"+$filterBy).fadeIn();
+          });
+
+          $options = {
+            "offset": $("body > header").height(),
+            "animation" : "uk-animation-slide-bottom",
+          };
+          UIkit.sticky(".sticky-this", $options);
+
+        // change company
+        $('select#select-parent').on('change', function(){
+            var slug = $(this).val();
+            window.location = `/cambio-empresa?slug=${slug}`
+            
+        });
+
+})
+

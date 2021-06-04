@@ -1,0 +1,62 @@
+html{
+  width: 100%;
+  overflow-x: hidden;
+}
+html,body{
+    height: 100%;
+}
+body{
+    color: #000c1c;
+    font-family: 'Nunito', Arial, sans-serif;
+    background: #fff;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body h5{
+    font-family: 'Fjalla One', sans-serif;
+}
+footer.uk-section{
+  background: rgb(2,0,36);
+  background: linear-gradient(0deg, rgba(12,10,117,1) 35%, rgba(187,20,73,1) 100%);
+  font-family: 'Fjalla One', sans-serif;
+  color: #fff;
+  font-size: 1.1em;
+  line-height: 2;
+  position: relative;
+  z-index: 3;
+}
+.uk-badge{
+  margin: 7px 0;
+}
+.cover-top img.uk-cover{
+  top: 0;
+  transform: translate(-50%, 0);
+}
+body .uk-padding{
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+}
+body .uk-card-body{
+  padding: 15px 5%;
+  h4{
+    margin: 0;
+    + p{
+      margin-top: 0;
+      line-height: 1;
+    }
+  }
+}
+a.cartones:hover{
+  text-decoration: none;
+}
+
+body.themes,
+body.news{
+  .op-content-mt.main-content{
+    .uk-container{
+      margin-left: 0;
+    }
+  }
+}

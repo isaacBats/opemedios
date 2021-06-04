@@ -33,4 +33,10 @@ class Sector extends Model
     protected $fillable = [
         'name', 'description', 'active'
     ];
+
+    public function scopeName($query, $name) {
+      if($name) {
+        return $query->where('name', 'like', "%{$name}%");
+      }
+    }
 }

@@ -7,7 +7,7 @@
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h5 class="panel-title">{{ __('Editar noticia de ') . $note->mean->name }}</h5>
+            <h5 class="panel-title">{{ __('Editar noticia de ') . $note->mean->name ?? 'N/E' }}</h5>
         </div>
         <div class="panel-body">
             <form action="{{ route('admin.new.edit', ['id' => $note->id]) }}" method="POST" id="form-create-new-news">
@@ -38,7 +38,7 @@
                     <label class="col-sm-2 col-md-1 col-lg-1 col-form-label" for="select-fuente">{{ __('Fuente') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-11 col-lg-11">
                         <select class="form-control" id="select-fuente" name="source_id">
-                            <option value="{{ $note->source_id }}">{{ $note->source->name }}</option>
+                            <option value="{{ $note->source_id ?? '' }}">{{ $note->source->name ?? 'N/E' }}</option>
                         </select>
                         @error('source_id')
                             <label class="text-danger">
@@ -51,7 +51,7 @@
                     <label class="col-sm-2 col-md-1 col-lg-1 col-form-label" for="select-seccion">{{ __('Secciones') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-11 col-lg-11">
                         <select class="form-control" id="select-seccion" name="section_id">
-                            <option value="{{ $note->section_id }}">{{ $note->section->name }}</option>
+                            <option value="{{ $note->section_id ?? '' }}">{{ $note->section->name ?? 'N/E' }}</option>
                         </select>
                         @error('section_id')
                             <label class="text-danger">
@@ -81,7 +81,7 @@
                                 <select class="form-control" id="select-author-type" name="author_type_id">
                                     <option value="">{{ __('Tipo de autor') }}</option>
                                     @foreach($authors as $author)
-                                        <option value="{{ $author->id }}" {{ (old('author_type_id', $note->author_type_id) == $author->id ? 'selected' : '' ) }} >{{ $author->description }}</option>
+                                        <option value="{{ $author->id ?? '' }}" {{ (old('author_type_id', $note->author_type_id) == $author->id ? 'selected' : '' ) }} >{{ $author->description ?? 'N/E' }}</option>
                                     @endforeach
                                 </select>
                                 @error('author_type_id')
@@ -101,7 +101,7 @@
                                 <select class="form-control" id="select-sector" name="sector_id">
                                     <option value="">{{ __('Selecciona un sector') }}</option>
                                     @foreach($sectors as $sector)
-                                        <option value="{{ $sector->id }}" {{ (old('sector_id', $note->sector_id) == $sector->id ? 'selected' : '' ) }} >{{ $sector->name }}</option>
+                                        <option value="{{ $sector->id ?? '' }}" {{ (old('sector_id', $note->sector_id) == $sector->id ? 'selected' : '' ) }} >{{ $sector->name ?? 'N/E' }}</option>
                                     @endforeach
                                 </select>
                                 @error('sector_id')
@@ -119,7 +119,7 @@
                                 <select class="form-control" id="select-genre" name="genre_id">
                                     <option value="">{{ __('Genero') }}</option>
                                     @foreach($genres as $genre)
-                                        <option value="{{ $genre->id }}" {{ (old('genre_id', $note->genre_id) == $genre->id ? 'selected' : '' ) }} >{{ $genre->description }}</option>
+                                        <option value="{{ $genre->id ?? ''}}" {{ (old('genre_id', $note->genre_id) == $genre->id ? 'selected' : '' ) }} >{{ $genre->description ?? 'N/E' }}</option>
                                     @endforeach
                                 </select>
                                 @error('genre_id')
