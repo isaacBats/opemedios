@@ -155,7 +155,7 @@
   /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   /*transition: width ease-in-out .4s;*/
-  padding: 5em 300px;
+  padding: 8em 300px;
 }
 .servicios-medios ul li.accordion-open{
     width: 70%;
@@ -194,6 +194,33 @@
 .servicios-medios ul a{
   display: block;
   text-decoration: none;
+  position: relative;
+  &:before{
+    content: '';
+    background: rgba(0,0,0,0);
+    width: 2px;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all ease-in-out .2s;
+  }
+  &:hover{
+    > * {
+      position: relative;
+    }
+    span{
+      background: rgba(255,255,255,0.7);
+      transition: background ease-in-out .3s;
+    }
+    &::before{
+      width: 100%;
+      background: rgba(12,10,117,.3);
+      transition: all ease-in-out .3s;
+      z-index: 0;
+    }
+  }
 }
 .servicios-medios ul li a span{
   background: rgba(255,255,255,.5);
@@ -204,6 +231,7 @@
   text-align: center;
   position: relative;
   font-size: 2.3rem;
+  transition: background ease-in-out .2s;
 }
 .servicios-medios ul li a span.icon-r{
   display: none;
@@ -220,6 +248,11 @@
 .servicios-medios ul li.accordion-open + li + li a span.icon-l,
 .servicios-medios ul li.accordion-open + li a span.icon-l{
   display: none;
+}
+.servicios-medios ul li.accordion-open{
+  a:before{
+    display: none;
+  }
 }
 /*después de click en accordion se expande el contenedor y elementos aparecen*/
 .fade-in {
@@ -336,5 +369,64 @@ animation: fadeIn ease 2s;
   }
   .analisis.uk-light .uk-grid-divider.uk-grid-stack>.uk-grid-margin::before{
     border-top-color: rgba(255,255,255,.7);
+  }
+}
+
+.fb-share-button{
+    display: inline-block;
+    vertical-align: top;
+}
+.button-share-this{
+    border-radius: 4px;
+    font-size: 13px;
+    height: 28px;
+    padding: 0 8px;
+    font-family: Helvetica, Arial, sans-serif;
+    vertical-align: top;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    line-height: 28px;
+    span{
+      padding-right: 5px;
+    }
+    &:hover{
+      color: #fff;
+      text-decoration: none;
+    }
+    &.facebook-btn{
+      background: #1877f2;
+    }
+    &.twitter-btn{
+      background: #00acee;
+      margin-left: 10px;
+    }
+}
+
+.uk-lightbox-items video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.container-tabla-reporte{
+  table{
+    tbody{
+      tr{
+        td{
+          span.leyenda{
+            color: #999;
+            display: block;
+            font-weight: 400;
+            font-size: .875rem;
+            text-transform: uppercase;
+            @media only screen and ( min-width: 960px){
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
 }

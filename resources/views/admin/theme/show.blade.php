@@ -76,7 +76,7 @@
                 <h4 class="panel-title">{{ __('Cuentas relacionadas con este tema') }}</h4>
             </div>
             <div class="panel-body">
-                <ul class="media-list user-list">
+                <ul class="media-list user-list" id="user-list">
                     @forelse($theme->accounts as $client)
                         <li class="media">
                             <div class="media-left">
@@ -87,6 +87,7 @@
                             <div class="media-body">
                                 <h4 class="media-heading nomargin"><a href="{{ route('user.show', ['id' => $client->id]) }}">{{ $client->name }}</a></h4>
                                 {{ $client->email }}
+                                <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account-theme" data-theme="{{ $theme->name }}" data-themeid="{{ $theme->id }}" data-href="{{ route('admin.theme.remove.user', ['id' => $client->id]) }}" data-username="{{ $client->name }}">Remover</a></small>
                             </div>
                         </li>
                     @empty
@@ -165,6 +166,36 @@
                 optionsTheme.show('slow')
                 form.hide('fast')
 
+            })
+
+            // remove user from theme
+            $('#user-list').on('click', '#btn-remove-account-theme', function (event) {
+                event.preventDefault()
+
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+                var action = $(this).data('href')
+                var userName = $(this).data('username')
+                var theme = $(this).data('theme')
+                var themeID = $(this).data('themeid')
+                var inputHiden = $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'theme_id')
+                        .attr('value', themeID)
+
+
+                form.attr('method', 'POST')
+                    .attr('action', action)
+
+                modal.find('.modal-title').html(`Quitar usuario de este tema`)
+                modalBody.html(`<p>¿Estas seguro que remover a <strong>${userName}</strong> de ${theme}?</p>`)
+                modalBody.append(inputHiden)
+                modal.find('#md-btn-submit')
+                    .addClass('btn-danger')
+                    .val('Remover')
+
+                modal.modal('show')
             })
         })
     </script>

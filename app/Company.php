@@ -37,13 +37,25 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id' ];
+    protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id', 'parent' ];
 
     public function turn () {
 
         return $this->belongsTo(Turn::class);
 
     }
+
+    public function father() {
+
+        return $this->belongsTo(Company::class, 'parent');
+    }
+
+    public function children() {
+
+        return $this->hasMany(Company::class, 'parent');
+
+    }
+
 
     public function newsletter() {
 
@@ -107,5 +119,21 @@ class Company extends Model
 
     public function assignedNews() {
         return $this->hasMany(AssignedNews::class);
+    }
+
+    public function scopeName($query, $name) {
+      if($name) {
+        return $query->where('name', 'like', "%{$name}%");
+      }
+    }
+
+    public function scopeTurn($query, $turn) {
+      if($turn) {
+        return $query->where('turn_id', $turn);
+      }
+    }
+
+    public function executives() {
+        return $this->belongsToMany(User::class, 'client_executive');
     }
 }

@@ -76,10 +76,26 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isExecutive() {
+        if($this->hasRole('manager')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isAdmin() {
+        if($this->hasRole('admin')) {
+            return true;
+        }
+        return false;
+    }
+
     public function news() {
-        if($this->isMonitor()) {
+        if($this->isMonitor() || $this->isAdmin() || $this->isExecutive()) {
             return $this->hasMany(News::class);
         }
+
+        return false;
     }
 
     public function themes() {
@@ -90,8 +106,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Theme::class, 'theme_user');
     }
 
+    public function companies() {
+        if($this->isExecutive() || $this->isClient() || $this->isAdmin()) {
+            return $this->belongsToMany(Company::class, 'client_executive');
+        }
+        
+        return false;
+    }
+
     public function company() {
-        if($this->isClient()) {
+        if($this->isClient() && $this->metas()->where('meta_key', 'company_id')->first()) {
             $companyId = $this->metas->where('meta_key', 'company_id')->first()->meta_value;
             return Company::findOrFail($companyId);
         }

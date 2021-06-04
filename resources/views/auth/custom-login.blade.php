@@ -39,7 +39,7 @@
         </div>
         <div><a href="{{ route('password.request') }}" class="forgot">¿Se te olvidó tu contraseña?</a></div>
         <div class="form-group">
-            <button type="subit" class="btn btn-success btn-quirk btn-block">Entrar</button>
+            <button type="submit" class="btn btn-success btn-quirk btn-block">Entrar</button>
         </div>
     </form>
     <hr class="invisible">

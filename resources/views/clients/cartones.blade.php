@@ -9,7 +9,7 @@
             <br>
             <div uk-grid="masonry: true" uk-lightbox="animation: fade;">
             @foreach ($covers as $cover)
-                <a class="uk-width-1-1 uk-width-1-2@s uk-width-1-2@m uk-width-1-2@l uk-width-1-3@xl" href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen }}">
+                <a class="uk-width-medium" href="http://sistema.opemedios.com.mx/data/primera_plana/{{ $cover->imagen }}">
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-cover-container cover-top">
                             <img src="http://sistema.opemedios.com.mx/data/thumbs/{{ $cover->imagen }}_pp.jpg" alt="{{ $cover->imagen }}" uk-cover>

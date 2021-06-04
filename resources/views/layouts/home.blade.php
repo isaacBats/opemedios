@@ -10,6 +10,7 @@
         @endphp
         <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
+        @yield('metas')
         @if( $route != 'home' &&  $route != 'about' &&  $route != 'clients' &&  $route != 'signin' &&  $route != 'contact')
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         @endif
@@ -39,6 +40,7 @@
     @else
         <body class="{{ str_replace('.', '-', $route) }} with-side-menu">
     @endif
+    @yield('shared-scripts')
         {{-- $route --}}
         <header>
             @include('components.menu-client')
@@ -53,21 +55,27 @@
                    <!-- <div class="social-yt">
                         <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
                     </div>-->
-                    
-                    <div class="item go-0 uk-text-center uk-text-left@m">
-                        <div class="icon"><i class="icon-map-pin"></i> Ures 69, Col. Roma Sur<br> CP. 06760, México,<br> DF, Del. Cuauhtémoc</div>
+                    @php /*
+                    <div class="item go-0 uk-text-center uk-text-left@m uk-hidden">
+                        <div class="icon"><i class="icon-map-pin"></i> Av. Revolución No. 308 - 8<br> Col. Escandón I Sección<br> CDMX, Alcaldía Miguel Hidalgo<br> C.P. 11800</div>
                     </div>
                     
-                    <div class="item go-1 uk-text-center">
+                    <div class="item go-1 uk-text-center uk-hidden">
                         <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
                             <div class="icon"><i class="icon-mail"></i> contacto@opemedios.com.mx</div>
                         </a>
                         <br>
-                        <a class="ope-contact" href="tel:5555846410" target="_blank">
-                            <div class="icon"><i class="icon-phone"></i> 55-5584-64-10</div>
-                        </a>
-                    </div>
-
+                        <div class="ope-contact">
+                            <a class="ope-contact" href="tel:5563868892" target="_blank" class="icon">
+                                <i class="icon-phone"></i>&nbsp;&nbsp;55 638 688 92
+                            </a>
+                            <br>
+                            <a class="ope-contact" href="tel:5563868893" target="_blank" class="icon">
+                                <i class="icon-phone"></i>&nbsp;&nbsp;55 638 688 93
+                            </a>
+                        </div>
+                    </div> */
+                    @endphp
                     <div class="uk-text-center uk-flex-first uk-flex-last@s links-sociales">
                         <a href="https://twitter.com/DeMonitoreo" target="_blank" class="uk-padding uk-padding-remove-top icon-twitter"></a>
                         <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" class="uk-padding uk-padding-remove-top icon-facebook"></a>

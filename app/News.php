@@ -69,18 +69,18 @@ class News extends Model
             ['label' => 'Encabezado', 'value' => $this->title],
             ['label' => 'Síntesis', 'value' => $this->synthesis],
             ['label' => 'Autor', 'value' => $this->author],
-            ['label' => 'Tipo de autor', 'value' => $this->authorType->description],
+            ['label' => 'Tipo de autor', 'value' => $this->authorType->description ?? 'N/E'],
             ['label' => 'Fecha', 'value' => Carbon::parse($this->news_date)->formatLocalized('%A %d de %B %Y')],
-            ['label' => 'Sector', 'value' => $this->sector()->withTrashed()->where('id', $this->sector_id)->first()->name],
-            ['label' => 'Genero', 'value' => $this->genre->description],
-            ['label' => 'Fuente', 'value' => $this->source()->withTrashed()->where('id', $this->source_id)->first()->name],
-            ['label' => 'Sección', 'value' => $this->section()->withTrashed()->where('id', $this->section_id)->first()->name],
-            ['label' => 'Medio', 'value' => $this->mean()->withTrashed()->where('id', $this->mean_id)->first()->name],
+            ['label' => 'Sector', 'value' => $this->sector->name ?? 'N/E'],
+            ['label' => 'Genero', 'value' => $this->genre->description ?? 'N/E'],
+            ['label' => 'Fuente', 'value' => $this->source->name ?? 'N/E'],
+            ['label' => 'Sección', 'value' => $this->section->name ?? 'N/E'],
+            ['label' => 'Medio', 'value' => $this->mean->name ?? 'N/E'],
             ['label' => 'Costo', 'value' => numfmt_format($fmt, $this->cost)],
             ['label' => 'Alcance', 'value' => numfmt_format($fmtn, $this->scope)],
             ['label' => 'Tendencia', 'value' => $trend],
             ['label' => 'Comentarios', 'value' => $this->comments],
-            ['label' => 'Creador', 'value' => $this->user->name],
+            ['label' => 'Creador', 'value' => $this->user->name ?? 'N/E'],
         ];
 
         if($this->mean->short_name == 'tel' || $this->mean->short_name == 'rad') {
@@ -131,5 +131,11 @@ class News extends Model
 
     public static function latestNews($limit = 10) {
         return News::latest()->limit($limit)->get();
+    }
+
+    public function scopeSearchBy($query, $type, $value) {
+        if(($type) && ($value)) {
+            return $query->where($type, 'like', "%{$value}%");
+        }
     }
 }

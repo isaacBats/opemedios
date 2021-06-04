@@ -1,7 +1,12 @@
 @extends('layouts.home')
 @section('title', ' - Operadora de medios Informativos')
 @section('content')
-
+@if (session('status'))
+    <div class="uk-alert-primary" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>{{ session('status') }}</p>
+    </div>
+@endif
 <section class="uk-height-large uk-background-cover uk-background-fixed uk-overflow-hidden uk-dark uk-flex uk-flex-top expertos" style="background-image: url('{{ asset('images/home/tecnologia.jpg') }}');" uk-height-viewport="min-height: 100vh">
     <div class="uk-container uk-margin-auto-vertical uk-padding-large">
         <div class="uk-width-5-6@s uk-width-2-3@m uk-text-center uk-text-left@s">

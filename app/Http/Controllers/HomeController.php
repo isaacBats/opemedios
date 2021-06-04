@@ -60,4 +60,17 @@ class HomeController extends Controller
         return back()->with('status', 'Gracias por interesarse en nuestros servicios. En breve nos pondremos en contacto con usted.');
 
     }
+
+    public function changeCompany(Request $request) {
+        if ($request->has('slug')) {
+            if(session('slug_company')) {
+                $slug = $request->get('slug');
+                session()->put('slug_company', $slug);
+            
+                return redirect("{$slug}/dashboard");
+            }
+        }
+
+        return back();
+    }
 }

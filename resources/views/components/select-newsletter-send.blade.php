@@ -4,7 +4,7 @@
         {{--<option value="01">{{ __('Último newsletter sin enviar') }}</option>--}}
         <?php /**  @var \App\NewsletterSend $n_send */ ?>
         @foreach($newslettersSends as $n_send)
-            <option value="{{ $n_send->id }}" {{ (old('newsletter_send_id') == $n_send->id ? 'selected' : '' ) }} >{{ $n_send->created_at->format('d-m-Y') }}</option>
+            <option value="{{ $n_send->id }}" {{ (old('newsletter_send_id') == $n_send->id ? 'selected' : '' ) }} >{{ $n_send->label }}</option>
         @endforeach
     </select>
     @error('newsletter_send_id')

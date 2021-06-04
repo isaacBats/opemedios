@@ -23,7 +23,7 @@
                     @endif
                     <li class="{{ $route == 'about' ? ' uk-active' : '' }}"><a href="{{ route('about') }}">Quiénes somos</a></li>
                     <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
-                    @hasrole('client')
+                    @hasanyrole('client|manager|admin')
                     <li class="uk-hidden@m">
                         <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
                             <span >Dashboard</span>
@@ -35,7 +35,7 @@
                             <span >Iniciar Sesión</span>
                         </a>
                     </li>
-                    @endhasrole
+                    @endhasanyrole
                     <li>
                         <a class="uk-hidden@m" href="{{ route('contact') }}">Contáctanos</a>
                     </a>
@@ -50,7 +50,7 @@
                     </li>
                 </ul>
                 <div class="uk-visible@m" style="padding-left: 40px;">
-                    @hasrole('client')
+                    @hasanyrole('client|manager|admin')
                     <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
                         <span >Dashboard</span>
                     </a>
@@ -58,7 +58,7 @@
                     <a class="uk-button uk-button-secondary {{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
                         <span >Iniciar Sesión</span>
                     </a>
-                    @endhasrole
+                    @endhasanyrole
                 </div>
             </div>
             <div class="uk-navbar-right contact" style="padding-left: 30px;">
@@ -80,39 +80,6 @@
             <div class="uk-navbar-left logo-opemedios uk-width-expand">
                 <a class="uk-navbar-item uk-logo" href="{{ route('home') }}" style="margin: 0 auto;"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios"/></a>
             </div>
-            @if( $route == 'news')
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav scroll-to uk-list">
-                    <li>
-                        <a href="#" uk-icon="chevron-down">Temas</a>
-                        <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav uk-panel-scrollable" uk-scrollspy-nav="closest: li; scroll: true; offset: 200;">
-                            @foreach($company->themes as $theme)
-                            <li style="margin-top: 10px;">
-                                <a href="#theme{{ $theme->id }}">{{ $theme->name }}</a>
-                            </li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @elseif( $route == 'themes')
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav list-group" id="list-group-themes">
-                    <li>
-                        <a href="#">Temas<i class="icon-chevron-down"></i></a>
-                        <div class="uk-navbar-dropdown">
-                        <ul class="uk-nav uk-navbar-dropdown-nav" id="themes">
-                            @foreach ($company->themes as $theme)
-                            <li class="list-group-item theme-transition @if($theme->id == $defaultThemeId) uk-active @endif"><a class="item-theme" href="javascript:void(0)" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id }}">{{ $theme->name }}</a></li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @endif
         </nav>
     </div>
 </div>
@@ -121,7 +88,21 @@
     <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default uk-text-bold uk-text-uppercase">
             <li><a class="uk-navbar-item uk-logo" href="{{ route('home') }}"><img src="{{ asset('images/opemedios-logo.png') }}" alt="logo opeMedios" /></a><br><br></li>
-            @hasrole('client')
+            @hasanyrole('client|manager|admin')
+                @if(auth()->user()->companies->count() > 0)
+                    <li>
+                        <div class="uk-form-controls" uk-form-custom="target: true">
+                            <select name="parent" id="select-parent" class="uk-select">
+                                @foreach(auth()->user()->companies as $entity)
+                                    <option {{ $entity->slug == session()->get('slug_company') ? 'selected' : ''}} value="{{ $entity->slug }}">{{ $entity->name }}</option>
+                                @endforeach   
+                            </select>
+                            <button type="button" class="empresas-btn">EMPRESAS <span class="icon-chevron-down"></span></button>
+                        </div>
+                    </li>
+                @endif
+            @endhasanyrole
+            @hasanyrole('client|manager|admin')
             <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
             <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
             <li class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}"><a href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
@@ -133,6 +114,10 @@
             <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
             <li class="uk-nav-header uk-text-light">Reporte</li>
             <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $slug]) }}">Reportes</a><br></li>
+            @hasanyrole('manager|admin')
+            <li class="uk-nav-divider"></li>
+            <li ><a href="{{ route('panel') }}">Volver al admin</a><br></li>
+            @endhasanyrole
             <li class="uk-nav-divider"></li>
             <li class="uk-nav-header uk-text-light"><i class="icon-user"></i> {{ strtoupper(Auth::user()->name) }}</li>
             <li>
@@ -145,7 +130,7 @@
                     @csrf
                 </form>
             </li>
-            @endhasrole
+            @endhasanyrole
         </ul>
 
     </div>

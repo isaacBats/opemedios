@@ -11,6 +11,38 @@ body nav .uk-navbar-left .uk-logo{
 body nav .uk-navbar-toggle-icon{
   width: 3.5rem;
 }
+body nav .uk-navbar-right .uk-button{
+  transition: all ease-in-out .2s;
+}
+body nav .uk-navbar-right .uk-button:hover{
+  background: #fff;
+  color: #333;
+  border: 1px solid #b2b2b2;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  transition: all ease-in-out .3s;
+}
+@media only screen and ( min-width: 960px){
+  body nav .uk-navbar-right > .uk-navbar-nav > li > a{
+    position: relative;
+    &:before{
+      position: absolute;
+      content: '';
+      display: block;
+      width: .1em;
+      height: 3px;
+      left: 50%;
+      top: 75%;
+      transform: translateX(-50%);
+      background: transparent;
+      transition: all ease-in-out .1s;
+    }
+    &:hover::before{
+      width: 90%;      
+      background: #333;
+      transition: all ease-in-out .2s;
+    }
+  }
+}
 @media only screen and (max-width: 959px) {
   body nav .contacto a{
     padding: 0 15px;
@@ -136,5 +168,63 @@ body .uk-offcanvas-bar .uk-nav-default .uk-nav-header{
   body.with-side-menu.client-shownew .uk-container.op-content-mt{
     margin-left: auto;
     padding-right: 300px;
+  }
+}
+
+.empresas-btn{
+  height: 40px;
+  margin: 0 0 25px 0;
+  border: 1px solid #aaa;
+  padding: 0 45px 0 15px;
+  position: relative;
+  background: transparent;
+  span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.label-tema{
+  color: #521e54;
+  padding-right: 12px;
+  font-size: .8rem;
+  letter-spacing: 1px;
+}
+select{
+  &.opciones-temas-ajax,
+  &.opciones-temas{
+    color: #521e54 !important;
+    border-color: #c8bcc9;
+    font-size: .85rem;
+    letter-spacing: 1px;
+    &:active,
+    &:focus{
+      border-color: #521e54;
+    }
+    option{
+      color: #521e54;
+    }
+  }
+}
+.contenedor-select-temas{
+  background: #fff;
+  margin-left: 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid #f2f2f2;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  &.uk-sticky-fixed{
+    &:before{
+      content: "";
+      height: 100%;
+      width: 150%;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      background: #fff;
+    }
   }
 }

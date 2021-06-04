@@ -1,4 +1,5 @@
 <?php
+
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -35,17 +36,19 @@ Route::get('cuenta', 'HomeController@signin')->name('signin');
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
+Route::get('cambio-empresa', 'HomeController@changeCompany');
+
+Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
 
 Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
-
-Route::get('test-report', 'NewsController@report');
-
+Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
+Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
 
 Auth::routes([
     'register' => false,
 ]);
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client']], function () {
+Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager|admin']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
@@ -68,6 +71,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
         Route::get('usuario/nuevo/{companyId}', 'UserController@addUserCompany')->name('user.add.company');
         Route::get('usuario/borrar/{id}', 'UserController@delete')->name('admin.user.delete');
+        Route::post('usuario/agregar/empresa', 'UserController@addCompanyToExecutive')->name('admin.executive.add.company');
+        Route::post('usuario/remover/empresa', 'UserController@removeCAssigned')->name('admin.executive.remove.company');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
         Route::get('empresa/ver/{id}', 'CompanyController@show')->name('company.show');
@@ -78,12 +83,15 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
+        Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
+        Route::post('empresa/relacionar/subempresa', 'CompanyController@relateSubcompany')->name('admin.company.createsubcompany');
 
         Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
         Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
+        Route::post('tema/remover-usuario/{id}', 'ThemeController@themeUserRemove')->name('admin.theme.remove.user');
 
         Route::get('giros', 'TurnController@index')->name('admin.turns');
         Route::get('giros/nuevo', 'TurnController@create')->name('admin.turns.create');
@@ -92,27 +100,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('giros/editar/{id}', 'TurnController@edit')->name('admin.turns.edit');
         Route::post('giros/editar/{id}', 'TurnController@update')->name('admin.turns.update');
         Route::post('giros/eliminar/{id}', 'TurnController@destroy')->name('admin.turns.destroy');
-
-        Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
-        Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
-        Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
-        Route::get('newsletter/ver/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
-        Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
-        Route::post('newsletter/remover/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
-        Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
-        Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
-        Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
-        Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
-        Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
-        Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')->name('admin.newsletter.send');
-        Route::post('newsletter/newsletter-a-enviar/eliminar/{sendid}', 'NewsletterController@removeNewsletterSend')->name('admin.newsletter.delete');
-        
-        Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
-        Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')->name('admin.newsletter.config.removeemails');
-        Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')->name('admin.newsletter.config.updatetemplate');
-        Route::get('newsletter/config/agregar/portadas', 'NewsletterController@addCovers')->name('admin.newsletter.config.footer');
-        Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')->name('admin.newsletter.config.add.footer');
-        Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')->name('admin.newsletter.config.delete.footer');
 
         Route::post('api/v2/noticias/obtener-notas', 'NewsController@searchByIdOrTitleAjax')->name('api.news.getnotesbyidortitle');
         Route::post('api/v2/newsletter/newsletter-a-enviar/agregar-nota', 'NewsletterSendController@addNote')->name('api.newslettersend.addnote');
@@ -124,6 +111,12 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('sector/editar/{id}', 'SectorController@edit')->name('admin.sector.edit');
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
+
+        // Maganer role enters as a client
+        Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
+
+        Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
+        
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
@@ -156,6 +149,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/ver/{id}', 'NewsController@show')->name('admin.new.show');
     Route::get('noticias/editar/{id}', 'NewsController@edit')->name('admin.new.edit');
     Route::post('noticias/editar/{id}', 'NewsController@update')->name('admin.new.edit');
+    Route::post('noticias/asignar/{id}', 'NewsController@toAssign')->name('admin.new.notice.toassign');
+    Route::post('noticias/remover/{id}', 'NewsController@toremovenews')->name('admin.assignednews.remove');
     Route::get('noticias/ver/adjuntos/{id}', 'NewsController@adjuntos')->name('admin.new.adjunto.show');
     Route::post('noticias/ver/adjuntos/subir/{id}', 'NewsController@adjuntosUpload')->name('admin.new.adjunto.upload');
     Route::get('noticias/ver/adjunto/asignar-primario', 'NewsController@assignMainFileForNews')->name('admin.new.adjunto.main');
@@ -166,6 +161,27 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('noticias/ver/notificacion/{id}', 'NewsController@notice')->name('admin.new.notice.show');
     Route::post('noticias/enviar-noticia', 'NewsController@sendNews')->name('admin.new.send.news');
 
+    Route::get('newsletters', 'NewsletterController@index')->name('admin.newsletters');
+    Route::get('newsletter/crear', 'NewsletterController@showFormCreateNewsletter')->name('admin.newsletter.create');
+    Route::post('newsletter/crear', 'NewsletterController@create')->name('admin.newsletter.create');
+    Route::get('newsletter/ver/{id}', 'NewsletterController@view')->name('admin.newsletter.view');
+    Route::get('newsletter/config/{id}', 'NewsletterController@config')->name('admin.newsletter.config');
+    Route::post('newsletter/remover/{id}', 'NewsletterController@remove')->name('admin.newsletter.remove');
+    Route::post('newsletter/update/banner/{id}', 'NewsletterController@updateBanner')->name('admin.newsletter.update.banner');
+    Route::post('newsletter/estatus/{id}', 'NewsletterController@status')->name('admin.newsletter.status');
+    Route::post('newsletter/nueva-plantilla/{id}', 'NewsletterSendController@create')->name('admin.newsletter.newforsend');
+    Route::get('newsletter/newsletter-a-enviar/editar/{id}', 'NewsletterSendController@edit')->name('admin.newsletter.edit.send');
+    Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')->name('admin.newsletter.preview.send');
+    Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')->name('admin.newsletter.send');
+    Route::post('newsletter/newsletter-a-enviar/eliminar/{sendid}', 'NewsletterController@removeNewsletterSend')->name('admin.newsletter.delete');
+    
+    Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')->name('admin.newsletter.config.addemails');
+    Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')->name('admin.newsletter.config.removeemails');
+    Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')->name('admin.newsletter.config.updatetemplate');
+    Route::get('newsletter/config/agregar/portadas', 'NewsletterController@addCovers')->name('admin.newsletter.config.footer');
+    Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')->name('admin.newsletter.config.add.footer');
+    Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')->name('admin.newsletter.config.delete.footer');
+
     Route::get('prensa/ver/portadas', 'CoverController@index')->name('admin.press.show');
     Route::get('prensa/nueva-portada', 'CoverController@create')->name('admin.press.add');
     Route::post('prensa/nueva-portada', 'CoverController@store')->name('admin.press.add');
@@ -174,8 +190,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('prensa/editar/portada/{id}/archivo', 'CoverController@updateFile')->name('admin.press.update.file');
     Route::post('prensa/eliminar/portada/{id}', 'CoverController@destroy')->name('admin.press.destroy');
 
-    Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
-    Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
     Route::post('api/v2/secciones/obtener-secciones', 'SectionController@sendSelectHTMLWithSctionsBySource')->name('api.getsectionshtml');
     Route::post('api/v2/newsletters/obtener-temas', 'NewsletterController@sendSelectHTMLWithThemes')->name('api.getnewsletterthemeshtml');
     Route::post('api/v2/newsletters/obtener-activos', 'NewsletterController@sendSelectHTMLWithSends')->name('api.getnewslettersendhtml');

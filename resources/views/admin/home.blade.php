@@ -114,7 +114,7 @@
                             <h4 class="panel-title">{{ __('Reportes') }}</h4>
                         </div>
                         <div class="panel-body">
-                            <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+                            <a href="{{ route('admin.report.byclient') }}"><div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div></a>
                         </div>
                     </div>
                 </div>

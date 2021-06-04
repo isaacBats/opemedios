@@ -1,4 +1,20 @@
 <?php
+/**
+  *-------------------------------------------------------------------------------------
+  * Developer Information
+  *-------------------------------------------------------------------------------------
+  * @author Isaac Daniel Batista <daniel@danielbat.com>
+  * @link https://danielbat.com Web Autor's site
+  * @see https://twitter.com/codeisaac <@codeisaac>
+  * @copyright 2021
+  * @version 1.0.0
+  * @package App\
+  * Type: Controller
+  * Description: Description
+  *
+  * For the full copyright and license information, please view the LICENSE
+  * file that was distributed with this source code.
+  */
 
 namespace App\Http\Controllers;
 
@@ -31,9 +47,11 @@ class NewsletterSendController extends Controller
      */
     public function create(Request $request, $id) {
         $newsletter = Newsletter::findOrFail($id);
+        $label = $request->input('nwl-name') == "" ? "Default" : $request->input('nwl-name');
         $forSend = NewsletterSend::create([
             'newsletter_id' => $newsletter->id,
             'status' => 0,
+            'label' => $label 
         ]);
 
         return redirect()->route('admin.newsletter.view', ['id' => $newsletter->id])->with('status', 'Se ha creado una nueva plantilla para newsletter');
@@ -45,10 +63,14 @@ class NewsletterSendController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit (Request $reques, $id) {
-
+        $breadcrumb = array();
         $newsletterSend = NewsletterSend::findOrFail($id);
 
-        return view('admin.newsletter.editsend', compact('newsletterSend'));
+        array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
+        array_push($breadcrumb, ['label' => $newsletterSend->newsletter->name, 'url' => route('admin.newsletter.view', ['id' => $newsletterSend->newsletter->id])]);
+        array_push($breadcrumb, ['label' => 'Agregar notas']);
+
+        return view('admin.newsletter.editsend', compact('newsletterSend', 'breadcrumb'));
     }
 
     public function addNote (Request $request) {

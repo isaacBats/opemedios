@@ -27,20 +27,36 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class CompanyController extends Controller
 {
-    public function index () {
+    public function index (Request $request) {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
-        $companies = Company::orderBy('id', 'DESC')->paginate(25);
-        return view('admin.company.index', compact('companies'));
+        $breadcrumb = array();
+        array_push($breadcrumb,['label' => 'Empresas']);
+
+        $companies = Company::name($request->get('name'))
+            ->turn($request->get('turn'))
+            ->orderBy('id', 'DESC')
+            ->paginate($paginate)
+            ->appends('name', request('name'))
+            ->appends('turn', request('turn'));
+
+        return view('admin.company.index', compact('companies', 'breadcrumb', 'paginate'));
     }
 
     public function showFormNewCompany() {
+        $breadcrumb = array();
         $turns = Turn::all();
+        $companies = Company::all();
+
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => 'Nueva Empresa']);
         
-        return view('admin.company.newcompany', compact('turns'));
+        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
     public function create (Request $request) {
@@ -50,11 +66,22 @@ class CompanyController extends Controller
         Validator::make($input, [
             'name' => 'required|max:200|',
             'slug' => 'required|unique:companies',
-            'turn_id' => 'required'
+            'turn_id' => 'required',
+            'parent' => [
+                Rule::requiredIf(function() use ($input){
+                    if(isset($input['is_parent'])) {
+                        return true;
+                    }
+
+                    return false;
+                }),
+                'numeric'
+            ]
         ], 
         [
             'turn_id.required' => 'Es necesario elegir un Giro.',
-            'required' => 'El :attribute es necesario.'
+            'required' => 'El :attribute es necesario.',
+            'parent.required' => 'Es requerido el padre'
         ])->validate();
         
         if($file = $request->hasFile('logo')) {
@@ -67,11 +94,33 @@ class CompanyController extends Controller
     }
 
     public function show (Request $request, $id) {
-
+        $breadcrumb = array();
         $company = Company::find($id);
         $turns = Turn::all();
 
-        return view('admin.company.show', compact('company', 'turns'));
+        $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
+        $accounts = $company->accounts()->merge($company->executives);
+        $companies = Company::where('id', '<>', $id)->get();
+
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => $company->name]);
+
+        return view('admin.company.show', compact('company', 'turns', 'accounts', 'companies', 'breadcrumb'));
+    }
+
+    public function relateSubcompany(Request $request) {
+        $input = $request->all();
+        $company = Company::find($input['company_id']);
+        
+        if(!is_null($company->parent)) {
+            return back()->with('status', "{$company->name} ya es subcuenta de {$company->father->name}");
+        }
+        
+        $company->parent = $input['parent'];
+        $company->save();
+
+        return redirect()->route('company.show', ['id' => $company->id])->with('status', "La empresa {$company->name} ahora es una subcuenta de {$company->father->name}");
+
     }
 
     public function getOldCompanies () {
@@ -112,6 +161,10 @@ class CompanyController extends Controller
         $inputs = $request->all();
         $user = User::find($inputs['user']);
         // $company = Company::find($inputs['company']);
+        if($user->metas()->where('meta_key', 'company_id')->first()) {
+            $user->companies()->attach($request->input('company'));
+            return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
+        } 
 
         $meta_company = new UserMeta();
         $meta_company->meta_key = 'company_id';
@@ -161,7 +214,38 @@ class CompanyController extends Controller
 
     public function getAccountsAjax(Request $request) {
         $company = Company::findOrFail($request->input('company_id'));
+        $accounts = $company->accounts()->merge($company->executives);
 
-        return response()->json($company->accounts());
+        return response()->json($accounts);
+    }
+
+    public function delete (Request $request, $id) {
+        $company = Company::findOrFail($id);
+        $name = $company->name;
+        
+        $company->assignedNews()->delete();
+        
+        $company->newsletter->delete();
+        
+        $company->themes()->delete();
+
+        if($company->children->isNotEmpty()){
+            $company->children->each(function ($son){ 
+                $son->parent = NULL;
+                $son->save();
+            });
+        }
+
+        
+        if($company->accounts()->isNotEmpty()) {
+            $company->accounts()->each(function ($user, $key){
+                $metaCompany = $user->metas()->where('meta_key', 'company_id')->first();
+                $metaCompany->delete();
+            });
+        }
+        
+        $company->delete();
+
+        return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas,newsletters y noticias relacionadas");
     }
 }

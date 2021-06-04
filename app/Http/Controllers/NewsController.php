@@ -160,7 +160,11 @@ class NewsController extends Controller
             $news = News::where('mean_id', $meanId)->orderBy('id', 'DESC')->paginate($paginate);
             $news->setPath(route('admin.news', ['new_mean' => $meanId]));
         } else {
-            $news = News::orderBy('id', 'DESC')->paginate($paginate);
+            $news = News::searchBy($request->get('option'), $request->get('query'))
+                ->orderBy('id', 'DESC')
+                ->paginate($paginate)
+                ->appends('option', request('option'))
+                ->appends('query', request('query'));
         }
 
         return view('admin.news.index', compact('news'));
@@ -309,21 +313,14 @@ class NewsController extends Controller
             }
         }
 
-        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data)) {
+        if(array_key_exists('in_newsletter', $data) && array_key_exists('newsletter_id', $data) && array_key_exists('newsletter_theme_id', $data) && array_key_exists('newsletter_send_id', $data)) {
             // Todo: Validar que una noticia no se agregue al mismo newsletter y al mismo tema
             $newsletterSendPaused = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
-                ->where('status', 0)
-                ->orderBy('id', 'DESC')
+                ->where('id', $data['newsletter_send_id'])
                 ->get();
             
-            if($newsletterSendPaused->isEmpty()) {
-                $newsletterSend = NewsletterSend::create([
-                    'newsletter_id' => $data['newsletter_id'],
-                    'status' => 0,
-                ]);
-            } else {
-                $newsletterSend = $newsletterSendPaused->first();
-            }
+            
+            $newsletterSend = $newsletterSendPaused->first();
             
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
@@ -479,12 +476,15 @@ class NewsController extends Controller
     public function sendNews(Request $request) {
 
         if(empty($request->input('accounts_ids'))) {
-            return back()->with('danger', 'No se hay correos seleccionados, para enviar la nota.');
+            return back()->with('danger', 'No hay correos seleccionados, para enviar la nota.');
         }
 
         $news = News::findOrFail($request->input('news_id'));
         $themeCompany = Theme::findOrFail($request->input('theme_id'));
-        $accounts = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+        $executives = $themeCompany->company->executives;
+        $accountUsers = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
+
+        $accounts = $accountUsers->merge($executives);
 
         AssignedNews::create([
             'news_id' => $news->id,
@@ -515,9 +515,9 @@ class NewsController extends Controller
             return abort(403, 'Noticia no encontrada');
         }
 
-        $news = News::findOrFail($data[0]);
+        $note = News::findOrFail($data[0]);
 
-        return view('clients.frontdetailnews', compact('news'));
+        return view('clients.frontdetailnews', compact('note'));
     }
     /**
      * Description
@@ -571,6 +571,27 @@ class NewsController extends Controller
         $date = Carbon::today()->timestamp;
 
         return Excel::download(new NewsExport, "reporte_{$date}.xlsx");
+    }
+
+    public function toAssign(Request $request, $id) {
+         $assigned = AssignedNews::create([
+            'news_id' => $id,
+            'company_id' => $request->input('company_id'),
+            'theme_id' => $request->input('theme_id'),
+        ]);
+
+        return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');   
+    }
+
+    public function toremovenews(Request $request, $assigned_id) {
+        $assigned = AssignedNews::findOrFail($assigned_id);
+        $title = $assigned->news->title;
+        $company = $assigned->company->name;
+        $company_id = $assigned->company->id;
+        
+        $assigned->delete();
+
+        return redirect()->route('company.show', ['id' => $company_id])->with('status', "¡La noticia {$title} se ha desvinculado  satisfactoriamente de {$company}!");
     }
 
 }

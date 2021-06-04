@@ -34,6 +34,7 @@ use App\Theme;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,8 +50,8 @@ class ClientController extends Controller
         $this->newsController = $newsController;
     }
 
-    public function index($slug_company) {  
-        $company = Company::where('slug', $slug_company)->first();
+    public function index(Request $request, $company) {  
+        $company = Company::where('slug', $company)->first();
 
         return view('clients.news', compact('company'));
     }
@@ -219,25 +220,41 @@ class ClientController extends Controller
 
     public function report (Request $request) {
 
-        $sectors = Sector::all();
-        $genres = Genre::all();
-        $means = Means::all();
+        $paginate = 50;
+        $company = Company::where('slug', $request->session()->get('slug_company'))->first();
 
-        return view('clients.report', compact('sectors', 'genres', 'means'));
+        $notesIds = AssignedNews::query()->where('company_id', $company->id)
+            ->when($request->input('theme_id') != null, function($q) use ($request) {
+                return $q->where('theme_id', $request->input('theme_id'));
+            })->pluck('news_id');
+        $notes = News::query()->whereIn('id', $notesIds)
+            ->when($request->input('sector') != null, function($q) use ($request) {
+                return $q->where('sector_id', $request->input('sector'));
+            })
+            ->when($request->input('genre') != null, function($q) use ($request) {
+                return $q->where('genre_id', $request->input('genre'));
+            })
+            ->when($request->input('mean') != null, function($q) use ($request) {
+                return $q->where('mean_id', $request->input('mean'));
+            })
+            ->when($request->input('source_id') != null, function($q) use ($request) {
+                return $q->where('source_id', $request->input('source_id'));
+            })
+            ->when(($request->input('fstart') != null && $request->input('fend') != null), function($q) use ($request){
+                $from = Carbon::create($request->input('fstart'));
+                $to = Carbon::create($request->input('fend'));
+                return $q->whereBetween('news_date', [$from, $to]);
+            })
+            ->when(($request->input('fstart') != null && $request->input('fend') == null), function($q) use ($request){
+                return $q->whereDate('news_date', Carbon::create($request->input('fstart')));
+            })->simplePaginate($paginate);
+
+        return view('clients.report', compact('notes', 'company'));
+
     }
 
     public function createReport( Request $request ) {
-        // "_token" => "fm5A2wt3VtOQYnCdOvhnO0CPsN1wqTpKMwmbAetn"
-        // "company_id" => "10"
-        // "fstart" => null
-        // "fend" => null
-        // "theme_id" => "default"
-        // "sector_id" => "default"
-        // "genre_id" => "default"
-        // "trend" => "default"
-        // "mean_id" => "default"
         $date = Carbon::today()->timestamp;
-
         return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
     }
 }

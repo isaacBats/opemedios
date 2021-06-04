@@ -35,4 +35,16 @@ class Source extends Model
     public function sections() {
       return $this->hasMany(Section::class);
     }
+
+    public function scopeName($query, $name) {
+        if($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        }
+    }
+
+    public function scopeCompany($query, $company) {
+        if($company) {
+            return $query->where('company', 'like', "%{$company}%");
+        }
+    }
 }
