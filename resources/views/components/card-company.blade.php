@@ -41,7 +41,7 @@
             <div class="col-sm-4">
                 <div class="info-group">
                     <label>Notas enviadas hoy</label>
-                    <h4>{{ $company->assignedNews()->where('created_at', Carbon\Carbon::today())->get()->count() }}</h4>
+                    <h4>{{ $company->assignedNews()->whereDate('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</h4>
                 </div>
             </div>
             <div class="col-sm-4">
