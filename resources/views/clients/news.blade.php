@@ -4,7 +4,9 @@
 <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
     @include('components.clientHeading')
     <!-- Page Content -->
-
+    <div class="uk-container">
+        <canvas id="canvas-graph" style="width:40vw"></canvas>
+    </div>
     <div id="list-news" class="filter-this">
         <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
             <div class="uk-flex uk-flex-middle uk-position-relative">
@@ -72,4 +74,6 @@
 
 @section('scripts')
     {{-- <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('lib/chart/Chart.min.js') }}"></script>
+    <script type="module" src="{{ asset('js/home/charts.js') }}"></script>
 @endsection
