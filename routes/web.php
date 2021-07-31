@@ -58,6 +58,10 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|man
     Route::get('otras-notas', 'ClientController@previousNews')->name('client.others.news');
     Route::get('reporte', 'ClientController@report')->name('client.report');
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
+
+    Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
+    Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');
+
 });
 
 

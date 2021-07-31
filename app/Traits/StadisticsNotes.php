@@ -9,14 +9,32 @@ use Illuminate\Support\Facades\DB;
 
 trait StadisticsNotes
 {
-    public function getNoteCountPerWeek($date = 'now') {
+    public function getNoteCountPerWeek($date = 'now', $company = null) {
         $dt = new Carbon($date);
         $startWeek = $dt->startOfWeek()->format('Y-m-d');
         $endWeek = $dt->endOfWeek()->format('Y-m-d');
         $query = News::query();
-        $query->select(DB::raw('DATE(created_at) AS day, COUNT(id) AS total'));
-        $query->whereRaw("DATE(created_at) between ? and ?", [$startWeek, $endWeek]);
-        $query->groupBy(DB::raw('DATE(created_at)'));
+        $query->select(DB::raw('DATE(news.created_at) AS day, COUNT(news.id) AS total'));
+        if($company) {
+            $query->join('assigned_news', 'news.id', '=', 'assigned_news.news_id');
+            $query->where('assigned_news.company_id', $company);
+        }
+        $query->whereRaw("DATE(news.created_at) between ? and ?", [$startWeek, $endWeek]);
+        $query->groupBy(DB::raw('DATE(news.created_at)'));
+
+        return $query->get();
+    }
+
+    public function getNotesCountPerYear($company = null){
+        $year = Carbon::now()->format('Y');
+        $query = News::query();
+        $query->select(DB::raw('MONTH(news.created_at) AS month, COUNT(news.id) AS total'));
+        if($company) {
+            $query->join('assigned_news', 'news.id', '=', 'assigned_news.news_id');
+            $query->where('assigned_news.company_id', $company);
+        }
+        $query->whereYear("news.created_at", $year);
+        $query->groupBy(DB::raw('MONTH(news.created_at)'));
 
         return $query->get();
     }

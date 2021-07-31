@@ -5,5 +5,4 @@ const divGraph = document.getElementById('canvas-graph');
 
 const graphs = new Graph({ el: divGraph, types: [
     new ChartLine({ datos: {} }),
-    new ChartLine({ datos: {} }),
 ]});

@@ -31,16 +31,20 @@ use App\Means;
 use App\News;
 use App\Sector;
 use App\Theme;
+use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
+
+    use StadisticsNotes;
+
     protected $mediaController;
 
     protected $newsController;
@@ -256,5 +260,18 @@ class ClientController extends Controller
     public function createReport( Request $request ) {
         $date = Carbon::today()->timestamp;
         return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
+    }
+
+    public function notesPerDay(Request $request, $company) {
+        
+        $data = $this->getNoteCountPerWeek('now', $company);
+
+        return response()->json($data);
+    }
+
+    public function notesPerYear(Request $request, $company) {
+        $data = $this->getNotesCountPerYear($company);
+
+        return response()->json($data);
     }
 }
