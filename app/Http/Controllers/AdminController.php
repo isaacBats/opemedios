@@ -44,16 +44,18 @@ class AdminController extends Controller
         $count['sources'] = Source::count();
         $count['sectors'] = Sector::count();
         $day = \Carbon\Carbon::now()->format('Y-m-d');
+        $day = '2020-10-13';
 
         $query = News::query();
-        $query->select(DB::raw('users.name, count(news.id) AS count'), 'news.created_at')
+        $query->select(DB::raw('users.name, count(news.id) AS count'))
             ->join('users', 'user_id', '=', 'users.id')
             ->whereRaw("DATE(news.created_at) = ? ", $day)
-            ->groupBy(DB::raw('users.name, news.created_at'))
+            ->groupBy(DB::raw('users.name'))
+            // ->groupBy(DB::raw('users.name, news.created_at'))
             ->orderBy('count', 'desc');
         $monitores = $query->get();
 
-        return view('admin.home', compact('count', 'monitores'));
+        return view('admin.home', compact('count', 'monitores', 'day'));
     }
 
     public function search (Request $request) {

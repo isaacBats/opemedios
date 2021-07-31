@@ -163,7 +163,7 @@
                 <div class="col-md-12">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Notas por monitor</h4>
+                            <h4 class="panel-title">Notas por monitor (día actual)</h4>
                         </div>
                         <div class="panel-body">
                             <table class="table table-bordered table-primary table-striped nomargin">
@@ -181,7 +181,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $monitor->name }}</td>
                                             <td>{{ $monitor->count }}</td>
-                                            <td>{{ $monitor->created_at->format('d-m-Y') }}</td>
+                                            <td>{{ $day }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
