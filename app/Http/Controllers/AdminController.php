@@ -46,10 +46,10 @@ class AdminController extends Controller
         $day = \Carbon\Carbon::now()->format('Y-m-d');
 
         $query = News::query();
-        $query->select(DB::raw('users.name, count(news.id) AS count'))
+        $query->select(DB::raw('users.name, count(news.id) AS count'), 'news.created_at')
             ->join('users', 'user_id', '=', 'users.id')
             ->whereRaw("DATE(news.created_at) = ? ", $day)
-            ->groupBy(DB::raw('users.name'))
+            ->groupBy(DB::raw('users.name, news.created_at'))
             ->orderBy('count', 'desc');
         $monitores = $query->get();
 

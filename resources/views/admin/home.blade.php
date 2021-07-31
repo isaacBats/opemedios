@@ -172,18 +172,16 @@
                                         <th>#</th>
                                         <th>Monitor</th>
                                         <th>Notas</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($monitores as $monitor)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>
-                                                {{ $monitor->name }}
-                                            </td>
-                                            <td>
-                                                {{ $monitor->count }}
-                                            </td>
+                                            <td>{{ $monitor->name }}</td>
+                                            <td>{{ $monitor->count }}</td>
+                                            <td>{{ $monitor->createt_at->format('d-m-Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
