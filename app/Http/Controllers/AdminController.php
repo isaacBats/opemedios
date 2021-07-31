@@ -44,7 +44,6 @@ class AdminController extends Controller
         $count['sources'] = Source::count();
         $count['sectors'] = Sector::count();
         $day = \Carbon\Carbon::now()->format('Y-m-d');
-        $day = '2020-10-13';
 
         $query = News::query();
         $query->select(DB::raw('users.name, count(news.id) AS count'))
