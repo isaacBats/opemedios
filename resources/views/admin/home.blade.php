@@ -159,6 +159,39 @@
                     </div>
                 </div>
             </div><!-- row -->
+            <div class="row panel-site-traffic">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Notas por monitor</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-primary table-striped nomargin">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Monitor</th>
+                                        <th>Notas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($monitores as $monitor)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                {{ $monitor->name }}
+                                            </td>
+                                            <td>
+                                                {{ $monitor->count }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
