@@ -181,7 +181,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $monitor->name }}</td>
                                             <td>{{ $monitor->count }}</td>
-                                            <td>{{ $monitor->createt_at->format('d-m-Y') }}</td>
+                                            <td>{{ $monitor->created_at->format('d-m-Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
