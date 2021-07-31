@@ -4,7 +4,20 @@
 <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
     @include('components.clientHeading')
     <!-- Page Content -->
-
+    {{-- <div class="uk-container"> --}}
+        <div class="uk-text-center uk-margin-bottom" uk-grid>
+            <div class="uk-width-1-2">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <canvas id="canvas-graph"></canvas>
+                </div>
+            </div>
+            <div class="uk-width-1-2">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <canvas id="canvas-graph2"></canvas>
+                </div>
+            </div>
+        </div>
+    {{-- </div> --}}
     <div id="list-news" class="filter-this">
         <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
             <div class="uk-flex uk-flex-middle uk-position-relative">
@@ -71,5 +84,89 @@
 @endsection
 
 @section('scripts')
-    {{-- <script type="text/javascript" src="{{ asset('js/home/client.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('lib/chart/Chart.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            const graph1 = $('#canvas-graph');
+            const graph2 = $('#canvas-graph2');
+            {{-- '/api/v2/cliente/notas-por-dia?company={{ $company->id }}' --}}
+            $.get("{{route('api.client.notesday', ['company' => $company->id])}}", function (notes){
+                let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+                const data = [0,0,0,0,0,0,0];
+                
+                notes.forEach(note => {
+                    let numDay = new Date(note.day).getDay();
+                    data[numDay] = note.total;
+                });
+                
+                chartBar(graph1, data, days, 'Notas por día');
+            });
+            {{-- '/api/v2/cliente/notas-por-anio?company={{ $company->id }}' --}}
+            $.get("{{route('api.client.notesyear', ['company' => $company->id])}}", function (notes){
+                let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                const data = [0,0,0,0,0,0,0,0,0,0,0,0];
+                
+                notes.forEach(note => {
+                    data[note.month -1] = note.total;
+                });
+                
+                chartLine(graph2, data, months, 'Notas por año');
+            });
+        });
+
+        function chartBar(ctx, data, items, title) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: items,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function chartLine(ctx, data, items, title) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: items,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                }
+            });
+        }
+    </script>
 @endsection
