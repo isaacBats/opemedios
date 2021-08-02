@@ -22,6 +22,7 @@ use App\Company;
 use App\News;
 use App\Sector;
 use App\Source;
+use App\Traits\StadisticsNotes;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
+    use StadisticsNotes;
     /**
      * Show the application dashboard.
      *
@@ -44,17 +46,15 @@ class AdminController extends Controller
         $count['sources'] = Source::count();
         $count['sectors'] = Sector::count();
         $day = \Carbon\Carbon::now()->format('Y-m-d');
-
-        $query = News::query();
-        $query->select(DB::raw('users.name, count(news.id) AS count'))
-            ->join('users', 'user_id', '=', 'users.id')
-            ->whereRaw("DATE(news.created_at) = ? ", $day)
-            ->groupBy(DB::raw('users.name'))
-            // ->groupBy(DB::raw('users.name, news.created_at'))
-            ->orderBy('count', 'desc');
-        $monitores = $query->get();
+        
+        $monitores = $this->getNewsForMonitor($day);
 
         return view('admin.home', compact('count', 'monitores', 'day'));
+    }
+
+    public function notesPerDay() {
+
+        return response()->json($this->getNoteCountPerWeek());
     }
 
     public function search (Request $request) {

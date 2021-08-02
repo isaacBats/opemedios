@@ -203,4 +203,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/cliente/obtener-temas', 'ThemeController@sendSelectHTMLWithThemesByCompany')->name('api.getthemeshtml');
     Route::post('api/v2/cliente/obtener-cuentas', 'CompanyController@getAccountsAjax')->name('api.company.getaccounts');
     Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
+
+    Route::get('api/v2/admin/notas-por-dia', 'AdminController@notesPerDay')->name('api.admin.notesday');
 });

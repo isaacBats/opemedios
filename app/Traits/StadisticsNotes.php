@@ -52,4 +52,15 @@ trait StadisticsNotes
 
         return $query->get();
     }
+
+    public function getNewsForMonitor($day = 'now') {
+        $query = News::query();
+        $query->select(DB::raw('users.name, count(news.id) AS count'))
+            ->join('users', 'user_id', '=', 'users.id')
+            ->whereRaw("DATE(news.created_at) = ? ", $day)
+            ->groupBy(DB::raw('users.name'))
+            ->orderBy('count', 'desc');
+
+        return $query->get(); 
+    }
 }

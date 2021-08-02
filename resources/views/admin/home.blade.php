@@ -191,9 +191,103 @@
                 </div>
             </div>
         </div>
+        <div class="panel col-md-3 col-lg-4">
+            <div class="col-lg-12">
+                <canvas id="graph1"></canvas>
+            </div>
+            <div class="col-lg-12">
+                <canvas id="graph2"></canvas>
+            </div>
+        </div>
     </div>
 @endsection
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('lib/chart/Chart.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            const graph1 = $('#graph1');
+            const graph2 = $('#graph2');
+            $.get("{{route('api.admin.notesday')}}", function (notes){
+                let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+                const data = [0,0,0,0,0,0,0];
+                
+                notes.forEach(note => {
+                    let numDay = new Date(note.day).getDay();
+                    data[numDay] = note.total;
+                });
+                
+                chartBar(graph1, data, days, 'Notas por día');
+            });
+            {{-- $.get("{{route('api.client.notesyear', ['company' => 21])}}", function (notes){ --}}
+                // let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                // const data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+                
+                // notes.forEach(note => {
+                //     data[note.month -1] = note.total;
+                // });
+                
+                // chartLine(graph2, data2, months, 'Notas por año');
+            // });
+        });
+
+        function chartBar(ctx, data, items, title) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: items,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function chartLine(ctx, data, items, title) {
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: items,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                }
+            });
+        }
+    </script>
+@endsection
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/chart/Chart.min.css') }}">
     <style>
         .panel-site-traffic .panel-body .fa {
             font-size: 48px;
