@@ -205,4 +205,5 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
 
     Route::get('api/v2/admin/notas-por-dia', 'AdminController@notesPerDay')->name('api.admin.notesday');
+    Route::get('api/v2/admin/notas-por-medio', 'AdminController@notesPerMean')->name('api.admin.notesmeans');
 });

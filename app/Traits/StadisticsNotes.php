@@ -3,9 +3,11 @@
 namespace App\Traits;
 
 use App\AssignedNews;
+use App\Means;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 trait StadisticsNotes
 {
@@ -62,5 +64,29 @@ trait StadisticsNotes
             ->orderBy('count', 'desc');
 
         return $query->get(); 
+    }
+
+    public function getNotesForMeanAndWeek($day = 'now') {
+        $dt = new Carbon($day);
+        $startWeek = $dt->startOfWeek()->format('Y-m-d');
+        $endWeek = $dt->endOfWeek()->format('Y-m-d');
+        
+        $notes = News::whereBetween('created_at', [$startWeek, $endWeek])->get()->map(function($note){
+                if($note->user){
+                    if($note->user->isMonitor()){
+                        return ['mean_short_name' => $note->user->getMonitorType()->short_name, 'note_id' => $note->id];
+                    } else {
+                        return ['mean_short_name' => 'admin', 'note_id' => $note->id];
+                    }
+                }
+        })->filter(function($item){
+            return !is_null($item);
+        })->countBy(function ($item){
+            return $item['mean_short_name'];
+        });
+        
+        
+        return $notes;
+
     }
 }

@@ -218,21 +218,15 @@
                 
                 chartBar(graph1, data, days, 'Notas por día');
             });
-            {{-- $.get("{{route('api.client.notesyear', ['company' => 21])}}", function (notes){ --}}
-                // let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-                // const data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+            $.get("{{route('api.admin.notesmeans')}}", function (notes){ 
                 
-                // notes.forEach(note => {
-                //     data[note.month -1] = note.total;
-                // });
-                
-                // chartLine(graph2, data2, months, 'Notas por año');
-            // });
+                chartBar(graph2, notes.data, notes.labels, 'Notas por Medio', 'horizontalBar');
+            });
         });
 
-        function chartBar(ctx, data, items, title) {
+        function chartBar(ctx, data, items, title, type = 'bar') {
             var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: type,
                 data: {
                     labels: items,
                     datasets: [{

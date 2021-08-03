@@ -81,4 +81,10 @@ class AdminController extends Controller
         return redirect()->action('ClientController@index', ['company' => $slug]);
     }
 
+    public function notesPerMean() {
+        $notas = $this->getNotesForMeanAndWeek(); 
+
+        return response()->json(['labels' => array_keys($notas->toArray()), 'data' => array_values($notas->toArray())]);
+    }
+
 }
