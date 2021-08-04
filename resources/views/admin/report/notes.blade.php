@@ -9,7 +9,7 @@
                         <div class="col-md-2 form-group">
                             <label for="" class="text-muted">Fecha inicio</label>
                             <div class="input-group">
-                                <input type="text" name="start" id="input-report-date-start" class="form-control input-date-format">
+                                <input type="text" name="start" id="input-report-date-start" class="form-control input-date-format" value="{{ old('start') }}">
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>
@@ -18,7 +18,7 @@
                         <div class="col-md-2 form-group">
                             <label for="" class="text-muted">Fecha fin</label>
                             <div class="input-group">
-                                <input type="text" name="end" id="input-report-date-end" class="form-control input-date-format">
+                                <input type="text" name="end" id="input-report-date-end" class="form-control input-date-format" value="{{ old('end') }}">
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </span>
