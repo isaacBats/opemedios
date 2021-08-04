@@ -156,7 +156,7 @@
             <h5 class="sidebar-title">Reportes</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">
               <li><a href="{{ route('admin.report.byclient') }}"><i class="fa fa-bar-chart"></i> <span>Noticias por Cliente</span></a></li>
-              <li><a href="javascript:void(0);"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
+              <li><a href="{{ route('admin.report.bynotes') }}"><i class="fa fa-area-chart"></i> <span>Notas por día</span></a></li>
             </ul>
             <h5 class="sidebar-title">CMS</h5>
             <ul class="nav nav-pills nav-stacked nav-quirk">

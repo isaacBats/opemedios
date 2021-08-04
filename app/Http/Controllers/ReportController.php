@@ -22,14 +22,19 @@ use App\AssignedNews;
 use App\Company;
 use App\Exports\ReportsExport;
 use App\News;
+use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    use StadisticsNotes;
+
     public function byClient(Request $request) {
         
         $companies = Company::all();
+        $breadcrumb = array();
+        array_push($breadcrumb, ['label' => 'Reporte por Cliente']);
 
         if($request->ajax()) {
             $paginate = 50;
@@ -68,7 +73,17 @@ class ReportController extends Controller
             ];
         }
 
-        return view('admin.report.byclient', compact('companies'));
+        return view('admin.report.byclient', compact('companies', 'breadcrumb'));
+    }
+
+    public function byNotes(Request $request) {
+        $breadcrumb = array();
+        $start = $request->input('start') ? $request->input('start') : null;
+        $end = $request->input('end') ? $request->input('end') : null;
+        array_push($breadcrumb, ['label' => 'Reporte por Notas']);
+        $notes = $this->getNewsForMonitor('now', $start, $end);
+
+        return view('admin.report.notes', compact('breadcrumb', 'notes'));
     }
 
     public function export(Request $request) {

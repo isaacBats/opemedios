@@ -120,6 +120,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
+        Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
         
     });
 

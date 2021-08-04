@@ -55,12 +55,21 @@ trait StadisticsNotes
         return $query->get();
     }
 
-    public function getNewsForMonitor($day = 'now') {
+    public function getNewsForMonitor($day = 'now', $start = null, $end = null) {
+        $day = ($day == 'now' || $day == null) ? \Carbon\Carbon::now()->format('Y-m-d') : $day;
+
         $query = News::query();
+
         $query->select(DB::raw('users.name, count(news.id) AS count'))
-            ->join('users', 'user_id', '=', 'users.id')
-            ->whereRaw("DATE(news.created_at) = ? ", $day)
-            ->groupBy(DB::raw('users.name'))
+            ->join('users', 'user_id', '=', 'users.id');
+            if($start && is_null($end)){
+                $query->whereRaw("DATE(news.created_at) = ? ", $start);
+            } elseif ($start && $end) {
+                $query->whereRaw("DATE(news.created_at) between ? and ?", [$start, $end]);
+            } else {
+                $query->whereRaw("DATE(news.created_at) = ? ", $day);
+            }
+            $query->groupBy(DB::raw('users.name'))
             ->orderBy('count', 'desc');
 
         return $query->get(); 
