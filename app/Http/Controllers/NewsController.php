@@ -157,7 +157,8 @@ class NewsController extends Controller
     public function index(Request $request) {
 
         $paginate = 25;
-        $monitores = $this->getNewsForMonitor();
+        $day = \Carbon\Carbon::now()->format('Y-m-d');
+        $monitores = $this->getNewsForMonitor($day);
 
         if($request->has('new_mean')) {
             $meanId = $request->get('new_mean');
@@ -171,7 +172,7 @@ class NewsController extends Controller
                 ->appends('query', request('query'));
         }
 
-        return view('admin.news.index', compact('news', 'monitores'));
+        return view('admin.news.index', compact('news', 'monitores', 'day'));
     }
 
     public function showForm() {
