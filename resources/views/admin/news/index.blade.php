@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-2">
+        <div class="col-sm-12 col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ __('Filtro por fuente') }}</h3>
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-2">
+        <div class="col-sm-12 col-md-3">
             <div class="panel">
                 <div class="panel-heading">
                     <h4 class="panel-title">{{ __('Filtrar Noticias') }}</h4>
