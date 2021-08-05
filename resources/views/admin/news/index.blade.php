@@ -90,5 +90,34 @@
                 </div>
             </div><!-- panel -->
         </div>
+        <div class="col-sm-12 col-md-3">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Notas por Monitor</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-primary table-striped nomargin">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Monitor</th>
+                                <th>Notas</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($monitores as $monitor)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $monitor->name }}</td>
+                                    <td>{{ $monitor->count }}</td>
+                                    <td>{{ $day }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

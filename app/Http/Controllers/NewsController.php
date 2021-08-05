@@ -35,6 +35,7 @@ use App\NewsletterSend;
 use App\NewsletterThemeNews;
 use App\Sector;
 use App\Theme;
+use App\Traits\StadisticsNotes;
 use App\TypePage;
 use App\User;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -50,6 +51,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class NewsController extends Controller
 {
+    use StadisticsNotes;
+
     protected $mediaController;
 
     protected $fileController;
@@ -154,6 +157,7 @@ class NewsController extends Controller
     public function index(Request $request) {
 
         $paginate = 25;
+        $monitores = $this->getNewsForMonitor();
 
         if($request->has('new_mean')) {
             $meanId = $request->get('new_mean');
@@ -167,7 +171,7 @@ class NewsController extends Controller
                 ->appends('query', request('query'));
         }
 
-        return view('admin.news.index', compact('news'));
+        return view('admin.news.index', compact('news', 'monitores'));
     }
 
     public function showForm() {
