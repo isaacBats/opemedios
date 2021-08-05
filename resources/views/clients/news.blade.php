@@ -22,7 +22,7 @@
         <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
             <div class="uk-flex uk-flex-middle uk-position-relative">
                 <label class="uk-text-uppercase label-tema">Tema:</label>
-                <select class="uk-select opciones-temas uk-width-large">
+                <select class="uk-select opciones-temas uk-width-large" id="client-theme-select2" style="width: 100%;">
                     <option value="" data-show-titles="true">Todos los temas</option>
                     @foreach($company->themes as $theme)
                     <option value=".theme{{ $theme->id }}" data-show-titles="false">{{ $theme->name }}</option>
@@ -82,14 +82,22 @@
     <!-- /.container -->
 </div>
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/jquery-ui/jquery-ui.css') }}">
+@endsection
 
 @section('scripts')
+    <script src="{{ asset('lib/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/chart/Chart.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function (){
+            $('#client-theme-select2').select2();
             const graph1 = $('#canvas-graph');
             const graph2 = $('#canvas-graph2');
-            {{-- '/api/v2/cliente/notas-por-dia?company={{ $company->id }}' --}}
+            
             $.get("{{route('api.client.notesday', ['company' => $company->id])}}", function (notes){
                 let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
                 const data = [0,0,0,0,0,0,0];
@@ -101,7 +109,7 @@
                 
                 chartBar(graph1, data, days, 'Notas por día');
             });
-            {{-- '/api/v2/cliente/notas-por-anio?company={{ $company->id }}' --}}
+            
             $.get("{{route('api.client.notesyear', ['company' => $company->id])}}", function (notes){
                 let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
                 const data = [0,0,0,0,0,0,0,0,0,0,0,0];
