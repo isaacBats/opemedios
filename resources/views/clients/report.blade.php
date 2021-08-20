@@ -99,11 +99,11 @@
                                     <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ $note->title }}</td>
                                     </a>
-                                <td> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name }}</td>
-                                <td>{{ $note->sector->name }}</td>
-                                <td>{{ $note->genre->description }}</td>
-                                <td>{{ $note->source->name }}</td>
-                                <td>{{ $note->mean->name }}</td>
+                                <td> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E' }}</td>
+                                <td>{{ $note->sector->name ?? 'N/E' }}</td>
+                                <td>{{ $note->genre->description ?? 'N/E' }}</td>
+                                <td>{{ $note->source->name ?? 'N/E' }}</td>
+                                <td>{{ $note->mean->name ?? 'N/E' }}</td>
                                 <td>{{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</td>
                                 <td>{{  number_coin($note->cost) }}</td>
                                 <td>{{ $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa') }}</td>
