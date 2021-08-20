@@ -94,7 +94,6 @@ trait StadisticsNotes
             return $item['mean_short_name'];
         });
         
-        LOG::info($notes->toArray());
         return $notes;
 
     }
