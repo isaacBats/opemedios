@@ -18,6 +18,7 @@
         
 namespace App\Http\Controllers;
 
+use App\AssignedNews;
 use App\Company;
 use App\Turn;
 use App\User;
@@ -247,5 +248,14 @@ class CompanyController extends Controller
         $company->delete();
 
         return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas,newsletters y noticias relacionadas");
+    }
+
+    public function updateAssignedNote(Request $request, $id) {
+
+        $assigned = AssignedNews::findOrFail($id);
+        $assigned->theme_id = $request->input('theme_id');
+        $assigned->save();
+
+        return back()->with('status', 'Se ha actualizado la nota');
     }
 }

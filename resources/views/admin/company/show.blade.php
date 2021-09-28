@@ -172,6 +172,7 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th>Titulo</th>
+                                    <th>Tema</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -186,7 +187,21 @@
                                             </a>
                                         </td>
                                         <td>
+                                            <form id="{{ "form-company-theme-{$assigned->id}" }}" action="{{ route('admin.assignednews.replacetheme', ['id' => $assigned->id]) }}" class="form-company-theme" method="POST">
+                                                @csrf
+                                                <select class="select-company-theme" style="width: 100%;" name="theme_id">
+                                                    @foreach($company->themes as $theme)
+                                                        <option value="{{ $theme->id }}" {{ $theme->id == $assigned->theme_id ? 'selected' : '' }}>{{ $theme->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
                                             <a href="{{ route('admin.assignednews.remove', ['id' => $assigned->id]) }}" class="btn-remove-assigned-news" data-title="{{ $assigned->news->title }}" data-company="{{ $company->name }}">Remover</a>
+                                            <a style="display: none;"  href="javascript:void(0);" class="btn-form-assigned-news"
+                                                onclick="event.preventDefault();
+                                                    document.getElementById('{{ "form-company-theme-{$assigned->id}" }}').submit();"
+                                            >Guardar</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -215,6 +230,10 @@
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            
+            //select2 for news assigned
+            $('.select-company-theme').select2();
+
             // relate company
             $('#btn-relation').on('click', function() {
                 var modal = $('#modal-default')
@@ -433,6 +452,14 @@
                     .val('Remover')
 
                 modal.modal('show')
+            })
+
+            // update theme
+            $('#table-assigned-news').on('change', 'select.select-company-theme', function() {
+
+                var btnSave = $(this).parent().parent().parent().find('a.btn-form-assigned-news');
+                btnSave.show('slow');
+                
             })
 
             // make sub company
