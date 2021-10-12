@@ -92,9 +92,9 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
             $note->section->name ?? 'N/E',
             $note->mean->name ?? 'N/E',
             $note->news_date->format('Y-m-d'),
-            number_coin($note->cost),
+            $note->cost,
             $trend,
-            number_decimal($note->scope),
+            $note->scope,
             $link
         ];
     }
@@ -141,6 +141,10 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                 $event->sheet->getColumnDimension('D')
                     ->setWidth(120)
                     ->setAutoSize(false);
+                $event->sheet->getStyle('L')->getNumberFormat()
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $event->sheet->getStyle('N')->getNumberFormat()
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A1:O1');
 
                 // hiperlink 
