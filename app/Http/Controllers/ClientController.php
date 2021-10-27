@@ -60,42 +60,11 @@ class ClientController extends Controller
         return view('clients.news', compact('company'));
     }
 
-    public function previousNews(Request $request, $slug_company) {
-        $company = Company::where('slug', $slug_company)->first();
-        $newsAssigned = DB::connection('opemediosold')->table('view_noticia_asignada')
-            ->where('id_empresa', $company->old_company_id)
-            ->paginate(15);
-        return view('clients.oldnews', compact('company', 'newsAssigned'));
-    }
-
     public function showNew(Request $request, $slug_company, $newId) {
         $company = Company::where('slug', $slug_company)->first();
-        if($request->get('type') == 'old') {
-            $new = $this->newsController->getNewById($newId);
-
-            $adjuntosHTML = DB::connection('opemediosold')->table('adjunto')
-                    ->where('id_noticia', $new->id_noticia)
-                    ->get()->map(function ($adj) use ($new) { 
-                        
-                        $medio = strtolower($new->medio);
-                        if($medio == 'peri&oacute;dico' || $medio == 'periódico') {
-                            $medio = 'periodico';
-                        } elseif ($medio == 'televisi&oacute;n' || $medio == 'Televisión') {
-                            $medio = 'television';
-                        }
-                        
-                        $path = "http://sistema.opemedios.com.mx/data/noticias/{$medio}/{$adj->nombre_archivo}"; 
-                        
-                        return $adj->principal ? $this->mediaController->getHTMLForMedia($adj, $path)
-                                                :"<a href='{$path}' download='{$adj->nombre}' target='_blank'>Descargar Archivo Secundario</a>"; 
-                    });
-
-            $metadata = $this->newsController->getMetaNew($new);
-            return view('clients.showoldnew', compact('new', 'metadata', 'adjuntosHTML', 'company'));
-        } else {
-            $note = News::findOrFail($newId);
-            return view('clients.shownew', compact('note', 'company'));
-        }
+        
+        $note = News::findOrFail($newId);
+        return view('clients.shownew', compact('note', 'company'));
 
     }
 
@@ -159,18 +128,6 @@ class ClientController extends Controller
         return view('clients.themes', compact('news', 'company', 'defaultThemeId'));
     }
 
-    protected function getNewsByTheme ($themeId, $idCompany) {
-        return DB::connection('opemediosold')->table('asigna')
-            ->select('noticia.encabezado', 'fuente.nombre', 'fuente.logo', 'noticia.fecha', 'noticia.autor', 'fuente.empresa', 'noticia.sintesis', 'noticia.id_noticia')
-            ->join('noticia', 'asigna.id_noticia', '=', 'noticia.id_noticia')
-            ->join('fuente', 'noticia.id_fuente', '=', 'fuente.id_fuente')
-            ->where('id_empresa', $idCompany)
-            ->where('id_tema', $themeId)
-            ->orderBy('noticia.fecha', 'desc')
-            ->paginate(15);
-            // ->get();
-    }
-
     public function newsByTheme(Request $request, $slug_company) {
         $data = $request->all();
         $company = Company::where('slug', $slug_company)->first();
@@ -191,35 +148,17 @@ class ClientController extends Controller
     public function search(Request $request, $slug_company) {
         $query = $request->query();
         $company = Company::where('slug', $slug_company)->first();
-        
-        if($request['last'] == 'otras-notas'){
-
-            if(is_null($company->old_company_id)){
-                // regresar un mensaje de que la compañia no esta relacionada con una empresa vieja
-            }
-
-            $newsAssigned = DB::connection('opemediosold')->table('view_noticia_asignada')
-                ->where([
-                    ['id_empresa', '=', $company->old_company_id],
-                    ['title', 'like', "%{$query['query']}%"]])
-                ->orWhere('sintesis', 'like', "%{$query['query']}%")
-                ->orderBy('fecha', 'desc')
-                ->paginate(15);
-
-            return view('components.listOldNews', compact('newsAssigned', 'company'))->render();
-        } else {
             
-            $idsNewsAssigned = $company->assignedNews->map(function($assigned) {
-                return $assigned->news_id;
-            });
+        $idsNewsAssigned = $company->assignedNews->map(function($assigned) {
+            return $assigned->news_id;
+        });
 
-            $news = News::whereIn('id', $idsNewsAssigned)
-                    ->where('title', 'like', "%{$query['query']}%")
-                    ->orWhere('synthesis', 'like', "%{$query['query']}%")
-                    ->get();
+        $news = News::whereIn('id', $idsNewsAssigned)
+                ->where('title', 'like', "%{$query['query']}%")
+                ->orWhere('synthesis', 'like', "%{$query['query']}%")
+                ->get();
 
-            return view('components.listSearch', compact('news', 'company'))->render();
-        }
+        return view('components.listSearch', compact('news', 'company'))->render();
     }
 
     public function report (Request $request) {

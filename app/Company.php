@@ -106,17 +106,6 @@ class Company extends Model
         return $this->hasMany(Theme::class);
     }
 
-    public function oldCompany() {
-
-        if(!empty($this->old_company_id)) {
-
-            return DB::connection('opemediosold')->table('empresa')
-                ->where('id_empresa', $this->old_company_id)->first();
-        }
-
-        return false;
-    }
-
     public function assignedNews() {
         return $this->hasMany(AssignedNews::class);
     }

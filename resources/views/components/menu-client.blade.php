@@ -105,7 +105,6 @@
             @hasanyrole('client|manager|admin')
             <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
             <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
-            <li class="{{ $route == 'client.others.news' ? ' uk-active' : '' }}"><a href="{{ route('client.others.news', ['company' => $slug]) }}">Otras notas</a></li>
             <li class="uk-nav-header uk-text-light">Archivo</li>
             <li class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
             <li class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
@@ -132,7 +131,6 @@
             </li>
             @endhasanyrole
         </ul>
-
     </div>
 </div>
 @endif
