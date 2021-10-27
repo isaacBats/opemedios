@@ -68,19 +68,6 @@
                     {{ $company->turn->name }}
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="info-group">
-                    @if($company->old_company_id)
-                        @if($oldCompany = $company->oldCompany())
-                            <p class="text-center">Empresa relacionada: <strong>{{ $oldCompany->nombre }}</strong></p>
-                        @endif
-                    @else
-                        <p class="text-center">
-                            <button class="btn btn-primary" type="button" data-company="{{ $company->id }}" id="btn-relation">Relacionar con cliente anterior</button>
-                        </p>
-                    @endif
-                </div>
-            </div>
             @hasanyrole('manager|admin')
              @if(auth()->user()->companies->firstWhere('id', $company->id))
             <div class="col-sm-4">
