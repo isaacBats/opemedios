@@ -40,7 +40,6 @@ Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
 
-Route::get('api/v2/clientes/antiguas', 'CompanyController@getOldCompanies');
 Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')->name('api.getsourceshtml');
 Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
 
@@ -55,7 +54,6 @@ Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|man
     Route::get('mis-temas', 'ClientController@themes')->name('themes');
     Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
     Route::get('search', 'ClientController@search')->name('search');
-    Route::get('otras-notas', 'ClientController@previousNews')->name('client.others.news');
     Route::get('reporte', 'ClientController@report')->name('client.report');
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
 

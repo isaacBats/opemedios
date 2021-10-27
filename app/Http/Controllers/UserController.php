@@ -219,17 +219,6 @@ class UserController extends Controller
             $user->metas()->save($meta_company);
 
             $company = Company::find($inputs['company_id']);
-
-            $oldCompany = DB::connection('opemediosold')->table('empresa')
-                ->where('nombre', 'like', "%{$company->name}%")
-                ->first();
-            
-            if($oldCompany) {
-                $meta_old_company = new UserMeta();
-                $meta_old_company->meta_key = 'old_company_id';
-                $meta_old_company->meta_value = $oldCompany->id_empresa;
-                $user->metas()->save($meta_old_company);
-            }
         }
 
         if($role->name == 'monitor') {

@@ -124,11 +124,6 @@ class CompanyController extends Controller
 
     }
 
-    public function getOldCompanies () {
-
-        return DB::connection('opemediosold')->table('empresa')->select('id_empresa as id', 'nombre')->orderBy('nombre')->get();
-    }
-
     public function relations (Request $request) {
         $inputCompany = $request->input('company');
         $company = Company::find($inputCompany);
