@@ -19,6 +19,7 @@
 namespace App;
 
 use App\AssignedNews;
+use App\News;
 use App\Newsletter;
 use App\Theme;
 use App\Turn;
@@ -124,5 +125,11 @@ class Company extends Model
 
     public function executives() {
         return $this->belongsToMany(User::class, 'client_executive');
+    }
+
+    public function assignedNewsCount() {
+        $notesIds = AssignedNews::where('company_id', $this->id)->pluck('news_id');
+
+        return News::whereIn('id', $notesIds)->count();
     }
 }

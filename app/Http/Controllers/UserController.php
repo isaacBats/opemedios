@@ -125,7 +125,7 @@ class UserController extends Controller
         } elseif($profile->isClient()) {
             if($profile->metas()->where('meta_key', 'company_id')->first()){
                 $countNews = [
-                    ['label' => 'Total de noticias', 'value' => AssignedNews::where('company_id', $profile->company()->id)->count()],
+                    ['label' => 'Total de noticias', 'value' => $profile->company()->assignedNewsCount()],
                     ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
                 ];
                 $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($paginate);
