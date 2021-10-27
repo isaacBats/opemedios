@@ -234,46 +234,6 @@
             //select2 for news assigned
             $('.select-company-theme').select2();
 
-            // relate company
-            $('#btn-relation').on('click', function() {
-                var modal = $('#modal-default')
-                var form = $('#modal-default-form')
-                var modalBody = modal.find('.modal-body')
-                var companyID = $(this).data('company')
-
-                form.attr('method', 'POST')
-                form.attr('action', '/panel/empresa/relacionar')
-
-                modal.find('.modal-title').html('Relacionar con una empresa del sistema pasado');
-                modal.find('#md-btn-submit').val('Relacionar')
-                $.get('/api/v2/clientes/antiguas', function (companies) {
-                    var select = $(`<select></select>`)
-                        .attr('id', 'old_company_id')
-                        .attr('name', 'old_company_id')
-                        .addClass('form-control')
-                    select.append($('<option></option>').attr('value', '').text('Selecciona un Cliente'))
-
-                    $.each(companies, function (key, obj) {
-                        select.append($('<option></option>').attr('value', obj.id).text(obj.nombre))
-                    })
-
-                    // select.select2()
-                    modalBody.html(select)
-
-                    var helpText = $('<p></p>').addClass('text-center mt-3').text('La compañia que elija, sera para actualizar las noticias de años anteriores.')
-                    var inputHiden = $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'company')
-                        .attr('value', companyID)
-
-                    modalBody.append(inputHiden)
-                    modalBody.append(helpText)
-                })
-
-
-                modal.modal('show')
-            })
-
             //create theme
             $('#btn-add-theme').on('click', function(){
                 var modal = $('#modal-default')
