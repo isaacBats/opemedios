@@ -220,7 +220,7 @@
                         </div>
                     </div>
                 @endif
-                @if($note->mean->short_name == 'per')
+                @if($note->mean->short_name == 'per' || $note->mean->short_name == 'rev')
                     <div class="row item-rev item-per item-note">
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group row">
@@ -319,7 +319,7 @@
                 </div>
                 <div class="form-group text-right">
                     <a class="btn btn-danger btn-lg" href="{{ route('admin.new.show', ['id' => $note->id]) }}" >{{ __('Cancelar') }}</a>
-                    <input type="submit" class="btn btn-primary btn-lg" value="{{ __('Crear') }}">
+                    <input type="submit" class="btn btn-primary btn-lg" value="{{ __('Guardar') }}">
                 </div>
             </form>
         </div>
