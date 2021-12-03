@@ -3,14 +3,6 @@
 @section('content')
 <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
     @include('components.clientHeading')
-    <div>
-        <form action="">
-            <div>
-                <label for="">Palabra</label>
-                <input type="text" name="palabra">
-            </div>
-        </form>
-    </div>
     <!-- Page Content -->
     {{-- <div class="uk-container"> --}}
         <div class="uk-text-center uk-margin-bottom" uk-grid>
