@@ -13,6 +13,9 @@
             <div id="search">
                 @include('components.search-bar')
             </div>
+            <divc class="uk-width-expand@m">
+                <button class="uk-align-right uk-button uk-button-primary">Busqueda avanzada</button>
+            </div>
         </div>
     </div>
 </div>

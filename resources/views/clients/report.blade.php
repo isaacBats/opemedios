@@ -112,6 +112,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $notes->links() !!}
             </div>
         </div>
         <div class="uk-padding uk-padding-remove-horizontal">
