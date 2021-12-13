@@ -177,8 +177,9 @@
                 divAccountsList.html('') 
 
                 $.post('{{ route('api.getthemeshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'company_id': companyId }, function (res) {
-                    var divSelectThemes = $('#div-select-theme')
-                    divSelectThemes.html(res)
+                    var divSelectThemes = $('#div-select-theme');
+                    divSelectThemes.html(res);
+                    divSelectThemes.find('#select-theme').css('width','100%').select2();
                 })
 
             })
