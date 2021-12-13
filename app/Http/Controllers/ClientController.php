@@ -190,7 +190,12 @@ class ClientController extends Controller
             })
             ->when(($request->input('fstart') != null && $request->input('fend') == null), function($q) use ($request){
                 return $q->whereDate('news_date', Carbon::create($request->input('fstart')));
-            })->simplePaginate($paginate);
+            })
+            ->when($request->input('word') != null, function($q) use ($request) {
+                return $q->where('title', 'like', "%{$request->input('word')}%")
+                    ->orWhere('synthesis', 'like', "%{$request->input('word')}%");
+            })
+            ->simplePaginate($paginate);
 
         return view('clients.report', compact('notes', 'company'));
 

@@ -59,9 +59,13 @@
                             </select>
                         </div>
                         <div class="uk-margin" id="div-select-report-sources"></div>
+                        <div class="uk-margin">
+                            <label for="input-word" class="uk-form-label">Buscar por</label>
+                            <input class="form-control uk-input" type="text" name="word" id="input-word" placeholder="Titulo o palabra..." value="{{ old('word') }}">
+                        </div>
                     </div>
                     <div class="uk-margin">
-                        <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar">
+                        <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar / Buscar">
                         <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
                     </div>
                 </form>
