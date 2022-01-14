@@ -11,7 +11,7 @@
             <table style="width: 580px;border-collapse: collapse;" align="center">
                 <tr>
                     <td style="margin:0;padding: 0;border: 0">
-                        <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="max-width: 100%;display: block;">
+                        <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name ?? 'N/E' }}" style="max-width: 100%;display: block;">
                     </td>
                 </tr>
             </table>
@@ -30,14 +30,14 @@
                     <tr>
                         <td style="padding: 30px 30px;background: white;border-bottom: solid 1px #f2f2f2">
                             <p style="margin: 0;padding: 0;font-size: 12px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;">
-                                <p style="font-weight: bold;">{{ $note->theme->name }}</p>
+                                <p style="font-weight: bold;">{{ $note->theme->name ?? 'N/E' }}</p>
                                 <br>
                                 <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color: #015199;font-weight: bold;text-decoration:none; font-size:18px;" target="_blank">{{ $note->news->title }}</a>
                                 <p>
                                 {!! $note->news->synthesis !!}
                                 </p>
                                 <br>
-                                <p style="color: #950a16;font-weight: bold;">{{ $note->news->mean->name }} | {{ $note->news->source->name }}, {{ $note->news->author }}</p>
+                                <p style="color: #950a16;font-weight: bold;">{{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }}</p>
                             </p>
                         </td>
                     </tr>
