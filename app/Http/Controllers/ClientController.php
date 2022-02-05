@@ -40,6 +40,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\URL;
+
+
 class ClientController extends Controller
 {
 
@@ -156,6 +159,7 @@ class ClientController extends Controller
         $news = News::whereIn('id', $idsNewsAssigned)
                 ->where('title', 'like', "%{$query['query']}%")
                 ->orWhere('synthesis', 'like', "%{$query['query']}%")
+                ->orderBy('news_date', 'DESC')
                 ->get();
 
         return view('components.listSearch', compact('news', 'company'))->render();
@@ -163,7 +167,7 @@ class ClientController extends Controller
 
     public function report (Request $request) {
 
-        $paginate = 50;
+        $paginate = 10;
         $company = Company::where('slug', $request->session()->get('slug_company'))->first();
 
         $notesIds = AssignedNews::query()->where('company_id', $company->id)
@@ -195,7 +199,10 @@ class ClientController extends Controller
                 return $q->where('title', 'like', "%{$request->input('word')}%")
                     ->orWhere('synthesis', 'like', "%{$request->input('word')}%");
             })
+            ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
+            
+            $notes->setPath(URL::full());
 
         return view('clients.report', compact('notes', 'company'));
 
