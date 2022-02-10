@@ -68,6 +68,14 @@
                     {{ $company->turn->name }}
                 </div>
             </div>
+            @if( !is_null($company->parent) )
+            <div class="col-sm-4">
+                <div class="info-group">
+                    <label>La empresa es hija de: </label>
+                    {{ $company->father->name }}
+                </div>
+            </div>
+            @endif
             @hasanyrole('manager|admin')
              @if(auth()->user()->companies->firstWhere('id', $company->id))
             <div class="col-sm-4">

@@ -25,6 +25,9 @@
                     @endif
                     <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
                     <button id="btn-subcompany" data-company="{{ $company->id }}" class="btn btn-info btn-quirk" type="button">Hacer subcuenta</button>
+                    @if(is_null($company->parent))
+                        <a target="_blank" href="{{ route('company.create', ['father' => $company->id, 'subcompany' => true]) }}" class="btn btn-info btn-quirk">Crear una subcuenta para esta empresa</a>
+                    @endif
                     @hasanyrole('manager|admin')
                     @if(auth()->user()->companies->firstWhere('id', $company->id))
                     <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>

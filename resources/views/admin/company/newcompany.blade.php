@@ -64,8 +64,8 @@
                         <label class="col-sm-3 control-label nopaddingtop">Subcuenta</label>
                         <div class="col-sm-9">
                             <label for="checkbox-parent" class="ckbox">
-                                <input type="checkbox" id="checkbox-parent" name="is_parent" value="true">
-                                <span>¿Es empresa?</span>
+                                <input {{ $subAccount ? 'checked' : ''}} type="checkbox" id="checkbox-parent" name="is_parent" value="true">
+                                <span>¿Esta empresa es una subcuenta?</span>
                             </label>
                         </div>
                     </div>
@@ -178,6 +178,15 @@
                 })
 
             })
+
+            if( $('#checkbox-parent').attr('checked') ) {
+                const selectCompanies = $('select#select-parent-company');
+                selectCompanies.prop('disabled', false);
+                $('#div-select-parent').show('slow');
+                selectCompanies.val('{{ $father->id }}');
+                selectCompanies.trigger('change');
+
+            }
 
             $('#checkbox-parent').on('change', function(){
                 if($(this).is(':checked')) {

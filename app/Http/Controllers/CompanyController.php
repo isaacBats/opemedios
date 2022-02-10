@@ -49,15 +49,17 @@ class CompanyController extends Controller
         return view('admin.company.index', compact('companies', 'breadcrumb', 'paginate'));
     }
 
-    public function showFormNewCompany() {
+    public function showFormNewCompany(Request $request) {
         $breadcrumb = array();
         $turns = Turn::all();
         $companies = Company::all();
+        $father = $request->has('father') ? Company::find($request->get('father')) : null;
+        $subAccount = $request->has('subcompany') ? true : false;
 
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => 'Nueva Empresa']);
         
-        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
+        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb', 'father', 'subAccount'));
     }
 
     public function create (Request $request) {
