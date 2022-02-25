@@ -72,7 +72,7 @@
             <div class="col-sm-4">
                 <div class="info-group">
                     <label>La empresa es hija de: </label>
-                    {{ $company->father->name }}
+                    {{ $company->father->name ? $company->father->name : '' }}
                 </div>
             </div>
             @endif
