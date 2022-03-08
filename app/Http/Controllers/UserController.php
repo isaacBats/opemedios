@@ -270,7 +270,6 @@ class UserController extends Controller
                 }
             });
         }
-
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name, 'url' => route('company.show', ['id' => $company->id])]);
         array_push($breadcrumb, ['label' => 'Agregar Cuenta']);

@@ -126,29 +126,22 @@ class CompanyController extends Controller
 
     }
 
-    public function relations (Request $request) {
-        $inputCompany = $request->input('company');
-        $company = Company::find($inputCompany);
-
-        if($request->has('old_company_id') && !empty($request->input('old_company_id'))) {
-            $company->old_company_id = $request->input('old_company_id');
-            $company->save(); 
-
-            return back()->with('status', 'Su cliente ahora esta relacionado con el antiguo cliente');
-        }
-        
-        Log::info("La empresa {$company->name} no se selecciono una empresa del sistema pasado.");
-        return back()->with('status', 'No se pudo relacionar. Intentalo mas tarde');
-    }
-
     public function removeUser (Request $request, $userId) {
         $user = User::find($userId);
-        $company = Company::find($user->metas()->where('meta_key', 'company_id')->first()->meta_value);
+        $company = Company::find($request->input('companyid'));
+        
         try {
-            $remove = $user->metas()->where('meta_key', 'like', '%company_id')->delete();
-            $userName = $user->name;
+            $metaCompany = $user->metas()->where('meta_key', 'company_id')->first();
+            if($metaCompany) {
+                $metaCompany->delete();
+            }
 
-            return back()->with('status', "Se ha removido al usuario {$userName} de {$company->name} exitosamente.");
+            $userRelation = $user->companies()->where('company_id', $company->id)->first();
+            if($userRelation) {
+                $user->companies()->where('company_id', $company->id)->detach();
+            }
+
+            return back()->with('status', "Se ha removido al usuario {$user->name} de {$company->name} exitosamente.");
             
         } catch (Exception $e) {
             Log::info("Error al borrar metas de usuario: {$e->getMessage()}");

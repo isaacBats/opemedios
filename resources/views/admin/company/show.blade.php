@@ -125,7 +125,7 @@
                                         <div class="media-body">
                                           <h4 class="media-heading nomargin"><a href="{{ route('user.show', ['id' => $account->id, ]) }}">{{ $account->name }}</a></h4>
                                           {{ $account->metas->where('meta_key', 'user_position')->first()->meta_value }}
-                                          <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account" data-company="{{ $company->name }}" data-userid="{{ $account->id }}" data-username="{{ $account->name }}">Remover</a></small>
+                                          <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account" data-company="{{ $company->name }}" data-companyid="{{ $company->id }}" data-userid="{{ $account->id }}" data-username="{{ $account->name }}">Remover</a></small>
                                         </div>
 
                                     </li>
@@ -311,9 +311,11 @@
                 var userID = $(this).data('userid')
                 var userName = $(this).data('username')
                 var company = $(this).data('company')
+                var companyId = $(this).data('companyid')
 
                 form.attr('method', 'POST')
-                    .attr('action', `/panel/empresa/remover-usuario/${userID}`)
+                    .attr('action', `/panel/empresa/remover-usuario/${userID}`);
+                form.append($('<input>').attr('type', 'hidden').attr('name', 'companyid').val(companyId));
 
                 modal.find('.modal-title').html(`Quitar usuario de esta empresa`)
                 modalBody.html(`<p>¿Estas seguro que remover a <strong>${userName}</strong> de ${company}?</p>`)

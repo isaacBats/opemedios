@@ -83,7 +83,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
         Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
-        Route::post('empresa/relacionar', 'CompanyController@relations')->name('company.relation');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
         Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
         Route::post('empresa/relacionar/subempresa', 'CompanyController@relateSubcompany')->name('admin.company.createsubcompany');

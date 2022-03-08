@@ -89,19 +89,6 @@ class Company extends Model
         return $emails;
     }
 
-    public function getOldCompanyId() {
-        $users = $this->accounts();
-        $companyOld = false;
-        foreach ($users as $user) {
-            if($meta = $user->metas()->where('meta_key', 'old_company_id')->first()) {
-                $companyOld = $meta->meta_value;
-                break;
-            }
-        }
-
-        return $companyOld;
-    }
-
     public function themes() {
 
         return $this->hasMany(Theme::class);
