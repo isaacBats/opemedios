@@ -129,7 +129,7 @@ class CompanyController extends Controller
     public function removeUser (Request $request, $userId) {
         $user = User::find($userId);
         $company = Company::find($request->input('companyid'));
-        
+
         try {
             $metaCompany = $user->metas()->where('meta_key', 'company_id')->first();
             if($metaCompany) {
@@ -161,6 +161,7 @@ class CompanyController extends Controller
         $meta_company->meta_key = 'company_id';
         $meta_company->meta_value = $inputs['company'];
         $user->metas()->save($meta_company);
+        $user->companies()->attach($request->input('company'));
 
         return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
     }

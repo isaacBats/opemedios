@@ -263,6 +263,8 @@ class UserController extends Controller
                     return $user;
                 }
             });
+            // hay que mezclar los usuarios de la compañia padre con los usuarios
+            // que no tienen empresa.
         } else {
             $clients = User::role($role)->get()->filter(function($user){
                 if(!$user->metas()->where('meta_key', 'company_id')->first()) {
@@ -271,7 +273,8 @@ class UserController extends Controller
             });
         }
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
-        array_push($breadcrumb, ['label' => $company->name, 'url' => route('company.show', ['id' => $company->id])]);
+        array_push($breadcrumb, ['label' => $company->name, 
+            'url' => route('company.show', ['id' => $company->id])]);
         array_push($breadcrumb, ['label' => 'Agregar Cuenta']);
 
         return view('admin.company.addUser', compact('company', 'role', 'clients', 'breadcrumb')); 

@@ -25,8 +25,11 @@
                                             <td>{{ $iteration }}</td>
                                             <td>{{ $client->name }}</td>
                                             <td class="text-center">
-                                                <a href="javascript:void()" class="add-user-to-company" data-userid="{{ $client->id }}" data-company="{{ $company->id }}">
-                                                    {{ __('Agregar') }}
+                                                <a href="javascript:void()" 
+                                                    class="add-user-to-company" 
+                                                    data-userid="{{ $client->id }}" 
+                                                    data-company="{{ $company->id }}">
+                                                        Agregar
                                                 </a>
                                             </td>
                                         </tr>

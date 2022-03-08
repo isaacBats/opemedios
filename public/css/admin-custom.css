@@ -9,6 +9,11 @@
     text-align: center;
 }
 
+.td-select-all {
+    height: 100%;
+    width: 100%;
+}
+
 @media (max-width: 767px) {
     .rectangle-banner {
         font-size: 5em;
