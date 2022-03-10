@@ -80,13 +80,39 @@
                         @foreach($users as $user)
                             <tr>
                                 <td class="text-center" >{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
-                                <td class="text-left" >{{ $user->name }}</td>
-                                <td class="text-left">{{ $user->email }}</td>
-                                <td class="text-left">{{ App\User::getRoleNameCustom($user->roles->first()->name) }}</td>
-                                <td class="text-left">{{ $user->metas->where('meta_key', 'user_position')->first()->meta_value }}</td>
+                                <td class="text-left" >
+                                    <a href="{{ route('user.show', ['id' => $user->id]) }}">
+                                        <div class="td-select-all">
+                                            {{ $user->name }}
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="{{ route('user.show', ['id' => $user->id]) }}">
+                                        <div class="td-select-all">
+                                            {{ $user->email }}
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="{{ route('user.show', ['id' => $user->id]) }}">
+                                        <div class="td-select-all">
+                                            {{ App\User::getRoleNameCustom($user->roles->first()->name) }}
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="{{ route('user.show', ['id' => $user->id]) }}">
+                                        <div class="td-select-all">
+                                            {{ 
+                                                $user->metas->where('meta_key', 'user_position')
+                                                ->first()->meta_value 
+                                            }}
+                                        </div>
+                                    </a>
+                                </td>
                                 <td class="table-options">
-                                    <li><a href="{{ route('user.show', ['id' => $user->id]) }}"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash"></i></a></li>
+                                    <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash fa-2x text-danger"></i></a>
                                 </td>
                             </tr>
                         @endforeach
