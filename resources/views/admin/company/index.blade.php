@@ -78,9 +78,15 @@
                                         </div>
                                     </a>
                                 </td>
-                                <td class="text-left">{{ $company->turn->name }}</td>
+                                <td class="text-left">
+                                    <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                        <div class="td-select-all">
+                                            {{ $company->turn->name }}
+                                        </div>
+                                    </a>
+                                </td>
                                     <td class="table-options">
-                                        <li><a href="{{ route('admin.company.delete', ['id' => $company->id]) }}" class="btn-delete-company" data-name="{{ $company->name }}"><i class="fa fa-trash"></i></a></li>
+                                        <a href="{{ route('admin.company.delete', ['id' => $company->id]) }}" class="btn-delete-company" data-name="{{ $company->name }}"><i class="fa fa-trash fa-2x text-danger"></i></a>
                                     </td>
                             </tr>
                         @endforeach
