@@ -61,34 +61,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label nopaddingtop">Subcuenta</label>
-                        <div class="col-sm-9">
-                            <label for="checkbox-parent" class="ckbox">
-                                <input {{ $subAccount ? 'checked' : ''}} type="checkbox" id="checkbox-parent" name="is_parent" value="true">
-                                <span>¿Esta empresa es una subcuenta?</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group" id="div-select-parent" style="display: none;">
-                        <label class="col-sm-3 control-label">Empresa Padre</label>
-                        <div class="col-sm-8">
-                            <select id="select-parent-company" name="parent" class="form-control" style="width: 100%;" disabled="disabled">
-                                <option value="">Seleccionan la empresa padre</option>
-                                @foreach($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('parent')
-                            <label class="error" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </label>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-3 control-label">Logo de la empresa<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="file" name="logo" class="form-control" required>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="panel-title">Propiedades Digitales</h4>
+                    <div class="form-group">
+                        <label for="social_facebook" class="col-sm-3 control-label">Facebook</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="https://..." class="form-control" name="digital_properties[face]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="social_instagram" class="col-sm-3 control-label">Instagram</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="https://..." class="form-control" name="digital_properties[insta]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="social_twitter" class="col-sm-3 control-label">Twitter</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="https://..." class="form-control" name="digital_properties[twitter]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="social_linkedin" class="col-sm-3 control-label">LinkedIn</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="https://..." class="form-control" name="digital_properties[linked]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="social_web" class="col-sm-3 control-label">Pagina Web</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="https://..." class="form-control" name="digital_properties[web]">
                         </div>
                     </div>
                     <hr>
@@ -128,7 +135,6 @@
         $(document).ready(function(){
             
             $('#select-turn').select2();
-            $('#select-parent-company').select2();
 
             $('#btn-add-turn').on('click', function(event) {
                 event.preventDefault()
@@ -178,27 +184,6 @@
                 })
 
             })
-
-            if( $('#checkbox-parent').attr('checked') ) {
-                const selectCompanies = $('select#select-parent-company');
-                selectCompanies.prop('disabled', false);
-                $('#div-select-parent').show('slow');
-                selectCompanies.val('{{ $father->id }}');
-                selectCompanies.trigger('change');
-
-            }
-
-            $('#checkbox-parent').on('change', function(){
-                if($(this).is(':checked')) {
-                    $('select#select-parent-company').prop('disabled', false);
-                    $('#div-select-parent').show('slow');
-                } else {
-                    $('select#select-parent-company').prop('disabled', 'disabled');
-                    $('select#select-parent-company option').prop('selected', false).trigger('change');
-                    $('#div-select-parent').hide('fast');
-                }
-            });
-
         })
     </script>
 @endsection

@@ -53,13 +53,11 @@ class CompanyController extends Controller
         $breadcrumb = array();
         $turns = Turn::all();
         $companies = Company::all();
-        $father = $request->has('father') ? Company::find($request->get('father')) : null;
-        $subAccount = $request->has('subcompany') ? true : false;
-
+        
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => 'Nueva Empresa']);
         
-        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb', 'father', 'subAccount'));
+        return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
     public function create (Request $request) {
@@ -91,6 +89,8 @@ class CompanyController extends Controller
             $input['logo'] = $request->file('logo')->store('company_logos', 'local');
         }
 
+        $input['digital_properties'] = serialize($input['digital_properties']);
+
         Company::create($input);
 
         return redirect()->route('companies')->with('alert-success', 'La empresa se ha creado con éxito');
@@ -103,12 +103,13 @@ class CompanyController extends Controller
 
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
         $accounts = $company->accounts()->merge($company->executives);
-        $companies = Company::where('id', '<>', $id)->get();
+
+        $sociales = unserialize($company->digital_properties);
 
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name]);
 
-        return view('admin.company.show', compact('company', 'turns', 'accounts', 'companies', 'breadcrumb'));
+        return view('admin.company.show', compact('company', 'turns', 'accounts', 'breadcrumb', 'sociales'));
     }
 
     public function relateSubcompany(Request $request) {

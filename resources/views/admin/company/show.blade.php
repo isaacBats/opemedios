@@ -24,14 +24,10 @@
                         <button data-company="{{ $company->id }}" id="btn-add-newsletter" class="btn btn-success btn-quirk" type="button">{{ __('Crear newsletter') }}</button>
                     @endif
                     <button id="btn-edit-company" class="btn btn-warning btn-quirk" type="button">{{ __('Editar datos de la empresa') }}</button>
-                    <button id="btn-subcompany" data-company="{{ $company->id }}" class="btn btn-info btn-quirk" type="button">Hacer subcuenta</button>
-                    @if(is_null($company->parent))
-                        <a target="_blank" href="{{ route('company.create', ['father' => $company->id, 'subcompany' => true]) }}" class="btn btn-info btn-quirk">Crear una subcuenta para esta empresa</a>
-                    @endif
                     @hasanyrole('manager|admin')
-                    @if(auth()->user()->companies->firstWhere('id', $company->id))
-                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
-                    @endif
+                        @if(auth()->user()->companies->firstWhere('id', $company->id))
+                            <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
+                        @endif
                     @endhasanyrole
                 </div>
             </div>
@@ -108,7 +104,7 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-6">
+                <div class="col-sm-6 col-md-6 col-lg-6"> <!-- cuentas -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">Cuentas</h4>
@@ -136,9 +132,9 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> <!-- fin cuentas -->
                 <div class="col-sm-6 col-md-6 col-lg-6">
-                    <div class="panel panel-default list-announcement">
+                    <div class="panel panel-default list-announcement"> <!-- temas -->
                         <div class="panel-heading">
                             <h4 class="panel-title">Temas</h4>
                         </div>
@@ -157,14 +153,14 @@
                                 @endforelse
                             </ul>
                         </div>
-                    </div>
+                    </div> <!-- fin temas -->
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel">
+            <div class="panel"> <!-- notas enviadas -->
                 <div class="panel-heading">
                     <h4 class="panel-title">Notas enviadas</h4>
                 </div>
@@ -213,7 +209,7 @@
                         {!! $company->assignedNews->render() !!}
                     </div>
                 </div>
-            </div>
+            </div> <!-- fin notas enviadas -->
         </div>
     </div>
 @endsection
@@ -226,6 +222,9 @@
 
         .text-float-r {
             float: inline-end;
+        }
+        .size-social {
+            font-size: 28px !important;
         }
     </style>
 @endsection
@@ -426,46 +425,6 @@
                 btnSave.show('slow');
                 
             })
-
-            // make sub company
-            $('#btn-subcompany').on('click', function(){
-                var modal = $('#modal-default');
-                var form = $('#modal-default-form');
-                var modalBody = modal.find('.modal-body');
-                var companyID = $(this).data('company');
-                var companies = @json($companies);
-
-                form.attr('method', 'POST');
-                form.attr('action', '{{ route('admin.company.createsubcompany') }}');
-                form.addClass('form-horizontal');
-
-                modal.find('.modal-title').html('Hacer esta empresa subcuenta');
-                modal.find('#md-btn-submit').val('Relacionar');
-
-                var select = $(`<select></select>`)
-                        .attr('id', 'select-parent')
-                        .attr('name', 'parent')
-                        .attr("style", "width: 100%;")
-                        .addClass('form-control')
-                    select.append($('<option></option>').attr('value', '').text('Selecciona una Empresa'));
-
-                    $.each(companies, function (key, obj) {
-                        select.append($('<option></option>').attr('value', obj.id).text(obj.name));
-                    });
-                modalBody.html(select);
-
-                var inputHiden = $('<input>')
-                    .attr('type', 'hidden')
-                    .attr('name', 'company_id')
-                    .attr('value', companyID);
-
-                modalBody.append(inputHiden);
-                modal.find('#select-parent').select2({
-                    dropdownParent: modal
-                })
-
-                modal.modal('show');
-            });
         })
     </script>
 @endsection

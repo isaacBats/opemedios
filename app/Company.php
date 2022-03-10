@@ -38,7 +38,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id', 'parent' ];
+    protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id', 'parent', 'digital_properties' ];
 
     public function turn () {
 

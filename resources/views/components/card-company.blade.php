@@ -54,9 +54,21 @@
                 <div class="info-group">
                     <label>Social</label>
                         <div class="social-account-list">
-                            <i class="fa fa-facebook-official"></i>
-                            <i class="fa fa-twitter"></i>
-                            <i class="fa fa-dribbble"></i>
+                            <a {{ $sociales['face'] ? "href={$sociales['face']}" : "class=hidden" }} target="_blank">
+                                <i class="fa fa-facebook-official size-social"></i>
+                            </a>
+                            <a {{ $sociales['twitter'] ? "href={$sociales['twitter']}" : "class=hidden" }} target="_blank">
+                                <i class="fa fa-twitter size-social"></i>
+                            </a>
+                            <a {{ $sociales['insta'] ? "href={$sociales['insta']}" : "class=hidden" }} target="_blank">
+                                <i class="fa fa-instagram size-social"></i>
+                            </a>
+                            <a {{ $sociales['linked'] ? "href={$sociales['linked']}" : "class=hidden" }} target="_blank">
+                                <i class="fa fa-linkedin size-social"></i>
+                            </a>
+                            <a {{ $sociales['web'] ? "href={$sociales['web']}" : "class=hidden" }} target="_blank">
+                                <i class="fa fa-dribbble size-social"></i>
+                            </a>
                         </div>
                 </div>
             </div>
@@ -68,23 +80,14 @@
                     {{ $company->turn->name }}
                 </div>
             </div>
-            @if( !is_null($company->parent) )
-            <div class="col-sm-4">
-                <div class="info-group">
-                    <label>La empresa es hija de: </label>
-                    {{ $company->father->name ? $company->father->name : '' }}
-                </div>
-            </div>
-            @endif
             @hasanyrole('manager|admin')
-             @if(auth()->user()->companies->firstWhere('id', $company->id))
-            <div class="col-sm-4">
-                <div class="info-group">
-                    <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
-                </div>
-                
-            </div>
-            @endif
+                @if(auth()->user()->companies->firstWhere('id', $company->id))
+                    <div class="col-sm-4">
+                        <div class="info-group">
+                            <a href="{{ route('admin.admin.redirectto', ['company' => $company->id]) }}" class="btn btn-info">Ver como cliente</a>
+                        </div>
+                    </div>
+                @endif
             @endhasanyrole
         </div>
     </div>
