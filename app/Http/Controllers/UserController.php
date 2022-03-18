@@ -253,31 +253,18 @@ class UserController extends Controller
         $breadcrumb = array();
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
-        $clients = null;
-        if($company->parent) {
-            $clients = User::whereHas('metas', function(Builder $query) use($company) {
-                $query->where('meta_key', 'company_id');
-                $query->where('meta_value', $company->parent);
-            })->get()->filter(function($user) use($company) {
-                if (!$company->executives->contains($user)) {
-                    return $user;
-                }
-            });
-            // hay que mezclar los usuarios de la compañia padre con los usuarios
-            // que no tienen empresa.
-        } else {
-            $clients = User::role($role)->get()->filter(function($user){
-                if(!$user->metas()->where('meta_key', 'company_id')->first()) {
-                    return $user;
-                }
-            });
-        }
+        $accounts = User::role($role)->get()->filter(function($user){
+            if(!$user->metas()->where('meta_key', 'company_id')->first()) {
+                return $user;
+            }
+        });
+
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name, 
             'url' => route('company.show', ['id' => $company->id])]);
         array_push($breadcrumb, ['label' => 'Agregar Cuenta']);
 
-        return view('admin.company.addUser', compact('company', 'role', 'clients', 'breadcrumb')); 
+        return view('admin.company.addUser', compact('company', 'role', 'accounts', 'breadcrumb')); 
     }
 
     public function edit(Request $request, $id) {
