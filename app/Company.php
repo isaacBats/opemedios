@@ -46,18 +46,6 @@ class Company extends Model
 
     }
 
-    public function father() {
-
-        return $this->belongsTo(Company::class, 'parent');
-    }
-
-    public function children() {
-
-        return $this->hasMany(Company::class, 'parent');
-
-    }
-
-
     public function newsletter() {
 
         return $this->hasOne(Newsletter::class);
