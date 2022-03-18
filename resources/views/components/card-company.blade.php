@@ -54,21 +54,23 @@
                 <div class="info-group">
                     <label>Social</label>
                         <div class="social-account-list">
-                            <a {{ $sociales['face'] ? "href={$sociales['face']}" : "class=hidden" }} target="_blank">
-                                <i class="fa fa-facebook-official size-social"></i>
-                            </a>
-                            <a {{ $sociales['twitter'] ? "href={$sociales['twitter']}" : "class=hidden" }} target="_blank">
-                                <i class="fa fa-twitter size-social"></i>
-                            </a>
-                            <a {{ $sociales['insta'] ? "href={$sociales['insta']}" : "class=hidden" }} target="_blank">
-                                <i class="fa fa-instagram size-social"></i>
-                            </a>
-                            <a {{ $sociales['linked'] ? "href={$sociales['linked']}" : "class=hidden" }} target="_blank">
-                                <i class="fa fa-linkedin size-social"></i>
-                            </a>
-                            <a {{ $sociales['web'] ? "href={$sociales['web']}" : "class=hidden" }} target="_blank">
-                                <i class="fa fa-dribbble size-social"></i>
-                            </a>
+                            @if(is_array($sociales))
+                                <a {{ $sociales['face'] ? "href={$sociales['face']}" : "class=hidden" }} target="_blank">
+                                    <i class="fa fa-facebook-official size-social"></i>
+                                </a>
+                                <a {{ $sociales['twitter'] ? "href={$sociales['twitter']}" : "class=hidden" }} target="_blank">
+                                    <i class="fa fa-twitter size-social"></i>
+                                </a>
+                                <a {{ $sociales['insta'] ? "href={$sociales['insta']}" : "class=hidden" }} target="_blank">
+                                    <i class="fa fa-instagram size-social"></i>
+                                </a>
+                                <a {{ $sociales['linked'] ? "href={$sociales['linked']}" : "class=hidden" }} target="_blank">
+                                    <i class="fa fa-linkedin size-social"></i>
+                                </a>
+                                <a {{ $sociales['web'] ? "href={$sociales['web']}" : "class=hidden" }} target="_blank">
+                                    <i class="fa fa-dribbble size-social"></i>
+                                </a>
+                            @endif
                         </div>
                 </div>
             </div>
