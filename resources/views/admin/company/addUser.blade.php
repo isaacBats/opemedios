@@ -1,36 +1,37 @@
 @extends('layouts.admin')
 @section('content')
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-lg-offset-2">
             <div class="panel">
                 <div class="panel-heading">
-                    <h4 class="panel-title">{{ __("Agregar cuenta para {$company->name}") }}</h4>
+                    <h4 class="panel-title">{{ __("Administrar cuentas para {$company->name}") }}</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="table-users-list">
+                    <div class="table-users-list"> <!-- user list -->
                         <table class="table table-bordered table-primary table-striped">
+                            <caption>Cuentas asignadas</caption>
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ __('Usuarios pendientes por asignar empresa') }}</th>
-                                    <th class="text-center">{{ __('Acción') }}</th>
+                                    <th>Nombre</th>
+                                    <th>Cargo</th>
+                                    <th>Email</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $iteration = 1;
                                 @endphp
-                                @foreach($clients as $client)
+                                @foreach($accounts as $account)
                                         <tr>
                                             <td>{{ $iteration }}</td>
-                                            <td>{{ $client->name }}</td>
-                                            <td class="text-center">
-                                                <a href="javascript:void()" 
-                                                    class="add-user-to-company" 
-                                                    data-userid="{{ $client->id }}" 
-                                                    data-company="{{ $company->id }}">
-                                                        Agregar
-                                                </a>
+                                            <td>{{ $account->name }}</td>
+                                            <td>
+                                                {{ $account->metas->where('meta_key', 'user_position')
+                                                ->first()->meta_value }}
+                                            </td>
+                                            <td>
+                                                {{ $account->email }}
                                             </td>
                                         </tr>
                                         @php
@@ -46,9 +47,9 @@
                                 @endif
                             </tbody>
                         </table>
-                    </div>
+                    </div> <!-- end user list -->
                     <button class="btn btn-warning btn-show-form">Agregar un nuevo usuario</button>
-                    <div class="form-add-new-user" style="display: none;">
+                    <div class="form-add-new-user" style="display: none;"> <!-- Form add new user-->
                         <form action="{{ route('register.user') }}" method="POST">
                             @csrf
                             <input type="hidden" value="{{ $company->id}}" name="company_id">
@@ -101,7 +102,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div> <!-- End form add new user-->
                 </div>
             </div>
         </div>
@@ -111,25 +112,26 @@
     <script type="text/javascript">
         $(document).ready(function (){
             // add user to company
-            $('.table-users-list').on('click', '.add-user-to-company', function (event) {
-                event.preventDefault()
-                var userID = $(this).data('userid')
-                var companyID = $(this).data('company')
-                var form = $('#modal-default-form')
-                var inputUser = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "user").val(userID);
-                var inputCompany = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "company").val(companyID);
+            // $('.table-users-list').on('click', '.add-user-to-company', function (event) {
+            //     event.preventDefault();
+            //     var userID = $(this).data('userid');
+            //     var companyID = $(this).data('company');
+            //     var form = $('#modal-default-form');
+            //     var inputUser = $("<input>")
+            //        .attr("type", "hidden")
+            //        .attr("name", "user").val(userID);
+            //     var inputCompany = $("<input>")
+            //        .attr("type", "hidden")
+            //        .attr("name", "company").val(companyID);
 
-                form.attr('method', 'POST')
-                form.attr('action', '/panel/empresa/agregar-usuario-ajax')
-                form.append(inputUser)
-                form.append(inputCompany)
+            //     form.attr('method', 'POST')
+            //         .attr('action', '/panel/empresa/agregar-usuario-ajax');
+            //     form.append(inputUser);
+            //     form.append(inputCompany);
 
-                form.submit()
-            })
+            //     form.submit();
+            // })
+           
             // show form for add user
             $('.btn-show-form').on('click', function(){
                 var userList = $('.table-users-list')
@@ -140,7 +142,5 @@
                 formSection.show('slow')
             })
         })
-
-
     </script>
 @endsection
