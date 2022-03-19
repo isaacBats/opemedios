@@ -102,14 +102,16 @@ class CompanyController extends Controller
         $turns = Turn::all();
 
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
-        $accounts = $company->accounts()->merge($company->executives);
+        $accounts = $company->allAccountsOfACompany()
+                        ->filter(function($user){
+                            return $user->hasRole('client');
+                        });
 
-        $sociales = unserialize($company->digital_properties);
 
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name]);
 
-        return view('admin.company.show', compact('company', 'turns', 'accounts', 'breadcrumb', 'sociales'));
+        return view('admin.company.show', compact('company', 'turns', 'accounts', 'breadcrumb'));
     }
 
     public function removeUser (Request $request, $userId) {
