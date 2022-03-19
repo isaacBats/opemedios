@@ -54,6 +54,9 @@
                 <div class="info-group">
                     <label>Social</label>
                         <div class="social-account-list">
+                            @php
+                                $sociales =  unserialize($company->digital_properties);
+                            @endphp
                             @if(is_array($sociales))
                                 <a {{ $sociales['face'] ? "href={$sociales['face']}" : "class=hidden" }} target="_blank">
                                     <i class="fa fa-facebook-official size-social"></i>
