@@ -409,7 +409,10 @@ class NewsController extends Controller
 
         $news = News::findOrFail($request->input('news_id'));
         $themeCompany = Theme::findOrFail($request->input('theme_id'));
-        $executives = $themeCompany->company->executives;
+        $executives = $themeCompany->company->allAccountsOfACompany()
+                        ->filter(function($user){
+                            return $user->hasAnyRole(['admin',  'manager']);
+                        });
         $accountUsers = User::whereIn('id', explode(',',$request->input('accounts_ids')))->get();
 
         $accounts = $accountUsers->merge($executives);
@@ -422,7 +425,9 @@ class NewsController extends Controller
             'users_ids' => $request->input('accounts_ids')
         ]);
 
-        Mail::to($accounts)->send(new NoticeNewsEmail($news, $themeCompany));
+        Mail::to($accountUsers)
+        ->bcc($executives)
+        ->send(new NoticeNewsEmail($news, $themeCompany));
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
