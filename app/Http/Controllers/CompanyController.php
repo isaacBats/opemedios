@@ -112,21 +112,6 @@ class CompanyController extends Controller
         return view('admin.company.show', compact('company', 'turns', 'accounts', 'breadcrumb', 'sociales'));
     }
 
-    public function relateSubcompany(Request $request) {
-        $input = $request->all();
-        $company = Company::find($input['company_id']);
-        
-        if(!is_null($company->parent)) {
-            return back()->with('status', "{$company->name} ya es subcuenta de {$company->father->name}");
-        }
-        
-        $company->parent = $input['parent'];
-        $company->save();
-
-        return redirect()->route('company.show', ['id' => $company->id])->with('status', "La empresa {$company->name} ahora es una subcuenta de {$company->father->name}");
-
-    }
-
     public function removeUser (Request $request, $userId) {
         $user = User::find($userId);
         $company = Company::find($request->input('companyid'));
@@ -207,9 +192,37 @@ class CompanyController extends Controller
 
     public function getAccountsAjax(Request $request) {
         $company = Company::findOrFail($request->input('company_id'));
-        $accounts = $company->accounts()->merge($company->executives);
+        $accounts = $company->allAccountsOfACompany();
 
         return response()->json($accounts);
+    }
+
+    public function getNotAccountsAjax(Request $request) {
+        
+        $param = $request->input('search');
+        $company = Company::findOrFail($request->input('company_id'));
+        $accounts = $company->allAccountsOfACompany();
+        $accountsIds = $accounts->pluck('id');
+        $othersUsers = User::whereNotIn('id', $accountsIds)
+            ->where('name', 'like', "%{$param}%")
+            ->orwhere('email', 'like', "%{$param}%")
+            ->get();
+
+        return response()->json($othersUsers);
+    }
+
+    public function addAccountsToCompany(Request $request) {
+        $company = Company::find($request->input('company_id'));
+        $usersToAdd = $request->input('users');
+        foreach($usersToAdd as $userId) {
+            if( !$company->executives->contains($userId) ) {
+                $company->executives()->attach($userId);
+            }
+            continue;
+        }
+
+        return redirect()->route('company.show', ['id' => $company->id])
+            ->with('status', "Se han asociado los usuarios a la empresa {$company->name}");
     }
 
     public function delete (Request $request, $id) {

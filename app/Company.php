@@ -102,6 +102,10 @@ class Company extends Model
         return $this->belongsToMany(User::class, 'client_executive');
     }
 
+    public function allAccountsOfACompany() {
+        return $this->accounts()->merge($this->executives);
+    }
+
     public function assignedNewsCount() {
         $notesIds = AssignedNews::where('company_id', $this->id)->pluck('news_id');
 

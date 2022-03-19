@@ -81,11 +81,11 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
         Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
         Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
+        Route::post('empresa/agregar/usarios-empresa', 'CompanyController@addAccountsToCompany')->name('admin.company.add.accounts');
         Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
         Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
-        Route::post('empresa/relacionar/subempresa', 'CompanyController@relateSubcompany')->name('admin.company.createsubcompany');
         Route::post('empresa/actualizar/nota/theme/{id}', 'CompanyController@updateAssignedNote')->name('admin.assignednews.replacetheme');
 
         Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
@@ -201,6 +201,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('api/v2/clientes/obtener-clientes-ajax', 'CompanyController@getCompaniesAjax')->name('api.getcompaniesajax');
     Route::post('api/v2/cliente/obtener-temas', 'ThemeController@sendSelectHTMLWithThemesByCompany')->name('api.getthemeshtml');
     Route::post('api/v2/cliente/obtener-cuentas', 'CompanyController@getAccountsAjax')->name('api.company.getaccounts');
+    Route::post('api/v2/cliente/obtener-cuentas-para-agregar', 'CompanyController@getNotAccountsAjax')->name('api.company.getnotaccounts');
     Route::post('api/v2/cliente/obtener-cuentas-tema', 'ThemeController@getAccountsAjax')->name('api.theme.getaccounts');
 
     Route::get('api/v2/admin/notas-por-dia', 'AdminController@notesPerDay')->name('api.admin.notesday');

@@ -8,8 +8,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-users-list"> <!-- user list -->
+                        <caption>Cuentas asignadas</caption>
                         <table class="table table-bordered table-primary table-striped">
-                            <caption>Cuentas asignadas</caption>
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -40,8 +40,8 @@
                                 @endforeach
                                 @if($iteration == 1)
                                     <tr>
-                                        <td colspan="3" class="text-center">
-                                            {{ __('No hay cuentas pendientes por asignar') }}
+                                        <td colspan="4" class="text-center">
+                                            {{ "La empresa {$company->name} aun no tiene cuentas" }}
                                         </td>
                                     </tr>
                                 @endif
@@ -50,97 +50,87 @@
                     </div> <!-- end user list -->
                     <button class="btn btn-warning btn-show-form">Agregar un nuevo usuario</button>
                     <div class="form-add-new-user" style="display: none;"> <!-- Form add new user-->
-                        <form action="{{ route('register.user') }}" method="POST">
+                        <form action="{{ route('admin.company.add.accounts') }}" class="form-horizontal" method="POST">
                             @csrf
                             <input type="hidden" value="{{ $company->id}}" name="company_id">
-                            <input type="hidden" value="{{ true }}" name="company_route">
                             <div class="form-group">
-                                <label for="name">{{ __('Nombre') }}</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <label class="error" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </label>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="email">{{ __('Correo') }}</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
-                                @error('email')
-                                    <label class="error" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </label>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="password">{{ __('Contraseña') }}</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                @error('password')
-                                    <label class="error" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </label>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="password-confirm">{{ __('Confirmar contraseña') }}</label>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                            <input type="hidden" value="{{ $role->id}}" name="rol">
-                            
-                            <div class="form-group">
-                                <label for="ocupation">{{ __('Puesto') }}</label>
-                                <input type="text" class="form-control" id="ocupation" name="user_position" value="{{ old('user_position') }}">
-                                @error('user_position')
-                                    <label class="error" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </label>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-10 col-sm-2">
-                                    <input type="submit" class="btn btn-primary btn-block" value="{{ __('Crear') }}">
+                                <label class="col-sm-2 control-label">Selecciona los usuarios a agregar</label>
+                                <div class="col-sm-8">
+                                    <select id="select-user" data-company="{{ $company->id }}" class="form-control" name="users[]" multiple="multiple" required ></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="submit" class="btn btn-primary btn-block" value="Guardar usuarios">
                                 </div>
                             </div>
                         </form>
+                        <a href="{{ route('company.show', ['id' => $company->id]) }}" class="btn btn-danger btn-block">
+                            {{ "Volver al detalle de {$company->name}" }}
+                        </a>
                     </div> <!-- End form add new user-->
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <style>
+        #select-user {
+            width: 100%;
+        }
+    </style>
+@endsection
 @section('scripts')
+    <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function (){
-            // add user to company
-            // $('.table-users-list').on('click', '.add-user-to-company', function (event) {
-            //     event.preventDefault();
-            //     var userID = $(this).data('userid');
-            //     var companyID = $(this).data('company');
-            //     var form = $('#modal-default-form');
-            //     var inputUser = $("<input>")
-            //        .attr("type", "hidden")
-            //        .attr("name", "user").val(userID);
-            //     var inputCompany = $("<input>")
-            //        .attr("type", "hidden")
-            //        .attr("name", "company").val(companyID);
-
-            //     form.attr('method', 'POST')
-            //         .attr('action', '/panel/empresa/agregar-usuario-ajax');
-            //     form.append(inputUser);
-            //     form.append(inputCompany);
-
-            //     form.submit();
-            // })
-           
             // show form for add user
             $('.btn-show-form').on('click', function(){
-                var userList = $('.table-users-list')
-                var formSection = $('.form-add-new-user')
+                var userList = $('.table-users-list');
+                var formSection = $('.form-add-new-user');
 
-                $(this).hide('slow')
-                userList.hide('slow')
-                formSection.show('slow')
+                $(this).hide('slow');
+                userList.hide('slow');
+                formSection.show('slow');
             })
+            
+            // Select users for add to company
+            $('#select-user').select2({
+                language: {
+                    inputTooShort: function() {
+                        return "Agrega más de tres caracteres."
+                    }
+                },
+                width: "100%",
+                AllowClear: true,
+                theme: "classic",
+                minimumInputLength: 3,
+                placeholder: "Busca a los usuarios que quieras agregar",
+                ajax: {
+                    url: "{{ route('api.company.getnotaccounts') }}",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    type: "POST",
+                    data: function(params) {
+                        var query = {
+                            search: params.term,
+                            company_id: {{ $company->id }}
+                        };
+                        return query;
+                    },
+                    processResults: function(data) {
+                        var items = data.map(function(data){
+                            return {
+                                id: data.id,
+                                text: `${data.name} <${data.email}>`
+                            };
+                        })
+                        return {
+                            results: items
+                        };
+                    },
+                    cache: true
+                }
+            });
         })
     </script>
 @endsection

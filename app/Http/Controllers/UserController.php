@@ -253,12 +253,8 @@ class UserController extends Controller
         $breadcrumb = array();
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
-        $accounts = User::role($role)->get()->filter(function($user){
-            if(!$user->metas()->where('meta_key', 'company_id')->first()) {
-                return $user;
-            }
-        });
-
+        $accounts = $company->allAccountsOfACompany();
+        
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name, 
             'url' => route('company.show', ['id' => $company->id])]);
