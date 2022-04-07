@@ -73,6 +73,16 @@ class NewsletterSendController extends Controller
         return view('admin.newsletter.editsend', compact('newsletterSend', 'breadcrumb'));
     }
 
+    public function editLabel (Request $request, $id) {
+
+        $newsletterSend = NewsletterSend::findOrFail($id);
+        $newsletterSend->label = $request->input('label');
+        $newsletterSend->save();
+
+        // return redirect()->route('admin.newsletter.edit.send', ['id' => $newsletterSend->id])->with('status', 'Nombre de etiqueta de newsletter actualizada');
+        return response()->json(['status' => 'OK', 'message' => '¡Nombre de etiqueta de newsletter actualizada!']);
+    }
+
     public function addNote (Request $request) {
         
         $data['newsletter_id'] = $request->input('newsletterid');

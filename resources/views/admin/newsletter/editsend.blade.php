@@ -21,6 +21,7 @@
                     <h3 class="panel-title">Newsletter #{{ $newsletterSend->id }} para {{ $newsletterSend->newsletter->name }} - {{ $newsletterSend->label }}</h3>
                 </div>
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right" id="btn-search-note">
+                    <button class="btn btn-danger btn-quirk" id="btn-edit-label-newsletter">Editar nombre newsletter</button>
                     <a id="btn-add-note" href="javascript:void(0)" class="btn btn-success btn-quirk"><i class="fa fa-plus-circle"></i> {{ __('Agregar Nota') }}</a>
                 </div>
             </div>
@@ -210,26 +211,47 @@
                 var form = $('#modal-default-form')
                 var modal = $('#modal-default')
                 var element = $('#remove-element')
-                
-                modal.modal('hide')
-
+                modal.modal('hide');
                 $.post(form.attr('action'), form.serialize(), function(res) {
                     $.gritter.add({
-                        title: 'Eliminar nota',
+                        title: 'Newsletter',
                         text: res.message,
                         class_name: 'with-icon check-circle success'
                     })
                     element.hide("slow", function(){ $(this).remove() })
+                    window.location.reload();
 
                 }).fail(function(){
                     $.gritter.add({
-                        title: 'Eliminar nota',
+                        title: 'Newsletter',
                         text: 'No es posible eliminar esta nota!',
                         class_name: 'with-icon times-circle danger'
                     })
                 })
 
             })
+
+            // edit label of newsletter
+            $('#btn-edit-label-newsletter').on('click', function(){
+                var modal = $('#modal-default');
+                var form = $('#modal-default-form');
+                var btnSubmit = form.find('#md-btn-submit');
+                var oldName = '{{ $newsletterSend->label }}';
+
+                var newsletterSendId = `{{ $newsletterSend->id }}`;
+                
+                modal.find('.modal-title').text('Cambiar nombre de la etiqueta del Newsletter');
+                modal.find('.modal-body').html(`<p>Newsletter</p>
+                    <div class="form-group">
+                        <input type="text" name="label" value="${oldName}" class="form-control">
+                    </div>
+                `);
+                form.attr('action', "{{ route('admin.newsletter.edit.label.send', ['id' => $newsletterSend->id ]) }}");
+                form.attr('method', 'POST');
+                btnSubmit.val('Guardar')
+
+                modal.modal('show');
+            });
         })
     </script>
 @endsection

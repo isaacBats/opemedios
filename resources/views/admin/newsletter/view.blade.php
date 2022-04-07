@@ -40,16 +40,6 @@
                                 <td>{{ $oneNewsletter->created_at->format('d-m-Y H:i') }}</td>
                                 <td>
                                     {{ $oneNewsletter->label }}
-                                    <form action="" class="form-horizontal" style="display: none;">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Etiqueta</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="newsletterLabel" value="{{ $oneNewsletter->label }}">
-                                            </div>
-                                            <a href="javascript:void(0);" class="btn btn-danger btn-small">Guardar</a>
-                                        </div>
-                                    </form>
                                 </td>
                                 <td>
                                     @if($oneNewsletter->status)
@@ -68,9 +58,6 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-warning">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
                                     <a href="{{ route('admin.newsletter.edit.send', ['id' => $oneNewsletter->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('admin.newsletter.preview.send', ['id' => $oneNewsletter->id]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
                                     <button class="btn btn-primary send-mail-manual" data-href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
