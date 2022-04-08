@@ -19,6 +19,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AssignedNews;
 use App\Company;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
@@ -135,6 +136,18 @@ class NewsletterController extends Controller
                     Mail::to(trim($email))->send(new NewsletterEmail($newsletterSend, $covers));
                 }
             }
+
+            foreach ($newsletterSend->newsletter_theme_news as $newsletterThemeNew ) {
+                $assigned = AssignedNews::firstOrNew(
+                    ['news_id' => $newsletterThemeNew->news_id],
+                    ['theme_id' => $newsletterThemeNew->newsletter_theme_id]
+                );
+
+                $assigned->company_id = $newsletter->company_id;
+                $assigned->save();
+            }
+
+
             $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
                 return $ntn->news_id;
             });
