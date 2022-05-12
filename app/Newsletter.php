@@ -41,7 +41,8 @@ class Newsletter extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function company() {
+    public function company()
+    {
 
         return $this->belongsTo(Company::class);
     }
@@ -49,7 +50,8 @@ class Newsletter extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function newsletter_send() {
+    public function newsletter_send()
+    {
 
         return $this->hasMany(NewsletterSend::class);
     }
@@ -57,14 +59,16 @@ class Newsletter extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function newsletter_theme_news() {
+    public function newsletter_theme_news()
+    {
         return $this->hasMany(NewsletterThemeNews::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function newsletter_users() {
+    public function newsletter_users()
+    {
 
         return $this->hasMany(NewsletterUser::class);
     }

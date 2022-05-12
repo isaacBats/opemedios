@@ -27,7 +27,8 @@ class Section extends Model
 
     protected $fillable = ['name', 'author', 'description', 'active', 'source_id'];
 
-    public function source() {
+    public function source()
+    {
         return $this->belongsTo(Source::class);
     }
 }

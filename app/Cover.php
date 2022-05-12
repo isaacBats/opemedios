@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -27,11 +28,13 @@ class Cover extends Model
 
     protected $dates = ['date_cover'];
 
-    public function source () {
+    public function source()
+    {
         return $this->belongsTo(Source::class);
     }
 
-    public function image () {
+    public function image()
+    {
         return $this->belongsTo(File::class);
     }
 }

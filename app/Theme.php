@@ -31,16 +31,19 @@ class Theme extends Model
 
     protected $fillable = ['name', 'description', 'company_id'];
 
-    public function company () {
+    public function company()
+    {
 
         return $this->belongsTo(Company::class);
     }
 
-    public function accounts() {
+    public function accounts()
+    {
         return $this->belongsToMany(User::class, 'theme_user');
     }
 
-    public function assignedNews() {
+    public function assignedNews()
+    {
         return $this->hasMany(AssignedNews::class);
     }
 }

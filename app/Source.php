@@ -28,22 +28,26 @@ class Source extends Model
     
     protected $fillable = ['name', 'company', 'comment', 'logo', 'active', 'coverage', 'means_id'];
 
-    public function mean() {
+    public function mean()
+    {
         return $this->belongsTo(Means::class, 'means_id');
     }
 
-    public function sections() {
-      return $this->hasMany(Section::class);
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
     }
 
-    public function scopeName($query, $name) {
-        if($name) {
+    public function scopeName($query, $name)
+    {
+        if ($name) {
             return $query->where('name', 'like', "%{$name}%");
         }
     }
 
-    public function scopeCompany($query, $company) {
-        if($company) {
+    public function scopeCompany($query, $company)
+    {
+        if ($company) {
             return $query->where('company', 'like', "%{$company}%");
         }
     }

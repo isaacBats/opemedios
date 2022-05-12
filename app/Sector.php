@@ -34,9 +34,10 @@ class Sector extends Model
         'name', 'description', 'active'
     ];
 
-    public function scopeName($query, $name) {
-      if($name) {
-        return $query->where('name', 'like', "%{$name}%");
-      }
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        }
     }
 }
