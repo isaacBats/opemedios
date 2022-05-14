@@ -49,7 +49,6 @@ class NewsletterSendController extends Controller
     {
         $newsletter = Newsletter::findOrFail($id);
         $label = $request->input('nwl-name') == "" ? "Default" : $request->input('nwl-name');
-        // dd($request->all());
         $forSend = NewsletterSend::create([
             'newsletter_id' => $newsletter->id,
             'status' => 0,
