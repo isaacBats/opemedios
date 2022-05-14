@@ -46,31 +46,33 @@ class NewsletterController extends Controller
 
     protected $mediaController;
 
-    public function __construct(NewsController $newsController, MediaController $mediaController) {
+    public function __construct(NewsController $newsController, MediaController $mediaController)
+    {
 
         $this->newsController = $newsController;
         $this->mediaController = $mediaController;
-
     }
 
-    public function index(){
+    public function index()
+    {
         $breadcrumb = array();
         $newsletters = Newsletter::orderBy('id', 'DESC')->paginate(25);
         $covers = NewsletterFooter::limit(5)->orderBy('id', 'DESC')->get();
         $coverToday = false;
 
-        if($covers->count() > 0 ) {
-            $coverToday = $covers->filter(function($cover) {
+        if ($covers->count() > 0) {
+            $coverToday = $covers->filter(function ($cover) {
                 return $cover->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d');
             })->first();
         }
         
-        array_push($breadcrumb,['label' => 'Newsletters']);
+        array_push($breadcrumb, ['label' => 'Newsletters']);
 
         return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday', 'breadcrumb'));
     }
 
-    public function showFormCreateNewsletter() {
+    public function showFormCreateNewsletter()
+    {
         $breadcrumb = array();
         $companies = Company::all();
 
@@ -80,20 +82,22 @@ class NewsletterController extends Controller
         return view('admin.newsletter.create', compact('companies', 'breadcrumb'));
     }
 
-    protected function validator(array $data) {
-        return Validator::make($data,
+    protected function validator(array $data)
+    {
+        return Validator::make(
+            $data,
             ['name' => 'required|max:200|',],
             ['name.required' => 'Es necesario elegir un nombre para el Newsletter.',]
         );
     }
 
-    public function create (Request $request) {
+    public function create(Request $request)
+    {
 
         $data = $request->all();
         $company = Company::find($data['company_id']);
 
         if ($company->newsletter) {
-
             return redirect()->route('admin.newsletters')->with('status', 'El newsletter ya existe!');
         }
 
@@ -102,7 +106,7 @@ class NewsletterController extends Controller
         }
         $this->validator($data)->validate();
 
-        if($file = $request->hasFile('banner')) {
+        if ($file = $request->hasFile('banner')) {
             $data['banner'] = $request->file('banner')->store('newsletters', 'local');
         }
         $data['active'] = 1; // Newsletter active by default
@@ -113,31 +117,37 @@ class NewsletterController extends Controller
         return redirect()->route('admin.newsletters')->with('status', 'El newsletter se ha creado con éxito');
     }
 
-    public function sendMail(Request $request, $sendId) {
+    public function sendMail(Request $request, $sendId)
+    {
 
         try {
             $newsletterSend = NewsletterSend::findOrFail($sendId);
             $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
             $newsletter = $newsletterSend->newsletter;
-            if($request->has('emails')){
-                $emails = explode(',',$request->input('emails'));
+            if ($request->has('emails')) {
+                $emails = explode(',', $request->input('emails'));
             } else {
-                $emails = $newsletter->newsletter_users->map(function($item){ return $item->email; });
+                $emails = $newsletter->newsletter_users->map(function ($item) {
+                    return $item->email;
+                });
             }
-            if( !$covers ) {
-                return back()->with('status', 'No se puede enviar el newsletter por que hace falta agregar las portadas del día de hoy');
+            if (!$covers) {
+                return back()->with(
+                    'status',
+                    'No se puede enviar el newsletter por que hace falta agregar las portadas del día de hoy'
+                );
             }
 
             foreach ($emails as $email) {
                 $reciver = User::where('email', trim($email))->first();
-                if($reciver) {
+                if ($reciver) {
                     Mail::to($reciver)->send(new NewsletterEmail($newsletterSend, $covers));
                 } else {
                     Mail::to(trim($email))->send(new NewsletterEmail($newsletterSend, $covers));
                 }
             }
 
-            foreach ($newsletterSend->newsletter_theme_news as $newsletterThemeNew ) {
+            foreach ($newsletterSend->newsletter_theme_news as $newsletterThemeNew) {
                 $assigned = AssignedNews::firstOrNew(
                     ['news_id' => $newsletterThemeNew->news_id],
                     ['theme_id' => $newsletterThemeNew->newsletter_theme_id]
@@ -148,7 +158,7 @@ class NewsletterController extends Controller
             }
 
 
-            $newsIds = $newsletterSend->newsletter_theme_news->map(function($ntn) {
+            $newsIds = $newsletterSend->newsletter_theme_news->map(function ($ntn) {
                 return $ntn->news_id;
             });
             $newsletterSend->status ++;
@@ -158,14 +168,13 @@ class NewsletterController extends Controller
             $newsletterSend->save();
 
             $today = \Carbon\Carbon::today();
-            
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
 
         Log::info("Newsletters of the day {$today} have been sent");
 
-        return back()->with('status','Se ha enviado la noticia con satisfacción');
+        return back()->with('status', 'Se ha enviado la noticia con satisfacción');
     }
 
     /**
@@ -173,7 +182,8 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view(Request $request, $id) {
+    public function view(Request $request, $id)
+    {
         $breadcrumb = array();
         $newsletter = Newsletter::findOrFail($id);
 
@@ -188,7 +198,8 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function config(Request $request, $id) {
+    public function config(Request $request, $id)
+    {
         $breadcrumb = array();
         $newsletter = Newsletter::findOrFail($id);
         $templates = [
@@ -208,21 +219,22 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateBanner(Request $request, $id) {
+    public function updateBanner(Request $request, $id)
+    {
         $newsletter = Newsletter::findOrFail($id);
         try {
-            if(Storage::drive('local')->exists($newsletter->banner)) {
+            if (Storage::drive('local')->exists($newsletter->banner)) {
                 Storage::drive('local')->delete($newsletter->logo);
             }
 
             $newsletter->banner = $request->file('banner')->store('newsletters', 'local');
             $newsletter->save();
-
         } catch (Exception $e) {
             return back()->with('status', 'Could not update image: ' . $e->getMessage());
         }
 
-        return redirect()->route('admin.newsletter.config', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el banner correctamente');
+        return redirect()->route('admin.newsletter.config', ['id' => $id])
+            ->with('status', '¡Exito!. Se ha cambiado el banner correctamente');
     }
 
     /**
@@ -230,7 +242,8 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(Request $request, $id) {
+    public function status(Request $request, $id)
+    {
         $newsletter = Newsletter::findOrFail($id);
         try {
             $newsletter->active = $request->input('status');
@@ -243,14 +256,15 @@ class NewsletterController extends Controller
         }
     }
 
-    public function showNew(Request $request) {
+    public function showNew(Request $request)
+    {
 
-        if(!$request->has('qry')) {
+        if (!$request->has('qry')) {
             return redirect()->route('home');
         }
 
         try {
-            $data = explode('-',Crypt::decryptString($request->get('qry')));
+            $data = explode('-', Crypt::decryptString($request->get('qry')));
         } catch (DecryptException $e) {
             return abort(403, 'Noticia no encontrada');
         }
@@ -260,7 +274,8 @@ class NewsletterController extends Controller
         return view('newsletter.shownew', compact('note'));
     }
 
-    public function sendSelectHTMLWithThemes(Request $request) {
+    public function sendSelectHTMLWithThemes(Request $request)
+    {
 
         $themes = Newsletter::find($request->input('newsletter_id'))
             ->company->themes()->get();
@@ -268,13 +283,14 @@ class NewsletterController extends Controller
         return view('components.select-themes-newsletters', compact('themes'))->render();
     }
 
-    public function sendSelectHTMLWithSends(Request $request) {
+    public function sendSelectHTMLWithSends(Request $request)
+    {
 
         $newsletterId = $request->input('newsletter_id');
-        $newslettersSends = NewsletterSend::where('newsletter_id',$newsletterId)
+        $newslettersSends = NewsletterSend::where('newsletter_id', $newsletterId)
             ->where('status', 0)->orderBy('id', 'DESC')->get();
 
-        if($newslettersSends->count()) {
+        if ($newslettersSends->count()) {
             return view('components.select-newsletter-send', compact('newslettersSends'))->render();
         }
 
@@ -284,30 +300,33 @@ class NewsletterController extends Controller
         ]);
 
         return $this->sendSelectHTMLWithSends($request);
-
     }
 
-    public function removeNewsletterSend(Request $request, $sendId) {
+    public function removeNewsletterSend(Request $request, $sendId)
+    {
         $newsletterSend = NewsletterSend::findOrFail($sendId);
         $newsletterSend->delete();
 
         return back()->with('status', "Se ha eliminado el newsletter satisfactoriamente");
     }
 
-    public function updateTemplate(Request $request) {
+    public function updateTemplate(Request $request)
+    {
         $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
         $newsletter->template = $request->input('template');
         $newsletter->save();
         return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
     }
 
-    public function addCovers() {
+    public function addCovers()
+    {
 
         return view('admin.newsletter.addcovers');
     }
 
-    public function remove(Request $request, $id){
-        try{
+    public function remove(Request $request, $id)
+    {
+        try {
             $newsletter = Newsletter::findOrFail($id);
             $name = $newsletter->name;
             $newsletter->newsletter_theme_news()->delete();
@@ -315,10 +334,9 @@ class NewsletterController extends Controller
             $newsletter->forceDelete();
 
             return back()->with('status', "El newsletter {$name} se ha borrado satisfactoriamente.");
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             Log::error("Error al borrar newsletter: {$e->getMessage()}");
             return back()->with('status', "No se ha podido borrar el newsletter {$name}. Intentelo mas tarde");
-
         }
     }
 }
