@@ -2,9 +2,10 @@
 @section('admin-title', ' - Usuarios')
 @section('content')
 @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+    <div class="alert alert-success"> {{ session('status') }}</div>
+@endif
+ @if (session('restored'))
+     <div class="alert alert-success" role="alert"> Usuario restaurado</div>
 @endif
 <div class="col-md-12 people-list">
     <div class="panel">
@@ -55,10 +56,10 @@
         </div><!-- filter-options -->
         <div class="panel-heading">
             <div class="row">
-                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <h4 class="panel-title" style="padding: 12px 0;">{{ __('Administrador de usuarios') }}</h4>  
                 </div>
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
                     <a href="{{ route('register.user') }}" class="btn btn-danger btn-quirk btn-lg"><i class="fa fa-plus-circle"></i> {{ 'Nuevo usuario' }}</a>
                 </div>
             </div>
@@ -82,6 +83,9 @@
                                 <td class="text-center" >{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                                 <td class="text-left" >
                                     <a href="{{ route('user.show', ['id' => $user->id]) }}">
+                                        @if( $user->deleted_at )
+                                            <span><i class="fa fa-user-times"></i></span>
+                                        @endif
                                         <div class="td-select-all">
                                             {{ $user->name }}
                                         </div>
@@ -112,7 +116,19 @@
                                     </a>
                                 </td>
                                 <td class="table-options">
-                                    <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" data-name="{{ $user->name }}" class="btn-delete-user"><i class="fa fa-trash fa-2x text-danger"></i></a>
+                                    @if( $user->deleted_at )
+                                        <a href="{{ route('admin.user.restore', ['id' => $user->id]) }}" 
+                                            data-name="{{ $user->name }}"
+                                            class="btn-restore-user">
+                                                <i class="fa fa-reply fa-2x text-info"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" 
+                                            data-name="{{ $user->name }}" 
+                                            class="btn-delete-user">
+                                                <i class="fa fa-trash fa-2x text-danger"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -127,6 +143,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            // delete user
             $('table#table-list-users').on('click', 'a.btn-delete-user', function(event){
                 event.preventDefault()
                 var action = $(this).attr('href')
@@ -140,6 +157,25 @@
                 modal.find('.modal-title').html(`Vas a eliminar a ${userName}.`)
                 modal.find('.modal-body').html(`<h4>¿Quieres eliminar a ${userName}?</h4>`)
                 modal.find('#md-btn-submit').attr('value', 'Si')
+
+                modal.modal('show')
+
+            })
+
+            // Restore user
+            $('table#table-list-users').on('click', 'a.btn-restore-user', function(event){
+                event.preventDefault()
+                var action = $(this).attr('href')
+                var userName = $(this).data('name')
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+
+                form.attr('method', 'GET')
+                form.attr('action', action)
+
+                modal.find('.modal-title').html(`Vas a restaurar al usuario: <strong>${userName}.</strong>`)
+                modal.find('.modal-body').html(`<h4>¿Quieres restaurar a ${userName}?</h4>`)
+                modal.find('#md-btn-submit').attr('value', 'Restaurar')
 
                 modal.modal('show')
 
