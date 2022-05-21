@@ -88,8 +88,6 @@ class UserController extends Controller
             ->appends('name', request('name'))
             ->appends('email', request('email'))
             ->appends('roll', request('roll'));
-
-        dd($users);
         
         return view('admin.user.index', compact('users', 'breadcrumb', 'paginate'));
     }
