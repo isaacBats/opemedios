@@ -88,6 +88,8 @@ class UserController extends Controller
             ->appends('name', request('name'))
             ->appends('email', request('email'))
             ->appends('roll', request('roll'));
+
+        dd($users);
         
         return view('admin.user.index', compact('users', 'breadcrumb', 'paginate'));
     }
@@ -266,8 +268,6 @@ class UserController extends Controller
         $rol = Role::where('name', 'disable')->firstOrFail();
         $user->roles()->detach();
         $user->assignRole($rol);
-        // no se eliminan las metas, por si en algun momento se quiere activar
-        // $user->metas()->detach();
         $user->delete();
 
         return redirect()->route('users')->with('status', "El usuario {$name} se ha eliminado satisfactoriamente");
@@ -377,9 +377,27 @@ class UserController extends Controller
     public function restore($id)
     {
         $user = User::withTrashed()->where('id', '=', $id)->first();
-
         $user->restore();
 
-        return redirect()->route('users')->with("restored", $id);
+        return redirect()->route('users')->with("status", "El usuario {$user->name} ha sido restaurado");
+    }
+
+    /**
+     *
+     * @method    forceDelete
+     *
+     * @author    Isaac Daniel Batista <daniel@danielbat.com>
+     *
+     * @param     $id   The user ID
+     *
+     * @return    Redirect
+     */
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->where('id', '=', $id)->first();
+        $user->metas()->delete();
+        $user->forceDelete();
+
+        return redirect()->route('users')->with("status", "El usuario se ha eliminado definitivamente");
     }
 }

@@ -7,7 +7,7 @@
     @endif
     <div class="row">
         @php
-            if($user->deleted_at) {
+            if($user->trashed()) {
                 $route = route('admin.user.restore', ['id' => $user->id]);
                 $button = '<input type="submit" class="btn btn-info btn-lg" value="Restaurar Usuario">';
                 $isDeleted = true;

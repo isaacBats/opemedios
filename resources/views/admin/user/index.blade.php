@@ -4,9 +4,6 @@
 @if (session('status'))
     <div class="alert alert-success"> {{ session('status') }}</div>
 @endif
- @if (session('restored'))
-     <div class="alert alert-success" role="alert"> Usuario restaurado</div>
-@endif
 <div class="col-md-12 people-list">
     <div class="panel">
         <div class="people-options clearfix"> <!-- filter-options -->
@@ -83,7 +80,7 @@
                                 <td class="text-center" >{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                                 <td class="text-left" >
                                     <a href="{{ route('user.show', ['id' => $user->id]) }}">
-                                        @if( $user->deleted_at )
+                                        @if( $user->trashed() )
                                             <span><i class="fa fa-user-times"></i></span>
                                         @endif
                                         <div class="td-select-all">
@@ -116,11 +113,16 @@
                                     </a>
                                 </td>
                                 <td class="table-options">
-                                    @if( $user->deleted_at )
+                                    @if( $user->trashed() )
                                         <a href="{{ route('admin.user.restore', ['id' => $user->id]) }}" 
                                             data-name="{{ $user->name }}"
                                             class="btn-restore-user">
                                                 <i class="fa fa-reply fa-2x text-info"></i>
+                                        </a>
+                                        <a href="{{ route('admin.user.forcedelete', ['id' => $user->id]) }}" 
+                                            data-name="{{ $user->name }}" 
+                                            class="force-delete-user">
+                                                <i class="fa fa-trash fa-2x text-info"></i>
                                         </a>
                                     @else
                                         <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}" 
@@ -178,7 +180,25 @@
                 modal.find('#md-btn-submit').attr('value', 'Restaurar')
 
                 modal.modal('show')
+            })
 
+            // Force delete user
+            $('table#table-list-users').on('click', 'a.force-delete-user', function(event){
+                event.preventDefault();
+                var action = $(this).attr('href');
+                var userName = $(this).data('name');
+                var modal = $('#modal-default');
+                var form = $('#modal-default-form');
+
+                form.attr('method', 'GET');
+                form.attr('action', action);
+
+                modal.find('.modal-title').html(`Eliminar definitivamente al usuario: <strong>${userName}.</strong>`);
+                modal.find('.modal-body').html(`<p>Vas a eliminar de forma permanente a este usuario.</p>
+                    <h4>¿Quieres eliminar de forma permanente a ${userName}?</h4>`);
+                modal.find('#md-btn-submit').attr('value', 'Eliminar del sistema');
+
+                modal.modal('show');
             })
         })
     </script>
