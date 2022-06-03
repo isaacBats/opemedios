@@ -28,12 +28,14 @@ class Turn extends Model
     
     protected $fillable = ['name', 'description',];
 
-    public function companies () {
+    public function companies()
+    {
         return $this->hasMany(Company::class);
     }
 
-    public function scopeName($query, $name) {
-        if($name) {
+    public function scopeName($query, $name)
+    {
+        if ($name) {
             return $query->where('name', 'like', "%{$name}%");
         }
     }

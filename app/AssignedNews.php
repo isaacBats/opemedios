@@ -25,19 +25,41 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssignedNews extends Model
 {
-    protected $fillable = ['news_id', 'company_id', 'theme_id', 'num_users', 'users_ids'];
+    protected $fillable = [
+        'news_id',
+        'company_id',
+        'theme_id',
+        'num_users',
+        'users_ids'
+    ];
 
-    public function company () {
+    /**
+     * Relationship with Company Model
+     *
+     * @return Illuminate\Database\Eloquent\Model;
+     */
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
 
-    public function news () {
+    /**
+     * Relationship with News Model
+     *
+     * @return Illuminate\Database\Eloquent\Model;
+     */
+    public function news()
+    {
         return $this->belongsTo(News::class);
     }
 
-    public function theme () {
+    /**
+     * Relationship with Theme Model
+     *
+     * @return Illuminate\Database\Eloquent\Model;
+     */
+    public function theme()
+    {
         return $this->belongsTo(Theme::class);
     }
-
-
 }

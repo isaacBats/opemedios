@@ -32,18 +32,21 @@ class File extends Model
      * @param  string  $this->path_filename
      * @return string
      */
-    public function extension() {
+    public function extension()
+    {
         return pathinfo($this->path_filename, PATHINFO_EXTENSION);
     }
 
-    public function getHTML() {
+    public function getHTML()
+    {
         $mediaController = new MediaController();
 
         return $mediaController->template($this);
     }
 
-    public function news() {
-        if(!is_null($this->news_id)) {
+    public function news()
+    {
+        if (!is_null($this->news_id)) {
             return $this->belongsTo(News::class);
         }
 

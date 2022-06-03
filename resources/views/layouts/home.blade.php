@@ -44,8 +44,8 @@
         {{-- $route --}}
         <header>
             @include('components.menu-client')
-        </header>
-
+        </header>        
+        
         @yield('content')
 
         <footer class="uk-section uk-padding-remove-bottom">

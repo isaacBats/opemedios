@@ -40,18 +40,20 @@ class Company extends Model
      */
     protected $fillable = ['name', 'address', 'slug', 'logo', 'turn_id', 'parent', 'digital_properties' ];
 
-    public function turn () {
+    public function turn()
+    {
 
         return $this->belongsTo(Turn::class);
-
     }
 
-    public function newsletter() {
+    public function newsletter()
+    {
 
         return $this->hasOne(Newsletter::class);
     }
 
-    public function accounts() {
+    public function accounts()
+    {
         $usersIds = UserMeta::where([
             ['meta_key', '=', 'company_id'],
             ['meta_value', '=', $this->id]
@@ -62,11 +64,12 @@ class Company extends Model
         return User::whereIn('id', $usersIds)->get();
     }
 
-    public function emailsNewsLetters() {
+    public function emailsNewsLetters()
+    {
         $users = $this->accounts();
         $emails = array();
         foreach ($users as $user) {
-            if($user->metas()->where([
+            if ($user->metas()->where([
                 ['meta_key', '=', 'user_newsletter'],
                 ['meta_value', '=', 1],
             ])->first()) {
@@ -77,36 +80,43 @@ class Company extends Model
         return $emails;
     }
 
-    public function themes() {
+    public function themes()
+    {
 
         return $this->hasMany(Theme::class);
     }
 
-    public function assignedNews() {
+    public function assignedNews()
+    {
         return $this->hasMany(AssignedNews::class);
     }
 
-    public function scopeName($query, $name) {
-      if($name) {
-        return $query->where('name', 'like', "%{$name}%");
-      }
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        }
     }
 
-    public function scopeTurn($query, $turn) {
-      if($turn) {
-        return $query->where('turn_id', $turn);
-      }
+    public function scopeTurn($query, $turn)
+    {
+        if ($turn) {
+            return $query->where('turn_id', $turn);
+        }
     }
 
-    public function executives() {
+    public function executives()
+    {
         return $this->belongsToMany(User::class, 'client_executive');
     }
 
-    public function allAccountsOfACompany() {
+    public function allAccountsOfACompany()
+    {
         return $this->accounts()->merge($this->executives);
     }
 
-    public function assignedNewsCount() {
+    public function assignedNewsCount()
+    {
         $notesIds = AssignedNews::where('company_id', $this->id)->pluck('news_id');
 
         return News::whereIn('id', $notesIds)->count();

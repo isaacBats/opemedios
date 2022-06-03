@@ -30,19 +30,23 @@ class NewsletterThemeNews extends Model
 
     protected $table = 'newsletter_themes_news';
 
-    public function newsletter () {
+    public function newsletter()
+    {
         return $this->belongsTo(Newsletter::class);
     }
 
-    public function theme() {
+    public function theme()
+    {
         return $this->belongsTo(Theme::class, 'newsletter_theme_id');
     }
 
-    public function news() {
+    public function news()
+    {
         return $this->belongsTo(News::class);
     }
 
-    public function newsletter_send() {
+    public function newsletter_send()
+    {
         return $this->belongsTo(NewsletterSend::class, 'newsletter_send_id');
     }
 }

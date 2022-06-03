@@ -48,29 +48,41 @@ class UserController extends Controller
 {
     use StadisticsNotes;
     
-    public function __construct(RegisterController $registerController) {
+    public function __construct(RegisterController $registerController)
+    {
 
         $this->registerController = $registerController;
     }
 
-    public function index (Request $request) {
+    /**
+     *
+     * @method    index View showing all system users
+     *
+     * @author    Isaac Daniel Batista <daniel@danielbat.com>
+     *
+     * @param     Request $request
+     *
+     * @return    View
+     */
+    public function index(Request $request)
+    {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
         
         $breadcrumb = array();
-        array_push($breadcrumb,['label' => 'Usuarios']);
+        array_push($breadcrumb, ['label' => 'Usuarios']);
         
         $query = User::query();
-        $query->orderBy('id', 'DESC')
-            ->when($request->has('name') && !is_null($request->get('name')), function($q) use ($request) {
+        $query->withTrashed()->orderBy('id', 'DESC')
+            ->when($request->has('name') && !is_null($request->get('name')), function ($q) use ($request) {
                 return $q->where('name', 'like', "%{$request->get('name')}%");
             })
-            ->when($request->has('email') && !is_null($request->get('email')), function($q) use ($request) {
+            ->when($request->has('email') && !is_null($request->get('email')), function ($q) use ($request) {
                 return $q->where('email', 'like', "%{$request->get('email')}%");
             })
-            ->when($request->has('roll') && !is_null($request->get('roll')), function($q) use ($request) {
-                return $q->whereHas('roles', function (Builder $qry) use($request) {
+            ->when($request->has('roll') && !is_null($request->get('roll')), function ($q) use ($request) {
+                return $q->whereHas('roles', function (Builder $qry) use ($request) {
                             $qry->where('id', $request->get('roll'));
-                        });
+                });
             });
         $users = $query->paginate($paginate)
             ->appends('name', request('name'))
@@ -80,8 +92,14 @@ class UserController extends Controller
         return view('admin.user.index', compact('users', 'breadcrumb', 'paginate'));
     }
 
-    public function show (Request $request, $id) {
-        $profile = User::find($id);
+    public function show(Request $request, $id)
+    {
+        $profile = User::withTrashed()->where('id', $id)->first();
+
+        if ($profile->deleted_at) {
+            return redirect()->route('admin.user.edit', ['id' => $profile->id]);
+        }
+
         $countNews = array();
         $date = Carbon::now()->toDateString();
         $allNews = News::count();
@@ -97,7 +115,7 @@ class UserController extends Controller
         $breadcrumb = array();
 
 
-        if($profile->isAdmin()) {
+        if ($profile->isAdmin()) {
             $notes = News::orderBy('id', 'asc')->simplePaginate($paginate);
             $companies = Company::orderBy('id', 'asc')->simplePaginate($paginate);
             $themes = Theme::orderBy('name', 'desc')->simplePaginate(50);
@@ -108,8 +126,7 @@ class UserController extends Controller
                 ['label' => 'Noticias enviadas hoy', 'value' => $newsSendToday],
                 ['label' => 'Noticias sin enviar hoy', 'value' => ($newsToday - $newsSendToday)],
             ];
-
-        } elseif($profile->isExecutive()) {
+        } elseif ($profile->isExecutive()) {
             $countNews = [
                 ['label' => 'Todas las noticias', 'value' => $allNews],
                 ['label' => 'Noticias de hoy', 'value' => $newsToday],
@@ -121,14 +138,16 @@ class UserController extends Controller
             $themes = Theme::whereIn('company_id', $companiesIds)->simplePaginate(50);
             // $countNotes = Arr::pluck($this->getNoteCountPerWeekAndExecutiveRol($companiesIds));
             $countNotes = $this->getNoteCountPerWeekAndExecutiveRol($companiesIds, '2021-03-08')->toArray();
-
-        } elseif($profile->isClient()) {
-            if($profile->metas()->where('meta_key', 'company_id')->first()){
+        } elseif ($profile->isClient()) {
+            if ($profile->metas()->where('meta_key', 'company_id')->first()) {
                 $countNews = [
                     ['label' => 'Total de noticias', 'value' => $profile->company()->assignedNewsCount()],
-                    ['label' => 'Noticias enviadas hoy', 'value' => AssignedNews::where('company_id', $profile->company()->id)->whereDate('created_at', $date)->count()]
+                    ['label' => 'Noticias enviadas hoy',
+                        'value' => AssignedNews::where('company_id', $profile->company()->id)
+                        ->whereDate('created_at', $date)->count()]
                 ];
-                $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)->simplePaginate($paginate);
+                $notes = AssignedNews::with('news')->where('company_id', $profile->company()->id)
+                    ->simplePaginate($paginate);
             } else {
                 $countNotes = [
                     ['label' => 'Total de noticias', 'value' => 0],
@@ -136,13 +155,14 @@ class UserController extends Controller
                 ];
                 $notes = collect();
             }
-
-        } elseif($profile->isMonitor()) {
+        } elseif ($profile->isMonitor()) {
             $countNews = [
                 ['label' => 'Noticias capturadas', 'value' => News::where('user_id', $profile->id)->count()],
             ];
             $notes = $profile->news()->simplePaginate($paginate);
-            $notesSent = $notes->filter(function($note){ return $note->isAssigned(); });
+            $notesSent = $notes->filter(function ($note) {
+                return $note->isAssigned();
+            });
         }
 
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
@@ -151,10 +171,11 @@ class UserController extends Controller
         return view('admin.user.show', compact('profile', 'countNews', 'notes', 'notesSent', 'companies', 'themes', 'countNotes', 'breadcrumb'));
     }
 
-    public function showFormNewUser() {
+    public function showFormNewUser()
+    {
         
         $companies = Company::all();
-        $monitors = Means::select('id','name')->get();
+        $monitors = Means::select('id', 'name')->get();
         $breadcrumb = array();
 
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
@@ -163,7 +184,8 @@ class UserController extends Controller
         return view('admin.user.create', compact('companies', 'monitors', 'breadcrumb'));
     }
 
-    public function validator($data) {
+    public function validator($data)
+    {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -171,27 +193,28 @@ class UserController extends Controller
             'rol' => 'required|integer',
             'user_position' => 'required|string|max:200',
             'monitor_type' => [
-                            Rule::requiredIf(function() use ($data){
+                            Rule::requiredIf(function () use ($data) {
                                 $rol = $data['rol'];
                                 if ($rol == 3) {
                                     return true;
-                                } 
+                                }
                                 return false;
                             }),
                               ],
             'company_id' => [
-                            Rule::requiredIf(function() use ($data){
+                            Rule::requiredIf(function () use ($data) {
                                 $rol = $data['rol'];
                                 if ($rol == 4) {
                                     return true;
-                                } 
+                                }
                                 return false;
                             }),
                             ],
         ]);
     }
 
-    public function register (Request $request) {
+    public function register(Request $request)
+    {
 
         $inputs = $request->all();
 
@@ -212,7 +235,7 @@ class UserController extends Controller
         $meta_pass->meta_value = Crypt::encryptString($inputs['password']);
         $user->metas()->save($meta_pass);
 
-        if($role->name == 'client') {
+        if ($role->name == 'client') {
             $meta_company = new UserMeta();
             $meta_company->meta_key = 'company_id';
             $meta_company->meta_value = $inputs['company_id'];
@@ -221,7 +244,7 @@ class UserController extends Controller
             $company = Company::find($inputs['company_id']);
         }
 
-        if($role->name == 'monitor') {
+        if ($role->name == 'monitor') {
             $meta_monitor_type = new UserMeta();
             $meta_monitor_type->meta_key = 'user_monitor_type';
             $meta_monitor_type->meta_value = $inputs['monitor_type'];
@@ -235,38 +258,39 @@ class UserController extends Controller
         }
     }
 
-    public function delete(Request $request, $id) {
+    public function delete(Request $request, $id)
+    {
 
         $user = User::findOrFail($id);
         $name = $user->name;
         $rol = Role::where('name', 'disable')->firstOrFail();
         $user->roles()->detach();
         $user->assignRole($rol);
-        // no se eliminan las metas, por si en algun momento se quiere activar
-        // $user->metas()->detach();
         $user->delete();
 
         return redirect()->route('users')->with('status', "El usuario {$name} se ha eliminado satisfactoriamente");
     }
 
-    public function addUserCompany(Request $request, $companyId) {
+    public function addUserCompany(Request $request, $companyId)
+    {
         $breadcrumb = array();
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
         $accounts = $company->allAccountsOfACompany();
         
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
-        array_push($breadcrumb, ['label' => $company->name, 
+        array_push($breadcrumb, ['label' => $company->name,
             'url' => route('company.show', ['id' => $company->id])]);
         array_push($breadcrumb, ['label' => 'Agregar Cuenta']);
 
-        return view('admin.company.addUser', compact('company', 'role', 'accounts', 'breadcrumb')); 
+        return view('admin.company.addUser', compact('company', 'role', 'accounts', 'breadcrumb'));
     }
 
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id)
+    {
 
-        $user = User::findOrFail($id);
-        $monitors = Means::select('id','name')->get();
+        $user = User::withTrashed()->where('id', $id)->first();
+        $monitors = Means::select('id', 'name')->get();
         $breadcrumb = array();
         
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
@@ -276,14 +300,15 @@ class UserController extends Controller
         return view('admin.user.edit', compact('user', 'monitors', 'breadcrumb'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         try {
             $user = User::findOrFail($id);
             $data = $request->all();
             $user->name = $data['name'];
-            if($user->email != $data['email']) {
+            if ($user->email != $data['email']) {
                 $userValidationEmail = User::where('email', $data['email'])->get();
-                if($userValidationEmail->isEmpty()) {
+                if ($userValidationEmail->isEmpty()) {
                     $user->email = $data['email'];
                 } else {
                     return back()->withInput()->with('status', "El correo {$data['email']} ya se encuentra registrado en nuestra base de datos, use otro correo.");
@@ -298,8 +323,8 @@ class UserController extends Controller
             }
 
             foreach ($data as $key => $value) {
-                if(Str::contains($key, 'user_')) {
-                    if(!is_null($value)) {
+                if (Str::contains($key, 'user_')) {
+                    if (!is_null($value)) {
                         $user->metas()->updateOrCreate(
                             ['user_id' => $user->id, 'meta_key' => $key],
                             ['meta_value' => $value]
@@ -316,7 +341,8 @@ class UserController extends Controller
         return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
     }
 
-    public function addCompanyToExecutive(Request $request) {
+    public function addCompanyToExecutive(Request $request)
+    {
         try {
             $user = User::findOrFail($request->input('user_id'));
             $user->companies()->attach($request->input('company_id'));
@@ -329,11 +355,47 @@ class UserController extends Controller
         }
     }
 
-    public function removeCAssigned(Request $request) {
+    public function removeCAssigned(Request $request)
+    {
         $user = User::findOrFail($request->input('user_id'));
         $user->companies()->detach($request->input('company_id'));
         $company = Company::findOrFail($request->input('company_id'));
 
         return back()->with('status', "Se ha desasociado la empresa {$company->name} de la cuenta de {$user->name}");
+    }
+
+    /**
+     *
+     * @method    restore Restore user
+     *
+     * @author    Isaac Daniel Batista <daniel@danielbat.com>
+     *
+     * @return    Redirect
+     */
+    public function restore($id)
+    {
+        $user = User::withTrashed()->where('id', '=', $id)->first();
+        $user->restore();
+
+        return redirect()->route('users')->with("status", "El usuario {$user->name} ha sido restaurado");
+    }
+
+    /**
+     *
+     * @method    forceDelete
+     *
+     * @author    Isaac Daniel Batista <daniel@danielbat.com>
+     *
+     * @param     $id   The user ID
+     *
+     * @return    Redirect
+     */
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->where('id', '=', $id)->first();
+        $user->metas()->delete();
+        $user->forceDelete();
+
+        return redirect()->route('users')->with("status", "El usuario se ha eliminado definitivamente");
     }
 }

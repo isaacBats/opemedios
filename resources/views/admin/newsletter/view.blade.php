@@ -23,7 +23,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Fecha</th>
+                            <th>Fecha de envío</th>
                             <th>Etiqueta</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
@@ -37,8 +37,10 @@
                         @forelse($newsletters_send as $oneNewsletter)
                             <tr>
                                 <td>{{ ($newsletters_send->currentPage() - 1) * $newsletters_send->perPage() + $loop->iteration }}</td>
-                                <td>{{ $oneNewsletter->created_at->format('d-m-Y H:i') }}</td>
-                                <td>{{ $oneNewsletter->label }}</td>
+                                <td>{{ $oneNewsletter->date_sending }}</td>
+                                <td>
+                                    {{ $oneNewsletter->label }}
+                                </td>
                                 <td>
                                     @if($oneNewsletter->status)
                                         @for($i = 0; $i < $oneNewsletter->status; $i++)
@@ -96,7 +98,11 @@
                 modal.find('.modal-body').html(`
                     <div class="form-group">
                         <label>Nombre del newsletter</label>
-                        <input class="form-control" name="nwl-name" placeholder="Default" type="text">
+                        <input class="form-control" name="nwl-name" placeholder="Default" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de envío</label>
+                        <input class="form-control" name="date-sending"  type="date" required>
                     </div>
                 `);
 

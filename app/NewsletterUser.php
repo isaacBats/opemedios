@@ -15,7 +15,8 @@ class NewsletterUser extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function newsletter() {
+    public function newsletter()
+    {
 
         return $this->belongsTo(Newsletter::class);
     }

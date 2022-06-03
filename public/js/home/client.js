@@ -113,7 +113,7 @@ $(document).ready(function(){
           var companyslug = input.data('companyslug')
           var token = $('meta[name=csrf-token]').attr('content')
           var container = $('#list-news')
-          var spinner = $('.loader')
+          var spinner = $('.lds-roller')
           var uri = window.location.pathname
           var last = uri.split('/').pop()
 

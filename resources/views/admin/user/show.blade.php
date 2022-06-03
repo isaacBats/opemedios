@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('admin-title', " - Perdil de {$profile->name}")
+@section('admin-title', " - Perfil de {$profile->name}")
 @section('content')
 @if (session('status'))
     <div class="alert alert-success">
@@ -112,7 +112,10 @@
                     <div class="tab-pane" id="companies">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-9">
-                                <button  data-href="{{ route('admin.executive.add.company') }}" data-executive="{{ $profile->name }}" class="btn btn-danger btn-quirk btn-block" id="btn-assign-company">Asignar empresa</button>
+                                <button  data-href="{{ route('admin.executive.add.company') }}" 
+                                        data-executive="{{ $profile->name }}" 
+                                        class="btn btn-danger btn-quirk btn-block" 
+                                        id="btn-assign-company">Asignar empresa</button>
                             </div>
                         </div>
                         @foreach($companies as $company)

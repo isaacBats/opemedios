@@ -1,4 +1,5 @@
 <?php
+
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -22,7 +23,6 @@ use App\Mail\NewsletterEmail;
 use App\Newsletter;
 use App\NewsletterFooter;
 use App\NewsletterSend;
-use App\NewsletterThemeNews;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,6 @@ use Illuminate\Http\Request;
  */
 class NewsletterSendController extends Controller
 {
-
     protected $ntnc;
 
     public function __construct(NewsletterThemeNewsController $ntnc)
@@ -45,16 +44,19 @@ class NewsletterSendController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(Request $request, $id) {
+    public function create(Request $request, $id)
+    {
         $newsletter = Newsletter::findOrFail($id);
         $label = $request->input('nwl-name') == "" ? "Default" : $request->input('nwl-name');
         $forSend = NewsletterSend::create([
             'newsletter_id' => $newsletter->id,
             'status' => 0,
-            'label' => $label 
+            'label' => $label,
+            'date_sending' => Carbon::createFromFormat('Y-m-d', $request->input('date-sending')),
         ]);
 
-        return redirect()->route('admin.newsletter.view', ['id' => $newsletter->id])->with('status', 'Se ha creado una nueva plantilla para newsletter');
+        return redirect()->route('admin.newsletter.view', ['id' => $newsletter->id])
+            ->with('status', 'Se ha creado una nueva plantilla para newsletter');
     }
 
     /**
@@ -62,19 +64,32 @@ class NewsletterSendController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit (Request $reques, $id) {
-        $breadcrumb = array();
+    public function edit(Request $reques, $id)
+    {
+        $breadcrumb = [];
         $newsletterSend = NewsletterSend::findOrFail($id);
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
-        array_push($breadcrumb, ['label' => $newsletterSend->newsletter->name, 'url' => route('admin.newsletter.view', ['id' => $newsletterSend->newsletter->id])]);
+        array_push($breadcrumb, [
+            'label' => $newsletterSend->newsletter->name,
+            'url' => route('admin.newsletter.view', ['id' => $newsletterSend->newsletter->id])
+        ]);
         array_push($breadcrumb, ['label' => 'Agregar notas']);
 
         return view('admin.newsletter.editsend', compact('newsletterSend', 'breadcrumb'));
     }
 
-    public function addNote (Request $request) {
-        
+    public function editLabel(Request $request, $id)
+    {
+        $newsletterSend = NewsletterSend::findOrFail($id);
+        $newsletterSend->label = $request->input('label');
+        $newsletterSend->save();
+
+        return response()->json(['status' => 'OK', 'message' => '¡Nombre de etiqueta de newsletter actualizada!']);
+    }
+
+    public function addNote(Request $request)
+    {
         $data['newsletter_id'] = $request->input('newsletterid');
         $data['newsletter_theme_id'] = $request->input('themeid');
         $data['newsletter_send_id'] = $request->input('newssend');
@@ -87,19 +102,20 @@ class NewsletterSendController extends Controller
         ]);
     }
 
-    public function remove (Request $request) {
+    public function remove(Request $request)
+    {
         $this->ntnc->remove($request->input('ntn'));
 
         return response()->json(['status' => 'OK', 'message' => '¡Nota eliminada correctamente!']);
     }
 
-    public function previewEmail(Request $request, $id) {
-        
+    public function previewEmail(Request $request, $id)
+    {
         $newsletterSend = NewsletterSend::findOrFail($id);
         $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
 
-        if( !$covers ) {
-            return back()->with('status', 'No se puede visualizar la vista previa porque hace falta agregar las portadas del día de hoy');
+        if (!$covers) {
+            $covers = NewsletterFooter::latest('id')->first();
         }
 
         return new NewsletterEmail($newsletterSend, $covers);

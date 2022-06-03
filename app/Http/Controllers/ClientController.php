@@ -42,7 +42,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Support\Facades\URL;
 
-
 class ClientController extends Controller
 {
 
@@ -52,26 +51,29 @@ class ClientController extends Controller
 
     protected $newsController;
 
-    public function __construct(MediaController $mediaController, NewsController $newsController) {
+    public function __construct(MediaController $mediaController, NewsController $newsController)
+    {
         $this->mediaController = $mediaController;
         $this->newsController = $newsController;
     }
 
-    public function index(Request $request, $company) {  
+    public function index(Request $request, $company)
+    { 
         $company = Company::where('slug', $company)->first();
 
         return view('clients.news', compact('company'));
     }
 
-    public function showNew(Request $request, $slug_company, $newId) {
+    public function showNew(Request $request, $slug_company, $newId)
+    {
         $company = Company::where('slug', $slug_company)->first();
         
         $note = News::findOrFail($newId);
         return view('clients.shownew', compact('note', 'company'));
-
     }
 
-    public function getCovers(Request $request, $slug_company) {
+    public function getCovers(Request $request, $slug_company)
+    {
         $type = $request->get('type');
         $company = Company::where('slug', $slug_company)->first();
         $coverType = null;
@@ -148,20 +150,28 @@ class ClientController extends Controller
         return view('components.listNews', compact('news', 'company', 'theme'))->render();
     }
 
-    public function search(Request $request, $slug_company) {
+    /**
+     * Search of client
+     *
+     * @return view
+     */
+    public function search(Request $request, $slug_company)
+    {
         $query = $request->query();
         $company = Company::where('slug', $slug_company)->first();
-            
-        $idsNewsAssigned = $company->assignedNews->map(function($assigned) {
+        
+        $idsNewsAssigned = $company->assignedNews->map(function ($assigned) {
             return $assigned->news_id;
         });
-
-        $news = News::whereIn('id', $idsNewsAssigned)
-                ->where('title', 'like', "%{$query['query']}%")
+        
+        $news = News::whereIn('id', $idsNewsAssigned->all());
+        $news->when(!empty($query['query']), function ($q) use ($query) {
+            return $q->where('title', 'like', "%{$query['query']}%")
                 ->orWhere('synthesis', 'like', "%{$query['query']}%")
-                ->orderBy('news_date', 'DESC')
-                ->get();
-
+                ->orderBy('news_date', 'DESC');
+        });
+        $news = $news->get();
+        
         return view('components.listSearch', compact('news', 'company'))->render();
     }
 
