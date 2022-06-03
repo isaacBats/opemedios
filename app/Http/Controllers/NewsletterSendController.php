@@ -1,4 +1,5 @@
 <?php
+
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -22,7 +23,6 @@ use App\Mail\NewsletterEmail;
 use App\Newsletter;
 use App\NewsletterFooter;
 use App\NewsletterSend;
-use App\NewsletterThemeNews;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,6 @@ use Illuminate\Http\Request;
  */
 class NewsletterSendController extends Controller
 {
-
     protected $ntnc;
 
     public function __construct(NewsletterThemeNewsController $ntnc)
@@ -67,7 +66,7 @@ class NewsletterSendController extends Controller
      */
     public function edit(Request $reques, $id)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $newsletterSend = NewsletterSend::findOrFail($id);
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
@@ -82,7 +81,6 @@ class NewsletterSendController extends Controller
 
     public function editLabel(Request $request, $id)
     {
-
         $newsletterSend = NewsletterSend::findOrFail($id);
         $newsletterSend->label = $request->input('label');
         $newsletterSend->save();
@@ -92,7 +90,6 @@ class NewsletterSendController extends Controller
 
     public function addNote(Request $request)
     {
-        
         $data['newsletter_id'] = $request->input('newsletterid');
         $data['newsletter_theme_id'] = $request->input('themeid');
         $data['newsletter_send_id'] = $request->input('newssend');
@@ -114,7 +111,6 @@ class NewsletterSendController extends Controller
 
     public function previewEmail(Request $request, $id)
     {
-        
         $newsletterSend = NewsletterSend::findOrFail($id);
         $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
 

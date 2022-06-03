@@ -195,7 +195,7 @@
                 nodeParent.attr('id', 'remove-element')
 
                 modal.find('.modal-title').text('Eliminar nota')
-                modal.find('.modal-body').html(`<p>Vas a eliminar la nota <strong>${title}</strong> del tema <strong>${theme}</strong>>.</p>
+                modal.find('.modal-body').html(`<p>Vas a eliminar la nota <strong>${title}</strong> del tema <strong>${theme}</strong>.</p>
                 <p class="text-center" style="font-size: 16px; "><strong>¿Estas seguro?</strong></p>`)
                 form.attr('action', "{{ route('admin.newsletter.send.remove.note') }}")
                 form.attr('method', 'POST')
