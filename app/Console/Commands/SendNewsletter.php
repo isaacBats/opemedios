@@ -45,5 +45,7 @@ class SendNewsletter extends Command
         $date = date('Y-m-d H:i:s');
         Log::info("Send Newsletter {$date}");
         $this->newsletterController->sendMail();
+
+        return 0;
     }
 }
