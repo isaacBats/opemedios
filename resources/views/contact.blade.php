@@ -3,6 +3,13 @@
 @section('content')
     <!-- container -->
     <div class="uk-container op-content-mt">
+        @if($errors->any())
+            <ul class="uk-list uk-list-hyphen">
+            @foreach($errors->all() as $message)
+                <li class="uk-text-danger uk-text-bold uk-text-small">{{ $message }}</li>
+            @endforeach
+            </ul>
+        @endif
 
         <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle uk-padding-large uk-padding-remove-horizontal" uk-grid>
             <div>
@@ -22,6 +29,12 @@
                 </div>
             </div>
             <div>
+                @if (session('status'))
+                <div class="alert alert-success uk-text-success">
+                    {{ session('status') }}
+                </div>
+                <hr>
+                @endif
                 <form id="form-contact" class="f-contact" method="POST" action="{{ route('form.contact') }}">
                 @csrf
                 
@@ -32,7 +45,7 @@
                         <input class="form-control uk-input" type="email" name="email" placeholder="*Email" required>
                     </div>
                     <div class="uk-margin">
-                        <input class="form-control uk-input" type="text" name="phone" placeholder="Teléfono">
+                        <input class="form-control uk-input" type="text" name="phone" placeholder="*Teléfono" required>
                     </div>
                     <div class="uk-margin">
                         <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control uk-textarea" rows="9" required></textarea>
@@ -44,25 +57,7 @@
                         <input id="btn-send-form-contact" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Enviar mensaje">
                     </div>
                 </form>
-                @if (session('status'))
-                <hr>
-                <div class="alert alert-success uk-text-success">
-                    {{ session('status') }}
-                </div>
-                @endif
             </div>
         </div>
     </div>  <!-- /container -->
-
-@endsection
-@section('scripts')
-    <script type="text/javascript">
-        // TODO: crear el javascript para el formulario de contacto
-        // $(document).ready(function() {
-        //     $('#btn-send-form-contact').on('click', function(event) {
-        //         event.preventDefault()
-        //         console.log('con que quieres enviar este formukario he!!!')
-        //     })
-        // })
-    </script>
 @endsection
