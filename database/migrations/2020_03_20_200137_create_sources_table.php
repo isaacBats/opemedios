@@ -23,7 +23,7 @@ class CreateSourcesTable extends Migration
             $table->text('comment')->nullable();
             $table->string('logo')->nullable();
             $table->smallInteger('active');
-            $table->enum('coverage', ['Local', 'Nacional', 'Internacional']);
+            $table->set('coverage', ['Local', 'Nacional', 'Internacional']);
 
             $table->unsignedBigInteger('means_id');
 
