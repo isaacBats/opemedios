@@ -3,14 +3,6 @@
 @section('content')
     <!-- container -->
     <div class="uk-container op-content-mt">
-        @if($errors->any())
-            <ul class="uk-list uk-list-hyphen">
-            @foreach($errors->all() as $message)
-                <li class="uk-text-danger uk-text-bold uk-text-small">{{ $message }}</li>
-            @endforeach
-            </ul>
-        @endif
-
         <div class="uk-grid-divider uk-child-width-1-2@s uk-flex-middle uk-padding-large uk-padding-remove-horizontal" uk-grid>
             <div>
                 <h1 class="page-title">Contáctanos</h1>
@@ -29,8 +21,16 @@
                 </div>
             </div>
             <div>
+                @if($errors->any())
+                    <ul class="uk-list uk-list-hyphen">
+                    @foreach($errors->all() as $message)
+                        <li class="uk-text-danger uk-text-bold uk-text-small">{{ $message }}</li>
+                    @endforeach
+                    </ul>
+                    <hr>
+                @endif
                 @if (session('status'))
-                <div class="alert alert-success uk-text-success">
+                <div class="alert alert-success uk-text-success uk-text-bold">
                     {{ session('status') }}
                 </div>
                 <hr>
@@ -39,16 +39,40 @@
                 @csrf
                 
                     <div class="uk-margin">
-                        <input class="form-control uk-input" type="text" name="name" placeholder="*Nombre" required>
+                        <label for="name">Nombre*</label>
+                        <input class="form-control uk-input" type="text" name="name" placeholder="Nombre" required>
+                        @error('name')
+                            <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
                     </div>
                     <div class="uk-margin">
-                        <input class="form-control uk-input" type="email" name="email" placeholder="*Email" required>
+                        <label for="email">Correo*</label>
+                        <input class="form-control uk-input" type="email" name="email" placeholder="contacto&#64;contacto.com" required>
+                        @error('email')
+                            <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
                     </div>
                     <div class="uk-margin">
-                        <input class="form-control uk-input" type="text" name="phone" placeholder="*Teléfono" required>
+                        <label for="phone">Teléfono</label>
+                        <input class="form-control uk-input" type="text" name="phone" placeholder="*5512345678" required>
+                        @error('phone')
+                            <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
                     </div>
                     <div class="uk-margin">
-                        <textarea name="message" placeholder="Escribanos un mensaje..." class="form-control uk-textarea" rows="9" required></textarea>
+                        <label for="message">Mensaje *</label>
+                        <textarea name="message" class="form-control uk-textarea" rows="9" required></textarea>
+                        @error('message')
+                            <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
                     </div>
                 
                     <hr>
