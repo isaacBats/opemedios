@@ -26,7 +26,7 @@ class FormContactRequest extends FormRequest
         return [
             'name' => 'required|max:50',
             'email' => 'required|email',
-            'phone' => 'required|numeric|min:10',
+            'phone' => 'required|digits:10',
             'message' => 'required',
         ];
     }
@@ -38,6 +38,7 @@ class FormContactRequest extends FormRequest
             'email.required' => 'Dejanos una dirección de correo para poder estar en contacto contigo.',
             'email.email' => 'Ingresa una dirección de correo valida.',
             'phone.required' => 'Si nos dejas tu número de teléfono, podemos contactarte mas rápido.',
+            'phone.digits' => 'Introduce un número valido de :digits dígitos',
             'message.required' => 'Aquí puedes compartirnos tus dudas a cerca de nuestros servicios.',
         ];
     }

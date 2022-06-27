@@ -21,14 +21,6 @@
                 </div>
             </div>
             <div>
-                @if($errors->any())
-                    <ul class="uk-list uk-list-hyphen">
-                    @foreach($errors->all() as $message)
-                        <li class="uk-text-danger uk-text-bold uk-text-small">{{ $message }}</li>
-                    @endforeach
-                    </ul>
-                    <hr>
-                @endif
                 @if (session('status'))
                 <div class="alert alert-success uk-text-success uk-text-bold">
                     {{ session('status') }}
@@ -40,7 +32,9 @@
                 
                     <div class="uk-margin">
                         <label for="name">Nombre*</label>
-                        <input class="form-control uk-input" type="text" name="name" placeholder="Nombre" required>
+                        <input class="form-control uk-input" type="text" name="name" 
+                            placeholder="Nombre" 
+                            value="{{ old('name') }}" required>
                         @error('name')
                             <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -49,7 +43,9 @@
                     </div>
                     <div class="uk-margin">
                         <label for="email">Correo*</label>
-                        <input class="form-control uk-input" type="email" name="email" placeholder="contacto&#64;contacto.com" required>
+                        <input class="form-control uk-input" type="email" name="email" 
+                            value="{{ old('email') }}"
+                            placeholder="contacto&#64;contacto.com" required>
                         @error('email')
                             <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -58,7 +54,9 @@
                     </div>
                     <div class="uk-margin">
                         <label for="phone">Teléfono</label>
-                        <input class="form-control uk-input" type="text" name="phone" placeholder="*5512345678" required>
+                        <input class="form-control uk-input" type="text" name="phone" 
+                            value="{{ old('phone')}}"
+                            placeholder="*5512345678" required>
                         @error('phone')
                             <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -67,7 +65,8 @@
                     </div>
                     <div class="uk-margin">
                         <label for="message">Mensaje *</label>
-                        <textarea name="message" class="form-control uk-textarea" rows="9" required></textarea>
+                        <textarea name="message" class="form-control uk-textarea" rows="9" required>{{ old('message') }}
+                        </textarea>
                         @error('message')
                             <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
                                 <strong>{{ $message }}</strong>
