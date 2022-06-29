@@ -12,36 +12,6 @@ use Validator;
 
 class HomeController extends Controller
 {
-
-    public function index()
-    {
-        return view('home');
-    }
-
-    public function about()
-    {
-
-        return view('aboutus');
-    }
-
-    public function clients()
-    {
-
-        return view('clients');
-    }
-
-    public function contact()
-    {
-
-        return view('contact');
-    }
-
-    public function signin()
-    {
-
-        return view('signin');
-    }
-
     public function formContact(FormContactRequest $request)
     {
         // TODO: Crear una plantilla general de correo de notificación para opemedios

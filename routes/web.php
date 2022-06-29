@@ -28,11 +28,12 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('quienes-somos', 'HomeController@about')->name('about');
-Route::get('clientes', 'HomeController@clients')->name('clients');
-Route::get('contacto', 'HomeController@contact')->name('contact');
-Route::get('cuenta', 'HomeController@signin')->name('signin');
+Route::view('/', 'home')->name('home');
+Route::view('quienes-somos', 'aboutus')->name('about');
+Route::view('clientes', 'clients')->name('clients');
+Route::view('contacto', 'contact')->name('contact');
+Route::view('cuenta', 'signin')->name('signin');
+
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
