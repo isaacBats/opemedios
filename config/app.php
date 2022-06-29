@@ -153,6 +153,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Aws\Laravel\AwsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -214,7 +215,7 @@ return [
         // Custom Alias
         'AWS' => Aws\Laravel\AwsFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
     ],
 
 ];
