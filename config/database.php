@@ -54,14 +54,14 @@ return [
             'engine' => null,
         ],
 
-        'opemediosold' => [
+        'testing' => [
             'driver' => 'mysql',
-            'host' => env('OPE_HOST', '127.0.0.1'),
-            'port' => env('OPE_PORT', '3306'),
-            'database' => env('OPE_DATABASE', 'forge'),
-            'username' => env('OPE_USERNAME', 'forge'),
-            'password' => env('OPE_PASSWORD', ''),
-            'unix_socket' => env('OPE_SOCKET', ''),
+            'host' => env('DBTDD_HOST', '127.0.0.1'),
+            'port' => env('DBTDD_PORT', '3306'),
+            'database' => env('DBTDD_DATABASE', 'forge'),
+            'username' => env('DBTDD_USERNAME', 'forge'),
+            'password' => env('DBTDD_PASSWORD', ''),
+            'unix_socket' => env('DBTDD_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
