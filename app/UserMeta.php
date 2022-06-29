@@ -24,9 +24,7 @@ class UserMeta extends Model
 {
     protected $table = 'user_meta';
 
-    protected $fillable = [
-        'meta_key', 'meta_value',
-    ];
+    protected $fillable = ['meta_key', 'meta_value'];
 
     public function user()
     {
