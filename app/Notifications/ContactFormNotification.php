@@ -44,9 +44,15 @@ class ContactFormNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line("Nuevo Correo de contacto {$this->contactMessage->email}")
+                    ->subject('Alguien te busca en Opemedios - Contacto')
+                    ->from('no-reply@opemedios.com.mx', 'no-reply')
+                    ->greeting('Detalles:')
+                    ->line("Nombre: {$this->contactMessage->name}")
+                    ->line("Email: {$this->contactMessage->email}")
+                    ->line("Télefono: {$this->contactMessage->phone}")
                     ->line("Mensaje:")
-                    ->line($this->contactMessage->message);
+                    ->line($this->contactMessage->message)
+                    ->salutation(' ');
     }
 
     /**
