@@ -24,22 +24,25 @@ class FormContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50',
-            'email' => 'required|email',
-            'phone' => 'required|digits:10',
-            'message' => 'required',
+            'name'                  => 'required|max:50',
+            'email'                 => 'required|email',
+            'phone'                 => 'required|digits:10',
+            'message'               => 'required',
+            'g-recaptcha-response'  => 'required|captcha',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Queremos conocerte. Por favor ingresa tu nombre.',
-            'email.required' => 'Dejanos una dirección de correo para poder estar en contacto contigo.',
-            'email.email' => 'Ingresa una dirección de correo valida.',
-            'phone.required' => 'Si nos dejas tu número de teléfono, podemos contactarte mas rápido.',
-            'phone.digits' => 'Introduce un número valido de :digits dígitos',
-            'message.required' => 'Aquí puedes compartirnos tus dudas a cerca de nuestros servicios.',
+            'name.required'                 => 'Queremos conocerte. Por favor ingresa tu nombre.',
+            'email.required'                => 'Dejanos una dirección de correo para poder estar en contacto contigo.',
+            'email.email'                   => 'Ingresa una dirección de correo valida.',
+            'phone.required'                => 'Si nos dejas tu número de teléfono, podemos contactarte mas rápido.',
+            'phone.digits'                  => 'Introduce un número valido de :digits dígitos',
+            'message.required'              => 'Aquí puedes compartirnos tus dudas a cerca de nuestros servicios.',
+            'g-recaptcha-response.required' => 'Es necesario el captcha.',
+            'g-recaptcha-response.captcha'  => 'Captcha error! Prueba de nuevo mas tarde.',
         ];
     }
 }

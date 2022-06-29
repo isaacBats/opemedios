@@ -1,5 +1,8 @@
 @extends('layouts.home')
 @section('title', ' - Contacto')
+@section('styles')
+    {!! NoCaptcha::renderJs() !!}
+@endsection
 @section('content')
     <!-- container -->
     <div class="uk-container op-content-mt">
@@ -65,15 +68,19 @@
                     </div>
                     <div class="uk-margin">
                         <label for="message">Mensaje *</label>
-                        <textarea name="message" class="form-control uk-textarea" rows="9" required>{{ old('message') }}
-                        </textarea>
+                        <textarea name="message" class="form-control uk-textarea" rows="9" required>{{ old('message') }}</textarea>
                         @error('message')
                             <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
                                 <strong>{{ $message }}</strong>
                             </label>
                         @enderror
                     </div>
-                
+                     {!! NoCaptcha::display() !!}
+                     @error('g-recaptcha-response')
+                        <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </label>
+                    @enderror
                     <hr>
                 
                     <div class="uk-margin">

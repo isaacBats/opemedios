@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\ContactMessage;
 use App\Http\Requests\FormContactRequest;
+use App\Notifications\ContactFormNotification;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Validator;
 
 class HomeController extends Controller
@@ -41,11 +44,15 @@ class HomeController extends Controller
 
     public function formContact(FormContactRequest $request)
     {
-        // TODO: Crear una notificacion por correo para las personas que requieran ver esta información
         // TODO: Crear una plantilla general de correo de notificación para opemedios
+        $contactMessage = ContactMessage::create($request->all());
 
-        ContactMessage::create($request->all());
-
+        $users = User::where('email', 'froylan@opemedios.com.mx')
+            ->orWhere('email', 'karenina.opemedios@gmail.com')
+            ->get();
+        
+        Notification::send($users, new ContactFormNotification($contactMessage));
+        
         return back()->with(
             'status',
             'Gracias por interesarse en nuestros servicios. En breve nos pondremos en contacto con usted.'

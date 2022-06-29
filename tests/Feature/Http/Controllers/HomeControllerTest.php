@@ -2,8 +2,12 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
+use App\Notifications\ContactFormNotification;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class HomeControllerTest extends TestCase
@@ -44,11 +48,26 @@ class HomeControllerTest extends TestCase
 
     public function test_save_contact_form()
     {
+        Notification::fake();
+        factory(User::class)->create([
+            'email' => 'froylan@opemedios.com.mx'
+        ]);
+
+        $users = User::all();
+        
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+        
+        $name = $this->faker->name;
+        $email = $this->faker->email;
+        
         $data = [
-            'name' => $this->faker->name,
-            'email' => $this->faker->email,
+            'name' => $name,
+            'email' => $email,
             'phone' => $this->faker->numerify('##########'),
-            'message' => $this->faker->text
+            'message' => $this->faker->text,
+            'g-recaptcha-response' => '1',
         ];
 
         $this->from('contacto')->post('contacto', $data)
@@ -58,7 +77,14 @@ class HomeControllerTest extends TestCase
                 'Gracias por interesarse en nuestros servicios. En breve nos pondremos en contacto con usted.'
             );
 
-        $this->assertDatabaseHas('contact_messages', $data);
+        $this->assertDatabaseHas('contact_messages', [
+            'name' => $name,
+            'email' => $email,
+        ]);
+        
+        Notification::assertSentTo($users, ContactFormNotification::class, function ($notification) use ($data) {
+            return $notification->contactMessage->email = $data['email'];
+        });
     }
 
     public function test_contact_form_name_is_required()
@@ -180,6 +206,45 @@ class HomeControllerTest extends TestCase
             ]);
     }
 
+    public function test_save_contact_form_captcha_is_required()
+    {
+        $data = [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->numerify('##########'),
+            'message' => $this->faker->text
+        ];
+
+        $this->from('contacto')->post('contacto', $data)
+            ->assertStatus(302)
+            ->assertRedirect('contacto')
+            ->assertSessionHasErrors([
+                'g-recaptcha-response' => 'Es necesario el captcha.',
+            ]);
+    }
+
+    public function test_save_contact_form_captcha_is_not_valid()
+    {
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(false);
+
+        $data = [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->numerify('##########'),
+            'message' => $this->faker->text,
+            'g-recaptcha-response' => '1',
+        ];
+
+        $this->from('contacto')->post('contacto', $data)
+            ->assertStatus(302)
+            ->assertRedirect('contacto')
+            ->assertSessionHasErrors([
+                'g-recaptcha-response' => 'Captcha error! Prueba de nuevo mas tarde.',
+            ]);
+    }
+
     public function test_save_contact_form_policy()
     {
         $data = [];
@@ -190,6 +255,7 @@ class HomeControllerTest extends TestCase
                 'name' => 'Queremos conocerte. Por favor ingresa tu nombre.',
                 'email' => 'Dejanos una dirección de correo para poder estar en contacto contigo.',
                 'phone' => 'Si nos dejas tu número de teléfono, podemos contactarte mas rápido.',
+                'g-recaptcha-response' => 'Es necesario el captcha.',
             ]);
     }
 }
