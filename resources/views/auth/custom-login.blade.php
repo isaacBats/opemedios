@@ -38,6 +38,13 @@
             @endif
         </div>
         <div><a href="{{ route('password.request') }}" class="forgot">¿Se te olvidó tu contraseña?</a></div>
+        {!! NoCaptcha::display() !!}
+        @error('g-recaptcha-response')
+            <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                <strong>{{ $message }}</strong>
+            </label>
+        @enderror
+        <hr>
         <div class="form-group">
             <button type="submit" class="btn btn-success btn-quirk btn-block">Entrar</button>
         </div>

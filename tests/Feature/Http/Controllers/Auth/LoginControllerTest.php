@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use App\{User, Company, UserMeta};
+use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use RolesTableSeeder;
 use Tests\TestCase;
 
@@ -27,10 +28,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => $company->id
             ])
         ]);
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('client');
         $response = $this->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('news', ['company' => $company->slug]));
@@ -52,10 +59,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => $company->id
             ])
         ]);
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('client');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('news', ['company' => $company->slug]));
@@ -78,11 +91,17 @@ class LoginControllerTest extends TestCase
             ])
         ]);
         $user->assignRole('client');
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $response = $this->from('cuenta')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
-
+        
         $response->assertRedirect('cuenta')
             ->assertStatus(302)
             ->assertSessionHasErrors('email', 'password');
@@ -103,10 +122,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => $company->id
             ])
         ]);
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+        
         $user->assignRole('client');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect('login')
@@ -124,10 +149,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => 'Gerente'
             ])
         );
+        
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('admin');
         $response = $this->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('panel'));
@@ -144,10 +175,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => 'Gerente'
             ])
         );
+        
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('admin');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('panel'));
@@ -164,10 +201,16 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => 'Gerente'
             ])
         );
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('admin');
         $response = $this->from('cuenta')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect('cuenta')
@@ -185,26 +228,37 @@ class LoginControllerTest extends TestCase
                 'meta_value'    => 'Gerente'
             ])
         );
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('admin');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect('login')
             ->assertStatus(302)
             ->assertSessionHasErrors('email', 'password');
     }
-    // monitor
+    
     public function test_user_monitor_can_login_with_correct_credentials()
     {
         $this->seed(RolesTableSeeder::class);
         $user = factory(User::class)->create();
         
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('monitor');
         $response = $this->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('admin.news'));
@@ -216,11 +270,16 @@ class LoginControllerTest extends TestCase
         $this->seed(RolesTableSeeder::class);
         $user = factory(User::class)->create();
         
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('monitor');
         
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'secret',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect(route('admin.news'));
@@ -232,10 +291,15 @@ class LoginControllerTest extends TestCase
         $this->seed(RolesTableSeeder::class);
         $user = factory(User::class)->create();
         
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user->assignRole('monitor');
         $response = $this->from('cuenta')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect('cuenta')
@@ -247,11 +311,16 @@ class LoginControllerTest extends TestCase
     {
         $this->seed(RolesTableSeeder::class);
         $user = factory(User::class)->create();
+
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
         
         $user->assignRole('monitor');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'bad password',
+            'g-recaptcha-response' => '1',
         ]);
 
         $response->assertRedirect('login')
