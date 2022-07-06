@@ -49,22 +49,23 @@ class LoginController extends Controller
         return view('auth.custom-login');
     }
 
-    protected function redirectTo () {
-        
+    protected function redirectTo()
+    {
+
         $user = auth()->user();
-        
-        if($user->isClient()) {
+
+        if ($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
             $company = Company::find($metas->meta_value);
             $slug = $company->slug;
             session()->put('slug_company', $slug);
-            
+
             return "{$slug}/dashboard";
         }
 
-        if($user->hasRole('admin') || $user->hasRole('manager')) {
+        if ($user->hasRole('admin') || $user->hasRole('manager')) {
             $path = '/panel';
-        } elseif($user->hasRole('monitor')) {
+        } elseif ($user->hasRole('monitor')) {
             $path = '/panel/noticias';
         }
 
