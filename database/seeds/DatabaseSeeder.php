@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,12 +29,15 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         $this->call([
-            RolesTableSeeder::class,
+            UsersTableSeeder::class,
             AuthorTypeSeeder::class,
+            RolesTableSeeder::class,
             MeansSeeder::class,
             SectorSeeder::class,
             GenreSeeder::class,
             TypePageSeeder::class,
+            SourceSeeder::class,
+            SectionSeeder::class,
         ]);
     }
 }
