@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -49,11 +51,11 @@ Auth::routes([
     'register' => false,
 ]);
 
-Route::group(['prefix' => '{company}', 'middleware' => ['auth', 'role:client|manager|admin']], function () {
+Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:client|manager|admin']], function () {
     Route::get('dashboard', 'ClientController@index')->name('news');
     Route::get('otras-secciones', 'ClientController@getCovers')->name('client.sections');
     Route::get('noticia/{id}', 'ClientController@showNew')->name('client.shownew');
-    Route::get('mis-temas', 'ClientController@themes')->name('themes');
+    Route::get('mis-noticias', 'ClientController@myNews')->name('client.mynews');
     Route::post('news-by-theme', 'ClientController@newsByTheme')->name('newsbytheme');
     Route::get('search', 'ClientController@search')->name('search');
     Route::get('reporte', 'ClientController@report')->name('client.report');
@@ -196,7 +198,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         ->name('admin.newsletter.send');
     Route::post('newsletter/newsletter-a-enviar/eliminar/{sendid}', 'NewsletterController@removeNewsletterSend')
         ->name('admin.newsletter.delete');
-    
+
     Route::post('newsletter/config/agregar/cuentas', 'NewsletterUserController@addAccounts')
         ->name('admin.newsletter.config.addemails');
     Route::post('newsletter/config/remover/email', 'NewsletterUserController@removeEmail')
