@@ -22,6 +22,7 @@
   <script src="{{ asset('lib/html5shiv/html5shiv.js') }}"></script>
   <script src="{{ asset('lib/respond/respond.src.js') }}"></script>
   <![endif]-->
+  {!! NoCaptcha::renderJs() !!}
 </head>
 
 <body class="signwrapper">

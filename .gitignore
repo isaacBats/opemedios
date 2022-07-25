@@ -22,3 +22,4 @@ yarn-error.log
 /storage/storage_app.tar.gz
 /storage/framework/laravel-excel/*
 /vendor.old
+/storage/debugbar

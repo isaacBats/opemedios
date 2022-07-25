@@ -1,10 +1,110 @@
 @extends('layouts.home')
 @section('title', " - {$company->name}")
 @section('content')
-<div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
-    @include('components.clientHeading')
     <!-- Page Content -->
-    {{-- <div class="uk-container"> --}}
+    <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
+        <h1>Bienvenido a {{ $company->name }}</h1>
+        <div class="uk-child-width-1-2 uk-text-center" uk-grid>
+            <div>
+                <div class="uk-card uk-card-body">
+                    <img src="{{ asset('images/user-default-logo.png') }}" alt="{{ auth()->user()->name }}">
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-width-expand">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            {{--<div class="uk-width-auto">
+                                <img class="uk-border-circle" width="40" height="40" src="{{ asset("images/user-default-logo.png") }}">
+                            </div> --}}
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">{{ auth()->user()->name }}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    {{ (auth()->user()->metas()->where('meta_key', 'user_position')->count())
+                                        ? auth()->user()->metas()->where('meta_key', 'user_position')->first()->meta_value
+                                        : ' '
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <h4>Acerca de mí:</h4>
+                        <div class="uk-comment-body">
+                            <p>{{
+                                (auth()->user()->metas()->where('meta_key', 'user_aboutme')->count())
+                                ? auth()->user()->metas()->where('meta_key', 'user_aboutme')->first()->meta_value
+                                : 'No hay información sobre mi para mostrar'
+                            }}</p>
+                        </div>
+                    </div>
+                    <div class="uk-card-footer">
+                        <div class="uk-text-left" uk-grid>
+                            <div class="uk-width-auto">
+                                <label for="">Dirección:</label>
+                                {{
+                                    (auth()->user()->metas()->where('meta_key', 'user_address')->count())
+                                    ? auth()->user()->metas()->where('meta_key', 'user_address')->first()->meta_value
+                                    : 'N/E'
+                                }}
+                            </div>
+                            <div class="uk-column-1-3 uk-column-divider">
+                                <p>
+                                    <label>Email</label>
+                                    {{ auth()->user()->email }}
+                                </p>
+                                <p>
+                                    <label>Tel. Oficina: </label>
+                                    {{
+                                        (auth()->user()->metas()->where('meta_key', 'user_phone')->count())
+                                        ? auth()->user()->metas()->where('meta_key', 'user_phone')->first()->meta_value
+                                        : 'N/E'
+                                    }}
+                                </p>
+                                <p>
+                                    <label>WhatsApp: </label>
+                                    {{
+                                        (auth()->user()->metas()->where('meta_key', 'user_whatsapp')->count())
+                                        ? auth()->user()->metas()->where('meta_key', 'user_whatsapp')->first()->meta_value
+                                        : 'N/E'
+                                    }}
+                                </p>
+                            </div>
+                            <div class="uk-width-1-2"></div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="uk-card uk-card-default uk-card-body">
+                    <h2>Bienvenido:</h2>
+                    <p>Nombre: <span>{{ auth()->user()->name }}</span></p>
+                    <p>Correo: <span>{{ auth()->user()->email }}</span></p>
+                    <p>Cargo: <span>{{ auth()->user()->metas()->where('meta_key', 'user_position')->first()->meta_value }}</span></p>
+                </div> --}}
+            </div>
+<!--            <div>
+                <div class="uk-child-width-1-2 uk-text-center" uk-grid>
+                    <div>
+                        <div class="uk-card uk-card-primary uk-card-body">Item</div>
+                    </div>
+                    <div>
+                        <div class="uk-card uk-card-primary uk-card-body">Item</div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        <div class="uk-margin uk-card uk-card-default uk-card-body">
+            <div uk-grid>
+                <div class="uk-width-1-3@l">
+                    <p>Noticias de hoy: <strong>{{ $company->assignedNews()->whereDate('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong></p>
+                </div>
+                <div class="uk-width-1-3@l">
+                    <p>Noticias del mes: <strong>{{ $company->assignedNews()->whereYear('created_at', Carbon\Carbon::today()->format('Y'))->whereMonth('created_at', Carbon\Carbon::today()->format('m'))->count() }}</strong></p>
+                </div>
+                <div class="uk-width-1-3@l">
+                    <p>Total: <strong>{{ $company->assignedNewsCount() }}</strong></p>
+                </div>
+            </div>
+        </div>
         <div class="uk-text-center uk-margin-bottom" uk-grid>
             <div class="uk-width-1-2">
                 <div class="uk-card uk-card-default uk-card-body">
@@ -17,107 +117,36 @@
                 </div>
             </div>
         </div>
-    {{-- </div> --}}
-    <div id="list-news" class="filter-this">
-        <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small contenedor-select-temas">
-            <div class="uk-flex uk-flex-middle uk-position-relative">
-                <label class="uk-text-uppercase label-tema">Tema:</label>
-                <select class="uk-select opciones-temas uk-width-large" id="client-theme-select2" style="width: 100%;">
-                    <option value="" data-show-titles="true">Todos los temas</option>
-                    @foreach($company->themes as $theme)
-                    <option value=".theme{{ $theme->id }}" data-show-titles="false">{{ $theme->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="op-content-mt main-content js-temas uk-padding uk-padding-remove-bottom" style="background: #fff;">
-            @foreach($company->themes as $theme)
-                @if($theme->assignedNews->count() > 0)
-                    <div class="row theme{{ $theme->id }}" id="list-new">
-                        <h2 id="theme{{ $theme->id }}" >{{ $theme->name }} <small class="count" id="count-{{ $theme->id }}"></small></h2>
-                        @php
-                            $contadorEntradas = 0;
-                        @endphp
-                        <div class="news-group uk-container">
-                            @foreach($theme->assignedNews()->limit(30)->orderBy('id', 'desc')->get() as $assigned)
-                                @if($assigned->theme_id == $theme->id)
-                                    @php
-                                        $contadorEntradas++;
-                                    @endphp
-                                    <div uk-grid class="news-single @php echo ($contadorEntradas > 4) ? "uk-hidden": "";  @endphp ">
-                                        <div class="uk-width-1-1 uk-width-1-3@s uk-width-1-4@m uk-width-1-5@l uk-width-1-6@xl">
-                                            @if($assigned->news->source)
-                                                <img src="{{ asset("images/{$assigned->news->source->logo}") }}" alt="{{ $assigned->news->source->name }}">
-                                                <h4 class="uk-margin-remove-top">{{ $assigned->news->source->name ?? "N/A" }}</h4>
-                                            @else
-                                                <img src="{{ asset("images/sources_logos/default.png") }}" alt="Opemedios default">
-                                                <h4 class="uk-margin-remove-top">N/A</h4>
-                                            @endif
-                                        </div>
-                                        <div class="uk-width-1-1 uk-width-2-3@s uk-width-3-4@m uk-width-4-5@l uk-width-5-6@xl">
-                                            <h3 class="f-h3">
-                                                {{ $assigned->news->title  }}
-                                            </h3>
-                                            <p class="f-p">{!! Illuminate\Support\Str::limit($assigned->news->synthesis, 200) !!}</p>
-                                            <div uk-grid class="info">
-                                                <div><span class="icon-calendar"></span> {{ $assigned->news->news_date->diffForHumans() }}</div>
-                                                <div class="text-muted f-p">{{ $assigned->news->source->company ?? 'N/A' }}</div>
-                                                <div class="text-muted f-p">Autor: {{ $assigned->news->author ?? 'N/A' }}</div>
-                                                <div><a class="btn btn-primary uk-button uk-button-default" href="{{ route('client.shownew', ['id' => $assigned->news_id, 'company' => $company->slug ]) }}">Ver más</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                            @php echo ($contadorEntradas > 4) ? '<div class="uk-text-center"><a href="#" class="uk-button more-theme-news">mostrar más '.$theme->name.'</a></div>': '';  @endphp
-                        </div>
-                        @php
-                            echo '<span class="count uk-hidden" target="count-'.$theme->id.'">'.$contadorEntradas.'</span>';
-                        @endphp
-                    </div>
-                @endif
-            @endforeach
-        </div>
     </div>
     <!-- /.container -->
-</div>
 @endsection
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
-    <link rel="stylesheet" href="{{ asset('lib/jquery-ui/jquery-ui.css') }}">
-@endsection
-
 @section('scripts')
-    <script src="{{ asset('lib/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
-    <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/chart/Chart.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function (){
-            $('#client-theme-select2').select2();
             const graph1 = $('#canvas-graph');
             const graph2 = $('#canvas-graph2');
-            
+
             $.get("{{route('api.client.notesday', ['company' => $company->id])}}", function (notes){
                 let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
                 const data = [0,0,0,0,0,0,0];
-                
+
                 notes.forEach(note => {
                     let numDay = new Date(note.day).getDay();
                     data[numDay] = note.total;
                 });
-                
+
                 chartBar(graph1, data, days, 'Notas por día');
             });
-            
+
             $.get("{{route('api.client.notesyear', ['company' => $company->id])}}", function (notes){
                 let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
                 const data = [0,0,0,0,0,0,0,0,0,0,0,0];
-                
+
                 notes.forEach(note => {
                     data[note.month -1] = note.total;
                 });
-                
+
                 chartLine(graph2, data, months, 'Notas por año');
             });
         });

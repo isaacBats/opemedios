@@ -1,5 +1,5 @@
 @extends('layouts.home')
-@section('title', " - Mis temas")
+@section('title', " - Mi contenido")
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
@@ -16,13 +16,13 @@
                         </select>
                     </div>
                 </div>
-            
+
                 <div class="loader uk-container">Cargando...</div>
-                
+
                 <div id="news-by-theme">
                 @include('components/listNews')
                 </div>
-                
+
             </div>
         </div>
     </div>

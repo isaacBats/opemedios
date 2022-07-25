@@ -1,5 +1,4 @@
 @php
-    $slug = session()->get('slug_company');
     $route = Route::getCurrentRoute()->getName();
 @endphp
 @if( $route == 'home' || $route == 'about' || $route == 'clients' || $route == 'contact' || $route == 'signin'  )
@@ -25,7 +24,7 @@
                     <li class="{{ $route == 'clients' ? ' uk-active' : '' }}"><a href="{{ route('clients') }}">Clientes</a></li>
                     @hasanyrole('client|manager|admin')
                     <li class="uk-hidden@m">
-                        <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
+                        <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $company]) }}">
                             <span >Dashboard</span>
                         </a>
                     </li>
@@ -51,7 +50,7 @@
                 </ul>
                 <div class="uk-visible@m" style="padding-left: 40px;">
                     @hasanyrole('client|manager|admin')
-                    <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $slug]) }}">
+                    <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $company]) }}">
                         <span >Dashboard</span>
                     </a>
                     @else
@@ -83,7 +82,7 @@
         </nav>
     </div>
 </div>
-    
+
 <div id="offcanvas-nav" uk-offcanvas="mode: push; overlay: true;">
     <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default uk-text-bold uk-text-uppercase">
@@ -95,7 +94,7 @@
                             <select name="parent" id="select-parent" class="uk-select">
                                 @foreach(auth()->user()->companies as $entity)
                                     <option {{ $entity->slug == session()->get('slug_company') ? 'selected' : ''}} value="{{ $entity->slug }}">{{ $entity->name }}</option>
-                                @endforeach   
+                                @endforeach
                             </select>
                             <button type="button" class="empresas-btn">EMPRESAS <span class="icon-chevron-down"></span></button>
                         </div>
@@ -103,16 +102,16 @@
                 @endif
             @endhasanyrole
             @hasanyrole('client|manager|admin')
-            <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $slug]) }}">Dashboard</a></li>
-            <li class="{{ $route == 'themes' ? ' uk-active' : '' }}"><a href="{{ route('themes', ['company' => $slug]) }}">Mis temas</a></li>
+            <li class="{{ $route == 'news' ? ' uk-active' : '' }}"><a href="{{ route('news', ['company' => $company]) }}">Dashboard</a></li>
+            <li class="{{ $route == 'client.mynews' ? ' uk-active' : '' }}"><a href="{{ route('client.mynews', ['company' => $company]) }}">Mis noticias</a></li>
             <li class="uk-nav-header uk-text-light">Archivo</li>
-            <li class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'primeras']) }}">Primeras Planas</a></li>
-            <li class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
-            <li class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
-            <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
-            <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $slug, 'type' => 'cartones']) }}">Cartones</a><br></li>
+            <li class="{{ request('type') == 'primeras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'primeras']) }}">Primeras Planas</a></li>
+            <li class="{{ request('type') == 'politicas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'politicas']) }}">Columnas Pol&iacute;ticas</a></li>
+            <li class="{{ request('type') == 'financieras' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'financieras']) }}">Columnas Financieras</a></li>
+            <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
+            <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'cartones']) }}">Cartones</a><br></li>
             <li class="uk-nav-header uk-text-light">Reporte</li>
-            <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $slug]) }}">Reportes</a><br></li>
+            <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $company]) }}">Reportes</a><br></li>
             @hasanyrole('manager|admin')
             <li class="uk-nav-divider"></li>
             <li ><a href="{{ route('panel') }}">Volver al admin</a><br></li>

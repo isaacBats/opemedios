@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -48,25 +49,49 @@ class LoginController extends Controller
         return view('auth.custom-login');
     }
 
-    protected function redirectTo () {
-        
+    protected function redirectTo()
+    {
+
         $user = auth()->user();
-        
-        if($user->isClient()) {
+
+        if ($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
             $company = Company::find($metas->meta_value);
             $slug = $company->slug;
             session()->put('slug_company', $slug);
-            
+
             return "{$slug}/dashboard";
         }
 
-        if($user->hasRole('admin') || $user->hasRole('manager')) {
+        if ($user->hasRole('admin') || $user->hasRole('manager')) {
             $path = '/panel';
-        } elseif($user->hasRole('monitor')) {
+        } elseif ($user->hasRole('monitor')) {
             $path = '/panel/noticias';
         }
 
         return $path;
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateLogin(Request $request)
+    {
+        $request->validate(
+            [
+                $this->username() => 'required|string',
+                'password' => 'required|string',
+                'g-recaptcha-response'  => 'required|captcha'
+            ],
+            [
+                'g-recaptcha-response.required' => 'Es necesario el captcha.',
+                'g-recaptcha-response.captcha'  => 'Captcha error! Prueba de nuevo mas tarde.'
+            ]
+        );
     }
 }

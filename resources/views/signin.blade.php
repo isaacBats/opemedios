@@ -1,5 +1,8 @@
 @extends('layouts.home')
 @section('title', ' - Entrar a mi cuenta')
+@section('styles')
+    {!! NoCaptcha::renderJs() !!}
+@endsection
 @section('content')
         <!-- container -->
         <div class="uk-container op-content-mt">
@@ -32,7 +35,12 @@
                                         <label for="password" class="uk-label">Contraseña <span class="text-danger">*</span></label>
                                         <input id="password" type="password" class="uk-input form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                                     </div>
-
+                                    {!! NoCaptcha::display() !!}
+                                    @error('g-recaptcha-response')
+                                        <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </label>
+                                    @enderror
                                     <hr>
 
                                     <div class="row">
