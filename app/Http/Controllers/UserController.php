@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 
 
 namespace App\Http\Controllers;
@@ -47,7 +47,7 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     use StadisticsNotes;
-    
+
     public function __construct(RegisterController $registerController)
     {
 
@@ -67,10 +67,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
-        
+
         $breadcrumb = array();
         array_push($breadcrumb, ['label' => 'Usuarios']);
-        
+
         $query = User::query();
         $query->withTrashed()->orderBy('id', 'DESC')
             ->when($request->has('name') && !is_null($request->get('name')), function ($q) use ($request) {
@@ -88,7 +88,7 @@ class UserController extends Controller
             ->appends('name', request('name'))
             ->appends('email', request('email'))
             ->appends('roll', request('roll'));
-        
+
         return view('admin.user.index', compact('users', 'breadcrumb', 'paginate'));
     }
 
@@ -141,7 +141,7 @@ class UserController extends Controller
         } elseif ($profile->isClient()) {
             if ($profile->metas()->where('meta_key', 'company_id')->first()) {
                 $countNews = [
-                    ['label' => 'Total de noticias', 'value' => $profile->company()->assignedNewsCount()],
+                    ['label' => 'Total de noticias', 'value' => $profile->company()->assignedNews->count()],
                     ['label' => 'Noticias enviadas hoy',
                         'value' => AssignedNews::where('company_id', $profile->company()->id)
                         ->whereDate('created_at', $date)->count()]
@@ -173,14 +173,14 @@ class UserController extends Controller
 
     public function showFormNewUser()
     {
-        
+
         $companies = Company::all();
         $monitors = Means::select('id', 'name')->get();
         $breadcrumb = array();
 
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
         array_push($breadcrumb, ['label' => 'Nuevo usuario']);
-        
+
         return view('admin.user.create', compact('companies', 'monitors', 'breadcrumb'));
     }
 
@@ -277,7 +277,7 @@ class UserController extends Controller
         $role = Role::where('name', 'client')->first();
         $company = Company::find($companyId);
         $accounts = $company->allAccountsOfACompany();
-        
+
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name,
             'url' => route('company.show', ['id' => $company->id])]);
@@ -292,7 +292,7 @@ class UserController extends Controller
         $user = User::withTrashed()->where('id', $id)->first();
         $monitors = Means::select('id', 'name')->get();
         $breadcrumb = array();
-        
+
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
         array_push($breadcrumb, ['label' => $user->name, 'url' => route('user.show', ['id' => $user->id])]);
         array_push($breadcrumb, ['label' => 'Editar']);
@@ -337,7 +337,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             Log::error("User ERROR: {$e->getMessage()}");
         }
-        
+
         return redirect()->route('user.show', ['id' => $user->id])->with('status', "Se ha actualizado la información de {$user->name} de forma correcta");
     }
 
@@ -347,7 +347,7 @@ class UserController extends Controller
             $user = User::findOrFail($request->input('user_id'));
             $user->companies()->attach($request->input('company_id'));
             $company = Company::findOrFail($request->input('company_id'));
-                
+
             return back()->with('status', "Se ha asociado al usuario {$user->name} con la empresa {$company->name}");
         } catch (QueryException $e) {
             Log::error("User ERROR: {$e->getMessage()}");

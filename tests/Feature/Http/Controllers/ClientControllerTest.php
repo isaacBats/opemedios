@@ -78,4 +78,41 @@ class ClientControllerTest extends TestCase
             ->assertViewIs('clients.mynews')
             ->assertSee($news->first()->title);
     }
+    public function test_client_can_filter_their_notes()
+    {
+        $this->withoutExceptionHandling();
+        $this->seed();
+        $client = factory(User::class)->create();
+        $client->assignRole('client');
+        $company = factory(Company::class)->create();
+        $client->metas()->create([
+            'meta_key' => 'company_id',
+            'meta_value' => $company->id
+        ]);
+        $company->themes()->saveMany([
+            factory(Theme::class)->create(),
+            factory(Theme::class)->create(),
+            factory(Theme::class)->create(),
+        ]);
+        $news = factory(News::class, 15)->create();
+
+        foreach ($news as $note) {
+            $assigned = new AssignedNews([
+                'news_id' => $note->id,
+                'theme_id' => $company->themes->random()->id,
+                'company_id' => $company->id
+            ]);
+            $assigned->save();
+        }
+        $theme = Theme::find($company->themes->random()->id);
+        $assignedCount = $company->assignedNews()->where('theme_id', $theme->id)->count();
+
+        $this->actingAs($client)
+            ->get(route('client.mynews', [
+                'company' => $company,
+                'theme' => $theme
+            ]))
+            ->assertStatus(200)
+            ->assertViewIs('clients.mynews');
+    }
 }

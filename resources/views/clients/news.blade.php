@@ -101,7 +101,7 @@
                     <p>Noticias del mes: <strong>{{ $company->assignedNews()->whereYear('created_at', Carbon\Carbon::today()->format('Y'))->whereMonth('created_at', Carbon\Carbon::today()->format('m'))->count() }}</strong></p>
                 </div>
                 <div class="uk-width-1-3@l">
-                    <p>Total: <strong>{{ $company->assignedNewsCount() }}</strong></p>
+                    <p>Total: <strong>{{ $company->assignedNews->count() }}</strong></p>
                 </div>
             </div>
         </div>

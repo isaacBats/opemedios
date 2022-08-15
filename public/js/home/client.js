@@ -19,11 +19,11 @@ $(document).ready(function(){
           if($("#"+$(this).attr('target')))
             $("#"+$(this).attr('target')).text( "("+$(this).text() + ")");
         });
-     
+
         // spinner in off
         $('.loader').hide();
         $('#list-news h2.theme-name').addClass("uk-hidden");
-        $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
+        // $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
 
 
         if( $("ul.pagination").length ){
@@ -48,7 +48,7 @@ $(document).ready(function(){
               $('#list-news h2.theme-name').addClass("uk-hidden");
               $('#list-news h2.theme-name').text( $( "select.opciones-temas-ajax option:selected" ).html() );
             }).fail(function(data) {
-                spinner.hide() 
+                spinner.hide()
 
                         var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
@@ -58,9 +58,9 @@ $(document).ready(function(){
                         // TODO: poner el error en un log
                         console.log(`Error-Themes: ${data.responseJSON.message}`)
               });
-       })    
+       })
 
-        // pagination 
+        // pagination
         $(document).on('click', '#news-pagination .pagination a', function(event){
             event.preventDefault()
             var page = $(this).attr('href').split('page=')[1];
@@ -81,8 +81,8 @@ $(document).ready(function(){
                 type: 'POST',
                 url:`/${companyslug}/news-by-theme?page=${page}`,
                 data: {
-                    '_token': $('meta[name=csrf-token]').attr('content'), 
-                    companyid: companyid, 
+                    '_token': $('meta[name=csrf-token]').attr('content'),
+                    companyid: companyid,
                     themeid: themeid,
                     companyslug: companyslug
                 },
@@ -92,7 +92,7 @@ $(document).ready(function(){
                     $('#list-news h2.theme-name').text($('#list-group-themes li.uk-active a').text());
                 },
                 error: function(data) {
-                    spinner.hide() 
+                    spinner.hide()
                     var beautifullHTML = `<div class="uk-alert-warning uk-padding-large">
                                 <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                             </div>`
@@ -130,7 +130,7 @@ $(document).ready(function(){
               container.append(titleHTML)
               container.append(news)
             }).fail(function(err) {
-                spinner.hide() 
+                spinner.hide()
               var beautifullHTML = `<div class="jumbotron">
                       <p>Tenemos problemas con su petición. Intentelo mas tarde... =)</p>
                   </div>`
@@ -186,7 +186,7 @@ $(document).ready(function(){
         $('select#select-parent').on('change', function(){
             var slug = $(this).val();
             window.location = `/cambio-empresa?slug=${slug}`
-            
+
         });
 
 })

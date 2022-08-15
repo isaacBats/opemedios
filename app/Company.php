@@ -114,11 +114,4 @@ class Company extends Model
     {
         return $this->accounts()->merge($this->executives);
     }
-
-    public function assignedNewsCount()
-    {
-        $notesIds = AssignedNews::where('company_id', $this->id)->pluck('news_id');
-
-        return News::whereIn('id', $notesIds)->count();
-    }
 }
