@@ -3,55 +3,57 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="uk-padding op-content-mt main-content" style="background-color: #fff;">
+    <div class="uk-padding op-content-mt main-content">
         <div  id="list-news">
-            <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small">
-                <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
-                    <div class="uk-widh-1-4@s">
-                        <label class="uk-text-uppercase">Palabra:</label>
-                        <input type="text" class="uk-input" name="word" value="{{ old('word') }}">
-                    </div>
-                    <div class="uk-width-1-4@s">
-                        <label class="uk-text-uppercase">Tema:</label>
-                        <select class="uk-select uk-width-large" name="theme_id">
-                            <option value="null">Temas</option>
-                            @foreach($company->themes as $theme)
-                            <option value="{{ $theme->id }}" {{  old('theme_id') == $theme->id ? 'selected' : '' }}>{{ $theme->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="uk-width-1-4@s">
-                        <label for="" class="uk-text-uppercase">Fecha inicio:</label>
-                        <input type="date" class="uk-input" name="start_date" value="{{ old('start_date') }}">
-                    </div>
-                    <div class="uk-width-1-4@s">
-                        <label for="" class="uk-text-uppercase">Fecha fin:</label>
-                        <input type="date" class="uk-input" name="end_date" value="{{ old('end_date') }}">
-                    </div>
-                    <div class="uk-width-1-4@s">
-                        <label for="" class="uk-text-uppercase">Medio:</label>
-                        <select class="uk-select" name="mean" id="select-report-mean">
-                            <option value="">** Todos **</option>
-                            @foreach(App\Means::all() as $mean)
-                                <option value="{{ $mean->id }}" {{ (old('mean') == $mean->id ? 'selected' : '' ) }}>{{ $mean->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="uk-width-1-4@s" id="div-select-report-sources"></div>
-                    <div class="uk-width-1-6@s">
-                        <label for="" class="uk-text-uppercase">Paginación:</label>
-                        <select class="uk-select" name="pagination" >
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="150">150</option>
-                        </select>
-                    </div>
-                    <div class="uk-width-1-6@s ">
-                        <label for="" class="uk-text-uppercase">.</label>
-                        <input type="submit" class="uk-input uk-button uk-button-default" value="Buscar">
-                    </div>
-                </form>
+            <div class="uk-background-muted uk-height-large">
+                <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small" uk-sticky="start: 200; end: !.uk-height-large; offset: 80; animation: uk-animation-slide-top">
+                    <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
+                        <div class="uk-widh-1-4@s">
+                            <label class="uk-text-uppercase">Palabra:</label>
+                            <input type="text" class="uk-input" name="word" value="{{ old('word') }}">
+                        </div>
+                        <div class="uk-width-1-4@s">
+                            <label class="uk-text-uppercase">Tema:</label>
+                            <select class="uk-select uk-width-large" name="theme_id">
+                                <option value="null">Temas</option>
+                                @foreach($company->themes as $theme)
+                                <option value="{{ $theme->id }}" {{  old('theme_id') == $theme->id ? 'selected' : '' }}>{{ $theme->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="uk-width-1-4@s">
+                            <label for="" class="uk-text-uppercase">Fecha inicio:</label>
+                            <input type="date" class="uk-input" name="start_date" value="{{ old('start_date') }}">
+                        </div>
+                        <div class="uk-width-1-4@s">
+                            <label for="" class="uk-text-uppercase">Fecha fin:</label>
+                            <input type="date" class="uk-input" name="end_date" value="{{ old('end_date') }}">
+                        </div>
+                        <div class="uk-width-1-4@s">
+                            <label for="" class="uk-text-uppercase">Medio:</label>
+                            <select class="uk-select" name="mean" id="select-report-mean">
+                                <option value="">** Todos **</option>
+                                @foreach(App\Means::all() as $mean)
+                                    <option value="{{ $mean->id }}" {{ (old('mean') == $mean->id ? 'selected' : '' ) }}>{{ $mean->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="uk-width-1-4@s" id="div-select-report-sources"></div>
+                        <div class="uk-width-1-6@s">
+                            <label for="" class="uk-text-uppercase">Paginación:</label>
+                            <select class="uk-select" name="pagination" >
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="150">150</option>
+                            </select>
+                        </div>
+                        <div class="uk-width-1-6@s ">
+                            <label for="" class="uk-text-uppercase">.</label>
+                            <input type="submit" class="uk-input uk-button uk-button-default" value="Buscar">
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div class="loader uk-container">Cargando...</div>
