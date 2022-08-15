@@ -2,7 +2,7 @@
 @section('admin-title', '- Reportes por cliente')
 @section('content')
     <div class="row">
-        <div class="col-sm-12 people-list"> 
+        <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->
                 <div class="btn-toolbar">
                     <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET">
@@ -52,7 +52,7 @@
                             <div class="col-md-2 form-group">
                                 <label for="" class="text-muted">Fecha inicio</label>
                                 <div class="input-group">
-                                    <input type="text" name="fstart" id="input-report-date-start" class="form-control input-date-format">
+                                    <input type="text" name="start_date" id="input-report-date-start" class="form-control input-date-format">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -61,7 +61,7 @@
                             <div class="col-md-2 form-group">
                                 <label for="" class="text-muted">Fecha fin</label>
                                 <div class="input-group">
-                                    <input type="text" name="fend" id="input-report-date-end" class="form-control input-date-format">
+                                    <input type="text" name="end_date" id="input-report-date-end" class="form-control input-date-format">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -95,8 +95,8 @@
 
             $('#report-select-company').select2();
             $('.select-select2').select2();
-            
-            // Datepicker 
+
+            // Datepicker
             format = "yy-mm-dd",
             from = $("#input-report-date-start").datepicker({
                     defaultDate: "+1w",
@@ -126,15 +126,15 @@
 
                 return date;
             }
-            
-            
+
+
             // Filter report
             $('#btn-report-search').on('click', function(event){
                 event.preventDefault();
-                var data = $('#form-report-filter').serialize(); 
+                var data = $('#form-report-filter').serialize();
 
                 $.get('{{ route('admin.report.byclient') }}', data, function(res){
-                    
+
                     var finalNum = res.firstitem + res.count -1;
 
                     $('#div-table-notes').html(res.render);
@@ -171,7 +171,7 @@
             $('#select-report-mean').on('change', function(event) {
                 getHTMLSources(event.target.value)
             })
-            
+
             function getHTMLSources(noteType) {
                 $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
                         var divSelectSources = $('#div-select-report-sources')
@@ -190,7 +190,7 @@
                                         q: params.term,
                                         mean_id: $('select#select-report-mean').val(),
                                         "_token": $('meta[name="csrf-token"]').attr('content')
-                                    } 
+                                    }
                                 },
                                 processResults: function(data) {
                                     return {
@@ -243,6 +243,6 @@
                 form.submit();
             });
         });
-        
+
     </script>
 @endsection

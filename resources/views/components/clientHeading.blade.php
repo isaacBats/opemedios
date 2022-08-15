@@ -9,7 +9,7 @@
         <div uk-grid>
             <p>Noticias de hoy: <strong>{{ $company->assignedNews()->whereDate('created_at', Carbon\Carbon::today()->format('Y-m-d'))->count() }}</strong></p>
             <p>Noticias del mes: <strong>{{ $company->assignedNews()->whereYear('created_at', Carbon\Carbon::today()->format('Y'))->whereMonth('created_at', Carbon\Carbon::today()->format('m'))->count() }}</strong></p>
-            <p>Total: <strong>{{ $company->assignedNewsCount() }}</strong></p>
+            <p>Total: <strong>{{ $company->assignedNews->count() }}</strong></p>
             <div id="search" class="uk-width-expand">
                 @include('components.search-bar')
             </div>

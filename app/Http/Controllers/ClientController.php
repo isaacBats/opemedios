@@ -22,6 +22,7 @@ namespace App\Http\Controllers;
 
 use App\{AssignedNews, Company, Cover, Genre, Means, News, Sector, Theme};
 use App\Exports\NewsExport;
+use App\Filters\{AssignedNewsFilter, NewsFilter};
 use App\Http\Controllers\{MediaController, NewsController};
 use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
@@ -109,16 +110,12 @@ class ClientController extends Controller
 
     public function myNews(Request $request, Company $company)
     {
-        $defaultThemeId = $company->themes()->first()->id;
-        $idsNewsAssigned = $company->assignedNews->where('theme_id', $defaultThemeId)->map(function ($assigned) {
-            return $assigned->news_id;
-        });
+        $pagination = null !== $request->input('pagination') ? $request->input('pagination') : 15 ;
+        $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
+        $news = NewsFilter::filter($request, ['ids' => $notesIds])->paginate($pagination);
+        session()->flashInput($request->input());
 
-        $news = News::whereIn('id', $idsNewsAssigned)
-            ->orderBy('id', 'desc')
-            ->paginate(15);
-
-        return view('clients.mynews', compact('news', 'company', 'defaultThemeId'));
+        return view('clients.mynews', compact('news', 'company'));
     }
 
     public function newsByTheme(Request $request, $slug_company)
@@ -170,10 +167,8 @@ class ClientController extends Controller
         $paginate = 10;
         $company = Company::where('slug', $request->session()->get('slug_company'))->first();
 
-        $notesIds = AssignedNews::query()->where('company_id', $company->id)
-            ->when($request->input('theme_id') != null, function ($q) use ($request) {
-                return $q->where('theme_id', $request->input('theme_id'));
-            })->pluck('news_id');
+        $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
+
         $notes = News::query()->whereIn('id', $notesIds)
             ->when($request->input('sector') != null, function ($q) use ($request) {
                 return $q->where('sector_id', $request->input('sector'));

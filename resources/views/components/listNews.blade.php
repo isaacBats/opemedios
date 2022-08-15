@@ -3,6 +3,7 @@
             <h2 class="theme-name"></h2>
             <div class="news-group uk-container">
                 @foreach($news as $note)
+                    @isset($note->source )
                         <div uk-grid class="news-single">
                             <div class="uk-width-1-1 uk-width-1-3@s uk-width-1-4@m uk-width-1-5@l uk-width-1-6@xl">
                                 <img src="{{ asset("images/{$note->source->logo}") }}" alt="{{ $note->source->name }}">
@@ -21,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+                    @endisset
                 @endforeach
             </div>
     </div>
@@ -29,5 +30,5 @@
 
 
 <div class="text-right" id="news-pagination" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id_tema }}">
-    {!! $news->links() !!}
+    {!! $news->withQueryString()->links() !!}
 </div>
