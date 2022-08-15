@@ -3,7 +3,7 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
-    <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
+    <div class="uk-padding op-content-mt main-content" style="background-color: #fff;">
         <div  id="list-news">
             <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small">
                 <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>

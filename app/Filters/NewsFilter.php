@@ -10,7 +10,7 @@ class NewsFilter
     /**
      * @param Request $request
      * @param array $params
-     * @return \Illuminate\Database\Eloquent\Builder 
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function filter(Request $request, array $params): \Illuminate\Database\Eloquent\Builder
     {
