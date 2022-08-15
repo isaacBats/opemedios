@@ -5,8 +5,8 @@
     <!--Page Content -->
     <div class="uk-padding op-content-mt main-content">
         <div  id="list-news">
-            <div class="uk-background-muted">
-                <div class="uk-box-shadow-medium uk-padding uk-padding-small" uk-sticky="start: 200; end: !.uk-height-large; offset: 80; animation: uk-animation-slide-top; background-color: #fff;">
+{{--            <div class="uk-background-muted">--}}
+                <div class="uk-card uk-card-default uk-card-body" uk-sticky>
                     <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
                         <div class="uk-widh-1-4@s">
                             <label class="uk-text-uppercase">Palabra:</label>
@@ -54,7 +54,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+{{--            </div>--}}
 
             <div class="loader uk-container">Cargando...</div>
 
