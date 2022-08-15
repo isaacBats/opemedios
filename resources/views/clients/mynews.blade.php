@@ -5,8 +5,8 @@
     <!--Page Content -->
     <div class="uk-padding op-content-mt main-content">
         <div  id="list-news">
-            <div class="uk-background-muted uk-height-large">
-                <div class="uk-box-shadow-medium sticky-this uk-padding uk-padding-small" uk-sticky="start: 200; end: !.uk-height-large; offset: 80; animation: uk-animation-slide-top">
+            <div class="uk-background-muted">
+                <div class="uk-box-shadow-medium uk-padding uk-padding-small" uk-sticky="start: 200; end: !.uk-height-large; offset: 80; animation: uk-animation-slide-top; background-color: #fff;">
                     <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
                         <div class="uk-widh-1-4@s">
                             <label class="uk-text-uppercase">Palabra:</label>
