@@ -8,19 +8,16 @@
             <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
             <br>
             <div class="">
-                <form action="{{ route('client.report', ['company' => session()->get('slug_company')]) }}" method="GET" id="form-report-filter">
-                    @php
-                        $companyClient = App\Company::where('slug', session()->get('slug_company'))->first();
-                    @endphp
+                <form action="{{ route('client.report', ['company' => $company]) }}" method="GET" id="form-report-filter">
                     <div class="uk-child-width-1-1 uk-child-width-1-4@s uk-child-width-1-4@m" uk-grid>
-                        <input type="hidden" name="company" value="{{ $companyClient->id }}">
+                        <input type="hidden" name="company" value="{{ $company->id }}">
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Fecha inicio</label>
-                            <input id="input-report-date-start" class="form-control uk-input" type="text" name="fstart" value="{{ request('fstart') }}">
+                            <input id="input-report-date-start" class="form-control uk-input" type="text" name="start_date" value="{{ request('start_date') }}">
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Fecha fin</label>
-                            <input id="input-report-date-end" class="form-control uk-input" type="text" name="fend" value="{{ request('fend') }}">
+                            <input id="input-report-date-end" class="form-control uk-input" type="text" name="end_date" value="{{ request('end_date') }}">
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Tema</label>
@@ -61,7 +58,7 @@
                         <div class="uk-margin" id="div-select-report-sources"></div>
                         <div class="uk-margin">
                             <label for="input-word" class="uk-form-label">Buscar por</label>
-                            <input class="form-control uk-input" type="text" name="word" id="input-word" placeholder="Titulo o palabra..." value="{{ old('word') }}">
+                            <input class="form-control uk-input" type="text" name="word" id="input-word" placeholder="T&iacute;tulo o palabra..." value="{{ old('word') }}">
                         </div>
                     </div>
                     <div class="uk-margin">
@@ -78,10 +75,10 @@
                         <tr>
                             <th>#</th>
                             <th>No. Nota</th>
-                            <th>Título</th>
+                            <th>T&iacute;tulo</th>
                             <th>Tema</th>
                             <th>Sector</th>
-                            <th>Género</th>
+                            <th>G&eacute;nero</th>
                             <th>Fuente</th>
                             <th>Medio</th>
                             <th>Fecha</th>
@@ -94,12 +91,12 @@
                         @foreach($notes as $note)
                             <tr>
                                 <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
-                                <td> 
+                                <td>
                                     <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ "OPE-{$note->id}" }}
                                     </a>
                                 </td>
-                                <td> 
+                                <td>
                                     <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ $note->title }}</td>
                                     </a>
@@ -143,7 +140,7 @@
             $('#select-report-mean').on('change', function(event) {
                 getHTMLSources(event.target.value)
             })
-            
+
             function getHTMLSources(noteType) {
                 $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
                         var divSelectSources = $('#div-select-report-sources')
@@ -161,7 +158,7 @@
                                         q: params.term,
                                         mean_id: $('select#select-report-mean').val(),
                                         "_token": $('meta[name="csrf-token"]').attr('content')
-                                    } 
+                                    }
                                 },
                                 processResults: function(data) {
                                     return {

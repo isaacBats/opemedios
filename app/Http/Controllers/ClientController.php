@@ -161,49 +161,18 @@ class ClientController extends Controller
         return view('components.listSearch', compact('news', 'company'))->render();
     }
 
-    public function report(Request $request)
+    public function report(Request $request, Company $company)
     {
 
-        $paginate = 10;
-        $company = Company::where('slug', $request->session()->get('slug_company'))->first();
+        $paginate = 25;
 
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
 
-        $notes = News::query()->whereIn('id', $notesIds)
-            ->when($request->input('sector') != null, function ($q) use ($request) {
-                return $q->where('sector_id', $request->input('sector'));
-            })
-            ->when($request->input('genre') != null, function ($q) use ($request) {
-                return $q->where('genre_id', $request->input('genre'));
-            })
-            ->when($request->input('mean') != null, function ($q) use ($request) {
-                return $q->where('mean_id', $request->input('mean'));
-            })
-            ->when($request->input('source_id') != null, function ($q) use ($request) {
-                return $q->where('source_id', $request->input('source_id'));
-            })
-            ->when(
-                ($request->input('fstart') != null && $request->input('fend') != null),
-                function ($q) use ($request) {
-                    $from = Carbon::create($request->input('fstart'));
-                    $to = Carbon::create($request->input('fend'));
-                    return $q->whereBetween('news_date', [$from, $to]);
-                }
-            )
-            ->when(
-                ($request->input('fstart') != null && $request->input('fend') == null),
-                function ($q) use ($request) {
-                    return $q->whereDate('news_date', Carbon::create($request->input('fstart')));
-                }
-            )
-            ->when($request->input('word') != null, function ($q) use ($request) {
-                return $q->where('title', 'like', "%{$request->input('word')}%")
-                    ->orWhere('synthesis', 'like', "%{$request->input('word')}%");
-            })
+        $notes = NewsFilter::filter($request, ['ids' => $notesIds])
             ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
 
-            $notes->setPath(URL::full());
+        $notes->setPath(URL::full());
 
         return view('clients.report', compact('notes', 'company'));
     }
