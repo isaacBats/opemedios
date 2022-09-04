@@ -29,6 +29,6 @@
 </div>
 
 
-<div class="text-right" id="news-pagination" data-companyslug="{{ $company->slug }}" data-companyid="{{ $company->id }}" data-themeid="{{ $theme->id_tema }}">
+<div class="text-right">
     {!! $news->withQueryString()->links() !!}
 </div>
