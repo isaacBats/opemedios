@@ -15,7 +15,7 @@
                         <div class="uk-width-1-4@s">
                             <label class="uk-text-uppercase">Tema:</label>
                             <select class="uk-select uk-width-large" name="theme_id">
-                                <option value="null">Temas</option>
+                                <option value="">**Todos**</option>
                                 @foreach($company->themes as $theme)
                                 <option value="{{ $theme->id }}" {{  old('theme_id') == $theme->id ? 'selected' : '' }}>{{ $theme->name }}</option>
                                 @endforeach
