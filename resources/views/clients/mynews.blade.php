@@ -42,10 +42,10 @@
                         <div class="uk-width-1-6@s">
                             <label for="" class="uk-text-uppercase">Paginación:</label>
                             <select class="uk-select" name="pagination" >
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="150">150</option>
+                                <option value="25" {{  old('pagination') == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{  old('pagination') == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{  old('pagination') == 100 ? 'selected' : '' }}>100</option>
+                                <option value="150" {{  old('pagination') == 150 ? 'selected' : '' }}>150</option>
                             </select>
                         </div>
                         <div class="uk-width-1-6@s ">
