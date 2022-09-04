@@ -26,6 +26,7 @@
                             <th>Fecha de envío</th>
                             <th>Etiqueta</th>
                             <th>Estatus</th>
+                            <th>Link</th>
                             <th>Acciones</th>
                             <th>Enviar</th>
                         </tr>
@@ -58,8 +59,18 @@
                                     @endif
                                 </td>
                                 <td>
+{{--                                    <input type="hidden" value="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$oneNewsletter->id}-{$oneNewsletter->newsletter->company->id}")]) }}">--}}
+{{--                                    <button class="btn btn-primary btn-copy-link" >--}}
+{{--                                        Copiar link para whatsapp--}}
+{{--                                    </button>--}}
+
+                                    <button class="btn btn-copy-link" data-clipboard-text="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$oneNewsletter->id}-{$oneNewsletter->newsletter->company->id}")]) }}">
+                                        Copiar link para whatsapp
+                                    </button>
+                                </td>
+                                <td>
                                     <a href="{{ route('admin.newsletter.edit.send', ['id' => $oneNewsletter->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('admin.newsletter.preview.send', ['id' => $oneNewsletter->id]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
+                                    <a href="{{ route('admin.newsletter.preview.send', ['newsletterSend' => $oneNewsletter]) }}" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button></a>
                                     <button class="btn btn-primary send-mail-manual" data-href="{{ route('admin.newsletter.send', ['sendid' => $oneNewsletter->id]) }}" data-id="{{ $oneNewsletter->id }}"><i class="fa fa-envelope-open"></i></button>
                                     <button class="btn btn-danger delete-newsletter" data-href="{{ route('admin.newsletter.delete', ['sendid' => $oneNewsletter->id]) }}"><i class="fa fa-trash"></i></button>
                                 </td>
@@ -81,6 +92,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -109,7 +121,7 @@
                 modal.find('#md-btn-submit').val('Crear');
                 modal.modal('show');
             })
-            
+
             // envio manual
             $('#table-newsletters').on('click', 'a.btn-send-newsletter', function(event) {
                 event.preventDefault()
@@ -120,7 +132,7 @@
 
                 form.attr('method', 'POST')
                 form.attr('action', action)
-                
+
                 modal.find('.modal-title').text('Enviar Newsletter')
                 modal.find('.modal-body').html(`
                     <p>Vas a enviar el newsletter a los siguientes correos</p>
@@ -143,7 +155,7 @@
 
                 form.attr('method', 'POST')
                 form.attr('action', action)
-                
+
                 modal.find('.modal-title').text('Ingresa los correos a los que se enviara el newsletter')
                 modal.find('.modal-body').html(`
                     <div class="form-group">
@@ -155,7 +167,7 @@
                 modal.find('#md-btn-submit').val('Enviar')
                 modal.modal('show')
             })
-        
+
             // borrar newsletter
             $('#table-newsletters').on('click', 'button.delete-newsletter', function(event) {
                 event.preventDefault()
@@ -165,7 +177,7 @@
 
                 form.attr('method', 'POST')
                 form.attr('action', action)
-                
+
                 modal.find('.modal-title').text('Borrar Newsletter')
                 modal.find('.modal-body').html(`
                     <p>¿Estas seguro que quieres borrar este Newsletter?</p>
@@ -173,7 +185,12 @@
                 modal.find('#md-btn-submit').val('Eliminar').removeClass('btn-primary').addClass('btn-danger')
                 modal.modal('show')
             })
-        })
+
+            $('#table-newsletters').on('click', 'button.btn-copy-link', function(event) {
+                event.preventDefault();
+                new ClipboardJS($(this));
+            });
+        });
 
     </script>
 @endsection

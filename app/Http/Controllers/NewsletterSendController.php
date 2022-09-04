@@ -25,6 +25,7 @@ use App\NewsletterFooter;
 use App\NewsletterSend;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * Class NewsletterSendController
@@ -109,9 +110,8 @@ class NewsletterSendController extends Controller
         return response()->json(['status' => 'OK', 'message' => '¡Nota eliminada correctamente!']);
     }
 
-    public function previewEmail(Request $request, $id)
+    public function previewEmail(Request $request, NewsletterSend $newsletterSend)
     {
-        $newsletterSend = NewsletterSend::findOrFail($id);
         $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
 
         if (!$covers) {
@@ -119,5 +119,26 @@ class NewsletterSendController extends Controller
         }
 
         return new NewsletterEmail($newsletterSend, $covers);
+    }
+
+    public function seeNewsletter(Request $request)
+    {
+        if( !$request->has('qry') ) {
+            return redirect()->route('home');
+        }
+
+        try {
+            $data = explode('-',Crypt::decryptString($request->get('qry')));
+            $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
+
+            if (!$covers) {
+                $covers = NewsletterFooter::latest('id')->first();
+            }
+            $newsletterSend = NewsletterSend::findOrFail($data[0]);
+
+            return new NewsletterEmail($newsletterSend, $covers);
+        } catch (DecryptException $e) {
+            return abort(403, 'Noticia no encontrada');
+        }
     }
 }

@@ -43,6 +43,8 @@ Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
 
+Route::get('vista-newsletter', 'NewsletterSendController@seeNewsletter')->name('front.newsletter.see');
+
 Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')
     ->name('api.getsourceshtml');
 Route::post('api/v2/fuentes/obtener-una-fuente', 'SourceController@getSourceByAjax')->name('api.getsourceajax');
@@ -192,7 +194,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         ->name('admin.newsletter.edit.send');
     Route::post('newsletter/newsletter-a-enviar/editar-etiqueta/{id}', 'NewsletterSendController@editLabel')
         ->name('admin.newsletter.edit.label.send');
-    Route::get('newsletter/newsletter-a-enviar/vista-previa/{id}', 'NewsletterSendController@previewEmail')
+    Route::get('newsletter/newsletter-a-enviar/vista-previa/{newsletterSend}', 'NewsletterSendController@previewEmail')
         ->name('admin.newsletter.preview.send');
     Route::post('newsletter/newsletter-a-enviar/enviar/{sendid}', 'NewsletterController@sendMail')
         ->name('admin.newsletter.send');
