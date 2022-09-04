@@ -112,7 +112,9 @@ class ClientController extends Controller
     {
         $pagination = null !== $request->input('pagination') ? $request->input('pagination') : 15 ;
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
-        $news = NewsFilter::filter($request, ['ids' => $notesIds])->paginate($pagination);
+        $news = NewsFilter::filter($request, ['ids' => $notesIds])
+            ->orderBy('created_ad', 'DESC')
+            ->paginate($pagination);
         session()->flashInput($request->input());
 
         return view('clients.mynews', compact('news', 'company'));
