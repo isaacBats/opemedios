@@ -7,7 +7,7 @@
     <div class="uk-padding op-content-mt main-content">
         <div  id="list-news">
 {{--            <div class="uk-background-muted">--}}
-                <div class="uk-card uk-card-default uk-card-body" style="background: rgb(188,183,188);" uk-sticky>
+                <div class="uk-card uk-card-default uk-card-body" style="background: #ffe1e8;" uk-sticky>
                     <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
                         <div class="uk-widh-1-4@s">
                             <label class="uk-text-uppercase">Palabra:</label>
