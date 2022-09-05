@@ -188,7 +188,14 @@
 
             $('#table-newsletters').on('click', 'button.btn-copy-link', function(event) {
                 event.preventDefault();
-                new ClipboardJS($(this));
+                var clipboard = new ClipboardJS($(this));
+                clipboard.on('success', function (e) {
+                    console.log(e);
+                });
+                clipboard.on('error', function (e) {
+                    console.log(e);
+                });
+                clipboard.destroy();
             });
         });
 
