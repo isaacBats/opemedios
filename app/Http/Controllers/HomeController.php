@@ -20,9 +20,9 @@ class HomeController extends Controller
         $users = User::where('email', 'froylan@opemedios.com.mx')
             ->orWhere('email', 'karenina.opemedios@gmail.com')
             ->get();
-        
+
         Notification::send($users, new ContactFormNotification($contactMessage));
-        
+
         return back()->with(
             'status',
             'Gracias por interesarse en nuestros servicios. En breve nos pondremos en contacto con usted.'
@@ -35,8 +35,8 @@ class HomeController extends Controller
             if (session('slug_company')) {
                 $slug = $request->get('slug');
                 session()->put('slug_company', $slug);
-            
-                return redirect("{$slug}/dashboard");
+
+                return redirect("{$slug}/mis-noticias");
             }
         }
 

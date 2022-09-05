@@ -60,7 +60,7 @@ class LoginController extends Controller
             $slug = $company->slug;
             session()->put('slug_company', $slug);
 
-            return "{$slug}/dashboard";
+            return "{$slug}/mis-noticias";
         }
 
         if ($user->hasRole('admin') || $user->hasRole('manager')) {
