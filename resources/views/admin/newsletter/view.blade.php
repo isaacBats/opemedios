@@ -186,16 +186,10 @@
                 modal.modal('show')
             })
 
-            $('#table-newsletters').on('click', 'button.btn-copy-link', function(event) {
-                event.preventDefault();
-                var clipboard = new ClipboardJS($(this));
-                clipboard.on('success', function (e) {
-                    console.log(e);
-                });
-                clipboard.on('error', function (e) {
-                    console.log(e);
-                });
-                clipboard.destroy();
+            var clipboard = new ClipboardJS('.btn-copy-link');
+            clipboard.on('success', function (e) {
+                // console.log(e);
+                alert('Se ha copiado el link al portapapeles.');
             });
         });
 
