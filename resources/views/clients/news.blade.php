@@ -5,18 +5,20 @@
     <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
         <h1>Bienvenido a {{ $company->name }}</h1>
         <div class="uk-child-width-1-2 uk-text-center" uk-grid>
-            <div>
-                <div class="uk-card uk-card-body">
-                    <img src="{{ asset('images/user-default-logo.png') }}" alt="{{ auth()->user()->name }}">
-                </div>
-            </div>
-            <div>
+{{--            <div>--}}
+{{--                <div class="uk-card uk-card-body">--}}
+{{--                    <img src="{{ asset('images/user-default-logo.png') }}" alt="{{ auth()->user()->name }}">--}}
+{{--                </div>--}}
+{{--            </div>--}}
                 <div class="uk-card uk-card-default uk-width-expand">
                     <div class="uk-card-header">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
-                            {{--<div class="uk-width-auto">
-                                <img class="uk-border-circle" width="40" height="40" src="{{ asset("images/user-default-logo.png") }}">
-                            </div> --}}
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle" width="40" height="40"
+                                     src="{{ asset("images/user-default-logo.png") }}"
+                                     alt="{{ auth()->user()->name }}"
+                                >
+                            </div>
                             <div class="uk-width-expand">
                                 <h3 class="uk-card-title uk-margin-remove-bottom">{{ auth()->user()->name }}</h3>
                                 <p class="uk-text-meta uk-margin-remove-top">
@@ -74,23 +76,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="uk-card uk-card-default uk-card-body">
-                    <h2>Bienvenido:</h2>
-                    <p>Nombre: <span>{{ auth()->user()->name }}</span></p>
-                    <p>Correo: <span>{{ auth()->user()->email }}</span></p>
-                    <p>Cargo: <span>{{ auth()->user()->metas()->where('meta_key', 'user_position')->first()->meta_value }}</span></p>
-                </div> --}}
-            </div>
-<!--            <div>
-                <div class="uk-child-width-1-2 uk-text-center" uk-grid>
-                    <div>
-                        <div class="uk-card uk-card-primary uk-card-body">Item</div>
-                    </div>
-                    <div>
-                        <div class="uk-card uk-card-primary uk-card-body">Item</div>
-                    </div>
-                </div>
-            </div>-->
         </div>
         <div class="uk-margin uk-card uk-card-default uk-card-body">
             <div uk-grid>
