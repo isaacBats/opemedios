@@ -3,10 +3,11 @@
 @section('content')
     @include('components.clientHeading')
     <!--Page Content -->
+{{--    <div class="uk-padding op-content-mt main-content" style="background: rgba(184,165,165,0.6);">--}}
     <div class="uk-padding op-content-mt main-content">
         <div  id="list-news">
 {{--            <div class="uk-background-muted">--}}
-                <div class="uk-card uk-card-default uk-card-body" uk-sticky>
+                <div class="uk-card uk-card-default uk-card-body" style="background: rgb(188,183,188);" uk-sticky>
                     <form type="GET" action="{{ route('client.mynews', ['company' => $company]) }}" class="uk-grid-small" uk-grid>
                         <div class="uk-widh-1-4@s">
                             <label class="uk-text-uppercase">Palabra:</label>
@@ -14,7 +15,7 @@
                         </div>
                         <div class="uk-width-1-4@s">
                             <label class="uk-text-uppercase">Tema:</label>
-                            <select class="uk-select uk-width-large" name="theme_id">
+                            <select id="select-themes" class="uk-select uk-width-large" name="theme_id">
                                 <option value="">**Todos**</option>
                                 @foreach($company->themes as $theme)
                                 <option value="{{ $theme->id }}" {{  old('theme_id') == $theme->id ? 'selected' : '' }}>{{ $theme->name }}</option>
@@ -78,6 +79,8 @@
             $('#select-report-mean').on('change', function(event) {
                 getHTMLSources(event.target.value);
             });
+
+            $('#select-themes').css('width', '100%').select2();
 
             function getHTMLSources(noteType) {
                 $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
