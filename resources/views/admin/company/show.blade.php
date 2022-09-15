@@ -227,10 +227,13 @@
             font-size: 28px !important;
         }
 
-        @media (max-width: 375px) {
+        @media (max-width: 480px) {
             .btn-toolbar-custom {
                 margin-left: -5px !important;
                 display: block !important;
+            }
+            .people-list .people-options .btn-toolbar-custom {
+                display: inline !important;
             }
         }
     </style>
