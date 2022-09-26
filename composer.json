@@ -11,7 +11,7 @@
         "php": "^7.2.5|^8.0",
         "anhskohbo/no-captcha": "^3.4",
         "aws/aws-sdk-php-laravel": "^3.5",
-        "doctrine/dbal": "^2.5",
+        "doctrine/dbal": "^3.4",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
