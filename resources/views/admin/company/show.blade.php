@@ -275,7 +275,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Tema</label>
                             <div class="col-sm-8">
-                                <input type="text" name="name" class="form-control" />
+                                <input id="input-name-theme" type="text" name="name" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -434,6 +434,10 @@
                 var btnSave = $(this).parent().parent().parent().find('a.btn-form-assigned-news');
                 btnSave.show('slow');
 
+            })
+
+            $('#modal-default').on('shown.bs.modal', function () {
+                $('#input-name-theme').trigger('focus')
             })
         })
     </script>
