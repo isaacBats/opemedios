@@ -49,7 +49,7 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
-                    <h4 class="panel-title" style="padding: 12px 0;">Administrador de empresas</h4>  
+                    <h4 class="panel-title" style="padding: 12px 0;">Administrador de empresas</h4>
                 </div>
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
                     <a href="{{ route('company.create') }}" class="btn btn-danger btn-quirk btn-lg"><i class="fa fa-plus-circle"></i> Nueva empresa</a>
@@ -72,14 +72,14 @@
                             <tr>
                                 <td class="text-center" >{{ ($companies->currentPage() - 1) * $companies->perPage() + $loop->iteration }}</td>
                                 <td class="text-left" >
-                                    <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                    <a href="{{ route('company.show', ['company' => $company->id]) }}">
                                         <div class="td-select-all">
                                             {{ $company->name }}
                                         </div>
                                     </a>
                                 </td>
                                 <td class="text-left">
-                                    <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                                    <a href="{{ route('company.show', ['company' => $company->id]) }}">
                                         <div class="td-select-all">
                                             {{ $company->turn->name }}
                                         </div>
@@ -92,7 +92,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {!! $companies->links() !!}        
+                {!! $companies->links() !!}
       </div><!-- table-responsive -->
     </div>
   </div><!-- panel -->

@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="media">
             <div class="media-left">
-                <a href="{{ route('company.show', ['id' => $company->id]) }}">
+                <a href="{{ route('company.show', ['company' => $company]) }}">
                     <img class="media-object img-circle" src="{{ asset("images/{$company->logo}") }}" alt="{{ $company->name }}">
                 </a>
             </div>
