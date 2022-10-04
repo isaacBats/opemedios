@@ -15,7 +15,7 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
 use App\AssignedNews;
@@ -53,15 +53,15 @@ class CompanyController extends Controller
         $breadcrumb = array();
         $turns = Turn::all();
         $companies = Company::all();
-        
+
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => 'Nueva Empresa']);
-        
+
         return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
     public function create (Request $request) {
-        
+
         $input = $request->all();
         $input['slug'] = Str::slug($input['name']);
         Validator::make($input, [
@@ -78,13 +78,13 @@ class CompanyController extends Controller
                 }),
                 'numeric'
             ]
-        ], 
+        ],
         [
             'turn_id.required' => 'Es necesario elegir un Giro.',
             'required' => 'El :attribute es necesario.',
             'parent.required' => 'Es requerido el padre'
         ])->validate();
-        
+
         if($file = $request->hasFile('logo')) {
             $input['logo'] = $request->file('logo')->store('company_logos', 'local');
         }
@@ -96,9 +96,8 @@ class CompanyController extends Controller
         return redirect()->route('companies')->with('alert-success', 'La empresa se ha creado con éxito');
     }
 
-    public function show (Request $request, $id) {
+    public function show (Request $request, Company $company) {
         $breadcrumb = array();
-        $company = Company::find($id);
         $turns = Turn::all();
 
         $company->setRelation('assignedNews', $company->assignedNews()->paginate(25));
@@ -130,7 +129,7 @@ class CompanyController extends Controller
             }
 
             return back()->with('status', "Se ha removido al usuario {$user->name} de {$company->name} exitosamente.");
-            
+
         } catch (Exception $e) {
             Log::info("Error al borrar metas de usuario: {$e->getMessage()}");
         }
@@ -143,7 +142,7 @@ class CompanyController extends Controller
         if($user->metas()->where('meta_key', 'company_id')->first()) {
             $user->companies()->attach($request->input('company'));
             return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
-        } 
+        }
 
         $meta_company = new UserMeta();
         $meta_company->meta_key = 'company_id';
@@ -171,11 +170,11 @@ class CompanyController extends Controller
         try {
             if(Storage::drive('local')->exists($company->logo)) {
                 Storage::drive('local')->delete($company->logo);
-            } 
-            
+            }
+
             $company->logo = $request->file('logo')->store('company_logos', 'local');
             $company->save();
-            
+
         } catch (Exception $e) {
             return back()->with('status', 'Could not update image: ' . $e->getMessage());
         }
@@ -189,7 +188,7 @@ class CompanyController extends Controller
                 ['name', 'like', "%{$request->input('q')}%"],
                 // ['active', '=', 1],
             ])->get()->toArray()
-        ]); 
+        ]);
     }
 
     public function getAccountsAjax(Request $request) {
@@ -200,7 +199,7 @@ class CompanyController extends Controller
     }
 
     public function getNotAccountsAjax(Request $request) {
-        
+
         $param = $request->input('search');
         $company = Company::findOrFail($request->input('company_id'));
         $accounts = $company->allAccountsOfACompany();
@@ -230,28 +229,28 @@ class CompanyController extends Controller
     public function delete (Request $request, $id) {
         $company = Company::findOrFail($id);
         $name = $company->name;
-        
+
         $company->assignedNews()->delete();
-        
+
         $company->newsletter->delete();
-        
+
         $company->themes()->delete();
 
         if($company->children->isNotEmpty()){
-            $company->children->each(function ($son){ 
+            $company->children->each(function ($son){
                 $son->parent = NULL;
                 $son->save();
             });
         }
 
-        
+
         if($company->accounts()->isNotEmpty()) {
             $company->accounts()->each(function ($user, $key){
                 $metaCompany = $user->metas()->where('meta_key', 'company_id')->first();
                 $metaCompany->delete();
             });
         }
-        
+
         $company->delete();
 
         return redirect()->route('admin.sectors')->with('status', "¡La empresa {$name} se ha eliminado satisfactoriamente!. Asi como sus usuarios, temas,newsletters y noticias relacionadas");

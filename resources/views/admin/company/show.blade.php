@@ -15,9 +15,9 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-md-12 people-list">
+        <div class="col-xs-12 col-sm-12 col-md-12 people-list">
             <div class="people-options clearfix" id="btn-group-list">
-                <div class="btn-toolbar pull-left">
+                <div class="btn-toolbar btn-toolbar-custom pull-left">
                     <a href="{{ route('user.add.company', ['companyId' => $company->id]) }}" class="btn btn-success btn-quirk">{{ __('Agregar usuario') }}</a>
                     <button data-company="{{ $company->id }}" id="btn-add-theme" class="btn btn-success btn-quirk" type="button">{{ __('Agregar tema') }}</button>
                     @if (! $company->newsletter)
@@ -102,7 +102,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-6"> <!-- cuentas -->
                     <div class="panel panel-primary">
@@ -226,13 +226,23 @@
         .size-social {
             font-size: 28px !important;
         }
+
+        @media (max-width: 480px) {
+            .btn-toolbar-custom {
+                margin-left: -5px !important;
+                display: block !important;
+            }
+            .people-list .people-options .btn-toolbar-custom {
+                display: inline !important;
+            }
+        }
     </style>
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            
+
             //select2 for news assigned
             $('.select-company-theme').select2();
 
@@ -265,7 +275,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Tema</label>
                             <div class="col-sm-8">
-                                <input type="text" name="name" class="form-control" />
+                                <input id="input-name-theme" type="text" name="name" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -423,7 +433,11 @@
 
                 var btnSave = $(this).parent().parent().parent().find('a.btn-form-assigned-news');
                 btnSave.show('slow');
-                
+
+            })
+
+            $('#modal-default').on('shown.bs.modal', function () {
+                $('#input-name-theme').trigger('focus')
             })
         })
     </script>
