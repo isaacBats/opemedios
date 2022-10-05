@@ -98,7 +98,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
             ->name('admin.assignednews.replacetheme');
 
         Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
-        Route::get('tema/ver/{id}', 'ThemeController@show')->name('theme.show');
+        Route::get('tema/ver/{theme:id}', 'ThemeController@show')->name('theme.show');
         Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');

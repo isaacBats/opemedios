@@ -28,8 +28,7 @@ class ThemeController extends Controller
         return back()->with('status', "El tema: {$theme->name} se ha creado satisfactoriamente!");
     }
 
-    public function show (Request $request, $id) {
-        $theme = Theme::find($id);
+    public function show (Request $request, Theme $theme) {
         $accounts = $theme->company->accounts()->merge($theme->company->executives);
         $accounts = $accounts->diff($theme->accounts);
         return view('admin.theme.show', compact('theme', 'accounts'));

@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         </form>
-                        <a href="{{ route('company.show', ['id' => $company->id]) }}" class="btn btn-danger btn-block">
+                        <a href="{{ route('company.show', ['company' => $company]) }}" class="btn btn-danger btn-block">
                             {{ "Volver al detalle de {$company->name}" }}
                         </a>
                     </div> <!-- End form add new user-->
@@ -93,7 +93,7 @@
                 userList.hide('slow');
                 formSection.show('slow');
             })
-            
+
             // Select users for add to company
             $('#select-user').select2({
                 language: {

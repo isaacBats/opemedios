@@ -280,7 +280,7 @@ class UserController extends Controller
 
         array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
         array_push($breadcrumb, ['label' => $company->name,
-            'url' => route('company.show', ['company' => $company->id])]);
+            'url' => route('company.show', ['company' => $company])]);
         array_push($breadcrumb, ['label' => 'Agregar Cuenta']);
 
         return view('admin.company.addUser', compact('company', 'role', 'accounts', 'breadcrumb'));

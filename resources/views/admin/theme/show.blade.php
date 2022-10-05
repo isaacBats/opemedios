@@ -68,7 +68,7 @@
             <div class="panel-body">
                 <a href="javascript:void(0)" id="btn-edit" class="btn btn-success btn-block">Editar</a>
                 <a href="javascript:void(0)" data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  id="btn-delete" class="btn btn-danger btn-block">Eliminar</a>
-                <a href="{{ route('company.show', ['id' => $theme->company->id ]) }}" class="btn btn-default btn-block">Regresar</a>
+                <a href="{{ route('company.show', ['company' => $theme->company ]) }}" class="btn btn-default btn-block">Regresar</a>
             </div>
         </div>
         <div class="panel">
@@ -114,7 +114,7 @@
                 var title = $('#theme-title')
                 var form = $('#form-edit-theme')
                 var btnEdit = $(this)
-                
+
                 description.hide()
                 title.hide()
                 btnEdit.hide()
@@ -132,7 +132,7 @@
                 var themeName = $(this).data('name')
 
                 form.attr('method', 'POST')
-                    .attr('action', `/panel/tema/eliminar/${themeID}`) 
+                    .attr('action', `/panel/tema/eliminar/${themeID}`)
 
                 modal.find('.modal-title').html('Eliminar tema');
                 modalBody.html(`<p>¿Estas seguro que quieres eliminar el tema: <strong>${themeName}</strong>?</p>`)
