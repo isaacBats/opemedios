@@ -19,6 +19,9 @@
 namespace App\Exports;
 
 use App\AssignedNews;
+use App\Company;
+use App\Filters\AssignedNewsFilter;
+use App\Filters\NewsFilter;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -37,7 +40,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents, ShouldAutoSize
 {
     use Exportable;
-    
+
     private $request;
 
     public function __construct($request){
@@ -46,36 +49,16 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
 
     public function query()
     {
-        $notesIds = AssignedNews::query()->where('company_id', $this->request->input('company'))
-            ->when($this->request->input('theme_id') != null, function($q) {
-                return $q->where('theme_id', $this->request->input('theme_id'));
-            })->pluck('news_id');
+        $client = Company::find($this->request->input('company'));
+        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
+                ->pluck('news_id');
 
-        return News::query()->whereIn('id', $notesIds)
-            ->when($this->request->input('sector') != null, function($q) {
-                return $q->where('sector_id', $this->request->input('sector'));
-            })
-            ->when($this->request->input('genre') != null, function($q) {
-                return $q->where('genre_id', $this->request->input('genre'));
-            })
-            ->when($this->request->input('mean') != null, function($q) {
-                return $q->where('mean_id', $this->request->input('mean'));
-            })
-            ->when($this->request->input('source_id') != null, function($q) {
-                return $q->where('source_id', $this->request->input('source_id'));
-            })
-            ->when(($this->request->input('fstart') != null && $this->request->input('fend') != null), function($q){
-                $from = Carbon::create($this->request->input('fstart'));
-                $to = Carbon::create($this->request->input('fend'));
-                return $q->whereBetween('news_date', [$from, $to]);
-            })
-            ->when(($this->request->input('fstart') != null && $this->request->input('fend') == null), function($q){
-                return $q->whereDate('news_date', Carbon::create($this->request->input('fstart')));
-            });
+        return NewsFilter::filter($this->request, ['ids' => $notesIds]);
+
     }
 
     public function map($note): array {
-        
+
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
@@ -147,7 +130,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A1:O1');
 
-                // hiperlink 
+                // hiperlink
                 foreach ($event->sheet->getColumnIterator('O') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
@@ -175,7 +158,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                                 'fill' => [
                                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                     'color' => ['rgb' => 'e9f4fa'],
-                                ], 
+                                ],
                             ]);
                         }
                     }
@@ -190,7 +173,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                             }
                             $col = $celda->getColumn();
                             $num = $celda->getRow();
-                            
+
                             $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(80);
 
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
@@ -199,8 +182,8 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, WithEvents,
                                 ->setWrapText(true);
                         }
                     }
-                }   
-            }  
+                }
+            }
         ];
     }
 }
