@@ -111,6 +111,7 @@
             <li class="{{ request('type') == 'portadas' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'portadas']) }}">Portadas Financieras</a></li>
             <li class="{{ request('type') == 'cartones' ? ' uk-active' : '' }}"><a href="{{ route('client.sections', ['company' => $company, 'type' => 'cartones']) }}">Cartones</a><br></li>
             <li class="uk-nav-header uk-text-light">Reporte</li>
+            <li class="{{ request('type') == 'reporte_grafico' ? ' uk-active' : '' }}"><a href="{{ route('client.reporte_grafico', ['company' => $company]) }}">Reporte con Gráfico</a></li>
             <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $company]) }}">Reportes</a><br></li>
             @hasanyrole('manager|admin')
             <li class="uk-nav-divider"></li>

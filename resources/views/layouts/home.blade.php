@@ -32,6 +32,22 @@
         <!-- Style -->
         <link href="{{ asset('css/style.css') }}" media="all" rel="stylesheet" type="text/css">
         @yield('styles')
+        <script>
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+            )
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+            )
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+            )
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     </head>
     @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
     <body class="{{ str_replace('.', '-', $route) }}">
