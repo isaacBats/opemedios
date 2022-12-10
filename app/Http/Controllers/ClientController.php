@@ -219,8 +219,8 @@ class ClientController extends Controller
             $from = Carbon::create($request->input('start_date'));
             $to = Carbon::create($request->input('end_date'));
         }else{
-            $from =  Carbon::now()->add('-230 days');
-            $to =  Carbon::now()->add('-210 days');
+            $from =  Carbon::now()->add('-10 days');
+            $to =  Carbon::now();//->add(' days');
         }
         
         $from_d = $from->format('Y-m-d');
