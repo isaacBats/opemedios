@@ -25,7 +25,7 @@
                             <select style="width: 100%;" class="form-control uk-select select2" name="theme_id[]" id="" multiple>
                                 <option value="">** Todos **</option>
                                 @foreach(App\Company::where('slug', session()->get('slug_company'))->first()->themes as $theme)
-                                    <option value="{{ $theme->id }}" {{ ( in_array($theme->id, request('theme_id')) ? 'selected' : '' ) }}>{{ $theme->name }}</option>
+                                    <option value="{{ $theme->id }}" {{ ((request()->has('theme_id') && in_array($theme->id, request('theme_id'))) ? 'selected' : '' ) }}>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
                         </div>
