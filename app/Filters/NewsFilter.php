@@ -31,8 +31,8 @@ class NewsFilter
                 return $queryBuilder->where('genre_id', $request->input('genre'));
         })
         ->when( $request->input('mean') !== null, function ($queryBuilder) use ($request) {
-            if(is_array($request->input('genre')))
-                return $queryBuilder->whereIn('genre_id', $request->input('genre'));
+            if(is_array($request->input('mean')))
+                return $queryBuilder->whereIn('mean_id', $request->input('mean'));
             else
                 return $queryBuilder->where('mean_id', $request->input('mean'));
         })
