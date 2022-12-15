@@ -169,30 +169,29 @@ class ClientController extends Controller
 
         $paginate = 25;
 
-        $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
+        if($request->input('start_date') !== null && $request->input('end_date') !== null)
+        {
+            $from = Carbon::create($request->input('start_date'));
+            $to = Carbon::create($request->input('end_date'));
+        }else{
+            $from =  Carbon::now()->add('-10 days');
+            $to =  Carbon::now();//->add(' days');
+        }
 
-        $notes = NewsFilter::filter($request, ['ids' => $notesIds])
-            ->orderBy('news_date', 'DESC')
-            ->simplePaginate($paginate);
+        $from_d = $from->format('Y-m-d');
+        $to_d = $to->format('Y-m-d');
 
-        $notes->setPath(URL::full());
+        //$request->start_date = $from;
+        //$request->end_date = $to_d;
 
-        return view('clients.report', compact('notes', 'company'));
-    }
+        //$requestData = $request->all();
+        //$requestData['img'] = $img;
 
-    public function createReport(Request $request)
-    {
-        $date = Carbon::today()->timestamp;
-        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
-    }
+        $request->merge(['start_date' => $from_d]);
+        $request->merge(['end_date' => $to_d]);
 
-    //Reporte con Graficos
-    public function reporteGrafico(Request $request, Company $company)
-    {
+        //dd($request->input('start_date'));
 
-        $paginate = 25;
-        //echo is_array($request->input('theme_id'));exit();
-        //dd($request);
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
         $notesIdsArray = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id')->toArray();
         
@@ -206,25 +205,7 @@ class ClientController extends Controller
             ->groupBy('mean_id')
             ->get();
 
-            
-        // $medios = NewsFilter::filter($request, ['ids' => $notesIds])
-        //     ->select('mean_id', DB::raw('count(*) as total'))
-        //     ->groupBy('mean_id')
-        //     ->get();
-
-        //where news.id in (' . str_replace(']', '', str_replace('[', '', $notesIds)) . ')
         $where = '';
-        if($request->input('start_date') !== null && $request->input('end_date') !== null)
-        {
-            $from = Carbon::create($request->input('start_date'));
-            $to = Carbon::create($request->input('end_date'));
-        }else{
-            $from =  Carbon::now()->add('-10 days');
-            $to =  Carbon::now();//->add(' days');
-        }
-        
-        $from_d = $from->format('Y-m-d');
-        $to_d = $to->format('Y-m-d');
 
         $themes = DB::select("select themes.id, themes.name
                             from assigned_news
@@ -255,30 +236,6 @@ class ClientController extends Controller
             $fechas[] = $date->format('Y-m-d');
         }
 
-        //dd($themes);
-        //dd($data);
-        // $notesIds_ = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
-
-        //     $obj = 
-        //         $notes = NewsFilter::filter($request, ['ids' => $notesIds_])
-        //             ->select('created_at', DB::raw('count(*) as total'))
-        //             ->where(DB::raw('date(created_at) BETWEEN \'2022-10-01\' AND \'2022-12-01\''))
-        //             ->groupBy('created_at')
-        //             ->get();
-
-        //     if($obj->count() > 0)
-        //     {
-        //         $array_themes[$itm] = $obj;
-        //         dd($array_themes);
-        //     }
-
-        // }
-
-
-
-
-
-
         $json = '';
         foreach ($themes as $theme)
         {
@@ -298,24 +255,37 @@ class ClientController extends Controller
             $json .= ']},';
         }
 
-        //print_r($json);
-        //exit();
-
-
-
-
-
 
         
-
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])
             ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
 
         $notes->setPath(URL::full());
 
-        return view('clients.report_grafico', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
+        return view('clients.report', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
     }
+
+    public function createReport(Request $request)
+    {
+        $date = Carbon::today()->timestamp;
+        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
+    }
+
+    // //Reporte con Graficos
+    // public function reporteGrafico(Request $request, Company $company)
+    // {
+
+    //     $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');        
+
+    //     $notes = NewsFilter::filter($request, ['ids' => $notesIds])
+    //         ->orderBy('news_date', 'DESC')
+    //         ->simplePaginate($paginate);
+
+    //     $notes->setPath(URL::full());
+
+    //     return view('clients.report_grafico', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
+    // }
 
     public function notesPerDay(Request $request, $company)
     {
