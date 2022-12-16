@@ -118,13 +118,15 @@
                             <tr>
                                 <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
                                 <td>
-                                    <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
+                                    {{ "OPE-{$note->id}" }}
+                                    {{-- <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ "OPE-{$note->id}" }}
-                                    </a>
+                                    </a> --}}
                                 </td>
                                 <td>
-                                    <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
-                                        {{ $note->title }}</td>
+                                    <a class="tooltip" target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
+                                        {{ $note->title }}
+                                        <span class="tooltiptext">{{ $note->synthesis }}</span>
                                     </a>
                                 <td> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E' }}</td>
                                 <td>{{ $note->sector->name ?? 'N/E' }}</td>

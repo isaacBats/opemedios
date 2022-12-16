@@ -269,7 +269,7 @@ class ClientController extends Controller
     public function createReport(Request $request)
     {
         $date = Carbon::today()->timestamp;
-        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
+        return Excel::create(new NewsExport($request->all()), "reporte_{$date}.xlsx")->export('pdf');
     }
 
     // //Reporte con Graficos

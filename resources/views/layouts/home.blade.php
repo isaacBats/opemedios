@@ -31,6 +31,31 @@
 
         <!-- Style -->
         <link href="{{ asset('css/style.css') }}" media="all" rel="stylesheet" type="text/css">
+        <style>
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted black;
+            }
+        
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 450px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 15px;
+        
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+            }
+        
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+        </style>
         @yield('styles')
         <script>
             window.Promise ||

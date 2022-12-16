@@ -68,6 +68,7 @@ class ReportController extends Controller
     }
 
     public function export(Request $request) {
-        return (new ReportsExport($request))->download('Reporte.xlsx');
+        //return (new ReportsExport($request))->download('Reporte.xlsx');
+        return (new ReportsExport($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }
