@@ -42,6 +42,7 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
+Route::get('reportes/exportar-pdf', 'ReportController@exportPDF')->name('admin.report_pdf.export');
 
 Route::get('vista-newsletter', 'NewsletterSendController@seeNewsletter')->name('front.newsletter.see');
 

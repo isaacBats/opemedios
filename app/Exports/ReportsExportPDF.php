@@ -79,18 +79,18 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
     public function headings(): array {
         return [
             '#',
-            'Título|Tema|Síntesis',
+            'Título | Tema | Síntesis',
             //'Tema',
             //'Síntesis',
-            'Autor|Tipo de autor',
+            'Autor | Tipo de autor',
             //'Tipo de autor',
-            'Género|Fuente|Sección|Medio',
+            'Género | Fuente | Sección | Medio',
             //'Fuente',
             //'Sección',
             //'Medio',
             'Fecha nota',
             'Costo',
-            'Tendencia|Alcance',
+            'Tendencia | Alcance',
             //'Alcance',
             //'Link'
         ];

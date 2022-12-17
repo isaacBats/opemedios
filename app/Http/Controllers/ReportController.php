@@ -68,11 +68,11 @@ class ReportController extends Controller
         return view('admin.report.notes', compact('breadcrumb', 'notes'));
     }
 
-    // public function export(Request $request) {
-    //     return (new ReportsExport($request))->download('Reporte.xlsx');
-    // }
-    
     public function export(Request $request) {
+        return (new ReportsExport($request))->download('Reporte.xlsx');
+    }
+    
+    public function exportPDF(Request $request) {
         //return (new ReportsExport($request))->download('Reporte.xlsx');
         return (new ReportsExportPDF($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
