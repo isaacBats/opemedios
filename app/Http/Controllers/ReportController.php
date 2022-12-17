@@ -21,6 +21,7 @@ namespace App\Http\Controllers;
 use App\AssignedNews;
 use App\Company;
 use App\Exports\ReportsExport;
+use App\Exports\ReportsExportPDF;
 use App\Filters\AssignedNewsFilter;
 use App\Filters\NewsFilter;
 use App\News;
@@ -67,8 +68,12 @@ class ReportController extends Controller
         return view('admin.report.notes', compact('breadcrumb', 'notes'));
     }
 
+    // public function export(Request $request) {
+    //     return (new ReportsExport($request))->download('Reporte.xlsx');
+    // }
+    
     public function export(Request $request) {
         //return (new ReportsExport($request))->download('Reporte.xlsx');
-        return (new ReportsExport($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return (new ReportsExportPDF($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }
