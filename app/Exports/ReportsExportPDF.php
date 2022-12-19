@@ -119,22 +119,29 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                         'color' => ['rgb' => '2474ac'],
                     ],
                 ]);
-                $event->sheet->getColumnDimension('A')->setAutoSize(false);
-                $event->sheet->getColumnDimension('E')->setAutoSize(false);
-                $event->sheet->getColumnDimension('F')->setAutoSize(false);
-                $event->sheet->getColumnDimension('G')->setAutoSize(false);
 
-                $event->sheet->getColumnDimension('C')
-                    //->setWidth(10)
-                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('A')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')
                     ->setWidth(100)
+                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('C')
+                    //->setWidth(10)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
                     //->setWidth(15)
                     ->setAutoSize(false);
-                $event->sheet->getStyle('F')->getNumberFormat()
+                $event->sheet->getColumnDimension('E')
+                    ->setWidth(15)
+                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('F')
+                    ->setWidth(15)
+                    ->setAutoSize(false);
+                $event->sheet->getStyle('F')
+                    ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $event->sheet->getColumnDimension('G')
+                    ->setWidth(15)
+                    ->setAutoSize(false);
                 // $event->sheet->getStyle('N')->getNumberFormat()
                 //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A1:G1');

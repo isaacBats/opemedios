@@ -181,16 +181,8 @@ class ClientController extends Controller
         $from_d = $from->format('Y-m-d');
         $to_d = $to->format('Y-m-d');
 
-        //$request->start_date = $from;
-        //$request->end_date = $to_d;
-
-        //$requestData = $request->all();
-        //$requestData['img'] = $img;
-
         $request->merge(['start_date' => $from_d]);
         $request->merge(['end_date' => $to_d]);
-
-        //dd($request->input('start_date'));
 
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
         $notesIdsArray = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id')->toArray();
