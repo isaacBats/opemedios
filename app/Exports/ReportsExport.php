@@ -239,7 +239,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
     public function charts() {
 
-        $dt = ['B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB'];
+        $dt = ['B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM'];
         
                 //	Set the Labels for each data series we want to plot
                 //		Datatype
