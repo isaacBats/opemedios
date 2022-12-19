@@ -161,14 +161,14 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
             $obj['trend'][] = $itm->total;
         }
-        $this->count_trend = count($obj['trend_lbl']);
+        $this->count_trend = isset($obj['trend_lbl']) ? count($obj['trend_lbl']) : 0;
 
         foreach($medios as $itm)
         {
             $obj['mean_lbl'][] = $itm->mean->name;
             $obj['mean'][] = $itm->total;
         }
-        $this->count_mean = count($obj['mean_lbl']);
+        $this->count_mean = isset($obj['mean_lbl']) ? count($obj['mean_lbl']) : 0;
 
         $this->graph1 = $obj;
 
