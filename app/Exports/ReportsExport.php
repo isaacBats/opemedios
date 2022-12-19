@@ -198,42 +198,71 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
 
+        // return [
+        //     "OPE-{$note->id}",
+        //     $note->title,
+        //     $theme,
+        //     $note->synthesis,
+        //     $note->author,
+        //     $note->authorType->description ?? 'N/E',
+        //     $note->genre->description ?? 'N/E',
+        //     $note->source->name ?? 'N/E',
+        //     $note->section->name ?? 'N/E',
+        //     $note->mean->name ?? 'N/E',
+        //     $note->news_date->format('Y-m-d'),
+        //     $note->cost,
+        //     $trend,
+        //     $note->scope,
+        //     $link
+        // ];
+        
         return [
             "OPE-{$note->id}",
-            $note->title,
-            $theme,
-            $note->synthesis,
-            $note->author,
-            $note->authorType->description ?? 'N/E',
-            $note->genre->description ?? 'N/E',
-            $note->source->name ?? 'N/E',
-            $note->section->name ?? 'N/E',
-            $note->mean->name ?? 'N/E',
+            $note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
+            //$theme,
+            //$note->synthesis,
+            $note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
+            ($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
-            $trend,
-            $note->scope,
-            $link
+            $trend . "\r\n\r\n" . $note->scope
         ];
     }
 
     public function headings(): array {
+        // return [
+        //     '#',
+        //     'Título',
+        //     'Tema',
+        //     'Síntesis',
+        //     'Autor',
+        //     'Tipo de autor',
+        //     'Género',
+        //     'Fuente',
+        //     'Sección',
+        //     'Medio',
+        //     'Fecha nota',
+        //     'Costo',
+        //     'Tendencia',
+        //     'Alcance',
+        //     'Link'
+        // ];
         return [
             '#',
-            'Título',
-            'Tema',
-            'Síntesis',
-            'Autor',
-            'Tipo de autor',
-            'Género',
-            'Fuente',
-            'Sección',
-            'Medio',
+            'Título | Tema | Síntesis',
+            //'Tema',
+            //'Síntesis',
+            'Autor | Tipo de autor',
+            //'Tipo de autor',
+            'Género | Fuente | Sección | Medio',
+            //'Fuente',
+            //'Sección',
+            //'Medio',
             'Fecha nota',
             'Costo',
-            'Tendencia',
-            'Alcance',
-            'Link'
+            'Tendencia | Alcance',
+            //'Alcance',
+            //'Link'
         ];
     }
 
@@ -502,6 +531,12 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     public function registerEvents(): array {
         return [
             AfterSheet::class => function(AfterSheet $event){
+                $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
+                $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+                $event->sheet->getPageMargins()->setTop(0.1); 
+                $event->sheet->getPageMargins()->setRight(0.1); 
+                $event->sheet->getPageMargins()->setLeft(0.1); 
+                $event->sheet->getPageMargins()->setBottom(0.1); 
                 
                 $event->sheet->getDelegate()->fromArray(
                     $this->graph1
@@ -520,20 +555,47 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         'color' => ['rgb' => '2474ac'],
                     ],
                 ]);
+                // $event->sheet->getColumnDimension('B')
+                //     ->setWidth(40)
+                //     ->setAutoSize(false);
+                // $event->sheet->getColumnDimension('D')
+                //     ->setWidth(120)
+                //     ->setAutoSize(false);
+                // $event->sheet->getStyle('L')->getNumberFormat()
+                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                // $event->sheet->getStyle('N')->getNumberFormat()
+                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                // $event->sheet->setAutoFilter('A40:O40');
+
+
+                $event->sheet->getColumnDimension('A')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')
-                    ->setWidth(40)
+                    ->setWidth(100)
+                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('C')
+                    //->setWidth(10)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
-                    ->setWidth(120)
+                    //->setWidth(15)
                     ->setAutoSize(false);
-                $event->sheet->getStyle('L')->getNumberFormat()
+                $event->sheet->getColumnDimension('E')
+                    ->setWidth(13)
+                    ->setAutoSize(false);
+                $event->sheet->getColumnDimension('F')
+                    ->setWidth(13)
+                    ->setAutoSize(false);
+                $event->sheet->getStyle('F')
+                    ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->getStyle('N')->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->setAutoFilter('A40:O40');
+                $event->sheet->getColumnDimension('G')
+                    ->setWidth(13)
+                    ->setAutoSize(false);
+                // $event->sheet->getStyle('N')->getNumberFormat()
+                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                $event->sheet->setAutoFilter('A1:G1');
 
                 // hiperlink
-                foreach ($event->sheet->getColumnIterator('O') as $row) {
+                foreach ($event->sheet->getColumnIterator('G') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $cell->setHyperlink(new Hyperlink($cell->getValue()));
@@ -554,27 +616,27 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     foreach ($fila->getCellIterator() as $celda) {
                         if($celda->getRow() % 2 != 0){
                             if($celda->getRow() === 1){
-                                $event->sheet->getStyle("A{$celda->getRow()}:O{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 continue;
                             }
 
                             if($fila->getRowIndex() > 40)
-                                $event->sheet->getStyle("A{$celda->getRow()}:O{$celda->getRow()}")->applyFromArray([
+                                $event->sheet->getStyle("A{$celda->getRow()}:G{$celda->getRow()}")->applyFromArray([
                                     'fill' => [
                                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                         'color' => ['rgb' => 'e9f4fa'],
                                     ],
                                 ]);
                             else
-                                $event->sheet->getStyle("A{$celda->getRow()}:O{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 
                         }else
                             if($fila->getRowIndex() < 40)
-                                $event->sheet->getStyle("A{$celda->getRow()}:O{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                     }
@@ -591,7 +653,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             $num = $celda->getRow();
 
                             if($fila->getRowIndex() > 40)
-                                $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(80);
+                                $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(160);
 
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
                                 ->setVertical(Alignment::VERTICAL_CENTER)

@@ -131,16 +131,16 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                     //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
-                    ->setWidth(15)
+                    ->setWidth(13)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('F')
-                    ->setWidth(15)
+                    ->setWidth(13)
                     ->setAutoSize(false);
                 $event->sheet->getStyle('F')
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->getColumnDimension('G')
-                    ->setWidth(15)
+                    ->setWidth(13)
                     ->setAutoSize(false);
                 // $event->sheet->getStyle('N')->getNumberFormat()
                 //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
