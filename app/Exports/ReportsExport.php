@@ -150,7 +150,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         $dat_imp = $dato_->total;
                 }
                 $obj[$dt][0] = $dt;
-                $obj[$dt][] = (empty($dat_imp) ? 1 : $dat_imp);
+                $obj[$dt][] = (empty($dat_imp) ? 0 : $dat_imp);
             }
         }
 
