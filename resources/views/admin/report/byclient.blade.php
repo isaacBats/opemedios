@@ -77,6 +77,8 @@
                 </div>
                 <div class="btn-group pull-right ml-1">
                     <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-warning" id="btn-report-export">Exportar</a>
+                    <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-warning" id="btn-report-export-pdf">Exportar PDF</a>
+
                 </div>
 
                 <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span>
@@ -239,6 +241,14 @@
                 event.preventDefault();
                 var form = $('#form-report-filter')
                     .attr('action', "{{ route('admin.report.export') }}")
+                    .attr('method', 'get');
+                form.submit();
+            });
+            
+            $('#btn-report-export-pdf').on('click', function(event){
+                event.preventDefault();
+                var form = $('#form-report-filter')
+                    .attr('action', "{{ route('admin.report_pdf.export') }}")
                     .attr('method', 'get');
                 form.submit();
             });
