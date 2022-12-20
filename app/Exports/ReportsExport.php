@@ -354,7 +354,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
                 //	Set the position where the chart should appear in the worksheet
                 $chart->setTopLeftPosition('A21');
-                $chart->setBottomRightPosition('H39');
+                $chart->setBottomRightPosition('G39');
 
 
 
@@ -542,7 +542,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     $this->graph1
                 );
 
-                $event->sheet->getStyle('A40:O40')->applyFromArray([
+                $event->sheet->getStyle('A40:G40')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
