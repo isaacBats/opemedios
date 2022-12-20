@@ -579,20 +579,20 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
-                    ->setWidth(13)
+                    ->setWidth(14)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('F')
-                    ->setWidth(13)
+                    ->setWidth(14)
                     ->setAutoSize(false);
                 $event->sheet->getStyle('F')
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->getColumnDimension('G')
-                    ->setWidth(13)
+                    ->setWidth(14)
                     ->setAutoSize(false);
                 // $event->sheet->getStyle('N')->getNumberFormat()
                 //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->setAutoFilter('A1:G1');
+                $event->sheet->setAutoFilter('A40:G40');
 
                 // hiperlink
                 foreach ($event->sheet->getColumnIterator('G') as $row) {
@@ -645,7 +645,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
-                        if($celda->getColumn() == 'B' || $celda->getColumn() == 'D') {
+                        //if($celda->getColumn() == 'B' /*|| $celda->getColumn() == 'D'*/) {
                             if($celda->getRow() === 1){
                                 continue;
                             }
@@ -659,7 +659,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                 ->setVertical(Alignment::VERTICAL_CENTER)
                                 ->setHorizontal(Alignment::HORIZONTAL_LEFT)
                                 ->setWrapText(true);
-                        }
+                        //}
                     }
                 }
             }
