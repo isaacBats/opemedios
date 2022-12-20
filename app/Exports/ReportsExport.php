@@ -542,7 +542,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     $this->graph1
                 );
 
-                $event->sheet->getStyle('A40:G40')->applyFromArray([
+                $event->sheet->getStyle('A40:F40')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
