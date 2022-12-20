@@ -65,26 +65,30 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
 
         return [
             "OPE-{$note->id}",
-            $note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
+            //$note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
+            $note->title . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
             //$theme,
             //$note->synthesis,
-            $note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
-            ($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
+            //$note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
+            $note->author,
+            //($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
+            ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
-            $trend . "\r\n\r\n" . $note->scope
+            $trend . "\r\n\r\n" . $note->scope,
+            $link
         ];
     }
 
     public function headings(): array {
         return [
-            '#',
-            'Título | Tema | Síntesis',
+            'ID',
+            'Tema', //'Título | Tema | Síntesis',
             //'Tema',
             //'Síntesis',
-            'Autor | Tipo de autor',
+            'Autor',
             //'Tipo de autor',
-            'Género | Fuente | Sección | Medio',
+            'Fuente', //'Género | Fuente | Sección | Medio',
             //'Fuente',
             //'Sección',
             //'Medio',
@@ -92,7 +96,7 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
             'Costo',
             'Tendencia | Alcance',
             //'Alcance',
-            //'Link'
+            'Link'
         ];
     }
 
@@ -106,7 +110,7 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                 $event->sheet->getPageMargins()->setLeft(0.1); 
                 $event->sheet->getPageMargins()->setBottom(0.1); 
 
-                $event->sheet->getStyle('A1:G1')->applyFromArray([
+                $event->sheet->getStyle('A1:H1')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
@@ -122,7 +126,7 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
 
                 $event->sheet->getColumnDimension('A')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')
-                    ->setWidth(100)
+                    ->setWidth(60)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('C')
                     //->setWidth(10)
@@ -131,23 +135,23 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                     //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
-                    ->setWidth(13)
+                    ->setWidth(16)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('F')
-                    ->setWidth(13)
+                    ->setWidth(16)
                     ->setAutoSize(false);
                 $event->sheet->getStyle('F')
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->getColumnDimension('G')
-                    ->setWidth(13)
+                    ->setWidth(16)
                     ->setAutoSize(false);
                 // $event->sheet->getStyle('N')->getNumberFormat()
                 //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->setAutoFilter('A1:G1');
+                $event->sheet->setAutoFilter('A1:H1');
 
                 // hiperlink
-                foreach ($event->sheet->getColumnIterator('G') as $row) {
+                foreach ($event->sheet->getColumnIterator('H') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $cell->setHyperlink(new Hyperlink($cell->getValue()));
@@ -170,7 +174,7 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                             if($celda->getRow() === 1){
                                 continue;
                             }
-                            $event->sheet->getStyle("A{$celda->getRow()}:G{$celda->getRow()}")->applyFromArray([
+                            $event->sheet->getStyle("A{$celda->getRow()}:H{$celda->getRow()}")->applyFromArray([
                                 'fill' => [
                                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                     'color' => ['rgb' => 'e9f4fa'],
