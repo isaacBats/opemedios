@@ -54,7 +54,6 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                 ->pluck('news_id');
 
         return NewsFilter::filter($this->request, ['ids' => $notesIds]);
-
     }
 
     public function map($note): array {
@@ -65,13 +64,8 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
 
         return [
             "OPE-{$note->id}",
-            //$note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            $note->title . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            //$theme,
-            //$note->synthesis,
-            //$note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
+            $note->title . "\r\n\r\n" . $note->synthesis,
             $note->author,
-            //($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
@@ -83,19 +77,12 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
     public function headings(): array {
         return [
             'ID',
-            'Tema', //'Título | Tema | Síntesis',
-            //'Tema',
-            //'Síntesis',
+            'Tema',
             'Autor',
-            //'Tipo de autor',
-            'Fuente', //'Género | Fuente | Sección | Medio',
-            //'Fuente',
-            //'Sección',
-            //'Medio',
+            'Fuente',
             'Fecha nota',
             'Costo',
             'Tendencia | Alcance',
-            //'Alcance',
             'Link'
         ];
     }
@@ -129,10 +116,8 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                     ->setWidth(60)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('C')
-                    //->setWidth(10)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
-                    //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
                     ->setWidth(16)
@@ -146,8 +131,6 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                 $event->sheet->getColumnDimension('G')
                     ->setWidth(16)
                     ->setAutoSize(false);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A1:H1');
 
                 // hiperlink

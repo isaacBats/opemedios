@@ -91,9 +91,6 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $this->request->merge(['start_date' => $from_d]);
         $this->request->merge(['end_date' => $to_d]);
 
-        //$notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])->pluck('news_id');
-        //$notesIdsArray = AssignedNewsFilter::filter($this->request, ['company' => $client])->pluck('news_id')->toArray();
-        
         $tendencias = NewsFilter::filter($this->request, ['ids' => $notesIds])
             ->select('trend', DB::raw('count(*) as total'))
             ->groupBy('trend')
@@ -171,8 +168,6 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $this->count_mean = isset($obj['mean_lbl']) ? count($obj['mean_lbl']) : 0;
 
         $this->graph1 = $obj;
-
-        //dd($this->graph1);
     }
 
     public function query()
@@ -189,7 +184,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     
     public function startCell(): string
     {
-        return 'A40'; // . (count($themes) + 1);
+        return 'A40';
     }
 
     public function map($note): array {
@@ -197,34 +192,11 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
-
-        // return [
-        //     "OPE-{$note->id}",
-        //     $note->title,
-        //     $theme,
-        //     $note->synthesis,
-        //     $note->author,
-        //     $note->authorType->description ?? 'N/E',
-        //     $note->genre->description ?? 'N/E',
-        //     $note->source->name ?? 'N/E',
-        //     $note->section->name ?? 'N/E',
-        //     $note->mean->name ?? 'N/E',
-        //     $note->news_date->format('Y-m-d'),
-        //     $note->cost,
-        //     $trend,
-        //     $note->scope,
-        //     $link
-        // ];
         
         return [
             "OPE-{$note->id}",
-            //$note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            $note->title . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            //$theme,
-            //$note->synthesis,
-            //$note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
+            $note->title . "\r\n\r\n" . $note->synthesis,
             $note->author,
-            //($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
@@ -234,38 +206,15 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     }
 
     public function headings(): array {
-        // return [
-        //     '#',
-        //     'Título',
-        //     'Tema',
-        //     'Síntesis',
-        //     'Autor',
-        //     'Tipo de autor',
-        //     'Género',
-        //     'Fuente',
-        //     'Sección',
-        //     'Medio',
-        //     'Fecha nota',
-        //     'Costo',
-        //     'Tendencia',
-        //     'Alcance',
-        //     'Link'
-        // ];
+        
         return [
             'ID',
-            'Tema', //'Título | Tema | Síntesis',
-            //'Tema',
-            //'Síntesis',
+            'Tema',
             'Autor',
-            //'Tipo de autor',
-            'Fuente', //'Género | Fuente | Sección | Medio',
-            //'Fuente',
-            //'Sección',
-            //'Medio',
+            'Fuente',
             'Fecha nota',
             'Costo',
             'Tendencia | Alcance',
-            //'Alcance',
             'Link'
         ];
     }
@@ -277,234 +226,139 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
             'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
             'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
-        
+    
+        /* CHART LINE */                    
+            foreach($this->themes as $key => $itm)
+                if($key != (count($this->themes) - 1))
+                    $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
+            
+            $xAxisTickValues = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
+            ];
 
-            /* CHART LINE */                    
-                foreach($this->themes as $key => $itm)
-                    if($key != (count($this->themes) - 1))
-                        $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
+            foreach($this->themes as $key => $itm)
+                if($key != (count($this->themes) - 1))
+                    $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
                 
-                $xAxisTickValues = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
-                ];
+            $series = new DataSeries(
+                DataSeries::TYPE_LINECHART,
+                null,
+                range(0, count($dataSeriesValues) - 1),
+                $dataSeriesLabels,
+                $xAxisTickValues,
+                $dataSeriesValues
+            );
 
-                foreach($this->themes as $key => $itm)
-                    if($key != (count($this->themes) - 1))
-                        $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
-                   
-                // Build the dataseries
-                $series = new DataSeries(
-                    DataSeries::TYPE_LINECHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues) - 1), // plotOrder
-                    $dataSeriesLabels, // plotLabel
-                    $xAxisTickValues, // plotCategory
-                    $dataSeriesValues          // plotValues
-                );
+            $layout = new Layout();
+            $layout->setShowVal(true);
+            $layout->setShowPercent(true);
 
-                // Set up a layout object for the Pie chart
-                $layout = new Layout();
-                $layout->setShowVal(true);
-                $layout->setShowPercent(true);
+            $plotArea = new PlotArea($layout, [$series]);
+            $legend = new Legend(Legend::POSITION_RIGHT, null, false);
+            $title = new Title('Noticias');
 
-                // Set the series in the plot area
-                $plotArea = new PlotArea($layout, [$series]);
-                // Set the chart legend
-                $legend = new Legend(Legend::POSITION_RIGHT, null, false);
+            $chart = new Chart(
+                'chart_line',
+                $title,
+                $legend,
+                $plotArea,
+                true,
+                DataSeries::EMPTY_AS_GAP,
+                null,
+                null
+            );
 
-                $title = new Title('Noticias');
+            $chart->setTopLeftPosition('A21');
+            $chart->setBottomRightPosition('H39');
+        /* CHART LINE */   
 
-                // Create the chart
-                $chart = new Chart(
-                    'chart_line', // name
-                    $title, // title
-                    $legend, // legend
-                    $plotArea, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
+        /* CHART2 */                    
+            $dataSeriesLabels2 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
+            ];
 
-                // Set the position where the chart should appear in the worksheet
-                $chart->setTopLeftPosition('A21');
-                $chart->setBottomRightPosition('H39');
+            $xAxisTickValues2 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$G$' . ($this->count_news + 1), null, 4), // Q1 to Q4
+            ];
 
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART LINE */   
+            $dataSeriesValues2 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$G$' . ($this->count_news + 2), null, 4),
+            ];
 
+            $series2 = new DataSeries(
+                DataSeries::TYPE_DONUTCHART,
+                null,
+                range(0, count($dataSeriesValues2) - 1),
+                $dataSeriesLabels2,
+                $xAxisTickValues2,
+                $dataSeriesValues2
+            );
 
+            $layout2 = new Layout();
+            $layout2->setShowVal(true);
+            $layout2->setShowPercent(true);
 
+            $plotArea2 = new PlotArea($layout2, [$series2]);
+            $legend2 = new Legend(Legend::POSITION_RIGHT, null, false);
+            $title2 = new Title('Tendencias');
 
+            $chart2 = new Chart(
+                'chart2',
+                $title2,
+                $legend2,
+                $plotArea2,
+                true,
+                DataSeries::EMPTY_AS_GAP,
+                null,
+                null
+            );
 
+            $chart2->setTopLeftPosition('A1');
+            $chart2->setBottomRightPosition('C20');
+        /* CHART2 */                    
 
+        /* CHART3 */                    
+            $dataSeriesLabels1 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
+            ];
+            $xAxisTickValues1 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$G$' . ($this->count_news + 3), null, 4), // Q1 to Q4
+            ];
+            $dataSeriesValues1 = [
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$G$' . ($this->count_news + 4), null, 4),
+            ];
+            $series1 = new DataSeries(
+                DataSeries::TYPE_PIECHART,
+                null,
+                range(0, count($dataSeriesValues1) - 1),
+                $dataSeriesLabels1,
+                $xAxisTickValues1,
+                $dataSeriesValues1
+            );
 
+            $layout1 = new Layout();
+            $layout1->setShowVal(true);
+            $layout1->setShowPercent(true);
 
+            $plotArea1 = new PlotArea($layout1, [$series1]);
+            $legend1 = new Legend(Legend::POSITION_RIGHT, null, false);
+            $title1 = new Title('Medios');
+            $chart1 = new Chart(
+                'chart1',
+                $title1,
+                $legend1,
+                $plotArea1,
+                true,
+                DataSeries::EMPTY_AS_GAP,
+                null,
+                null
+            );
 
-            /* CHART2 */                    
-                // Set the Labels for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesLabels2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-                ];
-                // Set the X-Axis Labels
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $xAxisTickValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$G$' . ($this->count_news + 1), null, 4), // Q1 to Q4
-                ];
-                // Set the Data values for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$G$' . ($this->count_news + 2), null, 4),
-                ];
+            $chart1->setTopLeftPosition('D1');
+            $chart1->setBottomRightPosition('G20');
+        /* CHART3 */                    
 
-                // Build the dataseries
-                $series2 = new DataSeries(
-                    DataSeries::TYPE_DONUTCHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues2) - 1), // plotOrder
-                    $dataSeriesLabels2, // plotLabel
-                    $xAxisTickValues2, // plotCategory
-                    $dataSeriesValues2          // plotValues
-                );
-
-                // Set up a layout object for the Pie chart
-                $layout2 = new Layout();
-                $layout2->setShowVal(true);
-                $layout2->setShowPercent(true);
-
-                // Set the series in the plot area
-                $plotArea2 = new PlotArea($layout2, [$series2]);
-                // Set the chart legend
-                $legend2 = new Legend(Legend::POSITION_RIGHT, null, false);
-
-                $title2 = new Title('Tendencias');
-
-                // Create the chart
-                $chart2 = new Chart(
-                    'chart2', // name
-                    $title2, // title
-                    $legend2, // legend
-                    $plotArea2, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
-
-                // Set the position where the chart should appear in the worksheet
-                $chart2->setTopLeftPosition('A1');
-                $chart2->setBottomRightPosition('C20');
-
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART2 */                    
-
-
-            /* CHART3 */                    
-   
-                // Set the Labels for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesLabels1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-                ];
-                // Set the X-Axis Labels
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $xAxisTickValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$G$' . ($this->count_news + 3), null, 4), // Q1 to Q4
-                ];
-                // Set the Data values for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$G$' . ($this->count_news + 4), null, 4),
-                ];
-
-                // Build the dataseries
-                $series1 = new DataSeries(
-                    DataSeries::TYPE_PIECHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues1) - 1), // plotOrder
-                    $dataSeriesLabels1, // plotLabel
-                    $xAxisTickValues1, // plotCategory
-                    $dataSeriesValues1          // plotValues
-                );
-
-                // Set up a layout object for the Pie chart
-                $layout1 = new Layout();
-                $layout1->setShowVal(true);
-                $layout1->setShowPercent(true);
-
-                // Set the series in the plot area
-                $plotArea1 = new PlotArea($layout1, [$series1]);
-                // Set the chart legend
-                $legend1 = new Legend(Legend::POSITION_RIGHT, null, false);
-
-                $title1 = new Title('Medios');
-
-                // Create the chart
-                $chart1 = new Chart(
-                    'chart1', // name
-                    $title1, // title
-                    $legend1, // legend
-                    $plotArea1, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
-
-                // Set the position where the chart should appear in the worksheet
-                $chart1->setTopLeftPosition('D1');
-                $chart1->setBottomRightPosition('G20');
-
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART3 */                    
-
-
-
-
-
-
-
-
-
-
-
-
-                //return [];
-                return [$chart, $chart2, $chart1];
+        return [$chart, $chart2, $chart1];
     }
 
     public function registerEvents(): array {
@@ -534,28 +388,14 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         'color' => ['rgb' => '2474ac'],
                     ],
                 ]);
-                // $event->sheet->getColumnDimension('B')
-                //     ->setWidth(40)
-                //     ->setAutoSize(false);
-                // $event->sheet->getColumnDimension('D')
-                //     ->setWidth(120)
-                //     ->setAutoSize(false);
-                // $event->sheet->getStyle('L')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                // $event->sheet->setAutoFilter('A40:O40');
-
 
                 $event->sheet->getColumnDimension('A')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')
                     ->setWidth(60)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('C')
-                    //->setWidth(10)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
-                    //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
                     ->setWidth(16)
@@ -569,8 +409,6 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 $event->sheet->getColumnDimension('G')
                     ->setWidth(16)
                     ->setAutoSize(false);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A40:H40');
 
                 // hiperlink
@@ -629,7 +467,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
-                        //if($celda->getColumn() == 'B' /*|| $celda->getColumn() == 'D'*/) {
+                        //if($celda->getColumn() == 'B' || $celda->getColumn() == 'D') {
                             if($celda->getRow() === 1){
                                 continue;
                             }

@@ -263,7 +263,6 @@
     <script>
         
         var options_tendencia = {
-            //series: [44, 55, 41, 17, 15],
             series: [
                 @php $xcoma = '' @endphp
                 @foreach($tendencias as $itm)
@@ -271,7 +270,6 @@
                     @php $xcoma = ',' @endphp
                 @endforeach
             ],
-            //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             labels: [
                 @php $xcoma = '' @endphp
                 @foreach($tendencias as $itm)
@@ -320,9 +318,7 @@
         var chart_tendencia = new ApexCharts(document.querySelector("#chart_tendencia"), options_tendencia);
         chart_tendencia.render();
     
-    
         var options_medio = {
-            //series: [44, 55, 13, 43, 22],
             series: [
                 @php $xcoma = '' @endphp
                 @foreach($medios as $itm)
@@ -334,7 +330,6 @@
                 width: 380,
                 type: 'pie',
             },
-            //labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
             labels: [
                     @php $xcoma = '' @endphp
                     @foreach($medios as $itm)
@@ -355,96 +350,11 @@
             }]
         };
         
-        /*
-            var options_medio = {
-                //series: [44, 33, 54, 45],
-                series: [
-                    @php $xcoma = '' @endphp
-                    @foreach($medios as $itm)
-                        {{ $xcoma . $itm->total }}
-                        @php $xcoma = ',' @endphp
-                    @endforeach
-                ],
-                //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                labels: [
-                    @php $xcoma = '' @endphp
-                    @foreach($medios as $itm)
-                        {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
-                        @php $xcoma = ',' @endphp
-                    @endforeach
-                ],
-                chart: {
-                    width: 380,
-                    type: 'pie',
-                },
-                colors: ['#93C3EE', '#E5C6A0', '#669DB5', '#94A74A'],
-                fill: {
-                    type: 'image',
-                    opacity: 0.85,
-                    image: {
-                        src: [
-                            
-                            @php $xcoma = '' @endphp
-                            @foreach($medios as $itm)
-                                {{$xcoma}}"{{ asset('images/'.$itm->mean->slug.'.png') }}"
-                                @php $xcoma = ',' @endphp
-                            @endforeach
-                            // '../../assets/images/stripes.jpg', 
-                            // '../../assets/images/1101098.png', 
-                            // '../../assets/images/4679113782_ca13e2e6c0_z.jpg', 
-                            // '../../assets/images/2979121308_59539a3898_z.jpg'
-                        ],
-                        width: 25,
-                        imagedHeight: 25
-                    },
-                },
-                stroke: {
-                    width: 4
-                },
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        colors: ['#111']
-                    },
-                    background: {
-                        enabled: true,
-                        foreColor: '#fff',
-                        borderWidth: 0
-                    }
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
-            };
-        */
         var chart_medio = new ApexCharts(document.querySelector("#chart_medio"), options_medio);
         chart_medio.render();
       
-      
-
-        
         var options_hist = {
             series: [
-                // {
-                //     name: "Session Duration",
-                //     data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
-                // },
-                // {
-                //     name: "Page Views",
-                //     data: [35, 0, 62, 42, 13, 18, 29, 0, 36, 51, 32, 35]
-                // },
-                // {
-                //     name: 'Total Visits',
-                //     data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
-                // }
                 {!! $json !!}
             ],
             chart: {
@@ -479,7 +389,6 @@
             },
             xaxis: {
                 categories: [
-                    //'01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan','10 Jan', '11 Jan', '12 Jan'
                     @php $xxcoma = ''; @endphp
                     @foreach($fechas as $it)
                         {{ $xxcoma }}'{{ $it }}'

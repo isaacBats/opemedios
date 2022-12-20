@@ -263,22 +263,7 @@ class ClientController extends Controller
         $date = Carbon::today()->timestamp;
         return Excel::create(new NewsExport($request->all()), "reporte_{$date}.xlsx")->export('pdf');
     }
-
-    // //Reporte con Graficos
-    // public function reporteGrafico(Request $request, Company $company)
-    // {
-
-    //     $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');        
-
-    //     $notes = NewsFilter::filter($request, ['ids' => $notesIds])
-    //         ->orderBy('news_date', 'DESC')
-    //         ->simplePaginate($paginate);
-
-    //     $notes->setPath(URL::full());
-
-    //     return view('clients.report_grafico', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
-    // }
-
+    
     public function notesPerDay(Request $request, $company)
     {
 
