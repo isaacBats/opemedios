@@ -610,13 +610,18 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         }
                     }
                 }
-
+                $dt = [
+                    'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
+                    'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
+                    'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
+                    'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
+                
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
                         if($celda->getRow() % 2 != 0){
                             if($celda->getRow() === 1){
-                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 continue;
@@ -630,13 +635,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                     ],
                                 ]);
                             else
-                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 
                         }else
                             if($fila->getRowIndex() < 40)
-                                $event->sheet->getStyle("A{$celda->getRow()}:ZZ{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                     }
