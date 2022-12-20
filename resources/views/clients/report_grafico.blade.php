@@ -1,4 +1,6 @@
 @extends('layouts.home')
+
+
 @section('title', " - Reporte")
 @section('content')
     @include('components.clientHeading')
@@ -6,9 +8,8 @@
     <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
         <div class="uk-padding reporte-container" style="background: #fff;">
             <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
-            <br>
             <div class="">
-                <form action="{{ route('client.report', ['company' => $company]) }}" method="GET" id="form-report-filter">
+                <form action="{{ route('client.reporte_grafico', ['company' => $company]) }}" method="GET" id="form-report-filter">
                     <div class="uk-child-width-1-1 uk-child-width-1-4@s uk-child-width-1-4@m" uk-grid>
                         <input type="hidden" name="company" value="{{ $company->id }}">
                         <div class="uk-margin">
@@ -24,34 +25,34 @@
                             <select style="width: 100%;" class="form-control uk-select select2" name="theme_id[]" id="" multiple>
                                 <option value="">** Todos **</option>
                                 @foreach(App\Company::where('slug', session()->get('slug_company'))->first()->themes as $theme)
-                                    <option value="{{ $theme->id }}" {{ ((request()->has('theme_id') && is_array(request('theme_id')) && in_array($theme->id, request('theme_id'))) ? 'selected' : '' ) }}>{{ $theme->name }}</option>
+                                    <option value="{{ $theme->id }}" {{ ((request()->has('theme_id') && in_array($theme->id, request('theme_id'))) ? 'selected' : '' ) }}>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Sector</label>
-                            <select style="width: 100%;" class="form-control uk-select select2" name="sector[]" id="" multiple>
+                            <select style="width: 100%;" class="form-control uk-select select2" name="sector" id="">
                                 <option value="">** Todos **</option>
                                 @foreach(App\Sector::all() as $sector)
-                                    <option value="{{ $sector->id }}" {{ ((request()->has('sector') && is_array(request('sector')) && in_array($sector->id, request('sector'))) ? 'selected' : '' ) }} >{{ $sector->name }}</option>
+                                    <option value="{{ $sector->id }}" {{ (request('sector') == $sector->id ? 'selected' : '' ) }} >{{ $sector->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">G&eacute;nero</label>
-                            <select style="width: 100%;" class="form-control uk-select select2" name="genre[]" id="" multiple>
+                            <select style="width: 100%;" class="form-control uk-select select2" name="genre" id="">
                                 <option value="">** Todos **</option>
                                 @foreach(App\Genre::all() as $genre)
-                                    <option value="{{ $genre->id }}" {{ ((request()->has('genre') && is_array(request('genre')) && in_array($genre->id, request('genre'))) ? 'selected' : '' ) }} >{{ $genre->description }}</option>
+                                    <option value="{{ $genre->id }}" {{ (request('genre') == $genre->id ? 'selected' : '' ) }} >{{ $genre->description }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Medio</label>
-                            <select style="width: 100%;" class="form-control uk-select select2" name="mean[]" id="select-report-mean" multiple>
+                            <select style="width: 100%;" class="form-control uk-select select2" name="mean" id="select-report-mean">
                                 <option value="">** Todos **</option>
                                 @foreach(App\Means::all() as $mean)
-                                    <option value="{{ $mean->id }}" {{ ((request()->has('mean') && is_array(request('mean')) && in_array($mean->id, request('mean'))) ? 'selected' : '' ) }}>{{ $mean->name }}</option>
+                                    <option value="{{ $mean->id }}" {{ (request('mean') == $mean->id ? 'selected' : '' ) }}>{{ $mean->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -64,12 +65,10 @@
                     <div class="uk-margin">
                         <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar / Buscar">
                         <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
-                        <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium" id="btn-report-export-pdf">Exportar PDF</a>
                     </div>
                 </form>
             </div>
         </div>
-        
         <div class="uk-padding uk-padding-remove-top container-tabla-reporte" style="background: #fff;">
             <div class="uk-overflow-auto">
                 <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-2@m" uk-grid>
@@ -94,8 +93,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="uk-padding uk-padding-remove-top container-tabla-reporte" style="background: #fff;">
+        {{-- <div class="uk-padding uk-padding-remove-top container-tabla-reporte" style="background: #fff;">
             <div class="uk-overflow-auto">
                 <table class="uk-table uk-table-striped uk-table-responsive">
                     <thead>
@@ -119,15 +117,13 @@
                             <tr>
                                 <td>{{ ($notes->currentPage() - 1) * $notes->perPage() + $loop->iteration }}</td>
                                 <td>
-                                    {{ "OPE-{$note->id}" }}
-                                    {{-- <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
+                                    <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
                                         {{ "OPE-{$note->id}" }}
-                                    </a> --}}
+                                    </a>
                                 </td>
                                 <td>
-                                    <a class="tooltip" target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
-                                        {{ $note->title }}
-                                        <span class="tooltiptext">{{ $note->synthesis }}</span>
+                                    <a target="_blank" href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug ]) }}">
+                                        {{ $note->title }}</td>
                                     </a>
                                 <td> {{ $note->assignedNews->where('company_id', $company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E' }}</td>
                                 <td>{{ $note->sector->name ?? 'N/E' }}</td>
@@ -144,7 +140,7 @@
                 </table>
                 {!! $notes->links() !!}
             </div>
-        </div>
+        </div> --}}
         <div class="uk-padding uk-padding-remove-horizontal">
             <div class="loader">Cargando...</div>
             <div id="news-by-theme" class="col-md-9">
@@ -236,7 +232,7 @@
             $('#btn-form-submit').on('click', function(event){
                 event.preventDefault();
                 var form = $('#form-report-filter')
-                    .attr('action', "{{ route('client.report', ['company' => session()->get('slug_company')]) }}")
+                    .attr('action', "{{ route('client.reporte_grafico', ['company' => session()->get('slug_company')]) }}")
                     .attr('method', 'get');
                 form.submit();
             });
@@ -249,17 +245,10 @@
                 form.submit();
             });
 
-            $('#btn-report-export-pdf').on('click', function(event){
-                event.preventDefault();
-                var form = $('#form-report-filter')
-                    .attr('action', "{{ route('admin.report_pdf.export') }}")
-                    .attr('method', 'get');
-                form.submit();
-            });
-
          });
     </script>
-    
+
+
     <script>
         
         var options_tendencia = {
@@ -321,8 +310,9 @@
         chart_tendencia.render();
     
     
+        
         var options_medio = {
-            //series: [44, 55, 13, 43, 22],
+            //series: [44, 33, 54, 45],
             series: [
                 @php $xcoma = '' @endphp
                 @foreach($medios as $itm)
@@ -330,18 +320,53 @@
                     @php $xcoma = ',' @endphp
                 @endforeach
             ],
+            //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            labels: [
+                @php $xcoma = '' @endphp
+                @foreach($medios as $itm)
+                    {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
+                    @php $xcoma = ',' @endphp
+                @endforeach
+            ],
             chart: {
                 width: 380,
                 type: 'pie',
             },
-            //labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-            labels: [
-                    @php $xcoma = '' @endphp
-                    @foreach($medios as $itm)
-                        {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
-                        @php $xcoma = ',' @endphp
-                    @endforeach
-                ],
+            colors: ['#93C3EE', '#E5C6A0', '#669DB5', '#94A74A'],
+            fill: {
+                type: 'image',
+                opacity: 0.85,
+                image: {
+                    src: [
+                        
+                        @php $xcoma = '' @endphp
+                        @foreach($medios as $itm)
+                            {{$xcoma}}"{{ asset('images/'.$itm->mean->slug.'.png') }}"
+                            @php $xcoma = ',' @endphp
+                        @endforeach
+                        // '../../assets/images/stripes.jpg', 
+                        // '../../assets/images/1101098.png', 
+                        // '../../assets/images/4679113782_ca13e2e6c0_z.jpg', 
+                        // '../../assets/images/2979121308_59539a3898_z.jpg'
+                    ],
+                    width: 25,
+                    imagedHeight: 25
+                },
+            },
+            stroke: {
+                width: 4
+            },
+            dataLabels: {
+                enabled: true,
+                style: {
+                    colors: ['#111']
+                },
+                background: {
+                    enabled: true,
+                    foreColor: '#fff',
+                    borderWidth: 0
+                }
+            },
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -354,77 +379,7 @@
                 }
             }]
         };
-        
-        /*
-            var options_medio = {
-                //series: [44, 33, 54, 45],
-                series: [
-                    @php $xcoma = '' @endphp
-                    @foreach($medios as $itm)
-                        {{ $xcoma . $itm->total }}
-                        @php $xcoma = ',' @endphp
-                    @endforeach
-                ],
-                //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                labels: [
-                    @php $xcoma = '' @endphp
-                    @foreach($medios as $itm)
-                        {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
-                        @php $xcoma = ',' @endphp
-                    @endforeach
-                ],
-                chart: {
-                    width: 380,
-                    type: 'pie',
-                },
-                colors: ['#93C3EE', '#E5C6A0', '#669DB5', '#94A74A'],
-                fill: {
-                    type: 'image',
-                    opacity: 0.85,
-                    image: {
-                        src: [
-                            
-                            @php $xcoma = '' @endphp
-                            @foreach($medios as $itm)
-                                {{$xcoma}}"{{ asset('images/'.$itm->mean->slug.'.png') }}"
-                                @php $xcoma = ',' @endphp
-                            @endforeach
-                            // '../../assets/images/stripes.jpg', 
-                            // '../../assets/images/1101098.png', 
-                            // '../../assets/images/4679113782_ca13e2e6c0_z.jpg', 
-                            // '../../assets/images/2979121308_59539a3898_z.jpg'
-                        ],
-                        width: 25,
-                        imagedHeight: 25
-                    },
-                },
-                stroke: {
-                    width: 4
-                },
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        colors: ['#111']
-                    },
-                    background: {
-                        enabled: true,
-                        foreColor: '#fff',
-                        borderWidth: 0
-                    }
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
-            };
-        */
+
         var chart_medio = new ApexCharts(document.querySelector("#chart_medio"), options_medio);
         chart_medio.render();
       

@@ -31,7 +31,48 @@
 
         <!-- Style -->
         <link href="{{ asset('css/style.css') }}" media="all" rel="stylesheet" type="text/css">
+        <style>
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted black;
+            }
+        
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 450px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 15px;
+        
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+            }
+        
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+        </style>
         @yield('styles')
+        <script>
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+            )
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+            )
+            window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+            )
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     </head>
     @if( $route == 'home' || $route == 'clients' || $route == 'contact' || $route == 'signin' )
     <body class="{{ str_replace('.', '-', $route) }}">
