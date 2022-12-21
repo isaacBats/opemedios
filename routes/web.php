@@ -42,6 +42,7 @@ Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.deta
 Route::get('cambio-empresa', 'HomeController@changeCompany');
 
 Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.export');
+Route::get('reportes/exportar-pdf', 'ReportController@exportPDF')->name('admin.report_pdf.export');
 
 Route::get('vista-newsletter', 'NewsletterSendController@seeNewsletter')->name('front.newsletter.see');
 
@@ -62,6 +63,7 @@ Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:clien
     Route::get('search', 'ClientController@search')->name('search');
     Route::get('reporte', 'ClientController@report')->name('client.report');
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
+    Route::get('reporte-grafico', 'ClientController@reporteGrafico')->name('client.reporte_grafico');
 
     Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
     Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');

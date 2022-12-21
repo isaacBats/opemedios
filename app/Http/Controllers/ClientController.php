@@ -26,6 +26,7 @@ use App\Filters\{AssignedNewsFilter, NewsFilter};
 use App\Http\Controllers\{MediaController, NewsController};
 use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\{Arr, Str};
 use Illuminate\Support\Facades\{Auth, DB, URL};
@@ -168,23 +169,101 @@ class ClientController extends Controller
 
         $paginate = 25;
 
-        $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
+        if($request->input('start_date') !== null && $request->input('end_date') !== null)
+        {
+            $from = Carbon::create($request->input('start_date'));
+            $to = Carbon::create($request->input('end_date'));
+        }else{
+            $from =  Carbon::now()->add('-10 days');
+            $to =  Carbon::now();//->add(' days');
+        }
 
+        $from_d = $from->format('Y-m-d');
+        $to_d = $to->format('Y-m-d');
+
+        $request->merge(['start_date' => $from_d]);
+        $request->merge(['end_date' => $to_d]);
+
+        $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
+        $notesIdsArray = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id')->toArray();
+        
+        $tendencias = NewsFilter::filter($request, ['ids' => $notesIds])
+            ->select('trend', DB::raw('count(*) as total'))
+            ->groupBy('trend')
+            ->get();
+
+        $medios = NewsFilter::filter($request, ['ids' => $notesIds])
+            ->select('mean_id', DB::raw('count(*) as total'))
+            ->groupBy('mean_id')
+            ->get();
+
+        $where = '';
+
+        $themes = DB::select("select themes.id, themes.name
+                            from assigned_news
+                            inner join news on assigned_news.news_id = news.id
+                            inner join themes on assigned_news.theme_id = themes.id
+                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+                            AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
+                            group by themes.id, themes.name
+                            order by name desc");
+        
+        $period = CarbonPeriod::create($from, $to);
+
+        $fechas = array();
+        $data = array();
+        foreach ($period as $date) {
+            $dt = $date->format('Y-m-d');
+            $where = " AND date(news.created_at) = '$dt'";
+            $qry = DB::select("select date(news.created_at) as dt, themes.id, themes.name, count(*) as total
+                            from assigned_news
+                            inner join news on assigned_news.news_id = news.id
+                            inner join themes on assigned_news.theme_id = themes.id
+                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+                            " . $where . "
+                            group by date(news.created_at), themes.id, themes.name
+                            order by date(news.created_at) desc");
+
+            $data[$date->format('Y-m-d')] = $qry;
+            $fechas[] = $date->format('Y-m-d');
+        }
+
+        $json = '';
+        foreach ($themes as $theme)
+        {
+            $xcoma = '';
+            $json .= '{';
+            $json .= 'name: "' . $theme->name . '",';
+            $json .= 'data:[';
+            foreach ($fechas as $dt){
+                $dat_imp = '';
+                foreach ($data[$dt] as $dato_){
+                    if($dato_->id == $theme->id)
+                        $dat_imp = $dato_->total;
+                }
+                $json .= $xcoma . (empty($dat_imp) ? 0 : $dat_imp);
+                $xcoma = ',';
+            }
+            $json .= ']},';
+        }
+
+
+        
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])
             ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
 
         $notes->setPath(URL::full());
 
-        return view('clients.report', compact('notes', 'company'));
+        return view('clients.report', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
     }
 
     public function createReport(Request $request)
     {
         $date = Carbon::today()->timestamp;
-        return Excel::download(new NewsExport($request->all()), "reporte_{$date}.xlsx");
+        return Excel::create(new NewsExport($request->all()), "reporte_{$date}.xlsx")->export('pdf');
     }
-
+    
     public function notesPerDay(Request $request, $company)
     {
 
