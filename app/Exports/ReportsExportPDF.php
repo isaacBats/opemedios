@@ -28,6 +28,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -37,7 +38,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEvents, ShouldAutoSize
+class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ WithHeadings, WithEvents, ShouldAutoSize
 {
     use Exportable;
 
@@ -46,6 +47,37 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
     public function __construct($request){
         $this->request = $request;
     }
+
+
+    
+    public function collection()
+    {
+        $client = Company::find($this->request->input('company'));
+        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
+                ->pluck('news_id');
+
+        $objs = NewsFilter::filter($this->request, ['ids' => $notesIds]);
+
+        
+        return $objs->get()->map(
+           function ($note) {
+                $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
+                $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
+
+                return [
+                    "OPE-{$note->id}",
+                    $note->title . "\r\n\r\n" . $note->synthesis,
+                    $note->author,
+                    ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
+                    $note->news_date->format('Y-m-d'),
+                    $note->cost,
+                    $trend . "\r\n\r\n" . $note->scope,
+                    $link
+                ];
+            }
+        );
+    }
+
 
     public function query()
     {
