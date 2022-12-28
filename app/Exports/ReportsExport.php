@@ -65,6 +65,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     private $count_news;
     private $count_trend;
     private $count_mean;
+    private $num = 0;
+    private $init_row = 40;
 
     public function __construct($request){
         $this->request = $request;
@@ -113,6 +115,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             order by name desc");
         
         $this->themes = $themes;
+        
+        $s = (2 + count($this->themes));
+        $this->init_row = ($s < 40 ? 40 : $s);
 
         $period = CarbonPeriod::create($from, $to);
 
@@ -184,7 +189,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     
     public function startCell(): string
     {
-        return 'A40';
+        return 'A' . $this->init_row;
     }
 
     public function map($note): array {
@@ -193,8 +198,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
         
+        $this->num = $this->num + 1;
+
         return [
-            "OPE-{$note->id}",
+            $this->num . "-OPE-{$note->id}",
             $note->title . "\r\n\r\n" . $note->synthesis,
             $note->author,
             ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
@@ -267,9 +274,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 null,
                 null
             );
+            $c = ($this->init_row / 2);
 
-            $chart->setTopLeftPosition('A21');
-            $chart->setBottomRightPosition('H39');
+            $chart->setTopLeftPosition('A' . intval($c + 1));
+            $chart->setBottomRightPosition('H' . intval($this->init_row - 2));
         /* CHART LINE */   
 
         /* CHART2 */                    
@@ -313,8 +321,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 null
             );
 
+            $c = ($this->init_row / 2);
+
             $chart2->setTopLeftPosition('A1');
-            $chart2->setBottomRightPosition('C20');
+            $chart2->setBottomRightPosition('C' . intval($c));
         /* CHART2 */                    
 
         /* CHART3 */                    
@@ -354,8 +364,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 null
             );
 
+            $c = ($this->init_row / 2);
+
             $chart1->setTopLeftPosition('D1');
-            $chart1->setBottomRightPosition('G20');
+            $chart1->setBottomRightPosition('G' . intval($c));
         /* CHART3 */                    
 
         return [$chart, $chart2, $chart1];
@@ -375,7 +387,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     $this->graph1
                 );
 
-                $event->sheet->getStyle('A40:H40')->applyFromArray([
+                $event->sheet->getStyle('A' . $this->init_row . ':H' . $this->init_row)->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
@@ -409,7 +421,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 $event->sheet->getColumnDimension('G')
                     ->setWidth(16)
                     ->setAutoSize(false);
-                $event->sheet->setAutoFilter('A40:H40');
+                $event->sheet->setAutoFilter('A' . $this->init_row . ':H' . $this->init_row);
 
                 // hiperlink
                 foreach ($event->sheet->getColumnIterator('H') as $row) {
@@ -444,7 +456,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                 continue;
                             }
 
-                            if($fila->getRowIndex() > 40)
+                            if($fila->getRowIndex() > $this->init_row)
                                 $event->sheet->getStyle("A{$celda->getRow()}:H{$celda->getRow()}")->applyFromArray([
                                     'fill' => [
                                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
@@ -457,7 +469,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                     ->setARGB('FFFFFF');
                                 
                         }else
-                            if($fila->getRowIndex() < 40)
+                            if($fila->getRowIndex() < $this->init_row)
                                 $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
@@ -474,8 +486,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             $col = $celda->getColumn();
                             $num = $celda->getRow();
 
-                            if($fila->getRowIndex() > 40)
+                            if($fila->getRowIndex() > $this->init_row)
                                 $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(160);
+                            elseif($fila->getRowIndex() < $this->init_row)
+                            {
+                                $c = intval(80 / ($this->init_row / 10));
+                                $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight($c);
+                            }
 
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
                                 ->setVertical(Alignment::VERTICAL_CENTER)
