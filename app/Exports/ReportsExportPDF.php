@@ -43,6 +43,7 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
     use Exportable;
 
     private $request;
+    private $num = 0;
 
     public function __construct($request){
         $this->request = $request;
@@ -63,9 +64,9 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
            function ($note) {
                 $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
                 $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
-
+                $this->num = $this->num + 1;
                 return [
-                    "OPE-{$note->id}",
+                    $this->num . "-OPE-{$note->id}",
                     $note->title . "\r\n\r\n" . $note->synthesis,
                     $note->author,
                     ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
@@ -108,6 +109,7 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
 
     public function headings(): array {
         return [
+            '#',
             'ID',
             'Tema',
             'Autor',
