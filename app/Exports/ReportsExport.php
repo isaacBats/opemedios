@@ -236,16 +236,14 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     
         /* CHART LINE */                    
             foreach($this->themes as $key => $itm)
-                if($key != (count($this->themes) - 1))
-                    $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
+                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
             
             $xAxisTickValues = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
             ];
 
             foreach($this->themes as $key => $itm)
-                if($key != (count($this->themes) - 1))
-                    $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
+                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
                 
             $series = new DataSeries(
                 DataSeries::TYPE_LINECHART,
