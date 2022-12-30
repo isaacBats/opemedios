@@ -417,7 +417,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     ->setAutoSize(false);
                 $event->sheet->getStyle('F')
                     ->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
                 $event->sheet->getColumnDimension('G')
                     ->setWidth(16)
                     ->setAutoSize(false);
