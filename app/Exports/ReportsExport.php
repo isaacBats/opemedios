@@ -77,9 +77,6 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
                 ->pluck('news_id');
 
-                print_r("#<br>\n");
-                print_r($notesIds);
-                
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
             $from = Carbon::create($this->request->input('start_date'));
@@ -107,15 +104,22 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         $where = '';
 
-        $themes = DB::select("select themes.id, themes.name
-                            from assigned_news
-                            inner join news on assigned_news.news_id = news.id
-                            inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                            AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
-                            group by themes.id, themes.name
-                            order by name desc");
+        $qry = "select themes.id, themes.name
+                from assigned_news
+                inner join news on assigned_news.news_id = news.id
+                inner join themes on assigned_news.theme_id = themes.id
+                where news.id in (" . $notesIds . ")
+                AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
+                group by themes.id, themes.name
+                order by name desc";
+
+        print_r("#<br>\n");
+        print_r($qry);
+                
+        $themes = DB::select($qry);
         
+        print_r("#<br>\n");
+        print_r("#<br>\n");
         print_r("#<br>\n");
         print_r($themes);
         $this->themes = $themes;
