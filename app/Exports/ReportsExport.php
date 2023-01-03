@@ -117,6 +117,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $this->themes = $themes;
         
         $s = (2 + count($this->themes));
+        print_r($s);
         $this->init_row = ($s < 40 ? 40 : $s);
 
         $period = CarbonPeriod::create($from, $to);
@@ -157,7 +158,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         $this->count_news = count($obj);
-
+        print_r("#<br>\n");
+        print_r($this->count_news);
+        exit();
         foreach($tendencias as $key => $itm)
         {
             $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
