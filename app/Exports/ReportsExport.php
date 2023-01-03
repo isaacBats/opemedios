@@ -113,22 +113,17 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 group by themes.id, themes.name
                 order by name desc";
 
-        print_r("#<br>\n");
-        print_r($qry);
+        //print_r("#<br>\n");
+        //print_r($qry);
                 
         $themes = DB::select($qry);
         
-        print_r("#<br>\n");
-        print_r("#<br>\n");
-        print_r("#<br>\n");
-        print_r($themes);
+        //print_r("#<br>\n");
+        //print_r("#<br>\n");
+        //print_r("#<br>\n");
+        //print_r($themes);
         $this->themes = $themes;
         
-        $s = (2 + count($this->themes));
-        print_r("#<br>\n");
-        print_r($s);
-        $this->init_row = ($s < 40 ? 40 : $s);
-
         $period = CarbonPeriod::create($from, $to);
 
         $fechas = array();
@@ -149,6 +144,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             $fechas[] = $date->format('Y-m-d');
         }
 
+        
+        $s = (2 + count($fechas));
+        //print_r("#<br>\n");
+        //print_r($s);
+        $this->init_row = ($s < 40 ? 40 : $s);
+
+
         $obj = array();
         $json = '';
         foreach ($themes as $theme)
@@ -167,9 +169,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         $this->count_news = count($obj);
-        print_r("#<br>\n");
-        print_r($this->count_news);
-        exit();
+        //print_r("#<br>\n");
+        //print_r($this->count_news);
+        //exit();
         foreach($tendencias as $key => $itm)
         {
             $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
