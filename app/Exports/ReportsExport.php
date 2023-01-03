@@ -344,10 +344,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
             ];
             $xAxisTickValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . $dt[$this->count_mean + 1] . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . $dt[$this->count_mean] . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
             ];
             $dataSeriesValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$' . $dt[$this->count_mean + 1] . '$' . ($this->count_news + 4), null, 4),
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$' . $dt[$this->count_mean] . '$' . ($this->count_news + 4), null, 4),
             ];
             $series1 = new DataSeries(
                 DataSeries::TYPE_PIECHART,
