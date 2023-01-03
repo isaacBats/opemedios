@@ -77,6 +77,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
                 ->pluck('news_id');
 
+                print_r("#<br>\n");
+                print_r($notesIds);
                 
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
@@ -114,6 +116,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             group by themes.id, themes.name
                             order by name desc");
         
+        print_r("#<br>\n");
         print_r($themes);
         $this->themes = $themes;
         
