@@ -177,22 +177,20 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
     public function query()
     {
-
         $client = Company::find($this->request->input('company'));
         $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
                 ->pluck('news_id');
 
         return NewsFilter::filter($this->request, ['ids' => $notesIds]);
-
     }
-
     
     public function startCell(): string
     {
         return 'A' . $this->init_row;
     }
 
-    public function map($note): array {
+    public function map($note): array
+    {
 
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))
@@ -246,13 +244,12 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         ];
     }
 
-    public function charts() {
+    public function charts()
+    {
 
         $dt = [
-            'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
-            'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
-            'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
-            'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
+            'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ','DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'
+        ];
     
         /* CHART LINE */                    
             foreach($this->themes as $key => $itm)
