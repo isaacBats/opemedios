@@ -145,7 +145,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         
-        $s = (2 + count($fechas));
+        $s = (4 + count($fechas));
         //print_r("#<br>\n");
         //print_r($s);
         $this->init_row = ($s < 40 ? 40 : $s);
@@ -298,11 +298,11 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             ];
 
             $xAxisTickValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$G$' . ($this->count_news + 1), null, 4), // Q1 to Q4
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$C$' . ($this->count_news + 1), null, 4), // Q1 to Q4
             ];
 
             $dataSeriesValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$G$' . ($this->count_news + 2), null, 4),
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$C$' . ($this->count_news + 2), null, 4),
             ];
 
             $series2 = new DataSeries(
@@ -344,10 +344,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
             ];
             $xAxisTickValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$G$' . ($this->count_news + 3), null, 4), // Q1 to Q4
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . ($dt[$this->count_mean] + 1) . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
             ];
             $dataSeriesValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$G$' . ($this->count_news + 4), null, 4),
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$' . ($dt[$this->count_mean] + 1) . '$' . ($this->count_news + 4), null, 4),
             ];
             $series1 = new DataSeries(
                 DataSeries::TYPE_PIECHART,
