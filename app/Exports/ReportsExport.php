@@ -112,16 +112,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                 AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
                 group by themes.id, themes.name
                 order by name desc";
-
-        //print_r("#<br>\n");
-        //print_r($qry);
                 
         $themes = DB::select($qry);
-        
-        //print_r("#<br>\n");
-        //print_r("#<br>\n");
-        //print_r("#<br>\n");
-        //print_r($themes);
         $this->themes = $themes;
         
         $period = CarbonPeriod::create($from, $to);
@@ -146,8 +138,6 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         
         $s = (6 + count($fechas));
-        //print_r("#<br>\n");
-        //print_r($s);
         $this->init_row = ($s < 40 ? 40 : $s);
 
 
@@ -169,9 +159,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         $this->count_news = count($obj);
-        //print_r("#<br>\n");
-        //print_r($this->count_news);
-        //exit();
+        
         foreach($tendencias as $key => $itm)
         {
             $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
