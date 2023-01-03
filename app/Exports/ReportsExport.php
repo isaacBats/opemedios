@@ -114,9 +114,11 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             group by themes.id, themes.name
                             order by name desc");
         
+        print_r($themes);
         $this->themes = $themes;
         
         $s = (2 + count($this->themes));
+        print_r("#<br>\n");
         print_r($s);
         $this->init_row = ($s < 40 ? 40 : $s);
 
