@@ -145,7 +145,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         
-        $s = (4 + count($fechas));
+        $s = (6 + count($fechas));
         //print_r("#<br>\n");
         //print_r($s);
         $this->init_row = ($s < 40 ? 40 : $s);
