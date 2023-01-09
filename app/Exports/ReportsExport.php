@@ -330,12 +330,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         /* CHART3 */                    
             $dataSeriesLabels1 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-            ];
+	    ];
+	    $countMean = ($dt[$this->count_mean] > 3) ? $dt[$this->count_mean] -2 : $dt[$this->count_mean];
             $xAxisTickValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . $dt[$this->count_mean-2] . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . $countMean . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
             ];
             $dataSeriesValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$' . $dt[$this->count_mean-2] . '$' . ($this->count_news + 4), null, 4),
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$' . $countMean . '$' . ($this->count_news + 4), null, 4),
             ];
             $series1 = new DataSeries(
                 DataSeries::TYPE_PIECHART,
