@@ -105,7 +105,18 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         $where = '';
 
-        $this->themes = $this->client->themes;
+        $qry = "select themes.id, themes.name
+        from assigned_news
+        inner join news on assigned_news.news_id = news.id
+        inner join themes on assigned_news.theme_id = themes.id
+        where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+        AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
+        group by themes.id, themes.name
+        order by name desc";
+
+        $themes = DB::select($qry);
+        $this->themes = $themes;
+
         $this->columnas_generadas = $this->generaColumnasExcel();
         $period = CarbonPeriod::create($from, $to);
 
