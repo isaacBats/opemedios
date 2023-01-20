@@ -106,7 +106,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $where = '';
 
         $this->themes = $this->client->themes;
-
+        $this->columnas_generadas = $this->generaColumnasExcel();
         $period = CarbonPeriod::create($from, $to);
 
         $fechas = array();
@@ -220,29 +220,37 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $dt = array();
         $ind = -1;
         $ind_ = 0;
+        $ind__ = -1;
 
         foreach($this->themes as $key => $itm)
         {
             if($ind == -1 && $key < count($columns_excel))
-            {
                 $dt[] = $columns_excel[$ind_];
-                if($ind_ == (count($columns_excel)))
-                    $ind++;
-            }else
+            elseif($ind__ == -1 && $ind < count($columns_excel))
                 $dt[] = $columns_excel[$ind] . $columns_excel[$ind_];
+            else
+                $dt[] = $columns_excel[$ind__] . $columns_excel[$ind] . $columns_excel[$ind_];
 
             $ind_++;
             if($ind_ == (count($columns_excel)))
             {
                 $ind_ = 0;
                 $ind++;
+    
+                if($ind == (count($columns_excel)))
+                {
+                    $ind = 0;
+                    $ind__++;
+                }
+
             }
         }
+        
         return $dt;
     }
 
     public function charts() {
-        $dt = $this->generaColumnasExcel();
+        $dt = $this->columnas_generadas; 
 
 
         /* CHART LINE */
@@ -448,7 +456,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         }
                     }
                 }
-                $dt = $this->generaColumnasExcel();
+                $dt = $this->columnas_generadas;
 
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
