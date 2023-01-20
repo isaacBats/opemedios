@@ -67,15 +67,15 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     private $count_mean;
     private $num = 0;
     private $init_row = 40;
+    private $client;
+    private $notesIds;
 
     public function __construct($request){
         $this->request = $request;
-
-
-        
-        $client = Company::find($this->request->input('company'));
-        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
+        $this->client = Company::find($this->request->input('company'));
+        $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
                 ->pluck('news_id');
+
 
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
@@ -92,30 +92,21 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $this->request->merge(['start_date' => $from_d]);
         $this->request->merge(['end_date' => $to_d]);
 
-        $tendencias = NewsFilter::filter($this->request, ['ids' => $notesIds])
+
+        $tendencias = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
             ->select('trend', DB::raw('count(*) as total'))
             ->groupBy('trend')
             ->get();
 
-        $medios = NewsFilter::filter($this->request, ['ids' => $notesIds])
+        $medios = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
             ->select('mean_id', DB::raw('count(*) as total'))
             ->groupBy('mean_id')
             ->get();
 
         $where = '';
 
-        $qry = "select themes.id, themes.name
-                from assigned_news
-                inner join news on assigned_news.news_id = news.id
-                inner join themes on assigned_news.theme_id = themes.id
-                where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
-                group by themes.id, themes.name
-                order by name desc";
-                
-        $themes = DB::select($qry);
-        $this->themes = $themes;
-        
+        $this->themes = $this->client->themes;
+        $this->columnas_generadas = $this->generaColumnasExcel();
         $period = CarbonPeriod::create($from, $to);
 
         $fechas = array();
@@ -127,7 +118,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             from assigned_news
                             inner join news on assigned_news.news_id = news.id
                             inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+                            where news.id in (" . str_replace(']', '', str_replace('[', '', $this->notesIds)) . ")
                             " . $where . "
                             group by date(news.created_at), themes.id, themes.name
                             order by date(news.created_at) desc");
@@ -136,14 +127,14 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             $fechas[] = $date->format('Y-m-d');
         }
 
-        
+
         $s = (6 + count($fechas));
         $this->init_row = ($s < 40 ? 40 : $s);
 
 
         $obj = array();
         $json = '';
-        foreach ($themes as $theme)
+        foreach ($this->themes as $theme)
         {
             $obj[0][0] = '';
             $obj[0][] = $theme->name;
@@ -159,7 +150,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         }
 
         $this->count_news = count($obj);
-        
+
         foreach($tendencias as $key => $itm)
         {
             $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
@@ -179,16 +170,10 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
     public function query()
     {
-
-        $client = Company::find($this->request->input('company'));
-        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
-                ->pluck('news_id');
-
-        return NewsFilter::filter($this->request, ['ids' => $notesIds]);
-
+        return NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
     }
 
-    
+
     public function startCell(): string
     {
         return 'A' . $this->init_row;
@@ -199,7 +184,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
-        
+
         $this->num = $this->num + 1;
 
         return [
@@ -215,7 +200,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     }
 
     public function headings(): array {
-        
+
         return [
             'ID',
             'Tema',
@@ -228,25 +213,57 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         ];
     }
 
-    public function charts() {
+    public function generaColumnasExcel()
+    {
+        $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
 
-        $dt = [
-            'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
-            'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
-            'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
-            'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
+        $dt = array();
+        $ind = -1;
+        $ind_ = 0;
+        $ind__ = -1;
+
+        foreach($this->themes as $key => $itm)
+        {
+            if($ind == -1 && $key < count($columns_excel))
+                $dt[] = $columns_excel[$ind_];
+            elseif($ind__ == -1 && $ind < count($columns_excel))
+                $dt[] = $columns_excel[$ind] . $columns_excel[$ind_];
+            else
+                $dt[] = $columns_excel[$ind__] . $columns_excel[$ind] . $columns_excel[$ind_];
+
+            $ind_++;
+            if($ind_ == (count($columns_excel)))
+            {
+                $ind_ = 0;
+                $ind++;
     
-        /* CHART LINE */                    
+                if($ind == (count($columns_excel)))
+                {
+                    $ind = 0;
+                    $ind__++;
+                }
+
+            }
+        }
+        
+        return $dt;
+    }
+
+    public function charts() {
+        $dt = $this->columnas_generadas; 
+
+
+        /* CHART LINE */
             foreach($this->themes as $key => $itm)
                 $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
-            
+
             $xAxisTickValues = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
             ];
 
             foreach($this->themes as $key => $itm)
                 $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
-                
+
             $series = new DataSeries(
                 DataSeries::TYPE_LINECHART,
                 null,
@@ -278,9 +295,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
             $chart->setTopLeftPosition('A' . intval($c + 1));
             $chart->setBottomRightPosition('H' . intval($this->init_row - 2));
-        /* CHART LINE */   
+        /* CHART LINE */
 
-        /* CHART2 */                    
+        /* CHART2 */
             $dataSeriesLabels2 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
             ];
@@ -325,9 +342,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
             $chart2->setTopLeftPosition('A1');
             $chart2->setBottomRightPosition('C' . intval($c));
-        /* CHART2 */                    
+        /* CHART2 */
 
-        /* CHART3 */                    
+        /* CHART3 */
             $dataSeriesLabels1 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
 	    ];
@@ -369,7 +386,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
             $chart1->setTopLeftPosition('D1');
             $chart1->setBottomRightPosition('G' . intval($c));
-        /* CHART3 */                    
+        /* CHART3 */
 
         return [$chart, $chart2, $chart1];
     }
@@ -379,11 +396,11 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             AfterSheet::class => function(AfterSheet $event){
                 $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-                $event->sheet->getPageMargins()->setTop(0.1); 
-                $event->sheet->getPageMargins()->setRight(0.1); 
-                $event->sheet->getPageMargins()->setLeft(0.1); 
-                $event->sheet->getPageMargins()->setBottom(0.1); 
-                
+                $event->sheet->getPageMargins()->setTop(0.1);
+                $event->sheet->getPageMargins()->setRight(0.1);
+                $event->sheet->getPageMargins()->setLeft(0.1);
+                $event->sheet->getPageMargins()->setBottom(0.1);
+
                 $event->sheet->getDelegate()->fromArray(
                     $this->graph1
                 );
@@ -440,18 +457,14 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                         }
                     }
                 }
-                $dt = [
-                    'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
-                    'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
-                    'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
-                    'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
-                
+                $dt = $this->columnas_generadas;
+
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
                         if($celda->getRow() % 2 != 0){
                             if($celda->getRow() === 1){
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 continue;
@@ -465,13 +478,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                     ],
                                 ]);
                             else
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
-                                
+
                         }else
                             if($fila->getRowIndex() < $this->init_row)
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                     }
