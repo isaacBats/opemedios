@@ -235,8 +235,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             if($ind_ == (count($columns_excel)))
             {
                 $ind_ = 0;
-                $ind++;
-    
+                $ind++;    
                 if($ind == (count($columns_excel)))
                 {
                     $ind = 0;
