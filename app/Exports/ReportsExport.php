@@ -205,7 +205,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
-            $trend . "\r\n\r\n" . $note->scope,
+            $trend,
+            $note->scope,
             $link
         ];
     }
@@ -219,7 +220,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             'Fuente',
             'Fecha nota',
             'Costo',
-            'Tendencia | Alcance',
+            'Tendencia',
+            'Alcance',
             'Link'
         ];
     }
