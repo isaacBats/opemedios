@@ -237,6 +237,12 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         foreach($this->themes as $key => $itm)
         {
+            if($key == 0)
+            {
+                $dt[] = $columns_excel[$ind_];
+                $ind_++;
+            }
+
             if($ind == -1 && $key < count($columns_excel))
                 $dt[] = $columns_excel[$ind_];
             elseif($ind__ == -1 && $ind < count($columns_excel))
@@ -267,17 +273,17 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         /* CHART LINE */
             foreach($this->themes as $key => $itm)
-                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
+                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key + 1] . '$1', null, 1);
 
             $xAxisTickValues = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
             ];
 
             foreach($this->themes as $key => $itm)
-                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
+                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key + 1] . '$2:$' . $dt[$key + 1] . '$' . $this->count_news, null, 4);
 
             $series = new DataSeries(
-                DataSeries::TYPE_LINECHART,
+                DataSeries::TYPE_BARCHART_3D,
                 null,
                 range(0, count($dataSeriesValues) - 1),
                 $dataSeriesLabels,
@@ -309,17 +315,21 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             $chart->setBottomRightPosition('H' . intval($this->init_row - 2));
         /* CHART LINE */
 
+        $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
+
         /* CHART2 */
             $dataSeriesLabels2 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
             ];
 
+	        $dtTrend = $columns_excel[$this->count_trend - 1];
+
             $xAxisTickValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$C$' . ($this->count_news + 1), null, 4), // Q1 to Q4
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$' . $dtTrend . '$' . ($this->count_news + 1), null, 4), // Q1 to Q4
             ];
 
             $dataSeriesValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$C$' . ($this->count_news + 2), null, 4),
+                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$' . $dtTrend . '$' . ($this->count_news + 2), null, 4),
             ];
 
             $series2 = new DataSeries(
@@ -359,8 +369,11 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         /* CHART3 */
             $dataSeriesLabels1 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-	    ];
-	    $countMean = ($dt[$this->count_mean] > 3) ? $dt[$this->count_mean] -2 : $dt[$this->count_mean];
+	        ];
+            
+	        //$countMean = ($columns_excel[$this->count_mean] > 3) ? $columns_excel[$this->count_mean] -2 : $columns_excel[$this->count_mean];
+	        $countMean = $columns_excel[$this->count_mean - 1];
+
             $xAxisTickValues1 = [
                 new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$' . $countMean . '$' . ($this->count_news + 3), null, 4), // Q1 to Q4
             ];
@@ -476,7 +489,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                     foreach ($fila->getCellIterator() as $celda) {
                         if($celda->getRow() % 2 != 0){
                             if($celda->getRow() === 1){
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                                 continue;
@@ -490,13 +503,13 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                                     ],
                                 ]);
                             else
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
 
                         }else
                             if($fila->getRowIndex() < $this->init_row)
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[(count($this->themes) - 1)] . "{$celda->getRow()}")->getFont()
+                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                                     ->getColor()
                                     ->setARGB('FFFFFF');
                     }
