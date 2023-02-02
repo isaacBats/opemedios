@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SendNewsletter::class,
+        // SendNewsletter::class,
         GenerateReport::class,
     ];
 
@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('newsletter:send')
-            ->dailyAt('07:00');
+        // $schedule->command('newsletter:send')
+        //     ->dailyAt('07:00');
         //          ->hourly();
         
         $schedule->command('report:generate')
@@ -42,8 +42,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        // $this->load(__DIR__.'/Commands');
 
-        require base_path('routes/console.php');
+        // require base_path('routes/console.php');
     }
 }
