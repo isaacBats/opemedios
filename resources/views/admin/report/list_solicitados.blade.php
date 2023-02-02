@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 @section('admin-title', '- Reportes por cliente')
+@section('styles')
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+@endsection
 @section('content')
     @if (session('status'))
     <div class="alert alert-success">
