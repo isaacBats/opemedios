@@ -127,7 +127,7 @@ class ReportController extends Controller
 
         if($ind)
         {
-            Excel::store(new ReportsExport($request), $request->name_file);
+            Excel::store(new ReportsExport($request), $request->name_file, 'public');
             
             $report = ListReport::find($request->id_report);
             $report->status = 1;
