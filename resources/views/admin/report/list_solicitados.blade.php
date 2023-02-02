@@ -113,10 +113,7 @@
             </div>
         </div>
     </div>
-    <div id="mydiv">
-        <iframe id="frame" src="" width="100%" height="300">
-        </iframe>
-    </div>
+    <iframe id="frame" src="" width="100%" height="300"></iframe>
 @endsection
 @section('styles')
 
@@ -126,12 +123,8 @@
         $(".download_file").on("click", function(e){
             e.preventDefault();
             url = $(this).data('url');
-            window.open(url)
-
-
             
             $("#frame").attr("src", url);
-
         });
     </script>
 @endsection
