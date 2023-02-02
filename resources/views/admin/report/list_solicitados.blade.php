@@ -103,7 +103,7 @@
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name ?? 'N/E' }}</td>
                                 <td>
-                                    <a href="{{ \Illuminate\support\Facades\Storage::disk('public')->url('app/public/' . $item->name_file) }}" target="_blank">Descargar</a>
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url('app/public/' . $item->name_file) }}" target="_blank">Descargar</a>
                                 </td>
                             </tr>
                         @endforeach
