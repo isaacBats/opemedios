@@ -101,9 +101,9 @@
                         @foreach($datos as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td>{{ $item->name ?? 'N/E' }}</td>
+                                <td>{{ $item->name_file ?? 'N/E' }}</td>
                                 <td>
-                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}" target="_blank">Descargar</a>
+                                    <a class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -118,5 +118,11 @@
 
 @endsection
 @section('scripts')
-    
+    <script>
+        $(".download_file").on("click", function(e){
+            e.preventDefault();
+            url = $(this).data('url');
+            window.open(url)
+        });
+    </script>
 @endsection
