@@ -32,8 +32,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
 
-Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd')->name('home');
-
 Route::view('quienes-somos', 'aboutus')->name('about');
 Route::view('clientes', 'clients')->name('clients');
 Route::view('contacto', 'contact')->name('contact');

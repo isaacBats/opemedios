@@ -62,13 +62,14 @@ class ReportController extends Controller
         return view('admin.report.byclient', compact('companies', 'breadcrumb'));
     }
 
-    public function generate_reports_bd(Request $request) {
+    public function generate_reports_bd() {
         $data = ListReport::where('status', 0)->orderBy('id')->first();
 
         $request = new Request;
 
         $request->merge(
             [
+                'id_report' => $data->id,
                 'name_file' => $data->name_file,
                 'start_date' => $data->start_date,
                 'end_date' => $data->end_date,
@@ -122,7 +123,15 @@ class ReportController extends Controller
 
 
         if($ind)
+        {
             Excel::store(new ReportsExport($request), $request->name_file, 'public');
+            
+            $report = ListReport::find($request->id_report);
+            $report->status = 1;
+            $report->save();
+
+            return true;
+        }
         elseif(count($dates) < 10)
             return (new ReportsExport($request))->download('Reporte.xlsx');
         else
