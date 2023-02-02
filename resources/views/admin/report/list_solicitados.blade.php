@@ -116,7 +116,7 @@
             </div>
         </div>
     </div>
-    <iframe id="frame" src="" width="100%" height="300"></iframe>
+    <iframe id="frame" src="" width="100%" height="300" style="display: none;"></iframe>
 @endsection
 @section('styles')
 
