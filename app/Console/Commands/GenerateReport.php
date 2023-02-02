@@ -44,8 +44,12 @@ class GenerateReport extends Command
     {
         $date = date('Y-m-d H:i:s');
         Log::info("Generate report {$date}");
-        $this->reportController->generate_reports_bd();
 
+        try{
+            $this->reportController->generate_reports_bd();
+        } catch (Exception $e) {
+            Log::info("Error al generar el reporte: {$e->getMessage()}");
+        }
         return 0;
     }
 }
