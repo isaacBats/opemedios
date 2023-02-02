@@ -65,25 +65,28 @@ class ReportController extends Controller
     public function generate_reports_bd() {
         $data = ListReport::where('status', 0)->orderBy('id')->first();
 
-        $request = new Request;
+        if(!is_null($data))
+        {
+            $request = new Request;
 
-        $request->merge(
-            [
-                'id_report' => $data->id,
-                'name_file' => $data->name_file,
-                'start_date' => $data->start_date,
-                'end_date' => $data->end_date,
-                'company' => $data->company,
-                'theme_id' => $data->theme_id,
-                'sector' => $data->sector,
-                'genre' => $data->genre,
-                'mean' => $data->mean,
-                'source_id' => $data->source_id,
-                'word' => $data->word,
-            ]
-        );
+            $request->merge(
+                [
+                    'id_report' => $data->id,
+                    'name_file' => $data->name_file,
+                    'start_date' => $data->start_date,
+                    'end_date' => $data->end_date,
+                    'company' => $data->company,
+                    'theme_id' => $data->theme_id,
+                    'sector' => $data->sector,
+                    'genre' => $data->genre,
+                    'mean' => $data->mean,
+                    'source_id' => $data->source_id,
+                    'word' => $data->word,
+                ]
+            );
 
-        $this->export($request, true);
+            $this->export($request, true);
+        }
     }
 
     public function solicitados(Request $request)
