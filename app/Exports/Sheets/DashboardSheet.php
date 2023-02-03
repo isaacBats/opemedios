@@ -64,6 +64,8 @@ class DashboardSheet implements
     }
     
     public function charts() {
+        if($this->count_news > 0 )
+        {
         $dt = $this->columnas_generadas; 
 
 
@@ -205,6 +207,9 @@ class DashboardSheet implements
         /* CHART3 */
 
         return [$chart, $chart2, $chart1];
+        }
+        else
+            return [];
     }
  
     public function array(): array{
