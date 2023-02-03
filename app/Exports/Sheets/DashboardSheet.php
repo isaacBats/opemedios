@@ -80,6 +80,12 @@ class DashboardSheet implements
             foreach($this->themes as $key => $itm)
                 $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$' . $dt[$key + 1] . '$6:$' . $dt[$key + 1] . '$' . ($this->count_news + 5), null, 4);
 
+            if(count($this->themes) == 0)
+            {
+                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$B$6:$C$7', null, 4);
+                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$5', null, 1);
+            }
+
             $series = new DataSeries(
                 DataSeries::TYPE_BARCHART_3D,
                 null,
