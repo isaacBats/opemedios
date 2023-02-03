@@ -27,7 +27,7 @@ class CreateListReports extends Migration
             $table->string('mean', 150)->nullable();
             $table->unsignedBigInteger('source_id')->nullable();
             $table->string('word', 150)->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->tinyInteger('status')->default(0);
 
             $table->foreign('company')
