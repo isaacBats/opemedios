@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'home')->name('home');
+
+Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
+
 Route::view('quienes-somos', 'aboutus')->name('about');
 Route::view('clientes', 'clients')->name('clients');
 Route::view('contacto', 'contact')->name('contact');
@@ -133,6 +136,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
         Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
+
+        Route::get('reportes/solicitados', 'ReportController@solicitados')->name('admin.report.solicitados');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
