@@ -18,17 +18,39 @@ class CreateListReports extends Migration
             $table->timestamps();
 
             $table->string('name_file', 150);
-            $table->string('start_date', 150)->nullable();
-            $table->string('end_date', 150)->nullable();
-            $table->string('company', 150)->nullable();
-            $table->string('theme_id', 150)->nullable();
+            $table->timestamp('start_date')->useCurrent();
+            $table->timestamp('end_date')->useCurrent();
+            $table->unsignedBigInteger('company')->nullable();
+            $table->unsignedBigInteger('theme_id')->nullable();
             $table->string('sector', 150)->nullable();
             $table->string('genre', 150)->nullable();
             $table->string('mean', 150)->nullable();
-            $table->string('source_id', 150)->nullable();
+            $table->unsignedBigInteger('source_id')->nullable();
             $table->string('word', 150)->nullable();
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->tinyInteger('status')->default(0);
+
+            $table->foreign('company')
+                ->references('id')
+                ->on('companies')
+                ->onDelete('cascade');
+
+            $table->foreign('theme_id')
+                ->references('id')
+                ->on('themes')
+                ->onDelete('cascade');
+
+            $table->foreign('source_id')
+                ->references('id')
+                ->on('sources')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+
         });
     }
 
