@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ListReport;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -121,18 +122,28 @@ class ReportController extends Controller
 
         $period = CarbonPeriod::create($from, $to);
 
+        
+        $from_d = $from->format('Y-m-d');
+        $to_d = $to->format('Y-m-d');
+
+        $request->merge(['start_date' => $from_d]);
+        $request->merge(['end_date' => $to_d]);
+
         // Convert the period to an array of dates
         $dates = $period->toArray();
 
 
         if($ind)
         {
-            Excel::store(new ReportsExport($request), $request->name_file, 'public');
-            
+            try{
+                Excel::store(new ReportsExport($request), $request->name_file, 'public');
+            } catch (Exception $e) {
+                Log::info("Error al generar el reporte: {$request->name_file}|{$e->getMessage()}");
+            }
+
             $report = ListReport::find($request->id_report);
             $report->status = 1;
             $report->save();
-
             return true;
         }
         elseif(count($dates) < 10)
