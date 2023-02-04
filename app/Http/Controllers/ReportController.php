@@ -33,6 +33,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\ListReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class ReportController extends Controller
 {
@@ -146,7 +147,7 @@ class ReportController extends Controller
             $report->save();
             return true;
         }
-        elseif(count($dates) < 10)
+        elseif(count($dates) < 30)
             return (new ReportsExport($request))->download('Reporte.xlsx');
         else
         {
@@ -165,8 +166,9 @@ class ReportController extends Controller
             $file_save->word        = $request->input('word');
 
             $file_save->save();
-
-            return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+            Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+            return (new ReportsExport($request))->download('Reporte.xlsx');
+            //return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
         }
         
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');
