@@ -6,6 +6,11 @@
         {{ session('status') }}
     </div>
     @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <div class="row">
         <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->

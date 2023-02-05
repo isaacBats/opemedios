@@ -111,6 +111,8 @@ class ReportController extends Controller
 
     public function export(Request $request, $ind = false) {
 
+        if($request->input('company') == null)
+            return redirect()->route('admin.report.byclient')->with('error', 'Es necesario seleccionar un cliente');
 
         if($request->input('start_date') !== null && $request->input('end_date') !== null)
         {
