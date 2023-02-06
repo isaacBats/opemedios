@@ -111,6 +111,8 @@ class ReportController extends Controller
 
     public function export(Request $request, $ind = false) {
 
+        if($request->input('company') == null)
+            return redirect()->route('admin.report.byclient')->with('error', 'Es necesario seleccionar un cliente');
 
         if($request->input('start_date') !== null && $request->input('end_date') !== null)
         {
@@ -166,9 +168,9 @@ class ReportController extends Controller
             $file_save->word        = $request->input('word');
 
             $file_save->save();
-            Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
-            return (new ReportsExport($request))->download('Reporte.xlsx');
-            //return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+            //Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+            //return (new ReportsExport($request))->download('Reporte.xlsx');
+            return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
         }
         
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');

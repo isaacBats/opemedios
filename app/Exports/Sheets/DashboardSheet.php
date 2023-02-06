@@ -66,153 +66,158 @@ class DashboardSheet implements
     public function charts() {
         if($this->count_news > 0 )
         {
-        $dt = $this->columnas_generadas; 
+            $dt = $this->columnas_generadas; 
 
-
-        /* CHART LINE */
-            foreach($this->themes as $key => $itm)
-                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$' . $dt[$key + 1] . '$5', null, 1);
-
-            $xAxisTickValues = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$6:$A$' . ($this->count_news + 5), null, 4),
-            ];
-
-            foreach($this->themes as $key => $itm)
-                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$' . $dt[$key + 1] . '$6:$' . $dt[$key + 1] . '$' . ($this->count_news + 5), null, 4);
-
-            if(count($this->themes) == 0)
+            if(count($this->themes) > 0)
             {
-                $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$B$6:$C$7', null, 4);
-                $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$5', null, 1);
+                /* CHART LINE */
+                    foreach($this->themes as $key => $itm)
+                        $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$' . $dt[$key + 1] . '$5', null, 1);
+
+                    $xAxisTickValues = [
+                        new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$6:$A$' . ($this->count_news + 5), null, 4),
+                    ];
+
+                    foreach($this->themes as $key => $itm)
+                        $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$' . $dt[$key + 1] . '$6:$' . $dt[$key + 1] . '$' . ($this->count_news + 5), null, 4);
+
+                    if(count($this->themes) == 0)
+                    {
+                        $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$B$6:$C$7', null, 4);
+                        $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$5', null, 1);
+                    }
+
+                    $series = new DataSeries(
+                        DataSeries::TYPE_BARCHART_3D,
+                        null,
+                        range(0, count($dataSeriesValues) - 1),
+                        $dataSeriesLabels,
+                        $xAxisTickValues,
+                        $dataSeriesValues
+                    );
+
+                    $layout = new Layout();
+                    $layout->setShowVal(true);
+                    $layout->setShowPercent(true);
+
+                    $plotArea = new PlotArea($layout, [$series]);
+                    $legend = new Legend(Legend::POSITION_RIGHT, null, false);
+                    $title = new Title('Noticias');
+
+                    $chart = new Chart(
+                        'chart_line',
+                        $title,
+                        $legend,
+                        $plotArea,
+                        true,
+                        DataSeries::EMPTY_AS_GAP,
+                        null,
+                        null
+                    );
+
+                    $chart->setTopLeftPosition('A20');
+                    $chart->setBottomRightPosition('P50');
+                /* CHART LINE */
             }
 
-            $series = new DataSeries(
-                DataSeries::TYPE_BARCHART_3D,
-                null,
-                range(0, count($dataSeriesValues) - 1),
-                $dataSeriesLabels,
-                $xAxisTickValues,
-                $dataSeriesValues
-            );
+            $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
 
-            $layout = new Layout();
-            $layout->setShowVal(true);
-            $layout->setShowPercent(true);
+            /* CHART2 */
+                $dataSeriesLabels2 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
+                ];
 
-            $plotArea = new PlotArea($layout, [$series]);
-            $legend = new Legend(Legend::POSITION_RIGHT, null, false);
-            $title = new Title('Noticias');
+                $dtTrend = $columns_excel[$this->count_trend - 1];
 
-            $chart = new Chart(
-                'chart_line',
-                $title,
-                $legend,
-                $plotArea,
-                true,
-                DataSeries::EMPTY_AS_GAP,
-                null,
-                null
-            );
+                $xAxisTickValues2 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1:$' . $dtTrend . '$1', null, $this->count_trend), // Q1 to Q4
+                ];
 
-            $chart->setTopLeftPosition('A20');
-            $chart->setBottomRightPosition('P50');
-        /* CHART LINE */
+                $dataSeriesValues2 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$2:$' . $dtTrend . '$2', null, $this->count_trend),
+                ];
 
-        $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
+                $series2 = new DataSeries(
+                    DataSeries::TYPE_DONUTCHART,
+                    null,
+                    range(0, count($dataSeriesValues2) - 1),
+                    $dataSeriesLabels2,
+                    $xAxisTickValues2,
+                    $dataSeriesValues2
+                );
 
-        /* CHART2 */
-            $dataSeriesLabels2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
-            ];
+                $layout2 = new Layout();
+                //$layout2->setShowVal(true);
+                $layout2->setShowPercent(true);
 
-	        $dtTrend = $columns_excel[$this->count_trend - 1];
+                $plotArea2 = new PlotArea($layout2, [$series2]);
+                $legend2 = new Legend(Legend::POSITION_RIGHT, null, false);
+                $title2 = new Title('Tendencias');
 
-            $xAxisTickValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1:$' . $dtTrend . '$1', null, $this->count_trend), // Q1 to Q4
-            ];
+                $chart2 = new Chart(
+                    'chart2',
+                    $title2,
+                    $legend2,
+                    $plotArea2,
+                    true,
+                    DataSeries::EMPTY_AS_GAP,
+                    null,
+                    null
+                );
 
-            $dataSeriesValues2 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$2:$' . $dtTrend . '$2', null, $this->count_trend),
-            ];
+                $chart2->setTopLeftPosition('A1');
+                $chart2->setBottomRightPosition('H20');
+            /* CHART2 */
 
-            $series2 = new DataSeries(
-                DataSeries::TYPE_DONUTCHART,
-                null,
-                range(0, count($dataSeriesValues2) - 1),
-                $dataSeriesLabels2,
-                $xAxisTickValues2,
-                $dataSeriesValues2
-            );
+            /* CHART3 */
+                $dataSeriesLabels1 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
+                ];
+                
+                //$countMean = ($columns_excel[$this->count_mean] > 3) ? $columns_excel[$this->count_mean] -2 : $columns_excel[$this->count_mean];
+                $countMean = $columns_excel[$this->count_mean - 1];
 
-            $layout2 = new Layout();
-            //$layout2->setShowVal(true);
-            $layout2->setShowPercent(true);
+                $xAxisTickValues1 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean), // Q1 to Q4
+                ];
+                $dataSeriesValues1 = [
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$4:$' . $countMean . '$4', null, $this->count_mean),
+                ];
+                $series1 = new DataSeries(
+                    DataSeries::TYPE_PIECHART,
+                    null,
+                    range(0, count($dataSeriesValues1) - 1),
+                    $dataSeriesLabels1,
+                    $xAxisTickValues1,
+                    $dataSeriesValues1
+                );
 
-            $plotArea2 = new PlotArea($layout2, [$series2]);
-            $legend2 = new Legend(Legend::POSITION_RIGHT, null, false);
-            $title2 = new Title('Tendencias');
+                $layout1 = new Layout();
+                //$layout1->setShowVal(true);
+                $layout1->setShowPercent(true);
 
-            $chart2 = new Chart(
-                'chart2',
-                $title2,
-                $legend2,
-                $plotArea2,
-                true,
-                DataSeries::EMPTY_AS_GAP,
-                null,
-                null
-            );
+                $plotArea1 = new PlotArea($layout1, [$series1]);
+                $legend1 = new Legend(Legend::POSITION_RIGHT, null, false);
+                $title1 = new Title('Medios');
+                $chart1 = new Chart(
+                    'chart1',
+                    $title1,
+                    $legend1,
+                    $plotArea1,
+                    true,
+                    DataSeries::EMPTY_AS_GAP,
+                    null,
+                    null
+                );
 
-            $chart2->setTopLeftPosition('A1');
-            $chart2->setBottomRightPosition('H20');
-        /* CHART2 */
+                $chart1->setTopLeftPosition('I1');
+                $chart1->setBottomRightPosition('P20');
+            /* CHART3 */
 
-        /* CHART3 */
-            $dataSeriesLabels1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
-	        ];
-            
-	        //$countMean = ($columns_excel[$this->count_mean] > 3) ? $columns_excel[$this->count_mean] -2 : $columns_excel[$this->count_mean];
-	        $countMean = $columns_excel[$this->count_mean - 1];
-
-            $xAxisTickValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean), // Q1 to Q4
-            ];
-            $dataSeriesValues1 = [
-                new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$4:$' . $countMean . '$4', null, $this->count_mean),
-            ];
-            $series1 = new DataSeries(
-                DataSeries::TYPE_PIECHART,
-                null,
-                range(0, count($dataSeriesValues1) - 1),
-                $dataSeriesLabels1,
-                $xAxisTickValues1,
-                $dataSeriesValues1
-            );
-
-            $layout1 = new Layout();
-            //$layout1->setShowVal(true);
-            $layout1->setShowPercent(true);
-
-            $plotArea1 = new PlotArea($layout1, [$series1]);
-            $legend1 = new Legend(Legend::POSITION_RIGHT, null, false);
-            $title1 = new Title('Medios');
-            $chart1 = new Chart(
-                'chart1',
-                $title1,
-                $legend1,
-                $plotArea1,
-                true,
-                DataSeries::EMPTY_AS_GAP,
-                null,
-                null
-            );
-
-            $chart1->setTopLeftPosition('I1');
-            $chart1->setBottomRightPosition('P20');
-        /* CHART3 */
-
-        return [$chart, $chart2, $chart1];
+            if(count($this->themes) > 0)
+                return [$chart, $chart2, $chart1];
+            else
+                return [$chart2, $chart1];
         }
         else
             return [];

@@ -6,6 +6,11 @@
         {{ session('status') }}
     </div>
     @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <div class="row">
         <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->
@@ -247,11 +252,11 @@
                 var form = $('#form-report-filter')
                     .attr('action', "{{ route('admin.report.export') }}")
                     .attr('method', 'get');
-                //form.submit();
-                window.open("{{ route('admin.report.export') }}?" + encodeURIComponent($('#form-report-filter').serialize()));
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                form.submit();
+                // window.open("{{ route('admin.report.export') }}?" + $('#form-report-filter').serialize());
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1000);
             });
             
             $('#btn-report-export-pdf').on('click', function(event){

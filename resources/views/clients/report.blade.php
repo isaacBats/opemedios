@@ -1,6 +1,16 @@
 @extends('layouts.home')
 @section('title', " - Reporte")
 @section('content')
+    @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     @include('components.clientHeading')
     <!--Page Content -->
     <div class="uk-padding op-content-mt main-content" style="background: #f9f9f9;">
