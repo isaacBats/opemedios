@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
     <style>
         .trend-green{
@@ -39,7 +38,7 @@
                 @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
                     <tr>
                         <td style="width:max-content;text-align:left;display:block">
-                            <p style="margin:auto auto 10px;background:#023f82;text-align:center;font-size:24px;color:white;display:flex;padding:10px;width:260px">{{ strtoupper($theme->name) }}</p>
+                            <p style="margin:auto auto 10px;background:#023f82;text-align:center;font-size:24px;color:white;display:flex;padding:10px;width:100%">{{ strtoupper($theme->name) }}</p>
                             @php
                                 $countNotes = $newsletterSend
                                     ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
