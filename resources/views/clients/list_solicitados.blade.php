@@ -1,8 +1,5 @@
-@extends('layouts.admin')
-@section('admin-title', '- Reportes por cliente')
-@section('styles')
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-@endsection
+@extends('layouts.home')
+@section('title', " - Reporte")
 @section('content')
     @if (session('status'))
     <div class="alert alert-success">
@@ -92,12 +89,11 @@
             </div><!-- filter-options -->
             <div id="div-table-notes">
                 
-                <table class="table table-bordered table-primary table-striped nomargin">
+                <table class="uk-table uk-table-striped uk-table-responsive">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Archivo</th>
-                            <th>Cliente</th>
                             <th>Fechas</th>
                             <th>Descargar</th>
                         </tr>
@@ -107,7 +103,6 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name_file ?? 'N/E' }}</td>
-                                <td>{{ App\Company::find($item->company)->name ?? 'N/E' }}</td>
                                 <td>{{ $item->start_date . ' - ' . $item->end_date }}</td>
                                 <td>
                                     <a class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>

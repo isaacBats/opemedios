@@ -91,12 +91,21 @@ class ReportController extends Controller
         }
     }
 
-    public function solicitados(Request $request)
+    public function solicitados(Request $request, $slug_company = '')
     {
         $user_id = Auth::user()->id;
         $datos = ListReport::where('status', 1)->where('user_id', $user_id)->orderBy('id', 'desc')->get();
 
-        return view('admin.report.list_solicitados', compact('datos'));
+        
+        $user = auth()->user();
+        if($user->isClient())
+        {
+            $company = Company::where('slug', $slug_company)->first();
+            return view('clients.list_solicitados', compact('company', 'datos'));
+        }
+        else
+            return view('admin.report.list_solicitados', compact('datos'));
+        
     }
 
     public function byNotes(Request $request) {
@@ -170,7 +179,14 @@ class ReportController extends Controller
             $file_save->save();
             //Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
             //return (new ReportsExport($request))->download('Reporte.xlsx');
-            return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+
+            $company = Company::find($request->input('company'));
+            $slug = $company->slug;
+            $user = auth()->user();
+            if($user->isClient())
+                return redirect()->route('client.report', [$slug])->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('client.report.solicitados', [$slug]) . '">Lista de reportes</a>');
+            else
+                return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('admin.report.solicitados') . '">Lista de reportes</a>');
         }
         
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');

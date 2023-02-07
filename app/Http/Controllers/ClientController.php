@@ -199,7 +199,13 @@ class ClientController extends Controller
 
         $where = '';
 
-        $themes = DB::select("select themes.id, themes.name
+        $json = '';
+        $themes = null;
+        $fechas = array();
+        $data = array();
+        if(count($notesIds) > 0)
+        {
+            $themes = DB::select("select themes.id, themes.name
                             from assigned_news
                             inner join news on assigned_news.news_id = news.id
                             inner join themes on assigned_news.theme_id = themes.id
@@ -208,45 +214,42 @@ class ClientController extends Controller
                             group by themes.id, themes.name
                             order by name desc");
         
-        $period = CarbonPeriod::create($from, $to);
+            $period = CarbonPeriod::create($from, $to);
 
-        $fechas = array();
-        $data = array();
-        foreach ($period as $date) {
-            $dt = $date->format('Y-m-d');
-            $where = " AND date(news.created_at) = '$dt'";
-            $qry = DB::select("select date(news.created_at) as dt, themes.id, themes.name, count(*) as total
-                            from assigned_news
-                            inner join news on assigned_news.news_id = news.id
-                            inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                            " . $where . "
-                            group by date(news.created_at), themes.id, themes.name
-                            order by date(news.created_at) desc");
+            foreach ($period as $date) {
+                $dt = $date->format('Y-m-d');
+                $where = " AND date(news.created_at) = '$dt'";
+                $qry = DB::select("select date(news.created_at) as dt, themes.id, themes.name, count(*) as total
+                                from assigned_news
+                                inner join news on assigned_news.news_id = news.id
+                                inner join themes on assigned_news.theme_id = themes.id
+                                where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+                                " . $where . "
+                                group by date(news.created_at), themes.id, themes.name
+                                order by date(news.created_at) desc");
 
-            $data[$date->format('Y-m-d')] = $qry;
-            $fechas[] = $date->format('Y-m-d');
-        }
-
-        $json = '';
-        foreach ($themes as $theme)
-        {
-            $xcoma = '';
-            $json .= '{';
-            $json .= 'name: "' . $theme->name . '",';
-            $json .= 'data:[';
-            foreach ($fechas as $dt){
-                $dat_imp = '';
-                foreach ($data[$dt] as $dato_){
-                    if($dato_->id == $theme->id)
-                        $dat_imp = $dato_->total;
-                }
-                $json .= $xcoma . (empty($dat_imp) ? 0 : $dat_imp);
-                $xcoma = ',';
+                $data[$date->format('Y-m-d')] = $qry;
+                $fechas[] = $date->format('Y-m-d');
             }
-            $json .= ']},';
-        }
 
+            foreach ($themes as $theme)
+            {
+                $xcoma = '';
+                $json .= '{';
+                $json .= 'name: "' . $theme->name . '",';
+                $json .= 'data:[';
+                foreach ($fechas as $dt){
+                    $dat_imp = '';
+                    foreach ($data[$dt] as $dato_){
+                        if($dato_->id == $theme->id)
+                            $dat_imp = $dato_->total;
+                    }
+                    $json .= $xcoma . (empty($dat_imp) ? 0 : $dat_imp);
+                    $xcoma = ',';
+                }
+                $json .= ']},';
+            }
+        }
 
         
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])

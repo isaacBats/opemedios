@@ -67,6 +67,7 @@ Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:clien
     Route::get('reporte', 'ClientController@report')->name('client.report');
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
     Route::get('reporte-grafico', 'ClientController@reporteGrafico')->name('client.reporte_grafico');
+    Route::get('reportes/solicitados', 'ReportController@solicitados')->name('client.report.solicitados');
 
     Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
     Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');
