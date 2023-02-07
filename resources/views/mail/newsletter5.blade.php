@@ -24,33 +24,6 @@
     <table 
         style="padding:50px 20px;font-size:14px;margin:auto;height:auto;width:100%; font-family: Arial;">
         <thead style="display:block">
-            <tr>
-                <td style="margin:0 0 10px;display:block">
-                    <a href="{{ $covers['primeras_planas'] }}" style="text-decoration: none;">
-                        PRIMERAS PLANAS
-                    </a>
-                </td>
-                <td style="margin:0 0 10px;display:block">
-                    <a href="{{ $covers['portadas_financieras'] }}" style="text-decoration: none;">
-                        PORTADAS FINANCIERAS
-                    </a>
-                </td>
-                <td style="margin:0 0 10px;display:block">
-                    <a href="{{ $covers['cartones'] }}" style="text-decoration: none;">
-                        CARTONES
-                    </a>
-                </td>
-                <td style="margin:0 0 10px;display:block">
-                    <a href="{{ $covers['portadas_politicas'] }}" style="text-decoration: none;">
-                        COLUMNAS POLITICAS
-                    </a>
-                </td>
-                <td style="margin:0 0 10px;display:block">
-                    <a href="{{ $covers['columnas_financieras'] }}" style="text-decoration: none;">
-                        COLUMNAS FINANCIERAS
-                    </a>
-                </td>
-            </tr>
             <tr style="float:right">
                 <td>
                     <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" width="250" style="float:right">
@@ -89,6 +62,35 @@
                 @endforeach
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td style="margin:0 0 10px;display:block">
+                    <a href="{{ $covers['primeras_planas'] }}" style="text-decoration: none;">
+                        PRIMERAS PLANAS
+                    </a>
+                </td>
+                <td style="margin:0 0 10px;display:block">
+                    <a href="{{ $covers['portadas_financieras'] }}" style="text-decoration: none;">
+                        PORTADAS FINANCIERAS
+                    </a>
+                </td>
+                <td style="margin:0 0 10px;display:block">
+                    <a href="{{ $covers['cartones'] }}" style="text-decoration: none;">
+                        CARTONES
+                    </a>
+                </td>
+                <td style="margin:0 0 10px;display:block">
+                    <a href="{{ $covers['portadas_politicas'] }}" style="text-decoration: none;">
+                        COLUMNAS POLITICAS
+                    </a>
+                </td>
+                <td style="margin:0 0 10px;display:block">
+                    <a href="{{ $covers['columnas_financieras'] }}" style="text-decoration: none;">
+                        COLUMNAS FINANCIERAS
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </body>
 </html>
