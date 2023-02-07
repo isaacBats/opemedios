@@ -22,7 +22,7 @@
     </style>
 
     <table 
-        style="padding:50px 20px;max-width:600px;font-size:14px;margin:auto;height:auto;width:100%; font-family: Arial;">
+        style="padding:50px 20px;font-size:14px;margin:auto;height:auto;width:100%; font-family: Arial;">
         <thead style="display:block">
             <tr>
                 <td style="margin:0 0 10px;display:block">
