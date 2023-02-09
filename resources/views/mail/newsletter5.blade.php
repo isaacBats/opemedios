@@ -96,13 +96,12 @@ w\:* {behavior:url(#default#VML);}
                                           <v:imagedata src="mailbox:///home/devops/Descargas/News%20Openpay,%20Martes%208%20de%20Noviembre%20de%202022.eml?number=0&part=1.2&filename=image001.gif" o:title="" />
                                           <w:wrap type="square" anchory="line"/>
                                           </v:shape><![endif]--><!--[if !vml]-->
-                                          <img style="width:2.5in;height:1.1875in" 
-                                              src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" 
+                                          <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" 
                                               alt="{{ $newsletterSend->newsletter->name }}"
                                               v:shapes="Imagen_x0020_14" 
                                               shrinktofit="true" 
                                               width="240" 
-                                              height="114" align="left"><!--[endif]-->
+                                              align="left"><!--[endif]-->
                                               <span style="mso-bookmark:top"></span>
                                               <span style="mso-bookmark:top">
                                                   <span style="font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif">
