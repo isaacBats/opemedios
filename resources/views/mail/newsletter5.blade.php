@@ -2,8 +2,6 @@
 <title>News Openpay, {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
   ->formatLocalized('%A %d de %B %Y') }}</title>
 <link rel="important stylesheet" href="chrome://messagebody/skin/messageBody.css">
-</head>
-<body style="word-wrap:break-word" vlink="#954F72" link="#0563C1" lang="ES-MX">
 <meta http-equiv="Content-Type" content="text/html; ">
 <meta name="Generator" content="Microsoft Word 15 (filtered medium)">
 <!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
@@ -37,6 +35,8 @@ w\:* {behavior:url(#default#VML);}
 <o:shapelayout v:ext="edit">
 <o:idmap v:ext="edit" data="1" />
 </o:shapelayout></xml><![endif]-->
+</head>
+<body style="word-wrap:break-word" vlink="#954F72" link="#0563C1" lang="ES-MX">
 
 <div class="moz-text-html" lang="x-unicode">
   <div class="WordSection1">
@@ -167,217 +167,217 @@ w\:* {behavior:url(#default#VML);}
                               <tbody>
                                 <tr>
                                   <td style="background:white;padding:0cm 0cm 0cm 0cm" valign="top">
-                                    <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
-                                      cellpadding="0" border="0">
-                                      <tbody>
-                                        <tr style="height:15.0pt">
-                                          <td style="width:95.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="95%">
-                                            <p class="MsoNormal">
-                                              <a name="1">
-                                                <b>
-                                @foreach ($newsletterSend->newsletter->company->themes as $theme)
-                                  @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
-                                                  <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
-                                                    &nbsp;{{ strtoupper($theme->name) }}
+                                    @foreach ($newsletterSend->newsletter->company->themes as $theme)
+                                      @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
+                                        <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
+                                           cellpadding="0" border="0">
+                                          <tbody>
+                                            <tr style="height:15.0pt">
+                                              <td style="width:95.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="95%">
+                                                <p class="MsoNormal">
+                                                  <a name="1">
+                                                    <b>
+                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
+                                                        &nbsp;{{ strtoupper($theme->name) }}
+                                                      </span>
+                                                    </b>
+                                                  </a>
+                                                  <o:p></o:p>
+                                                </p>
+                                              </td>
+                                              <td style="width:5.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="5%">
+                                                <p class="MsoNormal" style="text-align:center" align="center">
+                                                  <span style="color:white">
+                                                    <a href="javascript:void(0);" title="Subir"> {{-- Aqui va el link del newsletter online --}}
+                                                      <b>
+                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white;text-decoration:none">
+                                                          &nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;
+                                                        </span>
+                                                      </b>
+                                                    </a>
                                                   </span>
-                                                </b>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="width:5.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="5%">
-                                            <p class="MsoNormal" style="text-align:center" align="center">
-                                              <span style="color:white">
-                                                <a href="javascript:void(0);" title="Subir"> {{-- Aqui va el link del newsletter online --}}
-                                                  <b>
-                                                    <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white;text-decoration:none">
-                                                      &nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;
-                                                    </span>
-                                                  </b>
-                                                </a>
-                                              </span>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td style="padding:0cm 0cm 0cm 0cm">
-                                            <p class="MsoNormal">
-                                              <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                @php
-                                                  $countNotes = $newsletterSend
-                                                    ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
-                                                    ->count();
-                                                @endphp
-                                                {{ "Noticias encontradas: {$countNotes}" }}
-                                              </span>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="padding:0cm 0cm 0cm 0cm"></td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  @endif
-                                  @foreach ($newsletterSend->newsletter_theme_news as $note)
-                                    @if($note->theme->id == $theme->id)
-                                    <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
-                                      cellpadding="0" border="0" align="left">
-                                      <tbody>
-                                        <tr>
-                                          <td style="padding:0cm 0cm 0cm 0cm">
-                                            <div class="MsoNormal" style="text-align:center" align="center">
-                                              <hr width="100%" size="2" align="center">
-                                            </div>
-                                            <p class="MsoNormal">
-                                              <a name="73027426">
-                                                <b>
+                                                  <o:p></o:p>
+                                                </p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td style="padding:0cm 0cm 0cm 0cm">
+                                                <p class="MsoNormal">
                                                   <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                    {{ $note->news->title }} 
+                                                    @php
+                                                      $countNotes = $newsletterSend
+                                                        ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
+                                                        ->count();
+                                                    @endphp
+                                                    {{ "Noticias encontradas: {$countNotes}" }}
                                                   </span>
-                                                </b>
-                                              </a>
-                                              <span style="mso-bookmark:73027426">
-                                                <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                  &nbsp;
-                                                </span>
-                                              </span>
-                                              <br>
-                                              <span style="font-size:8.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                {{ $note->news->news_date->format('d/m/Y') }},
-                                                <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" target="_blank">
-                                                  <span style="text-decoration:none">»
-                                                    {{ $note->news->source->name ?? 'N/E' }}
-                                                  </span>
-                                                </a>, 
-                                                {{ $note->news->author }}
-                                                <br>
-                                              </span>
-                                              @php
-                                                $news_metas = unserialize($note->news->metas_news);
-                                                $noteUrl = '';
-                                                if($note->news->mean->short_name == 'int') {
-                                                  $noteUrl = $news_metas['url'];
-                                                }
-                                              @endphp
-                                              <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                {!! $note->news->synthesis !!} &nbsp;{!! $noteUrl !!}
-                                              </span>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                    <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-                                    @endif
-                                  @endforeach
-                                @endforeach
-                                    <table class="MsoNormalTable" style="width:100.0%" width="100%" 
-                                      cellspacing="0" cellpadding="0" border="0">
-                                      <tbody>
-                                        <tr>
-                                          <td style="background:#013B76;padding:0cm 0cm 0cm 0cm">
-                                            <p class="MsoNormal">
-                                              <b>
-                                                <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
-                                                  &nbsp;PRIMERAS PLANAS
-                                                </span>
-                                              </b>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                    <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-                                    <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
-                                      cellpadding="0" border="0">
-                                      <tbody>
-                                        <tr>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="{{ $covers['primeras_planas'] }}" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  PRIMERAS PLANAS
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="{{ $covers['portadas_financieras'] }}" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  PORTADAS FINANCIERAS
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="{{ $covers['cartones'] }}" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  CARTONES
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="{{ $covers['portadas_politicas'] }}" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  COLUMNAS POLITICAS
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="{{ $covers['columnas_financieras'] }}" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  COLUMNAS FINANCIERAS
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                          <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                              <a href="javascript:void(0);" target="_blank">
-                                                <span style="color:blue;text-decoration:none">
-                                                  OPERADORA DE MEDIOS
-                                                </span>
-                                              </a>
-                                              <o:p></o:p>
-                                            </p>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
+                                                  <o:p></o:p>
+                                                </p>
+                                              </td>
+                                              <td style="padding:0cm 0cm 0cm 0cm"></td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      @endif
+                                      @foreach ($newsletterSend->newsletter_theme_news as $note)
+                                        @if($note->theme->id == $theme->id)
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
+                                            cellpadding="0" border="0" align="left">
+                                            <tbody>
+                                              <tr>
+                                                <td style="padding:0cm 0cm 0cm 0cm">
+                                                  <div class="MsoNormal" style="text-align:center" align="center">
+                                                    <hr width="100%" size="2" align="center">
+                                                  </div>
+                                                  <p class="MsoNormal">
+                                                    <a name="73027426">
+                                                      <b>
+                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                                          {{ $note->news->title }} 
+                                                        </span>
+                                                      </b>
+                                                    </a>
+                                                    <span style="mso-bookmark:73027426">
+                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                                        &nbsp;
+                                                      </span>
+                                                    </span>
+                                                    <br>
+                                                    <span style="font-size:8.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                                      {{ $note->news->news_date->format('d/m/Y') }},
+                                                      <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" target="_blank">
+                                                        <span style="text-decoration:none">»
+                                                          {{ $note->news->source->name ?? 'N/E' }}
+                                                        </span>
+                                                      </a>, 
+                                                      {{ $note->news->author }}
+                                                      <br>
+                                                    </span>
+                                                    @php
+                                                      $news_metas = unserialize($note->news->metas_news);
+                                                      $noteUrl = '';
+                                                      if($note->news->mean->short_name == 'int') {
+                                                        $noteUrl = $news_metas['url'];
+                                                      }
+                                                    @endphp
+                                                    <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                                      {!! $note->news->synthesis !!} &nbsp;{!! $noteUrl !!}
+                                                    </span>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+                                        @endif
+                                      @endforeach
+                                    @endforeach
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" 
+                                            cellspacing="0" cellpadding="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td style="background:#013B76;padding:0cm 0cm 0cm 0cm">
+                                                  <p class="MsoNormal">
+                                                    <b>
+                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
+                                                        &nbsp;PRIMERAS PLANAS
+                                                      </span>
+                                                    </b>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
+                                            cellpadding="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="{{ $covers['primeras_planas'] }}" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        PRIMERAS PLANAS
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="{{ $covers['portadas_financieras'] }}" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        PORTADAS FINANCIERAS
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="{{ $covers['cartones'] }}" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        CARTONES
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="{{ $covers['portadas_politicas'] }}" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        COLUMNAS POLITICAS
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="{{ $covers['columnas_financieras'] }}" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        COLUMNAS FINANCIERAS
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                    <a href="javascript:void(0);" target="_blank">
+                                                      <span style="color:blue;text-decoration:none">
+                                                        OPERADORA DE MEDIOS
+                                                      </span>
+                                                    </a>
+                                                    <o:p></o:p>
+                                                  </p>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
                                   </td>
                                 </tr>
                               </tbody>
                             </table>
                           </div>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
   </div>
+</div>
 </body>
 </html>
 
