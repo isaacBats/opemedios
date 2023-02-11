@@ -40,7 +40,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="textarea-sintesis">{{ __('Síntesis') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-10 col-lg-11">
-                        <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3">{!! old('synthesis') !!}</textarea>
+                        <textarea name="synthesis" id="textarea-sintesis" class="form-control ql-container ql-snow quill-editor" rows="3">{!! old('synthesis') !!}</textarea>
                         @error('synthesis')
                             <label class="text-danger">
                                 <strong>{{ $message }}</strong>
@@ -48,7 +48,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="form-group row" id="div-select-sources"></div>
+                <div class="form-group row" id="div-select-sources" style="margin-top: 5rem;"></div>
                 <div class="form-group row" id="div-select-sections-sources"></div>
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -614,10 +614,24 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
-            var quill = new Quill('#textarea-sintesis', {
-                placeholder: 'Síntesis de la nota',
-                theme: 'snow'
-            });
+            // var quill = new Quill('#textarea-sintesis', {
+            //     placeholder: 'Síntesis de la nota',
+            //     theme: 'snow'
+            // });
+            // $('.quill-editor').each(function(i, el) {
+            //     var el = $(this), id = 'quilleditor-' + i, val = el.val(), editor_height = 200;
+            //     var div = $('<div/>').attr('id', id).css('height', editor_height + 'px').html(val);
+            //     el.addClass('d-none');
+            //     el.parent().append(div);
+
+            //     var quill = new Quill('#' + id, {
+            //         modules: { toolbar: true },
+            //         theme: 'snow'
+            //     });
+            //     quill.on('text-change', function() {
+            //         el.html(quill.getContents());
+            //     });
+            // });
         })
 
     </script>
