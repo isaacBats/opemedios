@@ -40,7 +40,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="textarea-sintesis">{{ __('Síntesis') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-10 col-lg-11">
-                        <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3" placeholder="Síntesis de la nota">{!! old('synthesis') !!}</textarea>
+                        <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3">{!! old('synthesis') !!}</textarea>
                         @error('synthesis')
                             <label class="text-danger">
                                 <strong>{{ $message }}</strong>
@@ -349,6 +349,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{ asset('lib/quill/quill.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -613,11 +614,16 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
+            var quill = new Quill('#textarea-sintesis', {
+                placeholder: 'Síntesis de la nota',
+                theme: 'snow'
+            });
         })
 
     </script>
 @endsection
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/quill/quill.snow.css') }}">
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
