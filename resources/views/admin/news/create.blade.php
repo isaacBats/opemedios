@@ -99,7 +99,7 @@
                                         <strong>{{ $message }}</strong>
                                     </label>
                                 @enderror
-                            </div>
+                            </div>textarea-sintesis
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -262,7 +262,7 @@
                                     <option value="">{{ __('Tendencia') }}</option>
                                     <option value="1" {{ (old('trend') == "1" ? 'selected' : '' ) }} >{{ __('Positiva') }}</option>
                                     <option value="2" {{ (old('trend') == "2" ? 'selected' : '' ) }} >{{ __('Neutral') }}</option>
-                                    <option value="3" {{ (old('trend') == "3" ? 'selected' : '' ) }} >{{ __('Negativa') }}</option>
+                                    <option value="3" {{ (old('trend') == "3" ? 'selected' : '' ) }} >{{ __('Negativa') }}</optitextarea-sintesison>
                                 </select>    
                                 @error('trend')
                                     <label class="text-danger">
@@ -349,7 +349,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('lib/quill/quill.min.js') }}"></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -614,30 +614,13 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
-            // var quill = new Quill('#textarea-sintesis', {
-            //     placeholder: 'Síntesis de la nota',
-            //     theme: 'snow'
-            // });
-            // $('.quill-editor').each(function(i, el) {
-            //     var el = $(this), id = 'quilleditor-' + i, val = el.val(), editor_height = 200;
-            //     var div = $('<div/>').attr('id', id).css('height', editor_height + 'px').html(val);
-            //     el.addClass('d-none');
-            //     el.parent().append(div);
-
-            //     var quill = new Quill('#' + id, {
-            //         modules: { toolbar: true },
-            //         theme: 'snow'
-            //     });
-            //     quill.on('text-change', function() {
-            //         el.html(quill.getContents());
-            //     });
-            // });
+            new FroalaEditor('textarea#textarea-sintesis')
         })
 
     </script>
 @endsection
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('lib/quill/quill.snow.css') }}">
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
