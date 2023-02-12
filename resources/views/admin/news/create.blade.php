@@ -349,7 +349,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'></script>
+    <script type='text/javascript' src="{{ asset('lib/froala/js/froala_editor.pkgd.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -620,7 +620,7 @@
     </script>
 @endsection
 @section('styles')
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+    <link href="{{ asset('froala/css/froala_editor.pkgd.min.css') }}" rel='stylesheet' type='text/css' />
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
