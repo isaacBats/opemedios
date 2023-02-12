@@ -620,7 +620,7 @@
     </script>
 @endsection
 @section('styles')
-    <link href="{{ asset('froala/css/froala_editor.pkgd.min.css') }}" rel='stylesheet' type='text/css' />
+    <link href="{{ asset('lib/froala/css/froala_editor.pkgd.min.css') }}" rel='stylesheet' type='text/css' />
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
