@@ -614,7 +614,7 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
-            new FroalaEditor('textarea#textarea-sintesis')
+            // new FroalaEditor('textarea#textarea-sintesis')
         })
 
     </script>
