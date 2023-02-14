@@ -41,7 +41,7 @@
             <div class="container">
                 <h1>{{ $note->title }}</h1>
                 <p>
-                    {{ $note->synthesis }}
+                    {!! $note->synthesis !!}
                 </p>
                 <div class="col-md-12 text-right">
                     {{ __("Creado {$note->created_at->diffForHumans()}") }}
