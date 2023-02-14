@@ -351,7 +351,7 @@
 @section('scripts')
     <script type='text/javascript' src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('lib/summernote/summernote.js') }}"></script>
-    <script type='text/javascript' src="{{ asset('lib/bootstrap3-wysihtml5-bower/bootstrap3-wysihtml.all.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('lib/bootstrap3-wysihtml5-bower/bootstrap3-wysihtml5.all.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -626,7 +626,7 @@
 @endsection
 @section('styles')
     <link href="{{ asset('lib/summernote/summernote.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ asset('lib/bootstrap3-wysihtml5-bower/bootstrap3-wysihtml.css') }}" rel='stylesheet' type='text/css' />
+    <link href="{{ asset('lib/bootstrap3-wysihtml5-bower/bootstrap3-wysihtml5.css') }}" rel='stylesheet' type='text/css' />
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
