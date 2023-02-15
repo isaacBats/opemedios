@@ -394,12 +394,12 @@
                     }) 
             });
 
-            $('#textarea-sintesis').summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                  ]
-            });
+            // $('#textarea-sintesis').summernote({
+            //     height: 200,
+            //     toolbar: [
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //       ]
+            // });
         })
 
     </script>

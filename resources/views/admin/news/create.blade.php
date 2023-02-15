@@ -615,12 +615,12 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
-            $('#textarea-sintesis').summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                  ]
-            });
+            // $('#textarea-sintesis').summernote({
+            //     height: 200,
+            //     toolbar: [
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //       ]
+            // });
         })
 
     </script>
