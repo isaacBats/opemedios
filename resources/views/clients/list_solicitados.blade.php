@@ -94,18 +94,20 @@
                         <tr>
                             <th>#</th>
                             <th>Archivo</th>
+                            <th>Estatus</th>
                             <th>Fechas</th>
                             <th>Descargar</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($datos as $item)
-                            <tr>
+                            <tr style="background: {{ $item->status == 1 ? '#6d9af9' : '#259dab' }};">
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name_file ?? 'N/E' }}</td>
+                                <td>{{ $item->status == 1 ? 'Generado' : 'Descargado' }}</td>
                                 <td>{{ $item->start_date . ' - ' . $item->end_date }}</td>
                                 <td>
-                                    <a class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
+                                    <a style="color: #000000;" class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -125,8 +127,18 @@
         $(".download_file").on("click", function(e){
             e.preventDefault();
             url = $(this).data('url');
+            id = $(this).data('id');
             
             $("#frame").attr("src", url);
+            
+            $.ajax({
+                url: {{ route('client.report.cambia_estatus_reporte', ['company' => session()->get('slug_company')]) }},
+                type: 'post',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    id: id
+                }
+            })
         });
     </script>
 @endsection

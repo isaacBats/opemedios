@@ -34,6 +34,7 @@ use App\ListReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -65,6 +66,14 @@ class ReportController extends Controller
     }
 
     public function generate_reports_bd() {
+        $reportes = ListReport::where('created_at', '<', Carbon::now()->add('-10 days'))->get();
+        
+        foreach($reportes as $itm)
+        {
+            Storage::disk('public')->delete($itm->name_file);
+            $itm->delete();
+        }
+
         $data = ListReport::where('status', 0)->orderBy('id')->first();
 
         if(!is_null($data))
@@ -95,12 +104,12 @@ class ReportController extends Controller
     {
         $auth = Auth::user();
         if ($auth->hasRole('admin')) {
-            $datos = ListReport::where('status', 1)
+            $datos = ListReport::where('status', '>', 0)
                 ->orderBy('id', 'DESC')
                 ->get();
         } else {
             $user_id = $auth->id;
-            $datos = ListReport::where('status', 1)->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+            $datos = ListReport::where('status', '>', 0)->where('user_id', $user_id)->orderBy('id', 'desc')->get();
         }
 
 
@@ -203,5 +212,16 @@ class ReportController extends Controller
     
     public function exportPDF(Request $request) {
         return (new ReportsExportPDF($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    public function cambiaEstatus(Request $request)
+    {
+        $id = $request->id;
+        
+        $reporte = ListReport::find($id);
+        $reporte->status = 2;
+        $reporte->save();
+
+        return true;
     }
 }
