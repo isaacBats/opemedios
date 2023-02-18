@@ -113,7 +113,7 @@
             <li class="uk-nav-header uk-text-light">Reporte</li>
             {{-- <li class="{{ request('type') == 'reporte_grafico' ? ' uk-active' : '' }}"><a href="{{ route('client.reporte_grafico', ['company' => $company]) }}">Reporte con Gráfico</a></li> --}}
             <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report', ['company' => $company]) }}">Reportes</a></li>
-            <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report.solicitados', ['company' => $company]) }}">Listado de Reportes</a><br></li>
+            <li class="{{ request('type') == 'reporte' ? ' uk-active' : '' }}"><a href="{{ route('client.report.solicitados', ['company' => $company]) }}">En cola para descarga</a><br></li>
             @hasanyrole('manager|admin')
             <li class="uk-nav-divider"></li>
             <li ><a href="{{ route('panel') }}">Volver al admin</a><br></li>

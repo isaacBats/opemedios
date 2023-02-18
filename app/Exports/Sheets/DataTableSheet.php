@@ -73,7 +73,7 @@ class DataTableSheet implements
             $note->title . "|" . $link,
             $note->synthesis,
             $note->author,
-            ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
+            ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
             $trend,

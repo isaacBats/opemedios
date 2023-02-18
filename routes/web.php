@@ -68,7 +68,8 @@ Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:clien
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
     Route::get('reporte-grafico', 'ClientController@reporteGrafico')->name('client.reporte_grafico');
     Route::get('reportes/solicitados', 'ReportController@solicitados')->name('client.report.solicitados');
-
+    Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('client.report.cambia_estatus_reporte');
+    
     Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
     Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');
 });
@@ -139,6 +140,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
 
         Route::get('reportes/solicitados', 'ReportController@solicitados')->name('admin.report.solicitados');
+        Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('admin.report.cambia_estatus_reporte');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');
