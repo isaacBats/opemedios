@@ -2,6 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+namespace Database\Factories;
+
 use App\AssignedNews;
 use App\Company;
 use App\News;
@@ -12,8 +14,8 @@ $factory->define(AssignedNews::class, function (Faker $faker) {
     $theme = $company->themes->random();
     $note = News::all()->random();
     return [
-        'news_id' => $note->id, 
-        'company_id' => $company->id, 
+        'news_id' => $note->id,
+        'company_id' => $company->id,
         'theme_id' => $theme->id,
         'created_at' => $note->created_at
     ];

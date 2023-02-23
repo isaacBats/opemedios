@@ -15,23 +15,27 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
-class RolesTableSeeder extends Seeder
+namespace Database\Seeders;
+
+use App\TypePage;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
+
+class TypePageSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run()
     {
-        Role::create(['name' => 'admin', 'guard_name' => 'web']);
-        Role::create(['name' => 'manager', 'guard_name' => 'web']);
-        Role::create(['name' => 'monitor', 'guard_name' => 'web']);
-        Role::create(['name' => 'client', 'guard_name' => 'web']);
-        Role::create(['name' => 'disable', 'guard_name' => 'web']);
+        TypePage::insert([
+            ['description' => 'Portada', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Contraportada', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Par', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['description' => 'Impar', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ]);
     }
 }

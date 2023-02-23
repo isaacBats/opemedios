@@ -15,7 +15,9 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
+namespace Database\Seeders;
+
 use App\Means;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -23,7 +25,7 @@ use Illuminate\Support\Carbon;
 class MeansSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

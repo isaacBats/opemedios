@@ -16,6 +16,8 @@
   * file that was distributed with this source code.
   */
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
