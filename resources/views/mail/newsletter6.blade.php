@@ -90,7 +90,7 @@
                                                 <td valign="top" align="center" style="padding:0;Margin:0;width:580px">
                                                     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr style="border-collapse:collapse">
-                                                            <td class="es-infoblock" align="center" style="padding:0;Margin:0;line-height:13px;font-size:11px;color:#999999"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:georgia, times, 'times new roman', serif;line-height:13px;color:#999999;font-size:11px">Si no puedes ver la información. <a href="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$oneNewsletter->id}-{$oneNewsletter->newsletter->company->id}")]) }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:11px">Pulsa aquí</a></p></td>
+                                                            <td class="es-infoblock" align="center" style="padding:0;Margin:0;line-height:13px;font-size:11px;color:#999999"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:georgia, times, 'times new roman', serif;line-height:13px;color:#999999;font-size:11px">Si no puedes ver la información. <a href="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$newsletterSend->id}-{$newsletterSend->newsletter->company->id}")]) }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:11px">Pulsa aquí</a></p></td>
                                                         </tr>
                                                     </table></td>
                                             </tr>
@@ -221,7 +221,7 @@
                                                 <td class="es-m-p20b" align="center" style="padding:0;Margin:0;width:179px">
                                                     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr style="border-collapse:collapse">
-                                                            <td align="center" style="padding:0;Margin:0;font-size:0px"><img class="adapt-img" src="{{ asset('images/opemedios-logo.png') }}" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="179"></td>
+                                                            <td align="center" style="padding:0;Margin:0;font-size:0px"><img class="adapt-img" src="{{ asset('images/opemedios_logo.png') }}" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="179"></td>
                                                         </tr>
                                                     </table>
                                                 </td>

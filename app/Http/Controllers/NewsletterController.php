@@ -65,7 +65,7 @@ class NewsletterController extends Controller
                 return $cover->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d');
             })->first();
         }
-        
+
         array_push($breadcrumb, ['label' => 'Newsletters']);
 
         return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday', 'breadcrumb'));
@@ -208,6 +208,7 @@ class NewsletterController extends Controller
             ['name' => 'newsletter3', 'label' => 'Plantilla 3'],
             ['name' => 'newsletter4', 'label' => 'Plantilla 4'],
             ['name' => 'newsletter5', 'label' => 'Plantilla 5'],
+            ['name' => 'newsletter6', 'label' => 'Plantilla 6'],
         ];
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
