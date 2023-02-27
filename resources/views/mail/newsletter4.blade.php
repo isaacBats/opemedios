@@ -54,7 +54,7 @@
                     @php
                         $day = date('Y-m-d H:i:s');
                     @endphp
-                    <p style="float:right;margin: 0 auto 20px auto;color:#646464;">{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}</p>
+                    <p style="float:right;margin: 0 auto 20px auto;color:#646464;">{{ ucfirst(Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y')) }}</p>
                 </td>
             </tr>
         </thead>
@@ -69,7 +69,7 @@
                                     ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
                                     ->count();
                             @endphp
-                            <span>{{ "Noticias encontradas: {$countNotes}" }}</span>
+                            <span style="color:#646464;">{{ "Noticias encontradas: {$countNotes}" }}</span>
                         </td>
                     </tr>
                 @endif
