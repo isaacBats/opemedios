@@ -15,19 +15,19 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 
 namespace App;
 
-use App\Company;
-use App\User;
+use App\{Company, User};
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Theme extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $fillable = ['name', 'description', 'company_id'];
 

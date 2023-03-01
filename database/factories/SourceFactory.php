@@ -1,19 +1,21 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 namespace Database\Factories;
 
-use App\{Source, Means};
-use Faker\Generator as Faker;
+use App\Means;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Source::class, function (Faker $faker) {
-    return [
-        'name'      => $faker->text(6),
-        'company'   => $faker->text(20),
-        'comment'   => $faker->text(),
-        'active'    => 1,
-        'coverage'  => 'Local',
-        'means_id'  => Means::all()->random()->id
-    ];
-});
+class SourceFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name'      => $this->faker->text(6),
+            'company'   => $this->faker->text(20),
+            'comment'   => $this->faker->text(),
+            'active'    => 1,
+            'coverage'  => 'Local',
+            'means_id'  => Means::all()->random()->id
+        ];
+    }
+}

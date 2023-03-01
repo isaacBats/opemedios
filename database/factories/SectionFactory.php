@@ -1,19 +1,20 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 namespace Database\Factories;
 
-use App\Section;
 use App\Source;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Section::class, function (Faker $faker) {
-    return [
-        'name'          => $faker->word(),
-        'author'        => $faker->name(),
-        'description'   => $faker->text(),
-        'active'        => 1,
-        'source_id'     => Source::all()->random()->id,
-    ];
-});
+class SectionFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name'          => $this->faker->word(),
+            'author'        => $this->faker->name(),
+            'description'   => $this->faker->text(),
+            'active'        => 1,
+            'source_id'     => Source::all()->random()->id,
+        ];
+    }
+}

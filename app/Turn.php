@@ -15,17 +15,18 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
 use App\Company;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Turn extends Model
 {
-    use SoftDeletes;
-    
+    use SoftDeletes, HasFactory;
+
     protected $fillable = ['name', 'description',];
 
     public function companies()

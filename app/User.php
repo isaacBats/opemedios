@@ -15,12 +15,13 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
 use App\Company;
 use App\Theme;
 use App\UserMeta;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,7 +29,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, SoftDeletes;
+    use Notifiable, HasRoles, SoftDeletes, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -119,7 +120,7 @@ class User extends Authenticatable
         if ($this->isExecutive() || $this->isClient() || $this->isAdmin()) {
             return $this->belongsToMany(Company::class, 'client_executive');
         }
-        
+
         return false;
     }
 
@@ -184,7 +185,7 @@ class User extends Authenticatable
             ['meta_key', '=', $key],
             ['user_id', '=', $this->id],
         ])->first();
-        
+
         if (is_null($meta)) {
             return false;
         }

@@ -18,20 +18,15 @@
 
 namespace App;
 
-use App\AssignedNews;
-use App\News;
-use App\Newsletter;
-use App\Theme;
-use App\Turn;
-use App\UserMeta;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\{AssignedNews, News, Newsletter, Theme, Turn, UserMeta};
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     /**
      * The attributes that are mass assignable.

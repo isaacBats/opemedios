@@ -3,21 +3,21 @@
 namespace Tests\Feature\Http\Controllers\Auth;
 
 use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
+use Database\Seeders\RolesTableSeeder;
 use App\{User, Company, UserMeta};
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
-use RolesTableSeeder;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
-    
-    
+
+
     public function test_user_client_can_login_with_correct_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        $company = factory(Company::class)->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
         $user->metas()->saveMany([
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -40,15 +40,15 @@ class LoginControllerTest extends TestCase
             'g-recaptcha-response' => '1',
         ]);
 
-        $response->assertRedirect(route('news', ['company' => $company->slug]));
+        $response->assertRedirect(route('client.mynews', ['company' => $company->slug]));
         $this->assertAuthenticatedAs($user);
     }
 
     public function test_user_client_can_login_with_correct_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        $company = factory(Company::class)->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
         $user->metas()->saveMany([
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -71,15 +71,15 @@ class LoginControllerTest extends TestCase
             'g-recaptcha-response' => '1',
         ]);
 
-        $response->assertRedirect(route('news', ['company' => $company->slug]));
+        $response->assertRedirect(route('client.mynews', ['company' => $company->slug]));
         $this->assertAuthenticatedAs($user);
     }
 
     public function test_user_client_can_not_login_with_incorrect_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        $company = factory(Company::class)->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
         $user->metas()->saveMany([
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -101,7 +101,7 @@ class LoginControllerTest extends TestCase
             'password' => 'bad password',
             'g-recaptcha-response' => '1',
         ]);
-        
+
         $response->assertRedirect('cuenta')
             ->assertStatus(302)
             ->assertSessionHasErrors('email', 'password');
@@ -110,8 +110,8 @@ class LoginControllerTest extends TestCase
     public function test_user_client_can_not_login_with_incorrect_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        $company = factory(Company::class)->create();
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
         $user->metas()->saveMany([
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -126,7 +126,7 @@ class LoginControllerTest extends TestCase
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
-        
+
         $user->assignRole('client');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
@@ -142,14 +142,14 @@ class LoginControllerTest extends TestCase
     public function test_user_admin_can_login_with_correct_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->metas()->save(
             new UserMeta([
                 'meta_key'      => 'user_position',
                 'meta_value'    => 'Gerente'
             ])
         );
-        
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
@@ -168,14 +168,14 @@ class LoginControllerTest extends TestCase
     public function test_user_admin_can_login_with_correct_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->metas()->save(
             new UserMeta([
                 'meta_key'      => 'user_position',
                 'meta_value'    => 'Gerente'
             ])
         );
-        
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
@@ -194,7 +194,7 @@ class LoginControllerTest extends TestCase
     public function test_user_admin_can_not_login_with_incorrect_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->metas()->save(
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -221,7 +221,7 @@ class LoginControllerTest extends TestCase
     public function test_user_admin_can_not_login_with_incorrect_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->metas()->save(
             new UserMeta([
                 'meta_key'      => 'user_position',
@@ -244,12 +244,12 @@ class LoginControllerTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHasErrors('email', 'password');
     }
-    
+
     public function test_user_monitor_can_login_with_correct_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        
+        $user = User::factory()->create();
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
@@ -268,14 +268,14 @@ class LoginControllerTest extends TestCase
     public function test_user_monitor_can_login_with_correct_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        
+        $user = User::factory()->create();
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
 
         $user->assignRole('monitor');
-        
+
         $response = $this->from('login')->post('login', [
             'email' => $user->email,
             'password' => 'secret',
@@ -289,8 +289,8 @@ class LoginControllerTest extends TestCase
     public function test_user_monitor_can_not_login_with_incorrect_credentials()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
-        
+        $user = User::factory()->create();
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
@@ -310,12 +310,12 @@ class LoginControllerTest extends TestCase
     public function test_user_monitor_can_not_login_with_incorrect_credentials_from_login_view()
     {
         $this->seed(RolesTableSeeder::class);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
-        
+
         $user->assignRole('monitor');
         $response = $this->from('login')->post('login', [
             'email' => $user->email,

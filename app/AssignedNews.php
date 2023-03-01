@@ -15,16 +15,17 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App;
 
-use App\Company;
-use App\News;
-use App\Theme;
+use App\{Company, News, Theme};
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AssignedNews extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'news_id',
         'company_id',

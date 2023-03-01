@@ -1,15 +1,17 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 namespace Database\Factories;
 
 use App\Turn;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Turn::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence(4, false),
-        'description' => $faker->paragraph
-    ];
-});
+class TurnFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->sentence(4, false),
+            'description' => $this->faker->paragraph
+        ];
+    }
+}

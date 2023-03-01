@@ -2,23 +2,16 @@
 
 namespace App;
 
-use App\AssignedNews;
-use App\AuthorType;
-use App\File;
-use App\Genre;
-use App\Means;
-use App\NewsletterThemeNews;
-use App\Section;
-use App\Sector;
-use App\Source;
-use App\TypePage;
-use App\User;
+use App\{AssignedNews, AuthorType, File, Genre, Means, NewsletterThemeNews, Section, Sector, Source, TypePage, User};
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 class News extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['title', 'synthesis', 'author', 'author_type_id', 'sector_id', 'genre_id', 'source_id', 'section_id', 'mean_id', 'news_date', 'cost', 'trend', 'scope', 'comments', 'in_newsletter', 'metas_news', 'user_id'];
 
     protected $dates = [
@@ -67,7 +60,7 @@ class News extends Model
 
     public function metas()
     {
-        
+
         $fmt = numfmt_create('es_MX', \NumberFormatter::CURRENCY);
         $fmtn = numfmt_create('es_MX', \NumberFormatter::DECIMAL);
         $trend = $this->trend == 1 ? 'Positiva' : ($this->trend == 2 ? 'Neutral' : 'Negativa');
@@ -114,7 +107,7 @@ class News extends Model
                 ['label' => 'Hora', 'value' => $news_metas['news_hour']]
             );
         }
-        
+
         return $array_metas;
     }
 

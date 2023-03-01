@@ -1,17 +1,18 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 namespace Database\Factories;
 
 use App\Company;
-use App\Theme;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Theme::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence(2, false),
-        'description' => $faker->paragraph,
-        'company_id' => Company::all()->random()->id
-    ];
-});
+class ThemeFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->sentence(2, false),
+            'description' => $this->faker->paragraph,
+            'company_id' => Company::all()->random()->id
+        ];
+    }
+}
