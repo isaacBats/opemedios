@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ContactMessage;
+use App\{ContactMessage, User};
 use App\Http\Requests\FormContactRequest;
 use App\Notifications\ContactFormNotification;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use Validator;
 
 class HomeController extends Controller
 {

@@ -17,25 +17,25 @@ class HomeControllerTest extends TestCase
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
 
     /**
-     * est for statics pages in the front.
+     * test for statics pages in the front.
      *
      * @return void
      */
-    
+
     public function test_static_pages()
     {
         $this->get(route('home'))
             ->assertStatus(200)
             ->assertSee('Expertos en monitoreo');
-        
+
         $this->get(route('about'))
             ->assertStatus(200)
             ->assertSee('Quiénes Somos');
-        
+
         $this->get(route('clients'))
             ->assertStatus(200)
             ->assertSee('Nuestros Clientes');
-        
+
         $this->get(route('contact'))
             ->assertStatus(200)
             ->assertSee('Contáctanos');
@@ -49,19 +49,19 @@ class HomeControllerTest extends TestCase
     public function test_save_contact_form()
     {
         Notification::fake();
-        factory(User::class)->create([
+        User::factory()->create([
             'email' => 'froylan@opemedios.com.mx'
         ]);
 
         $users = User::all();
-        
+
         NoCaptcha::shouldReceive('verifyResponse')
             ->once()
             ->andReturn(true);
-        
+
         $name = $this->faker->name;
         $email = $this->faker->email;
-        
+
         $data = [
             'name' => $name,
             'email' => $email,
@@ -81,7 +81,7 @@ class HomeControllerTest extends TestCase
             'name' => $name,
             'email' => $email,
         ]);
-        
+
         Notification::assertSentTo($users, ContactFormNotification::class, function ($notification) use ($data) {
             return $notification->contactMessage->email = $data['email'];
         });
