@@ -16,12 +16,9 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\Company;
-use App\NewsletterSend;
-use App\NewsletterThemeNews;
-use App\NewsletterUser;
+use App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,7 +41,7 @@ class Newsletter extends Model
     public function company()
     {
 
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Models\Company::class);
     }
 
     /**
@@ -53,7 +50,7 @@ class Newsletter extends Model
     public function newsletter_send()
     {
 
-        return $this->hasMany(NewsletterSend::class);
+        return $this->hasMany(Models\NewsletterSend::class);
     }
 
     /**

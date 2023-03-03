@@ -18,7 +18,7 @@
 
 namespace Database\Seeders;
 
-use App\Sector;
+use App\Models\Sector;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

@@ -2,8 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\{AssignedNews, Company, Means, News, Theme, User};
-use Database\Seeders\RolesTableSeeder;
+use App\{Models\AssignedNews, Models\Company, Models\News, Models\Theme, Models\User};
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Tests\TestCase;
 

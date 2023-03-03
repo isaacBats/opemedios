@@ -15,12 +15,19 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-namespace App;
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class UserMeta extends Model
 {
-    protected $fillable = ['name', 'parent', 'filesystem', 'path', 'is_public', 'level'];
+    protected $table = 'user_meta';
+
+    protected $fillable = ['meta_key', 'meta_value'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

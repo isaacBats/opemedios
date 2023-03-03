@@ -18,24 +18,17 @@
 
 namespace App\Exports;
 
-use App\AssignedNews;
-use App\Company;
 use App\Filters\AssignedNewsFilter;
 use App\Filters\NewsFilter;
-use App\News;
-use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
+use App\Models\Company;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ WithHeadings, WithEvents, ShouldAutoSize
@@ -50,7 +43,7 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
     }
 
 
-    
+
     public function collection()
     {
         $client = Company::find($this->request->input('company'));
@@ -59,7 +52,7 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
 
         $objs = NewsFilter::filter($this->request, ['ids' => $notesIds]);
 
-        
+
         return $objs->get()->map(
            function ($note) {
                 $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
@@ -126,10 +119,10 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
             AfterSheet::class => function(AfterSheet $event){
                 $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-                $event->sheet->getPageMargins()->setTop(0.1); 
-                $event->sheet->getPageMargins()->setRight(0.1); 
-                $event->sheet->getPageMargins()->setLeft(0.1); 
-                $event->sheet->getPageMargins()->setBottom(0.1); 
+                $event->sheet->getPageMargins()->setTop(0.1);
+                $event->sheet->getPageMargins()->setRight(0.1);
+                $event->sheet->getPageMargins()->setLeft(0.1);
+                $event->sheet->getPageMargins()->setBottom(0.1);
 
                 $event->sheet->getStyle('A1:H1')->applyFromArray([
                     'font' => [

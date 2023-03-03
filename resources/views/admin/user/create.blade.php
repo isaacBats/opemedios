@@ -21,57 +21,60 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">{{ __('Nombre') }}</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                                   required>
                             @error('name')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="email">{{ __('Correo') }}</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}"
+                                   required>
                             @error('email')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="password">{{ __('Contraseña') }}</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                             @error('password')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="password-confirm">{{ __('Confirmar contraseña') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            <input id="password-confirm" type="password" class="form-control"
+                                   name="password_confirmation" required>
                             @error('password-confirm')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="rol">{{ __('Rol') }}</label>
-                            <select name="rol" id="rol" class="form-control" required >
+                            <select name="rol" id="rol" class="form-control" required>
                                 <option value="">Selecciona un rol</option>
                                 @foreach(Spatie\Permission\Models\Role::all() as $role)
-                                    <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }}>{{ App\User::getRoleNameCustom($role->name) }}</option>
+                                    <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }}>{{ App\Models\User::getRoleNameCustom($role->name) }}</option>
                                 @endforeach
                             </select>
                             @error('rol')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group" id="div-select-company" style="display: none;">
                             <label for="company">{{ __('Empresa') }}</label>
-                            <select name="company_id" id="company" class="form-control" disabled >
+                            <select name="company_id" id="company" class="form-control" disabled>
                                 <option value="">Selecciona un Empresa</option>
                                 @foreach($companies as $company)
                                     <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -80,7 +83,7 @@
                         </div>
                         <div class="form-group" id="div-select-monitor-type" style="display: none;">
                             <label for="select-monitor">{{ __('Tipo de monitor') }}</label>
-                            <select name="monitor_type" id="select-monitor" class="form-control" disabled >
+                            <select name="monitor_type" id="select-monitor" class="form-control" disabled>
                                 <option value="">{{ __('Selecciona que tipo de monitor eres') }}</option>
                                 @foreach($monitors as $monitor)
                                     <option value="{{ $monitor->id }}" {{ old('monitor_type') == $monitor->id ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
@@ -89,11 +92,12 @@
                         </div>
                         <div class="form-group">
                             <label for="ocupation">{{ __('Puesto') }}</label>
-                            <input type="text" class="form-control" id="ocupation" name="user_position" value="{{ old('user_position') }}" required>
+                            <input type="text" class="form-control" id="ocupation" name="user_position"
+                                   value="{{ old('user_position') }}" required>
                             @error('user_position')
-                                <label class="error" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </label>
+                            <label class="error" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </label>
                             @enderror
                         </div>
                         <div class="form-group">
@@ -108,25 +112,25 @@
     </div>
 @endsection
 @section('scripts')
-    <script  type="text/javascript">
-        $(document).ready(function(){
-            $('select#rol').change(function(){
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('select#rol').change(function () {
                 var option = $(this).val()
                 var role = $('option:selected', this).text()
                 var company = $('#div-select-company')
                 var monitor = $('#div-select-monitor-type')
-                
-                if(role =='Cliente') {
+
+                if (role == 'Cliente') {
                     hideItems()
                     company.find('select#company').removeAttr('disabled')
                     company.find('select#company').attr('required', true)
                     company.show('fade')
-                }else if(role == 'Monitorista'){
+                } else if (role == 'Monitorista') {
                     hideItems()
                     monitor.find('select#select-monitor').removeAttr('disabled')
                     monitor.find('select#select-monitor').attr('required', true)
                     monitor.show('fade')
-                }else {
+                } else {
                     hideItems()
                 }
             })

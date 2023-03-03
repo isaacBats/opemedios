@@ -18,7 +18,7 @@
 
 namespace Database\Seeders;
 
-use App\Means;
+use App\Models\Means;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

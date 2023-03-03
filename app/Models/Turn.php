@@ -15,12 +15,29 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-namespace App;
 
+namespace App\Models;
+
+use App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AuthorType extends Model
+class Turn extends Model
 {
-    protected $fillable = ['description',];
+    use SoftDeletes, HasFactory;
+
+    protected $fillable = ['name', 'description',];
+
+    public function companies()
+    {
+        return $this->hasMany(Models\Company::class);
+    }
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        }
+    }
 }

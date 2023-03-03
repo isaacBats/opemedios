@@ -16,11 +16,9 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\Company;
-use App\Theme;
-use App\UserMeta;
+use App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,7 +49,7 @@ class User extends Authenticatable
 
     public function metas()
     {
-        return $this->hasMany(UserMeta::class);
+        return $this->hasMany(Models\UserMeta::class);
     }
 
     public function getMonitorType()
@@ -134,7 +132,7 @@ class User extends Authenticatable
         return false;
     }
 
-    public static function getRoleNameCustom($name)
+    public static function getRoleNameCustom($name): string
     {
         switch ($name) {
             case 'admin':
@@ -181,7 +179,7 @@ class User extends Authenticatable
     public function getMetaByKey($key)
     {
 
-        $meta = UserMeta::where([
+        $meta = Models\UserMeta::where([
             ['meta_key', '=', $key],
             ['user_id', '=', $this->id],
         ])->first();

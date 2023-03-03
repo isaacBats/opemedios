@@ -3,8 +3,8 @@
 namespace Tests\Feature\Http\Controllers\Auth;
 
 use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
+use App\{Models\Company, Models\User, Models\UserMeta};
 use Database\Seeders\RolesTableSeeder;
-use App\{User, Company, UserMeta};
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Tests\TestCase;
 

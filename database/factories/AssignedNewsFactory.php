@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\{Company, News};
+use App\{Models\Company, Models\News};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AssignedNewsFactory extends Factory

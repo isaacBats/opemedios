@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Turn;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TurnFactory extends Factory

@@ -69,7 +69,7 @@ Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:clien
     Route::get('reporte-grafico', 'ClientController@reporteGrafico')->name('client.reporte_grafico');
     Route::get('reportes/solicitados', 'ReportController@solicitados')->name('client.report.solicitados');
     Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('client.report.cambia_estatus_reporte');
-    
+
     Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
     Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');
 });
@@ -133,7 +133,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
 
-        // Maganer role enters as a client
+        // Manager role enters as a client
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');

@@ -20,25 +20,23 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Means;
-use App\News;
-use App\Theme;
+use App\Models\AssignedNews;
+use App\Models\Company;
+use App\Models\Means;
+use App\Models\News;
+use App\Models\Theme;
+use App\Models\User;
+use App\Models\UserMeta;
 use App\Traits\StadisticsNotes;
-use App\User;
-use App\UserMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;

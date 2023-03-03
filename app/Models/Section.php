@@ -16,40 +16,20 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\Means;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Source extends Model
+class Section extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'company', 'comment', 'logo', 'active', 'coverage', 'means_id'];
+    protected $fillable = ['name', 'author', 'description', 'active', 'source_id'];
 
-    public function mean()
+    public function source()
     {
-        return $this->belongsTo(Means::class, 'means_id');
-    }
-
-    public function sections()
-    {
-        return $this->hasMany(Section::class);
-    }
-
-    public function scopeName($query, $name)
-    {
-        if ($name) {
-            return $query->where('name', 'like', "%{$name}%");
-        }
-    }
-
-    public function scopeCompany($query, $company)
-    {
-        if ($company) {
-            return $query->where('company', 'like', "%{$company}%");
-        }
+        return $this->belongsTo(Source::class);
     }
 }

@@ -15,10 +15,9 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-namespace App;
 
-use App\Source;
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -26,7 +25,7 @@ use Illuminate\Support\Arr;
 class Means extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = ['name', 'short_name', 'icon', 'slug'];
 
     public function sources()

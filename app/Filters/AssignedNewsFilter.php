@@ -1,8 +1,8 @@
 <?php
 namespace App\Filters;
 
+use App\Models\AssignedNews;
 use Carbon\Carbon;
-use App\AssignedNews;
 use Illuminate\Http\Request;
 
 class AssignedNewsFilter

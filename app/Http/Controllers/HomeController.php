@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{ContactMessage, User};
+use App\{Models\ContactMessage, Models\User};
 use App\Http\Requests\FormContactRequest;
 use App\Notifications\ContactFormNotification;
 use Illuminate\Http\Request;

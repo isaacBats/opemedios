@@ -16,28 +16,11 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\Company;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Turn extends Model
+class AuthorType extends Model
 {
-    use SoftDeletes, HasFactory;
-
-    protected $fillable = ['name', 'description',];
-
-    public function companies()
-    {
-        return $this->hasMany(Company::class);
-    }
-
-    public function scopeName($query, $name)
-    {
-        if ($name) {
-            return $query->where('name', 'like', "%{$name}%");
-        }
-    }
+    protected $fillable = ['description',];
 }

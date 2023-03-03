@@ -15,29 +15,40 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-namespace App;
 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Sector extends Model
+class Source extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'description', 'active'
-    ];
+    protected $fillable = ['name', 'company', 'comment', 'logo', 'active', 'coverage', 'means_id'];
+
+    public function mean()
+    {
+        return $this->belongsTo(Means::class, 'means_id');
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 
     public function scopeName($query, $name)
     {
         if ($name) {
             return $query->where('name', 'like', "%{$name}%");
+        }
+    }
+
+    public function scopeCompany($query, $company)
+    {
+        if ($company) {
+            return $query->where('company', 'like', "%{$company}%");
         }
     }
 }

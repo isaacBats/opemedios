@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\{AuthorType, Genre, Means, Section, Sector, Source, User};
+use App\{Models\AuthorType, Models\Genre, Models\Means, Models\Section, Models\Sector, Models\Source, Models\User};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NewsFactory extends Factory

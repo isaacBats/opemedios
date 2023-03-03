@@ -1,11 +1,21 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\{AssignedNews, AuthorType, File, Genre, Means, NewsletterThemeNews, Section, Sector, Source, TypePage, User};
+use App\{App\Models\AssignedNews,
+    App\Models\AuthorType,
+    App\Models\File,
+    App\Models\Genre,
+    App\Models\Means,
+    App\Models\NewsletterThemeNews,
+    App\Models\Section,
+    App\Models\Sector,
+    App\Models\Source,
+    App\Models\TypePage,
+    App\Models\User,
+    Models};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 class News extends Model
@@ -20,42 +30,42 @@ class News extends Model
 
     public function source()
     {
-        return $this->belongsTo(Source::class);
+        return $this->belongsTo(Models\Source::class);
     }
 
     public function authorType()
     {
-        return $this->belongsTo(AuthorType::class);
+        return $this->belongsTo(Models\AuthorType::class);
     }
 
     public function sector()
     {
-        return $this->belongsTo(Sector::class);
+        return $this->belongsTo(Models\Sector::class);
     }
 
     public function genre()
     {
-        return $this->belongsTo(Genre::class);
+        return $this->belongsTo(Models\Genre::class);
     }
 
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Models\Section::class);
     }
 
     public function mean()
     {
-        return $this->belongsTo(Means::class);
+        return $this->belongsTo(Models\Means::class);
     }
 
     public function files()
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(Models\File::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Models\User::class);
     }
 
     public function metas()
@@ -92,7 +102,7 @@ class News extends Model
                 ['label' => 'Duración', 'value' => $news_metas['news_duration']]
             );
         } elseif ($this->mean->short_name == 'per' || $this->mean->short_name == 'rev') {
-            $pageType = TypePage::find($news_metas['page_type_id']);
+            $pageType = Models\TypePage::find($news_metas['page_type_id']);
 
             array_push(
                 $array_metas,
@@ -119,12 +129,12 @@ class News extends Model
 
     public function newsletters()
     {
-        return $this->hasMany(NewsletterThemeNews::class);
+        return $this->hasMany(Models\NewsletterThemeNews::class);
     }
 
     public function assignedNews()
     {
-        return $this->hasMany(AssignedNews::class);
+        return $this->hasMany(Models\AssignedNews::class);
     }
 
     public function isAssigned()

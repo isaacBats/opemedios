@@ -18,13 +18,12 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
-use App\Turn;
-use App\User;
-use App\UserMeta;
+use App\Models\AssignedNews;
+use App\Models\Company;
+use App\Models\Turn;
+use App\Models\User;
+use App\Models\UserMeta;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

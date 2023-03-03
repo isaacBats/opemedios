@@ -16,9 +16,9 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\{Company, News, Theme};
+use App\{App\Models\Company, App\Models\News, App\Models\Theme, Illuminate, Models};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,7 +41,7 @@ class AssignedNews extends Model
      */
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Models\Company::class);
     }
 
     /**
@@ -51,7 +51,7 @@ class AssignedNews extends Model
      */
     public function news()
     {
-        return $this->belongsTo(News::class);
+        return $this->belongsTo(Models\News::class);
     }
 
     /**
@@ -61,6 +61,6 @@ class AssignedNews extends Model
      */
     public function theme()
     {
-        return $this->belongsTo(Theme::class);
+        return $this->belongsTo(Models\Theme::class);
     }
 }

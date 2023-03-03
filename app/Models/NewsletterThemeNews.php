@@ -15,19 +15,35 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-namespace App;
 
+namespace App\Models;
+
+use App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class UserMeta extends Model
+class NewsletterThemeNews extends Model
 {
-    protected $table = 'user_meta';
+    protected $fillable = ['newsletter_id', 'newsletter_theme_id', 'newsletter_send_id', 'news_id'];
 
-    protected $fillable = ['meta_key', 'meta_value'];
+    protected $table = 'newsletter_themes_news';
 
-    public function user()
+    public function newsletter()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Models\Newsletter::class);
+    }
+
+    public function theme()
+    {
+        return $this->belongsTo(Models\Theme::class, 'newsletter_theme_id');
+    }
+
+    public function news()
+    {
+        return $this->belongsTo(News::class);
+    }
+
+    public function newsletter_send()
+    {
+        return $this->belongsTo(Models\NewsletterSend::class, 'newsletter_send_id');
     }
 }

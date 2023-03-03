@@ -16,34 +16,11 @@
   * file that was distributed with this source code.
   */
 
+namespace App\Models;
 
-namespace App;
-
-use App\{Company, User};
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Theme extends Model
+class ContactMessage extends Model
 {
-
-    use SoftDeletes, HasFactory;
-
-    protected $fillable = ['name', 'description', 'company_id'];
-
-    public function company()
-    {
-
-        return $this->belongsTo(Company::class);
-    }
-
-    public function accounts()
-    {
-        return $this->belongsToMany(User::class, 'theme_user');
-    }
-
-    public function assignedNews()
-    {
-        return $this->hasMany(AssignedNews::class);
-    }
+    protected $fillable = ['name', 'email', 'phone', 'message'];
 }

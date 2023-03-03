@@ -20,9 +20,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewsletterEmail;
-use App\Newsletter;
-use App\NewsletterFooter;
-use App\NewsletterSend;
+use App\Models\Newsletter;
+use App\Models\NewsletterFooter;
+use App\Models\NewsletterSend;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;

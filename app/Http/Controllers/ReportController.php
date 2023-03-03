@@ -18,23 +18,20 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
 use App\Exports\ReportsExport;
 use App\Exports\ReportsExportPDF;
 use App\Filters\AssignedNewsFilter;
 use App\Filters\NewsFilter;
-use App\News;
+use App\Models\Company;
+use App\Models\ListReport;
 use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\ListReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -67,7 +64,7 @@ class ReportController extends Controller
 
     public function generate_reports_bd() {
         $reportes = ListReport::where('created_at', '<', Carbon::now()->add('-10 days'))->get();
-        
+
         foreach($reportes as $itm)
         {
             Storage::disk('public')->delete($itm->name_file);
@@ -113,7 +110,7 @@ class ReportController extends Controller
         }
 
 
-        
+
         $user = auth()->user();
         if($user->isClient())
         {
@@ -122,7 +119,7 @@ class ReportController extends Controller
         }
         else
             return view('admin.report.list_solicitados', compact('datos'));
-        
+
     }
 
     public function byNotes(Request $request) {
@@ -151,7 +148,7 @@ class ReportController extends Controller
 
         $period = CarbonPeriod::create($from, $to);
 
-        
+
         $from_d = $from->format('Y-m-d');
         $to_d = $to->format('Y-m-d');
 
@@ -205,11 +202,11 @@ class ReportController extends Controller
             else
                 return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('admin.report.solicitados') . '">Lista de reportes</a>');
         }
-        
+
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');
-        
+
     }
-    
+
     public function exportPDF(Request $request) {
         return (new ReportsExportPDF($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
@@ -217,7 +214,7 @@ class ReportController extends Controller
     public function cambiaEstatus(Request $request)
     {
         $id = $request->id;
-        
+
         $reporte = ListReport::find($id);
         $reporte->status = 2;
         $reporte->save();

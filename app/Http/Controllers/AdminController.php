@@ -15,19 +15,16 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\News;
-use App\Sector;
-use App\Source;
+use App\Models\Company;
+use App\Models\News;
+use App\Models\Sector;
+use App\Models\Source;
+use App\Models\User;
 use App\Traits\StadisticsNotes;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -46,7 +43,7 @@ class AdminController extends Controller
         $count['sources'] = Source::count();
         $count['sectors'] = Sector::count();
         $day = \Carbon\Carbon::now()->format('Y-m-d');
-        
+
         $monitores = $this->getNewsForMonitor($day);
 
         return view('admin.home', compact('count', 'monitores', 'day'));
@@ -74,7 +71,7 @@ class AdminController extends Controller
     }
 
     public function redirectTo(Request $request) {
-        
+
         $company = Company::findOrFail($request->input('company'));
         $slug = $company->slug;
         session()->put('slug_company', $slug);
@@ -82,7 +79,7 @@ class AdminController extends Controller
     }
 
     public function notesPerMean() {
-        $notas = $this->getNotesForMeanAndWeek(); 
+        $notas = $this->getNotesForMeanAndWeek();
 
         return response()->json(['labels' => array_keys($notas->toArray()), 'data' => array_values($notas->toArray())]);
     }

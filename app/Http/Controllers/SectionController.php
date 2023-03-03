@@ -15,10 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Section;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -52,7 +52,7 @@ class SectionController extends Controller
 
     public function update (Request $request, $id) {
         $inputs = $request->all();
-        
+
         $section = Section::find($id);
         $section->name = $inputs['name'];
         $section->author = $inputs['author'];
@@ -65,7 +65,7 @@ class SectionController extends Controller
     public function delete(Request $request, $id) {
         $section = Section::find($id);
         $sectionName = $section->name;
-        $sourceId = $section->source_id; 
+        $sourceId = $section->source_id;
         $section->delete();
 
         return redirect()->route('source.show', ['id' => $sourceId])->with('status', "¡La sección: {$sectionName} se ha eliminado satisfactoriamente!");
@@ -77,7 +77,7 @@ class SectionController extends Controller
             $section->active = $request->input('status');
             $status = $request->input('status') ? 'Activa' : 'Inactiva';
             $section->save();
-            
+
             return response()->json(['message' => "La sección a quedado {$status}"]);
         } catch (Exception $e) {
             return response()->json(['error' => "Error al actualizar el estatus de la sección"]);

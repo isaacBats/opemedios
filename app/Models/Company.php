@@ -16,12 +16,11 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\{AssignedNews, News, Newsletter, Theme, Turn, UserMeta};
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\{App\Models\AssignedNews, App\Models\Newsletter, App\Models\UserMeta, Models, News, Theme, Turn};
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -38,18 +37,18 @@ class Company extends Model
     public function turn()
     {
 
-        return $this->belongsTo(Turn::class);
+        return $this->belongsTo(Models\Turn::class);
     }
 
     public function newsletter()
     {
 
-        return $this->hasOne(Newsletter::class);
+        return $this->hasOne(Models\Newsletter::class);
     }
 
     public function accounts()
     {
-        $usersIds = UserMeta::where([
+        $usersIds = Models\UserMeta::where([
             ['meta_key', '=', 'company_id'],
             ['meta_value', '=', $this->id]
         ])->get()->map(function ($meta) {
@@ -78,12 +77,12 @@ class Company extends Model
     public function themes()
     {
 
-        return $this->hasMany(Theme::class);
+        return $this->hasMany(Models\Theme::class);
     }
 
     public function assignedNews()
     {
-        return $this->hasMany(AssignedNews::class);
+        return $this->hasMany(Models\AssignedNews::class);
     }
 
     public function scopeName($query, $name)

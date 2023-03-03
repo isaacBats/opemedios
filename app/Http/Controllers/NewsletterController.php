@@ -19,21 +19,18 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
-use App\News;
-use App\Newsletter;
-use App\NewsletterFooter;
-use App\NewsletterSend;
-use App\User;
+use App\Models\AssignedNews;
+use App\Models\Company;
+use App\Models\News;
+use App\Models\Newsletter;
+use App\Models\NewsletterFooter;
+use App\Models\NewsletterSend;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;

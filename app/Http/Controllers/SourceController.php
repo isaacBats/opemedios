@@ -15,14 +15,12 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Means;
-use App\Section;
-use App\Source;
+use App\Models\Means;
+use App\Models\Source;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,14 +31,14 @@ class SourceController extends Controller
 
         $breadcrumb = array();
         array_push($breadcrumb,['label' => 'Fuentes']);
-        
+
         $sources = Source::name($request->get('name'))
             ->company($request->get('company'))
             ->orderBy('id', 'desc')
             ->paginate($paginate)
             ->appends('name', request('name'))
             ->appends('company', request('company'));
-        
+
         return view('admin.sources.index', compact('sources', 'paginate', 'breadcrumb'));
     }
 
@@ -56,7 +54,7 @@ class SourceController extends Controller
 
     public function create(Request $request) {
         $inputs = $request->all();
-        
+
         Validator::make($inputs, [
             'name' => 'required|max:150',
             'coverage' => 'required',
@@ -84,7 +82,7 @@ class SourceController extends Controller
         } else {
             $source->logo = 'sources_logos/default.png';
         }
-        
+
         // TODO: crear un metodo para que estos campos (campos extra) se puedan guardad en la base de datos y dependiendo del medio se agregen o quiten campos, de esta forma se guardaian los campos extra sin necesidad de un switch y agregar un case mas en caso de agregar otro medio.
         $extra = $this->saveExtraFields($inputs, $mean);
 
@@ -103,12 +101,12 @@ class SourceController extends Controller
 
         array_push($breadcrumb, ['label' => 'Fuentes', 'url' => route('sources')]);
         array_push($breadcrumb, ['label' => $source->name]);
-        
+
         return view('admin.sources.show', compact('source', 'means', 'extras', 'breadcrumb'));
     }
 
     public function update(Request $request, $id) {
-        $inputs = $request->all(); 
+        $inputs = $request->all();
         $source = Source::find($id);
         $mean = Means::find($source->means_id);
 
@@ -138,7 +136,7 @@ class SourceController extends Controller
                     'Señal' => $inputs['signal'],
                 ];
                 break;
-            case 'rad': 
+            case 'rad':
                 $extra = [
                     'Conductor' => $inputs['conductor'],
                     'Estación' => $inputs['station'],
@@ -161,7 +159,7 @@ class SourceController extends Controller
 
     public function updateLogo(Request $request, $id) {
         $source = Source::find($id);
-        
+
         Validator::make($request->all(), [
             'logo' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|dimensions:max_width=300,max_height=150',
         ], [
@@ -171,11 +169,11 @@ class SourceController extends Controller
         try {
             if(Storage::drive('local')->exists($source->logo)) {
                 Storage::drive('local')->delete($source->logo);
-            } 
-            
+            }
+
             $source->logo = $request->file('logo')->store('sources_logos', 'local');
             $source->save();
-            
+
         } catch (Exception $e) {
             return back()->with('status', 'Could not update image: ' . $e->getMessage());
         }
@@ -197,7 +195,7 @@ class SourceController extends Controller
             $source->active = $request->input('status');
             $status = $request->input('status') ? 'Activa' : 'Inactiva';
             $source->save();
-            
+
             return response()->json(['message' => "La fuente a quedado {$status}"]);
         } catch (Exception $e) {
             return response()->json(['error' => "Error al actualizar el estatus de la fuente"]);
@@ -205,7 +203,7 @@ class SourceController extends Controller
     }
 
     public function sendSelectHTMLWithSourcesByMeanType(Request $request) {
-        
+
         $sources = Source::where([
                 ['means_id', '=', $request->input('mean_id')],
                 ['active', '=', 1],
@@ -222,6 +220,6 @@ class SourceController extends Controller
                 ['means_id', '=', $request->input('mean_id')],
                 ['active', '=', 1],
             ])->get()->toArray()
-        ]); 
+        ]);
     }
 }

@@ -20,30 +20,27 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\AuthorType;
 use App\Exports\NewsExport;
-use App\File;
-use App\Genre;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\NewsletterThemeNewsController;
 use App\Mail\NoticeNewsEmail;
-use App\Means;
-use App\News;
-use App\Newsletter;
-use App\NewsletterSend;
-use App\NewsletterThemeNews;
-use App\Sector;
-use App\Theme;
+use App\Models\AssignedNews;
+use App\Models\AuthorType;
+use App\Models\File;
+use App\Models\Genre;
+use App\Models\Means;
+use App\Models\News;
+use App\Models\Newsletter;
+use App\Models\NewsletterSend;
+use App\Models\NewsletterThemeNews;
+use App\Models\Sector;
+use App\Models\Theme;
+use App\Models\TypePage;
+use App\Models\User;
 use App\Traits\StadisticsNotes;
-use App\TypePage;
-use App\User;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -246,10 +243,10 @@ class NewsController extends Controller
             $newsletterSendPaused = NewsletterSend::where('newsletter_id', $data['newsletter_id'])
                 ->where('id', $data['newsletter_send_id'])
                 ->get();
-            
-            
+
+
             $newsletterSend = $newsletterSendPaused->first();
-            
+
             $newsletter = NewsletterThemeNews::create([
                 'newsletter_id' => $data['newsletter_id'],
                 'newsletter_theme_id' => $data['newsletter_theme_id'],
@@ -431,10 +428,10 @@ class NewsController extends Controller
 
         return redirect()->route('admin.news')->with('status', '¡La noticia se ha enviado satisfactoriamente!');
     }
-    
+
     /**
      * Description
-     * @param Request $request 
+     * @param Request $request
      * @return type
      */
     public function showDetailNews(Request $request) {
@@ -454,11 +451,11 @@ class NewsController extends Controller
     }
     /**
      * Description
-     * @param Request $request 
+     * @param Request $request
      * @return type
      */
     public function searchByIdOrTitleAjax(Request $request) {
-        
+
         $newsletterSend = NewsletterSend::findOrFail($request->input('newssend'));
         $themes = $newsletterSend->newsletter->company->themes;
 
@@ -513,7 +510,7 @@ class NewsController extends Controller
             'theme_id' => $request->input('theme_id'),
         ]);
 
-        return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');   
+        return redirect()->route('admin.news')->with('status', '¡La noticia se ha asignado satisfactoriamente!');
     }
 
     public function toremovenews(Request $request, $assigned_id) {
@@ -521,11 +518,10 @@ class NewsController extends Controller
         $title = $assigned->news->title;
         $company = $assigned->company->name;
         $company_id = $assigned->company->id;
-        
+
         $assigned->delete();
 
         return redirect()->route('company.show', ['id' => $company_id])->with('status', "¡La noticia {$title} se ha desvinculado  satisfactoriamente de {$company}!");
     }
 
 }
- 

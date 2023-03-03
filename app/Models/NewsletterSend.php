@@ -16,9 +16,8 @@
   * file that was distributed with this source code.
   */
 
-namespace App;
+namespace App\Models;
 
-use App\Newsletter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -29,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class NewsletterSend extends Model
 {
     use SoftDeletes;
-    
+
     /**
      * @var string[]
      */

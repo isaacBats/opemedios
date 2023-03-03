@@ -18,16 +18,12 @@
 
 namespace App\Exports;
 
-use DB;
-use App\{AssignedNews, Company, News};
-use App\Filters\{AssignedNewsFilter,NewsFilter};
-use App\Exports\Sheets\{DataTableSheet, /*PivotTablesSheet,*/ DashboardSheet};
+use App\{Models\Company};
+use App\Exports\Sheets\{DashboardSheet, DataTableSheet};
+use App\Filters\{AssignedNewsFilter, NewsFilter};
 use Carbon\{Carbon, CarbonPeriod};
-use Maatwebsite\Excel\Concerns\{
-    Exportable,
-    WithMultipleSheets
-};
-
+use DB;
+use Maatwebsite\Excel\Concerns\{Exportable, WithMultipleSheets};
 
 
 class ReportsExport implements WithMultipleSheets
@@ -144,7 +140,7 @@ class ReportsExport implements WithMultipleSheets
         foreach ($this->themes as $theme)
         {
             $vnt_ = 0;
-            
+
             $obj[0][0] = '';
             $obj[0][] = $theme->name;
             foreach ($fechas as $dt){
@@ -215,7 +211,7 @@ class ReportsExport implements WithMultipleSheets
             if($ind_ == (count($columns_excel)))
             {
                 $ind_ = 0;
-                $ind++;    
+                $ind++;
                 if($ind == (count($columns_excel)))
                 {
                     $ind = 0;
@@ -224,7 +220,7 @@ class ReportsExport implements WithMultipleSheets
 
             }
         }
-        
+
         return $dt;
     }
 

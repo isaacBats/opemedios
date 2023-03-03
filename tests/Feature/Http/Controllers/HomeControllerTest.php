@@ -3,8 +3,8 @@
 namespace Tests\Feature\Http\Controllers;
 
 use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
+use App\Models\User;
 use App\Notifications\ContactFormNotification;
-use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;

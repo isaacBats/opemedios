@@ -1,7 +1,4 @@
 <?php
-
-namespace App;
-
 /**
   *-------------------------------------------------------------------------------------
   * Developer Information
@@ -18,23 +15,12 @@ namespace App;
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
-use App\Source;
+
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Cover extends Model
+class Genre extends Model
 {
-    protected $fillable = ['cover_type','title','author','date_cover','source_id','content','image'];
-
-    protected $dates = ['date_cover'];
-
-    public function source()
-    {
-        return $this->belongsTo(Source::class);
-    }
-
-    public function image()
-    {
-        return $this->belongsTo(File::class);
-    }
+    protected $fillable = ['description', ];
 }

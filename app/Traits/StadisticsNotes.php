@@ -2,12 +2,10 @@
 
 namespace App\Traits;
 
-use App\AssignedNews;
-use App\Means;
-use App\News;
+use App\Models\AssignedNews;
+use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 trait StadisticsNotes
 {
@@ -72,14 +70,14 @@ trait StadisticsNotes
             $query->groupBy(DB::raw('users.name'))
             ->orderBy('count', 'desc');
 
-        return $query->get(); 
+        return $query->get();
     }
 
     public function getNotesForMeanAndWeek($day = 'now') {
         $dt = new Carbon($day);
         $startWeek = $dt->startOfWeek()->format('Y-m-d');
         $endWeek = $dt->endOfWeek()->format('Y-m-d');
-        
+
         $notes = News::whereBetween('created_at', [$startWeek, $endWeek])->get()->map(function($note){
                 if($note->user){
                     if($note->user->isMonitor()){
@@ -93,7 +91,7 @@ trait StadisticsNotes
         })->countBy(function ($item){
             return $item['mean_short_name'];
         });
-        
+
         return $notes;
 
     }

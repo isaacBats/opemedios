@@ -18,7 +18,7 @@
 
 namespace Database\Seeders;
 
-use App\TypePage;
+use App\Models\TypePage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

@@ -18,7 +18,7 @@
 
 namespace Database\Seeders;
 
-use App\AuthorType;
+use App\Models\AuthorType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
