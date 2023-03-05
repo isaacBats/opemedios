@@ -92,13 +92,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
         Route::get('empresa/ver/{company:id}', 'CompanyController@show')->name('company.show');
+        Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
         Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
         Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
         Route::post('empresa/agregar/usarios-empresa', 'CompanyController@addAccountsToCompany')
             ->name('admin.company.add.accounts');
         Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
-        Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
         Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
         Route::post('empresa/actualizar/nota/theme/{id}', 'CompanyController@updateAssignedNote')

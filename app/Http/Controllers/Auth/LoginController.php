@@ -49,11 +49,9 @@ class LoginController extends Controller
         return view('auth.custom-login');
     }
 
-    protected function redirectTo()
+    protected function redirectTo(): string
     {
-
         $user = auth()->user();
-
         if ($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
             $company = Company::find($metas->meta_value);
@@ -63,13 +61,7 @@ class LoginController extends Controller
             return "{$slug}/mis-noticias";
         }
 
-        if ($user->hasRole('admin') || $user->hasRole('manager')) {
-            $path = '/panel';
-        } elseif ($user->hasRole('monitor')) {
-            $path = '/panel/noticias';
-        }
-
-        return $path;
+        return ($user->hasRole('admin') || $user->hasRole('manager')) ? '/panel' : '/panel/noticias';
     }
 
     /**

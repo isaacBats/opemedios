@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             TypePageSeeder::class,
             SourceSeeder::class,
             SectionSeeder::class,
+            PermissionsSeeder::class,
         ]);
     }
 }
