@@ -18,14 +18,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AssignedNews;
-use App\Models\Company;
-use App\Models\Turn;
-use App\Models\User;
-use App\Models\UserMeta;
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Validator;
