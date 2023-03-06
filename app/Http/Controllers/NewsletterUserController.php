@@ -18,7 +18,7 @@
 
 namespace App\Http\Controllers;
 
-use App\NewsletterUser;
+use App\Models\NewsletterUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -34,7 +34,7 @@ class NewsletterUserController extends Controller
             } elseif($request->has('accounts')) {
                 $accounts = $request->input('accounts');
             }
-            
+
             foreach ($accounts as $email) {
                 $newsletterUser = new NewsletterUser();
                 $newsletterUser->newsletter_id = $newsletterId;

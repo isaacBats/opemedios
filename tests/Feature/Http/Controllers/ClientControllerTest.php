@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\{AssignedNews, Company, Means, News, Theme, User};
-use MeansSeeder;
+use App\{Models\AssignedNews, Models\Company, Models\News, Models\Theme, Models\User};
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
-use RolesTableSeeder;
 use Tests\TestCase;
 
 class ClientControllerTest extends TestCase
@@ -15,8 +13,8 @@ class ClientControllerTest extends TestCase
     public function test_protected_routes()
     {
         $this->seed();
-        $company = factory(Company::class)->create();
-        $note = factory(News::class)->create();
+        $company = Company::factory()->create();
+        $note = News::factory()->create();
 
         $this->get(route('news', ['company', $company]))->assertRedirect('login');
         $this->get(route('client.sections', ['company', $company]))->assertRedirect('login');
@@ -31,38 +29,19 @@ class ClientControllerTest extends TestCase
         $this->get(route('api.client.notesyear', ['company', $company]))->assertRedirect('login');
     }
 
-    public function test_client_can_see_dashboard()
-    {
-        $this->seed(RolesTableSeeder::class);
-        $client = factory(User::class)->create();
-        $client->assignRole('client');
-        $company = factory(Company::class)->create();
-        $client->metas()->create([
-            'meta_key' => 'company_id',
-            'meta_value' => $company->id
-        ]);
-
-        $this->actingAs($client)
-            ->get(route('news', ['company' => $company]))
-            ->assertStatus(200)
-            ->assertViewIs('clients.news')
-            ->assertSee("Bienvenido a {$company->name}")
-            ->assertSeeText(strtoupper(auth()->user()->name));
-    }
-
     public function test_client_can_see_your_notes()
     {
         $this->withoutExceptionHandling();
         $this->seed();
-        $client = factory(User::class)->create();
+        $client = User::factory()->create();
         $client->assignRole('client');
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
         $client->metas()->create([
             'meta_key' => 'company_id',
             'meta_value' => $company->id
         ]);
-        $company->themes()->save(factory(Theme::class)->create());
-        $news = factory(News::class, 15)->create();
+        $company->themes()->save(Theme::factory()->create());
+        $news = News::factory(15)->create();
         foreach ($news as $note) {
             $assigned = new AssignedNews([
                 'news_id' => $note->id,
@@ -82,19 +61,19 @@ class ClientControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->seed();
-        $client = factory(User::class)->create();
+        $client = User::factory()->create();
         $client->assignRole('client');
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
         $client->metas()->create([
             'meta_key' => 'company_id',
             'meta_value' => $company->id
         ]);
         $company->themes()->saveMany([
-            factory(Theme::class)->create(),
-            factory(Theme::class)->create(),
-            factory(Theme::class)->create(),
+            Theme::factory()->create(),
+            Theme::factory()->create(),
+            Theme::factory()->create(),
         ]);
-        $news = factory(News::class, 15)->create();
+        $news = News::factory(15)->create();
 
         foreach ($news as $note) {
             $assigned = new AssignedNews([

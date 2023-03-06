@@ -15,10 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Folder;
+use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +31,7 @@ class FolderController extends Controller
             ['name', 'like', "{$inputs['name']}"],
             ['level', $inputs['level']]
         ])->get();
-        
+
         if($same->count()) {
             return back()->with('warning', "El folder {$inputs['name']} ya existe");
         }
@@ -63,7 +63,7 @@ class FolderController extends Controller
                 ]);
 
             }
-            
+
         } catch (Exception $e) {
             LOG::error("Error crate folder: {$e->getMessage()}");
             return back()->with('status', 'No se ha podido crear la carpeta. Intentelo en otro momento');

@@ -1,7 +1,7 @@
 <?php
 namespace App\Filters;
 
-use App\News;
+use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

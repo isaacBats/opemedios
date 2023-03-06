@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Theme;
-use App\User;
+use App\Models\Company;
+use App\Models\Theme;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

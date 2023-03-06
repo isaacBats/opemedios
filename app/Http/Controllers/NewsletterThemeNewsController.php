@@ -18,8 +18,7 @@
 
 namespace App\Http\Controllers;
 
-use App\NewsletterThemeNews;
-use Illuminate\Http\Request;
+use App\Models\NewsletterThemeNews;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterThemeNewsController extends Controller

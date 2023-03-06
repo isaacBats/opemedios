@@ -5,40 +5,41 @@
 @endsection
 @section('content')
     @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
     @endif
     <div class="row">
         <div class="col-sm-12 people-list">
             <div id="div-table-notes">
                 <table class="table table-bordered table-primary table-striped nomargin">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Archivo</th>
-                            <th>Estatus</th>
-                            <th>Cliente</th>
-                            <th>Fechas</th>
-                            <th>Descargar</th>
-                        </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Archivo</th>
+                        <th>Estatus</th>
+                        <th>Cliente</th>
+                        <th>Fechas</th>
+                        <th>Descargar</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach($datos as $item)
-                            <tr style="background: {{ $item->status == 1 ? '#6d9af9' : '#259dab' }};">
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name_file ?? 'N/E' }}</td>
-                                <td>{{ $item->status == 1 ? 'Generado' : 'Descargado' }}</td>
-                                <td>{{ App\Company::find($item->company)->name ?? 'N/E' }}</td>
-                                <td>{{ $item->start_date . ' - ' . $item->end_date }}</td>
-                                <td>
-                                    <a style="color: #000000;" class="download_file" data-id="{{ $item->id }}" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
-                                </td>
-                            </tr>
-                        @endforeach
+                    @foreach($datos as $item)
+                        <tr style="background: {{ $item->status == 1 ? '#6d9af9' : '#259dab' }};">
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->name_file ?? 'N/E' }}</td>
+                            <td>{{ $item->status == 1 ? 'Generado' : 'Descargado' }}</td>
+                            <td>{{ App\Models\Company::find($item->company)->name ?? 'N/E' }}</td>
+                            <td>{{ $item->start_date . ' - ' . $item->end_date }}</td>
+                            <td>
+                                <a style="color: #000000;" class="download_file" data-id="{{ $item->id }}" href="#"
+                                   data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -49,11 +50,11 @@
 @endsection
 @section('scripts')
     <script>
-        $(".download_file").on("click", function(e){
+        $(".download_file").on("click", function (e) {
             e.preventDefault();
             url = $(this).data('url');
             id = $(this).data('id');
-            
+
             $("#frame").attr("src", url);
 
             $.ajax({

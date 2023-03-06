@@ -18,21 +18,19 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
-use App\Turn;
-use App\User;
-use App\UserMeta;
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Validator;
 
 class CompanyController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index (Request $request) {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
@@ -49,6 +47,10 @@ class CompanyController extends Controller
         return view('admin.company.index', compact('companies', 'breadcrumb', 'paginate'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function showFormNewCompany(Request $request) {
         $breadcrumb = array();
         $turns = Turn::all();
@@ -60,7 +62,12 @@ class CompanyController extends Controller
         return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
-    public function create (Request $request) {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create (Request $request): \Illuminate\Http\RedirectResponse
+    {
 
         $input = $request->all();
         $input['slug'] = Str::slug($input['name']);

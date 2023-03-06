@@ -20,16 +20,14 @@
 
 namespace App\Http\Controllers;
 
-use App\{AssignedNews, Company, Cover, Genre, Means, News, Sector, Theme};
+use App\{Models\Company, Models\Cover, Models\News, Models\Theme};
 use App\Exports\NewsExport;
 use App\Filters\{AssignedNewsFilter, NewsFilter};
-use App\Http\Controllers\{MediaController, NewsController};
 use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-use Illuminate\Support\{Arr, Str};
-use Illuminate\Support\Facades\{Auth, DB, URL};
+use Illuminate\Support\Facades\{DB, URL};
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
@@ -186,7 +184,7 @@ class ClientController extends Controller
 
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
         $notesIdsArray = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id')->toArray();
-        
+
         $tendencias = NewsFilter::filter($request, ['ids' => $notesIds])
             ->select('trend', DB::raw('count(*) as total'))
             ->groupBy('trend')
@@ -213,7 +211,7 @@ class ClientController extends Controller
                             AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
                             group by themes.id, themes.name
                             order by name desc");
-        
+
             $period = CarbonPeriod::create($from, $to);
 
             foreach ($period as $date) {
@@ -251,7 +249,7 @@ class ClientController extends Controller
             }
         }
 
-        
+
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])
             ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
@@ -266,7 +264,7 @@ class ClientController extends Controller
         $date = Carbon::today()->timestamp;
         return Excel::create(new NewsExport($request->all()), "reporte_{$date}.xlsx")->export('pdf');
     }
-    
+
     public function notesPerDay(Request $request, $company)
     {
 

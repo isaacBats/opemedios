@@ -15,10 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Turn;
+use App\Models\Turn;
 use Illuminate\Http\Request;
 
 class TurnController extends Controller
@@ -37,13 +37,13 @@ class TurnController extends Controller
         $breadcrumb = array();
         array_push($breadcrumb,['label' => 'Giros']);
 
-        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;        
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
         $turns = Turn::name($request->get('name'))
             ->orderBy('id', 'DESC')
             ->paginate($paginate)
             ->appends('name', request('name'));
-        
+
         return view('admin.turn.index', compact('turns', 'breadcrumb', 'paginate'));
     }
 
@@ -126,5 +126,5 @@ class TurnController extends Controller
         $turn->delete();
 
         return redirect()->route('admin.turns')->with('status', "¡El giro {$name} se ha eliminado satisfactoriamente!");
-    } 
+    }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Notifications;
 
-use App\ContactMessage;
+use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 

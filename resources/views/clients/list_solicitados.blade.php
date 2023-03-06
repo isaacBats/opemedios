@@ -26,7 +26,7 @@
                                 <label class="text-muted">Sector</label>
                                 <select class="form-control select-select2" style="width: 100%;" name="sector" >
                                     <option value="">Sector</option>
-                                    @foreach(App\Sector::all() as $sector)
+                                    @foreach(App\Models\Sector::all() as $sector)
                                         <option value="{{ $sector->id }}">{{ $sector->name }}</option>
                                     @endforeach
                                 </select>
@@ -35,7 +35,7 @@
                                 <label class="text-muted">Genero</label>
                                 <select class="form-control select-select2" style="width: 100%;" name="genre">
                                     <option value="">Genero</option>
-                                    @foreach(App\Genre::all() as $genre)
+                                    @foreach(App\Models\Genre::all() as $genre)
                                         <option value="{{ $genre->id }}"> {{ $genre->description }}</option>
                                     @endforeach
                                 </select>
@@ -44,7 +44,7 @@
                                 <label for="select-report-mean" class="text-muted">Medio</label>
                                 <select class="form-control select-select2" style="width: 100%;" name="mean" id="select-report-mean">
                                     <option value="">Medio</option>
-                                    @foreach(App\Means::all() as $mean)
+                                    @foreach(App\Models\Means::all() as $mean)
                                         <option value="{{ $mean->id }}">{{ $mean->name }}</option>
                                     @endforeach
                                 </select>
@@ -88,7 +88,7 @@
                 {{-- <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span> --}}
             </div><!-- filter-options -->
             <div id="div-table-notes">
-                
+
                 <table class="uk-table uk-table-striped uk-table-responsive">
                     <thead>
                         <tr>
@@ -113,7 +113,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -128,9 +128,9 @@
             e.preventDefault();
             url = $(this).data('url');
             id = $(this).data('id');
-            
+
             $("#frame").attr("src", url);
-            
+
             $.ajax({
                 url: {{ route('client.report.cambia_estatus_reporte', ['company' => session()->get('slug_company')]) }},
                 type: 'post',

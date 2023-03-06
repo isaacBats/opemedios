@@ -18,7 +18,7 @@
 
 namespace App\Http\Controllers;
 
-use App\NewsletterFooter;
+use App\Models\NewsletterFooter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

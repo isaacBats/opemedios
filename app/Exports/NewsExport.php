@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use App\Company;
-use App\News;
+use App\Models\Company;
+use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class NewsExport implements FromView
 {
-    use Exportable; 
+    use Exportable;
 
     protected $filter;
 
@@ -53,8 +53,8 @@ class NewsExport implements FromView
             $data['ID Noticia'] = "OPE-{$note->id}";
             $data['Tema'] = $note->assignedNews()->where('news_id', $note->id)->first()->theme->name;
             foreach ($note->metas() as $meta) {
-                if($meta['label'] == 'Hora' || 
-                   $meta['label'] == 'Duración' || 
+                if($meta['label'] == 'Hora' ||
+                   $meta['label'] == 'Duración' ||
                    $meta['label'] == 'Tipo de página' ||
                    $meta['label'] == 'Número de página' ||
                    $meta['label'] == 'Tamaño de página' ||
