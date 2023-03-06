@@ -165,13 +165,43 @@ class CompanyControllerTest extends TestCase
     }
 
     /**
-     * @after
      * @test
      */
-   /* public function the_monitor_user_can_not_create_company()
+   public function the_monitor_user_can_not_create_company()
     {
+        $this->seed();
+        $role = Role::where('name', 'monitor')->first();
+        $monitorUser = User::factory()->create();
+        $monitorUser->assignRole('monitor');
+        $monitorUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'monitor'
+        ]);
 
-    }*/
+        $turn = Turn::factory()->create();
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('logo.jpg');
+
+        $formData = [
+            'name' => 'Nueva empresa',
+            'address' => 'Avenida Centenario',
+            'turn_id' => $turn->id,
+            'logo' => $file,
+            'digital_properties' => [
+                'face' => 'https://facebook.com/opemedios',
+                'insta' => 'https://www.instagram.com/opemedios'
+            ]
+        ];
+        /** @var User $monitorUser */
+        $this->actingAs($monitorUser)
+            ->post(route('company.create'), $formData, )
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('companies', [
+            'name' => 'Nueva empresa',
+            'address' => 'Avenida Centenario'
+        ]);
+    }
 
     /**
      * @after

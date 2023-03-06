@@ -32,6 +32,10 @@ use Validator;
 
 class CompanyController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index (Request $request) {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
@@ -48,6 +52,10 @@ class CompanyController extends Controller
         return view('admin.company.index', compact('companies', 'breadcrumb', 'paginate'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function showFormNewCompany(Request $request) {
         $breadcrumb = array();
         $turns = Turn::all();
@@ -59,7 +67,12 @@ class CompanyController extends Controller
         return view('admin.company.newcompany', compact('turns', 'companies', 'breadcrumb'));
     }
 
-    public function create (Request $request) {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create (Request $request): \Illuminate\Http\RedirectResponse
+    {
 
         $input = $request->all();
         $input['slug'] = Str::slug($input['name']);
