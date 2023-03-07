@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
 {
@@ -53,6 +54,9 @@ class LoginController extends Controller
     {
 
         $user = auth()->user();
+
+        $role = Role::find(1);
+        $user->assignRole($role);
 
         if ($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();

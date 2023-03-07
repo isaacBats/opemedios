@@ -130,11 +130,11 @@ class DashboardSheet implements
                 $dtTrend = $columns_excel[$this->count_trend - 1];
 
                 $xAxisTickValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1:$' . $dtTrend . '$1', null, $this->count_trend), // Q1 to Q4
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1:$' . $dtTrend . '$1', null, $this->count_trend + 1), // Q1 to Q4
                 ];
 
                 $dataSeriesValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$2:$' . $dtTrend . '$2', null, $this->count_trend),
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$2:$' . $dtTrend . '$2', null, $this->count_trend + 1),
                 ];
 
                 $series2 = new DataSeries(
