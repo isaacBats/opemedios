@@ -55,9 +55,6 @@ class LoginController extends Controller
 
         $user = auth()->user();
 
-        $role = Role::find(1);
-        $user->assignRole($role);
-
         if ($user->isClient()) {
             $metas = $user->metas()->where(['meta_key' => 'company_id'])->first();
             $company = Company::find($metas->meta_value);
