@@ -98,7 +98,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $adminUser */
         $this->actingAs($adminUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(302)
             ->assertSessionHas(
                 'alert-success',
@@ -140,7 +140,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $managerUser */
         $this->actingAs($managerUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(302)
             ->assertSessionHas(
                 'alert-success',
@@ -154,7 +154,7 @@ class CompanyControllerTest extends TestCase
     }
 
     /** @test */
-   public function the_monitor_user_can_not_create_company()
+    public function the_monitor_user_can_not_create_company()
     {
         $this->seed();
         $role = Role::where('name', 'monitor')->first();
@@ -181,7 +181,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $monitorUser */
         $this->actingAs($monitorUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('companies', [
@@ -255,7 +255,8 @@ class CompanyControllerTest extends TestCase
     }
 
     /** @test */
-    function the_admin_user_can_update_a_company() {
+    public function the_admin_user_can_update_a_company()
+    {
         $this->seed();
         Company::factory(10)->create();
         $role = Role::where('name', 'admin')->first();
@@ -283,7 +284,8 @@ class CompanyControllerTest extends TestCase
     }
 
     /** @test */
-    function the_manager_user_can_update_a_company() {
+    public function the_manager_user_can_update_a_company()
+    {
         $this->seed();
         Company::factory(10)->create();
         $role = Role::where('name', 'manager')->first();
@@ -311,7 +313,8 @@ class CompanyControllerTest extends TestCase
     }
 
     /** @test */
-    function the_monitor_user_can_not_update_a_company() {
+    public function the_monitor_user_can_not_update_a_company()
+    {
         $this->seed();
         Company::factory(10)->create();
         $role = Role::where('name', 'monitor')->first();
