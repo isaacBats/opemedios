@@ -169,21 +169,23 @@
                         <table class="table table-striped nomargin" id="table-assigned-news">
                             <thead>
                                 <tr>
-                                    <th class="text-center">#</th>
                                     <th>Titulo</th>
+                                    <th>Fecha</th>
                                     <th>Tema</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($company->assignedNews as $assigned)
+                                @foreach($company->assignedNews()->orderBy('id', 'DESC')->paginate(30) as $assigned)
                                     <tr>
-                                        <td>{{ ($company->assignedNews->currentPage() - 1) * $company->assignedNews->perPage() + $loop->iteration }}</td>
                                         <td>
                                             <a href="{{ route('admin.new.show', ['id' => $assigned->news_id]) }}">
                                                 {{ "OPE-{$assigned->news_id}" }} <br />
                                                 {{ $assigned->news->title }}
                                             </a>
+                                        </td>
+                                        <td>
+                                            {{ $assigned->news->news_date->format('Y-m-d') }}
                                         </td>
                                         <td>
                                             <form id="{{ "form-company-theme-{$assigned->id}" }}" action="{{ route('admin.assignednews.replacetheme', ['id' => $assigned->id]) }}" class="form-company-theme" method="POST">
