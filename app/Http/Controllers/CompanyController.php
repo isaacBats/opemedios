@@ -187,7 +187,13 @@ class CompanyController extends Controller
         return redirect()->route('company.show', compact('company'))->with('status', "¡Exito!. Datos actualizados");
     }
 
-    public function updateLogo (Request $request, $id) {
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateLogo (Request $request, $id): \Illuminate\Http\RedirectResponse
+    {
         $company = Company::find($id);
         try {
             if(Storage::drive('local')->exists($company->logo)) {
@@ -201,7 +207,7 @@ class CompanyController extends Controller
             return back()->with('status', 'Could not update image: ' . $e->getMessage());
         }
 
-        return redirect()->route('company.show', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
+        return redirect()->route('company.show', compact('company'))->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
     }
 
     public function getCompaniesAjax (Request $request) {
