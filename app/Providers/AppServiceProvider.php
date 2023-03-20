@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         @ini_set("post_max_size", "450M");
         ini_set("upload_max_filesize", "350M");
         ini_set("max_execution_time", "1000");
+
+        Paginator::useBootstrap();
 
     }
 

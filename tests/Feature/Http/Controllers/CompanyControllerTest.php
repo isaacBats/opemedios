@@ -13,16 +13,14 @@ class CompanyControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function the_admin_user_can_see_the_list_of_companies()
     {
         $this->seed();
         $role = Role::where('name', 'admin')->first();
         $role->givePermissionTo('view menu');
         $adminUser = User::factory()->create();
-        $adminUser->assignRole('admin');
+        $adminUser->assignRole($role);
         $adminUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'admin'
@@ -35,16 +33,14 @@ class CompanyControllerTest extends TestCase
             ->assertViewIs('admin.company.index');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function the_manager_user_can_see_the_list_of_companies()
     {
         $this->seed();
         $role = Role::where('name', 'manager')->first();
         $role->givePermissionTo('view menu');
         $managerUser = User::factory()->create();
-        $managerUser->assignRole('manager');
+        $managerUser->assignRole($role);
         $managerUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'Manager'
@@ -56,15 +52,13 @@ class CompanyControllerTest extends TestCase
             ->assertViewIs('admin.company.index');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function the_monitor_user_can_not_see_the_list_of_companies()
     {
         $this->seed();
         $role = Role::where('name', 'monitor')->first();
         $monitorUser = User::factory()->create();
-        $monitorUser->assignRole('monitor');
+        $monitorUser->assignRole($role);
         $monitorUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'Monitor'
@@ -75,17 +69,14 @@ class CompanyControllerTest extends TestCase
             ->assertStatus(403);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function the_admin_user_can_create_a_company()
     {
-        $this->withoutExceptionHandling();
         $this->seed();
         $role = Role::where('name', 'admin')->first();
         $role->givePermissionTo('view menu');
         $adminUser = User::factory()->create();
-        $adminUser->assignRole('admin');
+        $adminUser->assignRole($role);
         $adminUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'admin'
@@ -107,7 +98,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $adminUser */
         $this->actingAs($adminUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(302)
             ->assertSessionHas(
                 'alert-success',
@@ -120,16 +111,14 @@ class CompanyControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function the_manager_user_can_create_company()
     {
         $this->seed();
         $role = Role::where('name', 'manager')->first();
         $role->givePermissionTo('view menu');
         $managerUser = User::factory()->create();
-        $managerUser->assignRole('manager');
+        $managerUser->assignRole($role);
         $managerUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'manager'
@@ -151,7 +140,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $managerUser */
         $this->actingAs($managerUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(302)
             ->assertSessionHas(
                 'alert-success',
@@ -164,15 +153,13 @@ class CompanyControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-   public function the_monitor_user_can_not_create_company()
+    /** @test */
+    public function the_monitor_user_can_not_create_company()
     {
         $this->seed();
         $role = Role::where('name', 'monitor')->first();
         $monitorUser = User::factory()->create();
-        $monitorUser->assignRole('monitor');
+        $monitorUser->assignRole($role);
         $monitorUser->metas()->create([
             'meta_key' => 'user_position',
             'meta_value' => 'monitor'
@@ -194,7 +181,7 @@ class CompanyControllerTest extends TestCase
         ];
         /** @var User $monitorUser */
         $this->actingAs($monitorUser)
-            ->post(route('company.create'), $formData, )
+            ->post(route('company.create'), $formData)
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('companies', [
@@ -203,23 +190,231 @@ class CompanyControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @after
-     * @test
-     */
-    /*public function admin_user_can_create_a_company()
+    /** @test */
+    public function admin_user_can_see_company()
     {
-
-    }*/
+        $this->withExceptionHandling();
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'admin')->first();
+        $role->givePermissionTo('view menu');
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($role);
+        $adminUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'admin'
+        ]);
+        /** @var User $adminUser */
+        $company = Company::first();
+        $this->actingAs($adminUser)
+            ->get(route('company.show', ['company' => $company]))
+            ->assertStatus(200)
+            ->assertViewIs('admin.company.show')
+            ->assertSee($company->name);
+    }
 
     /** @test */
-    /*public function admin_user_can_create_a_company()
+    public function manager_user_can_see_company()
     {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'manager')->first();
+        $role->givePermissionTo('view menu');
+        $managerUser = User::factory()->create();
+        $managerUser->assignRole($role);
+        $managerUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'manager'
+        ]);
 
-    }*/
+        $company = Company::all()->random();
+        $this->actingAs($managerUser)
+            ->get(route('company.show', ['company' => $company]))
+            ->assertStatus(200)
+            ->assertViewIs('admin.company.show')
+            ->assertSee($company->name);
+    }
+
     /** @test */
-    /*public function the_admin_user_can_create_a_company()
+    public function monitor_user_can_not_see_company()
     {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'monitor')->first();
+        $monitorUser = User::factory()->create();
+        $monitorUser->assignRole($role);
+        $monitorUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'monitor'
+        ]);
 
-    }*/
+        $company = Company::all()->random();
+        $this->actingAs($monitorUser)
+            ->get(route('company.show', ['company' => $company]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function the_admin_user_can_update_a_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'admin')->first();
+        $role->givePermissionTo('view menu');
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($role);
+        $adminUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'admin'
+        ]);
+        $company = Company::all()->random();
+        $inputs = [
+            'name' => 'Empresa editada',
+            'address' => 'Av Siempre viva #43',
+            'turn_id' => $company->turn_id
+        ];
+
+        $this->actingAs($adminUser)
+            ->post(route('company.update', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Datos actualizados');
+
+        $this->assertDatabaseHas('companies', $inputs);
+    }
+
+    /** @test */
+    public function the_manager_user_can_update_a_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'manager')->first();
+        $role->givePermissionTo('view menu');
+        $managerUser = User::factory()->create();
+        $managerUser->assignRole($role);
+        $managerUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'manager'
+        ]);
+        $company = Company::all()->random();
+        $inputs = [
+            'name' => 'Empresa editada',
+            'address' => 'Av Siempre viva #43',
+            'turn_id' => $company->turn_id
+        ];
+
+        $this->actingAs($managerUser)
+            ->post(route('company.update', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Datos actualizados');
+
+        $this->assertDatabaseHas('companies', $inputs);
+    }
+
+    /** @test */
+    public function the_monitor_user_can_not_update_a_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'monitor')->first();
+        $monitorUser = User::factory()->create();
+        $monitorUser->assignRole($role);
+        $monitorUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'monitor'
+        ]);
+        $company = Company::all()->random();
+        $inputs = [
+            'name' => 'Empresa editada',
+            'address' => 'Av Siempre viva #43',
+            'turn_id' => $company->turn_id
+        ];
+
+        $this->actingAs($monitorUser)
+            ->post(route('company.update', ['id' => $company->id]), $inputs)
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('companies', $inputs);
+    }
+
+    /** @test */
+    public function the_admin_user_can_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'admin')->first();
+        $role->givePermissionTo('view menu');
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($role);
+        $adminUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'admin'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($adminUser)
+            ->post(route('company.update.logo', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Se ha cambiado el logo correctamente');
+    }
+
+    /** @test */
+    public function the_manager_user_can_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'manager')->first();
+        $role->givePermissionTo('view menu');
+        $managerUser = User::factory()->create();
+        $managerUser->assignRole($role);
+        $managerUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'manager'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($managerUser)
+            ->post(route('company.update.logo', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Se ha cambiado el logo correctamente');
+    }
+
+    /** @test */
+    public function the_monitor_user_can_not_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'monitor')->first();
+        $monitorUser = User::factory()->create();
+        $monitorUser->assignRole($role);
+        $monitorUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'monitor'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($monitorUser)
+            ->post(route('company.update', ['id' => $company->id]), $inputs)
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('companies', $inputs);
+    }
 }

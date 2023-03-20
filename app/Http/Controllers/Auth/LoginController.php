@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
 {

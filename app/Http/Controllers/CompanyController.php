@@ -103,6 +103,11 @@ class CompanyController extends Controller
         return redirect()->route('companies')->with('alert-success', 'La empresa se ha creado con éxito');
     }
 
+    /**
+     * @param Request $request
+     * @param Company $company
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show (Request $request, Company $company) {
         $breadcrumb = array();
         $turns = Turn::all();
@@ -120,6 +125,11 @@ class CompanyController extends Controller
         return view('admin.company.show', compact('company', 'turns', 'accounts', 'breadcrumb'));
     }
 
+    /**
+     * @param Request $request
+     * @param $userId
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
     public function removeUser (Request $request, $userId) {
         $user = User::find($userId);
         $company = Company::find($request->input('companyid'));
@@ -160,19 +170,30 @@ class CompanyController extends Controller
         return redirect()->route('company.show', ['id' => $inputs['company']])->with('status', "Se ha agregado el usuario {$user->name} correctamente a esta empresa.");
     }
 
-    public function update (Request $request, $id) {
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update (Request $request, $id): \Illuminate\Http\RedirectResponse
+    {
         $inputs = $request->all();
         $company = Company::find($id);
-
         $company->name = $inputs['name'];
         $company->address = $inputs['address'];
         $company->turn_id = $inputs['turn_id'];
         $company->save();
 
-        return redirect()->route('company.show', ['id' => $id])->with('status', "¡Exito!. Datos actualizados");
+        return redirect()->route('company.show', compact('company'))->with('status', "¡Exito!. Datos actualizados");
     }
 
-    public function updateLogo (Request $request, $id) {
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateLogo (Request $request, $id): \Illuminate\Http\RedirectResponse
+    {
         $company = Company::find($id);
         try {
             if(Storage::drive('local')->exists($company->logo)) {
@@ -186,7 +207,7 @@ class CompanyController extends Controller
             return back()->with('status', 'Could not update image: ' . $e->getMessage());
         }
 
-        return redirect()->route('company.show', ['id' => $id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
+        return redirect()->route('company.show', compact('company'))->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
     }
 
     public function getCompaniesAjax (Request $request) {
