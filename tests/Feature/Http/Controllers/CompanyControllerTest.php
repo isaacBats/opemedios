@@ -337,4 +337,84 @@ class CompanyControllerTest extends TestCase
 
         $this->assertDatabaseMissing('companies', $inputs);
     }
+
+    /** @test */
+    public function the_admin_user_can_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'admin')->first();
+        $role->givePermissionTo('view menu');
+        $adminUser = User::factory()->create();
+        $adminUser->assignRole($role);
+        $adminUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'admin'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($adminUser)
+            ->post(route('company.update.logo', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Se ha cambiado el logo correctamente');
+    }
+
+    /** @test */
+    public function the_manager_user_can_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'manager')->first();
+        $role->givePermissionTo('view menu');
+        $managerUser = User::factory()->create();
+        $managerUser->assignRole($role);
+        $managerUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'manager'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($managerUser)
+            ->post(route('company.update.logo', ['id' => $company->id]), $inputs)
+            ->assertStatus(302)
+            ->assertRedirect(route('company.show', ['company' => $company]))
+            ->assertSessionHas('status', '¡Exito!. Se ha cambiado el logo correctamente');
+    }
+
+    /** @test */
+    public function the_monitor_user_can_not_update_logo_from_company()
+    {
+        $this->seed();
+        Company::factory(10)->create();
+        $role = Role::where('name', 'monitor')->first();
+        $monitorUser = User::factory()->create();
+        $monitorUser->assignRole($role);
+        $monitorUser->metas()->create([
+            'meta_key' => 'user_position',
+            'meta_value' => 'monitor'
+        ]);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('new_logo.jpg');
+        $company = Company::all()->random();
+        $inputs = [
+            'logo' => $file
+        ];
+
+        $this->actingAs($monitorUser)
+            ->post(route('company.update', ['id' => $company->id]), $inputs)
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('companies', $inputs);
+    }
 }
