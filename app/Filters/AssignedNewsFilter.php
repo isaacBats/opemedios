@@ -2,26 +2,23 @@
 namespace App\Filters;
 
 use App\Models\AssignedNews;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class AssignedNewsFilter
 {
     /**
-     * @param Request $request
-     * @param array $params
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param array $filters
+     * @return Builder
      */
-    public static function filter(Request $request, array $params): \Illuminate\Database\Eloquent\Builder
+    public static function filter(array $filters): Builder
     {
         return AssignedNews::query()
-            ->when(isset($params['company']), function ($q) use ($params) {
-                $company = $params['company'];
-                return $q->where('company_id', $company->id);
+            ->when(isset($filters['company']), function ($q) use ($filters) {
+                return $q->where('company_id', $filters['company']);
             })
-            ->when($request->input('theme_id') !== null, function ($q) use ($request) {
-                $where = is_array($request->input('theme_id')) ? 'whereIn' : 'where';
-                return $q->$where('theme_id', $request->input('theme_id'));
+            ->when(isset($filters['theme_id']), function ($q) use ($filters) {
+                $where = is_array($filters['theme_id']) ? 'whereIn' : 'where';
+                return $q->$where('theme_id', $filters('theme_id'));
             });
     }
 }

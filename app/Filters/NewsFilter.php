@@ -3,56 +3,56 @@ namespace App\Filters;
 
 use App\Models\News;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class NewsFilter
 {
     /**
-     * @param Request $request
-     * @param array $params
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param array $filters
+     * @return Builder
      */
-    public static function filter(Request $request, array $params): \Illuminate\Database\Eloquent\Builder
+    public static function filter(array $filters): Builder
     {
         $where = 'where';
 
         return  News::query()
-        ->when($params['ids'] !== null, function ($queryBuilder) use ($params) {
-            return $queryBuilder->whereIn('id', $params['ids']);
+        ->when(isset($filters['notesIds']), function ($queryBuilder) use ($filters) {
+            return $queryBuilder->whereIn('id', $filters['notesIds']);
         })
-        ->when($request->input('sector') !== null, function ($queryBuilder) use ($request) {
-            $where = is_array($request->input('sector')) ? 'whereIn' : 'where';
-            return $queryBuilder->$where('sector_id', $request->input('sector'));
+        ->when(isset($filters['sector']), function ($queryBuilder) use ($filters) {
+            $where = is_array($filters['sector']) ? 'whereIn' : 'where';
+            return $queryBuilder->$where('sector_id', $filters['sector']);
         })
-        ->when($request->input('genre') !== null, function ($queryBuilder) use ($request) {
-            $where = is_array($request->input('genre')) ? 'whereIn' : 'where';
-            return $queryBuilder->$where('genre_id', $request->input('genre'));
+        ->when(isset($filters['genre']), function ($queryBuilder) use ($filters) {
+            $where = is_array($filters['genre']) ? 'whereIn' : 'where';
+            return $queryBuilder->$where('genre_id', $filters['genre']);
         })
-        ->when($request->input('mean') !== null, function ($queryBuilder) use ($request) {
-            $where = is_array($request->input('mean')) ? 'whereIn' : 'where';
-            return $queryBuilder->$where('mean_id', $request->input('mean'));
+        ->when(isset($filters['mean']), function ($queryBuilder) use ($filters) {
+            $where = is_array($filters['mean']) ? 'whereIn' : 'where';
+            return $queryBuilder->$where('mean_id', $filters['mean']);
         })
-        ->when($request->input('source_id') !== null, function ($queryBuilder) use ($request) {
-            $where = is_array($request->input('source_id')) ? 'whereIn' : 'where';
-            return $queryBuilder->$where('source_id', $request->input('source_id'));
+        ->when(isset($filters['source_id']), function ($queryBuilder) use ($filters) {
+            $where = is_array($filters['source_id']) ? 'whereIn' : 'where';
+            return $queryBuilder->$where('source_id', $filters['source_id']);
         })
         ->when(
-            ($request->input('start_date') !== null && $request->input('end_date') !== null),
-            function ($queryBuilder) use ($request) {
-                $from = Carbon::create($request->input('start_date'));
-                $to = Carbon::create($request->input('end_date'));
+            (isset($filters['start_date']) && isset($filters['end_date'])),
+            function ($queryBuilder) use ($filters) {
+                $from = Carbon::create($filters['start_date']);
+                $to = Carbon::create($filters['end_date']);
                 return $queryBuilder->whereBetween('news_date', [$from, $to]);
             }
         )
         ->when(
-            ($request->input('start_date') !== null && $request->input('end_date') === null),
-            function ($queryBuilder) use ($request) {
-                return $queryBuilder->whereDate('news_date', Carbon::create($request->input('start_date')));
+            (isset($filters['start_date'])  && empty($filters['end_date'])),
+            function ($queryBuilder) use ($filters) {
+                return $queryBuilder->whereDate('news_date', Carbon::create($filters['start_date']));
             }
         )
-        ->when($request->input('word') !== null, function ($queryBuilder) use ($request) {
-            return $queryBuilder->where('title', 'like', "%{$request->input('word')}%")
-                ->orWhere('synthesis', 'like', "%{$request->input('word')}%");
+        ->when(isset($filters['word']), function ($queryBuilder) use ($filters) {
+            return $queryBuilder->where('title', 'like', "%{$filters['word']}%")
+                ->orWhere('synthesis', 'like', "%{$filters['word']}%");
         });
     }
 }
