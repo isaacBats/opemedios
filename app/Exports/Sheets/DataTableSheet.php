@@ -15,11 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
- 
+
 namespace App\Exports\Sheets;
 
 use Illuminate\Support\Facades\Crypt;
-use Carbon\{Carbon, CarbonPeriod};
 use Maatwebsite\Excel\Concerns\{
     FromQuery,
     ShouldAutoSize,
@@ -44,34 +43,51 @@ class DataTableSheet implements
     WithMapping,
     WithTitle
 {
-    private $notesIds;
     private $company;
-    private $num = 0;
     private $init_row = 1;
+    private $notes;
 
+    /**
+     * @param $notes
+     * @param $company
+     */
     public function __construct($notes, $company)
     {
         $this->notes = $notes;
         $this->company = $company;
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation|\Illuminate\Database\Query\Builder
+     */
     public function query()
     {
         return $this->notes;
     }
 
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return 'Hoja de Datos';
+    }
+
+    /**
+     * @param $note
+     * @return array
+     */
     public function map($note): array
     {
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->company->id}")]);
 
-        $this->num = $this->num + 1;
-
         return [
-            $this->num . "-OPE-{$note->id}",
+            "OPE-{$note->id}",
             $note->title . "|" . $link,
             $note->synthesis,
+            $theme,
             $note->author,
             ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
@@ -82,12 +98,16 @@ class DataTableSheet implements
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public function headings(): array
     {
         return [
             'ID',
             'Título',
             'Síntesis',
+            'Tema',
             'Autor',
             'Fuente',
             'Fecha nota',
@@ -98,6 +118,9 @@ class DataTableSheet implements
         ];
     }
 
+    /**
+     * @return \Closure[]
+     */
     public function registerEvents(): array
     {
         return [
@@ -109,11 +132,7 @@ class DataTableSheet implements
                 $event->sheet->getPageMargins()->setLeft(0.1);
                 $event->sheet->getPageMargins()->setBottom(0.1);
 
-                // $event->sheet->getDelegate()->fromArray(
-                //     $this->graph1
-                // );
-
-                $event->sheet->getStyle("A{$this->init_row}:J{$this->init_row}")->applyFromArray([
+                $event->sheet->getStyle("A{$this->init_row}:K{$this->init_row}")->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
@@ -126,53 +145,33 @@ class DataTableSheet implements
                         'color' => ['rgb' => '2474ac'],
                     ],
                 ]);
-                $event->sheet->getColumnDimension('A')->setAutoSize(false);
+
                 $event->sheet->getColumnDimension('B')
                     ->setWidth(30)
                     ->setAutoSize(false);
+
                 $event->sheet->getColumnDimension('C')
                     ->setWidth(60)
                     ->setAutoSize(false);
-                $event->sheet->getColumnDimension('D')
-                    ->setWidth(16)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('E')
-                    ->setWidth(16)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('F')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('G')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('H')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('I')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('J')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
 
-                $event->sheet->getStyle('G')
+                $event->sheet->getStyle('H')
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-                $event->sheet->setAutoFilter('A' . $this->init_row . ':J' . $this->init_row);
+                $event->sheet->setAutoFilter('A' . $this->init_row . ':K' . $this->init_row);
 
                 // hiperlink
                 foreach ($event->sheet->getColumnIterator('B') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $nota = explode('|', $cell->getValue());
-                            
-                            
+
+
                             $link = route('front.detail.news', ['qry' => '']);
 
                             //$cell->setHyperlink(new Hyperlink(isset($nota[1]) ? $nota[1] : ''));
                             $cnt = (count($nota) < 2) ? $link : $nota[1];
-                            
+
                             $cell->setHyperlink(new Hyperlink($cnt));
                             $cell->setValue($nota[0]);
                             // Upd: Link styling added
@@ -193,7 +192,7 @@ class DataTableSheet implements
                             if ($celda->getRow() === 1) {
                                 continue;
                             }
-                            $event->sheet->getStyle("A{$celda->getRow()}:J{$celda->getRow()}")->applyFromArray([
+                            $event->sheet->getStyle("A{$celda->getRow()}:K{$celda->getRow()}")->applyFromArray([
                                 'fill' => [
                                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                     'color' => ['rgb' => 'e9f4fa'],
@@ -206,7 +205,7 @@ class DataTableSheet implements
                 // format to impar row
                 foreach ($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
-                        if ($celda->getColumn() == 'C' || $celda->getColumn() == 'E') {
+                        if ($celda->getColumn() == 'C' || $celda->getColumn() == 'F') {
                             if ($celda->getRow() === 1) {
                                 continue;
                             }
@@ -224,13 +223,5 @@ class DataTableSheet implements
                 }
             }
         ];
-    }
-
-     /**
-     * @return string
-     */
-    public function title(): string
-    {
-        return 'Datos';
     }
 }

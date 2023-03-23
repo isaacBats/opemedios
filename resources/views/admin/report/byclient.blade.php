@@ -269,10 +269,6 @@
                     .attr('action', "{{ route('admin.report.export') }}")
                     .attr('method', 'get');
                 form.submit();
-                // window.open("{{ route('admin.report.export') }}?" + $('#form-report-filter').serialize());
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 1000);
             });
 
             $('#btn-report-export-pdf').on('click', function (event) {
