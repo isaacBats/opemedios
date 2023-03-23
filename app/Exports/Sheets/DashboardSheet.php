@@ -178,10 +178,10 @@ class DashboardSheet implements
                 $countMean = $columns_excel[$this->count_mean - 1];
 
                 $xAxisTickValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean), // Q1 to Q4
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean + 1), // Q1 to Q4
                 ];
                 $dataSeriesValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$4:$' . $countMean . '$4', null, $this->count_mean),
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$4:$' . $countMean . '$4', null, $this->count_mean + 1),
                 ];
                 $series1 = new DataSeries(
                     DataSeries::TYPE_PIECHART,

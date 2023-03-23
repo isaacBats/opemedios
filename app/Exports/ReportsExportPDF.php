@@ -102,7 +102,7 @@ class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ Wi
 
     public function headings(): array {
         return [
-            '#',
+            //'#',
             'ID',
             'Tema',
             'Autor',
