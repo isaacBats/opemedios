@@ -59,7 +59,7 @@ class PivotTablesSheet implements FromArray, WithTitle
         $themes = $this->getUsedThemes();
         $period = $this->getIntervalTime();
         $dataFromPeriodTime = $this->getDataFromPeriodTime($period);
-        $dates = collect($period->map(function(Carbon $date){
+        $dates = collect($period->map(function (Carbon $date) {
             return $date->format('Y-m-d');
         }))->toArray();
 
@@ -67,11 +67,10 @@ class PivotTablesSheet implements FromArray, WithTitle
             $vnt_ = 0;
             $data[0][0] = '';
             $data[0][] = $theme->name;
-            foreach ($dates as $day){
+            foreach ($dates as $day) {
                 $dat_imp = '';
-                foreach ($dataFromPeriodTime[$day] as $dataFromPeriodItem){
-                    if($dataFromPeriodItem->id == $theme->id)
-                    {
+                foreach ($dataFromPeriodTime[$day] as $dataFromPeriodItem) {
+                    if ($dataFromPeriodItem->id == $theme->id) {
                         $dat_imp = $dataFromPeriodItem->total;
                         $vnt_ += $dataFromPeriodItem->total;
                     }
@@ -139,7 +138,6 @@ class PivotTablesSheet implements FromArray, WithTitle
             ->select('themes.id', 'themes.name')
             ->groupBy('themes.id', 'themes.name')
             ->orderBy('themes.name', 'DESC')->get();
-
     }
 
     /**
