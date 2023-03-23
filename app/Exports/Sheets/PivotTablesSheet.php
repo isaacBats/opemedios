@@ -18,13 +18,11 @@
 namespace App\Exports\Sheets;
 
 use App\Models\AssignedNews;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use Illuminate\Support\Arr;
+use Carbon\{Carbon, CarbonPeriod};
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\{FromArray, WithTitle};
 
-class PivotTablesSheet implements FromArray
+class PivotTablesSheet implements FromArray, WithTitle
 {
     /**
      * @var
@@ -57,13 +55,38 @@ class PivotTablesSheet implements FromArray
 
     public function array(): array
     {
-        $data = array_merge(
+        $data = [];
+        $themes = $this->getUsedThemes();
+        $period = $this->getIntervalTime();
+        $dataFromPeriodTime = $this->getDataFromPeriodTime($period);
+        $dates = collect($period->map(function(Carbon $date){
+            return $date->format('Y-m-d');
+        }))->toArray();
+
+        foreach ($themes as $theme) {
+            $vnt_ = 0;
+            $data[0][0] = '';
+            $data[0][] = $theme->name;
+            foreach ($dates as $day){
+                $dat_imp = '';
+                foreach ($dataFromPeriodTime[$day] as $dataFromPeriodItem){
+                    if($dataFromPeriodItem->id == $theme->id)
+                    {
+                        $dat_imp = $dataFromPeriodItem->total;
+                        $vnt_ += $dataFromPeriodItem->total;
+                    }
+                }
+                $data[$day][0] = $day;
+                $data[$day][] = (empty($dat_imp) ? 0 : $dat_imp);
+            }
+            $data[0][count($data[0]) - 1] = $theme->name . ' (' . $vnt_ . ')';
+        }
+
+        return array_merge(
             $this->getTrendInfo(),
             $this->getMeanInfo(),
-            $this->getUsedThemes()
+            $data,
         );
-        dd($data);
-        return $data;
     }
 
     /**
@@ -105,22 +128,24 @@ class PivotTablesSheet implements FromArray
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    protected function getUsedThemes(): array
+    protected function getUsedThemes()
     {
-        $data = array();
         $notes = clone $this->notes;
-        $data['temas'] = AssignedNews::joinSub($notes, 'news', function ($join) {
+        return AssignedNews::joinSub($notes, 'news', function ($join) {
                 $join->on('assigned_news.news_id', '=', 'news.id');
         })->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
             ->select('themes.id', 'themes.name')
             ->groupBy('themes.id', 'themes.name')
-            ->orderBy('themes.name', 'DESC')->get()->toArray();
-        return $data;
+            ->orderBy('themes.name', 'DESC')->get();
+
     }
 
-    protected function getIntervalTime()
+    /**
+     * @return CarbonPeriod
+     */
+    protected function getIntervalTime(): CarbonPeriod
     {
         if (isset($this->filters['start_date']) && isset($this->filters['end_date'])) {
             $from = Carbon::create($this->filters['start_date']);
@@ -130,6 +155,35 @@ class PivotTablesSheet implements FromArray
         } else {
             $from =  $to = Carbon::now();
         }
-        $period = CarbonPeriod::create($from, $to);
+
+        return CarbonPeriod::create($from, $to);
+    }
+
+    /**
+     * @param $period
+     * @return array
+     */
+    protected function getDataFromPeriodTime($period): array
+    {
+        $data = array();
+        foreach ($period as $date) {
+            $day = $date->format('Y-m-d');
+            $data[$day] = AssignedNews::query()
+                ->selectRaw("date(news.created_at) AS dt, themes.id, themes.name, count(*) as total")
+                ->join('news', 'assigned_news.news_id', '=', 'news.id')
+                ->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
+                ->whereIn('news.id', $this->filters['notesIds'])
+                ->whereRaw("date(news.created_at) = '{$day}'")
+                ->groupByRaw('date(news.created_at), themes.id, themes.name')
+                ->orderByRaw('date(news.created_at) DESC')
+                ->get();
+        }
+
+        return $data;
+    }
+
+    public function title(): string
+    {
+        return "Tablas estadisticas";
     }
 }

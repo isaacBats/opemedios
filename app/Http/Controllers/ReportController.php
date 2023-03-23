@@ -140,7 +140,8 @@ class ReportController extends Controller
         $fileName = "Reporte_{$time}.xlsx";
 
 //        ExportReport::dispatch($request->all(), $fileName); // Se crea el reporte por colas
-        Excel::store(new ReportsExport($request->all()), $fileName, 'public');
+//        Excel::store(new ReportsExport($request->all()), $fileName, 'public');  // guarda un archivo en local
+        return (new ReportsExport($request->all()))->download($fileName); // para probar
 
         return redirect()->route('admin.report.byclient')
             ->with('status', "Se ha comenzado a generar el reporte con el nombre {$fileName}")
