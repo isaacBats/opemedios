@@ -91,7 +91,7 @@ class PivotTablesSheet implements FromArray, WithTitle
     /**
      * @return array
      */
-    protected function getMeanInfo(): array
+    public function getMeanInfo(): array
     {
         $data = array();
         $notes = clone $this->notes;
@@ -182,6 +182,6 @@ class PivotTablesSheet implements FromArray, WithTitle
 
     public function title(): string
     {
-        return "Tablas estadisticas";
+        return "Tablas_estadisticas";
     }
 }

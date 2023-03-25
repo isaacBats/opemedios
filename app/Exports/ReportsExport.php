@@ -29,16 +29,10 @@ class ReportsExport implements WithMultipleSheets
     use Exportable;
 
     protected $requestFilters;
-    protected $client;
-    protected $notes;
 
     public function __construct($requestFilters)
     {
         $this->requestFilters = $requestFilters;
-        $this->client = Company::find($this->requestFilters['company']);
-        $this->requestFilters['notesIds'] = AssignedNewsFilter::filter($this->requestFilters)
-            ->pluck('news_id');
-        $this->notes = NewsFilter::filter($this->requestFilters);
     }
 
     /**
@@ -46,10 +40,14 @@ class ReportsExport implements WithMultipleSheets
      */
     public function sheets(): array
     {
+        $client = Company::find($this->requestFilters['company']);
+        $this->requestFilters['notesIds'] = AssignedNewsFilter::filter($this->requestFilters)
+            ->pluck('news_id');
+        $notes = NewsFilter::filter($this->requestFilters);
         return [
-            new PivotTablesSheet($this->notes, $this->client, $this->requestFilters),
-//            new DashboardSheet($this->notes, $this->client),
-            new DataTableSheet($this->notes, $this->client)
+            new DashboardSheet($notes, $client, $this->requestFilters),
+            new PivotTablesSheet($notes, $client, $this->requestFilters),
+            new DataTableSheet($notes, $client)
         ];
     }
 }
