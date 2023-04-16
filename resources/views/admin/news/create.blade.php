@@ -40,7 +40,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="textarea-sintesis">{{ __('Síntesis') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-10 col-lg-11">
-                        <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3" placeholder="Síntesis de la nota">{!! old('synthesis') !!}</textarea>
+                        <textarea name="synthesis" id="textarea-sintesis" class="form-control" rows="3">{!! old('synthesis') !!}</textarea>
                         @error('synthesis')
                             <label class="text-danger">
                                 <strong>{{ $message }}</strong>
@@ -48,7 +48,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="form-group row" id="div-select-sources"></div>
+                <div class="form-group row" id="div-select-sources" style="margin-top: 2rem;"></div>
                 <div class="form-group row" id="div-select-sections-sources"></div>
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -262,7 +262,7 @@
                                     <option value="">{{ __('Tendencia') }}</option>
                                     <option value="1" {{ (old('trend') == "1" ? 'selected' : '' ) }} >{{ __('Positiva') }}</option>
                                     <option value="2" {{ (old('trend') == "2" ? 'selected' : '' ) }} >{{ __('Neutral') }}</option>
-                                    <option value="3" {{ (old('trend') == "3" ? 'selected' : '' ) }} >{{ __('Negativa') }}</option>
+                                    <option value="3" {{ (old('trend') == "3" ? 'selected' : '' ) }} >{{ __('Negativa') }}</optitextarea-sintesison>
                                 </select>    
                                 @error('trend')
                                     <label class="text-danger">
@@ -349,6 +349,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script type='text/javascript' src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('lib/summernote/summernote.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -613,11 +615,18 @@
                 $(this).find('.modal-footer').html(`<button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>`)
             });
 
+            // $('#textarea-sintesis').summernote({
+            //     height: 200,
+            //     toolbar: [
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //       ]
+            // });
         })
 
     </script>
 @endsection
 @section('styles')
+    <link href="{{ asset('lib/summernote/summernote.css') }}" rel='stylesheet' type='text/css' />
     <style>
         .ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
         .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {

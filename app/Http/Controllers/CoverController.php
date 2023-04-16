@@ -15,23 +15,21 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Cover;
-use App\Http\Controllers\FileController;
-use App\Means;
-use App\Source;
+use App\Models\Cover;
+use App\Models\Means;
+use App\Models\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class CoverController extends Controller
 {
     protected $fileController;
-    
+
     public function __construct(FileController $fileController) {
         $this->fileController = $fileController;
     }
@@ -111,14 +109,14 @@ class CoverController extends Controller
                             $coverType = $data['cover_type'];
                             if ($coverType == 3 || $coverType == 4) {
                                 return true;
-                            } 
+                            }
                             return false;
                         })],
             'author' => [Rule::requiredIf(function() use ($data){
                             $coverType = $data['cover_type'];
                             if ($coverType == 3 || $coverType == 4) {
                                 return true;
-                            } 
+                            }
                             return false;
                         })],
             'date_cover' => 'required',
@@ -127,7 +125,7 @@ class CoverController extends Controller
                             $coverType = $data['cover_type'];
                             if ($coverType == 3 || $coverType == 4) {
                                 return true;
-                            } 
+                            }
                             return false;
                         })],
             'image' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|max:154112',  // Max size 128MB
@@ -140,7 +138,7 @@ class CoverController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Cover  $cover
+     * @param  \App\Models\Cover  $cover
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $response, $id)
@@ -150,7 +148,7 @@ class CoverController extends Controller
         $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
         $neswpaperMean = Means::where('short_name', 'per')->first();
         $sources = Source::where('means_id', $neswpaperMean->id)->get();
-        
+
         return view('admin.press.edit', compact('cover', 'coverType', 'sources'));
     }
 
@@ -170,14 +168,14 @@ class CoverController extends Controller
         $types = $this->coverTypes();
         $coverType = array_filter($types, function($v, $k) use($cover) { return $k == $cover->cover_type; }, ARRAY_FILTER_USE_BOTH);
 
-        return redirect()->route('admin.press.show')->with('status',"¡{$coverType[$cover->cover_type]} actualizada satisfactoriamente!"); 
+        return redirect()->route('admin.press.show')->with('status',"¡{$coverType[$cover->cover_type]} actualizada satisfactoriamente!");
     }
 
     public function updateFile(Request $request, $id) {
         $cover = Cover::findOrFail($id);
-        
+
         $data = $request->all();
-        
+
         $this->fileController->update($cover->image, $data['image'], true);
 
         return redirect()->route('admin.press.show')->with('status', 'Se ha actualizado el archivo correctamente');
@@ -186,7 +184,7 @@ class CoverController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Cover  $cover
+     * @param  \App\Models\Cover  $cover
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)

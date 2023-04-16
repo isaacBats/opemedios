@@ -19,21 +19,18 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\NewsController;
 use App\Mail\NewsletterEmail;
-use App\News;
-use App\Newsletter;
-use App\NewsletterFooter;
-use App\NewsletterSend;
-use App\User;
+use App\Models\AssignedNews;
+use App\Models\Company;
+use App\Models\News;
+use App\Models\Newsletter;
+use App\Models\NewsletterFooter;
+use App\Models\NewsletterSend;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -65,7 +62,7 @@ class NewsletterController extends Controller
                 return $cover->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d');
             })->first();
         }
-        
+
         array_push($breadcrumb, ['label' => 'Newsletters']);
 
         return view('admin.newsletter.index', compact('newsletters', 'covers', 'coverToday', 'breadcrumb'));
@@ -206,6 +203,9 @@ class NewsletterController extends Controller
             ['name' => 'newsletter1', 'label' => 'Plantilla 1'],
             ['name' => 'newsletter2', 'label' => 'Plantilla 2'],
             ['name' => 'newsletter3', 'label' => 'Plantilla 3'],
+            ['name' => 'newsletter4', 'label' => 'Plantilla 4'],
+            ['name' => 'newsletter5', 'label' => 'Plantilla 5'],
+            ['name' => 'newsletter6', 'label' => 'Plantilla 6'],
         ];
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);

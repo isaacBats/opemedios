@@ -15,10 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\File;
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +33,7 @@ class FileController extends Controller
         $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
         $date = Carbon::now();
         $path = ($isCover) ? "covers/{$date->year}/{$date->month}":"{$date->year}/{$date->month}";
-        
+
         $fileName = $file->hashName();
         Storage::disk('s3')->put($path, $file, 'public');
         $update = new File;
@@ -62,19 +62,19 @@ class FileController extends Controller
         return Str::after($file->path_filename, $initialPath);
     }
     public function validator ($data) {
-        
+
         return Validator::make($data, [
             'file' => 'file|max:1048576',                 // max_file_size in KB: 1GB
-        ], 
+        ],
         [
             'size' => 'El tamaño debe de ser menor a 1GB',
         ]);
     }
 
     public function uploadFile (Request $request) {
-        
+
         $files = $request->file('files');
-        
+
         $arrayFiles = array();
         foreach ($files as $file) {
             $this->validator(array('file' => $file))->validate();
@@ -117,7 +117,7 @@ class FileController extends Controller
                 $file->save();
 
                 return true;
-            } 
+            }
         } catch (Exception $e) {
             Log::error('Could not update image: ' . $e->getMessage());
             Log::error("Hay un error con la actualizacion del archivo {$e->getMessage()}");

@@ -328,6 +328,7 @@
 @section('scripts')
     <script type="text/javascript" src="{{ asset('lib/timepicker/timepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/select2/select2.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('lib/summernote/summernote.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             // settings timepicker
@@ -391,7 +392,14 @@
                         var divSelectSections = $('#div-select-sections-sources').html(`<p>No se pueden obtener las seciones de la fuente</p>`)
                         console.error(`Error-Sections: ${res.responseJSON.message}`)
                     }) 
-            })
+            });
+
+            // $('#textarea-sintesis').summernote({
+            //     height: 200,
+            //     toolbar: [
+            //         ['style', ['bold', 'italic', 'underline', 'clear']],
+            //       ]
+            // });
         })
 
     </script>
@@ -399,6 +407,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('lib/timepicker/timepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
+    <link href="{{ asset('lib/summernote/summernote.css') }}" rel='stylesheet' type='text/css' />
     <style>
         .row.item-note {
             margin-bottom: 20px;

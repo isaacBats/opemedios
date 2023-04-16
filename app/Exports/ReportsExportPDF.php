@@ -18,34 +18,60 @@
 
 namespace App\Exports;
 
-use App\AssignedNews;
-use App\Company;
 use App\Filters\AssignedNewsFilter;
 use App\Filters\NewsFilter;
-use App\News;
-use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
+use App\Models\Company;
 use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEvents, ShouldAutoSize
+class ReportsExportPDF implements FromCollection, /*FromQuery, WithMapping,*/ WithHeadings, WithEvents, ShouldAutoSize
 {
     use Exportable;
 
     private $request;
+    private $num = 0;
 
     public function __construct($request){
         $this->request = $request;
     }
+
+
+
+    public function collection()
+    {
+        $client = Company::find($this->request->input('company'));
+        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
+                ->pluck('news_id');
+
+        $objs = NewsFilter::filter($this->request, ['ids' => $notesIds]);
+
+
+        return $objs->get()->map(
+           function ($note) {
+                $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
+                $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
+                $this->num = $this->num + 1;
+                return [
+                    $this->num . "-OPE-{$note->id}",
+                    $note->title . "\r\n\r\n" . $note->synthesis,
+                    $note->author,
+                    ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
+                    $note->news_date->format('Y-m-d'),
+                    $note->cost,
+                    $trend . "\r\n\r\n" . $note->scope,
+                    $link
+                ];
+            }
+        );
+    }
+
 
     public function query()
     {
@@ -54,7 +80,6 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                 ->pluck('news_id');
 
         return NewsFilter::filter($this->request, ['ids' => $notesIds]);
-
     }
 
     public function map($note): array {
@@ -65,13 +90,8 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
 
         return [
             "OPE-{$note->id}",
-            //$note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            $note->title . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            //$theme,
-            //$note->synthesis,
-            //$note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
+            $note->title . "\r\n\r\n" . $note->synthesis,
             $note->author,
-            //($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
@@ -82,20 +102,14 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
 
     public function headings(): array {
         return [
+            //'#',
             'ID',
-            'Tema', //'Título | Tema | Síntesis',
-            //'Tema',
-            //'Síntesis',
+            'Tema',
             'Autor',
-            //'Tipo de autor',
-            'Fuente', //'Género | Fuente | Sección | Medio',
-            //'Fuente',
-            //'Sección',
-            //'Medio',
+            'Fuente',
             'Fecha nota',
             'Costo',
             'Tendencia | Alcance',
-            //'Alcance',
             'Link'
         ];
     }
@@ -105,10 +119,10 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
             AfterSheet::class => function(AfterSheet $event){
                 $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-                $event->sheet->getPageMargins()->setTop(0.1); 
-                $event->sheet->getPageMargins()->setRight(0.1); 
-                $event->sheet->getPageMargins()->setLeft(0.1); 
-                $event->sheet->getPageMargins()->setBottom(0.1); 
+                $event->sheet->getPageMargins()->setTop(0.1);
+                $event->sheet->getPageMargins()->setRight(0.1);
+                $event->sheet->getPageMargins()->setLeft(0.1);
+                $event->sheet->getPageMargins()->setBottom(0.1);
 
                 $event->sheet->getStyle('A1:H1')->applyFromArray([
                     'font' => [
@@ -129,10 +143,8 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                     ->setWidth(60)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('C')
-                    //->setWidth(10)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')
-                    //->setWidth(15)
                     ->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')
                     ->setWidth(16)
@@ -142,12 +154,10 @@ class ReportsExportPDF implements FromQuery, WithMapping, WithHeadings, WithEven
                     ->setAutoSize(false);
                 $event->sheet->getStyle('F')
                     ->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
                 $event->sheet->getColumnDimension('G')
                     ->setWidth(16)
                     ->setAutoSize(false);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
                 $event->sheet->setAutoFilter('A1:H1');
 
                 // hiperlink

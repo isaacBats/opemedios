@@ -26,13 +26,7 @@ use DB;
 use Maatwebsite\Excel\Concerns\{Exportable, WithMultipleSheets};
 
 
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
-use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Events\BeforeWriting;
-use Maatwebsite\Excel\Events\BeforeSheet;
-
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings, WithEvents, ShouldAutoSize, WithCustomStartCell
+class ReportsExport implements WithMultipleSheets
 {
     use Exportable;
 
@@ -42,6 +36,9 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     private $count_news;
     private $count_trend;
     private $count_mean;
+    private $columnas_generadas;
+    private $num = 0;
+    private $init_row = 40;
 
     private $client;
     private $notesIds;
@@ -79,8 +76,8 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         $client = Company::find($this->request->input('company'));
         $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
                 ->pluck('news_id');
+        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
 
-                
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
             $from = Carbon::create($this->request->input('start_date'));
@@ -95,33 +92,50 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
         $this->request->merge(['start_date' => $from_d]);
         $this->request->merge(['end_date' => $to_d]);
+        $obj = array();
 
-        //$notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])->pluck('news_id');
-        //$notesIdsArray = AssignedNewsFilter::filter($this->request, ['company' => $client])->pluck('news_id')->toArray();
-        
-        $tendencias = NewsFilter::filter($this->request, ['ids' => $notesIds])
-            ->select('trend', DB::raw('count(*) as total'))
-            ->groupBy('trend')
-            ->get();
+        /* TENDENCIAS */
+            $tendencias = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
+                ->select('trend', DB::raw('count(*) as total'))
+                ->groupBy('trend')
+                ->get();
 
-        $medios = NewsFilter::filter($this->request, ['ids' => $notesIds])
-            ->select('mean_id', DB::raw('count(*) as total'))
-            ->groupBy('mean_id')
-            ->get();
+            foreach($tendencias as $key => $itm)
+            {
+                $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa')) . ' (' . $itm->total .')';
+                $obj['trend'][] = $itm->total;
+            }
+            $this->count_trend = isset($obj['trend_lbl']) ? count($obj['trend_lbl']) : 0;
+        /* TENDENCIAS */
+
+        /* MEDIOS */
+            $medios = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
+                ->select('mean_id', DB::raw('count(*) as total'))
+                ->groupBy('mean_id')
+                ->get();
+            foreach($medios as $itm)
+            {
+                $obj['mean_lbl'][] = $itm->mean->name . ' (' . $itm->total .')';
+                $obj['mean'][] = $itm->total;
+            }
+            $this->count_mean = isset($obj['mean_lbl']) ? count($obj['mean_lbl']) : 0;
+        /* MEDIOS */
 
         $where = '';
 
-        $themes = DB::select("select themes.id, themes.name
-                            from assigned_news
-                            inner join news on assigned_news.news_id = news.id
-                            inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                            AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
-                            group by themes.id, themes.name
-                            order by name desc");
-        
+        $qry = "select themes.id, themes.name
+        from assigned_news
+        inner join news on assigned_news.news_id = news.id
+        inner join themes on assigned_news.theme_id = themes.id
+        where news.id in (" . str_replace(']', '', str_replace('[', '', $this->notesIds)) . ")
+        AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
+        group by themes.id, themes.name
+        order by name desc";
+
+        $themes = DB::select($qry);
         $this->themes = $themes;
 
+        $this->columnas_generadas = $this->generaColumnasExcel();
         $period = CarbonPeriod::create($from, $to);
 
         $fechas = array();
@@ -133,7 +147,7 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
                             from assigned_news
                             inner join news on assigned_news.news_id = news.id
                             inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
+                            where news.id in (" . str_replace(']', '', str_replace('[', '', $this->notesIds)) . ")
                             " . $where . "
                             group by date(news.created_at), themes.id, themes.name
                             order by date(news.created_at) desc");
@@ -142,45 +156,44 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
             $fechas[] = $date->format('Y-m-d');
         }
 
-        $obj = array();
+
+        $s = (6 + count($fechas));
+        $this->init_row = ($s < 40 ? 40 : $s);
+
+
         $json = '';
-        foreach ($themes as $theme)
+        foreach ($this->themes as $theme)
         {
+            $vnt_ = 0;
+
             $obj[0][0] = '';
             $obj[0][] = $theme->name;
             foreach ($fechas as $dt){
                 $dat_imp = '';
+
                 foreach ($data[$dt] as $dato_){
                     if($dato_->id == $theme->id)
+                    {
                         $dat_imp = $dato_->total;
+                        $vnt_ += $dato_->total;
+                    }
                 }
                 $obj[$dt][0] = $dt;
                 $obj[$dt][] = (empty($dat_imp) ? 0 : $dat_imp);
             }
+
+            $obj[0][count($obj[0]) - 1] = $theme->name . ' (' . $vnt_ . ')';
         }
 
         $this->count_news = count($obj);
 
-        foreach($tendencias as $key => $itm)
-        {
-            $obj['trend_lbl'][] = ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa'));
-            $obj['trend'][] = $itm->total;
-        }
-        $this->count_trend = isset($obj['trend_lbl']) ? count($obj['trend_lbl']) : 0;
-
-        foreach($medios as $itm)
-        {
-            $obj['mean_lbl'][] = $itm->mean->name;
-            $obj['mean'][] = $itm->total;
-        }
-        $this->count_mean = isset($obj['mean_lbl']) ? count($obj['mean_lbl']) : 0;
-
-        $this->graph1 = $obj;
-
-        //dd($this->graph1);
+        $this->data_graph = $obj;
     }
 
-    public function query()
+    /**
+     * @return array
+     */
+    public function sheets(): array
     {
         $obj = array(
             new DashboardSheet(
@@ -200,420 +213,45 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
         return $obj;
     }
 
-    public function headings(): array {
-        // return [
-        //     '#',
-        //     'Título',
-        //     'Tema',
-        //     'Síntesis',
-        //     'Autor',
-        //     'Tipo de autor',
-        //     'Género',
-        //     'Fuente',
-        //     'Sección',
-        //     'Medio',
-        //     'Fecha nota',
-        //     'Costo',
-        //     'Tendencia',
-        //     'Alcance',
-        //     'Link'
-        // ];
-        return [
-            'ID',
-            'Tema', //'Título | Tema | Síntesis',
-            //'Tema',
-            //'Síntesis',
-            'Autor',
-            //'Tipo de autor',
-            'Fuente', //'Género | Fuente | Sección | Medio',
-            //'Fuente',
-            //'Sección',
-            //'Medio',
-            'Fecha nota',
-            'Costo',
-            'Tendencia | Alcance',
-            //'Alcance',
-            'Link'
-        ];
-    }
+    public function generaColumnasExcel()
+    {
+        $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
 
-    public function charts() {
+        $dt = array();
+        $ind = -1;
+        $ind_ = 0;
+        $ind__ = -1;
 
-        $dt = [
-            'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
-            'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
-            'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
-            'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
-        
-
-            /* CHART LINE */                    
-                foreach($this->themes as $key => $itm)
-                    if($key != (count($this->themes) - 1))
-                        $dataSeriesLabels[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$' . $dt[$key] . '$1', null, 1);
-                
-                $xAxisTickValues = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$2:$A$' . $this->count_news, null, 4),
-                ];
-
-                foreach($this->themes as $key => $itm)
-                    if($key != (count($this->themes) - 1))
-                        $dataSeriesValues[] = new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$' . $dt[$key] . '$2:$' . $dt[$key] . '$' . $this->count_news, null, 4);
-                   
-                // Build the dataseries
-                $series = new DataSeries(
-                    DataSeries::TYPE_LINECHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues) - 1), // plotOrder
-                    $dataSeriesLabels, // plotLabel
-                    $xAxisTickValues, // plotCategory
-                    $dataSeriesValues          // plotValues
-                );
-
-                // Set up a layout object for the Pie chart
-                $layout = new Layout();
-                $layout->setShowVal(true);
-                $layout->setShowPercent(true);
-
-                // Set the series in the plot area
-                $plotArea = new PlotArea($layout, [$series]);
-                // Set the chart legend
-                $legend = new Legend(Legend::POSITION_RIGHT, null, false);
-
-                $title = new Title('Noticias');
-
-                // Create the chart
-                $chart = new Chart(
-                    'chart_line', // name
-                    $title, // title
-                    $legend, // legend
-                    $plotArea, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
-
-                // Set the position where the chart should appear in the worksheet
-                $chart->setTopLeftPosition('A21');
-                $chart->setBottomRightPosition('H39');
-
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART LINE */   
-
-
-
-
-
-
-
-
-
-            /* CHART2 */                    
-                // Set the Labels for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesLabels2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-                ];
-                // Set the X-Axis Labels
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $xAxisTickValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 1) . ':$G$' . ($this->count_news + 1), null, 4), // Q1 to Q4
-                ];
-                // Set the Data values for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 2) . ':$G$' . ($this->count_news + 2), null, 4),
-                ];
-
-                // Build the dataseries
-                $series2 = new DataSeries(
-                    DataSeries::TYPE_DONUTCHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues2) - 1), // plotOrder
-                    $dataSeriesLabels2, // plotLabel
-                    $xAxisTickValues2, // plotCategory
-                    $dataSeriesValues2          // plotValues
-                );
-
-                // Set up a layout object for the Pie chart
-                $layout2 = new Layout();
-                $layout2->setShowVal(true);
-                $layout2->setShowPercent(true);
-
-                // Set the series in the plot area
-                $plotArea2 = new PlotArea($layout2, [$series2]);
-                // Set the chart legend
-                $legend2 = new Legend(Legend::POSITION_RIGHT, null, false);
-
-                $title2 = new Title('Tendencias');
-
-                // Create the chart
-                $chart2 = new Chart(
-                    'chart2', // name
-                    $title2, // title
-                    $legend2, // legend
-                    $plotArea2, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
-
-                // Set the position where the chart should appear in the worksheet
-                $chart2->setTopLeftPosition('A1');
-                $chart2->setBottomRightPosition('C20');
-
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART2 */                    
-
-
-            /* CHART3 */                    
-   
-                // Set the Labels for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesLabels1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$C$1', null, 1), // 2011
-                ];
-                // Set the X-Axis Labels
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $xAxisTickValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Worksheet!$A$' . ($this->count_news + 3) . ':$G$' . ($this->count_news + 3), null, 4), // Q1 to Q4
-                ];
-                // Set the Data values for each data series we want to plot
-                //     Datatype
-                //     Cell reference for data
-                //     Format Code
-                //     Number of datapoints in series
-                //     Data values
-                //     Data Marker
-                $dataSeriesValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Worksheet!$A$' . ($this->count_news + 4) . ':$G$' . ($this->count_news + 4), null, 4),
-                ];
-
-                // Build the dataseries
-                $series1 = new DataSeries(
-                    DataSeries::TYPE_PIECHART, // plotType
-                    null, // plotGrouping (Pie charts don't have any grouping)
-                    range(0, count($dataSeriesValues1) - 1), // plotOrder
-                    $dataSeriesLabels1, // plotLabel
-                    $xAxisTickValues1, // plotCategory
-                    $dataSeriesValues1          // plotValues
-                );
-
-                // Set up a layout object for the Pie chart
-                $layout1 = new Layout();
-                $layout1->setShowVal(true);
-                $layout1->setShowPercent(true);
-
-                // Set the series in the plot area
-                $plotArea1 = new PlotArea($layout1, [$series1]);
-                // Set the chart legend
-                $legend1 = new Legend(Legend::POSITION_RIGHT, null, false);
-
-                $title1 = new Title('Medios');
-
-                // Create the chart
-                $chart1 = new Chart(
-                    'chart1', // name
-                    $title1, // title
-                    $legend1, // legend
-                    $plotArea1, // plotArea
-                    true, // plotVisibleOnly
-                    DataSeries::EMPTY_AS_GAP, // displayBlanksAs
-                    null, // xAxisLabel
-                    null   // yAxisLabel - Pie charts don't have a Y-Axis
-                );
-
-                // Set the position where the chart should appear in the worksheet
-                $chart1->setTopLeftPosition('D1');
-                $chart1->setBottomRightPosition('G20');
-
-                // Add the chart to the worksheet
-                //$worksheet->addChart($chart1);
-            /* CHART3 */                    
-
-
-
-
-
-
-
-
-
-
-
-
-                //return [];
-                return [$chart, $chart2, $chart1];
-    }
-
-    public function registerEvents(): array {
-        return [
-            AfterSheet::class => function(AfterSheet $event){
-                $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
-                $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-                $event->sheet->getPageMargins()->setTop(0.1); 
-                $event->sheet->getPageMargins()->setRight(0.1); 
-                $event->sheet->getPageMargins()->setLeft(0.1); 
-                $event->sheet->getPageMargins()->setBottom(0.1); 
-                
-                $event->sheet->getDelegate()->fromArray(
-                    $this->graph1
-                );
-
-                $event->sheet->getStyle('A40:H40')->applyFromArray([
-                    'font' => [
-                        'bold' => true,
-                        'color' => ['rgb' => 'EEEEEE'],
-                    ],
-                    'alignment' => [
-                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                    ],
-                    'fill' => [
-                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'color' => ['rgb' => '2474ac'],
-                    ],
-                ]);
-                // $event->sheet->getColumnDimension('B')
-                //     ->setWidth(40)
-                //     ->setAutoSize(false);
-                // $event->sheet->getColumnDimension('D')
-                //     ->setWidth(120)
-                //     ->setAutoSize(false);
-                // $event->sheet->getStyle('L')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                // $event->sheet->setAutoFilter('A40:O40');
-
-
-                $event->sheet->getColumnDimension('A')->setAutoSize(false);
-                $event->sheet->getColumnDimension('B')
-                    ->setWidth(60)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('C')
-                    //->setWidth(10)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('D')
-                    //->setWidth(15)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('E')
-                    ->setWidth(16)
-                    ->setAutoSize(false);
-                $event->sheet->getColumnDimension('F')
-                    ->setWidth(16)
-                    ->setAutoSize(false);
-                $event->sheet->getStyle('F')
-                    ->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->getColumnDimension('G')
-                    ->setWidth(16)
-                    ->setAutoSize(false);
-                // $event->sheet->getStyle('N')->getNumberFormat()
-                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $event->sheet->setAutoFilter('A40:H40');
-
-                // hiperlink
-                foreach ($event->sheet->getColumnIterator('H') as $row) {
-                    foreach ($row->getCellIterator() as $cell) {
-                        if (str_contains($cell->getValue(), '://')) {
-                            $cell->setHyperlink(new Hyperlink($cell->getValue()));
-                            $cell->setValue('Ir a la nota');
-                            // Upd: Link styling added
-                            $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
-                               'font' => [
-                                   'color' => ['rgb' => '0000FF'],
-                                   'underline' => 'single'
-                               ]
-                           ]);
-                        }
-                    }
-                }
-                $dt = [
-                    'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AX','AY','AZ',
-                    'BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BX','BY','BZ',
-                    'CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CX','CY','CZ',
-                    'DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM'];
-                
-                // format to impar row
-                foreach($event->sheet->getRowIterator() as $fila) {
-                    foreach ($fila->getCellIterator() as $celda) {
-                        if($celda->getRow() % 2 != 0){
-                            if($celda->getRow() === 1){
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
-                                    ->getColor()
-                                    ->setARGB('FFFFFF');
-                                continue;
-                            }
-
-                            if($fila->getRowIndex() > 40)
-                                $event->sheet->getStyle("A{$celda->getRow()}:H{$celda->getRow()}")->applyFromArray([
-                                    'fill' => [
-                                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                                        'color' => ['rgb' => 'e9f4fa'],
-                                    ],
-                                ]);
-                            else
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
-                                    ->getColor()
-                                    ->setARGB('FFFFFF');
-                                
-                        }else
-                            if($fila->getRowIndex() < 40)
-                                $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
-                                    ->getColor()
-                                    ->setARGB('FFFFFF');
-                    }
-                }
-
-                // format to impar row
-                foreach($event->sheet->getRowIterator() as $fila) {
-                    foreach ($fila->getCellIterator() as $celda) {
-                        //if($celda->getColumn() == 'B' /*|| $celda->getColumn() == 'D'*/) {
-                            if($celda->getRow() === 1){
-                                continue;
-                            }
-                            $col = $celda->getColumn();
-                            $num = $celda->getRow();
-
-                            if($fila->getRowIndex() > 40)
-                                $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(160);
-
-                            $event->sheet->getStyle("{$col}{$num}")->getAlignment()
-                                ->setVertical(Alignment::VERTICAL_CENTER)
-                                ->setHorizontal(Alignment::HORIZONTAL_LEFT)
-                                ->setWrapText(true);
-                        //}
-                    }
-                }
+        foreach($this->themes as $key => $itm)
+        {
+            if($key == 0)
+            {
+                $dt[] = $columns_excel[$ind_];
+                $ind_++;
             }
-        ];
+
+            if($ind == -1 && $key < count($columns_excel))
+                $dt[] = $columns_excel[$ind_];
+            elseif($ind__ == -1 && $ind < count($columns_excel))
+                $dt[] = $columns_excel[$ind] . $columns_excel[$ind_];
+            else
+                $dt[] = $columns_excel[$ind__] . $columns_excel[$ind] . $columns_excel[$ind_];
+
+            $ind_++;
+            if($ind_ == (count($columns_excel)))
+            {
+                $ind_ = 0;
+                $ind++;
+                if($ind == (count($columns_excel)))
+                {
+                    $ind = 0;
+                    $ind__++;
+                }
+
+            }
+        }
+
+        return $dt;
     }
+
 }

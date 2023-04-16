@@ -18,16 +18,20 @@
 
 namespace App\Http\Controllers;
 
-use App\AssignedNews;
-use App\Company;
 use App\Exports\ReportsExport;
 use App\Exports\ReportsExportPDF;
 use App\Filters\AssignedNewsFilter;
 use App\Filters\NewsFilter;
-use App\News;
+use App\Models\Company;
+use App\Models\ListReport;
 use App\Traits\StadisticsNotes;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -58,6 +62,66 @@ class ReportController extends Controller
         return view('admin.report.byclient', compact('companies', 'breadcrumb'));
     }
 
+    public function generate_reports_bd() {
+        $reportes = ListReport::where('created_at', '<', Carbon::now()->add('-10 days'))->get();
+
+        foreach($reportes as $itm)
+        {
+            Storage::disk('public')->delete($itm->name_file);
+            $itm->delete();
+        }
+
+        $data = ListReport::where('status', 0)->orderBy('id')->first();
+
+        if(!is_null($data))
+        {
+            $request = new Request;
+
+            $request->merge(
+                [
+                    'id_report' => $data->id,
+                    'name_file' => $data->name_file,
+                    'start_date' => $data->start_date,
+                    'end_date' => $data->end_date,
+                    'company' => $data->company,
+                    'theme_id' => $data->theme_id,
+                    'sector' => $data->sector,
+                    'genre' => $data->genre,
+                    'mean' => $data->mean,
+                    'source_id' => $data->source_id,
+                    'word' => $data->word,
+                ]
+            );
+
+            $this->export($request, true);
+        }
+    }
+
+    public function solicitados(Request $request, $slug_company = '')
+    {
+        $auth = Auth::user();
+        if ($auth->hasRole('admin')) {
+            $datos = ListReport::where('status', '>', 0)
+                ->orderBy('id', 'DESC')
+                ->get();
+        } else {
+            $user_id = $auth->id;
+            $datos = ListReport::where('status', '>', 0)->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+        }
+
+
+
+        $user = auth()->user();
+        if($user->isClient())
+        {
+            $company = Company::where('slug', $slug_company)->first();
+            return view('clients.list_solicitados', compact('company', 'datos'));
+        }
+        else
+            return view('admin.report.list_solicitados', compact('datos'));
+
+    }
+
     public function byNotes(Request $request) {
         $breadcrumb = array();
         $start = $request->input('start') ? $request->input('start') : null;
@@ -68,10 +132,6 @@ class ReportController extends Controller
         return view('admin.report.notes', compact('breadcrumb', 'notes'));
     }
 
-<<<<<<< Updated upstream
-    public function export(Request $request) {
-        return (new ReportsExport($request))->download('Reporte.xlsx');
-=======
     public function export(Request $request, $ind = false) {
 
         if($request->input('company') == null)
@@ -112,7 +172,7 @@ class ReportController extends Controller
             $report->save();
             return true;
         }
-        elseif(count($dates) < 3330)
+        elseif(count($dates) < 30)
             return (new ReportsExport($request))->download('Reporte.xlsx');
         else
         {
@@ -144,12 +204,20 @@ class ReportController extends Controller
         }
 
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');
-
->>>>>>> Stashed changes
     }
-    
+
     public function exportPDF(Request $request) {
-        //return (new ReportsExportPDF($request))->download('Reporte.xlsx');
         return (new ReportsExportPDF($request))->download('Reporte.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    public function cambiaEstatus(Request $request)
+    {
+        $id = $request->id;
+
+        $reporte = ListReport::find($id);
+        $reporte->status = 2;
+        $reporte->save();
+
+        return true;
     }
 }

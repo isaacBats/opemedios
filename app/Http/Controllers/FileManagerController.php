@@ -15,11 +15,10 @@
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
   */
-        
+
 namespace App\Http\Controllers;
 
-use App\Folder;
-use Illuminate\Http\Request;
+use App\Models\Folder;
 use Illuminate\Support\Facades\Storage;
 
 class FileManagerController extends Controller

@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('lib/jquery-ui/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/fontawesome/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/jquery-toggles/toggles-full.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/select2/select2.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/timepicker/timepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/dropzone/dropzone.css') }}" rel="stylesheet">
@@ -64,6 +65,7 @@
     @include('modalb4')
     <script src="{{ asset('lib/jquery/jquery.js') }}"></script>
     <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('lib/jquery-toggles/toggles.js') }}"></script>
     <script src="{{ asset('lib/bootstrap-4.0.0/js/bootstrap-400.js') }}"></script>
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script src="{{ asset('lib/timepicker/timepicker.js') }}"></script>

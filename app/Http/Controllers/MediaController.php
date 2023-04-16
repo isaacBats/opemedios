@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
-use Illuminate\Http\Request;
+use App\Models\File;
 
 class MediaController extends Controller
 {
     protected $image_allowed = ['jpg', 'png', 'jpeg', 'gif', 'pjpeg'];
-    
+
     protected $doc_allowed = ['csv', 'pdf', 'asf'];
-    
+
     protected $media_allowed_old = ['x-ms-wma', 'x-ms-wmv', 'mpeg3', 'mpeg4'];
-    
+
     protected $media_allowed = ['webm', 'mp4', 'ogv', 'ogg', '.mov', '.avi'];
-    
+
     protected $audio_allowed = ['mp3', 'wav', 'x-pn-wav', 'x-wav', 'mpeg'];
 
 
     public function getHTMLForMedia ($file, $path) {
         $aux = explode('/', $file->tipo);
         $type = end($aux);
-        
+
         $html = "El sistema no soporta elementos de tipo <strong>{$type}</strong>";
-        
+
         if(in_array($type, $this->image_allowed)) {
 
             return "<img class='img-responsive' style='width: 100%' src='{$path}' alt='Opemedios - {$file->nombre}' />";
@@ -69,7 +68,7 @@ class MediaController extends Controller
         $template = 'components.media-audio';
         if(in_array($file->extension(), $this->image_allowed)) {
             return view('components.media-image', compact('file'))->render();
-        } 
+        }
         // elseif(in_array($file->extension(), $this->doc_allowed)) {
         //     return view('components.media-document', compact('file'))->render();
         // }

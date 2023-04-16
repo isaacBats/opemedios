@@ -118,6 +118,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-4 col-sm-5 col-md-2 page-reports">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">{{ __('Reportes para descarga') }}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <a href="{{ route('admin.report.solicitados') }}"><div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div></a>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-4 col-sm-4 col-md-2 page-statistics">
                     <div class="panel">
                         <div class="panel-heading">

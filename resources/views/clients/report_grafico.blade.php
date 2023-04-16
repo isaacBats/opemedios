@@ -9,22 +9,26 @@
         <div class="uk-padding reporte-container" style="background: #fff;">
             <h1 class="page-header">Reporte <span class="tema-actual"></span></h1>
             <div class="">
-                <form action="{{ route('client.reporte_grafico', ['company' => $company]) }}" method="GET" id="form-report-filter">
+                <form action="{{ route('client.reporte_grafico', ['company' => $company]) }}" method="GET"
+                      id="form-report-filter">
                     <div class="uk-child-width-1-1 uk-child-width-1-4@s uk-child-width-1-4@m" uk-grid>
                         <input type="hidden" name="company" value="{{ $company->id }}">
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Fecha inicio</label>
-                            <input id="input-report-date-start" class="form-control uk-input" type="text" name="start_date" value="{{ $from_d }}">
+                            <input id="input-report-date-start" class="form-control uk-input" type="text"
+                                   name="start_date" value="{{ $from_d }}">
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Fecha fin</label>
-                            <input id="input-report-date-end" class="form-control uk-input" type="text" name="end_date" value="{{ $to_d }}">
+                            <input id="input-report-date-end" class="form-control uk-input" type="text" name="end_date"
+                                   value="{{ $to_d }}">
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Tema</label>
-                            <select style="width: 100%;" class="form-control uk-select select2" name="theme_id[]" id="" multiple>
+                            <select style="width: 100%;" class="form-control uk-select select2" name="theme_id[]" id=""
+                                    multiple>
                                 <option value="">** Todos **</option>
-                                @foreach(App\Company::where('slug', session()->get('slug_company'))->first()->themes as $theme)
+                                @foreach(App\Models\Company::where('slug', session()->get('slug_company'))->first()->themes as $theme)
                                     <option value="{{ $theme->id }}" {{ ((request()->has('theme_id') && in_array($theme->id, request('theme_id'))) ? 'selected' : '' ) }}>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
@@ -33,7 +37,7 @@
                             <label class="uk-form-label" for="">Sector</label>
                             <select style="width: 100%;" class="form-control uk-select select2" name="sector" id="">
                                 <option value="">** Todos **</option>
-                                @foreach(App\Sector::all() as $sector)
+                                @foreach(App\Models\Sector::all() as $sector)
                                     <option value="{{ $sector->id }}" {{ (request('sector') == $sector->id ? 'selected' : '' ) }} >{{ $sector->name }}</option>
                                 @endforeach
                             </select>
@@ -42,16 +46,17 @@
                             <label class="uk-form-label" for="">G&eacute;nero</label>
                             <select style="width: 100%;" class="form-control uk-select select2" name="genre" id="">
                                 <option value="">** Todos **</option>
-                                @foreach(App\Genre::all() as $genre)
+                                @foreach(App\Models\Genre::all() as $genre)
                                     <option value="{{ $genre->id }}" {{ (request('genre') == $genre->id ? 'selected' : '' ) }} >{{ $genre->description }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label" for="">Medio</label>
-                            <select style="width: 100%;" class="form-control uk-select select2" name="mean" id="select-report-mean">
+                            <select style="width: 100%;" class="form-control uk-select select2" name="mean"
+                                    id="select-report-mean">
                                 <option value="">** Todos **</option>
-                                @foreach(App\Means::all() as $mean)
+                                @foreach(App\Models\Means::all() as $mean)
                                     <option value="{{ $mean->id }}" {{ (request('mean') == $mean->id ? 'selected' : '' ) }}>{{ $mean->name }}</option>
                                 @endforeach
                             </select>
@@ -59,12 +64,17 @@
                         <div class="uk-margin" id="div-select-report-sources"></div>
                         <div class="uk-margin">
                             <label for="input-word" class="uk-form-label">Buscar por</label>
-                            <input class="form-control uk-input" type="text" name="word" id="input-word" placeholder="T&iacute;tulo o palabra..." value="{{ old('word') }}">
+                            <input class="form-control uk-input" type="text" name="word" id="input-word"
+                                   placeholder="T&iacute;tulo o palabra..." value="{{ old('word') }}">
                         </div>
                     </div>
                     <div class="uk-margin">
-                        <input id="btn-form-submit" class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium" type="submit" value="Filtrar / Buscar">
-                        <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium" id="btn-report-export">Exportar</a>
+                        <input id="btn-form-submit"
+                               class="btn btn-action uk-button uk-button-large uk-button-default uk-box-shadow-medium"
+                               type="submit" value="Filtrar / Buscar">
+                        <a href="javascript:void(0)" style="margin-left: 25px;"
+                           class="btn btn-action uk-button uk-button-large uk-button-secondary uk-box-shadow-medium"
+                           id="btn-report-export">Exportar</a>
                     </div>
                 </form>
             </div>
@@ -158,70 +168,73 @@
     <script src="{{ asset('lib/jquery-ui/jquery-ui.js') }}"></script>
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script type="text/javascript">
-         $(document).ready(function(){
+        $(document).ready(function () {
             $('.select2').select2();
 
             // select mean
-            $('#select-report-mean').on('change', function(event) {
+            $('#select-report-mean').on('change', function (event) {
                 getHTMLSources(event.target.value)
             })
 
             function getHTMLSources(noteType) {
-                $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
-                        var divSelectSources = $('#div-select-report-sources')
-                            .html(res)
-                        divSelectSources.find('label.col-form-label').removeClass().addClass('uk-form-label');
-                        divSelectSources.find('div.col-sm-10.col-md-11.col-lg-11').removeClass();
-                        divSelectSources.find('#select-fuente').css('width', '100%').select2({
-                            minimumInputLength: 3,
-                            ajax: {
-                                type: 'POST',
-                                url: "{{ route('api.getsourceajax') }}",
-                                dataType: 'json',
-                                data: function(params, noteType) {
-                                    return {
-                                        q: params.term,
-                                        mean_id: $('select#select-report-mean').val(),
-                                        "_token": $('meta[name="csrf-token"]').attr('content')
-                                    }
-                                },
-                                processResults: function(data) {
-                                    return {
-                                        results: data.items
-                                    }
-                                },
-                                cache: true
-                            }
-                        })
-                    }).fail(function(res){
-                        var divSelectSources = $('#div-select-report-sources').html(`<p>No se pueden obtener las fuentes</p>`)
-                        console.error(`Error-Sources: ${res.responseJSON.message}`)
+                $.post('{{ route('api.getsourceshtml') }}', {
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    'mean_id': noteType
+                }, function (res) {
+                    var divSelectSources = $('#div-select-report-sources')
+                        .html(res)
+                    divSelectSources.find('label.col-form-label').removeClass().addClass('uk-form-label');
+                    divSelectSources.find('div.col-sm-10.col-md-11.col-lg-11').removeClass();
+                    divSelectSources.find('#select-fuente').css('width', '100%').select2({
+                        minimumInputLength: 3,
+                        ajax: {
+                            type: 'POST',
+                            url: "{{ route('api.getsourceajax') }}",
+                            dataType: 'json',
+                            data: function (params, noteType) {
+                                return {
+                                    q: params.term,
+                                    mean_id: $('select#select-report-mean').val(),
+                                    "_token": $('meta[name="csrf-token"]').attr('content')
+                                }
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: data.items
+                                }
+                            },
+                            cache: true
+                        }
                     })
+                }).fail(function (res) {
+                    var divSelectSources = $('#div-select-report-sources').html(`<p>No se pueden obtener las fuentes</p>`)
+                    console.error(`Error-Sources: ${res.responseJSON.message}`)
+                })
             }
 
             format = "yy-mm-dd",
-            from = $("#input-report-date-start").datepicker({
+                from = $("#input-report-date-start").datepicker({
                     defaultDate: "+1w",
                     dateFormat: format,
                     changeMonth: true,
                     changeYear: true
-                }).on( "change", function() {
-                    to.datepicker( "option", "minDate", getDate( this ) );
+                }).on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
                 }),
-            to = $("#input-report-date-end").datepicker({
+                to = $("#input-report-date-end").datepicker({
                     defaultDate: "+1w",
                     dateFormat: format,
                     changeMonth: true,
                     changeYear: true
-                }).on( "change", function() {
-                    from.datepicker( "option", "maxDate", getDate( this ) );
-            });
+                }).on("change", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
 
-            function getDate( element ) {
+            function getDate(element) {
                 var date;
                 try {
                     date = $.datepicker.parseDate(format, element.value);
-                } catch( error ) {
+                } catch (error) {
                     date = null;
                     console.error(error);
                 }
@@ -229,7 +242,7 @@
                 return date;
             }
 
-            $('#btn-form-submit').on('click', function(event){
+            $('#btn-form-submit').on('click', function (event) {
                 event.preventDefault();
                 var form = $('#form-report-filter')
                     .attr('action', "{{ route('client.reporte_grafico', ['company' => session()->get('slug_company')]) }}")
@@ -237,7 +250,7 @@
                 form.submit();
             });
 
-            $('#btn-report-export').on('click', function(event){
+            $('#btn-report-export').on('click', function (event) {
                 event.preventDefault();
                 var form = $('#form-report-filter')
                     .attr('action', "{{ route('admin.report.export') }}")
@@ -245,27 +258,27 @@
                 form.submit();
             });
 
-         });
+        });
     </script>
 
 
     <script>
-        
+
         var options_tendencia = {
             //series: [44, 55, 41, 17, 15],
             series: [
                 @php $xcoma = '' @endphp
-                @foreach($tendencias as $itm)
-                    {{ $xcoma . $itm->total }}
-                    @php $xcoma = ',' @endphp
-                @endforeach
+                        @foreach($tendencias as $itm)
+                        {{ $xcoma . $itm->total }}
+                        @php $xcoma = ',' @endphp
+                        @endforeach
             ],
             //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             labels: [
                 @php $xcoma = '' @endphp
-                @foreach($tendencias as $itm)
-                    {{$xcoma}}"{{ ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa')) }}"
-                    @php $xcoma = ',' @endphp
+                        @foreach($tendencias as $itm)
+                        {{$xcoma}}"{{ ($itm->trend == 1 ? 'Positiva' : ($itm->trend == 2 ? 'Neutral' : 'Negativa')) }}"
+                @php $xcoma = ',' @endphp
                 @endforeach
             ],
             chart: {
@@ -285,7 +298,7 @@
                 type: 'gradient',
             },
             legend: {
-                formatter: function(val, opts) {
+                formatter: function (val, opts) {
                     const name = opts.w.globals.labels[opts.seriesIndex]
                     return name + " - " + opts.w.globals.series[opts.seriesIndex]
                 }
@@ -308,24 +321,23 @@
 
         var chart_tendencia = new ApexCharts(document.querySelector("#chart_tendencia"), options_tendencia);
         chart_tendencia.render();
-    
-    
-        
+
+
         var options_medio = {
             //series: [44, 33, 54, 45],
             series: [
                 @php $xcoma = '' @endphp
-                @foreach($medios as $itm)
-                    {{ $xcoma . $itm->total }}
-                    @php $xcoma = ',' @endphp
-                @endforeach
+                        @foreach($medios as $itm)
+                        {{ $xcoma . $itm->total }}
+                        @php $xcoma = ',' @endphp
+                        @endforeach
             ],
             //labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             labels: [
                 @php $xcoma = '' @endphp
-                @foreach($medios as $itm)
-                    {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
-                    @php $xcoma = ',' @endphp
+                        @foreach($medios as $itm)
+                        {{$xcoma}}"{{ $itm->mean->name . ' - ' . $itm->total }}"
+                @php $xcoma = ',' @endphp
                 @endforeach
             ],
             chart: {
@@ -338,15 +350,15 @@
                 opacity: 0.85,
                 image: {
                     src: [
-                        
+
                         @php $xcoma = '' @endphp
-                        @foreach($medios as $itm)
-                            {{$xcoma}}"{{ asset('images/'.$itm->mean->slug.'.png') }}"
-                            @php $xcoma = ',' @endphp
+                                @foreach($medios as $itm)
+                                {{$xcoma}}"{{ asset('images/'.$itm->mean->slug.'.png') }}"
+                        @php $xcoma = ',' @endphp
                         @endforeach
-                        // '../../assets/images/stripes.jpg', 
-                        // '../../assets/images/1101098.png', 
-                        // '../../assets/images/4679113782_ca13e2e6c0_z.jpg', 
+                        // '../../assets/images/stripes.jpg',
+                        // '../../assets/images/1101098.png',
+                        // '../../assets/images/4679113782_ca13e2e6c0_z.jpg',
                         // '../../assets/images/2979121308_59539a3898_z.jpg'
                     ],
                     width: 25,
@@ -382,10 +394,8 @@
 
         var chart_medio = new ApexCharts(document.querySelector("#chart_medio"), options_medio);
         chart_medio.render();
-      
-      
 
-        
+
         var options_hist = {
             series: [
                 // {
@@ -422,7 +432,7 @@
                 align: 'left'
             },
             legend: {
-                tooltipHoverFormatter: function(val, opts) {
+                tooltipHoverFormatter: function (val, opts) {
                     return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
                 }
             },
@@ -436,9 +446,9 @@
                 categories: [
                     //'01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan','10 Jan', '11 Jan', '12 Jan'
                     @php $xxcoma = ''; @endphp
-                    @foreach($fechas as $it)
-                        {{ $xxcoma }}'{{ $it }}'
-                        @php $xxcoma = ','; @endphp
+                            @foreach($fechas as $it)
+                            {{ $xxcoma }}'{{ $it }}'
+                    @php $xxcoma = ','; @endphp
                     @endforeach
                 ],
             },
@@ -447,21 +457,21 @@
                     {
                         title: {
                             formatter: function (val) {
-                            return val + " (mins)"
+                                return val + " (mins)"
                             }
                         }
                     },
                     {
                         title: {
                             formatter: function (val) {
-                            return val + " per session"
+                                return val + " per session"
                             }
                         }
                     },
                     {
                         title: {
                             formatter: function (val) {
-                            return val;
+                                return val;
                             }
                         }
                     }
@@ -471,7 +481,7 @@
                 borderColor: '#f1f1f1',
             }
         };
-        
+
         var chart_hist = new ApexCharts(document.querySelector("#chart_hist"), options_hist);
         chart_hist.render();
     </script>

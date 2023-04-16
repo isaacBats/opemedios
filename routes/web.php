@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'home')->name('home');
+
+Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
+
 Route::view('quienes-somos', 'aboutus')->name('about');
 Route::view('clientes', 'clients')->name('clients');
 Route::view('contacto', 'contact')->name('contact');
@@ -64,6 +67,8 @@ Route::group(['prefix' => '{company:slug}', 'middleware' => ['auth', 'role:clien
     Route::get('reporte', 'ClientController@report')->name('client.report');
     Route::post('reporte', 'ClientController@createReport')->name('client.report');
     Route::get('reporte-grafico', 'ClientController@reporteGrafico')->name('client.reporte_grafico');
+    Route::get('reportes/solicitados', 'ReportController@solicitados')->name('client.report.solicitados');
+    Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('client.report.cambia_estatus_reporte');
 
     Route::get('api/v2/cliente/notas-por-dia', 'ClientController@notesPerDay')->name('api.client.notesday');
     Route::get('api/v2/cliente/notas-por-anio', 'ClientController@notesPerYear')->name('api.client.notesyear');
@@ -87,13 +92,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
         Route::get('empresa/ver/{company:id}', 'CompanyController@show')->name('company.show');
+        Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
         Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
         Route::post('empresa/agregar-usuario-ajax', 'CompanyController@addUserAjax')->name('company.add.user.ajax');
         Route::post('empresa/agregar/usarios-empresa', 'CompanyController@addAccountsToCompany')
             ->name('admin.company.add.accounts');
         Route::post('empresa/actualizar/logo/{id}', 'CompanyController@updateLogo')->name('company.update.logo');
-        Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/editar/{id}', 'CompanyController@update')->name('company.update');
         Route::post('empresa/eliminar/{id}', 'CompanyController@delete')->name('admin.company.delete');
         Route::post('empresa/actualizar/nota/theme/{id}', 'CompanyController@updateAssignedNote')
@@ -128,11 +133,14 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('sector/editar/{id}', 'SectorController@update')->name('admin.sector.update');
         Route::post('sector/eliminar/{id}', 'SectorController@destroy')->name('admin.sector.destroy');
 
-        // Maganer role enters as a client
+        // Manager role enters as a client
         Route::get('redirect-to-client', 'AdminController@redirectTo')->name('admin.admin.redirectto');
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
         Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
+
+        Route::get('reportes/solicitados', 'ReportController@solicitados')->name('admin.report.solicitados');
+        Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('admin.report.cambia_estatus_reporte');
     });
 
     Route::get('usuario/show/{id}', 'UserController@show')->name('user.show');

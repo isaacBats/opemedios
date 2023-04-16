@@ -2,7 +2,7 @@
 <div class="col-sm-9 col-md-10 col-lg-11">
     <select class="form-control" id="select-newsletter-sends" name="newsletter_send_id">
         {{--<option value="01">{{ __('Último newsletter sin enviar') }}</option>--}}
-        <?php /**  @var \App\NewsletterSend $n_send */ ?>
+        <?php /**  @var \App\Models\NewsletterSend $n_send */ ?>
         @foreach($newslettersSends as $n_send)
             <option value="{{ $n_send->id }}" {{ (old('newsletter_send_id') == $n_send->id ? 'selected' : '' ) }} >{{ $n_send->label }}</option>
         @endforeach
