@@ -5,7 +5,7 @@
         <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->
                 <div class="btn-toolbar">
-                    <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET">
+                    <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET" autocomplete="off">
                         @csrf
                         <div class="row">
                             <div class="col-md-2 form-group">

@@ -18,35 +18,12 @@
 
 namespace App\Exports;
 
-Use DB;
-use App\AssignedNews;
-use App\Company;
-use App\Filters\AssignedNewsFilter;
-use App\Filters\NewsFilter;
-use App\News;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Crypt;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithCharts;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-
-use PhpOffice\PhpSpreadsheet\Chart\Chart;
-use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
-use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
-use PhpOffice\PhpSpreadsheet\Chart\Legend;
-use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
-use PhpOffice\PhpSpreadsheet\Chart\Title;
-use PhpOffice\PhpSpreadsheet\Chart\Layout;
+use App\Models\{Company, Theme};
+use App\Exports\Sheets\{DashboardSheet, DataTableSheet};
+use App\Filters\{AssignedNewsFilter, NewsFilter};
+use Carbon\{Carbon, CarbonPeriod};
+use DB;
+use Maatwebsite\Excel\Concerns\{Exportable, WithMultipleSheets};
 
 
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
@@ -66,8 +43,36 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
     private $count_trend;
     private $count_mean;
 
-    public function __construct($request){
+    private $client;
+    private $notesIds;
+    private $notes;
+    private $data_graph;
+    private $themes_group;
+
+    public function __construct($request)
+    {
         $this->request = $request;
+        $this->client = Company::find($this->request->input('company'));
+
+        $themes_group = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
+                    ->select('theme_id')
+                    ->groupBy('theme_id')->get();
+        
+        $this->themes_group = $themes_group;
+        foreach($themes_group as $key => $itm)
+        {
+            $notes_Ids = AssignedNewsFilter::filter($this->request, ['company' => $this->client, 'theme_id' => $itm->theme_id])
+                                ->pluck('news_id');
+            $notes_grp = NewsFilter::filter($this->request, ['ids' => $notes_Ids]);
+
+            $theme_name = Theme::find($itm->theme_id);
+            
+            $this->notes[$key][0] = $theme_name->name;
+            $this->notes[$key][1] = $notes_grp;
+        }
+
+        $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
+                            ->pluck('news_id');
 
 
         
@@ -177,60 +182,22 @@ class ReportsExport implements FromQuery, WithCharts, WithMapping, WithHeadings,
 
     public function query()
     {
-
-        $client = Company::find($this->request->input('company'));
-        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
-                ->pluck('news_id');
-
-        return NewsFilter::filter($this->request, ['ids' => $notesIds]);
-
-    }
-
-    
-    public function startCell(): string
-    {
-        return 'A40'; // . (count($themes) + 1);
-    }
-
-    public function map($note): array {
-
-        $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
-        $theme = $note->assignedNews->where('company_id', $this->request->input('company'))->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
-        $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->request->input('company')}")]);
-
-        // return [
-        //     "OPE-{$note->id}",
-        //     $note->title,
-        //     $theme,
-        //     $note->synthesis,
-        //     $note->author,
-        //     $note->authorType->description ?? 'N/E',
-        //     $note->genre->description ?? 'N/E',
-        //     $note->source->name ?? 'N/E',
-        //     $note->section->name ?? 'N/E',
-        //     $note->mean->name ?? 'N/E',
-        //     $note->news_date->format('Y-m-d'),
-        //     $note->cost,
-        //     $trend,
-        //     $note->scope,
-        //     $link
-        // ];
+        $obj = array(
+            new DashboardSheet(
+                $this->init_row,
+                $this->columnas_generadas,
+                $this->themes,
+                $this->count_news,
+                $this->count_trend,
+                $this->count_mean,
+                $this->data_graph));
         
-        return [
-            "OPE-{$note->id}",
-            //$note->title . "\r\n\r\n" . $theme . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            $note->title . "\r\n\r\n" . $note->synthesis,// . "\r\n\r\n\r\n" . $link,
-            //$theme,
-            //$note->synthesis,
-            //$note->author . "\r\n\r\n" . ($note->authorType->description ?? 'N/E'),
-            $note->author,
-            //($note->genre->description ?? 'N/E') . "\r\n\r\n" . ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->section->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
-            ($note->source->name ?? 'N/E') . "\r\n\r\n" . ($note->mean->name ?? 'N/E'),
-            $note->news_date->format('Y-m-d'),
-            $note->cost,
-            $trend . "\r\n\r\n" . $note->scope,
-            $link
-        ];
+        foreach($this->themes_group as $key => $itm)
+        {
+            $obj[] = new DataTableSheet($this->notes[$key][1], $this->client, $this->notes[$key][0]);
+        }
+
+        return $obj;
     }
 
     public function headings(): array {
