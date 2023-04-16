@@ -42,7 +42,7 @@ class ReportsExport implements WithMultipleSheets
 
     private $client;
     private $notesIds;
-    private $notes;
+    private $notes = array();
     private $data_graph;
     private $themes_group;
 
@@ -54,7 +54,7 @@ class ReportsExport implements WithMultipleSheets
         $themes_group = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
                     ->select('theme_id')
                     ->groupBy('theme_id')->get();
-        
+                    
         $this->themes_group = $themes_group;
         foreach($themes_group as $key => $itm)
         {
@@ -70,13 +70,6 @@ class ReportsExport implements WithMultipleSheets
 
         $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
                             ->pluck('news_id');
-
-
-        
-        $client = Company::find($this->request->input('company'));
-        $notesIds = AssignedNewsFilter::filter($this->request, ['company' => $client])
-                ->pluck('news_id');
-        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
 
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
