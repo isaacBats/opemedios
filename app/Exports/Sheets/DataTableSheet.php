@@ -42,7 +42,8 @@ class DataTableSheet implements
     WithEvents,
     WithHeadings,
     WithMapping,
-    WithTitle
+    WithTitle,
+    WithCustomStartCell
 {
     private $title;
     private $notes;
@@ -50,12 +51,14 @@ class DataTableSheet implements
     private $company;
     private $num = 0;
     private $init_row = 1;
+    private $start_row = 1;
 
-    public function __construct($notes, $company, $title)
+    public function __construct($notes, $company, $title, $start_row = 1)
     {
         $this->notes = $notes;
         $this->company = $company;
         $this->title = $title;
+        $this->start_row = $start_row;
     }
     
     public function query()
@@ -104,6 +107,9 @@ class DataTableSheet implements
     public function registerEvents(): array
     {
         return [
+            BeforeWriting::class => function(BeforeWriting $event) {
+                $event->writer->setActiveSheetIndex(0);
+            },
             AfterSheet::class => function (AfterSheet $event) {
                 $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL);
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
@@ -236,4 +242,10 @@ class DataTableSheet implements
     {
         return $this->title;
     }
+
+    public function startCell(): string
+    {
+        return 'A' . $this->start_row;
+    }
+
 }

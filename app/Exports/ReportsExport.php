@@ -198,10 +198,14 @@ class ReportsExport implements WithMultipleSheets
                 $this->count_mean,
                 $this->data_graph));
         
+        $start_row = 0;
+        $obj_dd = null;
         foreach($this->themes_group as $key => $itm)
         {
-            $obj[] = new DataTableSheet($this->notes[$key][1], $this->client, $this->notes[$key][0]);
+            $obj_dd .= $this->notes[$key][1];
+            $start_row += 10;
         }
+        $obj[1] = new DataTableSheet($obj_dd, $this->client, $this->notes[$key][0], $start_row);
 
         return $obj;
     }
