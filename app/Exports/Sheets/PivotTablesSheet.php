@@ -64,7 +64,7 @@ class PivotTablesSheet implements FromArray, WithTitle
         }))->toArray();
 
         foreach ($themes as $theme) {
-            $vnt_ = 0;
+            $themesCounter = 0;
             $data[0][0] = '';
             $data[0][] = $theme->name;
             foreach ($dates as $day) {
@@ -72,13 +72,13 @@ class PivotTablesSheet implements FromArray, WithTitle
                 foreach ($dataFromPeriodTime[$day] as $dataFromPeriodItem) {
                     if ($dataFromPeriodItem->id == $theme->id) {
                         $dat_imp = $dataFromPeriodItem->total;
-                        $vnt_ += $dataFromPeriodItem->total;
+                        $themesCounter += $dataFromPeriodItem->total;
                     }
                 }
                 $data[$day][0] = $day;
                 $data[$day][] = (empty($dat_imp) ? 0 : $dat_imp);
             }
-            $data[0][count($data[0]) - 1] = $theme->name . ' (' . $vnt_ . ')';
+            $data[0][count($data[0]) - 1] = $theme->name . ' (' . $themesCounter . ')';
         }
 
         return array_merge(
@@ -108,7 +108,7 @@ class PivotTablesSheet implements FromArray, WithTitle
     /**
      * @return array
      */
-    protected function getTrendInfo(): array
+    public function getTrendInfo(): array
     {
         $data = array();
         $notes = clone $this->notes;
@@ -129,7 +129,7 @@ class PivotTablesSheet implements FromArray, WithTitle
     /**
      * @return mixed
      */
-    protected function getUsedThemes()
+    public function getUsedThemes()
     {
         $notes = clone $this->notes;
         return AssignedNews::joinSub($notes, 'news', function ($join) {
@@ -143,7 +143,7 @@ class PivotTablesSheet implements FromArray, WithTitle
     /**
      * @return CarbonPeriod
      */
-    protected function getIntervalTime(): CarbonPeriod
+    public function getIntervalTime(): CarbonPeriod
     {
         if (isset($this->filters['start_date']) && isset($this->filters['end_date'])) {
             $from = Carbon::create($this->filters['start_date']);
@@ -161,7 +161,7 @@ class PivotTablesSheet implements FromArray, WithTitle
      * @param $period
      * @return array
      */
-    protected function getDataFromPeriodTime($period): array
+    public function getDataFromPeriodTime($period): array
     {
         $data = array();
         foreach ($period as $date) {
