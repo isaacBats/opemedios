@@ -206,6 +206,7 @@ class NewsletterController extends Controller
             ['name' => 'newsletter4', 'label' => 'Plantilla 4'],
             ['name' => 'newsletter5', 'label' => 'Plantilla 5'],
             ['name' => 'newsletter6', 'label' => 'Plantilla 6'],
+            ['name' => 'newsletter7', 'label' => 'Plantilla 7'],
         ];
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
