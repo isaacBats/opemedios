@@ -319,15 +319,6 @@ class NewsletterController extends Controller
         return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function addCovers()
-    {
-
-        return view('admin.newsletter.addcovers');
-    }
-
     public function remove(Request $request, $id)
     {
         try {

@@ -217,8 +217,10 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         ->name('admin.newsletter.config.removeemails');
     Route::post('newsletter/config/actualizar/plantilla', 'NewsletterController@updateTemplate')
         ->name('admin.newsletter.config.updatetemplate');
-    Route::get('newsletter/config/agregar/portadas', 'NewsletterController@addCovers')
+    Route::get('newsletter/config/agregar/portadas', 'NewsletterLinksCoversController@index')
         ->name('admin.newsletter.config.footer');
+    Route::post('newsletter/config/agregar/nuevo-cover', 'NewsletterLinksCoversController@store')
+        ->name('admin.newsletter.config.store.cover');
     Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')
         ->name('admin.newsletter.config.add.footer');
     Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')

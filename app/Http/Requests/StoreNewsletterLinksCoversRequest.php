@@ -13,7 +13,7 @@ class StoreNewsletterLinksCoversRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoreNewsletterLinksCoversRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => 'El nombre de la nueva portada es necesario.'
         ];
     }
 }

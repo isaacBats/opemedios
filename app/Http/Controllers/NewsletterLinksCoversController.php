@@ -5,38 +5,35 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewsletterLinksCoversRequest;
 use App\Http\Requests\UpdateNewsletterLinksCoversRequest;
 use App\Models\NewsletterLinksCovers;
+use Illuminate\Support\Str;
 
 class NewsletterLinksCoversController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $covers = NewsletterLinksCovers::all();
+        return view('admin.newsletter.addcovers', compact('covers'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreNewsletterLinksCoversRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreNewsletterLinksCoversRequest $request)
     {
-        //
+        $name = $request->input('name');
+        $cover = new NewsletterLinksCovers();
+        $cover->name = $name;
+        $cover->slug = Str::slug($name, '_');
+        $cover->save();
+
+        return redirect()->route('admin.newsletter.config.footer')->with('status', 'La nueva portada esta lista para configurar.');
+
     }
 
     /**
