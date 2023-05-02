@@ -79,6 +79,7 @@ class NewsletterController extends Controller
         return view('admin.newsletter.create', compact('companies', 'breadcrumb'));
     }
 
+    // TODO: Crear un Request para esta validacion
     protected function validator(array $data)
     {
         return Validator::make(
@@ -220,7 +221,7 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateBanner(Request $request, $id)
+    public function updateBanner(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $newsletter = Newsletter::findOrFail($id);
         try {
@@ -243,7 +244,7 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(Request $request, $id)
+    public function status(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $newsletter = Newsletter::findOrFail($id);
         try {
@@ -259,7 +260,6 @@ class NewsletterController extends Controller
 
     public function showNew(Request $request)
     {
-
         if (!$request->has('qry')) {
             return redirect()->route('home');
         }
@@ -319,6 +319,9 @@ class NewsletterController extends Controller
         return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function addCovers()
     {
 
