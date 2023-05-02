@@ -232,219 +232,87 @@ a[x-apple-data-detectors] {
          </tr>
        </table>
           {{-- Comienzan las noticias--}}
+          @php
+              $countIteratorThemes = 1;
+              $isEvent = false;
+          @endphp
+      @foreach ($newsletterSend->newsletter->company->themes as $theme)
+            <table class="es-content es-visible-simple-html-only" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                <tr style="border-collapse:collapse">
+                  <td align="center" style="padding:0;Margin:0">
+                   <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
+                    @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
+                        <tr style="border-collapse:collapse">
+                            <td align="left" {{ ($countIteratorThemes % 2) == 0 ? 'bgcolor="#e4e2d0"' : '' }} style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;{{ ($countIteratorThemes % 2) == 0 ? 'background-color:#e4e2d0' : '' }}">
+                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                    <tr style="border-collapse:collapse">
+                                        <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
+                                            <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top" width="100%" cellspacing="0" cellpadding="0" role="presentation">
+                                                <tr style="border-collapse:collapse">
+                                                    <td align="left" style="padding:0;Margin:0;padding-left:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:20px;color:#888260;font-size:13px"><strong>{{ strtoupper($theme->name) }}</strong></p></td>
+                                                </tr>
+                                                <tr style="border-collapse:collapse">
+                                                    <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px;font-size:0">
+                                                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                         <tr style="border-collapse:collapse">
+                                                          <td style="padding:0;Margin:0;border-bottom:2px solid #888260;background:unset;height:1px;width:100%;margin:0px"></td>
+                                                         </tr>
+                                                       </table>
+                                                    </td>
+                                                </tr>
+                                            </table></td>
+                                    </tr>
+                                </table></td>
+                        </tr>
+                       @php
+                           if($countIteratorThemes % 2 == 0){
+                               $isEvent = true;
+                           }
+                           $countIteratorThemes ++;
+                       @endphp
+                    @endif
+                    @foreach ($newsletterSend->newsletter_theme_news as $note)
+                        @if($note->theme->id == $theme->id)
+                         <tr style="border-collapse:collapse">
+                          <td align="left" {{ ($isEvent) ? 'bgcolor="#f9f8e8"' : '' }} style="padding:0;Margin:0;padding-top:5px;padding-left:20px;padding-right:20px;{{ ($isEvent) ? 'background-color:#f9f8e8' : '' }}">
+                           <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                             <tr style="border-collapse:collapse">
+                              <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
+                               <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                 <tr style="border-collapse:collapse">
+                                     <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">{{ $note->news->title }}</h2></a></td>
+                                 </tr>
+                                 <tr style="border-collapse:collapse">
+                                  <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px"> {!! $note->news->synthesis !!} ({{ $note->news->news_date->format('d-m-Y') }})</p></td>
+                                 </tr>
+                                 <tr style="border-collapse:collapse">
+                                  <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}">{{ $note->news->mean->name }}, <strong>{{ $note->news->source->name ?? 'N/E' }}</strong>, {{ $note->news->author }}</a></p></td>
+                                 </tr>
+                                 <tr style="border-collapse:collapse">
+                                  <td align="center" style="padding:20px;Margin:0;font-size:0">
+                                   <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                     <tr style="border-collapse:collapse">
+                                      <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
+                                     </tr>
+                                   </table></td>
+                                 </tr>
+                               </table></td>
+                             </tr>
+                           </table></td>
+                         </tr>
+                        @endif
+                    @endforeach
+                   @php
+                        $isEvent = false;
+                   @endphp
+                   </table></td>
+                </tr>
+            </table>
+      @endforeach
        <table class="es-content es-visible-simple-html-only" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
          <tr style="border-collapse:collapse">
           <td align="center" style="padding:0;Margin:0">
            <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
-             <tr style="border-collapse:collapse">
-              <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px">
-               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                   <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top" width="100%" cellspacing="0" cellpadding="0" role="presentation">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:20px;color:#888260;font-size:13px"><strong>COMPETIDORES</strong></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:2px solid #888260;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
-             <tr style="border-collapse:collapse">
-              <td align="left" style="padding:0;Margin:0;padding-top:5px;padding-left:20px;padding-right:20px">
-               <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
-           </table></td>
-         </tr>
-       </table>
-       <table class="es-content es-visible-simple-html-only" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-         <tr style="border-collapse:collapse">
-          <td align="center" style="padding:0;Margin:0">
-           <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
-             <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#e4e2d0" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-color:#e4e2d0">
-               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                   <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top" width="100%" cellspacing="0" cellpadding="0" role="presentation">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:20px;color:#888260;font-size:13px"><strong>INDICADORES MACROECONÓMICOS</strong></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:2px solid #888260;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
-             <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#f9f8e8" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-color:#f9f8e8">
-               <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
-           </table></td>
-         </tr>
-       </table>
-       <table class="es-content es-visible-simple-html-only" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-         <tr style="border-collapse:collapse">
-          <td align="center" style="padding:0;Margin:0">
-           <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
-             <tr style="border-collapse:collapse">
-              <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px">
-               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                   <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top" width="100%" cellspacing="0" cellpadding="0" role="presentation">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:20px;color:#888260;font-size:13px"><strong>SECTOR BANCARIO Y FINANCIERO</strong></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="Margin:0;padding-top:5px;padding-bottom:15px;padding-left:15px;padding-right:15px;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:2px solid #888260;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
-             <tr style="border-collapse:collapse">
-              <td align="left" style="padding:0;Margin:0;padding-top:5px;padding-left:20px;padding-right:20px">
-               <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                 <tr style="border-collapse:collapse">
-                  <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">DESCUENTO EN PAGO DE PREDIAL DEJA 81.6 MDP PARA PACHUCA DURANTE ENERO</h2></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px">La funcionaria municipal destacó la respuesta de los ciudadanos de la capital hidalguense durante enero en el Centro Cultural el Reloj, “ahí tenemos cajas donde pueden pagar con tarjeta de crédito o débito, si desean pagar en efectivo puede ir al banco o el Oxxo”. (06-02-23)</p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="">Internet, <strong>MILENIO.COM</strong>, ALEJANDRO REYES</a></p></td>
-                     </tr>
-                     <tr style="border-collapse:collapse">
-                      <td align="center" style="padding:20px;Margin:0;font-size:0">
-                       <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                         <tr style="border-collapse:collapse">
-                          <td style="padding:0;Margin:0;border-bottom:1px solid #0b5394;background:unset;height:1px;width:100%;margin:0px"></td>
-                         </tr>
-                       </table></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table></td>
-             </tr>
              <tr style="border-collapse:collapse">
               <td align="left" bgcolor="#a7a189" style="padding:0;Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;background-color:#a7a189">
                <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
