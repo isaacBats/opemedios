@@ -223,6 +223,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         ->name('admin.newsletter.config.store.cover');
     Route::post('newsletter/config/agregar/portadas', 'NewsletterFooterController@addCovers')
         ->name('admin.newsletter.config.add.footer');
+    Route::post('newsletter/config/guardar-portadas-newsletter', 'NewsletterController@saveConfigCovers')
+        ->name('admin.newsletter.config.save.covers');
     Route::post('newsletter/config/borrar/portadas-actuales/{id}', 'NewsletterFooterController@deleteCovers')
         ->name('admin.newsletter.config.delete.footer');
 

@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Newsletter
  * @package App
+ * @method static findOrFail($id)
  */
 class Newsletter extends Model
 {

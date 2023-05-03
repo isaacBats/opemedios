@@ -79,7 +79,6 @@
                         </div>
                     `
                 );
-
                 modal.modal('show')
             })
         });
