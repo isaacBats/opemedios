@@ -139,99 +139,31 @@ a[x-apple-data-detectors] {
            </table></td>
          </tr>
        </table>
-          {{-- Links de portadas--}}
-       <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-         <tr style="border-collapse:collapse">
-          <td class="es-adaptive" align="center" style="padding:0;Margin:0">
-           <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
+      {{-- Links de portadas--}}
+        @foreach($linksAllowed as $tableNumber => $links)
+           <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
              <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#afc4d2" style="padding:5px;Margin:0;background-color:#afc4d2"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
-               <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+              <td class="es-adaptive" align="center" style="padding:0;Margin:0">
+               <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
                  <tr style="border-collapse:collapse">
-                  <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
-                   <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $covers['primeras_planas'] }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>PRIMERAS PLANAS</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
-               <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
-                 <tr style="border-collapse:collapse">
-                  <td align="left" style="padding:0;Margin:0;width:285px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $covers['portadas_financieras'] }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>PORTADAS FINANCIERAS</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td></tr></table><![endif]--></td>
+                  <td align="left" bgcolor="#afc4d2" style="padding:5px;Margin:0;background-color:#afc4d2"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
+                      @foreach($links as $slug => $link)
+                           <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                             <tr style="border-collapse:collapse">
+                              <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
+                               <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                 <tr style="border-collapse:collapse">
+                                  <td align="left" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $link }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>{{ $covers->where('slug', $slug)->first()->name }}</strong></a></p></td>
+                                 </tr>
+                               </table></td>
+                             </tr>
+                           </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
+                      @endforeach
+              </td>
              </tr>
            </table>
-          </td>
-         </tr>
-       </table>
-       <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-         <tr style="border-collapse:collapse">
-          <td class="es-adaptive" align="center" style="padding:0;Margin:0">
-           <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
-             <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#f9f8e8" style="padding:5px;Margin:0;background-color:#f9f8e8"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
-               <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
-                 <tr style="border-collapse:collapse">
-                  <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
-                   <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $covers['cartones'] }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>CARTONES</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
-               <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
-                 <tr style="border-collapse:collapse">
-                  <td align="left" style="padding:0;Margin:0;width:285px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $covers['portadas_politicas'] }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>COLUMNAS POLITICAS</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td></tr></table><![endif]--></td>
-             </tr>
-           </table></td>
-         </tr>
-       </table>
-       <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-         <tr style="border-collapse:collapse">
-          <td class="es-adaptive" align="center" style="padding:0;Margin:0">
-           <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
-             <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#e4e2d0" style="padding:5px;Margin:0;background-color:#e4e2d0"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
-               <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
-                 <tr style="border-collapse:collapse">
-                  <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
-                   <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $covers['columnas_financieras'] }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>COLUMNAS FINANCIERAS</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
-               <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
-                 <tr style="border-collapse:collapse">
-                  <td align="left" style="padding:0;Margin:0;width:285px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                     <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="https://www.bmv.com.mx/es/relacion-con-inversionistas/reportes-financieros" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>BOLSA DE VALORES</strong></a></p></td>
-                     </tr>
-                   </table></td>
-                 </tr>
-               </table><!--[if mso]></td></tr></table><![endif]--></td>
-             </tr>
-           </table></td>
-         </tr>
-       </table>
-          {{-- Comienzan las noticias--}}
+       @endforeach
+      {{-- Comienzan las noticias--}}
           @php
               $countIteratorThemes = 1;
               $isEvent = false;
