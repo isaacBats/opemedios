@@ -141,27 +141,37 @@ a[x-apple-data-detectors] {
        </table>
       {{-- Links de portadas--}}
         @foreach($linksAllowed as $tableNumber => $links)
-           <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-             <tr style="border-collapse:collapse">
-              <td class="es-adaptive" align="center" style="padding:0;Margin:0">
-               <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
-                 <tr style="border-collapse:collapse">
-                  <td align="left" bgcolor="#afc4d2" style="padding:5px;Margin:0;background-color:#afc4d2"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
-                      @foreach($links as $slug => $link)
-                           <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
-                             <tr style="border-collapse:collapse">
-                              <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
-                               <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                                 <tr style="border-collapse:collapse">
-                                  <td align="left" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a href="{{ $link }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">➜ <strong>{{ $covers->where('slug', $slug)->first()->name }}</strong></a></p></td>
-                                 </tr>
-                               </table></td>
-                             </tr>
-                           </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
-                      @endforeach
-              </td>
-             </tr>
-           </table>
+              <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+                  <tr style="border-collapse:collapse">
+                      <td class="es-adaptive" align="center" style="padding:0;Margin:0">
+                          <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
+                              <tr style="border-collapse:collapse">
+                                  <td align="left" bgcolor="#afc4d2" style="padding:5px;Margin:0;background-color:#afc4d2"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
+                                      @foreach($links as $slug => $link)
+                                          <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+                                              <tr style="border-collapse:collapse">
+                                                  <td class="es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:285px">
+                                                      <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                                          <tr style="border-collapse:collapse">
+                                                              <td align="left" style="padding:0;Margin:0;padding-left:10px">
+                                                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                                                      <a href="{{ $link }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">
+                                                                          ➜ <strong>{{ $covers->where('slug', $slug)->first()->name }}</strong>
+                                                                      </a>
+                                                                  </p>
+                                                              </td>
+                                                          </tr>
+                                                      </table>
+                                                  </td>
+                                              </tr>
+                                          </table><!--[if mso]></td><td style="width:20px"></td><td style="width:285px" valign="top"><![endif]-->
+                                      @endforeach
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                  </tr>
+              </table>
        @endforeach
       {{-- Comienzan las noticias--}}
           @php
