@@ -19,9 +19,14 @@ class AssignedNewsFilter
                 $company = $params['company'];
                 return $q->where('company_id', $company->id);
             })
+            ->when(isset($params['theme_id']), function ($q) use ($params) {
+                $company = $params['theme_id'];
+                return $q->where('theme_id', $company);
+            })
             ->when($request->input('theme_id') !== null, function ($q) use ($request) {
                 $where = is_array($request->input('theme_id')) ? 'whereIn' : 'where';
                 return $q->$where('theme_id', $request->input('theme_id'));
+
             });
     }
 }

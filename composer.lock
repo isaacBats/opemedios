@@ -2789,7 +2789,12 @@
         },
         {
             "name": "maatwebsite/excel",
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+            "version": "3.1.40",
+=======
             "version": "3.1.47",
+>>>>>>> 6ed58ab4d38a3b26e8117f5d4104e8c215140861
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
@@ -2797,8 +2802,25 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/8a54972e3d616c74687c3cbff15765555761885c",
+                "reference": "8a54972e3d616c74687c3cbff15765555761885c",
+=======
+            "version": "3.1.48",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
+                "reference": "6d0fe2a1d195960c7af7bf0de760582da02a34b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/6d0fe2a1d195960c7af7bf0de760582da02a34b9",
+                "reference": "6d0fe2a1d195960c7af7bf0de760582da02a34b9",
+>>>>>>> Stashed changes
+=======
                 "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/fd928d68a1422d6abce73255b4406b3c5659e197",
                 "reference": "fd928d68a1422d6abce73255b4406b3c5659e197",
+>>>>>>> 6ed58ab4d38a3b26e8117f5d4104e8c215140861
                 "shasum": ""
             },
             "require": {
@@ -2853,7 +2875,15 @@
             ],
             "support": {
                 "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.40"
+=======
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.48"
+>>>>>>> Stashed changes
+=======
                 "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.47"
+>>>>>>> 6ed58ab4d38a3b26e8117f5d4104e8c215140861
             },
             "funding": [
                 {
@@ -2865,7 +2895,15 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+            "time": "2022-05-02T13:50:01+00:00"
+=======
+            "time": "2023-02-22T21:01:38+00:00"
+>>>>>>> Stashed changes
+=======
             "time": "2023-02-16T15:09:07+00:00"
+>>>>>>> 6ed58ab4d38a3b26e8117f5d4104e8c215140861
         },
         {
             "name": "maennchen/zipstream-php",
