@@ -25,6 +25,7 @@ use App\Models\Company;
 use App\Models\News;
 use App\Models\Newsletter;
 use App\Models\NewsletterFooter;
+use App\Models\NewsletterLinksCovers;
 use App\Models\NewsletterSend;
 use App\Models\User;
 use Carbon\Carbon;
@@ -79,6 +80,7 @@ class NewsletterController extends Controller
         return view('admin.newsletter.create', compact('companies', 'breadcrumb'));
     }
 
+    // TODO: Crear un Request para esta validacion
     protected function validator(array $data)
     {
         return Validator::make(
@@ -206,12 +208,40 @@ class NewsletterController extends Controller
             ['name' => 'newsletter4', 'label' => 'Plantilla 4'],
             ['name' => 'newsletter5', 'label' => 'Plantilla 5'],
             ['name' => 'newsletter6', 'label' => 'Plantilla 6'],
+            ['name' => 'newsletter7', 'label' => 'Plantilla 7'],
         ];
+        $covers = NewsletterLinksCovers::all();
+        $savedCovers = unserialize($newsletter->covers);
+        $savedColors = unserialize($newsletter->colors);
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
-        array_push($breadcrumb, ['label' => "Configuracion {$newsletter->name}"]);
+        array_push($breadcrumb, ['label' => "Configuración {$newsletter->name}"]);
 
-        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb'));
+        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb', 'covers', 'savedCovers', 'savedColors'));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveConfigCovers(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
+        $newsletter->covers = serialize($request->input('covers'));
+        $newsletter->save();
+        return redirect()->route('admin.newsletter.config', ['id' => $newsletter->id])->with('status', 'Portadas guardadas correctamente');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveConfigColors(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
+        $newsletter->colors = serialize($request->except(['_token', 'newsletter_id']));
+        $newsletter->save();
+        return redirect()->route('admin.newsletter.config', ['id' => $newsletter->id])->with('status', 'Paleta de colores guardada correctamente');
     }
 
     /**
@@ -219,7 +249,7 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateBanner(Request $request, $id)
+    public function updateBanner(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $newsletter = Newsletter::findOrFail($id);
         try {
@@ -242,7 +272,7 @@ class NewsletterController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(Request $request, $id)
+    public function status(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $newsletter = Newsletter::findOrFail($id);
         try {
@@ -258,7 +288,6 @@ class NewsletterController extends Controller
 
     public function showNew(Request $request)
     {
-
         if (!$request->has('qry')) {
             return redirect()->route('home');
         }
@@ -302,7 +331,12 @@ class NewsletterController extends Controller
         return $this->sendSelectHTMLWithSends($request);
     }
 
-    public function removeNewsletterSend(Request $request, $sendId)
+    /**
+     * @param Request $request
+     * @param $sendId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function removeNewsletterSend(Request $request, $sendId): \Illuminate\Http\RedirectResponse
     {
         $newsletterSend = NewsletterSend::findOrFail($sendId);
         $newsletterSend->delete();
@@ -310,7 +344,11 @@ class NewsletterController extends Controller
         return back()->with('status', "Se ha eliminado el newsletter satisfactoriamente");
     }
 
-    public function updateTemplate(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateTemplate(Request $request): \Illuminate\Http\RedirectResponse
     {
         $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
         $newsletter->template = $request->input('template');
@@ -318,17 +356,17 @@ class NewsletterController extends Controller
         return back()->with('status', "Se ha definido el template para el newsletter satisfactoriamente");
     }
 
-    public function addCovers()
-    {
-
-        return view('admin.newsletter.addcovers');
-    }
-
-    public function remove(Request $request, $id)
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remove(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         try {
             $newsletter = Newsletter::findOrFail($id);
             $name = $newsletter->name;
+            $newsletter->active = 0;
             $newsletter->newsletter_theme_news()->delete();
             $newsletter->newsletter_users()->forceDelete();
             $newsletter->forceDelete();
