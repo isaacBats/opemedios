@@ -212,11 +212,12 @@ class NewsletterController extends Controller
         ];
         $covers = NewsletterLinksCovers::all();
         $savedCovers = unserialize($newsletter->covers);
+        $savedColors = unserialize($newsletter->colors);
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
         array_push($breadcrumb, ['label' => "Configuración {$newsletter->name}"]);
 
-        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb', 'covers', 'savedCovers'));
+        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb', 'covers', 'savedCovers', 'savedColors'));
     }
 
     /**
@@ -229,6 +230,18 @@ class NewsletterController extends Controller
         $newsletter->covers = serialize($request->input('covers'));
         $newsletter->save();
         return redirect()->route('admin.newsletter.config', ['id' => $newsletter->id])->with('status', 'Portadas guardadas correctamente');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveConfigColors(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $newsletter = Newsletter::findOrFail($request->input('newsletter_id'));
+        $newsletter->colors = serialize($request->except(['_token', 'newsletter_id']));
+        $newsletter->save();
+        return redirect()->route('admin.newsletter.config', ['id' => $newsletter->id])->with('status', 'Paleta de colores guardada correctamente');
     }
 
     /**

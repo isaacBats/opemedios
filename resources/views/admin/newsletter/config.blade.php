@@ -84,6 +84,51 @@
             </div>
             <div class="panel panel-success">
                 <div class="panel-heading">
+                    <h4 class="panel-title">Elija los colores para el newsletter</h4>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ route('admin.newsletter.config.save.colors') }}" class="form-horizontal" method="POST">
+                        @csrf
+                        <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label nopaddingtop">Paleta de colores</label>
+                            <div class="col-sm-9">
+                                <label>
+                                    <span>Fondo principal</span>
+                                    <input type="color" name="bg_primary" value="{{ old('bg_primary', $savedColors['bg_primary']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo portadas</span>
+                                    <input type="color" name="bg_covers" value="{{ old('bg_covers', $savedColors['bg_covers']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo texto portadas</span>
+                                    <input type="color" name="bg_font_covers" value="{{ old('bg_font_covers', $savedColors['bg_font_covers']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo secundario titulo tema</span>
+                                    <input type="color" name="bg_title_second" value="{{ old('bg_title_second', $savedColors['bg_title_second']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo secundario cuerpo temas</span>
+                                    <input type="color" name="bg_body_theme_second" value="{{ old('bg_body_theme_second', $savedColors['bg_body_theme_second']) }}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-1 col-md-offset-11">
+                                <input type="submit" class="btn btn-success" value="Guardar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
                     <h4 class="panel-title">Elige un template para este Newsletter</h4>
                 </div>
                 <div class="panel-body">

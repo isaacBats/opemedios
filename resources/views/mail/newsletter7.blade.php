@@ -73,6 +73,14 @@ a[x-apple-data-detectors] {
 				<v:fill type="tile" color="#f7f7f7"></v:fill>
 			</v:background>
 		<![endif]-->
+  @php
+      $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+      $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#a7a189";
+      $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#afc4d2";
+      $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#3D5CA3";
+      $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#e4e2d0";
+      $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#f9f8e8";
+  @endphp
    <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F7F7F7">
      <tr style="border-collapse:collapse">
       <td valign="top" style="padding:0;Margin:0">
@@ -81,7 +89,7 @@ a[x-apple-data-detectors] {
           <td class="es-adaptive" align="center" style="padding:0;Margin:0">
            <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
              <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#a7a189" style="Margin:0;padding-bottom:5px;padding-left:5px;padding-right:5px;padding-top:20px;background-color:#a7a189;border-radius:15px 15px 0px 0px">
+              <td align="left" bgcolor="{{ $bgPrimary }}" style="Margin:0;padding-bottom:5px;padding-left:5px;padding-right:5px;padding-top:20px;background-color:{{ $bgPrimary }};border-radius:15px 15px 0px 0px">
                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr style="border-collapse:collapse">
                   <td valign="top" align="center" style="padding:0;Margin:0;width:590px">
@@ -117,14 +125,14 @@ a[x-apple-data-detectors] {
                   <td valign="top" align="center" style="padding:0;Margin:0;width:590px">
                    <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr style="border-collapse:collapse">
-                      <td class="es-infoblock made_with" align="left" style="Margin:0;padding-right:10px;padding-top:15px;padding-left:20px;padding-bottom:35px;line-height:0px;font-size:0px;color:#999999"><a target="_blank" href="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$newsletterSend->id}-{$newsletterSend->newsletter->company->id}")]) }}" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:11px"><img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" height="56"></a></td>
+                      <td class="es-infoblock made_with" align="left" style="Margin:0;padding-right:10px;padding-top:15px;padding-left:20px;padding-bottom:35px;line-height:0px;font-size:0px;color:#999999"><a target="_blank" href="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$newsletterSend->id}-{$newsletterSend->newsletter->company->id}")]) }}" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $bgFontCovers }};font-size:11px"><img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" height="56"></a></td>
                      </tr>
                    </table></td>
                  </tr>
                </table></td>
              </tr>
              <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#a7a189" style="Margin:0;padding-left:5px;padding-right:5px;padding-top:40px;padding-bottom:40px;background-color:#a7a189;background-image:url({{ asset("images/opemedios_news7_minibanner.jpeg") }});background-repeat:no-repeat;background-position:center top" background="{{ asset("images/opemedios_news7_minibanner.jpeg") }}">
+              <td align="left" bgcolor="{{ $bgPrimary }}" style="Margin:0;padding-left:5px;padding-right:5px;padding-top:40px;padding-bottom:40px;background-color:{{ $bgPrimary }};background-image:url({{ asset("images/opemedios_news7_minibanner.jpeg") }});background-repeat:no-repeat;background-position:center top" background="{{ asset("images/opemedios_news7_minibanner.jpeg") }}">
                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr style="border-collapse:collapse">
                   <td valign="top" align="center" style="padding:0;Margin:0;width:590px">
@@ -146,7 +154,7 @@ a[x-apple-data-detectors] {
                       <td class="es-adaptive" align="center" style="padding:0;Margin:0">
                           <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
                               <tr style="border-collapse:collapse">
-                                  <td align="left" bgcolor="#afc4d2" style="padding:5px;Margin:0;background-color:#afc4d2"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
+                                  <td align="left" bgcolor="{{ $bgCovers }}" style="padding:5px;Margin:0;background-color:{{ $bgCovers }}"><!--[if mso]><table style="width:590px" cellpadding="0" cellspacing="0"><tr><td style="width:285px" valign="top"><![endif]-->
                                       @foreach($links as $slug => $link)
                                           <table cellspacing="0" cellpadding="0" align="left" class="es-left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
                                               <tr style="border-collapse:collapse">
@@ -155,7 +163,7 @@ a[x-apple-data-detectors] {
                                                           <tr style="border-collapse:collapse">
                                                               <td align="left" style="padding:0;Margin:0;padding-left:10px">
                                                                   <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                                                      <a href="{{ $link }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px">
+                                                                      <a href="{{ $link }}" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $bgFontCovers }};font-size:14px">
                                                                           ➜ <strong>{{ $covers->where('slug', $slug)->first()->name }}</strong>
                                                                       </a>
                                                                   </p>
@@ -185,7 +193,7 @@ a[x-apple-data-detectors] {
                    <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
                     @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
                         <tr style="border-collapse:collapse">
-                            <td align="left" {{ ($countIteratorThemes % 2) == 0 ? 'bgcolor="#e4e2d0"' : '' }} style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;{{ ($countIteratorThemes % 2) == 0 ? 'background-color:#e4e2d0' : '' }}">
+                            <td align="left" {{ ($countIteratorThemes % 2) == 0 ? 'bgcolor='.$bgTitleSecond : '' }} style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;{{ ($countIteratorThemes % 2) == 0 ? 'background-color:'.$bgTitleSecond : '' }}">
                                 <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                     <tr style="border-collapse:collapse">
                                         <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
@@ -216,19 +224,19 @@ a[x-apple-data-detectors] {
                     @foreach ($newsletterSend->newsletter_theme_news as $note)
                         @if($note->theme->id == $theme->id)
                          <tr style="border-collapse:collapse">
-                          <td align="left" {{ ($isEvent) ? 'bgcolor="#f9f8e8"' : '' }} style="padding:0;Margin:0;padding-top:5px;padding-left:20px;padding-right:20px;{{ ($isEvent) ? 'background-color:#f9f8e8' : '' }}">
+                          <td align="left" {{ ($isEvent) ? 'bgcolor='.$bgBodyThemeSecond : '' }} style="padding:0;Margin:0;padding-top:5px;padding-left:20px;padding-right:20px;{{ ($isEvent) ? 'background-color:'.$bgBodyThemeSecond : '' }}">
                            <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                              <tr style="border-collapse:collapse">
                               <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
                                <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                  <tr style="border-collapse:collapse">
-                                     <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">{{ $note->news->title }}</h2></a></td>
+                                     <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $bgFontCovers }};font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}"><h2 class="name" style="Margin:0;line-height:16px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#0B5394">{{ $note->news->title }}</h2></a></td>
                                  </tr>
                                  <tr style="border-collapse:collapse">
                                   <td class="es-m-txt-c" align="left" style="padding:0;Margin:0;padding-top:5px;padding-right:5px;padding-bottom:20px"><p class="title2" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:18px;color:#666666;font-size:12px"> {!! $note->news->synthesis !!} ({{ $note->news->news_date->format('d-m-Y') }})</p></td>
                                  </tr>
                                  <tr style="border-collapse:collapse">
-                                  <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#3D5CA3;font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}">{{ $note->news->mean->name }}, <strong>{{ $note->news->source->name ?? 'N/E' }}</strong>, {{ $note->news->author }}</a></p></td>
+                                  <td class="es-m-txt-c" align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><a target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $bgFontCovers }};font-size:14px" href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}">{{ $note->news->mean->name }}, <strong>{{ $note->news->source->name ?? 'N/E' }}</strong>, {{ $note->news->author }}</a></p></td>
                                  </tr>
                                  <tr style="border-collapse:collapse">
                                   <td align="center" style="padding:20px;Margin:0;font-size:0">
@@ -256,13 +264,13 @@ a[x-apple-data-detectors] {
           <td align="center" style="padding:0;Margin:0">
            <table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
              <tr style="border-collapse:collapse">
-              <td align="left" bgcolor="#a7a189" style="padding:0;Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;background-color:#a7a189">
+              <td align="left" bgcolor="{{ $bgPrimary }}" style="padding:0;Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;background-color:{{ $bgPrimary }}">
                <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr style="border-collapse:collapse">
                   <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
-                   <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#a7a189" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#a7a189" role="presentation">
+                   <table cellpadding="0" cellspacing="0" width="100%" bgcolor="{{ $bgPrimary }}" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:{{ $bgPrimary }}" role="presentation">
                      <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#a7a189;font-size:14px"><br></p></td>
+                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:{{ $bgPrimary }};font-size:14px"><br></p></td>
                      </tr>
                    </table></td>
                  </tr>
