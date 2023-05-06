@@ -211,8 +211,16 @@ class NewsletterController extends Controller
             ['name' => 'newsletter7', 'label' => 'Plantilla 7'],
         ];
         $covers = NewsletterLinksCovers::all();
-        $savedCovers = $newsletter->covers ? unserialize($newsletter->covers) : [];
-        $savedColors = $newsletter->colors ? unserialize($newsletter->colors) : [];
+        $defaultCovers = ['primeras_planas'];
+        $defaultColors = [
+            'bg_primary' => "#000",
+            'bg_covers' => "#000",
+            'bg_font_covers' => "#000",
+            'bg_title_second' => "#000",
+            'bg_body_theme_second' => "#000"
+        ];
+        $savedCovers = $newsletter->covers ? unserialize($newsletter->covers) : $defaultCovers;
+        $savedColors = $newsletter->colors ? unserialize($newsletter->colors) : $defaultColors;
 
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
         array_push($breadcrumb, ['label' => "Configuración {$newsletter->name}"]);
