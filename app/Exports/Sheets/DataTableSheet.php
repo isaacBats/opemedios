@@ -18,37 +18,84 @@
  
 namespace App\Exports\Sheets;
 
+use Illuminate\Support\Facades\Crypt;
 use Carbon\{Carbon, CarbonPeriod};
 use Maatwebsite\Excel\Concerns\{
-    FromView,
-    WithEvents
+    FromQuery,
+    ShouldAutoSize,
+    WithEvents,
+    WithHeadings,
+    WithMapping,
+    WithTitle
 };
-use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\{ RegistersEventListeners, WithCustomStartCell };
+use Maatwebsite\Excel\Events\{ BeforeExport, BeforeWriting, BeforeSheet };
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 
-class DataTableSheet implements FromView, WithEvents
+class DataTableSheet implements
+    FromQuery,
+    ShouldAutoSize,
+    WithEvents,
+    WithHeadings,
+    WithMapping,
+    WithTitle
 {
-    private $notes;
-    private $themes_group;
+    private $notesIds;
     private $company;
+    private $num = 0;
+    private $init_row = 1;
 
-    public function __construct($notes, $company, $themes_group)
+    public function __construct($notes, $company)
     {
         $this->notes = $notes;
-        $this->themes_group = $themes_group;
         $this->company = $company;
     }
     
-    public function view(): View
+    public function query()
     {
-        return view('exports.notes', [
-            'notes' => $this->notes,
-            'company' => $this->company,
-            'themes_group' => $this->themes_group
-        ]);
+        return $this->notes;
+    }
+
+    public function map($note): array
+    {
+        $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
+        $theme = $note->assignedNews->where('company_id', $this->company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
+        $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->company->id}")]);
+
+        $this->num = $this->num + 1;
+
+        return [
+            $this->num . "-OPE-{$note->id}",
+            $note->title . "|" . $link,
+            $note->synthesis,
+            $note->author,
+            ($note->source->name ?? 'N/E'),
+            $note->news_date->format('Y-m-d'),
+            $note->cost,
+            $trend,
+            $note->mean->name ?? 'N/E',
+            $note->scope,
+        ];
+    }
+
+    public function headings(): array
+    {
+        return [
+            'ID',
+            'Título',
+            'Síntesis',
+            'Autor',
+            'Fuente',
+            'Fecha nota',
+            'Costo',
+            'Tendencia',
+            'Medio',
+            'Alcance',
+        ];
     }
 
     public function registerEvents(): array
@@ -62,8 +109,24 @@ class DataTableSheet implements FromView, WithEvents
                 $event->sheet->getPageMargins()->setLeft(0.1);
                 $event->sheet->getPageMargins()->setBottom(0.1);
 
-                $event->sheet->getColumnDimension('A')
-                    ->setAutoSize(false);
+                // $event->sheet->getDelegate()->fromArray(
+                //     $this->graph1
+                // );
+
+                $event->sheet->getStyle("A{$this->init_row}:J{$this->init_row}")->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                        'color' => ['rgb' => 'EEEEEE'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'color' => ['rgb' => '2474ac'],
+                    ],
+                ]);
+                $event->sheet->getColumnDimension('A')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')
                     ->setWidth(30)
                     ->setAutoSize(false);
@@ -96,14 +159,20 @@ class DataTableSheet implements FromView, WithEvents
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
+                $event->sheet->setAutoFilter('A' . $this->init_row . ':J' . $this->init_row);
+
                 // hiperlink
-                foreach ($event->sheet->getColumnIterator('A') as $row) {
+                foreach ($event->sheet->getColumnIterator('B') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $nota = explode('|', $cell->getValue());
+                            
+                            
                             $link = route('front.detail.news', ['qry' => '']);
+
                             //$cell->setHyperlink(new Hyperlink(isset($nota[1]) ? $nota[1] : ''));
                             $cnt = (count($nota) < 2) ? $link : $nota[1];
+                            
                             $cell->setHyperlink(new Hyperlink($cnt));
                             $cell->setValue($nota[0]);
                             // Upd: Link styling added
@@ -134,6 +203,7 @@ class DataTableSheet implements FromView, WithEvents
                     }
                 }
 
+                // format to impar row
                 foreach ($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
                         if ($celda->getColumn() == 'C' || $celda->getColumn() == 'E') {
@@ -142,7 +212,9 @@ class DataTableSheet implements FromView, WithEvents
                             }
                             $col = $celda->getColumn();
                             $num = $celda->getRow();
+
                             $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(80);
+
                             $event->sheet->getStyle("{$col}{$num}")->getAlignment()
                                 ->setVertical(Alignment::VERTICAL_CENTER)
                                 ->setHorizontal(Alignment::HORIZONTAL_LEFT)
@@ -150,55 +222,15 @@ class DataTableSheet implements FromView, WithEvents
                         }
                     }
                 }
-
-                foreach ($event->sheet->getRowIterator() as $fila) {
-                    foreach ($fila->getCellIterator() as $celda) {
-                        $cell = clone $celda;
-                        if ($celda->getColumn() == 'A'){
-                            if (str_contains($cell->getValue(), 'theme|')) {
-                                $nota = explode('|', $cell->getValue());
-                                $cell->setValue($nota[1]);
-                                $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(20);
-                                $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
-                                    'font' => [
-                                        'bold' => true,
-                                        'color' => ['rgb' => 'EEEEEE'],
-                                    ],
-                                    'alignment' => [
-                                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                                        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-                                    ],
-                                    'fill' => [
-                                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                                        'color' => ['rgb' => '2474ac'],
-                                    ],
-                                ]);
-                            }
-                        }
-
-                        if (str_contains($cell->getValue(), 'colhead|')) {
-                            $nota = explode('|', $cell->getValue());
-                            $cell->setValue($nota[1]);
-                            $event->sheet->getRowDimension($fila->getRowIndex())->setRowHeight(20);
-                            $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
-                                'font' => [
-                                    'bold' => true,
-                                    'color' => ['rgb' => 'EEEEEE'],
-                                ],
-                                'alignment' => [
-                                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-                                ],
-                                'fill' => [
-                                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                                    'color' => ['rgb' => '52aded'],
-                                ],
-                            ]);
-                        }
-                    }
-                }
             }
         ];
     }
 
+     /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return 'Datos';
+    }
 }
