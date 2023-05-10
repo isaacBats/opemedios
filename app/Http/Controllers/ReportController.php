@@ -93,10 +93,6 @@ class ReportController extends Controller
                 ]
             );
 
-            $report = ListReport::find($request->id_report);
-            $report->status = 1;
-            $report->save();
-            
             $this->export($request, true);
         }
     }
@@ -171,6 +167,9 @@ class ReportController extends Controller
                 Log::info("Error al generar el reporte: {$request->name_file}|{$e->getMessage()}");
             }
 
+            $report = ListReport::find($request->id_report);
+            $report->status = 1;
+            $report->save();
             return true;
         }
         elseif(count($dates) < 30)
@@ -205,6 +204,7 @@ class ReportController extends Controller
         }
 
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');
+
     }
 
     public function exportPDF(Request $request) {

@@ -19,6 +19,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NewsletterFooter;
+use App\Models\NewsletterLinksCovers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -30,14 +31,11 @@ class NewsletterFooterController extends Controller
             return redirect()->route('admin.newsletters')->with('status', 'Ya existen portadas para el día de hoy.');
         }
 
+        $rules = NewsletterLinksCovers::all()->mapWithKeys(function($cover){
+            return [ $cover->slug => 'required|url'];
+        });
 
-        $request->validate([
-            'primeras_planas' => 'required|url',
-            'portadas_financieras' => 'required|url',
-            'columnas_financieras' => 'required|url',
-            'portadas_politicas' => 'required|url',
-            'cartones' => 'required|url'
-        ]);
+        $request->validate($rules->all());
 
         $urls = serialize($request->except('_token'));
         NewsletterFooter::create([
