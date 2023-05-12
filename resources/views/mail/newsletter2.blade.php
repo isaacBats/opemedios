@@ -1,5 +1,14 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
+@php
+    $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+    $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#ffffff";
+    $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#283593";
+    $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
+    $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#283593";
+    $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#263238";
+    $linksAllowed = array_chunk($linksAllowed, 3, true);
+@endphp
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,10 +39,7 @@
 		<td>
 			<table align="center" style="width: 580px;background-color: #ffffff;padding: 20px;border: 0;border-collapse: collapse;color: #263238;">
 				<tr>
-					<td style="padding: 20px 0 20px 20px;">
-						{{-- <img src="" width="150px"> --}}
-					</td>
-					<td style="text-align: right;font-size: 12px;padding: 20px 20px 20px 0; font-weight: bold;">
+					<td bgcolor="{{ $bgCovers }}" style="background-color: {{ $bgCovers }};color: {{ $bgFontCovers }};text-align: right;font-size: 12px;padding: 20px 20px 20px 0; font-weight: bold;">
 						@php
                             $day = date('Y-m-d H:i:s');
                         @endphp
@@ -48,7 +54,7 @@
 					</td>
 				</tr>
 			</table>
-			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;margin-bottom: 100px;">
+			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: {{ $bgPrimary }};margin-bottom: 100px;">
 				<tr>
 					<td colspan="2" style="padding: 20px;">
 					</td>
@@ -59,8 +65,8 @@
 							<td colspan="2">
 								<table style="width: 580px;border: 0;border-collapse: collapse;">
 									<tr>
-										<td style="width: 20px;background-color: #283593;"></td>
-										<td style="padding-left: 10px;font-size: 16px;color: #283593;">
+										<td bgcolor="{{ $bgTitleSecond }}" style="width: 20px;background-color: {{ $bgTitleSecond }};"></td>
+										<td style="padding-left: 10px;font-size: 16px;color: {{ $bgTitleSecond }};">
 											{{ strtoupper($theme->name) }}
 										</td>
 									</tr>
@@ -72,12 +78,12 @@
 						</tr>
 					@endif
 					@foreach ($newsletterSend->newsletter_theme_news as $note)
-						@if($note->theme->id == $theme->id) 
+						@if($note->theme->id == $theme->id)
 						<tr>
 							<td colspan="2" style="padding: 10px 30px;">
-								<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size: 18px;color: #1976D2;text-decoration: none;" target="_blank">{{ strtoupper($note->news->title) }}</a>
-								<p style="color: #263238;font-size: 14px;margin: 0;margin-top: 10px;margin-bottom: 10px; line-height: 20px;">{!! $note->news->synthesis !!} </p>
-								<p style="font-size: 12px;margin-bottom: 20px;margin-top: 5px;color: #546E7A;"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
+								<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size: 18px;color: {{ $bgBodyThemeSecond }};text-decoration: none;" target="_blank">{{ strtoupper($note->news->title) }}</a>
+								<p style="color: {{ $bgBodyThemeSecond }};font-size: 14px;margin: 0;margin-top: 10px;margin-bottom: 10px; line-height: 20px;">{!! $note->news->synthesis !!} </p>
+								<p style="font-size: 12px;margin-bottom: 20px;margin-top: 5px;color: {{ $bgBodyThemeSecond }};"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
 							</td>
 						</tr>
 						@endif
@@ -87,16 +93,14 @@
 					</tr>
 				@endforeach
 				<!-- start footer -->
-				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;background-color: #283593;color: #ffffff;">
-					<td style="padding: 30px  0 30px 60px;">
-						&#9656; &nbsp; <a href="{{ $covers['primeras_planas'] }}" style="color: #ffffff;text-decoration: none;">Primeras Planas</a><br>
-						&#9656; &nbsp; <a href="{{ $covers['portadas_financieras'] }}" style="color: #ffffff;text-decoration: none;">Portadas Financieras</a><br>
-						&#9656; &nbsp; <a href="{{ $covers['cartones'] }}" style="color: #ffffff;text-decoration: none;">Cartones</a>
-					</td>
-					<td style="padding: 30px  60px 30px 0;">
-						&#9656; &nbsp; <a href="{{ $covers['columnas_financieras'] }}" style="color: #ffffff;text-decoration: none;">Columnas Financieras</a><br>
-						&#9656; &nbsp; <a href="{{ $covers['portadas_politicas'] }}" style="color: #ffffff;text-decoration: none;">Portadas Politicas</a>
-					</td>
+				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
+                    @foreach($linksAllowed as $tableNumber => $links)
+                        <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 60px;background-color: {{ $bgCovers }};">
+                        @foreach($links as $slug => $link)
+                            <a href="{{ $link }}" style="color: {{ $bgFontCovers }};text-decoration: none;">&#9656; {{ $covers->where('slug', $slug)->first()->name }}</a><br>
+                        @endforeach
+                        </td>
+                    @endforeach
 				</tr>
 			</table>
 		</td>
