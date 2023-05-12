@@ -59,8 +59,6 @@ class NewsletterEmail extends Mailable
                 }
             }
         }
-
-        $this->linksAllowed = array_chunk($this->linksAllowed, 2, true);
     }
 
     /**
