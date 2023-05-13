@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+@php
+    $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+    $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#646464";
+    $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#615d5c";
+    $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
+    $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#e5e5e5";
+    $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#bf3a2a";
+@endphp
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,34 +27,16 @@
 </head>
 <body>
     <table
-        style="background: linear-gradient(to left, rgb(255,255,255) 65%, #615d5c 20%); padding:50px 20px;max-width:700px;font-size:14px;margin:auto;height:auto;width:600px;font-family: Arial;">
+        style="background: linear-gradient(to left, rgb(255,255,255) 65%, {{ $bgCovers }} 20%); padding:50px 20px;max-width:700px;font-size:14px;margin:auto;height:auto;width:600px;font-family: Arial;">
         <thead style="display:block">
             <tr>
-                <td style="font-weight:bold; margin:0 0 10px;display:block">
-                    <a href="{{ $covers['primeras_planas'] }}" style="text-decoration: none;color: white;">
-                        PRIMERAS PLANAS
-                    </a>
-                </td>
-                <td style="font-weight:bold; margin:0 0 10px;display:block">
-                    <a href="{{ $covers['portadas_financieras'] }}" style="text-decoration: none;color: white;">
-                        PORTADAS FINANCIERAS
-                    </a>
-                </td>
-                <td style="font-weight:bold; margin:0 0 10px;display:block">
-                    <a href="{{ $covers['cartones'] }}" style="text-decoration: none;color: white;">
-                        CARTONES
-                    </a>
-                </td>
-                <td style="font-weight:bold; margin:0 0 10px;display:block">
-                    <a href="{{ $covers['portadas_politicas'] }}" style="text-decoration: none;color: white;">
-                        COLUMNAS POLITICAS
-                    </a>
-                </td>
-                <td style="font-weight:bold; margin:0 0 10px;display:block">
-                    <a href="{{ $covers['columnas_financieras'] }}" style="text-decoration: none;color: white;">
-                        COLUMNAS FINANCIERAS
-                    </a>
-                </td>
+                @foreach($linksAllowed as $key => $link)
+                    <td style="font-weight:bold; margin:0 0 10px;display:block">
+                        <a href="{{ $link }}" style="text-decoration: none;color: {{ $bgFontCovers }};">
+                            {{ $covers->where('slug', $key)->first()->name }}
+                        </a>
+                    </td>
+                @endforeach
             </tr>
             <tr style="float:right">
                 <td>
@@ -54,7 +44,7 @@
                     @php
                         $day = date('Y-m-d H:i:s');
                     @endphp
-                    <p style="float:right;margin: 0 auto 20px auto;color:#646464;">{{ ucfirst(Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y')) }}</p>
+                    <p style="float:right;margin: 0 auto 20px auto;color:{{ $bgPrimary }};">{{ ucfirst(Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y')) }}</p>
                 </td>
             </tr>
         </thead>
@@ -63,13 +53,13 @@
                 @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
                     <tr>
                         <td style="margin:auto 34% 20px;width:70%;text-align:left;display:block">
-                            <p style="margin:auto auto 10px;background:#bf3a2a;text-align:center;font-size:24px;color:#e5e5e5;display:flex;padding:10px;">{{ strtoupper($theme->name) }}</p>
+                            <p style="margin:auto auto 10px;background:{{ $bgBodyThemeSecond }};text-align:center;font-size:24px;color:{{ $bgTitleSecond }};display:flex;padding:10px;">{{ strtoupper($theme->name) }}</p>
                             @php
                                 $countNotes = $newsletterSend
                                     ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
                                     ->count();
                             @endphp
-                            <span style="color:#646464;">{{ "Noticias encontradas: {$countNotes}" }}</span>
+                            <span style="color:{{ $bgPrimary }};">{{ "Noticias encontradas: {$countNotes}" }}</span>
                         </td>
                     </tr>
                 @endif
@@ -79,9 +69,9 @@
                             <td>
                                 <h3>
                                     <a
-                                        style="text-decoration:none;color:#646464;cursor:pointer;"
+                                        style="text-decoration:none;color:{{ $bgPrimary }};cursor:pointer;"
                                         onmouseover="this.style.color='#0000EE'"
-                                        onmouseout="this.style.color='#646464'"
+                                        onmouseout="this.style.color='{{ $bgPrimary }}'"
                                         href="{{
                                                 route(
                                                     'newsletter.shownew',
