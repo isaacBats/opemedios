@@ -50,7 +50,9 @@ class NewsletterEmail extends Mailable
 
         $this->coversLinks = unserialize($coversFooter->urls);
 
-        $this->coversAllowed = unserialize($this->newsletterSend->newsletter->covers);
+        $this->coversAllowed = (!empty($this->newsletterSend->newsletter->covers))
+            ? unserialize($this->newsletterSend->newsletter->covers)
+            : ['primeras_planas'];
 
         foreach ($this->coversLinks as $key => $link) {
             foreach ($this->coversAllowed as $allowed) {
