@@ -86,11 +86,11 @@
 								<p style="font-size: 12px;margin-bottom: 20px;margin-top: 5px;color: {{ $bgBodyThemeSecond }};"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
 							</td>
 						</tr>
+                        <tr>
+                            <td colspan="2" style="padding: 12px;"></td>
+                        </tr>
 						@endif
 					@endforeach
-					<tr>
-						<td colspan="2" style="padding: 12px;"></td>
-					</tr>
 				@endforeach
 				<!-- start footer -->
 				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
