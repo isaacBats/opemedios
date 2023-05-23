@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Newsletter
  * @package App
+ * @method static findOrFail($id)
  */
 class Newsletter extends Model
 {
@@ -33,7 +34,7 @@ class Newsletter extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['name', 'banner', 'active', 'company_id', 'template'];
+    protected $fillable = ['name', 'banner', 'active', 'company_id', 'template', 'covers', 'colors'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

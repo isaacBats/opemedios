@@ -1,6 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
 <head>
+    @php
+        $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+        $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#646464";
+        $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#615d5c";
+        $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
+        $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#F7F7F7";
+        $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#ffffff";
+    @endphp
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta name="x-apple-disable-message-reformatting">
@@ -287,7 +295,7 @@
                                                 <td valign="top" align="center" style="padding:0;Margin:0;width:580px">
                                                     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr style="border-collapse:collapse">
-                                                            <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:10px"><h5 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#666666">Contact us: 55-5584-64-10 | <a target="_blank" href="mailto:contacto@opemedios.com.mx" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#666666;font-size:12px">contacto@opemedios.com.mx</a></h5></td>
+                                                            <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:10px"><h5 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#666666">Contactanos: 55-5584-64-10 | <a target="_blank" href="mailto:contacto@opemedios.com.mx" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#666666;font-size:12px">contacto@opemedios.com.mx</a></h5></td>
                                                         </tr>
                                                         <tr style="border-collapse:collapse">
                                                             <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:georgia, times, 'times new roman', serif;line-height:18px;color:#666666;font-size:12px">This daily newsletter was sent to <a target="_blank" href="mailto:contacto@opemedios.com.mx" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#666666;font-size:12px">contacto@opemedios.com.mx</a> from company name because you subscribed.</p></td>

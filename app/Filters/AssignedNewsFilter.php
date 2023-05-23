@@ -15,15 +15,6 @@ class AssignedNewsFilter
     public static function filter(Request $request, array $params): \Illuminate\Database\Eloquent\Builder
     {
         return AssignedNews::query()
-            ->join('news', 'news.id', '=', 'assigned_news.news_id')
-            ->when(
-                ($request->input('start_date') !== null && $request->input('end_date') !== null),
-                function ($queryBuilder) use ($request) {
-                    $from = Carbon::create($request->input('start_date'));
-                    $to = Carbon::create($request->input('end_date'));
-                    return $queryBuilder->whereBetween('news_date', [$from, $to]);
-                }
-            )
             ->when(isset($params['company']), function ($q) use ($params) {
                 $company = $params['company'];
                 return $q->where('company_id', $company->id);

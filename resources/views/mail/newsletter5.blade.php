@@ -1,6 +1,17 @@
 <html xmlns="http://www.w3.org/TR/REC-html40" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml"><head>
-<title>News Openpay, {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
-  ->formatLocalized('%A %d de %B %Y') }}</title>
+    @php
+        $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+        $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#646464";
+        $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#615d5c";
+        $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
+        $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#013B76";
+        $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#ffffff";
+        $linksAllowed = array_chunk($linksAllowed, 3, true);
+    @endphp
+    <title>
+        News Openpay, {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+            ->formatLocalized('%A %d de %B %Y') }}
+    </title>
 <link rel="important stylesheet" href="chrome://messagebody/skin/messageBody.css">
 <meta http-equiv="Content-Type" content="text/html; ">
 <meta name="Generator" content="Microsoft Word 15 (filtered medium)">
@@ -48,13 +59,13 @@ w\:* {behavior:url(#default#VML);}
       </a>
     </p>
     <div align="center">
-      <table class="MsoNormalTable" style="width:96.0%;background:white" width="96%" cellspacing="0" 
+      <table class="MsoNormalTable" style="width:96.0%;background:white" width="96%" cellspacing="0"
         cellpadding="0" border="0">
         <tbody>
           <tr>
             <td style="padding:0cm 0cm 0cm 0cm" valign="top">
               <div align="center">
-                <span style="mso-bookmark:top"></span><table class="MsoNormalTable" style="width:90.0%" width="90%" 
+                <span style="mso-bookmark:top"></span><table class="MsoNormalTable" style="width:90.0%" width="90%"
                   cellspacing="0" cellpadding="0" border="0">
                   <tbody>
                     <tr>
@@ -66,7 +77,7 @@ w\:* {behavior:url(#default#VML);}
                           <span style="mso-bookmark:top"></span>
                           <span style="mso-bookmark:top"></span>
                           <span style="mso-bookmark:top"></span>
-                          <table class="MsoNormalTable" style="width:96.0%" width="96%" 
+                          <table class="MsoNormalTable" style="width:96.0%" width="96%"
                               cellspacing="0" cellpadding="0" border="0">
                               <tbody>
                                   <tr>
@@ -96,11 +107,11 @@ w\:* {behavior:url(#default#VML);}
                                           <v:imagedata src="mailbox:///home/devops/Descargas/News%20Openpay,%20Martes%208%20de%20Noviembre%20de%202022.eml?number=0&part=1.2&filename=image001.gif" o:title="" />
                                           <w:wrap type="square" anchory="line"/>
                                           </v:shape><![endif]--><!--[if !vml]-->
-                                          <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" 
+                                          <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}"
                                               alt="{{ $newsletterSend->newsletter->name }}"
-                                              v:shapes="Imagen_x0020_14" 
-                                              shrinktofit="true" 
-                                              width="240" 
+                                              v:shapes="Imagen_x0020_14"
+                                              shrinktofit="true"
+                                              width="240"
                                               align="left"><!--[endif]-->
                                               <span style="mso-bookmark:top"></span>
                                               <span style="mso-bookmark:top">
@@ -113,14 +124,14 @@ w\:* {behavior:url(#default#VML);}
                                   </tr>
                                   <tr>
                                       <td colspan="2" style="padding:0cm 3.0pt 0cm 0cm">
-                                          <p class="MsoNormal" style="text-align:right" 
+                                          <p class="MsoNormal" style="text-align:right"
                                               align="right">
                                               <span style="mso-bookmark:top">
                                                   <span style="font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
                                                     {{-- Fecha del newsletter--}}
                                                     {{ Illuminate\Support\Carbon::parse(
                                                           $newsletterSend->date_sending
-                                                        )->formatLocalized('%A %d de %B %Y') 
+                                                        )->formatLocalized('%A %d de %B %Y')
                                                     }}
                                                   </span>
                                               </span>
@@ -143,8 +154,8 @@ w\:* {behavior:url(#default#VML);}
                           </p>
                           <div align="center">
                               <span style="mso-bookmark:top"></span>
-                              <table class="MsoNormalTable" style="width:100.0%" 
-                                  width="100%" cellspacing="0" cellpadding="0" 
+                              <table class="MsoNormalTable" style="width:100.0%"
+                                  width="100%" cellspacing="0" cellpadding="0"
                                   border="0">
                                   <tbody>
                                       <tr>
@@ -161,7 +172,7 @@ w\:* {behavior:url(#default#VML);}
                               </span>
                           </p>
                           <div align="center">
-                            <table class="MsoNormalTable" style="width:96.0%" 
+                            <table class="MsoNormalTable" style="width:96.0%"
                               width="96%" cellspacing="20" cellpadding="0" border="0">
                               <tbody>
                                 <tr>
@@ -172,11 +183,11 @@ w\:* {behavior:url(#default#VML);}
                                            cellpadding="0" border="0">
                                           <tbody>
                                             <tr style="height:15.0pt">
-                                              <td style="width:95.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="95%">
+                                              <td bgcolor="{{ $bgTitleSecond }}" style="width:95.0%;background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm;height:15.0pt" width="95%">
                                                 <p class="MsoNormal">
                                                   <a name="1">
                                                     <b>
-                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
+                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }}">
                                                         &nbsp;{{ strtoupper($theme->name) }}
                                                       </span>
                                                     </b>
@@ -184,12 +195,12 @@ w\:* {behavior:url(#default#VML);}
                                                   <o:p></o:p>
                                                 </p>
                                               </td>
-                                              <td style="width:5.0%;background:#013B76;padding:0cm 0cm 0cm 0cm;height:15.0pt" width="5%">
+                                              <td bgcolor="{{ $bgTitleSecond }}" style="width:5.0%;background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm;height:15.0pt" width="5%">
                                                 <p class="MsoNormal" style="text-align:center" align="center">
                                                   <span style="color:white">
                                                     <a href="javascript:void(0);" title="Subir"> {{-- Aqui va el link del newsletter online --}}
                                                       <b>
-                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white;text-decoration:none">
+                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }};text-decoration:none">
                                                           &nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;
                                                         </span>
                                                       </b>
@@ -220,7 +231,7 @@ w\:* {behavior:url(#default#VML);}
                                       @endif
                                       @foreach ($newsletterSend->newsletter_theme_news as $note)
                                         @if($note->theme->id == $theme->id)
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
                                             cellpadding="0" border="0" align="left">
                                             <tbody>
                                               <tr>
@@ -232,7 +243,7 @@ w\:* {behavior:url(#default#VML);}
                                                     <a name="73027426">
                                                       <b>
                                                         <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                          {{ $note->news->title }} 
+                                                          {{ $note->news->title }}
                                                         </span>
                                                       </b>
                                                     </a>
@@ -248,7 +259,7 @@ w\:* {behavior:url(#default#VML);}
                                                         <span style="text-decoration:none">»
                                                           {{ $note->news->source->name ?? 'N/E' }}
                                                         </span>
-                                                      </a>, 
+                                                      </a>,
                                                       {{ $note->news->author }}
                                                       <br>
                                                     </span>
@@ -272,14 +283,14 @@ w\:* {behavior:url(#default#VML);}
                                         @endif
                                       @endforeach
                                     @endforeach
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" 
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%"
                                             cellspacing="0" cellpadding="0" border="0">
                                             <tbody>
                                               <tr>
-                                                <td style="background:#013B76;padding:0cm 0cm 0cm 0cm">
+                                                <td bgcolor="{{ $bgTitleSecond }}" style="background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm">
                                                   <p class="MsoNormal">
                                                     <b>
-                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
+                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }}">
                                                         &nbsp;PRIMERAS PLANAS
                                                       </span>
                                                     </b>
@@ -290,73 +301,25 @@ w\:* {behavior:url(#default#VML);}
                                             </tbody>
                                           </table>
                                           <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0" 
+                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
                                             cellpadding="0" border="0">
                                             <tbody>
-                                              <tr>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="{{ $covers['primeras_planas'] }}" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        PRIMERAS PLANAS
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="{{ $covers['portadas_financieras'] }}" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        PORTADAS FINANCIERAS
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="{{ $covers['cartones'] }}" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        CARTONES
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="{{ $covers['portadas_politicas'] }}" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        COLUMNAS POLITICAS
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="{{ $covers['columnas_financieras'] }}" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        COLUMNAS FINANCIERAS
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                                <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                  <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                    <a href="javascript:void(0);" target="_blank">
-                                                      <span style="color:blue;text-decoration:none">
-                                                        OPERADORA DE MEDIOS
-                                                      </span>
-                                                    </a>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                              </tr>
+                                                @foreach($linksAllowed as $tableNumber => $links)
+                                                  <tr>
+                                                    @foreach($links as $slug => $link)
+                                                        <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
+                                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
+                                                                <a href="{{ $link }}" target="_blank">
+                                                                  <span style="color:blue;text-decoration:none">
+                                                                    {{ $covers->where('slug', $slug)->first()->name }}
+                                                                  </span>
+                                                                </a>
+                                                                <o:p></o:p>
+                                                            </p>
+                                                        </td>
+                                                    @endforeach
+                                                  </tr>
+                                                @endforeach
                                             </tbody>
                                           </table>
                                   </td>
@@ -380,12 +343,12 @@ w\:* {behavior:url(#default#VML);}
 </body>
 </html>
 
-      
 
 
-  
 
-      
-  
-  
+
+
+
+
+
 

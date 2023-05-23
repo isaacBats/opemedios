@@ -18,8 +18,7 @@
 
 namespace App\Mail;
 
-use App\Models\NewsletterFooter;
-use App\Models\NewsletterSend;
+use App\Models\{NewsletterFooter,NewsletterLinksCovers,NewsletterSend};
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -30,18 +29,38 @@ class NewsletterEmail extends Mailable
 
     public $newsletterSend;
 
+    public $coversLinks;
+
+    public $coversAllowed;
+
     public $covers;
+
+    public $linksAllowed = array();
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(NewsletterSend $newsletterSend, NewsletterFooter $covers)
+    public function __construct(NewsletterSend $newsletterSend, NewsletterFooter $coversFooter)
     {
         $this->newsletterSend = $newsletterSend;
 
-        $this->covers = unserialize($covers->urls);
+        $this->covers = NewsletterLinksCovers::all();
+
+        $this->coversLinks = unserialize($coversFooter->urls);
+
+        $this->coversAllowed = (!empty($this->newsletterSend->newsletter->covers))
+            ? unserialize($this->newsletterSend->newsletter->covers)
+            : ['primeras_planas'];
+
+        foreach ($this->coversLinks as $key => $link) {
+            foreach ($this->coversAllowed as $allowed) {
+                if($key == $allowed) {
+                    $this->linksAllowed[$key] = $link;
+                }
+            }
+        }
     }
 
     /**

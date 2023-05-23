@@ -57,6 +57,78 @@
             </div>
             <div class="panel panel-success">
                 <div class="panel-heading">
+                    <h4 class="panel-title">Elija sus portadas</h4>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ route('admin.newsletter.config.save.covers') }}" class="form-horizontal" method="POST">
+                        @csrf
+                        <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label nopaddingtop">Portadas disponibles</label>
+                            <div class="col-sm-9">
+                                @foreach($covers as $cover)
+                                    <label class="ckbox">
+                                        <input type="checkbox" name="covers[]" value="{{ $cover->slug }}" {{ in_array($cover->slug, $savedCovers, true) ? 'checked' : '' }}>
+                                        <span>{{ $cover->name }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-1 col-md-offset-11">
+                                <input type="submit" class="btn btn-success" value="Guardar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Elija los colores para el newsletter</h4>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ route('admin.newsletter.config.save.colors') }}" class="form-horizontal" method="POST">
+                        @csrf
+                        <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label nopaddingtop">Paleta de colores</label>
+                            <div class="col-sm-9">
+                                <label>
+                                    <span>Fondo principal</span>
+                                    <input type="color" name="bg_primary" value="{{ old('bg_primary', $savedColors['bg_primary']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo portadas</span>
+                                    <input type="color" name="bg_covers" value="{{ old('bg_covers', $savedColors['bg_covers']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo texto portadas</span>
+                                    <input type="color" name="bg_font_covers" value="{{ old('bg_font_covers', $savedColors['bg_font_covers']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo secundario titulo tema</span>
+                                    <input type="color" name="bg_title_second" value="{{ old('bg_title_second', $savedColors['bg_title_second']) }}">
+                                </label>
+                                <br>
+                                <label>
+                                    <span>Fondo secundario cuerpo temas</span>
+                                    <input type="color" name="bg_body_theme_second" value="{{ old('bg_body_theme_second', $savedColors['bg_body_theme_second']) }}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-1 col-md-offset-11">
+                                <input type="submit" class="btn btn-success" value="Guardar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
                     <h4 class="panel-title">Elige un template para este Newsletter</h4>
                 </div>
                 <div class="panel-body">
@@ -76,7 +148,7 @@
                                 <div class="col-md-1 col-md-offset-11">
                                     <input type="submit" class="btn btn-success" value="Guardar">
                                 </div>
-                            </div>                          
+                            </div>
                         </form>
                     </div>
                     <div class="col-md-6" id="img-newsletter"></div>
@@ -122,7 +194,7 @@
                             <input id="accounts[]" type="checkbox" name="accounts[]" value="${item.email}" checked>
                             <span>${item.email}</span>
                         </label>
-                    `  
+                    `
                 })
                 form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
                 form.attr('method', 'POST')
@@ -135,7 +207,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label nopaddingtop">Lista de correos</label>
                         <div class="col-sm-9">
-                            ${fields}          
+                            ${fields}
                         </div>
                     </div>
                 `)
@@ -146,7 +218,7 @@
                 event.preventDefault()
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
-                
+
                 form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
                 form.attr('method', 'POST')
 
@@ -156,7 +228,7 @@
                     <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
                     <div class="form-group">
                         <label class="control-label">Agrega los correos separados por ","(comas) y sin espacios</label>
-                        <textarea class="form-control" name="tareaemails"></textarea>          
+                        <textarea class="form-control" name="tareaemails"></textarea>
                     </div>
                 `)
                 modal.modal('show')
@@ -167,7 +239,7 @@
                 event.preventDefault()
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
-                
+
                 form.attr('action', '{{ route('admin.newsletter.config.addemails') }}')
                 form.attr('method', 'POST')
                 form.addClass('form-horizontal')
@@ -179,7 +251,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label nopaddingtop">Email</label>
                         <div class="col-sm-9">
-                            <input type="text" name="accounts[]" class="form-control">          
+                            <input type="text" name="accounts[]" class="form-control">
                         </div>
                     </div>
                 `)
@@ -193,7 +265,7 @@
                 var form = $('#modal-default-form')
                 var id = $(this).data('id')
                 var email = $(this).data('email')
-                
+
                 form.attr('action', '{{ route('admin.newsletter.config.removeemails') }}')
                 form.attr('method', 'POST')
 
