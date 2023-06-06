@@ -68,10 +68,12 @@ class DataTableSheet implements
 
         $this->num = $this->num + 1;
 
+        $synthesis = json_encode($note->synthesis);
+        
         return [
             $this->num . "-OPE-{$note->id}",
             $note->title . "|" . $link,
-            $note->synthesis,
+            $synthesis,
             $note->author,
             ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
@@ -222,6 +224,18 @@ class DataTableSheet implements
                         }
                     }
                 }
+
+                foreach ($event->sheet->getColumnIterator('C') as $row) {
+                    foreach ($row->getCellIterator() as $cell) {
+                        if ($cell->getRow() === 1) {
+                            continue;
+                        }
+                        if ($celda->getColumn() == 'C') {
+                            $cell->setValue(json_decode($cell->getValue()));
+                        }
+                    }
+                }
+
             }
         ];
     }
