@@ -221,7 +221,7 @@ class CompanyController extends Controller
 
     public function getAccountsAjax(Request $request) {
         $company = Company::findOrFail($request->input('company_id'));
-        $accounts = $company->allAccountsOfACompany();
+        $accounts = $company->accounts();
 
         return response()->json($accounts);
     }
