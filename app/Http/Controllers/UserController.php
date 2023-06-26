@@ -290,12 +290,13 @@ class UserController extends Controller
         $user = User::withTrashed()->where('id', $id)->first();
         $monitors = Means::select('id', 'name')->get();
         $breadcrumb = array();
+        $companies = Company::all();
 
         array_push($breadcrumb, ['label' => 'Usuarios', 'url' => route('users')]);
         array_push($breadcrumb, ['label' => $user->name, 'url' => route('user.show', ['id' => $user->id])]);
         array_push($breadcrumb, ['label' => 'Editar']);
 
-        return view('admin.user.edit', compact('user', 'monitors', 'breadcrumb'));
+        return view('admin.user.edit', compact('user', 'monitors', 'breadcrumb', 'companies'));
     }
 
     public function update(Request $request, $id)
