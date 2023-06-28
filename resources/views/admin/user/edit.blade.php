@@ -171,6 +171,8 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            selectOption();
+
             //show password
             $('span#btn-press-eye').on('click', function(){
                 var inputText = $('#input-password-show');
@@ -188,6 +190,7 @@
                 }
 
             });
+
             // select rol
             $('select#rol').change(function () {
                 var option = $(this).val()
@@ -226,6 +229,21 @@
                 selectMonitor.attr('disabled', true)
                 selectMonitor.removeAttr('required')
                 monitor.hide('fade')
+            }
+
+            function selectOption() {
+                var role = $('select#rol').find('option:selected').text();
+                if(role === 'Cliente') {
+                    hideItems();
+                    $('div#div-select-company').show('fade')
+                        .find('select#company').removeAttr('disabled');
+                }
+
+                if(role === 'Monitorista') {
+                    hideItems();
+                    $('div#div-select-monitor-type').show('fade')
+                        .find('select#select-monitor').removeAttr('disabled');
+                }
             }
         });
     </script>
