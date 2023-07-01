@@ -22,6 +22,10 @@
             if($user->company()) {
                 $userCompanyId = $user->company()->id;
             }
+            $userMonitorId = false;
+            if($user->hasRole('monitor')) {
+                $userMonitorId = intval($user->getMetaByKey('user_monitor_type')->meta_value);
+            }
         @endphp
         <form action="{{ $route }}" method="{{ $method }}">
             @csrf
@@ -118,7 +122,7 @@
                                 <select name="company_id" id="company" class="form-control">
                                     <option value="">Selecciona un Empresa</option>
                                     @foreach($companies as $company)
-                                        <option value="{{ $company->id }}" {{ $userCompanyId === $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                        <option value="{{ $company->id }}" {{ ($userCompanyId == $company->id) ? 'selected' : '' }}>{{ $company->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -131,7 +135,7 @@
                                 <select name="user_monitor_type" id="select-user-monitor" class="form-control">
                                     <option value="">Selecciona que tipo de monitor eres</option>
                                     @foreach($monitors as $monitor)
-                                        <option value="{{ $monitor->id }}" {{ old('user_monitor_type', $user->getMetaByKey('user_monitor_type') ? $user->getMetaByKey('user_monitor_type')->meta_value : false) == $monitor->id ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
+                                        <option value="{{ $monitor->id }}" {{ ($userMonitorId == $monitor->id) ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -205,8 +209,8 @@
                     company.show('fade')
                 } else if (role == 'Monitorista') {
                     hideItems()
-                    monitor.find('select#select-monitor').removeAttr('disabled')
-                    monitor.find('select#select-monitor').attr('required', true)
+                    monitor.find('select#select-user-monitor').removeAttr('disabled')
+                    monitor.find('select#select-user-monitor').attr('required', true)
                     monitor.show('fade')
                 } else {
                     hideItems()
@@ -220,12 +224,10 @@
                 var selectCompany = company.find('select')
                 var selectMonitor = monitor.find('select')
 
-                selectCompany.prop('selectedIndex', 0)
                 selectCompany.attr('disabled', true)
                 selectCompany.removeAttr('required')
                 company.hide('fade')
 
-                selectMonitor.prop('selectedIndex', 0)
                 selectMonitor.attr('disabled', true)
                 selectMonitor.removeAttr('required')
                 monitor.hide('fade')
@@ -242,7 +244,7 @@
                 if(role === 'Monitorista') {
                     hideItems();
                     $('div#div-select-monitor-type').show('fade')
-                        .find('select#select-monitor').removeAttr('disabled');
+                        .find('select#select-user-monitor').removeAttr('disabled');
                 }
             }
         });
