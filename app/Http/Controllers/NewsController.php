@@ -328,7 +328,7 @@ class NewsController extends Controller
     public function assignMainFileForNews(Request $request) {
         $note = News::findOrFail($request->query('news'));
         if($noteMainFile = $note->files->where('main_file', 1)->first()) {
-            $mainFile = File::first($noteMainFile->id);
+            $mainFile = File::find($noteMainFile->id);
             $mainFile->main_file = 0;
             $mainFile->save();
         }
