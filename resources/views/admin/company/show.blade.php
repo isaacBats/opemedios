@@ -142,7 +142,7 @@
                             <ul class="list-unstyled mb20">
                                 @forelse($company->themes as $theme)
                                     <li>
-                                        {{ $theme->name }}
+                                        <a href="{{ route('theme.show', ['theme' => $theme ]) }}">{{ $theme->name }}</a>
                                         <span class="text-float-r" >
                                             <a href="{{ route('theme.show', ['theme' => $theme ]) }}"><i class="fa fa-eye"></i></a>
                                             <a data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  class="btn-delete" href="javascript:void(0)"><i class="fa fa-trash"></i></a>

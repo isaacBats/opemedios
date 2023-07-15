@@ -91,7 +91,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
             ->name('admin.executive.remove.company');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
-        Route::get('empresa/ver/{company:id}', 'CompanyController@show')->name('company.show');
+        Route::get('empresa/ver/{company}', 'CompanyController@show')->name('company.show');
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
         Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
@@ -104,9 +104,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/actualizar/nota/theme/{id}', 'CompanyController@updateAssignedNote')
             ->name('admin.assignednews.replacetheme');
 
-        Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
-        Route::get('tema/ver/{theme:id}', 'ThemeController@show')->name('theme.show');
-        Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
+        Route::post('tema/nuevo', 'ThemeController@store')->name('theme.create');
+        Route::get('tema/ver/{theme}', 'ThemeController@show')->name('theme.show');
+        Route::post('tema/actualizar/{theme:id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
         Route::post('tema/remover-usuario/{id}', 'ThemeController@themeUserRemove')->name('admin.theme.remove.user');

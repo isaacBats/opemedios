@@ -2,45 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
-use App\Models\Theme;
-use App\Models\User;
+use App\Http\Requests\StoreThemeRequest;
+use App\Http\Requests\UpdateThemeRequest;
+use App\Models\{Company,Theme,User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ThemeController extends Controller
 {
-    public function create (Request $request) {
-
-        $inputs = $request->all();
-
-        Validator::make($inputs, [
-            'name' => 'required',
-            'description' => 'required',
-            'company_id' => 'required',
-        ], [
-            'name.required' => '¡El nombre del tema es necesario!',
-            'description.required' => '¡La descripción del tema es necesario!',
-        ])->validate();
-
-        $theme = Theme::create($inputs);
-
+    /**
+     * @param StoreThemeRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store (StoreThemeRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        $theme = Theme::create($request->validated());
         return back()->with('status', "El tema: {$theme->name} se ha creado satisfactoriamente!");
     }
 
-    public function show (Request $request, Theme $theme) {
+    /**
+     * @param Request $request
+     * @param Theme $theme
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show (Request $request, Theme $theme)
+    {
+        $breadcrumb = array();
+        array_push($breadcrumb, ['label' => 'Empresas', 'url' => route('companies')]);
+        array_push($breadcrumb, ['label' => $theme->company->name, 'url' => route('company.show', ['company' => $theme->company ])]);
+        array_push($breadcrumb, ['label' => $theme->name]);
+
         $accounts = $theme->company->accounts()->merge($theme->company->executives);
         $accounts = $accounts->diff($theme->accounts);
-        return view('admin.theme.show', compact('theme', 'accounts'));
+        return view('admin.theme.show', compact('theme', 'accounts', 'breadcrumb'));
     }
 
-    public function update (Request $request, $id) {
-        $theme = Theme::find($id);
-
-        $theme->name = !empty($request->input('name')) ? $request->input('name') : $theme->name;
-        $theme->description = !empty($request->input('description')) ? $request->input('description') : $theme->description;
-
-        $theme->save();
+    /**
+     * @param UpdateThemeRequest $request
+     * @param Theme $theme
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update (UpdateThemeRequest $request, Theme $theme): \Illuminate\Http\RedirectResponse
+    {
+        $theme->update($request->validated());
 
         return back()->with('status', "¡El tema {$theme->name} se a actualizado correctamente!");
     }
