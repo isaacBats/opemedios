@@ -55,7 +55,7 @@ class ThemeController extends Controller
         $name = $theme->name;
         $theme->delete();
 
-        return redirect()->route('company.show', ['id' => $company->id])->with('status', "¡El tema: {$name} se ha eliminado satisfactoriamente!");
+        return redirect()->route('company.show', ['company' => $company])->with('status', "¡El tema: {$name} se ha eliminado satisfactoriamente!");
     }
 
     public function themeUser (Request $request) {
