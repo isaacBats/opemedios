@@ -26,7 +26,6 @@ class UpdateThemeRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'company_id' => 'required',
         ];
     }
 
