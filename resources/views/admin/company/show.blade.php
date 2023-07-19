@@ -104,7 +104,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-6"> <!-- cuentas -->
+                <div class="col-sm-12 col-md-12 col-lg-12"> <!-- cuentas -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">Cuentas</h4>
@@ -133,25 +133,23 @@
                         </div>
                     </div>
                 </div> <!-- fin cuentas -->
-                <div class="col-sm-6 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="panel panel-default list-announcement"> <!-- temas -->
                         <div class="panel-heading">
-                            <h4 class="panel-title">Temas</h4>
+                            <h4 class="panel-title mb20">Temas</h4>
                         </div>
                         <div class="panel-body" id="list-themes">
-                            <ul class="list-unstyled mb20">
-                                @forelse($company->themes as $theme)
-                                    <li>
-                                        <a href="{{ route('theme.show', ['theme' => $theme ]) }}">{{ $theme->name }}</a>
-                                        <span class="text-float-r" >
-                                            <a href="{{ route('theme.show', ['theme' => $theme ]) }}"><i class="fa fa-eye"></i></a>
-                                            <a data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  class="btn-delete" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
-                                        </span>
-                                    </li>
-                                @empty
-                                    <li>No hay temas para esta empresa</li>
-                                @endforelse
-                            </ul>
+                            <div class="fm-sidebar">
+                                <ul class="tag-list">
+                                    @forelse($company->themes as $theme)
+                                        <li>
+                                            <a href="{{ route('theme.show', ['theme' => $theme ]) }}">{{ $theme->name }}</a>
+                                        </li>
+                                    @empty
+                                        <li>No hay temas para esta empresa</li>
+                                    @endforelse
+                                </ul>
+                            </div>
                         </div>
                     </div> <!-- fin temas -->
                 </div>
