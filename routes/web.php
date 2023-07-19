@@ -91,7 +91,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
             ->name('admin.executive.remove.company');
 
         Route::get('empresas', 'CompanyController@index')->name('companies');
-        Route::get('empresa/ver/{company}', 'CompanyController@show')->name('company.show');
+        Route::get('empresa/ver/{company:id}', 'CompanyController@show')->name('company.show');
         Route::get('empresa/nuevo', 'CompanyController@showFormNewCompany')->name('company.create');
         Route::post('empresa/nuevo', 'CompanyController@create')->name('company.create');
         Route::post('empresa/remover-usuario/{id}', 'CompanyController@removeUser')->name('company.remove.user');
