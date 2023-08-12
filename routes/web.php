@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
 
