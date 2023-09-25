@@ -2,7 +2,7 @@
 @section('admin-title', '- Reporte de Notas')
 @section('content')
     <div class="row">
-        <div class="col-sm-12 people-list"> 
+        <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->
                 <div class="btn-toolbar">
                     <form id="form-report-filter" action="{{ route('admin.report.bynotes') }}" method="GET">
@@ -50,14 +50,20 @@
                     <tbody>
                         @foreach($notes as $note)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $note->name }}</td>
-                                <td>{{ $note->count }}</td>
+                                <td>
+                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $loop->iteration }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $note->name }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $note->count }}</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -65,7 +71,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-            // Datepicker 
+            // Datepicker
             format = "yy-mm-dd",
             from = $("#input-report-date-start").datepicker({
                     defaultDate: "+1w",
@@ -97,6 +103,6 @@
             }
 
         });
-        
+
     </script>
 @endsection

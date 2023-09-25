@@ -138,6 +138,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
         Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
+        Route::get('reportes/por-usuario/{user}', 'ReportController@byUser')->name('admin.report.byuser');
 
         Route::get('reportes/solicitados', 'ReportController@solicitados')->name('admin.report.solicitados');
         Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('admin.report.cambia_estatus_reporte');
