@@ -150,8 +150,7 @@ class ReportController extends Controller
           $notes->whereBetween('news_date', [$start, $end]);
         }
 
-        $notes = $notes->orderBy('news_date', 'desc')->get();
-        //->paginate(20);
+        $notes = $notes->orderBy('news_date', 'desc')->paginate(20);
 
         return view('admin.report.user', compact('breadcrumb', 'notes'));
     }

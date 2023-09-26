@@ -75,7 +75,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $notes->links() }}
             </div>
         </div>
     </div>
