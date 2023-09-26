@@ -36,7 +36,7 @@
                     <a href="javascript:void(0)" style="margin-left: 25px;" class="btn btn-warning" id="btn-report-export">Exportar</a>
                 </div> --}}
 
-                <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span>
+               {{-- <span id="span-count-info" class="people-count pull-right">Mostrando <strong id="num-rows-info">0 de 0</strong> noticias</span> --}}
             </div><!-- filter-options -->
             <div id="div-table-notes">
                 <table class="table table-bordered table-primary table-striped nomargin">
@@ -51,19 +51,31 @@
                         @foreach($notes as $note)
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $loop->iteration }}</a>
+                                    <form method="GET" action="{{ route('admin.report.byuser', ['user' => $note->id]) }}">
+                                        <input type="hidden" name="start" value="{{ $start }}">
+                                        <input type="hidden" name="end" value="{{ $end }}">
+                                        <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $loop->iteration }}</a>
+                                    </form>
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $note->name }}</a>
+                                    <form method="GET" action="{{ route('admin.report.byuser', ['user' => $note->id]) }}">
+                                        <input type="hidden" name="start" value="{{ $start }}">
+                                        <input type="hidden" name="end" value="{{ $end }}">
+                                        <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $note->name }}</a>
+                                    </form>
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.report.byuser', ['user' => $note->id, 'start' => $start, 'end' => $end]) }}">{{ $note->count }}</a>
+                                    <form method="GET" action="{{ route('admin.report.byuser', ['user' => $note->id]) }}">
+                                        <input type="hidden" name="start" value="{{ $start }}">
+                                        <input type="hidden" name="end" value="{{ $end }}">
+                                        <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $note->count }}</a>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-
+                {{ $notes->links() }}
             </div>
         </div>
     </div>
@@ -98,10 +110,8 @@
                     date = null;
                     console.error(error);
                 }
-
                 return date;
             }
-
         });
 
     </script>

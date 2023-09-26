@@ -24,7 +24,7 @@ use App\Models\{Company, ListReport, User, News};
 use App\Traits\StadisticsNotes;
 use Carbon\{Carbon, CarbonPeriod};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Auth, Log, Storage};
+use Illuminate\Support\Facades\{Auth, DB, Log, Storage};
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -126,14 +126,32 @@ class ReportController extends Controller
         return view('admin.report.notes', compact('breadcrumb', 'notes', 'start', 'end'));
     }
 
-    public function byUser(Request $request, User $user, $start, $end)
+    public function byUser(Request $request, User $user)
     {
-        dd([$start, $end]);
         $breadcrumb = array();
         array_push($breadcrumb, ['label' => 'Reporte Notas por día', 'url' => route('admin.report.bynotes')]);
         array_push($breadcrumb, ['label' => "Reporte de {$user->name}"]);
 
-        $notes = News::where('user_id', $user->id)->orderBy('news_date', 'desc')->paginate(20);
+        $query = News::query();
+        $start = $request->input('start');
+        $end = $request->input('end');
+
+        $notes = News::where('user_id', $user->id);
+
+        if($start !== null && $end === null) {
+          $notes->where('news_date', $start);
+        }
+
+        if($start === null && $end !== null) {
+          $notes->where('news_date', $end);
+        }
+
+        if($start !== null && $end !== null) {
+          $notes->whereBetween('news_date', [$start, $end]);
+        }
+
+        $notes = $notes->orderBy('news_date', 'desc')->get();
+        //->paginate(20);
 
         return view('admin.report.user', compact('breadcrumb', 'notes'));
     }
