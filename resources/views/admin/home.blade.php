@@ -190,29 +190,25 @@
                                         <tr>
                                             <td>
                                                 <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
-                                                    <input type="hidden" name="start" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                                    <input type="hidden" name="end" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                                     <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $loop->iteration }}</a>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
-                                                    <input type="hidden" name="start" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                                    <input type="hidden" name="end" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                                     <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $monitor->name }}</a>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
-                                                    <input type="hidden" name="start" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                                    <input type="hidden" name="end" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                                     <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $monitor->count }}</a>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
-                                                    <input type="hidden" name="start" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                                    <input type="hidden" name="end" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                                     <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $day }}</a>
                                                 </form>
                                             </td>

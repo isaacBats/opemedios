@@ -128,26 +128,23 @@ class ReportController extends Controller
 
     public function byUser(Request $request, User $user)
     {
+        $day = $request->input('day') ?? null; // \Carbon\Carbon::now()->format('Y-m-d') : $day;
         $breadcrumb = array();
         array_push($breadcrumb, ['label' => 'Reporte Notas por día', 'url' => route('admin.report.bynotes')]);
         array_push($breadcrumb, ['label' => "Reporte de {$user->name}"]);
 
         $query = News::query();
-        $start = $request->input('start');
-        $end = $request->input('end');
+        $start = $request->input('start') ?? null;
+        $end = $request->input('end') ?? null;
 
         $notes = News::where('user_id', $user->id);
 
-        if($start !== null && $end === null) {
-          $notes->where('news_date', $start);
-        }
-
-        if($start === null && $end !== null) {
-          $notes->where('news_date', $end);
-        }
-
-        if($start !== null && $end !== null) {
-          $notes->whereBetween('news_date', [$start, $end]);
+        if($start && is_null($end)){
+            $notes->where('news_date', $start);
+        } elseif ($start && $end) {
+            $notes->whereBetween('news_date', [$start, $end]);
+        } else {
+            $notes->where('news_date', $day);
         }
 
         $notes = $notes->orderBy('news_date', 'desc')
