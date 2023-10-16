@@ -6,7 +6,7 @@
         @php
             $anio = date('Y');
         @endphp
-        <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
+        <meta name="description" content="Monitoreo de Medios Informativos {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         @yield('metas')
@@ -39,7 +39,7 @@
     <!-- Fixed navbar -->
     <div class="row">
         <header>
-            @include('components.menu-client')   
+            @include('components.menu-client')
         </header>
     </div>
     <!-- /.navbar -->
@@ -60,7 +60,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- 2018 -->
                     <div class="col-md-6 widget">
                         <div class="widget-body">
@@ -103,7 +103,7 @@
                     <div class="col-md-6 widget">
                         <div class="widget-body">
                             <p class="text-right">
-                                Copyright &copy; <?=date('Y')?>, Opemedios.</a> 
+                                Copyright &copy; <?=date('Y')?>, Opemedios.</a>
                             </p>
                         </div>
                     </div>
