@@ -110,6 +110,8 @@ class NewsletterController extends Controller
         }
         $data['active'] = 1; // Newsletter active by default
         $data['template'] = 'newsletter1'; // Newsletter template by default
+        $data['covers'] = serialize(['default']);
+        $data['colors'] = serialize(['default']);
 
         Newsletter::create($data);
 
