@@ -53,6 +53,8 @@
 						<img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="width: 100%;height: auto;">
 					</td>
 				</tr>
+			</table>
+			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: {{ $bgPrimary }};margin-bottom: 100px;">
                 <tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
                     @foreach($linksAllowed as $tableNumber => $links)
                         <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 60px;background-color: {{ $bgCovers }};">
@@ -62,8 +64,6 @@
                         </td>
                     @endforeach
                 </tr>
-			</table>
-			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: {{ $bgPrimary }};margin-bottom: 100px;">
 				<tr>
 					<td colspan="2" style="padding: 20px;">
 					</td>
