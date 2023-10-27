@@ -53,6 +53,15 @@
 						<img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="width: 100%;height: auto;">
 					</td>
 				</tr>
+                <tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
+                    @foreach($linksAllowed as $tableNumber => $links)
+                        <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 60px;background-color: {{ $bgCovers }};">
+                            @foreach($links as $slug => $link)
+                                <a href="{{ $link }}" style="color: {{ $bgFontCovers }};text-decoration: none;">&#9656; {{ $covers->where('slug', $slug)->first()->name }}</a><br>
+                            @endforeach
+                        </td>
+                    @endforeach
+                </tr>
 			</table>
 			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: {{ $bgPrimary }};margin-bottom: 100px;">
 				<tr>
@@ -93,14 +102,10 @@
 					@endforeach
 				@endforeach
 				<!-- start footer -->
-				<tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
-                    @foreach($linksAllowed as $tableNumber => $links)
-                        <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 60px;background-color: {{ $bgCovers }};">
-                        @foreach($links as $slug => $link)
-                            <a href="{{ $link }}" style="color: {{ $bgFontCovers }};text-decoration: none;">&#9656; {{ $covers->where('slug', $slug)->first()->name }}</a><br>
-                        @endforeach
-                        </td>
-                    @endforeach
+				<tr valign="top" style="text-align: center; font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
+                    <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 0;background-color: {{ $bgCovers }};">
+                        <p style="color: {{ $bgFontCovers }};text-decoration: none;">Newsletter - Opemedios {{ date('Y') }}</p>
+                    </td>
 				</tr>
 			</table>
 		</td>
