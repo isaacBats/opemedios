@@ -103,7 +103,7 @@
 				@endforeach
 				<!-- start footer -->
 				<tr valign="top" style="text-align: center; font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
-                    <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 0;background-color: {{ $bgCovers }};">
+                    <td colspan="2" bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 0;background-color: {{ $bgCovers }};">
                         <p style="color: {{ $bgFontCovers }};text-decoration: none;">Newsletter - Opemedios {{ date('Y') }}</p>
                     </td>
 				</tr>
