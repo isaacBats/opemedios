@@ -97,7 +97,7 @@ a[x-apple-data-detectors] {
                    <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr style="border-collapse:collapse">
                       <td class="es-infoblock" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:10px;padding-left:25px;line-height:13px;font-size:11px;color:#999999">
-                          <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:16px;color:#fffff0;font-size:16px">NOTICIAS DEL DÍA&nbsp; |&nbsp;&nbsp;<span style="font-size:14px">
+                          <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:16px;color: {{ $bgFontCovers }};font-size:16px">NOTICIAS DEL DÍA&nbsp; |&nbsp;&nbsp;<span style="font-size:14px">
                                   <strong>
                                       {{-- Fecha del newsletter--}}
                                       {{ Illuminate\Support\Carbon::parse(
@@ -271,7 +271,14 @@ a[x-apple-data-detectors] {
                   <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
                    <table cellpadding="0" cellspacing="0" width="100%" bgcolor="{{ $bgPrimary }}" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:{{ $bgPrimary }}" role="presentation">
                      <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:{{ $bgPrimary }};font-size:14px"><br></p></td>
+                      <td align="left" style="padding:0;Margin:0">
+                          <p style="padding: 20px  0 20px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:{{ $bgFontCovers }};font-size:14px; text-align: center; font-weight: bold;">
+                              Newsletter - Opemedios {{ date('Y') }}
+                          </p>
+                      </td>
+                         {{--<td colspan="2" bgcolor="{{ $bgPrimary }}" style="padding: 30px  0 30px 0;background-color: {{ $bgPrimary }};">
+                             <p style="color: {{ $bgFontCovers }};text-decoration: none;">Newsletter - Opemedios {{ date('Y') }}</p>
+                         </td> --}}
                      </tr>
                    </table></td>
                  </tr>
