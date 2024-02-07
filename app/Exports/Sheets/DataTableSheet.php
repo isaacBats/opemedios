@@ -18,6 +18,7 @@
  
 namespace App\Exports\Sheets;
 
+use App\Models\SocialNetworks;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\{Carbon, CarbonPeriod};
 use Maatwebsite\Excel\Concerns\{
@@ -66,6 +67,12 @@ class DataTableSheet implements
         $theme = $note->assignedNews->where('company_id', $this->company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->company->id}")]);
 
+        $str_src = '';
+        if($note->source_id == 5 && !is_null($note->social_network_id)){
+            $social_network = SocialNetworks::find($note->social_network_id);
+            $str_src = $social_network->name;
+        }
+
         $this->num = $this->num + 1;
 
         $synthesis = json_encode($note->synthesis);
@@ -79,7 +86,7 @@ class DataTableSheet implements
             $note->news_date->format('Y-m-d'),
             $note->cost,
             $trend,
-            $note->mean->name ?? 'N/E',
+            ($note->mean->name ?? 'N/E') . (!empty($str_src) ? ' | ' . $str_src : ''),
             $note->scope,
         ];
     }

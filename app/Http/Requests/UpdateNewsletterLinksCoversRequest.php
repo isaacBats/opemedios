@@ -35,4 +35,3 @@ class UpdateNewsletterLinksCoversRequest extends FormRequest
         ];
     }
 }
-}
