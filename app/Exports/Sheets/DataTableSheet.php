@@ -68,7 +68,7 @@ class DataTableSheet implements
         $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->company->id}")]);
 
         $str_src = '';
-        if($note->source_id == 5 && !is_null($note->social_network_id)){
+        if($note->mean_id == 5 && !is_null($note->social_network_id)){
             $social_network = SocialNetworks::find($note->social_network_id);
             $str_src = $social_network->name;
         }
