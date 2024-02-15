@@ -81,7 +81,7 @@ class DataTableSheet implements
             $this->num . "-OPE-{$note->id}",
             $note->title . "|" . $link,
             $synthesis,
-            $note->author,
+            // $note->author,
             ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
             $note->cost,
@@ -97,7 +97,7 @@ class DataTableSheet implements
             'ID',
             'Título',
             'Síntesis',
-            'Autor',
+            // 'Autor',
             'Fuente',
             'Fecha nota',
             'Costo',
@@ -122,7 +122,7 @@ class DataTableSheet implements
                 //     $this->graph1
                 // );
 
-                $event->sheet->getStyle("A{$this->init_row}:J{$this->init_row}")->applyFromArray([
+                $event->sheet->getStyle("A{$this->init_row}:I{$this->init_row}")->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'color' => ['rgb' => 'EEEEEE'],
@@ -160,15 +160,15 @@ class DataTableSheet implements
                 $event->sheet->getColumnDimension('I')
                     ->setWidth(14)
                     ->setAutoSize(false);
-                $event->sheet->getColumnDimension('J')
-                    ->setWidth(14)
-                    ->setAutoSize(false);
+                // $event->sheet->getColumnDimension('J')
+                //     ->setWidth(14)
+                //     ->setAutoSize(false);
 
-                $event->sheet->getStyle('G')
+                $event->sheet->getStyle('F')
                     ->getNumberFormat()
                     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-                $event->sheet->setAutoFilter('A' . $this->init_row . ':J' . $this->init_row);
+                $event->sheet->setAutoFilter('A' . $this->init_row . ':I' . $this->init_row);
 
                 // hiperlink
                 foreach ($event->sheet->getColumnIterator('B') as $row) {
@@ -202,7 +202,7 @@ class DataTableSheet implements
                             if ($celda->getRow() === 1) {
                                 continue;
                             }
-                            $event->sheet->getStyle("A{$celda->getRow()}:J{$celda->getRow()}")->applyFromArray([
+                            $event->sheet->getStyle("A{$celda->getRow()}:I{$celda->getRow()}")->applyFromArray([
                                 'fill' => [
                                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                                     'color' => ['rgb' => 'e9f4fa'],
