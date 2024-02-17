@@ -15,7 +15,7 @@
         <div class="col-sm-12 people-list">
             <div class="people-options clearfix"> <!-- filter-options -->
                 <div class="btn-toolbar">
-                    <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET">
+                    <form id="form-report-filter" action="{{ route('admin.report.byclient') }}" method="GET" autocomplete="off">
                         @csrf
                         <div class="row">
                             <div class="col-md-2 form-group">
@@ -43,6 +43,16 @@
                                     <option value="">Genero</option>
                                     @foreach(App\Models\Genre::all() as $genre)
                                         <option value="{{ $genre->id }}"> {{ $genre->description }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-report-socialnetwork" class="text-muted">Redes sociales</label>
+                                <select class="form-control select-select2" style="width: 100%;" name="socialnetwork"
+                                        id="select-report-socialnetwork" multiple>
+                                    <option value="">Redes sociales</option>
+                                    @foreach(App\Models\SocialNetworks::all() as $socialnetwork)
+                                        <option value="{{ $socialnetwork->id }}">{{ $socialnetwork->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

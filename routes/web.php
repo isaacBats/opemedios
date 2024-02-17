@@ -154,6 +154,14 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('administrador-archivos/nueva-carpeta', 'FolderController@create')->name('cfm.create.folder');
     Route::get('global-search', 'AdminController@search')->name('global.search');
 
+    
+    Route::get('redes_sociales', 'SocialNetworkController@index')->name('social_networks');
+    Route::get('red_social/nueva', 'SocialNetworkController@showForm')->name('social_network.create');
+    Route::post('red_social/nueva', 'SocialNetworkController@create')->name('social_network.create');
+    Route::get('red_social/ver/{id}', 'SocialNetworkController@show')->name('social_network.show');
+    Route::post('red_social/actualizar/{id}', 'SocialNetworkController@update')->name('social_network.update');
+    Route::post('red_social/eliminar/{id}', 'SocialNetworkController@delete')->name('social_network.delete');
+
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
     Route::post('fuente/nueva', 'SourceController@create')->name('source.create');

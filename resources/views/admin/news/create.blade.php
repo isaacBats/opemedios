@@ -26,6 +26,22 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group row {{ (old('mean_id', $defaulNoteType->id) == 5 ? '' : 'd-none' ) }}" id="divRedSocial">
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="select-social_network">{{ __('Red Social') }}: <span class="text-danger">*</span></label>
+                    <div class="col-sm-10 col-md-10 col-lg-11">
+                        <select class="form-control" id="select-social_network" name="social_network_id">
+                            <option value="">{{ __('Tipo de red social') }}</option>
+                            @foreach($social_networks as $item)
+                                <option value="{{ $item->id }}" >{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('social_network_id')
+                            <label class="text-danger">
+                                <strong>{{ $message }}</strong>
+                            </label>
+                        @enderror
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="input-encabezado">{{ __('Encabezado') }}: <span class="text-danger">*</span></label>
                     <div class="col-sm-10 col-md-10 col-lg-11">
@@ -398,6 +414,14 @@
                 getItemsByMean(event.target.value)
                 // var mean = $('#select-mean option:selected').text()                
             })
+
+            $("#select-mean").on("change", function (){
+                if($(this).val() == 5){
+                    $("#divRedSocial").removeClass("d-none");
+                }else{
+                    $("#divRedSocial").addClass("d-none");
+                }
+            });
             
             function getHTMLSources(noteType) {
                 $.post('{{ route('api.getsourceshtml') }}', { "_token": $('meta[name="csrf-token"]').attr('content'), 'mean_id': noteType }, function(res){
