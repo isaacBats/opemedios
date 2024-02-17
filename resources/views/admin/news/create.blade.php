@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="form-group row {{ (old('mean_id', $defaulNoteType->id) == 5 ? '' : 'd-none' ) }}" id="divRedSocial">
-                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="select-social_network">{{ __('Red Social') }}: <span class="text-danger">*</span></label>
+                    <label class="col-sm-2 col-md-2 col-lg-1 col-form-label" for="select-social_network">{{ __('Red Social') }}: </label>
                     <div class="col-sm-10 col-md-10 col-lg-11">
                         <select class="form-control" id="select-social_network" name="social_network_id">
                             <option value="">{{ __('Tipo de red social') }}</option>
