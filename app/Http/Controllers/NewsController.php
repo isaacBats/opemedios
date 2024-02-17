@@ -125,16 +125,6 @@ class NewsController extends Controller
             'cost'              => 'required|numeric',
             'trend'             => 'required|digits_between:1,3',
             'scope'             => 'required|numeric',
-            'social_network_id' => [
-                                    Rule::requiredIf(function() use ($data){
-                                        $mean = $data['mean_id'];
-                                        if ($mean == 5) {
-                                            return true;
-                                        }
-                                        return false;
-                                    }),
-                                    'digits_between:1,20',
-                                ],
             'news_hour'         => [
                                     Rule::requiredIf(function() use ($data){
                                         $mean = $data['mean_id'];
