@@ -48,6 +48,7 @@ Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.e
 Route::get('reportes/exportar-pdf', 'ReportController@exportPDF')->name('admin.report_pdf.export');
 
 Route::get('vista-newsletter', 'NewsletterSendController@seeNewsletter')->name('front.newsletter.see');
+Route::get('vista-newsletter-uam', 'NewsletterSendController@seeNewsletterUam')->name('front.newsletter.see.uam');
 
 Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')
     ->name('api.getsourceshtml');
