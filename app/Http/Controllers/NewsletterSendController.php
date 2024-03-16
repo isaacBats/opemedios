@@ -151,7 +151,7 @@ class NewsletterSendController extends Controller
             if (!$covers) {
                 $covers = NewsletterFooter::latest('id')->first();
             }
-            $newsletterSend = NewsletterSend::where('newsletter_id', 26)->where('status', 1)->latest('date_sending')->first();
+            $newsletterSend = NewsletterSend::where('newsletter_id', 26)->where('status', 1)->orderBy('date_sending', 'desc')->first();
 
             return new NewsletterEmail($newsletterSend, $covers);
         } catch (DecryptException $e) {
