@@ -110,9 +110,20 @@ class NewsletterController extends Controller
         }
         $data['active'] = 1; // Newsletter active by default
         $data['template'] = 'newsletter1'; // Newsletter template by default
-        // TODO: Configurar a la hora de crear un newsletters los parametros de primeras planas y colores para que no este hardcodeada esta parte.
-        $data['covers'] = 'a:6:{i:0;s:15:"primeras_planas";i:1;s:20:"portadas_financieras";i:2;s:20:"columnas_financieras";i:3;s:18:"portadas_politicas";i:4;s:8:"cartones";i:5;s:12:"espectaculos";}';
-        $data['colors'] = 'a:5:{s:10:"bg_primary";s:7:"#ffffff";s:9:"bg_covers";s:7:"#fb9623";s:14:"bg_font_covers";s:7:"#ffffff";s:15:"bg_title_second";s:7:"#f79e02";s:20:"bg_body_theme_second";s:7:"#303030";';
+
+        $data['covers'] = serialize([
+            "primeras_planas",
+            "portadas_financieras",
+            "columnas_financieras",
+            "portadas_politicas"
+        ]);
+        $data['colors'] = serialize([
+            'bg_primary' => "#ffffff",
+            'bg_covers' => "#fb9623",
+            'bg_font_covers' => "#ffffff",
+            'bg_title_second' => "#f79e02",
+            'bg_body_theme_second' => "#303030"
+        ]);
 
         Newsletter::create($data);
 
