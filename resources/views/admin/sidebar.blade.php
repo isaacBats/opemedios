@@ -93,6 +93,7 @@
         <ul class="nav nav-pills nav-stacked nav-quirk">
             <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
             <li><a href="{{ route('social_networks') }}"><i class="fa fa-database"></i> <span>Redes sociales</span></a></li>
+            <li><a href="{{ route('clientes') }}"><i class="fa fa-users"></i> <span>Clientes</span></a></li>
             <li class="nav-parent">
                 <a href="javascript:void(0)"><i class="fa fa-rss"></i> <span>{{ __('Monitoreo') }}</span></a>
                 <ul class="children">

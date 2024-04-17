@@ -163,6 +163,18 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('red_social/actualizar/{id}', 'SocialNetworkController@update')->name('social_network.update');
     Route::post('red_social/eliminar/{id}', 'SocialNetworkController@delete')->name('social_network.delete');
 
+    Route::get('cat-clientes', 'ClienteController@index')->name('clientes');
+    Route::get('red_social/nueva', 'ClienteController@showForm')->name('social_network.create');
+    Route::post('red_social/nueva', 'ClienteController@create')->name('social_network.create');
+    Route::get('red_social/ver/{id}', 'ClienteController@show')->name('social_network.show');
+    Route::post('red_social/actualizar/{id}', 'ClienteController@update')->name('social_network.update');
+    Route::post('red_social/eliminar/{id}', 'ClienteController@delete')->name('social_network.delete');
+
+    Route::post('get-libros', 'ClienteController@getLibros')->name('clientes.get_libros');
+    Route::post('get-peliculas', 'ClienteController@getPeliculas')->name('clientes.get_peliculas');
+    Route::post('get-artistas', 'ClienteController@getArtistas')->name('clientes.get_artistas');
+    Route::post('artista/nuevo', 'ClienteController@storeArtist')->name('artist.create');
+
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
     Route::post('fuente/nueva', 'SourceController@create')->name('source.create');
