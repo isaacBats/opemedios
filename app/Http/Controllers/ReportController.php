@@ -129,6 +129,7 @@ class ReportController extends Controller
     public function byUser(Request $request, User $user)
     {
         $day = $request->input('day') ?? null;
+        $day = ($day == 'now' || $day == null) ? \Carbon\Carbon::now()->format('Y-m-d') : $day;
         $breadcrumb = array();
         array_push($breadcrumb, ['label' => 'Reporte Notas por día', 'url' => route('admin.report.bynotes')]);
         array_push($breadcrumb, ['label' => "Reporte de {$user->name}"]);
@@ -143,6 +144,8 @@ class ReportController extends Controller
             $notes->whereRaw('DATE(news_date) = ?', $start);
         } elseif ($start && $end) {
             $notes->whereBetween('news_date', [$start, $end]);
+        } elseif (is_null($start) && is_null($end)) {
+            $notes->whereRaw("DATE(news_date) = ? ", $day);
         } else {
             $notes->whereRaw("DATE(news_date) = ? ", $day);
         }
