@@ -65,7 +65,7 @@ class DataTableSheet implements
     {
         $trend = $note->trend == 1 ? 'Positiva' : ($note->trend == 2 ? 'Neutral' : 'Negativa');
         $theme = $note->assignedNews->where('company_id', $this->company->id)->where('news_id', $note->id)->first()->theme->name ?? 'N/E';
-        $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$note->title}-{$this->company->id}")]);
+        $link = route('front.detail.news', ['qry' => Crypt::encryptString("{$note->id}-{$this->company->id}")]);
 
         $str_src = '';
         if($note->mean_id == 5 && !is_null($note->social_network_id)){
@@ -79,8 +79,8 @@ class DataTableSheet implements
         
         return [
             $this->num . "-OPE-{$note->id}",
-            $note->title . "|" . $link,
-            $synthesis,
+            $note->title . "|#-#|" . $link,
+            $link,
             // $note->author,
             ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
@@ -174,7 +174,7 @@ class DataTableSheet implements
                 foreach ($event->sheet->getColumnIterator('B') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
-                            $nota = explode('|', $cell->getValue());
+                            $nota = explode('|#-#|', $cell->getValue());
                             
                             
                             $link = route('front.detail.news', ['qry' => '']);
