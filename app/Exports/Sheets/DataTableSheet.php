@@ -80,7 +80,7 @@ class DataTableSheet implements
         return [
             $this->num . "-OPE-{$note->id}",
             $note->title . "|#-#|" . $link,
-            $link,
+            $synthesis,
             // $note->author,
             ($note->source->name ?? 'N/E'),
             $note->news_date->format('Y-m-d'),
