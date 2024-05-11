@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('admin-title', ' - Empresas')
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('lib/select2/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dragula.min.css') }}" />
 
     <style>
@@ -143,9 +144,9 @@
         }
 
         .task {
-            display: -webkit-box;
+            /* display: -webkit-box;
             display: -ms-flexbox;
-            display: flex;
+            display: flex; */
             -webkit-box-pack: center;
             -ms-flex-pack: center;
             justify-content: center;
@@ -163,7 +164,7 @@
             vertical-align: middle;
         }
 
-        #taskText {
+        /* #taskText {
             background: #fff;
             border: #000013 0.15rem solid;
             border-radius: 0.2rem;
@@ -172,7 +173,7 @@
             height: 4rem;
             width: 7rem;
             margin: auto 0.8rem auto 0.1rem;
-        }
+        } */
 
         .task p {
             margin: auto;
@@ -256,72 +257,22 @@
         </div>
         <div id="collapseClientes" class="collapse in">
             <div class="panel">
-                <div class="people-options clearfix"> <!-- filter-options -->
-                    <div class="btn-toolbar">
-                        <form action="{{ route('companies') }}" method="GET">
-                            <div class="row">
-                                <div class="col-md-2 form-group">
-                                    <label for="input-company-name" class="text-muted">Nombre</label>
-                                    <input type="text" name="name" class="form-control" id="input-company-name"
-                                        value="{{ request()->get('name') }}">
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="select-company-turn" class="text-muted">Giro</label>
-                                    <select class="form-control" name="turn">
-                                        <option value="">Giro</option>
-                                        @foreach (App\Models\Turn::all() as $turn)
-                                            <option value="{{ $turn->id }}"
-                                                {{ request()->get('turn') == $turn->id ? 'selected' : '' }}>
-                                                {{ $turn->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
-                                    <select class="form-control" name="paginate">
-                                        <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
-                                        <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
-                                        <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
-                                        <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
-                                        <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 form-group" style="margin-top: 20px">
-                                    <button class="btn btn-primary btn-lg"> Buscar</button>
-                                    @if (request()->has('name') || request()->has('turn'))
-                                        <a href="{{ route('companies') }}" class="btn btn-warning ml-2"
-                                            style="margin-left: .8em"> Limpiar filtros </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <span id="span-count-info" class="people-count pull-right">Mostrando <strong
-                            id="num-rows-info">{{ $companies->count() }} de {{ $companies->total() }}</strong>
-                        empresas</span>
-                </div><!-- filter-options -->
-                <?php /*<div class="panel-heading">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12">
-                            <h4 class="panel-title" style="padding: 12px 0;">Administrador de empresas</h4>
-                        </div>
-                        <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
-                            <a href="{{ route('company.create') }}" class="btn btn-danger btn-quirk btn-lg"><i
-                                    class="fa fa-plus-circle"></i> Nueva empresa</a>
-                        </div>
-                    </div>
-                </div> */
-                ?>
                 <div class="panel-body">
 
-
-
-                    <div class="add-task-container">
-                        <input type="text" maxlength="12" id="taskText" placeholder="Nueva tarea..."
-                            onkeydown="if (event.keyCode == 13)
-                          document.getElementById('add').click()">
-                        <button id="add" class="button add-button" onclick="addTask()" style="width: 200px">Agregar
-                            nueva tarea</button>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input class="form-control" type="text" maxlength="12" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()">
+                        </div>
+                        <div class="col-md-4">
+                            <select name="company_id" id="select-task-company" class="form-control">
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="add" class="button add-button" onclick="addTask()" style="width: 200px">Agregar nueva tarea</button>
+                        </div>
                     </div>
 
                     <div class="main-container">
@@ -331,19 +282,21 @@
                                 <div class="column-header">
                                     <h4>Por realizar</h4>
                                 </div>
-                                <ul class="task-list" id="to-do">
-                                    <li class="task" data-id="65">
-                                        <p>Estar pendiente de artista</p>
+                                <ul class="task-list" id="to-do" data-column_id="1">
+                                    @foreach($por_realizar as $itm)
+                                    <li class="task" data-id="{{$itm->id}}">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>{{$itm->task}}</p>
+                                            </div>
+                                        </div>
                                     </li>
-                                    <li class="task">
-                                        <p>Buscar un libro</p>
-                                    </li>
-                                    <li class="task">
-                                        <p>Enviar informacion</p>
-                                    </li>
-                                    <li class="task">
-                                        <p>Mas tareas</p>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
 
@@ -351,16 +304,21 @@
                                 <div class="column-header">
                                     <h4>Tareas fijas</h4>
                                 </div>
-                                <ul class="task-list" id="doing">
-                                    <li class="task">
-                                        <p>Enviar diario reporte</p>
+                                <ul class="task-list" id="doing" data-column_id="2">
+                                    @foreach($fijas as $itm)
+                                    <li class="task" data-id="{{$itm->id}}">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>{{$itm->task}}</p>
+                                            </div>
+                                        </div>
                                     </li>
-                                    <li class="task">
-                                        <p>Tarea</p>
-                                    </li>
-                                    <li class="task">
-                                        <p>Tarea</p>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
 
@@ -368,13 +326,21 @@
                                 <div class="column-header">
                                     <h4>Finalizadas</h4>
                                 </div>
-                                <ul class="task-list" id="done">
-                                    <li class="task">
-                                        <p>Tarea</p>
+                                <ul class="task-list" id="done" data-column_id="3">
+                                    @foreach($realizadas as $itm)
+                                    <li class="task" data-id="{{$itm->id}}">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>{{$itm->task}}</p>
+                                            </div>
+                                        </div>
                                     </li>
-                                    <li class="task">
-                                        <p>Tarea</p>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
 
@@ -382,66 +348,29 @@
                                 <div class="column-header">
                                     <h4>Trash</h4>
                                 </div>
-                                <ul class="task-list" id="trash">
-                                    <li class="task">
-                                        <p>Interviews</p>
+                                <ul class="task-list" id="trash" data-column_id="4">
+                                    @foreach($trash as $itm)
+                                    <li class="task" data-id="{{$itm->id}}">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>{{$itm->task}}</p>
+                                            </div>
+                                        </div>
                                     </li>
-                                    <li class="task">
-                                        <p>Research</p>
-                                    </li>
-
+                                    @endforeach
                                 </ul>
-                                <div class="column-button">
+                                {{-- <div class="column-button">
                                     <button class="button delete-button" onclick="emptyTrash()">Delete</button>
-                                </div>
+                                </div> --}}
                             </li>
 
                         </ul>
                     </div>
-
-
-                    <?php /*<div class="table-responsive">
-                    <table class="table table-bordered table-primary table-striped nomargin" id="table-company-list">
-                        <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center">Giro</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($companies as $company)
-                            <tr>
-                                <td class="text-center">{{ ($companies->currentPage() - 1) * $companies->perPage() + $loop->iteration }}</td>
-                                <td class="text-left">
-                                    <a href="{{ route('company.show', ['company' => $company->id]) }}">
-                                        <div class="td-select-all">
-                                            {{ $company->name }}
-                                        </div>
-                                    </a>
-                                </td>
-                                <td class="text-left">
-                                    <a href="{{ route('company.show', ['company' => $company->id]) }}">
-                                        <div class="td-select-all">
-                                            {{ $company->turn->name }}
-                                        </div>
-                                    </a>
-                                </td>
-                                <td class="table-options">
-                                    <a href="{{ route('admin.company.delete', ['id' => $company->id]) }}"
-                                       class="btn-delete-company" data-name="{{ $company->name }}"><i
-                                            class="fa fa-trash fa-2x text-danger"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    
-                    {!! $companies->links() !!}
-
-                </div><!-- table-responsive -->*/
-                    ?>
                 </div>
             </div><!-- panel -->
         </div>
@@ -508,7 +437,30 @@
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script src="{{ asset('js/dragula.min.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function(){
+            // Select company combo
+            $('#select-task-company').select2();
+            // $('#select-task-company').select2({
+            //     minimumInputLength: 3,
+            //     ajax: {
+            //         type: 'POST',
+            //         url: "{{ route('api.getcompaniesajax') }}",
+            //         dataType: 'json',
+            //         data: function(params, noteType) {
+            //             return {
+            //                 q: params.term,
+            //                 "_token": $('meta[name="csrf-token"]').attr('content')
+            //             } 
+            //         },
+            //         processResults: function(data) {
+            //             return {
+            //                 results: data.items
+            //             }
+            //         },
+            //         cache: true
+            //     }
+            // })
+        
 
             /* Custom Dragula JS */
             dragula([
@@ -537,6 +489,19 @@
                     console.log(sibling);
                     console.groupEnd();
                     el.className += "ex-moved";
+
+                    task_id = el.dataset.id;
+                    new_section = target.dataset.column_id
+                    bottom_task = sibling != null ? sibling.dataset.id : null
+
+                    $.post('{{ route('task.update') }}', {
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                        "task_id": task_id,
+                        "new_section": new_section,
+                        "bottom_task": bottom_task
+                    }, function(res) {
+                        
+                    })
                 })
                 .on("over", function(el, container) {
                     container.className += "ex-over";
@@ -734,14 +699,36 @@
 
         /* Vanilla JS to add a new task */
         function addTask() {
-            /* Get task text from input */
+
             var inputTask = document.getElementById("taskText").value;
-            /* Add task to the 'To Do' column */
-            document.getElementById("to-do").innerHTML +=
-                "<li class='task'><p>" + inputTask + "</p></li>";
-            /* Clear task text from input after adding task */
-            document.getElementById("taskText").value = "";
+            
+            $.post('{{ route('task.save') }}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "company_id": $("#select-task-company").val(),
+                "task": inputTask
+            }, function(res) {
+            
+                /* Get task text from input */
+                /* Add task to the 'To Do' column */
+                document.getElementById("to-do").innerHTML +=
+                    "<li class='task' data-id='" + res.id + "'>" +
+                        "<div class=\"row\">" +
+                            "<div class=\"col-12\">" +
+                                "<label style=\"font-size:9.5px;\">" + $("#select-task-company option:selected").text() + "</label>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"row\">" +
+                            "<div class=\"col-12\">" +
+                                "<p>" + inputTask + "</p>" +
+                            "</div>" +
+                        "</div></li>";
+
+                /* Clear task text from input after adding task */
+                document.getElementById("taskText").value = "";
+                
+            })
         }
+        $("#selector option:selected").text();
 
         /* Vanilla JS to delete tasks in 'Trash' column */
         function emptyTrash() {

@@ -17,7 +17,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArtistRequest;
-use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, News, Means};
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, News, Means, TasksBoard};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
@@ -44,7 +44,14 @@ class ClienteController extends Controller
             ->appends('name', request('name'))
             ->appends('turn', request('turn'));
 
-        return view('admin.clientes.index', compact('companies', 'breadcrumb', 'paginate'));
+
+        $por_realizar  = TasksBoard::where('column_id', 1)->orderBy('position')->get();
+        $fijas         = TasksBoard::where('column_id', 2)->orderBy('position')->get();
+        $realizadas    = TasksBoard::where('column_id', 3)->orderBy('position')->get();
+        $trash         = TasksBoard::where('column_id', 4)->orderBy('position')->get();
+
+
+        return view('admin.clientes.index', compact('companies', 'breadcrumb', 'paginate', 'por_realizar', 'fijas', 'realizadas', 'trash'));
     }
 
     public function getLibros(Request $request)
@@ -171,6 +178,51 @@ class ClienteController extends Controller
     {
         $artist = Artist::create($request->validated());
         $response['status'] = "El artista: {$artist->name} se ha creado satisfactoriamente!";
+        return response()->json($response);
+    }
+
+    public function saveTask(Request $request)
+    {
+        $bottom_task = TasksBoard::where('column_id', 1)->orderBy('position', 'desc')->first();
+
+        $task = new TasksBoard;
+        $task->position = $bottom_task ? ($bottom_task->position + 1) : 1;
+        $task->column_id = 1;
+        $task->task = $request->task;
+        $task->company_id = $request->company_id;
+        $task->user_id = auth()->user()->id;
+        $task->save();
+
+        $response['id'] = $task->id;
+        $response['status'] = "Ok";
+        return response()->json($response);
+    }
+
+    public function updateTask(Request $request)
+    {
+        if($request->bottom_task)
+        {
+            $bottom_task = TasksBoard::find($request->bottom_task);
+            $move_task = TasksBoard::find($request->task_id);
+
+            $move_task->position = $bottom_task->position;
+            $move_task->column_id = $request->new_section;
+            $move_task->save();
+            
+            $bottom_task->position = $move_task->position + 1;
+            $bottom_task->save();
+        }else{
+
+            $bottom_task = TasksBoard::where('column_id', $request->new_section)->orderBy('position', 'desc')->first();
+            $move_task = TasksBoard::find($request->task_id);
+
+            $move_task->position = $bottom_task ? ($bottom_task->position + 1) : 1;
+            $move_task->column_id = $request->new_section;
+            $move_task->save();
+            
+        }
+
+        $response['status'] = "Ok";
         return response()->json($response);
     }
 
