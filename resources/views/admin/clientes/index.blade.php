@@ -50,6 +50,7 @@
         }
 
         .columns {
+            width: 100%;
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -60,7 +61,7 @@
         }
 
         .column {
-            width: 20rem;
+            width: 33%;
             margin: 0 0.6rem;
             background: #a8a8a8;
             border: #000013 0.2rem solid;
@@ -216,62 +217,44 @@
     @endif
     <div class="col-md-12 people-list">
         <div class="row">
-
-
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
-
-
                         <ul class="menu-ul">
                             <li>
-                                <a class="btnCollapse" role="button" data-id="collapseClientes">
-                                    Clientes
-                                </a>
+                                <a class="btnCollapse" role="button" data-id="collapseClientes">Clientes</a>
                             </li>
                             <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapsePeliculas">
-                                    Peliculas
-                                </a>
+                                <a class="collapsed btnCollapse" role="button" data-id="collapsePeliculas">Peliculas</a>
                             </li>
                             <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapseArtistas">
-                                    Artistas
-                                </a>
+                                <a class="collapsed btnCollapse" role="button" data-id="collapseArtistas">Artistas</a>
                             </li>
                             <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapseLibros">
-                                    Libros
-                                </a>
+                                <a class="collapsed btnCollapse" role="button" data-id="collapseLibros">Libros</a>
                             </li>
                         </ul>
-
-
-
                     </div>
                 </div>
             </div>
-
-
-
         </div>
         <div id="collapseClientes" class="collapse in">
             <div class="panel">
                 <div class="panel-body">
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <input class="form-control" type="text" maxlength="12" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()">
+                        <div class="col-md-5">
+                            <textarea class="form-control" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()"></textarea>
                         </div>
                         <div class="col-md-4">
-                            <select name="company_id" id="select-task-company" class="form-control">
+                            <select name="company_id" id="select-task-company" class="form-control" multiple>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4">
-                            <button id="add" class="button add-button" onclick="addTask()" style="width: 200px">Agregar nueva tarea</button>
+                        <div class="col-md-3">
+                            <button id="add" class="btn btn-success" onclick="addTask()" style="width: 200px">Agregar nueva tarea</button>
                         </div>
                     </div>
 
@@ -287,7 +270,9 @@
                                     <li class="task" data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                                @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
+                                                <label style="font-size:9.5px;">{{ $company->name }}</label> - 
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="row">
@@ -309,7 +294,9 @@
                                     <li class="task" data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                                @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
+                                                <label style="font-size:9.5px;">{{ $company->name }}</label> - 
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="row">
@@ -322,6 +309,8 @@
                                 </ul>
                             </li>
 
+                            
+                            @hasanyrole('manager|admin')
                             <li class="column done-column">
                                 <div class="column-header">
                                     <h4>Finalizadas</h4>
@@ -331,7 +320,9 @@
                                     <li class="task" data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                                @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
+                                                <label style="font-size:9.5px;">{{ $company->name }}</label> - 
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="row">
@@ -353,7 +344,9 @@
                                     <li class="task" data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
-                                                <label style="font-size:9.5px;">{{ $itm->company->name }}</label>
+                                                @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
+                                                <label style="font-size:9.5px;">{{ $company->name }}</label> - 
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="row">
@@ -368,7 +361,7 @@
                                     <button class="button delete-button" onclick="emptyTrash()">Delete</button>
                                 </div> --}}
                             </li>
-
+                            @endhasanyrole
                         </ul>
                     </div>
                 </div>
@@ -377,6 +370,17 @@
         <div id="collapsePeliculas" class="collapse byAjaxPeliculas">
             <div class="panel">
                 <div calass="panel-body">
+                    <div class="well well-asset-options clearfix">
+                        <div class="col-md-8 pull-right" role="toolbar">
+                            <div class="col-md-offset-4 col-md-4 form-group">
+                                <label for="input-peliculas-name" class="text-muted">Nombre</label>
+                                <input type="text" name="name" class="form-control" id="input-peliculas-name">
+                            </div>
+                            <div class="col-md-2 form-group" style="margin-top: 20px">
+                                <button class="btn btn-primary btn-lg byAjaxLibros" id="btnBuscarPeliculas" href="{{route('clientes.get_peliculas')}}"> Buscar</button>
+                            </div>
+                        </div><!-- btn-toolbar -->
+                    </div>
                     <div class="fm-sidebar" id="sectPeliculas"></div>
                 </div>
             </div>
@@ -427,7 +431,18 @@
         <div id="collapseLibros" class="collapse byAjaxLibros">
             <div class="panel">
                 <div calass="panel-body">
-                    <div class="fm-sidebar" id="sectLibros"></div>
+                    <div class="well well-asset-options clearfix">
+                        <div class="col-md-8 pull-right" role="toolbar">
+                            <div class="col-md-offset-4 col-md-4 form-group">
+                                <label for="input-sector-name" class="text-muted">Nombre</label>
+                                <input type="text" name="name" class="form-control" id="input-libros-name">
+                            </div>
+                            <div class="col-md-2 form-group" style="margin-top: 20px">
+                                <button class="btn btn-primary btn-lg" id="btnBuscarLibros" href="{{route('clientes.get_libros')}}"> Buscar</button>
+                            </div>
+                        </div><!-- btn-toolbar -->
+                    </div>
+                    <div class="fm-sidebar" id="sectLibros" byAjaxPeliculas></div>
                 </div>
             </div>
         </div>
@@ -511,7 +526,6 @@
                 });
 
 
-
             // Modal for delete a company
             $('#table-company-list').on('click', '.btn-delete-company', function(event) {
                 event.preventDefault()
@@ -563,13 +577,14 @@
             })
 
             function loadI() {
-                $(".byAjaxLibros .page-link").on("click", function(e) {
+                $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
                     e.preventDefault();
 
                     var d_href = $(this).attr("href");
                     console.log(d_href);
                     $.post(d_href, {
-                        "_token": $('meta[name="csrf-token"]').attr('content')
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                        "search": $("#input-libros-name").val(),
                     }, function(res) {
                         $("#sectLibros").html(res);
                         loadI();
@@ -578,13 +593,14 @@
             }
 
             function loadP() {
-                $(".byAjaxPeliculas .page-link").on("click", function(e) {
+                $(".byAjaxPeliculas .page-link, #btnBuscarPeliculas").on("click", function(e) {
                     e.preventDefault();
 
                     var d_href = $(this).attr("href");
                     console.log(d_href);
                     $.post(d_href, {
-                        "_token": $('meta[name="csrf-token"]').attr('content')
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                        "search": $("#input-peliculas-name").val(),
                     }, function(res) {
                         $("#sectPeliculas").html(res);
                         loadP();
@@ -608,34 +624,12 @@
                 modal.find('#md-btn-submit').val('Crear')
                 modalBody.html(getTemplateForCreateTheme())
 
-                $('#select-company').select2();
+                $('#select-company').select2({
+                    dropdownParent: modal
+                });
 
                 modal.modal('show')
             })
-
-            function getTemplateForCreateTheme() {
-                return `
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Compañia</label>
-                            <div class="col-sm-8">
-                                <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
-                                    <option value="">Seleccionan una compañia</option>
-                                    @foreach ($companies as $company)
-                                        <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Artista</label>
-                            <div class="col-sm-8">
-                                <input id="input-name-artist" type="text" name="name" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                `
-            }
 
             $.post('{{ route('clientes.get_artistas') }}', {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -666,7 +660,7 @@
             $("#md-btn-submit").on("click", function(e) {
                 e.preventDefault();
 
-                $.post('{{ route('artist.create') }}', $("#modal-default-form").serialize(), function(
+                $.post($("#modal-default-form").attr("action"), $("#modal-default-form").serialize(), function(
                 res) {
                     var modal = $('#modal-default')
                     modal.modal('hide');
@@ -699,7 +693,8 @@
 
         /* Vanilla JS to add a new task */
         function addTask() {
-
+            // console.log($("#select-task-company option:selected").text())
+            // console.log($("#select-task-company").val())
             var inputTask = document.getElementById("taskText").value;
             
             $.post('{{ route('task.save') }}', {
@@ -728,12 +723,59 @@
                 
             })
         }
-        $("#selector option:selected").text();
+        //$("#selector option:selected").text();
 
         /* Vanilla JS to delete tasks in 'Trash' column */
         function emptyTrash() {
             /* Clear tasks from 'Trash' column */
             document.getElementById("trash").innerHTML = "";
         }
+        
+        function editaArtista(name, company_id, id){
+                
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+
+
+            form.attr('method', 'POST')
+            form.attr('action', '/panel/artista/edit/' + id)
+            form.addClass('form-horizontal')
+
+            modal.find('.modal-title').html('Editar artista');
+            modal.find('#md-btn-submit').val('Guardar')
+            modalBody.html(getTemplateForCreateTheme(name, company_id))
+
+            $('#select-company').select2({
+                dropdownParent: modal
+            });
+
+            modal.modal('show')
+        }
+
+        function getTemplateForCreateTheme(name = '', id = '') {
+            return `
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Compañia</label>
+                        <div class="col-sm-8">
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
+                                <option value="">Seleccionan una compañia</option>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Artista</label>
+                        <div class="col-sm-8">
+                            <input id="input-name-artist" type="text" name="name" class="form-control" value="`+name+`"/>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+
     </script>
 @endsection

@@ -11,9 +11,8 @@ class TasksBoard extends Model
     use HasFactory;
     protected $table = 'tasks_board';
 
-    public function company()
-    {
-        return $this->belongsTo(Models\Company::class);
-    }
-
+    protected $casts = [
+        'company_id' => 'array',
+    ];
+    
 }

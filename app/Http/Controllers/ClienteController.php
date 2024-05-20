@@ -38,11 +38,8 @@ class ClienteController extends Controller
         array_push($breadcrumb,['label' => 'Empresas']);
 
         $companies = Company::name($request->get('name'))
-            ->turn($request->get('turn'))
             ->orderBy('id', 'DESC')
-            ->paginate($paginate)
-            ->appends('name', request('name'))
-            ->appends('turn', request('turn'));
+            ->get();
 
 
         $por_realizar  = TasksBoard::where('column_id', 1)->orderBy('position')->get();
@@ -59,8 +56,12 @@ class ClienteController extends Controller
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
         $libros_id = Turn::where('name', 'Editorial')->first()->id;
-        $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'))->paginate($paginate);
+        $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'));
 
+        $search = $request->has('search') ? $request->input('search') : '';
+        if(!empty($search)) $libros = $libros->where('name', 'like', '%' . $search . '%');
+
+        $libros = $libros->paginate($paginate);
         // $html = '';
         // foreach($libros as $itm)
         // {
@@ -108,8 +109,13 @@ class ClienteController extends Controller
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
         $peliculas_id = Turn::where('name', 'Cine')->first()->id;
-        $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'))->paginate($paginate);
+        $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'));
                 
+        $search = $request->has('search') ? $request->input('search') : '';
+        if(!empty($search)) $peliculas = $peliculas->where('name', 'like', '%' . $search . '%');
+
+        $peliculas = $peliculas->paginate($paginate);
+
         $html = '';
         foreach($peliculas as $itm)
         {
@@ -165,11 +171,11 @@ class ClienteController extends Controller
                     $itm->company->name .
                 '</td>' .
                 '<td>' .
-                    //$itm->company->name .
+                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
                 '</td>' .
             '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Medios</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
 
         return response()->json($html);
     }
@@ -180,6 +186,19 @@ class ClienteController extends Controller
         $response['status'] = "El artista: {$artist->name} se ha creado satisfactoriamente!";
         return response()->json($response);
     }
+    
+    public function updateArtist($id, StoreArtistRequest $request)
+    {
+        $artist = Artist::find($id);
+
+        $artist->name = $request->name;
+        $artist->company_id = $request->company_id;
+        $artist->save();
+
+        $response['status'] = "El artista: {$artist->name} se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
 
     public function saveTask(Request $request)
     {
