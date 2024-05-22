@@ -175,6 +175,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('get-artistas', 'ClienteController@getArtistas')->name('clientes.get_artistas');
     Route::post('artista/nuevo', 'ClienteController@storeArtist')->name('artist.create');
     Route::post('artista/edit/{id}', 'ClienteController@updateArtist')->name('artist.update');
+    
+    Route::post('pelicula/nuevo', 'ClienteController@storePelicula')->name('pelicula.create');
+    Route::post('pelicula/edit/{id}', 'ClienteController@updatePelicula')->name('pelicula.update');
+    
+    Route::post('libro/nuevo', 'ClienteController@storeLibro')->name('libro.create');
+    Route::post('libro/edit/{id}', 'ClienteController@updateLibro')->name('libro.update');
+
     Route::post('task/save', 'ClienteController@saveTask')->name('task.save');
     Route::post('task/update', 'ClienteController@updateTask')->name('task.update');
 

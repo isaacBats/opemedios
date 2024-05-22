@@ -157,7 +157,7 @@
             -webkit-transition: all 0.3s;
             transition: all 0.3s;
             margin: 0.4rem;
-            height: 8rem;
+            /*height: 8rem;*/
             border: #000013 0.15rem solid;
             border-radius: 0.2rem;
             cursor: move;
@@ -178,6 +178,7 @@
 
         .task p {
             margin: auto;
+            padding: 15px;
         }
 
         /* Dragula CSS Release 3.2.0 from: https://github.com/bevacqua/dragula */
@@ -371,10 +372,30 @@
             <div class="panel">
                 <div calass="panel-body">
                     <div class="well well-asset-options clearfix">
+                        <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                            <div class="col-md-4 form-group">
+                                <div class="btn-group" role="group">
+                                    @hasanyrole('manager|admin')
+                                    <button id="btn-add-pelicula" class="btn btn-success btn-quirk"
+                                        type="button">{{ __('Agregar Pelicula') }}</button>
+                                    @endhasanyrole
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-8 pull-right" role="toolbar">
                             <div class="col-md-offset-4 col-md-4 form-group">
                                 <label for="input-peliculas-name" class="text-muted">Nombre</label>
                                 <input type="text" name="name" class="form-control" id="input-peliculas-name">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                                <select class="form-control" name="paginate" id="paginate_pelicula">
+                                    <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
                             </div>
                             <div class="col-md-2 form-group" style="margin-top: 20px">
                                 <button class="btn btn-primary btn-lg byAjaxLibros" id="btnBuscarPeliculas" href="{{route('clientes.get_peliculas')}}"> Buscar</button>
@@ -392,8 +413,10 @@
                         <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
                             <div class="col-md-4 form-group">
                                 <div class="btn-group" role="group">
+                                    @hasanyrole('manager|admin')
                                     <button id="btn-add-artist" class="btn btn-success btn-quirk"
                                         type="button">{{ __('Agregar Artista') }}</button>
+                                    @endhasanyrole
                                 </div>
                             </div>
                         </div>
@@ -401,8 +424,7 @@
                         <div class="col-md-8 pull-right" role="toolbar">
                             <div class="col-md-offset-4 col-md-4 form-group">
                                 <label for="input-sector-name" class="text-muted">Nombre</label>
-                                <input type="text" name="name" class="form-control" id="input-artist-name"
-                                    value="{{ request()->get('name') }}">
+                                <input type="text" name="name" class="form-control" id="input-artist-name">
                             </div>
                             <div class="col-md-2 form-group">
                                 <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
@@ -423,8 +445,7 @@
                             </div>
                         </div><!-- btn-toolbar -->
                     </div>
-                    <div id="sectArtistas">
-                    </div>
+                    <div id="sectArtistas"></div>
                 </div>
             </div>
         </div>
@@ -432,17 +453,38 @@
             <div class="panel">
                 <div calass="panel-body">
                     <div class="well well-asset-options clearfix">
+                        <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                            <div class="col-md-4 form-group">
+                                <div class="btn-group" role="group">
+                                    @hasanyrole('manager|admin')
+                                    <button id="btn-add-libro" class="btn btn-success btn-quirk"
+                                        type="button">{{ __('Agregar Libro') }}</button>
+                                    @endhasanyrole
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-8 pull-right" role="toolbar">
                             <div class="col-md-offset-4 col-md-4 form-group">
-                                <label for="input-sector-name" class="text-muted">Nombre</label>
+                                <label for="input-libros-name" class="text-muted">Nombre</label>
                                 <input type="text" name="name" class="form-control" id="input-libros-name">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                                <select class="form-control" name="paginate" id="paginate_libro">
+                                    <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
                             </div>
                             <div class="col-md-2 form-group" style="margin-top: 20px">
                                 <button class="btn btn-primary btn-lg" id="btnBuscarLibros" href="{{route('clientes.get_libros')}}"> Buscar</button>
                             </div>
                         </div><!-- btn-toolbar -->
                     </div>
-                    <div class="fm-sidebar" id="sectLibros" byAjaxPeliculas></div>
+                    <div class="fm-sidebar" id="sectLibros"></div>
                 </div>
             </div>
         </div>
@@ -609,12 +651,11 @@
             }
 
 
-            //create theme
+            //create artista
             $('#btn-add-artist').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
                 var modalBody = modal.find('.modal-body')
-
 
                 form.attr('method', 'POST')
                 form.attr('action', '/panel/artista/nuevo')
@@ -622,7 +663,50 @@
 
                 modal.find('.modal-title').html('Crear un nuevo artista');
                 modal.find('#md-btn-submit').val('Crear')
-                modalBody.html(getTemplateForCreateTheme())
+                modalBody.html(getTemplateForCreateArtista())
+
+                $('#select-company').select2({
+                    dropdownParent: modal
+                });
+
+                modal.modal('show')
+            })
+
+            //create artista
+            $('#btn-add-pelicula').on('click', function() {
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+
+                form.attr('method', 'POST')
+                form.attr('action', '/panel/pelicula/nuevo')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').html('Crear un nueva pelicula');
+                modal.find('#md-btn-submit').val('Crear')
+                modalBody.html(getTemplateForCreatePelicula())
+
+                $('#select-company').select2({
+                    dropdownParent: modal
+                });
+
+                modal.modal('show')
+            })
+
+            
+            //create artista
+            $('#btn-add-libro').on('click', function() {
+                var modal = $('#modal-default')
+                var form = $('#modal-default-form')
+                var modalBody = modal.find('.modal-body')
+
+                form.attr('method', 'POST')
+                form.attr('action', '/panel/libro/nuevo')
+                form.addClass('form-horizontal')
+
+                modal.find('.modal-title').html('Crear un nuevo libro');
+                modal.find('#md-btn-submit').val('Crear')
+                modalBody.html(getTemplateForCreateLibro())
 
                 $('#select-company').select2({
                     dropdownParent: modal
@@ -744,7 +828,7 @@
 
             modal.find('.modal-title').html('Editar artista');
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreateTheme(name, company_id))
+            modalBody.html(getTemplateForCreateArtista(name, company_id))
 
             $('#select-company').select2({
                 dropdownParent: modal
@@ -753,7 +837,51 @@
             modal.modal('show')
         }
 
-        function getTemplateForCreateTheme(name = '', id = '') {
+        function editaPelicula(name, company_id, id, description){
+                
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+
+
+            form.attr('method', 'POST')
+            form.attr('action', '/panel/pelicula/edit/' + id)
+            form.addClass('form-horizontal')
+
+            modal.find('.modal-title').html('Editar pelicula');
+            modal.find('#md-btn-submit').val('Guardar')
+            modalBody.html(getTemplateForCreatePelicula(name, company_id, description))
+
+            $('#select-company').select2({
+                dropdownParent: modal
+            });
+
+            modal.modal('show')
+        }
+
+        function editaLibro(name, company_id, id, description){
+            
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+
+
+            form.attr('method', 'POST')
+            form.attr('action', '/panel/libro/edit/' + id)
+            form.addClass('form-horizontal')
+
+            modal.find('.modal-title').html('Editar libro');
+            modal.find('#md-btn-submit').val('Guardar')
+            modalBody.html(getTemplateForCreateLibro(name, company_id, description))
+
+            $('#select-company').select2({
+                dropdownParent: modal
+            });
+
+            modal.modal('show')
+        }
+        
+        function getTemplateForCreateArtista(name = '', id = '') {
             return `
                 <div class="row">
                     <div class="form-group">
@@ -771,6 +899,64 @@
                         <label class="col-sm-3 control-label">Artista</label>
                         <div class="col-sm-8">
                             <input id="input-name-artist" type="text" name="name" class="form-control" value="`+name+`"/>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+        function getTemplateForCreatePelicula(name = '', id = '', descripcion = '') {
+            return `
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Compañia</label>
+                        <div class="col-sm-8">
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
+                                <option value="">Seleccionan una compañia</option>
+                                @foreach ($companies_peliculas as $company)
+                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Pelicula</label>
+                        <div class="col-sm-8">
+                            <input id="input-name-pelicula" type="text" placeholder="Pelicula" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Descripción</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="descripcion" placeholder="Descripción" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()">`+descripcion+`</textarea>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+        function getTemplateForCreateLibro(name = '', id = '', descripcion = '') {
+            return `
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Compañia</label>
+                        <div class="col-sm-8">
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
+                                <option value="">Seleccionan una compañia</option>
+                                @foreach ($companies_libros as $company)
+                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Libro</label>
+                        <div class="col-sm-8">
+                            <input id="input-name-libro" type="text" placeholder="Libro" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Descripción</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="descripcion" placeholder="Descripción" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()">`+descripcion+`</textarea>
                         </div>
                     </div>
                 </div>

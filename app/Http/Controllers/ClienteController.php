@@ -41,6 +41,12 @@ class ClienteController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+            
+        $libros_id = Turn::where('name', 'Editorial')->first()->id;
+        $companies_libros = Company::where('turn_id', $libros_id)->orderBy('name')->get();
+        
+        $peliculas_id = Turn::where('name', 'Cine')->first()->id;
+        $companies_peliculas = Company::where('turn_id', $peliculas_id)->orderBy('name')->get();
 
         $por_realizar  = TasksBoard::where('column_id', 1)->orderBy('position')->get();
         $fijas         = TasksBoard::where('column_id', 2)->orderBy('position')->get();
@@ -48,7 +54,7 @@ class ClienteController extends Controller
         $trash         = TasksBoard::where('column_id', 4)->orderBy('position')->get();
 
 
-        return view('admin.clientes.index', compact('companies', 'breadcrumb', 'paginate', 'por_realizar', 'fijas', 'realizadas', 'trash'));
+        return view('admin.clientes.index', compact('companies', 'companies_libros', 'companies_peliculas', 'breadcrumb', 'paginate', 'por_realizar', 'fijas', 'realizadas', 'trash'));
     }
 
     public function getLibros(Request $request)
@@ -80,6 +86,9 @@ class ClienteController extends Controller
             $html .= '<tr>' .
             '<td>' .
                 '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+            '</td>' .
+            '<td>' .
+                $itm->company->name .
             '</td>';
 
             $qry = 'select means.id, means.name from means join news on means.id = news.mean_id
@@ -95,11 +104,14 @@ class ClienteController extends Controller
                         $it->name .
                     '</li>';
             }
-            $html .= '</ul></td>';
+            $html .= '</ul></td>' .
+            '<td>' .
+                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.$itm->description.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+            '</td>';
 
             $html .= '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Libros</th><th>Medios</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $libros->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Libros</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $libros->links();
 
         return response()->json($html);
     }
@@ -122,6 +134,9 @@ class ClienteController extends Controller
             $html .= '<tr>' .
             '<td>' .
                 '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+            '</td>' .
+            '<td>' .
+                $itm->company->name .
             '</td>';
 
             $qry = 'select means.id, means.name from means join news on means.id = news.mean_id
@@ -137,11 +152,14 @@ class ClienteController extends Controller
                         $it->name .
                     '</li>';
             }
-            $html .= '</ul></td>';
+            $html .= '</ul></td>' .
+            '<td>' .
+                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.$itm->description.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+            '</td>';
 
             $html .= '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Peliculas</th><th>Medios</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $peliculas->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Peliculas</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $peliculas->links();
 
         return response()->json($html);
     }
@@ -170,12 +188,13 @@ class ClienteController extends Controller
                 '<td>' .
                     $itm->company->name .
                 '</td>' .
+                '<td>Periodicos, Internet</td>' .
                 '<td>' .
                     '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
                 '</td>' .
             '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
 
         return response()->json($html);
     }
@@ -196,6 +215,55 @@ class ClienteController extends Controller
         $artist->save();
 
         $response['status'] = "El artista: {$artist->name} se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function storeLibro(Request $request)
+    {
+        $libro = Theme::create([
+            'name' => $request->name,
+            'description' => $request->descripcion,
+            'company_id' => $request->company_id,
+        ]);
+        $response['status'] = "El libro: {$libro->name} se ha creado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function updateLibro($id, Request $request)
+    {
+        $libro = Theme::find($id);
+
+        $libro->name = $request->name;
+        $libro->description = $request->descripcion;
+        $libro->company_id = $request->company_id;
+        $libro->save();
+
+        $response['status'] = "El libro: {$libro->name} se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    
+    public function storePelicula(Request $request)
+    {
+        $pelicula = Theme::create([
+            'name' => $request->name,
+            'description' => $request->descripcion,
+            'company_id' => $request->company_id,
+        ]);
+        $response['status'] = "La pelicula: {$pelicula->name} se ha creado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function updatePelicula($id, Request $request)
+    {
+        $pelicula = Theme::find($id);
+
+        $pelicula->name = $request->name;
+        $pelicula->description = $request->descripcion;
+        $pelicula->company_id = $request->company_id;
+        $pelicula->save();
+
+        $response['status'] = "La pelicula: {$pelicula->name} se ha actualizado satisfactoriamente!";
         return response()->json($response);
     }
     
