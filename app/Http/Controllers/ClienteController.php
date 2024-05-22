@@ -106,7 +106,7 @@ class ClienteController extends Controller
             }
             $html .= '</ul></td>' .
             '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.$itm->description.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
@@ -154,7 +154,7 @@ class ClienteController extends Controller
             }
             $html .= '</ul></td>' .
             '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.$itm->description.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
@@ -190,7 +190,7 @@ class ClienteController extends Controller
                 '</td>' .
                 '<td>Periodicos, Internet</td>' .
                 '<td>' .
-                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.$itm->name.'\',\''.$itm->company_id.'\',\''.$itm->id.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.str_replace('"', '', $itm->name).'\',\''.$itm->company_id.'\',\''.$itm->id.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
                 '</td>' .
             '</tr>';
         }

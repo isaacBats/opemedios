@@ -756,6 +756,20 @@
                     }, function(res) {
                         $("#sectArtistas").html(res);
                         loadArt();
+                        
+                        $.post('{{ route('clientes.get_libros') }}', {
+                            "_token": $('meta[name="csrf-token"]').attr('content')
+                        }, function(res) {
+                            $("#sectLibros").html(res);
+                            loadI();
+                        })
+
+                        $.post('{{ route('clientes.get_peliculas') }}', {
+                            "_token": $('meta[name="csrf-token"]').attr('content')
+                        }, function(res) {
+                            $("#sectPeliculas").html(res);
+                            loadP();
+                        })
                     })
                 });
             });
