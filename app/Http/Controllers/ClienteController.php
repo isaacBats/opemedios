@@ -85,7 +85,8 @@ class ClienteController extends Controller
         {
             $html .= '<tr>' .
             '<td>' .
-                '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+                //'<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+                $itm->name .
             '</td>' .
             '<td>' .
                 $itm->company->name .
@@ -133,7 +134,8 @@ class ClienteController extends Controller
         {
             $html .= '<tr>' .
             '<td>' .
-                '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+                //'<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
+                $itm->name .
             '</td>' .
             '<td>' .
                 $itm->company->name .
