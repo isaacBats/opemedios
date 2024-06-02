@@ -63,7 +63,10 @@ return [
             'version' => '2006-03-01',
             'endpoint' => env('AWS_ENDPOINT'),
             'bucket' => env('AWS_BUCKET'),
-            // 'url' => env('AWS_URL'),
+            'url' => env('AWS_ENDPOINT'),
+            'options' => [
+                'ACL' => ''
+            ]
         ],
 
     ],
