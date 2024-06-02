@@ -39,7 +39,7 @@ class FolderController extends Controller
         try {
             if($inputs['level'] == '1') {
                 Storage::disk('s3')->makeDirectory($inputs['name'], 0755, true, true);
-                $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
+                $initialPath = 'https://opemedios-media.s3.amazonaws.com';
                 $newFolder = Folder::create([
                     'name' => $inputs['name'],
                     'filesystem' => 's3',
