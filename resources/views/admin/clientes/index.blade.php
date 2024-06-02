@@ -635,8 +635,6 @@
             }
 
             function loadP() {
-                $(".byAjaxPeliculas .page-link, #btnBuscarPeliculas").on("click", function(e) {
-                    e.preventDefault();
 
                     var d_href = $(this).attr("href");
                     console.log(d_href);
@@ -647,8 +645,21 @@
                         $("#sectPeliculas").html(res);
                         loadP();
                     });
-                });
             }
+            
+            $(".byAjaxPeliculas .page-link, #btnBuscarPeliculas").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                console.log(d_href);
+                $.post(d_href, {
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    "search": $("#input-peliculas-name").val(),
+                }, function(res) {
+                    $("#sectPeliculas").html(res);
+                    loadP();
+                });
+            });
 
 
             //create artista
@@ -829,7 +840,7 @@
             document.getElementById("trash").innerHTML = "";
         }
         
-        function editaArtista(name, company_id, id){
+        function editaArtista(name, company_id, id, meansId){
                 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
@@ -842,7 +853,7 @@
 
             modal.find('.modal-title').html('Editar artista');
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreateArtista(name, company_id))
+            modalBody.html(getTemplateForCreateArtista(name, company_id, meansId))
 
             $('#select-company').select2({
                 dropdownParent: modal
@@ -851,7 +862,7 @@
             modal.modal('show')
         }
 
-        function editaPelicula(name, company_id, id, description){
+        function editaPelicula(name, company_id, id, description, meansId){
                 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
@@ -864,7 +875,7 @@
 
             modal.find('.modal-title').html('Editar pelicula');
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreatePelicula(name, company_id, description))
+            modalBody.html(getTemplateForCreatePelicula(name, company_id, description, meansId))
 
             $('#select-company').select2({
                 dropdownParent: modal
@@ -873,7 +884,7 @@
             modal.modal('show')
         }
 
-        function editaLibro(name, company_id, id, description){
+        function editaLibro(name, company_id, id, description, meansId){
             
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
@@ -886,7 +897,7 @@
 
             modal.find('.modal-title').html('Editar libro');
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreateLibro(name, company_id, description))
+            modalBody.html(getTemplateForCreateLibro(name, company_id, description, meansId))
 
             $('#select-company').select2({
                 dropdownParent: modal
@@ -895,13 +906,13 @@
             modal.modal('show')
         }
         
-        function getTemplateForCreateArtista(name = '', id = '') {
+        function getTemplateForCreateArtista(name = '', id = '', meansId = []) {
             return `
                 <div class="row">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Compañia</label>
                         <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
                                 <option value="">Seleccionan una compañia</option>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
@@ -915,17 +926,27 @@
                             <input id="input-name-artist" type="text" name="name" class="form-control" value="`+name+`"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Medios</label>
+                        <div class="col-sm-8">
+                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
+                                @foreach ($means as $mean)
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
             `
         }
-        function getTemplateForCreatePelicula(name = '', id = '', descripcion = '') {
+        function getTemplateForCreatePelicula(name = '', id = '', descripcion = '', meansId = []) {
             return `
                 <div class="row">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Compañia</label>
                         <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
-                                <option value="">Seleccionan una compañia</option>
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
+                                <option value="">Selecciona una compañia</option>
                                 @foreach ($companies_peliculas as $company)
                                     <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
                                 @endforeach
@@ -939,6 +960,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Medios</label>
+                        <div class="col-sm-8">
+                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
+                                @foreach ($means as $mean)
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Descripción</label>
                         <div class="col-sm-8">
                             <textarea class="form-control" name="descripcion" placeholder="Descripción" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()">`+descripcion+`</textarea>
@@ -947,13 +978,13 @@
                 </div>
             `
         }
-        function getTemplateForCreateLibro(name = '', id = '', descripcion = '') {
+        function getTemplateForCreateLibro(name = '', id = '', descripcion = '', meansId = []) {
             return `
                 <div class="row">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Compañia</label>
                         <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;">
+                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
                                 <option value="">Seleccionan una compañia</option>
                                 @foreach ($companies_libros as $company)
                                     <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
@@ -965,6 +996,16 @@
                         <label class="col-sm-3 control-label">Libro</label>
                         <div class="col-sm-8">
                             <input id="input-name-libro" type="text" placeholder="Libro" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Medios</label>
+                        <div class="col-sm-8">
+                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
+                                @foreach ($means as $mean)
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

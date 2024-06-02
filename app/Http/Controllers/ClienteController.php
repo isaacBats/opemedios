@@ -37,6 +37,7 @@ class ClienteController extends Controller
         $breadcrumb = array();
         array_push($breadcrumb,['label' => 'Empresas']);
 
+        $means = Means::orderBy('name', 'DESC')->get();
         $companies = Company::name($request->get('name'))
             ->orderBy('id', 'DESC')
             ->get();
@@ -54,7 +55,7 @@ class ClienteController extends Controller
         $trash         = TasksBoard::where('column_id', 4)->orderBy('position')->get();
 
 
-        return view('admin.clientes.index', compact('companies', 'companies_libros', 'companies_peliculas', 'breadcrumb', 'paginate', 'por_realizar', 'fijas', 'realizadas', 'trash'));
+        return view('admin.clientes.index', compact('companies', 'means', 'companies_libros', 'companies_peliculas', 'breadcrumb', 'paginate', 'por_realizar', 'fijas', 'realizadas', 'trash'));
     }
 
     public function getLibros(Request $request)
@@ -76,7 +77,7 @@ class ClienteController extends Controller
         //         '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
         //     '</li>';
         // }
-        // $html = '<div class="table-responsive"><ul class="tag-list">' . $html .'</ul></div>' . $libros->links();
+        // $html = '<div class="table-responsive"><ul >' . $html .'</ul></div>' . $libros->links();
 
         // return response()->json($html);
         
@@ -90,24 +91,21 @@ class ClienteController extends Controller
             '</td>' .
             '<td>' .
                 $itm->company->name .
-            '</td>';
+                '</td>';
 
-            $qry = 'select means.id, means.name from means join news on means.id = news.mean_id
-                join assigned_news ass_n on ass_n.news_id = news.id where ass_n.company_id = '.$itm->company_id.' and ass_n.theme_id = '.$itm->id.' group by means.id, means.name;';
-
-            $means = DB::select($qry);
-            $html .= '<td>'.
-                    '<ul class="tag-list">';
-            foreach($means as $it)
-            {
-                $html .= 
-                    '<li>' .
-                        $it->name .
-                    '</li>';
-            }
-            $html .= '</ul></td>' .
+            
+                $html .= '<td>'.
+                        '<ul >';
+                foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
+                {
+                    $html .= 
+                        '<li>' .
+                            $mean->name .
+                        '</li>';
+                }
+                $html .= '</ul></td>' .
             '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
@@ -141,22 +139,19 @@ class ClienteController extends Controller
                 $itm->company->name .
             '</td>';
 
-            $qry = 'select means.id, means.name from means join news on means.id = news.mean_id
-                join assigned_news ass_n on ass_n.news_id = news.id where ass_n.company_id = '.$itm->company_id.' group by means.id, means.name;';
-
-            $means = DB::select($qry);
+            
             $html .= '<td>'.
-                    '<ul class="tag-list">';
-            foreach($means as $it)
+                    '<ul >';
+            foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
             {
                 $html .= 
                     '<li>' .
-                        $it->name .
+                        $mean->name .
                     '</li>';
             }
             $html .= '</ul></td>' .
             '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
@@ -189,10 +184,20 @@ class ClienteController extends Controller
                 '</td>' .
                 '<td>' .
                     $itm->company->name .
-                '</td>' .
-                '<td>Periodicos, Internet</td>' .
+                '</td>';
+             
+                $html .= '<td>'.
+                '<ul >';
+        foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
+        {
+            $html .= 
+                '<li>' .
+                    $mean->name .
+                '</li>';
+        }
+        $html .= '</ul></td>' .
                 '<td>' .
-                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.str_replace('"', '', $itm->name).'\',\''.$itm->company_id.'\',\''.$itm->id.'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.str_replace('"', '', $itm->name).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
                 '</td>' .
             '</tr>';
         }
@@ -214,6 +219,7 @@ class ClienteController extends Controller
 
         $artist->name = $request->name;
         $artist->company_id = $request->company_id;
+        $artist->means_id = $request->means_id;
         $artist->save();
 
         $response['status'] = "El artista: {$artist->name} se ha actualizado satisfactoriamente!";
@@ -226,6 +232,7 @@ class ClienteController extends Controller
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
+            'means_id' => $request->means_id,
         ]);
         $response['status'] = "El libro: {$libro->name} se ha creado satisfactoriamente!";
         return response()->json($response);
@@ -238,6 +245,7 @@ class ClienteController extends Controller
         $libro->name = $request->name;
         $libro->description = $request->descripcion;
         $libro->company_id = $request->company_id;
+        $libro->means_id = $request->means_id;
         $libro->save();
 
         $response['status'] = "El libro: {$libro->name} se ha actualizado satisfactoriamente!";
@@ -251,6 +259,7 @@ class ClienteController extends Controller
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
+            'means_id' => $request->means_id,
         ]);
         $response['status'] = "La pelicula: {$pelicula->name} se ha creado satisfactoriamente!";
         return response()->json($response);
@@ -263,6 +272,7 @@ class ClienteController extends Controller
         $pelicula->name = $request->name;
         $pelicula->description = $request->descripcion;
         $pelicula->company_id = $request->company_id;
+        $pelicula->means_id = $request->means_id;
         $pelicula->save();
 
         $response['status'] = "La pelicula: {$pelicula->name} se ha actualizado satisfactoriamente!";

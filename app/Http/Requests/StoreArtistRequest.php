@@ -31,6 +31,7 @@ class StoreArtistRequest extends FormRequest
             'name' => 'required',
             // 'description' => 'required',
             'company_id' => 'required',
+            'means_id' => 'array'
         ];
     }
 

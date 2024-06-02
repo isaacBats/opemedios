@@ -29,7 +29,11 @@ class Theme extends Model
 
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'description', 'company_id'];
+    protected $casts = [
+        'means_id' => 'array',
+    ];
+
+    protected $fillable = ['name', 'description', 'company_id', 'means_id'];
 
     public function company()
     {
