@@ -30,7 +30,7 @@ class FileController extends Controller
 {
     public function uploadToS3($file, $isCover = false) {
 
-        $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
+        $initialPath = 'https://opemedios-media.s3.amazonaws.com';
         $date = Carbon::now();
         $path = ($isCover) ? "covers/{$date->year}/{$date->month}":"{$date->year}/{$date->month}";
 
@@ -58,7 +58,7 @@ class FileController extends Controller
     }
 
     protected static function getRelativePath($file) {
-        $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media/';
+        $initialPath = 'https://opemedios-media.s3.amazonaws.com/';
         return Str::after($file->path_filename, $initialPath);
     }
     public function validator ($data) {
@@ -104,7 +104,7 @@ class FileController extends Controller
         try {
             if(Storage::drive('s3')->exists($pathFile)) {
                 static::removeTrashS3($file, true);
-                $initialPath = 'https://objects-us-east-1.dream.io/opemedios-media';
+                $initialPath = 'https://opemedios-media.s3.amazonaws.com';
                 $date = Carbon::now();
                 $path = $isCover ? "covers/{$date->year}/{$date->month}":"{$date->year}/{$date->month}";
                 Storage::disk('s3')->put($path, $newFile, 'public');
