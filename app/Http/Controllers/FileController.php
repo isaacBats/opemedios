@@ -35,7 +35,7 @@ class FileController extends Controller
         $path = ($isCover) ? "covers/{$date->year}/{$date->month}":"{$date->year}/{$date->month}";
 
         $fileName = $file->hashName();
-        Storage::disk('s3')->put($path, $file, 'public');
+        Storage::disk('s3')->put($path, $file);
         $update = new File;
         $update->name = $fileName;
         $update->original_name = $file->getClientOriginalName();
