@@ -801,43 +801,29 @@
 
 
         function reloadAll(){
-            $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
-                e.preventDefault();
-
-                var d_href = $(this).attr("href");
-                console.log(d_href);
-                $.post(d_href, {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                    "search": $("#input-libros-name").val(),
-                }, function(res) {
-                    $("#sectLibros").html(res);
-                    loadI();
-                });
+            $.post("{{route('clientes.get_libros')}}", {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-libros-name").val(),
+            }, function(res) {
+                $("#sectLibros").html(res);
+                loadI();
             });
 
-                var d_href = $(this).attr("href");
-                console.log(d_href);
-                $.post(d_href, {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                    "search": $("#input-peliculas-name").val(),
-                }, function(res) {
-                    $("#sectPeliculas").html(res);
-                    loadP();
-                });
+            $.post('{{route('clientes.get_peliculas')}}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-peliculas-name").val(),
+            }, function(res) {
+                $("#sectPeliculas").html(res);
+                loadP();
+            });
 
-            $(".byAjaxArtistas .page-link").on("click", function(e) {
-                e.preventDefault();
-
-                var d_href = $(this).attr("href");
-                console.log(d_href);
-                $.post(d_href, {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                    "search": $("#input-artist-name").val(),
-                    "paginate": $("#paginate_artista").val()
-                }, function(res) {
-                    $("#sectArtistas").html(res);
-                    loadArt();
-                });
+            $.post('{{ route('clientes.get_artistas') }}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-artist-name").val(),
+                "paginate": $("#paginate_artista").val()
+            }, function(res) {
+                $("#sectArtistas").html(res);
+                loadArt();
             });
         }
 
