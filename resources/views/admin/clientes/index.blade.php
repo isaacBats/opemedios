@@ -800,6 +800,78 @@
         })
 
 
+        function reloadAll(){
+            $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                console.log(d_href);
+                $.post(d_href, {
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    "search": $("#input-libros-name").val(),
+                }, function(res) {
+                    $("#sectLibros").html(res);
+                    loadI();
+                });
+            });
+
+                var d_href = $(this).attr("href");
+                console.log(d_href);
+                $.post(d_href, {
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    "search": $("#input-peliculas-name").val(),
+                }, function(res) {
+                    $("#sectPeliculas").html(res);
+                    loadP();
+                });
+
+            $(".byAjaxArtistas .page-link").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                console.log(d_href);
+                $.post(d_href, {
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    "search": $("#input-artist-name").val(),
+                    "paginate": $("#paginate_artista").val()
+                }, function(res) {
+                    $("#sectArtistas").html(res);
+                    loadArt();
+                });
+            });
+        }
+
+        
+            
+        function deleteLibro(id){
+            $.post('{{ route('clientes.remove_libros') }}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "id": id,
+            }, function(res) {
+                reloadAll()
+            });
+        }
+
+        function deletePelicula(id){
+            $.post('{{ route('clientes.remove_libros') }}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "id": id,
+            }, function(res) {
+                reloadAll()
+            });
+        }
+
+        function deleteArtista(id){
+            $.post('{{ route('clientes.remove_artistas') }}', {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "id": id,
+            }, function(res) {
+                reloadAll()
+            });
+        }
+
+        
+        
         /* Vanilla JS to add a new task */
         function addTask() {
             // console.log($("#select-task-company option:selected").text())
@@ -931,7 +1003,7 @@
                         <div class="col-sm-8">
                             <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
                                 @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}  ` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
                                 @endforeach
                             </select>
                         </div>
@@ -964,7 +1036,7 @@
                         <div class="col-sm-8">
                             <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
                                 @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
                                 @endforeach
                             </select>
                         </div>
@@ -1003,7 +1075,7 @@
                         <div class="col-sm-8">
                             <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
                                 @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}</option>
+                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }} ` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
                                 @endforeach
                             </select>
                         </div>

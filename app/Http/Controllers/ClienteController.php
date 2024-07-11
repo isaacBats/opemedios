@@ -106,11 +106,14 @@ class ClienteController extends Controller
                 $html .= '</ul></td>' .
             '<td>' .
                 '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+            '</td>' .
+            '<td>' .
+                '<a href="#" class="btn-delete-company" onclick="deleteLibro(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Libros</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $libros->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Libros</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $libros->links();
 
         return response()->json($html);
     }
@@ -152,11 +155,14 @@ class ClienteController extends Controller
             $html .= '</ul></td>' .
             '<td>' .
                 '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
+            '</td>' .
+            '<td>' .
+                '<a href="#" class="btn-delete-company" onclick="deletePelicula(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
             '</td>';
 
             $html .= '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Peliculas</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $peliculas->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Peliculas</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $peliculas->links();
 
         return response()->json($html);
     }
@@ -199,9 +205,12 @@ class ClienteController extends Controller
                 '<td>' .
                     '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.str_replace('"', '', $itm->name).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
                 '</td>' .
+                '<td>' .
+                    '<a href="#" class="btn-delete-company" onclick="deleteArtista(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
+                '</td>' .
             '</tr>';
         }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Medios</th><th>Acciones</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
+        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
 
         return response()->json($html);
     }
@@ -320,6 +329,27 @@ class ClienteController extends Controller
             $move_task->save();
             
         }
+
+        $response['status'] = "Ok";
+        return response()->json($response);
+    }
+
+    public function removeLibros(Request $request)
+    {
+        $id = $request->id;
+        
+        $itm = Theme::find($id);
+        $itm->delete();
+
+        $response['status'] = "Ok";
+        return response()->json($response);
+    }
+
+
+    public function removeArtistas(Request $request)
+    {
+        $itm = Artist::find($request->id);
+        $itm->delete();
 
         $response['status'] = "Ok";
         return response()->json($response);
