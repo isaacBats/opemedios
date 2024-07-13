@@ -987,11 +987,9 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Medios</label>
                         <div class="col-sm-8">
-                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
-                                @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}  ` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
-                                @endforeach
-                            </select>
+                            @foreach ($means as $mean)
+                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1020,11 +1018,9 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Medios</label>
                         <div class="col-sm-8">
-                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
-                                @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }}` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
-                                @endforeach
-                            </select>
+                            @foreach ($means as $mean)
+                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-group">
@@ -1059,11 +1055,9 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Medios</label>
                         <div class="col-sm-8">
-                            <select id="means_id" name="means_id[]" class="form-control" style="width: 100%;" multiple>
-                                @foreach ($means as $mean)
-                                    <option value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'selected' : '' ) + `>{{ $mean->name }} ` + (meansId.includes('{{ $mean->id }}') ? "<span style='color:red;font-size:30px;vertical-align:bottom'>&bull;</span> " : '' ) + `</option>
-                                @endforeach
-                            </select>
+                            @foreach ($means as $mean)
+                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-group">
