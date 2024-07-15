@@ -163,6 +163,31 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('red_social/actualizar/{id}', 'SocialNetworkController@update')->name('social_network.update');
     Route::post('red_social/eliminar/{id}', 'SocialNetworkController@delete')->name('social_network.delete');
 
+    Route::get('cat-clientes', 'ClienteController@index')->name('clientes');
+    Route::get('red_social/nueva', 'ClienteController@showForm')->name('social_network.create');
+    Route::post('red_social/nueva', 'ClienteController@create')->name('social_network.create');
+    Route::get('red_social/ver/{id}', 'ClienteController@show')->name('social_network.show');
+    Route::post('red_social/actualizar/{id}', 'ClienteController@update')->name('social_network.update');
+    Route::post('red_social/eliminar/{id}', 'ClienteController@delete')->name('social_network.delete');
+
+    Route::post('remove-libros', 'ClienteController@removeLibros')->name('clientes.remove_libros');
+    Route::post('remove-artistas', 'ClienteController@removeArtistas')->name('clientes.remove_artistas');
+
+    Route::post('get-libros', 'ClienteController@getLibros')->name('clientes.get_libros');
+    Route::post('get-peliculas', 'ClienteController@getPeliculas')->name('clientes.get_peliculas');
+    Route::post('get-artistas', 'ClienteController@getArtistas')->name('clientes.get_artistas');
+    Route::post('artista/nuevo', 'ClienteController@storeArtist')->name('artist.create');
+    Route::post('artista/edit/{id}', 'ClienteController@updateArtist')->name('artist.update');
+    
+    Route::post('pelicula/nuevo', 'ClienteController@storePelicula')->name('pelicula.create');
+    Route::post('pelicula/edit/{id}', 'ClienteController@updatePelicula')->name('pelicula.update');
+    
+    Route::post('libro/nuevo', 'ClienteController@storeLibro')->name('libro.create');
+    Route::post('libro/edit/{id}', 'ClienteController@updateLibro')->name('libro.update');
+
+    Route::post('task/save', 'ClienteController@saveTask')->name('task.save');
+    Route::post('task/update', 'ClienteController@updateTask')->name('task.update');
+
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');
     Route::post('fuente/nueva', 'SourceController@create')->name('source.create');

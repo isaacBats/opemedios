@@ -15,7 +15,8 @@ class AddColumnForDateSendOnNewslettersSendTable extends Migration
     {
         Schema::table('newsletters_send', function (Blueprint $table) {
             $table->date('date_sending')
-            ->default(\DB::raw('CURRENT_DATE'))
+            //->default(\DB::raw('CURRENT_DATE'))
+            ->useCurrent()
             ->description('Date of sending a newsletter');
         });
     }
