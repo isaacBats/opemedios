@@ -22,6 +22,7 @@ namespace App\Models;
 use App\{App\Models\Company, App\Models\User, Models};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Theme extends Model
@@ -29,11 +30,7 @@ class Theme extends Model
 
     use SoftDeletes, HasFactory;
 
-    protected $casts = [
-        'means_id' => 'array',
-    ];
-
-    protected $fillable = ['name', 'description', 'company_id', 'means_id'];
+    protected $fillable = ['name', 'description', 'company_id'];
 
     public function company()
     {
@@ -49,5 +46,10 @@ class Theme extends Model
     public function assignedNews()
     {
         return $this->hasMany(AssignedNews::class);
+    }
+    
+    public function means()
+    {
+        return $this->belongsToMany(Means::class, 'theme_means', 'theme_id', 'mean_id');
     }
 }

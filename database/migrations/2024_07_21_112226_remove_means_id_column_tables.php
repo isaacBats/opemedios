@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnSocialNetwork extends Migration
+class RemoveMeansIdColumnTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddColumnSocialNetwork extends Migration
      */
     public function up()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->unsignedBigInteger('social_network_id')->nullable();
+        Schema::table('themes', function (Blueprint $table) {
+            $table->dropColumn('means_id');
+        });
+
+        Schema::table('artists', function (Blueprint $table) {
+            $table->dropColumn('means_id');
         });
     }
 
@@ -25,6 +29,6 @@ class AddColumnSocialNetwork extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {});
+        //
     }
 }

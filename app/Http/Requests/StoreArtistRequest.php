@@ -29,9 +29,7 @@ class StoreArtistRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            // 'description' => 'required',
             'company_id' => 'required',
-            'means_id' => 'array'
         ];
     }
 
@@ -39,7 +37,6 @@ class StoreArtistRequest extends FormRequest
     {
         return [
             'name.required' => '¡El nombre del tema es necesario!',
-            // 'description.required' => '¡La descripción del tema es necesario!',
         ];
     }
 }

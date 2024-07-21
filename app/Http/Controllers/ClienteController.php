@@ -17,7 +17,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArtistRequest;
-use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, News, Means, TasksBoard};
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, News, Means, TasksBoard, ThemeMeans};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
@@ -63,59 +63,16 @@ class ClienteController extends Controller
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
         $libros_id = Turn::where('name', 'Editorial')->first()->id;
-        $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'));
+        $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'))->with('means','company');
 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $libros = $libros->where('name', 'like', '%' . $search . '%');
 
         $libros = $libros->paginate($paginate);
-        // $html = '';
-        // foreach($libros as $itm)
-        // {
-        //     $html .= '' .
-        //     '<li>' .
-        //         '<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
-        //     '</li>';
-        // }
-        // $html = '<div class="table-responsive"><ul >' . $html .'</ul></div>' . $libros->links();
+       
+        $html_pag = '' . $libros->links();
 
-        // return response()->json($html);
-        
-        $html = '';
-        foreach($libros as $itm)
-        {
-            $html .= '<tr>' .
-            '<td>' .
-                //'<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
-                $itm->name .
-            '</td>' .
-            '<td>' .
-                $itm->company->name .
-                '</td>';
-
-            
-                $html .= '<td>'.
-                        '<ul >';
-                foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
-                {
-                    $html .= 
-                        '<li>' .
-                            $mean->name .
-                        '</li>';
-                }
-                $html .= '</ul></td>' .
-            '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaLibro(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
-            '</td>' .
-            '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="deleteLibro(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
-            '</td>';
-
-            $html .= '</tr>';
-        }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Libros</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $libros->links();
-
-        return response()->json($html);
+        return response()->json(['items' => $libros, 'pagination' => $html_pag]);
     }
 
     public function getPeliculas(Request $request)
@@ -123,48 +80,15 @@ class ClienteController extends Controller
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
         $peliculas_id = Turn::where('name', 'Cine')->first()->id;
-        $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'));
+        $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'))->with('means', 'company');
                 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $peliculas = $peliculas->where('name', 'like', '%' . $search . '%');
 
         $peliculas = $peliculas->paginate($paginate);
+        $html_pag = '' . $peliculas->links();
 
-        $html = '';
-        foreach($peliculas as $itm)
-        {
-            $html .= '<tr>' .
-            '<td>' .
-                //'<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
-                $itm->name .
-            '</td>' .
-            '<td>' .
-                $itm->company->name .
-            '</td>';
-
-            
-            $html .= '<td>'.
-                    '<ul >';
-            foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
-            {
-                $html .= 
-                    '<li>' .
-                        $mean->name .
-                    '</li>';
-            }
-            $html .= '</ul></td>' .
-            '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="editaPelicula(\''.str_replace("'", '', str_replace('"', '', $itm->name)).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\''.str_replace("'", '', str_replace('"', '', $itm->description)).'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
-            '</td>' .
-            '<td>' .
-                '<a href="#" class="btn-delete-company" onclick="deletePelicula(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
-            '</td>';
-
-            $html .= '</tr>';
-        }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Peliculas</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $peliculas->links();
-
-        return response()->json($html);
+        return response()->json(['items' => $peliculas, 'pagination' => $html_pag]);
     }
 
     public function getArtistas(Request $request)
@@ -174,50 +98,28 @@ class ClienteController extends Controller
         
         if(!empty($search))
         {
-            $artistas = Artist::where('name', 'like', '%' . $search . '%')->paginate($paginate);
+            $artistas = Artist::where('name', 'like', '%' . $search . '%')->with('means','company')->paginate($paginate);
         }else{
-            $artistas = Artist::paginate($paginate);
+            $artistas = Artist::with('means','company')->paginate($paginate);
         }
 
-        $html = '';
-        foreach($artistas as $itm)
-        {
-            $html .= '' .
-            '<tr>' .
-                '<td>' .
-                    //'<a href="' . route('theme.show', ['theme' => $itm ]) . '">'. $itm->name . '</a>' .
-                    $itm->name .
-                '</td>' .
-                '<td>' .
-                    $itm->company->name .
-                '</td>';
-             
-                $html .= '<td>'.
-                '<ul >';
-        foreach(Means::whereIn('id', $itm->means_id)->get() as $mean)
-        {
-            $html .= 
-                '<li>' .
-                    $mean->name .
-                '</li>';
-        }
-        $html .= '</ul></td>' .
-                '<td>' .
-                    '<a href="#" class="btn-delete-company" onclick="editaArtista(\''.str_replace('"', '', $itm->name).'\',\''.$itm->company_id.'\',\''.$itm->id.'\',\'['.str_replace('"', '\\\'', implode(',',$itm->means_id)).']\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' .
-                '</td>' .
-                '<td>' .
-                    '<a href="#" class="btn-delete-company" onclick="deleteArtista(\''.$itm->id.'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' .
-                '</td>' .
-            '</tr>';
-        }
-        $html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>Artista</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' . $html .'</tbody></table></div>' . $artistas->links();
+        $html_pag = '' . $artistas->links();
 
-        return response()->json($html);
+        return response()->json(['items' => $artistas, 'pagination' => $html_pag]);
     }
 
     public function storeArtist(StoreArtistRequest $request)
     {
         $artist = Artist::create($request->validated());
+        
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ArtistMeans;
+            $rel->artist_id = $artist->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
         $response['status'] = "El artista: {$artist->name} se ha creado satisfactoriamente!";
         return response()->json($response);
     }
@@ -228,8 +130,16 @@ class ClienteController extends Controller
 
         $artist->name = $request->name;
         $artist->company_id = $request->company_id;
-        $artist->means_id = $request->means_id;
         $artist->save();
+
+        ArtistMeans::where('artist_id', $id)->delete();
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ArtistMeans;
+            $rel->artist_id = $id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
 
         $response['status'] = "El artista: {$artist->name} se ha actualizado satisfactoriamente!";
         return response()->json($response);
@@ -241,8 +151,16 @@ class ClienteController extends Controller
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
-            'means_id' => $request->means_id,
         ]);
+        
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ThemeMeans;
+            $rel->theme_id = $libro->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
         $response['status'] = "El libro: {$libro->name} se ha creado satisfactoriamente!";
         return response()->json($response);
     }
@@ -254,8 +172,17 @@ class ClienteController extends Controller
         $libro->name = $request->name;
         $libro->description = $request->descripcion;
         $libro->company_id = $request->company_id;
-        $libro->means_id = $request->means_id;
         $libro->save();
+        
+        ThemeMeans::where('theme_id', $id)->delete();
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ThemeMeans;
+            $rel->theme_id = $libro->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
 
         $response['status'] = "El libro: {$libro->name} se ha actualizado satisfactoriamente!";
         return response()->json($response);
@@ -268,8 +195,17 @@ class ClienteController extends Controller
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
-            'means_id' => $request->means_id,
         ]);
+
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ThemeMeans;
+            $rel->theme_id = $pelicula->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
+
         $response['status'] = "La pelicula: {$pelicula->name} se ha creado satisfactoriamente!";
         return response()->json($response);
     }
@@ -281,8 +217,16 @@ class ClienteController extends Controller
         $pelicula->name = $request->name;
         $pelicula->description = $request->descripcion;
         $pelicula->company_id = $request->company_id;
-        $pelicula->means_id = $request->means_id;
         $pelicula->save();
+
+        ThemeMeans::where('theme_id', $id)->delete();
+        foreach($request->means_id as $itm)
+        {
+            $rel = new ThemeMeans;
+            $rel->theme_id = $pelicula->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
 
         $response['status'] = "La pelicula: {$pelicula->name} se ha actualizado satisfactoriamente!";
         return response()->json($response);

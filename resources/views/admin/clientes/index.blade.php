@@ -145,9 +145,6 @@
         }
 
         .task {
-            /* display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex; */
             -webkit-box-pack: center;
             -ms-flex-pack: center;
             justify-content: center;
@@ -157,7 +154,6 @@
             -webkit-transition: all 0.3s;
             transition: all 0.3s;
             margin: 0.4rem;
-            /*height: 8rem;*/
             border: #000013 0.15rem solid;
             border-radius: 0.2rem;
             cursor: move;
@@ -165,23 +161,10 @@
             vertical-align: middle;
         }
 
-        /* #taskText {
-            background: #fff;
-            border: #000013 0.15rem solid;
-            border-radius: 0.2rem;
-            text-align: center;
-            font-family: "Roboto Slab", serif;
-            height: 4rem;
-            width: 7rem;
-            margin: auto 0.8rem auto 0.1rem;
-        } */
-
         .task p {
             margin: auto;
             padding: 15px;
         }
-
-        /* Dragula CSS Release 3.2.0 from: https://github.com/bevacqua/dragula */
 
         .gu-mirror {
             position: fixed !important;
@@ -494,32 +477,116 @@
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script src="{{ asset('js/dragula.min.js') }}"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            // Select company combo
-            $('#select-task-company').select2();
-            // $('#select-task-company').select2({
-            //     minimumInputLength: 3,
-            //     ajax: {
-            //         type: 'POST',
-            //         url: "{{ route('api.getcompaniesajax') }}",
-            //         dataType: 'json',
-            //         data: function(params, noteType) {
-            //             return {
-            //                 q: params.term,
-            //                 "_token": $('meta[name="csrf-token"]').attr('content')
-            //             } 
-            //         },
-            //         processResults: function(data) {
-            //             return {
-            //                 results: data.items
-            //             }
-            //         },
-            //         cache: true
-            //     }
-            // })
-        
+    
+        function build(res, type = 1){
 
-            /* Custom Dragula JS */
+            var html = '';
+
+            jQuery.each(res.items.data, function(i, itm) {
+                html += 
+                '<tr>\
+                    <td>'+
+                        itm.name +
+                    '</td>\
+                    <td>'+
+                        itm.company.name +
+                    '</td>';
+
+                means_id = [];
+                html += '<td>\
+                            <ul >';
+                    jQuery.each(itm.means, function(i, mean) {
+                        means_id.push(mean.id);
+                        html += 
+                            '<li>' +
+                                mean.name +
+                            '</li>';
+                    });
+                html += '</ul></td>' +
+                    '<td>' +
+                        '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'editaPelicula' : (type == 2 ? 'editaLibro' : 'editaArtista')) + '(\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+itm.description+'\',\''+means_id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                    '</td>' +
+                    '<td>' +
+                        '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'deletePelicula' : (type == 2 ? 'deleteLibro' : 'deleteArtista')) + '(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                    '</td>';
+
+                html += '</tr>';
+            })
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            html += res.pagination;
+
+            return html;
+        }
+
+        function loadPeliculas(d_href = '{{ route('clientes.get_peliculas') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-peliculas-name").val(),
+            }, function(res) {
+                var html = build(res);
+                $("#sectPeliculas").html(html);
+                loadActionsPeliculas();
+            })
+        }
+
+        function loadLibros(d_href = '{{ route('clientes.get_libros') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-libros-name").val(),
+            }, function(res) {
+                var html = build(res, 2);
+                $("#sectLibros").html(html);
+                loadActionsLibros();
+            });
+        }
+
+        function loadArtistas(d_href = '{{ route('clientes.get_artistas') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-artist-name").val(),
+                "paginate": $("#paginate_artista").val()
+            }, function(res) {
+                var html = build(res, 3);
+                $("#sectArtistas").html(html);
+                loadActionsArtistas();
+            })
+        }
+
+        
+        function loadActionsLibros() {
+            $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                loadLibros(d_href);
+            });
+        }
+
+        function loadActionsPeliculas() {
+            $(".byAjaxPeliculas .page-link, #btnBuscarPeliculas").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                loadPeliculas(d_href);
+            });
+        }
+
+        function loadActionsArtistas() {
+            $(".byAjaxArtistas .page-link").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                loadArtistas(d_href);
+            });
+        }
+
+
+
+
+        
+        $(document).ready(function(){
+            $('#select-task-company').select2();
+
             dragula([
                     document.getElementById("to-do"),
                     document.getElementById("doing"),
@@ -568,7 +635,6 @@
                 });
 
 
-            // Modal for delete a company
             $('#table-company-list').on('click', '.btn-delete-company', function(event) {
                 event.preventDefault()
                 var companyName = $(this).data('name')
@@ -604,65 +670,12 @@
 
             });
 
-            $.post('{{ route('clientes.get_libros') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content')
-            }, function(res) {
-                $("#sectLibros").html(res);
-                loadI();
-            })
 
-            $.post('{{ route('clientes.get_peliculas') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content')
-            }, function(res) {
-                $("#sectPeliculas").html(res);
-                loadP();
-            })
-
-            function loadI() {
-                $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
-                    e.preventDefault();
-
-                    var d_href = $(this).attr("href");
-                    console.log(d_href);
-                    $.post(d_href, {
-                        "_token": $('meta[name="csrf-token"]').attr('content'),
-                        "search": $("#input-libros-name").val(),
-                    }, function(res) {
-                        $("#sectLibros").html(res);
-                        loadI();
-                    });
-                });
-            }
-
-            function loadP() {
-
-                    var d_href = $(this).attr("href");
-                    console.log(d_href);
-                    $.post(d_href, {
-                        "_token": $('meta[name="csrf-token"]').attr('content'),
-                        "search": $("#input-peliculas-name").val(),
-                    }, function(res) {
-                        $("#sectPeliculas").html(res);
-                        loadP();
-                    });
-            }
-            
-            $(".byAjaxPeliculas .page-link, #btnBuscarPeliculas").on("click", function(e) {
-                e.preventDefault();
-
-                var d_href = $(this).attr("href");
-                console.log(d_href);
-                $.post(d_href, {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                    "search": $("#input-peliculas-name").val(),
-                }, function(res) {
-                    $("#sectPeliculas").html(res);
-                    loadP();
-                });
-            });
+            loadArtistas();
+            loadPeliculas();
+            loadLibros();
 
 
-            //create artista
             $('#btn-add-artist').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
@@ -683,7 +696,6 @@
                 modal.modal('show')
             })
 
-            //create artista
             $('#btn-add-pelicula').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
@@ -704,8 +716,6 @@
                 modal.modal('show')
             })
 
-            
-            //create artista
             $('#btn-add-libro').on('click', function() {
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
@@ -726,32 +736,6 @@
                 modal.modal('show')
             })
 
-            $.post('{{ route('clientes.get_artistas') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "search": $("#input-artist-name").val(),
-                "paginate": $("#paginate_artista").val()
-            }, function(res) {
-                $("#sectArtistas").html(res);
-                loadArt();
-            })
-
-            function loadArt() {
-                $(".byAjaxArtistas .page-link").on("click", function(e) {
-                    e.preventDefault();
-
-                    var d_href = $(this).attr("href");
-                    console.log(d_href);
-                    $.post(d_href, {
-                        "_token": $('meta[name="csrf-token"]').attr('content'),
-                        "search": $("#input-artist-name").val(),
-                        "paginate": $("#paginate_artista").val()
-                    }, function(res) {
-                        $("#sectArtistas").html(res);
-                        loadArt();
-                    });
-                });
-            }
-
             $("#md-btn-submit").on("click", function(e) {
                 e.preventDefault();
 
@@ -765,69 +749,25 @@
                         "search": $("#input-artist-name").val(),
                         "paginate": $("#paginate_artista").val()
                     }, function(res) {
-                        $("#sectArtistas").html(res);
-                        loadArt();
-                        
-                        $.post('{{ route('clientes.get_libros') }}', {
-                            "_token": $('meta[name="csrf-token"]').attr('content')
-                        }, function(res) {
-                            $("#sectLibros").html(res);
-                            loadI();
-                        })
-
-                        $.post('{{ route('clientes.get_peliculas') }}', {
-                            "_token": $('meta[name="csrf-token"]').attr('content')
-                        }, function(res) {
-                            $("#sectPeliculas").html(res);
-                            loadP();
-                        })
+                        loadArtistas();
+                        loadLibros();
+                        loadPeliculas();
                     })
                 });
             });
 
             $("#btnBuscarArtista").on("click", function(e) {
                 e.preventDefault();
-
-                $.post('{{ route('clientes.get_artistas') }}', {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                    "search": $("#input-artist-name").val(),
-                    "paginate": $("#paginate_artista").val()
-                }, function(res) {
-                    $("#sectArtistas").html(res);
-                    loadArt();
-                })
+                loadArtistas();
             });
         })
 
 
         function reloadAll(){
-            $.post("{{route('clientes.get_libros')}}", {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "search": $("#input-libros-name").val(),
-            }, function(res) {
-                $("#sectLibros").html(res);
-                loadI();
-            });
-
-            $.post('{{route('clientes.get_peliculas')}}', {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "search": $("#input-peliculas-name").val(),
-            }, function(res) {
-                $("#sectPeliculas").html(res);
-                loadP();
-            });
-
-            $.post('{{ route('clientes.get_artistas') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "search": $("#input-artist-name").val(),
-                "paginate": $("#paginate_artista").val()
-            }, function(res) {
-                $("#sectArtistas").html(res);
-                loadArt();
-            });
+            loadPeliculas();
+            loadLibros();
+            loadArtistas();
         }
-
-        
             
         function deleteLibro(id){
             $.post('{{ route('clientes.remove_libros') }}', {
@@ -856,12 +796,7 @@
             });
         }
 
-        
-        
-        /* Vanilla JS to add a new task */
         function addTask() {
-            // console.log($("#select-task-company option:selected").text())
-            // console.log($("#select-task-company").val())
             var inputTask = document.getElementById("taskText").value;
             
             $.post('{{ route('task.save') }}', {
@@ -870,8 +805,6 @@
                 "task": inputTask
             }, function(res) {
             
-                /* Get task text from input */
-                /* Add task to the 'To Do' column */
                 document.getElementById("to-do").innerHTML +=
                     "<li class='task' data-id='" + res.id + "'>" +
                         "<div class=\"row\">" +
@@ -885,16 +818,12 @@
                             "</div>" +
                         "</div></li>";
 
-                /* Clear task text from input after adding task */
                 document.getElementById("taskText").value = "";
                 
             })
         }
-        //$("#selector option:selected").text();
 
-        /* Vanilla JS to delete tasks in 'Trash' column */
         function emptyTrash() {
-            /* Clear tasks from 'Trash' column */
             document.getElementById("trash").innerHTML = "";
         }
         
