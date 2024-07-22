@@ -19,7 +19,6 @@ class CreateArtistsTable extends Migration
             $table->softDeletes();
 
             $table->string('name');
-            //$table->text('description');
             $table->bigInteger('company_id')->unsigned();
 
             $table->foreign('company_id')

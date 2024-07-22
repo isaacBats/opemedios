@@ -11,13 +11,15 @@ class Artist extends Model
 {
     use SoftDeletes, HasFactory;
     
-    protected $casts = [
-        'means_id' => 'array',
-    ];
-    protected $fillable = ['name', 'description', 'company_id', 'means_id'];
+    protected $fillable = ['name', 'description', 'company_id'];
     
     public function company()
     {
         return $this->belongsTo(Models\Company::class);
+    }
+
+    public function means()
+    {
+        return $this->belongsToMany(Means::class, 'artist_means', 'artist_id', 'mean_id');
     }
 }
