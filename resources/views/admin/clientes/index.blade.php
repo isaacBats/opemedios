@@ -226,6 +226,7 @@
             <div class="panel">
                 <div class="panel-body">
 
+                    @hasanyrole('manager|admin')
                     <div class="row">
                         <div class="col-md-5">
                             <textarea class="form-control" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()"></textarea>
@@ -241,6 +242,7 @@
                             <button id="add" class="btn btn-success" onclick="addTask()" style="width: 200px">Agregar nueva tarea</button>
                         </div>
                     </div>
+                    @endhasanyrole
 
                     <div class="main-container">
                         <ul class="columns">
@@ -502,6 +504,8 @@
                                 mean.name +
                             '</li>';
                     });
+
+                @hasanyrole('manager|admin')
                 html += '</ul></td>' +
                     '<td>' +
                         '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'editaPelicula' : (type == 2 ? 'editaLibro' : 'editaArtista')) + '(\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+itm.description+'\',\''+means_id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
@@ -509,10 +513,15 @@
                     '<td>' +
                         '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'deletePelicula' : (type == 2 ? 'deleteLibro' : 'deleteArtista')) + '(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
+                @endhasanyrole
 
                 html += '</tr>';
             })
+            @hasanyrole('manager|admin')
             html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @else
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @endhasanyrole
             html += res.pagination;
 
             return html;

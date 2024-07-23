@@ -93,7 +93,7 @@
         <ul class="nav nav-pills nav-stacked nav-quirk">
             <li><a href="{{ route('sources') }}"><i class="fa fa-database"></i> <span>Fuentes</span></a></li>
             <li><a href="{{ route('social_networks') }}"><i class="fa fa-database"></i> <span>Redes sociales</span></a></li>
-            @if(Auth::user()->isMonitor() || Auth::user()->isAdmin())
+            @if(Auth::user()->isMonitor() || Auth::user()->isAdmin() || Auth::user()->isExecutive())
             <li><a href="{{ route('clientes') }}"><i class="fa fa-users"></i> <span>Tareas</span></a></li>
             @endif
             <li class="nav-parent">
