@@ -17,7 +17,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArtistRequest;
-use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, News, Means, TasksBoard, ThemeMeans};
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, Book, BookMeans, News, Means, Movie, MovieMeans, TasksBoard, ThemeMeans};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
@@ -62,8 +62,9 @@ class ClienteController extends Controller
     {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
-        $libros_id = Turn::where('name', 'Editorial')->first()->id;
-        $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'))->with('means','company');
+        // $libros_id = Turn::where('name', 'Editorial')->first()->id;
+        // $libros = Theme::whereIn('company_id', Company::where('turn_id', $libros_id)->pluck('id'))->with('means','company');
+        $libros = Book::whereNotNull('company_id')->with('means','company');
 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $libros = $libros->where('name', 'like', '%' . $search . '%');
@@ -79,8 +80,9 @@ class ClienteController extends Controller
     {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
 
-        $peliculas_id = Turn::where('name', 'Cine')->first()->id;
-        $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'))->with('means', 'company');
+        // $peliculas_id = Turn::where('name', 'Cine')->first()->id;
+        // $peliculas = Theme::whereIn('company_id', Company::where('turn_id', $peliculas_id)->pluck('id'))->with('means', 'company');
+        $peliculas = Movie::whereNotNull('company_id')->with('means','company');
                 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $peliculas = $peliculas->where('name', 'like', '%' . $search . '%');
@@ -147,7 +149,7 @@ class ClienteController extends Controller
     
     public function storeLibro(Request $request)
     {
-        $libro = Theme::create([
+        $libro = Book::create([
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
@@ -155,8 +157,8 @@ class ClienteController extends Controller
         
         foreach($request->means_id as $itm)
         {
-            $rel = new ThemeMeans;
-            $rel->theme_id = $libro->id;
+            $rel = new BookMeans;
+            $rel->book_id = $libro->id;
             $rel->mean_id = $itm;
             $rel->save();
         }
@@ -167,18 +169,18 @@ class ClienteController extends Controller
     
     public function updateLibro($id, Request $request)
     {
-        $libro = Theme::find($id);
+        $libro = Book::find($id);
 
         $libro->name = $request->name;
         $libro->description = $request->descripcion;
         $libro->company_id = $request->company_id;
         $libro->save();
         
-        ThemeMeans::where('theme_id', $id)->delete();
+        BookMeans::where('book_id', $id)->delete();
         foreach($request->means_id as $itm)
         {
-            $rel = new ThemeMeans;
-            $rel->theme_id = $libro->id;
+            $rel = new BookMeans;
+            $rel->book_id = $libro->id;
             $rel->mean_id = $itm;
             $rel->save();
         }
@@ -191,7 +193,7 @@ class ClienteController extends Controller
     
     public function storePelicula(Request $request)
     {
-        $pelicula = Theme::create([
+        $pelicula = Movie::create([
             'name' => $request->name,
             'description' => $request->descripcion,
             'company_id' => $request->company_id,
@@ -199,8 +201,8 @@ class ClienteController extends Controller
 
         foreach($request->means_id as $itm)
         {
-            $rel = new ThemeMeans;
-            $rel->theme_id = $pelicula->id;
+            $rel = new MovieMeans;
+            $rel->movie_id = $pelicula->id;
             $rel->mean_id = $itm;
             $rel->save();
         }
@@ -212,18 +214,18 @@ class ClienteController extends Controller
     
     public function updatePelicula($id, Request $request)
     {
-        $pelicula = Theme::find($id);
+        $pelicula = Movie::find($id);
 
         $pelicula->name = $request->name;
         $pelicula->description = $request->descripcion;
         $pelicula->company_id = $request->company_id;
         $pelicula->save();
 
-        ThemeMeans::where('theme_id', $id)->delete();
+        MovieMeans::where('movie_id', $id)->delete();
         foreach($request->means_id as $itm)
         {
-            $rel = new ThemeMeans;
-            $rel->theme_id = $pelicula->id;
+            $rel = new MovieMeans;
+            $rel->movie_id = $pelicula->id;
             $rel->mean_id = $itm;
             $rel->save();
         }
@@ -241,6 +243,7 @@ class ClienteController extends Controller
         $task->position = $bottom_task ? ($bottom_task->position + 1) : 1;
         $task->column_id = 1;
         $task->task = $request->task;
+        $task->titulo = $request->titulo;
         $task->company_id = $request->company_id;
         $task->user_id = auth()->user()->id;
         $task->save();
@@ -282,13 +285,23 @@ class ClienteController extends Controller
     {
         $id = $request->id;
         
-        $itm = Theme::find($id);
+        $itm = Book::find($id);
         $itm->delete();
 
         $response['status'] = "Ok";
         return response()->json($response);
     }
 
+    public function removePeliculas(Request $request)
+    {
+        $id = $request->id;
+        
+        $itm = Movie::find($id);
+        $itm->delete();
+
+        $response['status'] = "Ok";
+        return response()->json($response);
+    }
 
     public function removeArtistas(Request $request)
     {

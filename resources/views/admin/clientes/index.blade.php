@@ -191,6 +191,9 @@
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
             filter: alpha(opacity=20);
         }
+        .mb-2{
+            margin-bottom: 5px;
+        }
     </style>
 @endsection
 @section('content')
@@ -226,21 +229,28 @@
             <div class="panel">
                 <div class="panel-body">
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <textarea class="form-control" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()"></textarea>
+                    @hasanyrole('manager|admin')
+                    <div class="row mb-2">
+                        <div class="col-md-7">
+                            <input type="text" id="title" class="form-control" placeholder="Titulo">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <select name="company_id" id="select-task-company" class="form-control" multiple>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <textarea class="form-control" id="taskText" placeholder="Nueva tarea..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()"></textarea>
+                        </div>
+                        <div class="col-md-5 text-center">
                             <button id="add" class="btn btn-success" onclick="addTask()" style="width: 200px">Agregar nueva tarea</button>
                         </div>
                     </div>
+                    @endhasanyrole
 
                     <div class="main-container">
                         <ul class="columns">
@@ -251,7 +261,7 @@
                                 </div>
                                 <ul class="task-list" id="to-do" data-column_id="1">
                                     @foreach($por_realizar as $itm)
-                                    <li class="task" data-id="{{$itm->id}}">
+                                    <li class="task opModalTask" data-titulo="{{$itm->titulo}}" data-task="{{$itm->task}}" data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
                                                 @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
@@ -261,7 +271,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <p>{{$itm->task}}</p>
+                                                <p>{{$itm->titulo}}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -275,7 +285,7 @@
                                 </div>
                                 <ul class="task-list" id="doing" data-column_id="2">
                                     @foreach($fijas as $itm)
-                                    <li class="task" data-id="{{$itm->id}}">
+                                    <li class="task opModalTask" data-titulo="{{$itm->titulo}}" data-task="{{$itm->task}}"  data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
                                                 @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
@@ -285,7 +295,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <p>{{$itm->task}}</p>
+                                                <p >{{$itm->titulo}}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -301,7 +311,7 @@
                                 </div>
                                 <ul class="task-list" id="done" data-column_id="3">
                                     @foreach($realizadas as $itm)
-                                    <li class="task" data-id="{{$itm->id}}">
+                                    <li class="task opModalTask" data-titulo="{{$itm->titulo}}" data-task="{{$itm->task}}"  data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
                                                 @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
@@ -311,7 +321,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <p>{{$itm->task}}</p>
+                                                <p >{{$itm->titulo}}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -321,11 +331,11 @@
 
                             <li class="column trash-column" style="display: none;">
                                 <div class="column-header">
-                                    <h4>Trash</h4>
+                                    <h4>Eliminadas</h4>
                                 </div>
                                 <ul class="task-list" id="trash" data-column_id="4">
                                     @foreach($trash as $itm)
-                                    <li class="task" data-id="{{$itm->id}}">
+                                    <li class="task opModalTask" data-titulo="{{$itm->titulo}}" data-task="{{$itm->task}}"  data-id="{{$itm->id}}">
                                         <div class="row">
                                             <div class="col-12">
                                                 @foreach(\App\Models\Company::whereIn('id', $itm->company_id)->get() as $company)
@@ -335,7 +345,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <p>{{$itm->task}}</p>
+                                                <p >{{$itm->titulo}}</p>
                                             </div>
                                         </div>
                                     </li>
@@ -472,6 +482,21 @@
             </div>
         </div>
     </div>
+
+    <!-- modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-tasks">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('scripts')
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
@@ -502,6 +527,8 @@
                                 mean.name +
                             '</li>';
                     });
+
+                @hasanyrole('manager|admin')
                 html += '</ul></td>' +
                     '<td>' +
                         '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'editaPelicula' : (type == 2 ? 'editaLibro' : 'editaArtista')) + '(\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+itm.description+'\',\''+means_id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
@@ -509,10 +536,15 @@
                     '<td>' +
                         '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'deletePelicula' : (type == 2 ? 'deleteLibro' : 'deleteArtista')) + '(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
+                @endhasanyrole
 
                 html += '</tr>';
             })
+            @hasanyrole('manager|admin')
             html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @else
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @endhasanyrole
             html += res.pagination;
 
             return html;
@@ -675,6 +707,15 @@
             loadPeliculas();
             loadLibros();
 
+            $('.opModalTask').on('click', function() {
+                var modal = $('#modal-tasks')
+                var modalBody = modal.find('.modal-body')
+
+                modal.find('.modal-title').html($(this).data("titulo"));
+                modalBody.html($(this).data("task"))
+                modal.modal('show')
+            });
+
 
             $('#btn-add-artist').on('click', function() {
                 var modal = $('#modal-default')
@@ -779,7 +820,7 @@
         }
 
         function deletePelicula(id){
-            $.post('{{ route('clientes.remove_libros') }}', {
+            $.post('{{ route('clientes.remove_peliculas') }}', {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
                 "id": id,
             }, function(res) {
@@ -799,9 +840,25 @@
         function addTask() {
             var inputTask = document.getElementById("taskText").value;
             
+            
+            if($("#title").val() == ''){
+                alert('Agregue un título a la tarea');
+                return;
+            }
+            if(inputTask == ''){
+                alert('Agregue una descripción de la tarea');
+                return;
+            }
+            var select_company = $("#select-task-company").val();
+            if(select_company == '' || select_company == undefined || select_company == null){
+                alert('Sebe seleccionar una compañia');
+                return;
+            }
+
             $.post('{{ route('task.save') }}', {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
                 "company_id": $("#select-task-company").val(),
+                "titulo": $("#title").val(),
                 "task": inputTask
             }, function(res) {
             
@@ -818,6 +875,9 @@
                             "</div>" +
                         "</div></li>";
 
+                document.getElementById("title").value = "";
+                document.getElementById("select-task-company").value = "";
+                $("#select-task-company").trigger("change");
                 document.getElementById("taskText").value = "";
                 
             })
