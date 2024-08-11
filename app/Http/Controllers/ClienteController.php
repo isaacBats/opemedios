@@ -17,7 +17,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArtistRequest;
-use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, Book, BookMeans, News, Means, Movie, MovieMeans, TasksBoard, ThemeMeans};
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, Book, BookMeans, CompanyTheme, Festival, FestivalMeans, News, Means, Movie, MovieMeans, Serie, SerieMeans, TasksBoard, ThemeMeans};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
@@ -234,6 +234,158 @@ class ClienteController extends Controller
         return response()->json($response);
     }
     
+    public function storeSerie(Request $request)
+    {
+        $serie = Serie::create([
+            'name' => $request->name,
+            'description' => $request->descripcion,
+            'company_id' => $request->company_id,
+        ]);
+        
+        foreach($request->means_id as $itm)
+        {
+            $rel = new SerieMeans;
+            $rel->serie_id = $serie->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
+        $response['status'] = "La serie: {$serie->name} se ha creado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function updateSerie($id, Request $request)
+    {
+        $serie = Serie::find($id);
+
+        $serie->name = $request->name;
+        $serie->description = $request->descripcion;
+        $serie->company_id = $request->company_id;
+        $serie->save();
+        
+        SerieMeans::where('serie_id', $id)->delete();
+        foreach($request->means_id as $itm)
+        {
+            $rel = new SerieMeans;
+            $rel->serie_id = $serie->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
+
+        $response['status'] = "La serie: {$serie->name} se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function storeFestival(Request $request)
+    {
+        $festival = Festival::create([
+            'name' => $request->name,
+            'description' => $request->descripcion,
+            'company_id' => $request->company_id,
+        ]);
+        
+        foreach($request->means_id as $itm)
+        {
+            $rel = new FestivalMeans;
+            $rel->festival_id = $festival->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
+        $response['status'] = "El festival: {$festival->name} se ha creado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function updateFestival($id, Request $request)
+    {
+        $festival = Festival::find($id);
+
+        $festival->name = $request->name;
+        $festival->description = $request->descripcion;
+        $festival->company_id = $request->company_id;
+        $festival->save();
+        
+        FestivalMeans::where('festival_id', $id)->delete();
+        foreach($request->means_id as $itm)
+        {
+            $rel = new FestivalMeans;
+            $rel->festival_id = $festival->id;
+            $rel->mean_id = $itm;
+            $rel->save();
+        }
+
+
+        $response['status'] = "El festival: {$festival->name} se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+    
+    public function updateCliente($id, Request $request)
+    {
+        CompanyTheme::where('company_id', $id)->delete();
+        foreach($request->themes_id as $itm)
+        {
+            $rel = new CompanyTheme;
+            $rel->company_id = $id;
+            $rel->theme_id = $itm;
+            $rel->save();
+        }
+
+        $response['status'] = "La compañia se ha actualizado satisfactoriamente!";
+        return response()->json($response);
+    }
+
+    public function getSeries(Request $request)
+    {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+        $series = Serie::whereNotNull('company_id')->with('means','company');
+                
+        $search = $request->has('search') ? $request->input('search') : '';
+        if(!empty($search)) $series = $series->where('name', 'like', '%' . $search . '%');
+
+        $series = $series->paginate($paginate);
+        $html_pag = '' . $series->links();
+
+        return response()->json(['items' => $series, 'pagination' => $html_pag]);
+    }
+
+    public function getFestivales(Request $request)
+    {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+        $festivales = Festival::whereNotNull('company_id')->with('means','company');
+                
+        $search = $request->has('search') ? $request->input('search') : '';
+        if(!empty($search)) $festivales = $festivales->where('name', 'like', '%' . $search . '%');
+
+        $festivales = $festivales->paginate($paginate);
+        $html_pag = '' . $festivales->links();
+
+        return response()->json(['items' => $festivales, 'pagination' => $html_pag]);
+    }
+
+    public function getClientes(Request $request)
+    {
+        $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
+        $companies = Company::with('themes', 'currentThemes');
+                
+        $search = $request->has('search') ? $request->input('search') : '';
+        if(!empty($search)) $companies = $companies->where('name', 'like', '%' . $search . '%');
+
+        $companies = $companies->paginate($paginate);
+        $html_pag = '' . $companies->links();
+
+        return response()->json(['items' => $companies, 'pagination' => $html_pag]);
+    }
+
+    public function getThemes(Request $request){
+
+        if($request->has('q'))
+            $themes = Theme::select('id', 'name as text')->where('name', 'LIKE', "%{$request->get('q')}%")->limit(10)->orderBy('name')->get();
+        else
+            $themes = Theme::select('id', 'name as text')->limit(10)->orderBy('name')->get();
+
+        return response()->json(['items' => $themes]);
+    }
 
     public function saveTask(Request $request)
     {

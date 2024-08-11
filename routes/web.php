@@ -177,6 +177,13 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('get-libros', 'ClienteController@getLibros')->name('clientes.get_libros');
     Route::post('get-peliculas', 'ClienteController@getPeliculas')->name('clientes.get_peliculas');
     Route::post('get-artistas', 'ClienteController@getArtistas')->name('clientes.get_artistas');
+    Route::post('get-series', 'ClienteController@getSeries')->name('clientes.get_series');
+    Route::post('get-festivales', 'ClienteController@getFestivales')->name('clientes.get_festivales');
+    Route::post('get-clientes', 'ClienteController@getClientes')->name('clientes.get_clientes');
+
+    Route::get('get-themes', 'ClienteController@getThemes')->name('clientes.get_themes');
+    Route::post('cliente/edit/{id}', 'ClienteController@updateCliente')->name('cliente.update');
+    
     Route::post('artista/nuevo', 'ClienteController@storeArtist')->name('artist.create');
     Route::post('artista/edit/{id}', 'ClienteController@updateArtist')->name('artist.update');
     
@@ -185,6 +192,12 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     
     Route::post('libro/nuevo', 'ClienteController@storeLibro')->name('libro.create');
     Route::post('libro/edit/{id}', 'ClienteController@updateLibro')->name('libro.update');
+
+    Route::post('serie/nuevo', 'ClienteController@storeSerie')->name('serie.create');
+    Route::post('serie/edit/{id}', 'ClienteController@updateSerie')->name('serie.update');
+    
+    Route::post('festival/nuevo', 'ClienteController@storeFestival')->name('festival.create');
+    Route::post('festival/edit/{id}', 'ClienteController@updateFestival')->name('festival.update');
 
     Route::post('task/save', 'ClienteController@saveTask')->name('task.save');
     Route::post('task/update', 'ClienteController@updateTask')->name('task.update');

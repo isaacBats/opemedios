@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/dragula.min.css') }}" />
 
     <style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: #000;
+        }
         .menu-ul {
             list-style-type: none;
             margin: 0;
@@ -21,7 +24,7 @@
             display: block;
             color: white;
             text-align: center;
-            padding: 16px 60px;
+            padding: 16px 40px;
             text-decoration: none;
         }
 
@@ -208,24 +211,19 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
                         <ul class="menu-ul">
-                            <li>
-                                <a class="btnCollapse" role="button" data-id="collapseClientes">Clientes</a>
-                            </li>
-                            <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapsePeliculas">Peliculas</a>
-                            </li>
-                            <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapseArtistas">Artistas</a>
-                            </li>
-                            <li>
-                                <a class="collapsed btnCollapse" role="button" data-id="collapseLibros">Libros</a>
-                            </li>
+                            <li><a class="btnCollapse" role="button" data-id="collapseOrdenesTrabajo">Ordenes de trabajo</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapseClientes">Clientes</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapsePeliculas">Peliculas</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapseArtistas">Artistas</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapseLibros">Libros</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapseSeries">Series</a></li>
+                            <li><a class="collapsed btnCollapse" role="button" data-id="collapseFestivales">Festivales</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="collapseClientes" class="collapse in">
+        <div id="collapseOrdenesTrabajo" class="collapse in">
             <div class="panel">
                 <div class="panel-body">
 
@@ -351,15 +349,40 @@
                                     </li>
                                     @endforeach
                                 </ul>
-                                {{-- <div class="column-button">
-                                    <button class="button delete-button" onclick="emptyTrash()">Delete</button>
-                                </div> --}}
                             </li>
                             @endhasanyrole
                         </ul>
                     </div>
                 </div>
             </div><!-- panel -->
+        </div>
+        <div id="collapseClientes" class="collapse byAjaxClientes">
+            <div class="panel">
+                <div calass="panel-body">
+                    <div class="well well-asset-options clearfix">
+                        <div class="col-md-8 pull-right" role="toolbar">
+                            <div class="col-md-offset-4 col-md-4 form-group">
+                                <label for="input-clientes-name" class="text-muted">Nombre</label>
+                                <input type="text" name="name" class="form-control" id="input-clientes-name">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                                <select class="form-control" name="paginate" id="paginate_cliente">
+                                    <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group" style="margin-top: 20px">
+                                <button class="btn btn-primary btn-lg byAjaxClientes" id="btnBuscarClientes" href="{{route('clientes.get_clientes')}}"> Buscar</button>
+                            </div>
+                        </div><!-- btn-toolbar -->
+                    </div>
+                    <div class="fm-sidebar" id="sectClientes"></div>
+                </div>
+            </div>
         </div>
         <div id="collapsePeliculas" class="collapse byAjaxPeliculas">
             <div class="panel">
@@ -369,7 +392,7 @@
                             <div class="col-md-4 form-group">
                                 <div class="btn-group" role="group">
                                     @hasanyrole('manager|admin')
-                                    <button id="btn-add-pelicula" class="btn btn-success btn-quirk"
+                                    <button id="btn-add-pelicula" data-type="pelicula" class="btn btn-success btn-quirk btn-add"
                                         type="button">{{ __('Agregar Pelicula') }}</button>
                                     @endhasanyrole
                                 </div>
@@ -407,7 +430,7 @@
                             <div class="col-md-4 form-group">
                                 <div class="btn-group" role="group">
                                     @hasanyrole('manager|admin')
-                                    <button id="btn-add-artist" class="btn btn-success btn-quirk"
+                                    <button id="btn-add-artist" data-type="artista" class="btn btn-success btn-quirk btn-add"
                                         type="button">{{ __('Agregar Artista') }}</button>
                                     @endhasanyrole
                                 </div>
@@ -450,7 +473,7 @@
                             <div class="col-md-4 form-group">
                                 <div class="btn-group" role="group">
                                     @hasanyrole('manager|admin')
-                                    <button id="btn-add-libro" class="btn btn-success btn-quirk"
+                                    <button id="btn-add-libro" data-type="libro" class="btn btn-success btn-quirk btn-add"
                                         type="button">{{ __('Agregar Libro') }}</button>
                                     @endhasanyrole
                                 </div>
@@ -481,6 +504,84 @@
                 </div>
             </div>
         </div>
+        <div id="collapseSeries" class="collapse byAjaxSeries">
+            <div class="panel">
+                <div calass="panel-body">
+                    <div class="well well-asset-options clearfix">
+                        <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                            <div class="col-md-4 form-group">
+                                <div class="btn-group" role="group">
+                                    @hasanyrole('manager|admin')
+                                    <button id="btn-add-serie" data-type="serie" class="btn btn-success btn-quirk btn-add"
+                                        type="button">{{ __('Agregar Serie') }}</button>
+                                    @endhasanyrole
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 pull-right" role="toolbar">
+                            <div class="col-md-offset-4 col-md-4 form-group">
+                                <label for="input-series-name" class="text-muted">Nombre</label>
+                                <input type="text" name="name" class="form-control" id="input-series-name">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                                <select class="form-control" name="paginate" id="paginate_serie">
+                                    <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group" style="margin-top: 20px">
+                                <button class="btn btn-primary btn-lg" id="btnBuscarSeries" href="{{route('clientes.get_series')}}"> Buscar</button>
+                            </div>
+                        </div><!-- btn-toolbar -->
+                    </div>
+                    <div class="fm-sidebar" id="sectSeries"></div>
+                </div>
+            </div>
+        </div>
+        <div id="collapseFestivales" class="collapse byAjaxFestivales">
+            <div class="panel">
+                <div calass="panel-body">
+                    <div class="well well-asset-options clearfix">
+                        <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                            <div class="col-md-4 form-group">
+                                <div class="btn-group" role="group">
+                                    @hasanyrole('manager|admin')
+                                    <button id="btn-add-festival" data-type="festival" class="btn btn-success btn-quirk btn-add"
+                                        type="button">{{ __('Agregar Festival') }}</button>
+                                    @endhasanyrole
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 pull-right" role="toolbar">
+                            <div class="col-md-offset-4 col-md-4 form-group">
+                                <label for="input-festivales-name" class="text-muted">Nombre</label>
+                                <input type="text" name="name" class="form-control" id="input-festivales-name">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Por p&aacute;gina</label>
+                                <select class="form-control" name="paginate" id="paginate_festival">
+                                    <option value="5" {{ $paginate == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ $paginate == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group" style="margin-top: 20px">
+                                <button class="btn btn-primary btn-lg" id="btnBuscarFestivales" href="{{route('clientes.get_festivales')}}"> Buscar</button>
+                            </div>
+                        </div><!-- btn-toolbar -->
+                    </div>
+                    <div class="fm-sidebar" id="sectFestivales"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- modal -->
@@ -489,10 +590,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body&hellip;</p>
+                    <p></p>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -502,10 +603,63 @@
     <script src="{{ asset('lib/select2/select2.js') }}"></script>
     <script src="{{ asset('js/dragula.min.js') }}"></script>
     <script type="text/javascript">
+        var companies           = [@foreach ($companies as $company){"id": "{{ $company->id }}", "name": "{{ $company->name }}"},@endforeach];
+        var companies_libros           = [@foreach ($companies_libros as $company){"id": "{{ $company->id }}", "name": "{{ $company->name }}"},@endforeach];
+        var companies_peliculas           = [@foreach ($companies_peliculas as $company){"id": "{{ $company->id }}", "name": "{{ $company->name }}"},@endforeach];
     
+        function buildThemes(res){
+
+            var html = '';
+
+            var typeN = 'cliente';
+            var typeNa = 'Cliente';
+
+            jQuery.each(res.items.data, function(i, itm) {
+                html += 
+                '<tr>\
+                    <td>'+
+                        itm.name +
+                    '</td>';
+                    
+                var themes = itm.current_themes.length > 0 ? itm.current_themes : itm.themes ;
+                themes_id = [];
+                html += '<td>\
+                            <ul >';
+                    jQuery.each(themes, function(i, theme) {
+                        themes_id.push({"id": theme.id, "name": theme.name});
+                        html += 
+                            '<li>' +
+                                theme.name +
+                            '</li>';
+                    });
+
+                localStorage.setItem("theme_" + itm.id, JSON.stringify(themes_id));
+
+                @hasanyrole('manager|admin')
+                html += '</ul></td>' +
+                    '<td>' +
+                        '<a href="#" class="btn-delete-company" onclick="editarCompany(\''+itm.name+'\',\''+itm.id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                    '</td>';
+                @endhasanyrole
+
+                html += '</tr>';
+            })
+            @hasanyrole('manager|admin')
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Temas</th><th>Editar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @else
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Temas</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            @endhasanyrole
+            html += res.pagination;
+
+            return html;
+        }
+
         function build(res, type = 1){
 
             var html = '';
+
+            var typeN = (type == 1 ? 'pelicula' : (type == 2 ? 'libro' : (type == 3 ? 'artista' : (type == 4 ? 'festival' : (type == 5 ? 'serie' : 'cliente')))))
+            var typeNa = (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : (type == 3 ? 'Artista' : (type == 4 ? 'Festival' : (type == 5 ? 'Serie' : 'Cliente')))))
 
             jQuery.each(res.items.data, function(i, itm) {
                 html += 
@@ -531,19 +685,19 @@
                 @hasanyrole('manager|admin')
                 html += '</ul></td>' +
                     '<td>' +
-                        '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'editaPelicula' : (type == 2 ? 'editaLibro' : 'editaArtista')) + '(\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+itm.description+'\',\''+means_id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                        '<a href="#" class="btn-delete-company" onclick="editar(\'' + typeN + '\',\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+means_id+'\',\''+itm.description+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
                     '</td>' +
                     '<td>' +
-                        '<a href="#" class="btn-delete-company" onclick="' + (type == 1 ? 'deletePelicula' : (type == 2 ? 'deleteLibro' : 'deleteArtista')) + '(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                        '<a href="#" class="btn-delete-company" onclick="deleteItem(\'' + typeN + '\',\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
                 @endhasanyrole
 
                 html += '</tr>';
             })
             @hasanyrole('manager|admin')
-            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Compañia</th><th>Medios</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
             @else
-            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + (type == 1 ? 'Peliculas' : (type == 2 ? 'Libro' : 'Artista')) + '</th><th>Compañia</th><th>Medios</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Compañia</th><th>Medios</th></tr></thead><tbody>' + html +'</tbody></table></div>'
             @endhasanyrole
             html += res.pagination;
 
@@ -584,6 +738,42 @@
             })
         }
 
+        function loadClientes(d_href = '{{ route('clientes.get_clientes') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-clientes-name").val(),
+                "paginate": $("#paginate_cliente").val()
+            }, function(res) {
+                var html = buildThemes(res);
+                $("#sectClientes").html(html);
+                loadActionsClientes();
+            })
+        }
+
+        function loadFestivales(d_href = '{{ route('clientes.get_festivales') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-festival-name").val(),
+                "paginate": $("#paginate_festival").val()
+            }, function(res) {
+                var html = build(res, 4);
+                $("#sectFestivales").html(html);
+                loadActionsFestivales();
+            })
+        }
+
+        function loadSeries(d_href = '{{ route('clientes.get_series') }}'){
+            $.post(d_href, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "search": $("#input-serie-name").val(),
+                "paginate": $("#paginate_serie").val()
+            }, function(res) {
+                var html = build(res, 5);
+                $("#sectSeries").html(html);
+                loadActionsSeries();
+            })
+        }
+
         
         function loadActionsLibros() {
             $(".byAjaxLibros .page-link, #btnBuscarLibros").on("click", function(e) {
@@ -612,10 +802,33 @@
             });
         }
 
+        function loadActionsClientes() {
+            $(".byAjaxClientes .page-link, #btnBuscarClientes").on("click", function(e) {
+                e.preventDefault();
 
+                var d_href = $(this).attr("href");
+                loadClientes(d_href);
+            });
+        }
 
+        function loadActionsFestivales() {
+            $(".byAjaxFestivales .page-link").on("click", function(e) {
+                e.preventDefault();
 
+                var d_href = $(this).attr("href");
+                loadFestivales(d_href);
+            });
+        }
         
+        function loadActionsSeries() {
+            $(".byAjaxSeries .page-link").on("click", function(e) {
+                e.preventDefault();
+
+                var d_href = $(this).attr("href");
+                loadSeries(d_href);
+            });
+        }
+
         $(document).ready(function(){
             $('#select-task-company').select2();
 
@@ -631,19 +844,6 @@
                     el.className.replace("ex-moved", "");
                 })
                 .on("drop", function(el, target, source, sibling) {
-                    console.log(el.dataset.id);
-                    console.group("el");
-                    console.log(el);
-                    console.groupEnd();
-                    console.group("target");
-                    console.log(target);
-                    console.groupEnd();
-                    console.group("source");
-                    console.log(source);
-                    console.groupEnd();
-                    console.group("sibling");
-                    console.log(sibling);
-                    console.groupEnd();
                     el.className += "ex-moved";
 
                     task_id = el.dataset.id;
@@ -666,46 +866,22 @@
                     container.className.replace("ex-over", "");
                 });
 
-
-            $('#table-company-list').on('click', '.btn-delete-company', function(event) {
-                event.preventDefault()
-                var companyName = $(this).data('name')
-                var modal = $('#modal-default')
-                var form = $('#modal-default-form')
-                var urlAction = $(this).attr('href')
-
-                form.attr('action', urlAction)
-                form.attr('method', 'POST')
-
-                modal.find('.modal-title').text(`Eliminar Empresa`)
-                modal.find('#md-btn-submit').removeClass('btn-primary').addClass('btn-danger').val(
-                    "{{ __('Eliminar') }}")
-                modal.find('.modal-body').html(`¿{{ __('Estas seguro que quieres eliminar a ') }}<strong>${companyName}</strong>?
-                    <br />
-                    <p>Si eliminas la empresa ${companyName} tambien se van a borrar las cuentas y los temas asociados a la empresa.</p>
-                `)
-                modal.modal('show')
-            });
-
             $(".btnCollapse").on("click", function() {
                 var currentItem = $(this).data('id');
-                var sections = ["collapseClientes", "collapseTemas", "collapsePeliculas",
-                    "collapseArtistas", "collapseLibros"
-                ];
-
+                var sections = ["collapseOrdenesTrabajo", "collapseClientes", "collapseTemas", "collapsePeliculas", "collapseArtistas", "collapseLibros", "collapseSeries", "collapseFestivales"];
                 sections.forEach(function(item) {
-
                     if (currentItem != item) $('#' + item).collapse('hide');
                     else $('#' + item).collapse('show');
-
                 });
-
             });
 
 
             loadArtistas();
+            loadClientes();
             loadPeliculas();
             loadLibros();
+            loadFestivales();
+            loadSeries();
 
             $('.opModalTask').on('click', function() {
                 var modal = $('#modal-tasks')
@@ -716,59 +892,19 @@
                 modal.modal('show')
             });
 
-
-            $('#btn-add-artist').on('click', function() {
+            $('.btn-add').on('click', function() {
+                var type = $(this).data("type");
                 var modal = $('#modal-default')
                 var form = $('#modal-default-form')
                 var modalBody = modal.find('.modal-body')
 
                 form.attr('method', 'POST')
-                form.attr('action', '/panel/artista/nuevo')
+                form.attr('action', '/panel/'+type+'/nuevo')
                 form.addClass('form-horizontal')
 
-                modal.find('.modal-title').html('Crear un nuevo artista');
+                modal.find('.modal-title').html('Crear un nuevo ' + type);
                 modal.find('#md-btn-submit').val('Crear')
-                modalBody.html(getTemplateForCreateArtista())
-
-                $('#select-company').select2({
-                    dropdownParent: modal
-                });
-
-                modal.modal('show')
-            })
-
-            $('#btn-add-pelicula').on('click', function() {
-                var modal = $('#modal-default')
-                var form = $('#modal-default-form')
-                var modalBody = modal.find('.modal-body')
-
-                form.attr('method', 'POST')
-                form.attr('action', '/panel/pelicula/nuevo')
-                form.addClass('form-horizontal')
-
-                modal.find('.modal-title').html('Crear un nueva pelicula');
-                modal.find('#md-btn-submit').val('Crear')
-                modalBody.html(getTemplateForCreatePelicula())
-
-                $('#select-company').select2({
-                    dropdownParent: modal
-                });
-
-                modal.modal('show')
-            })
-
-            $('#btn-add-libro').on('click', function() {
-                var modal = $('#modal-default')
-                var form = $('#modal-default-form')
-                var modalBody = modal.find('.modal-body')
-
-                form.attr('method', 'POST')
-                form.attr('action', '/panel/libro/nuevo')
-                form.addClass('form-horizontal')
-
-                modal.find('.modal-title').html('Crear un nuevo libro');
-                modal.find('#md-btn-submit').val('Crear')
-                modalBody.html(getTemplateForCreateLibro())
+                modalBody.html(getTemplateForCreate(type))
 
                 $('#select-company').select2({
                     dropdownParent: modal
@@ -780,8 +916,7 @@
             $("#md-btn-submit").on("click", function(e) {
                 e.preventDefault();
 
-                $.post($("#modal-default-form").attr("action"), $("#modal-default-form").serialize(), function(
-                res) {
+                $.post($("#modal-default-form").attr("action"), $("#modal-default-form").serialize(), function(res) {
                     var modal = $('#modal-default')
                     modal.modal('hide');
 
@@ -793,6 +928,9 @@
                         loadArtistas();
                         loadLibros();
                         loadPeliculas();
+                        loadFestivales();
+                        loadSeries();
+                        loadClientes();
                     })
                 });
             });
@@ -808,28 +946,16 @@
             loadPeliculas();
             loadLibros();
             loadArtistas();
+            loadFestivales();
+            loadSeries();
         }
             
-        function deleteLibro(id){
-            $.post('{{ route('clientes.remove_libros') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "id": id,
-            }, function(res) {
-                reloadAll()
-            });
-        }
+        function deleteItem(type, id){
+            var url = '{{ route('clientes.remove_artistas') }}';
+            if(type == 'libro') url = '{{ route('clientes.remove_libros') }}';
+            else if(type == 'pelicula') url = '{{ route('clientes.remove_peliculas') }}';
 
-        function deletePelicula(id){
-            $.post('{{ route('clientes.remove_peliculas') }}', {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "id": id,
-            }, function(res) {
-                reloadAll()
-            });
-        }
-
-        function deleteArtista(id){
-            $.post('{{ route('clientes.remove_artistas') }}', {
+            $.post(url, {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
                 "id": id,
             }, function(res) {
@@ -887,20 +1013,20 @@
             document.getElementById("trash").innerHTML = "";
         }
         
-        function editaArtista(name, company_id, id, meansId){
-                
+        function editar(type, name, company_id, id, meansId, description = ''){
+            var url_action = '/panel/'+type+'/edit/' + id;
+
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
             var modalBody = modal.find('.modal-body')
 
-
             form.attr('method', 'POST')
-            form.attr('action', '/panel/artista/edit/' + id)
+            form.attr('action', url_action)
             form.addClass('form-horizontal')
 
-            modal.find('.modal-title').html('Editar artista');
+            modal.find('.modal-title').html('Editar ' + type);
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreateArtista(name, company_id, meansId))
+            modalBody.html(getTemplateForCreate(type, name, company_id, meansId))
 
             $('#select-company').select2({
                 dropdownParent: modal
@@ -909,154 +1035,138 @@
             modal.modal('show')
         }
 
-        function editaPelicula(name, company_id, id, description, meansId){
-                
+        function editarCompany(name, id){
+            var url_action = '/panel/cliente/edit/' + id;
+
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
             var modalBody = modal.find('.modal-body')
 
-
             form.attr('method', 'POST')
-            form.attr('action', '/panel/pelicula/edit/' + id)
+            form.attr('action', url_action)
             form.addClass('form-horizontal')
 
-            modal.find('.modal-title').html('Editar pelicula');
+            modal.find('.modal-title').html('Editar cliente');
             modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreatePelicula(name, company_id, description, meansId))
-
-            $('#select-company').select2({
-                dropdownParent: modal
-            });
-
-            modal.modal('show')
-        }
-
-        function editaLibro(name, company_id, id, description, meansId){
             
-            var modal = $('#modal-default')
-            var form = $('#modal-default-form')
-            var modalBody = modal.find('.modal-body')
+            
+            modalBody.html(getTemplateForCreate('cliente', name))
 
+            
+            $('.js-data-example-ajax').
+                    select2({
+                        multiple: true,
+                        dropdownParent: modal,
+                        ajax: {
+                            url: '{{route('clientes.get_themes')}}',
+                            dataType: 'json',
+                            processResults: function (data) {
+                            // Transforms the top-level key of the response object from 'items' to 'results'
+                            return {
+                                results: data.items
+                            };
+                            }
+                            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                        }
+                    });
 
-            form.attr('method', 'POST')
-            form.attr('action', '/panel/libro/edit/' + id)
-            form.addClass('form-horizontal')
+            var themesId = JSON.parse(localStorage.getItem("theme_" + id));
+            var themeSelect = $('.js-data-example-ajax');
 
-            modal.find('.modal-title').html('Editar libro');
-            modal.find('#md-btn-submit').val('Guardar')
-            modalBody.html(getTemplateForCreateLibro(name, company_id, description, meansId))
+            for(var i = 0; i < themesId.length; i++){
+                var option = new Option(themesId[i].name, themesId[i].id, true, true);
+                themeSelect.append(option).trigger('change');
+            }
 
-            $('#select-company').select2({
-                dropdownParent: modal
+            themeSelect.trigger({
+                type: 'select2:select',
+                // params: {
+                //     data: data
+                // }
             });
 
             modal.modal('show')
         }
-        
-        function getTemplateForCreateArtista(name = '', id = '', meansId = []) {
-            return `
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Compañia</label>
-                        <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
-                                <option value="">Seleccionan una compañia</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Artista</label>
-                        <div class="col-sm-8">
-                            <input id="input-name-artist" type="text" name="name" class="form-control" value="`+name+`"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Medios</label>
-                        <div class="col-sm-8">
-                            @foreach ($means as $mean)
-                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            `
-        }
-        function getTemplateForCreatePelicula(name = '', id = '', descripcion = '', meansId = []) {
-            return `
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Compañia</label>
-                        <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
-                                <option value="">Selecciona una compañia</option>
-                                @foreach ($companies_peliculas as $company)
-                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Pelicula</label>
-                        <div class="col-sm-8">
-                            <input id="input-name-pelicula" type="text" placeholder="Pelicula" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Medios</label>
-                        <div class="col-sm-8">
-                            @foreach ($means as $mean)
-                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="form-group">
+
+        function getTemplateForCreate(type, name = '', id = '', descripcion = '', meansId = []) {
+            var html_company = '';
+            var title = '';
+
+            var html_desc = 
+                    `<div class="form-group">
                         <label class="col-sm-3 control-label">Descripción</label>
                         <div class="col-sm-8">
                             <textarea class="form-control" name="descripcion" placeholder="Descripción" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()">`+descripcion+`</textarea>
                         </div>
+                    </div>`;
+
+            if(type == 'libro'){
+                title = 'Libro';
+                for(var k in companies_libros) html_company += `<option value="`+companies_libros[k].id+`" ` + (id == companies_libros[k].id ? 'selected' : '' ) + `>`+companies_libros[k].name+`</option>`;
+            }else if(type == 'pelicula'){
+                title = 'Pelicula';
+                for(var k in companies_peliculas) html_company += `<option value="`+companies_peliculas[k].id+`" ` + (id == companies_peliculas[k].id ? 'selected' : '' ) + `>`+companies_peliculas[k].name+`</option>`;
+            }else if(type == 'cliente'){
+                title = 'Cliente';
+            }else{
+                for(var k in companies) html_company += `<option value="`+companies[k].id+`" ` + (id == companies[k].id ? 'selected' : '' ) + `>`+companies[k].name+`</option>`;
+                if(type == 'serie')
+                    title = 'Serie';
+                else if(type == 'festival')
+                    title = 'Festival';
+                else{
+                    title = 'Artista';
+                    html_desc = '';
+                }
+            }
+
+            var html_p = '';
+            if(type == 'cliente'){
+                html_p = `
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">`+name+`</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Temas</label>
+                            <div class="col-sm-8" style="display: grid;">
+                                <select name="themes_id[]" class="js-data-example-ajax w-100"></select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `
-        }
-        function getTemplateForCreateLibro(name = '', id = '', descripcion = '', meansId = []) {
-            return `
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Compañia</label>
-                        <div class="col-sm-8">
-                            <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
-                                <option value="">Seleccionan una compañia</option>
-                                @foreach ($companies_libros as $company)
-                                    <option value="{{ $company->id }}" ` + (id == {{ $company->id }} ? 'selected' : '' ) + `>{{ $company->name }}</option>
+                `;
+
+            }else{
+                html_p = `
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Compañia</label>
+                            <div class="col-sm-8">
+                                <select id="select-company" name="company_id" class="form-control" style="width: 100%;" required>
+                                    <option value="">Seleccionan una compañia</option>
+                                    ` + html_company + `
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">` + title + `</label>
+                            <div class="col-sm-8">
+                                <input id="input-name-` + type + `" type="text" placeholder="` + title + `" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Medios</label>
+                            <div class="col-sm-8">
+                                @foreach ($means as $mean)
+                                    <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
                                 @endforeach
-                            </select>
+                            </div>
                         </div>
+                        ` + html_desc + `
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Libro</label>
-                        <div class="col-sm-8">
-                            <input id="input-name-libro" type="text" placeholder="Libro" name="name" class="form-control" value="`+name+`" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Medios</label>
-                        <div class="col-sm-8">
-                            @foreach ($means as $mean)
-                                <label><input type="checkbox" name="means_id[]" value="{{ $mean->id }}" ` + (meansId.includes('{{ $mean->id }}') ? 'checked' : '' ) + `>{{ $mean->name }}</label>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Descripción</label>
-                        <div class="col-sm-8">
-                            <textarea class="form-control" name="descripcion" placeholder="Descripción" onkeydown="if (event.keyCode == 13) document.getElementById('md-btn-submit').click()">`+descripcion+`</textarea>
-                        </div>
-                    </div>
-                </div>
-            `
+                `;
+            }
+            return html_p;
         }
 
     </script>
