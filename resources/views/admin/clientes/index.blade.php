@@ -632,13 +632,17 @@
                                 theme.name +
                             '</li>';
                     });
+                html += '</ul></td>';
 
                 localStorage.setItem("theme_" + itm.id, JSON.stringify(themes_id));
 
                 @hasanyrole('manager|admin')
-                html += '</ul></td>' +
+                html +=
                     '<td>' +
-                        '<a href="#" class="btn-delete-company" onclick="editarCompany(\''+itm.name+'\',\''+itm.id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                        '<a href="#" onclick="editarCompany(\''+itm.name+'\',\''+itm.id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                    '</td>' +
+                    '<td>' +
+                        '<a href="#" onclick="deleteCompany(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
                 @endhasanyrole
 
@@ -685,10 +689,10 @@
                 @hasanyrole('manager|admin')
                 html += '</ul></td>' +
                     '<td>' +
-                        '<a href="#" class="btn-delete-company" onclick="editar(\'' + typeN + '\',\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+means_id+'\',\''+itm.description+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
+                        '<a href="#" onclick="editar(\'' + typeN + '\',\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+means_id+'\',\''+itm.description+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
                     '</td>' +
                     '<td>' +
-                        '<a href="#" class="btn-delete-company" onclick="deleteItem(\'' + typeN + '\',\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                        '<a href="#" onclick="deleteItem(\'' + typeN + '\',\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
                 @endhasanyrole
 
@@ -948,8 +952,20 @@
             loadArtistas();
             loadFestivales();
             loadSeries();
+            loadClientes();
         }
-            
+        
+        function deleteCompany(id){
+            var url = '{{ route('clientes.remove_company') }}';
+
+            $.post(url, {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "id": id,
+            }, function(res) {
+                reloadAll()
+            });
+        }
+
         function deleteItem(type, id){
             var url = '{{ route('clientes.remove_artistas') }}';
             if(type == 'libro') url = '{{ route('clientes.remove_libros') }}';

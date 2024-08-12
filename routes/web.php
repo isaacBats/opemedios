@@ -169,7 +169,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('red_social/ver/{id}', 'ClienteController@show')->name('social_network.show');
     Route::post('red_social/actualizar/{id}', 'ClienteController@update')->name('social_network.update');
     Route::post('red_social/eliminar/{id}', 'ClienteController@delete')->name('social_network.delete');
-
+    
+    Route::post('remove-company', 'ClienteController@removeCompany')->name('clientes.remove_company');
     Route::post('remove-libros', 'ClienteController@removeLibros')->name('clientes.remove_libros');
     Route::post('remove-peliculas', 'ClienteController@removePeliculas')->name('clientes.remove_peliculas');
     Route::post('remove-artistas', 'ClienteController@removeArtistas')->name('clientes.remove_artistas');

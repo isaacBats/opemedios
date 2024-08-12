@@ -366,7 +366,7 @@ class ClienteController extends Controller
     public function getClientes(Request $request)
     {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
-        $companies = Company::with('themes', 'currentThemes');
+        $companies = Company::where('active', true)->with('themes', 'currentThemes');
                 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $companies = $companies->where('name', 'like', '%' . $search . '%');
@@ -460,6 +460,15 @@ class ClienteController extends Controller
         $itm = Artist::find($request->id);
         $itm->delete();
 
+        $response['status'] = "Ok";
+        return response()->json($response);
+    }
+
+    public function removeCompany(Request $request){
+        $company = Company::find($request->id);
+        $company->active = false;
+        $company->save();
+        
         $response['status'] = "Ok";
         return response()->json($response);
     }
