@@ -1071,6 +1071,7 @@
             
             $('.js-data-example-ajax').
                     select2({
+                        width: 'resolve',
                         multiple: true,
                         tags: true,
                         tokenSeparators: [','],
