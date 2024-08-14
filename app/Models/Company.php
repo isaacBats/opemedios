@@ -80,9 +80,9 @@ class Company extends Model
         return $this->hasMany(Models\Theme::class);
     }
 
-    public function currentThemes()
+    public function temas()
     {
-        return $this->belongsToMany(Models\Theme::class, 'companies_themes', 'company_id', 'theme_id');
+        return $this->belongsToMany(Models\Tema::class, 'companies_themes', 'company_id', 'theme_id');
     }
     
     public function assignedNews()

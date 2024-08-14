@@ -17,7 +17,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreArtistRequest;
-use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, Book, BookMeans, CompanyTheme, Festival, FestivalMeans, News, Means, Movie, MovieMeans, Serie, SerieMeans, TasksBoard, ThemeMeans};
+use App\Models\{AssignedNews, Company, Turn, User, UserMeta, Theme, Artist, ArtistMeans, Book, BookMeans, CompanyTheme, Festival, FestivalMeans, News, Means, Movie, MovieMeans, Serie, SerieMeans, TasksBoard, Tema, ThemeMeans};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Log,Storage};
 use Illuminate\Support\Str;
@@ -325,9 +325,19 @@ class ClienteController extends Controller
         CompanyTheme::where('company_id', $id)->delete();
         foreach($request->themes_id as $itm)
         {
+            $foundTema = Tema::where('name', $itm)->first();
+
+            if(!$foundTema){
+                $foundTema = new Tema;
+                $foundTema->name = $itm;
+                $foundTema->description = '';
+                $foundTema->company_id = $id;
+                $foundTema->save();
+            }
+
             $rel = new CompanyTheme;
             $rel->company_id = $id;
-            $rel->theme_id = $itm;
+            $rel->theme_id = $foundTema->id;
             $rel->save();
         }
 
@@ -366,7 +376,7 @@ class ClienteController extends Controller
     public function getClientes(Request $request)
     {
         $paginate = $request->has('paginate') ? $request->input('paginate') : 25;
-        $companies = Company::where('active', true)->with('themes', 'currentThemes');
+        $companies = Company::where('active', true)->with('temas');
                 
         $search = $request->has('search') ? $request->input('search') : '';
         if(!empty($search)) $companies = $companies->where('name', 'like', '%' . $search . '%');
@@ -380,9 +390,9 @@ class ClienteController extends Controller
     public function getThemes(Request $request){
 
         if($request->has('q'))
-            $themes = Theme::select('id', 'name as text')->where('name', 'LIKE', "%{$request->get('q')}%")->limit(10)->orderBy('name')->get();
+            $themes = Tema::select('id', 'name as text')->where('name', 'LIKE', "%{$request->get('q')}%")->limit(10)->orderBy('name')->get();
         else
-            $themes = Theme::select('id', 'name as text')->limit(10)->orderBy('name')->get();
+            $themes = Tema::select('id', 'name as text')->limit(10)->orderBy('name')->get();
 
         return response()->json(['items' => $themes]);
     }

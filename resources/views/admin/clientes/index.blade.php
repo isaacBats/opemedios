@@ -621,7 +621,7 @@
                         itm.name +
                     '</td>';
                     
-                var themes = itm.current_themes.length > 0 ? itm.current_themes : itm.themes ;
+                var themes = itm.temas;
                 themes_id = [];
                 html += '<td>\
                             <ul >';
@@ -649,7 +649,7 @@
                 html += '</tr>';
             })
             @hasanyrole('manager|admin')
-            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Temas</th><th>Editar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
+            html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Temas</th><th>Editar</th><th>Eliminar</th></tr></thead><tbody>' + html +'</tbody></table></div>'
             @else
             html = '<div class="table-responsive"><table class="table table-bordered table-primary table-striped nomargin"><thead><tr><th>' + typeNa + '</th><th>Temas</th></tr></thead><tbody>' + html +'</tbody></table></div>'
             @endhasanyrole
@@ -1072,6 +1072,8 @@
             $('.js-data-example-ajax').
                     select2({
                         multiple: true,
+                        tags: true,
+                        tokenSeparators: [','],
                         dropdownParent: modal,
                         ajax: {
                             url: '{{route('clientes.get_themes')}}',
