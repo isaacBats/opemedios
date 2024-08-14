@@ -1091,24 +1091,25 @@
                         tags: true,
                         tokenSeparators: [','],
                         dropdownParent: modal,
-                        ajax: {
-                            url: '{{route('clientes.get_themes')}}',
-                            dataType: 'json',
-                            processResults: function (data) {
-                            // Transforms the top-level key of the response object from 'items' to 'results'
-                            return {
-                                results: data.items
-                            };
-                            }
-                            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                        }
+                        // ajax: {
+                        //     url: '{{route('clientes.get_themes')}}',
+                        //     dataType: 'json',
+                        //     processResults: function (data) {
+                        //     // Transforms the top-level key of the response object from 'items' to 'results'
+                        //     return {
+                        //         results: data.items
+                        //     };
+                        //     }
+                        //     // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                        // }
                     });
 
             var themesId = JSON.parse(localStorage.getItem("theme_" + id));
             var themeSelect = $('.js-data-example-ajax');
 
             for(var i = 0; i < themesId.length; i++){
-                var option = new Option(themesId[i].name, themesId[i].id, true, true);
+                //var option = new Option(themesId[i].name, themesId[i].id, true, true);
+                var option = new Option(themesId[i].name, themesId[i].name, true, true);
                 themeSelect.append(option).trigger('change');
             }
 
