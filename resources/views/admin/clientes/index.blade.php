@@ -642,7 +642,7 @@
                         '<a href="#" onclick="editarCompany(\''+itm.name+'\',\''+itm.id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
                     '</td>' +
                     '<td>' +
-                        '<a href="#" onclick="deleteCompany(\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                        '<a href="#" onclick="deleteCompany(\''+itm.id+'\',\''+itm.name+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
                 @endhasanyrole
 
@@ -692,7 +692,7 @@
                         '<a href="#" onclick="editar(\'' + typeN + '\',\''+itm.name+'\',\''+itm.company_id+'\',\''+itm.id+'\',\''+means_id+'\',\''+itm.description+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
                     '</td>' +
                     '<td>' +
-                        '<a href="#" onclick="deleteItem(\'' + typeN + '\',\''+itm.id+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                        '<a href="#" onclick="deleteItem(\'' + typeN + '\',\''+itm.id+'\',\''+itm.name+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
                 @endhasanyrole
 
@@ -907,7 +907,9 @@
                 form.addClass('form-horizontal')
 
                 modal.find('.modal-title').html('Crear un nuevo ' + type);
-                modal.find('#md-btn-submit').val('Crear')
+                modal.find('#md-btn-submit')
+                        .removeClass('btn-danger')
+                        .val('Crear')
                 modalBody.html(getTemplateForCreate(type))
 
                 $('#select-company').select2({
@@ -924,18 +926,12 @@
                     var modal = $('#modal-default')
                     modal.modal('hide');
 
-                    $.post('{{ route('clientes.get_artistas') }}', {
-                        "_token": $('meta[name="csrf-token"]').attr('content'),
-                        "search": $("#input-artist-name").val(),
-                        "paginate": $("#paginate_artista").val()
-                    }, function(res) {
-                        loadArtistas();
-                        loadLibros();
-                        loadPeliculas();
-                        loadFestivales();
-                        loadSeries();
-                        loadClientes();
-                    })
+                    loadArtistas();
+                    loadLibros();
+                    loadPeliculas();
+                    loadFestivales();
+                    loadSeries();
+                    loadClientes();
                 });
             });
 
@@ -955,28 +951,43 @@
             loadClientes();
         }
         
-        function deleteCompany(id){
-            var url = '{{ route('clientes.remove_company') }}';
+        function deleteCompany(id, name){
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+            
+            form.attr('method', 'POST')
+                .attr('action', `/panel/remove-company/${id}`)
 
-            $.post(url, {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "id": id,
-            }, function(res) {
-                reloadAll()
-            });
+            modal.find('.modal-title').html('Eliminar cliente');
+            modalBody.html(`<p>¿Estas seguro que quieres eliminar el cliente: <strong>${name}</strong>?</p>`)
+            modal.find('#md-btn-submit')
+                .addClass('btn-danger')
+                .val('Eliminar')
+
+            modal.modal('show')
         }
 
-        function deleteItem(type, id){
-            var url = '{{ route('clientes.remove_artistas') }}';
-            if(type == 'libro') url = '{{ route('clientes.remove_libros') }}';
-            else if(type == 'pelicula') url = '{{ route('clientes.remove_peliculas') }}';
+        function deleteItem(type, id, name){
+            var url = `/panel/remove-artistas/${id}`;
+            if(type == 'libro') url = `/panel/remove-libros/${id}`;
+            else if(type == 'pelicula') url = `/panel/remove-peliculas/${id}`;
 
-            $.post(url, {
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-                "id": id,
-            }, function(res) {
-                reloadAll()
-            });
+
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+            
+            form.attr('method', 'POST')
+                .attr('action', url)
+
+            modal.find('.modal-title').html('Eliminar cliente');
+            modalBody.html(`<p>¿Estas seguro que quieres eliminar el/la ${type}: <strong>${name}</strong>?</p>`)
+            modal.find('#md-btn-submit')
+                .addClass('btn-danger')
+                .val('Eliminar')
+
+            modal.modal('show')
         }
 
         function addTask() {
@@ -1041,7 +1052,9 @@
             form.addClass('form-horizontal')
 
             modal.find('.modal-title').html('Editar ' + type);
-            modal.find('#md-btn-submit').val('Guardar')
+            modal.find('#md-btn-submit')
+                .removeClass('btn-danger')
+                .val('Guardar')
             modalBody.html(getTemplateForCreate(type, name, company_id, meansId))
 
             $('#select-company').select2({
@@ -1063,7 +1076,9 @@
             form.addClass('form-horizontal')
 
             modal.find('.modal-title').html('Editar cliente');
-            modal.find('#md-btn-submit').val('Guardar')
+            modal.find('#md-btn-submit')
+                    .removeClass('btn-danger')
+                    .val('Guardar')
             
             
             modalBody.html(getTemplateForCreate('cliente', name))

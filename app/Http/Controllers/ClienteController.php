@@ -443,10 +443,8 @@ class ClienteController extends Controller
         return response()->json($response);
     }
 
-    public function removeLibros(Request $request)
+    public function removeLibros($id)
     {
-        $id = $request->id;
-        
         $itm = Book::find($id);
         $itm->delete();
 
@@ -454,10 +452,8 @@ class ClienteController extends Controller
         return response()->json($response);
     }
 
-    public function removePeliculas(Request $request)
+    public function removePeliculas($id)
     {
-        $id = $request->id;
-        
         $itm = Movie::find($id);
         $itm->delete();
 
@@ -465,17 +461,17 @@ class ClienteController extends Controller
         return response()->json($response);
     }
 
-    public function removeArtistas(Request $request)
+    public function removeArtistas($id)
     {
-        $itm = Artist::find($request->id);
+        $itm = Artist::find($id);
         $itm->delete();
 
         $response['status'] = "Ok";
         return response()->json($response);
     }
 
-    public function removeCompany(Request $request){
-        $company = Company::find($request->id);
+    public function removeCompany($id){
+        $company = Company::find($id);
         $company->active = false;
         $company->save();
         
