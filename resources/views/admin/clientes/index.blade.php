@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/dragula.min.css') }}" />
 
     <style>
+        .select2-container{
+            width:100% !important;
+        }
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
             color: #000;
         }
