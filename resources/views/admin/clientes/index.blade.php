@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/dragula.min.css') }}" />
 
     <style>
+        .d-none{
+            display: none;
+        }
         .select2-container{
             width:100% !important;
         }
@@ -1072,6 +1075,9 @@
 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
+            var modalContent = modal.find('.modal-dialog')
+            modalContent.addClass('modal-lg')
+
             var modalBody = modal.find('.modal-body')
 
             form.attr('method', 'POST')
@@ -1086,13 +1092,22 @@
             
             modalBody.html(getTemplateForCreate('cliente', name))
 
+            $("#themes_masive").on("change", function(){
+                if($(this).is(":checked")){
+                    $("#dvthemes_id").addClass("d-none");
+                    $("#dvthemes_masive_id").removeClass("d-none");
+                }else{
+                    $("#dvthemes_masive_id").addClass("d-none");
+                    $("#dvthemes_id").removeClass("d-none");
+                }
+            })
             
             $('.js-data-example-ajax').
                     select2({
                         width: 'resolve',
                         multiple: true,
                         tags: true,
-                        tokenSeparators: [','],
+                        tokenSeparators: [';'],
                         dropdownParent: modal,
                         // ajax: {
                         //     url: '{{route('clientes.get_themes')}}',
@@ -1166,9 +1181,19 @@
                             <label class="col-sm-5 control-label">`+name+`</label>
                         </div>
                         <div class="form-group">
+                            <label for="themes_masive" class="col-sm-3 control-label">Agregar multiples temas</label>
+                            <input type="checkbox" name="themes_masive" id="themes_masive">
+                        </div>
+                        <div class="form-group" id="dvthemes_id">
                             <label class="col-sm-3 control-label">Temas</label>
                             <div class="col-sm-8" style="display: grid;">
                                 <select name="themes_id[]" class="js-data-example-ajax w-100"></select>
+                            </div>
+                        </div>
+                        <div class="form-group d-none" id="dvthemes_masive_id">
+                            <label class="col-sm-3 control-label">Temas</label>
+                            <div class="col-sm-8" style="display: grid;">
+                                <textarea class="form-control" name="themes_masive_id" placeholder="Agregue los temas separados por ';'"></textarea>
                             </div>
                         </div>
                     </div>
