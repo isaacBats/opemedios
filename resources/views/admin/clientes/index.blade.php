@@ -1071,7 +1071,7 @@
         }
 
         function editarCompany(name, id){
-            var url_action = '/public/index.php/panel/cliente/edit/' + id;
+            var url_action = '/panel/cliente/edit/' + id;
 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
