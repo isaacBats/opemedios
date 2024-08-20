@@ -24,3 +24,7 @@ yarn-error.log
 /vendor.old
 /storage/debugbar
 /storage/tmp
+
+Dockerfile
+docker-compose.yml
+.htaccess

@@ -1071,7 +1071,7 @@
         }
 
         function editarCompany(name, id){
-            var url_action = '/panel/cliente/edit/' + id;
+            var url_action = '/public/index.php/panel/cliente/edit/' + id;
 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
@@ -1092,51 +1092,15 @@
             
             modalBody.html(getTemplateForCreate('cliente', name))
 
-            $("#themes_masive").on("change", function(){
-                if($(this).is(":checked")){
-                    $("#dvthemes_id").addClass("d-none");
-                    $("#dvthemes_masive_id").removeClass("d-none");
-                }else{
-                    $("#dvthemes_masive_id").addClass("d-none");
-                    $("#dvthemes_id").removeClass("d-none");
-                }
-            })
-            
-            $('.js-data-example-ajax').
-                    select2({
-                        width: 'resolve',
-                        multiple: true,
-                        tags: true,
-                        tokenSeparators: [';'],
-                        dropdownParent: modal,
-                        // ajax: {
-                        //     url: '{{route('clientes.get_themes')}}',
-                        //     dataType: 'json',
-                        //     processResults: function (data) {
-                        //     // Transforms the top-level key of the response object from 'items' to 'results'
-                        //     return {
-                        //         results: data.items
-                        //     };
-                        //     }
-                        //     // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                        // }
-                    });
-
             var themesId = JSON.parse(localStorage.getItem("theme_" + id));
-            var themeSelect = $('.js-data-example-ajax');
 
+            xcoma = '';
+            option = '';
             for(var i = 0; i < themesId.length; i++){
-                //var option = new Option(themesId[i].name, themesId[i].id, true, true);
-                var option = new Option(themesId[i].name, themesId[i].name, true, true);
-                themeSelect.append(option).trigger('change');
+                option += xcoma + themesId[i].name;
+                xcoma = ';';
             }
-
-            themeSelect.trigger({
-                type: 'select2:select',
-                // params: {
-                //     data: data
-                // }
-            });
+            $("#themes_masive_id").val(option)
 
             modal.modal('show')
         }
@@ -1180,20 +1144,10 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">`+name+`</label>
                         </div>
-                        <div class="form-group">
-                            <label for="themes_masive" class="col-sm-3 control-label">Agregar multiples temas</label>
-                            <input type="checkbox" name="themes_masive" id="themes_masive">
-                        </div>
-                        <div class="form-group" id="dvthemes_id">
+                        <div class="form-group" id="dvthemes_masive_id">
                             <label class="col-sm-3 control-label">Temas</label>
                             <div class="col-sm-8" style="display: grid;">
-                                <select name="themes_id[]" class="js-data-example-ajax w-100"></select>
-                            </div>
-                        </div>
-                        <div class="form-group d-none" id="dvthemes_masive_id">
-                            <label class="col-sm-3 control-label">Temas</label>
-                            <div class="col-sm-8" style="display: grid;">
-                                <textarea class="form-control" name="themes_masive_id" placeholder="Agregue los temas separados por ';'"></textarea>
+                                <textarea class="form-control" style="heigth: 200px; width: 100%;" name="themes_masive_id" id="themes_masive_id" placeholder="Agregue los temas separados por ';'"></textarea>
                             </div>
                         </div>
                     </div>
