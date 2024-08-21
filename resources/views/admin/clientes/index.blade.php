@@ -1098,7 +1098,7 @@
             option = '';
             for(var i = 0; i < themesId.length; i++){
                 option += xcoma + themesId[i].name;
-                xcoma = ';\n';
+                xcoma = '\n';
             }
             $("#themes_masive_id").val(option)
 
