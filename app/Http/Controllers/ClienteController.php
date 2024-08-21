@@ -323,7 +323,11 @@ class ClienteController extends Controller
     public function updateCliente($id, Request $request)
     {
         CompanyTheme::where('company_id', $id)->delete();
-        foreach($request->themes_id as $itm)
+
+        $themes_masive_id = str_replace(array("\r\n", "\n\r", "\r", "\n"), "", $request->themes_masive_id);
+        $obj = explode(';', $themes_masive_id);
+
+        foreach($obj as $itm)
         {
             $foundTema = Tema::where('name', $itm)->first();
 

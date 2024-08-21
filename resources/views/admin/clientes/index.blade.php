@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('css/dragula.min.css') }}" />
 
     <style>
+        .d-none{
+            display: none;
+        }
         .select2-container{
             width:100% !important;
         }
@@ -1072,6 +1075,9 @@
 
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
+            var modalContent = modal.find('.modal-dialog')
+            modalContent.addClass('modal-lg')
+
             var modalBody = modal.find('.modal-body')
 
             form.attr('method', 'POST')
@@ -1086,42 +1092,15 @@
             
             modalBody.html(getTemplateForCreate('cliente', name))
 
-            
-            $('.js-data-example-ajax').
-                    select2({
-                        width: 'resolve',
-                        multiple: true,
-                        tags: true,
-                        tokenSeparators: [','],
-                        dropdownParent: modal,
-                        // ajax: {
-                        //     url: '{{route('clientes.get_themes')}}',
-                        //     dataType: 'json',
-                        //     processResults: function (data) {
-                        //     // Transforms the top-level key of the response object from 'items' to 'results'
-                        //     return {
-                        //         results: data.items
-                        //     };
-                        //     }
-                        //     // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                        // }
-                    });
-
             var themesId = JSON.parse(localStorage.getItem("theme_" + id));
-            var themeSelect = $('.js-data-example-ajax');
 
+            xcoma = '';
+            option = '';
             for(var i = 0; i < themesId.length; i++){
-                //var option = new Option(themesId[i].name, themesId[i].id, true, true);
-                var option = new Option(themesId[i].name, themesId[i].name, true, true);
-                themeSelect.append(option).trigger('change');
+                option += xcoma + themesId[i].name;
+                xcoma = ';\n';
             }
-
-            themeSelect.trigger({
-                type: 'select2:select',
-                // params: {
-                //     data: data
-                // }
-            });
+            $("#themes_masive_id").val(option)
 
             modal.modal('show')
         }
@@ -1165,10 +1144,10 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">`+name+`</label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="dvthemes_masive_id">
                             <label class="col-sm-3 control-label">Temas</label>
                             <div class="col-sm-8" style="display: grid;">
-                                <select name="themes_id[]" class="js-data-example-ajax w-100"></select>
+                                <textarea class="form-control" style="heigth: 200px; width: 100%;" name="themes_masive_id" id="themes_masive_id" placeholder="Agregue los temas separados por ';'"></textarea>
                             </div>
                         </div>
                     </div>
