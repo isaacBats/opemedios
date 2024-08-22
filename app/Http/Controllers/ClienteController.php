@@ -324,8 +324,7 @@ class ClienteController extends Controller
     {
         CompanyTheme::where('company_id', $id)->delete();
 
-        $themes_masive_id = str_replace(array("\r\n", "\n\r", "\r", "\n"), "", $request->themes_masive_id);
-        $obj = explode(';', $themes_masive_id);
+        $obj = preg_split('/(\r\n|\n\r|\r|\n|;)/', $request->themes_masive_id,-1, PREG_SPLIT_NO_EMPTY);
 
         foreach($obj as $itm)
         {
