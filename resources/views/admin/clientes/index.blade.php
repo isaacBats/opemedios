@@ -366,8 +366,8 @@
             <div class="panel">
                 <div calass="panel-body">
                     <div class="well well-asset-options clearfix">
-                        <div class="col-md-8 pull-right" role="toolbar">
-                            <div class="col-md-offset-4 col-md-4 form-group">
+                        <div class="col-md-10 pull-right" role="toolbar">
+                            <div class="col-md-offset-2 col-md-4 form-group">
                                 <label for="input-clientes-name" class="text-muted">Nombre</label>
                                 <input type="text" name="name" class="form-control" id="input-clientes-name">
                             </div>
@@ -379,6 +379,13 @@
                                     <option value="25" {{ $paginate == 25 ? 'selected' : '' }}>25</option>
                                     <option value="50" {{ $paginate == 50 ? 'selected' : '' }}>50</option>
                                     <option value="100" {{ $paginate == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="select-user-page" class="text-muted">Estado</label>
+                                <select class="form-control" name="status" id="status_cliente">
+                                    <option value="1" selected>Activos</option>
+                                    <option value="0">Eliminados</option>
                                 </select>
                             </div>
                             <div class="col-md-2 form-group" style="margin-top: 20px">
@@ -646,10 +653,17 @@
                 html +=
                     '<td>' +
                         '<a href="#" onclick="editarCompany(\''+itm.name+'\',\''+itm.id+'\')"><i class="fa fa-pencil fa-2x text-info"></i></a>' +
-                    '</td>' +
-                    '<td>' +
-                        '<a href="#" onclick="deleteCompany(\''+itm.id+'\',\''+itm.name+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
                     '</td>';
+                if(itm.active == 1){
+                    html += '<td>' +
+                            '<a href="#" onclick="deleteCompany(\''+itm.id+'\',\''+itm.name+'\')"><i class="fa fa-trash fa-2x text-info"></i></a>' +
+                        '</td>';
+                }else{
+                    html += '<td>' +
+                        '<a href="#" onclick="activeCompany(\''+itm.id+'\',\''+itm.name+'\')"><i class="fa fa-check fa-2x text-info"></i></a>' +
+                    '</td>';
+                }
+                    
                 @endhasanyrole
 
                 html += '</tr>';
@@ -752,7 +766,8 @@
             $.post(d_href, {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
                 "search": $("#input-clientes-name").val(),
-                "paginate": $("#paginate_cliente").val()
+                "paginate": $("#paginate_cliente").val(),
+                "status": $("#status_cliente").val()
             }, function(res) {
                 var html = buildThemes(res);
                 $("#sectClientes").html(html);
@@ -957,6 +972,23 @@
             loadClientes();
         }
         
+        function activeCompany(id, name){
+            var modal = $('#modal-default')
+            var form = $('#modal-default-form')
+            var modalBody = modal.find('.modal-body')
+            
+            form.attr('method', 'POST')
+                .attr('action', `/panel/active-company/${id}`)
+
+            modal.find('.modal-title').html('Activar cliente');
+            modalBody.html(`<p>¿Estas seguro que quieres activar el cliente: <strong>${name}</strong>?</p>`)
+            modal.find('#md-btn-submit')
+                .removeClass('btn-danger')
+                .val('Activar');
+
+            modal.modal('show')
+        }
+
         function deleteCompany(id, name){
             var modal = $('#modal-default')
             var form = $('#modal-default-form')
