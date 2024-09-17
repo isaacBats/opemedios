@@ -22,6 +22,7 @@ namespace App\Models;
 use App\{App\Models\Company, App\Models\User, Models};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Theme extends Model
@@ -45,5 +46,10 @@ class Theme extends Model
     public function assignedNews()
     {
         return $this->hasMany(AssignedNews::class);
+    }
+    
+    public function means()
+    {
+        return $this->belongsToMany(Means::class, 'theme_means', 'theme_id', 'mean_id');
     }
 }

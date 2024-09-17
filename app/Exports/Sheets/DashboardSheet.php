@@ -123,6 +123,8 @@ class DashboardSheet implements
             $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
 
             /* CHART2 */
+            if($this->count_trend > 0)
+            {
                 $dataSeriesLabels2 = [
                     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
                 ];
@@ -167,6 +169,7 @@ class DashboardSheet implements
 
                 $chart2->setTopLeftPosition('A1');
                 $chart2->setBottomRightPosition('H20');
+            }
             /* CHART2 */
 
             /* CHART3 */
@@ -214,10 +217,14 @@ class DashboardSheet implements
                 $chart1->setBottomRightPosition('P20');
             /* CHART3 */
 
-            if(count($this->themes) > 0)
+            if(count($this->themes) > 0 && $this->count_trend > 0)
                 return [$chart, $chart2, $chart1];
-            else
+            elseif($this->count_trend > 0)
                 return [$chart2, $chart1];
+            elseif(count($this->themes) > 0)
+                return [$chart, $chart1];
+            else
+                return [$chart1];
         }
         else
             return [];

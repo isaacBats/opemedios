@@ -32,6 +32,7 @@ use App\Models\Newsletter;
 use App\Models\NewsletterSend;
 use App\Models\NewsletterThemeNews;
 use App\Models\Sector;
+use App\Models\SocialNetworks;
 use App\Models\Theme;
 use App\Models\TypePage;
 use App\Models\User;
@@ -97,6 +98,7 @@ class NewsController extends Controller
 
     public function showForm() {
         $means = Means::all();
+        $social_networks = SocialNetworks::all();
         $user = Auth::user();
         $defaulNoteType = $user->isMonitor() ? $user->getMonitorType() : Means::where('short_name', 'int')->first();
         $authors = AuthorType::all();
@@ -105,7 +107,7 @@ class NewsController extends Controller
         $ptypes = TypePage::all();
         $newsletters = Newsletter::where('active', 1)->get();
 
-        return view('admin.news.create', compact('means', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
+        return view('admin.news.create', compact('means', 'social_networks', 'defaulNoteType', 'authors', 'sectors', 'genres', 'ptypes', 'newsletters'));
     }
 
     public function validator (array $data) {
@@ -328,7 +330,7 @@ class NewsController extends Controller
     public function assignMainFileForNews(Request $request) {
         $note = News::findOrFail($request->query('news'));
         if($noteMainFile = $note->files->where('main_file', 1)->first()) {
-            $mainFile = File::first($noteMainFile->id);
+            $mainFile = File::find($noteMainFile->id);
             $mainFile->main_file = 0;
             $mainFile->save();
         }

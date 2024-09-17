@@ -18,19 +18,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ReportsExport;
-use App\Exports\ReportsExportPDF;
-use App\Filters\AssignedNewsFilter;
-use App\Filters\NewsFilter;
-use App\Models\Company;
-use App\Models\ListReport;
+use App\Exports\{ReportsExport, ReportsExportPDF};
+use App\Filters\{AssignedNewsFilter, NewsFilter};
+use App\Models\{Company, ListReport, User, News};
 use App\Traits\StadisticsNotes;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+use Carbon\{Carbon, CarbonPeriod};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Auth, DB, Log, Storage};
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -126,10 +120,42 @@ class ReportController extends Controller
         $breadcrumb = array();
         $start = $request->input('start') ? $request->input('start') : null;
         $end = $request->input('end') ? $request->input('end') : null;
-        array_push($breadcrumb, ['label' => 'Reporte por Notas']);
+        array_push($breadcrumb, ['label' => 'Reporte Notas por día']);
         $notes = $this->getNewsForMonitor('now', $start, $end);
 
-        return view('admin.report.notes', compact('breadcrumb', 'notes'));
+        return view('admin.report.notes', compact('breadcrumb', 'notes', 'start', 'end'));
+    }
+
+    public function byUser(Request $request, User $user)
+    {
+        $day = $request->input('day') ?? null;
+        $day = ($day == 'now' || $day == null) ? \Carbon\Carbon::now()->format('Y-m-d') : $day;
+        $breadcrumb = array();
+        array_push($breadcrumb, ['label' => 'Reporte Notas por día', 'url' => route('admin.report.bynotes')]);
+        array_push($breadcrumb, ['label' => "Reporte de {$user->name}"]);
+
+        $query = News::query();
+        $start = $request->input('start') ?? null;
+        $end = $request->input('end') ?? null;
+
+        $notes = News::where('user_id', $user->id);
+
+        if($start && is_null($end)){
+            $notes->whereRaw('DATE(news_date) = ?', $start);
+        } elseif ($start && $end) {
+            $notes->whereBetween('news_date', [$start, $end]);
+        } elseif (is_null($start) && is_null($end)) {
+            $notes->whereRaw("DATE(news_date) = ? ", $day);
+        } else {
+            $notes->whereRaw("DATE(news_date) = ? ", $day);
+        }
+
+        $notes = $notes->orderBy('news_date', 'desc')
+            ->paginate(20)
+            ->appends('start', request('start'))
+            ->appends('end', request('end'));
+
+        return view('admin.report.user', compact('breadcrumb', 'notes'));
     }
 
     public function export(Request $request, $ind = false) {

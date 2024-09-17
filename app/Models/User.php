@@ -139,7 +139,7 @@ class User extends Authenticatable
                 $customName = 'Super Administrador';
                 break;
             case 'manager':
-                $customName = 'Ejecutivo de Cuentas';
+                $customName = 'Ejecutivo de Cuentas en Opemedios';
                 break;
             case 'monitor':
                 $customName = 'Monitorista';

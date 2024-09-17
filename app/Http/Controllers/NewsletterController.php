@@ -111,6 +111,20 @@ class NewsletterController extends Controller
         $data['active'] = 1; // Newsletter active by default
         $data['template'] = 'newsletter1'; // Newsletter template by default
 
+        $data['covers'] = serialize([
+            "primeras_planas",
+            "portadas_financieras",
+            "columnas_financieras",
+            "portadas_politicas"
+        ]);
+        $data['colors'] = serialize([
+            'bg_primary' => "#ffffff",
+            'bg_covers' => "#fb9623",
+            'bg_font_covers' => "#ffffff",
+            'bg_title_second' => "#f79e02",
+            'bg_body_theme_second' => "#303030"
+        ]);
+
         Newsletter::create($data);
 
         return redirect()->route('admin.newsletters')->with('status', 'El newsletter se ha creado con éxito');

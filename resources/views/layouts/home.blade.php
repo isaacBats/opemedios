@@ -8,7 +8,7 @@
         @php
             $anio = date('Y');
         @endphp
-        <meta name="description" content="Operadora de Medios Informativos {{ $anio }}">
+        <meta name="description" content="Opemedios {{ $anio }}">
         <meta name="author"      content="Isaac Daniel Batista">
         @yield('metas')
         @if( $route != 'home' &&  $route != 'about' &&  $route != 'clients' &&  $route != 'signin' &&  $route != 'contact')
@@ -37,7 +37,7 @@
                 display: inline-block;
                 border-bottom: 1px dotted black;
             }
-        
+
             .tooltip .tooltiptext {
                 visibility: hidden;
                 width: 450px;
@@ -46,12 +46,12 @@
                 text-align: center;
                 border-radius: 6px;
                 padding: 15px;
-        
+
                 /* Position the tooltip */
                 position: absolute;
                 z-index: 1;
             }
-        
+
             .tooltip:hover .tooltiptext {
                 visibility: visible;
             }
@@ -85,8 +85,8 @@
         {{-- $route --}}
         <header>
             @include('components.menu-client')
-        </header>        
-        
+        </header>
+
         @yield('content')
 
         <footer class="uk-section uk-padding-remove-bottom">
@@ -100,7 +100,7 @@
                     <div class="item go-0 uk-text-center uk-text-left@m uk-hidden">
                         <div class="icon"><i class="icon-map-pin"></i> Av. Revolución No. 308 - 8<br> Col. Escandón I Sección<br> CDMX, Alcaldía Miguel Hidalgo<br> C.P. 11800</div>
                     </div>
-                    
+
                     <div class="item go-1 uk-text-center uk-hidden">
                         <a class="ope-contact" href="mailto:contacto@opemedios.com.mx?subject=Correo%20de%20contacto" target="_blank">
                             <div class="icon"><i class="icon-mail"></i> contacto@opemedios.com.mx</div>
@@ -123,18 +123,18 @@
                     </div>
 
                 </div>
-                
+
                 <div class="legal uk-text-center uk-padding-large uk-padding-remove-bottom uk-padding-remove-horizontal">
                     <p><span>&#169; {{ $anio }} OPEMEDIOS</span>  <!--<span class="legal-spacer">|</span> AVISO DE PRIVACIDAD <span class="legal-spacer">|</span> TERMINOS Y CONDICIONES--></p>
                 </div>
             </section>
-                    
+
         </footer>
         <!--<div class="top"><i class="fas fa-arrow-up fa-lg"></i></div>-->
         <!-- UIkit JS -->
         <script src="{{ asset('uikit/js/uikit.min.js') }}"></script>
         <!--<script src="{{ asset('uikit/js/uikit-icons.min.js') }}"></script>-->
-        
+
         <script
               src="https://code.jquery.com/jquery-3.5.1.min.js"
               integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="

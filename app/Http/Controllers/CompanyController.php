@@ -250,7 +250,7 @@ class CompanyController extends Controller
             continue;
         }
 
-        return redirect()->route('company.show', ['id' => $company->id])
+        return redirect()->route('company.show', ['company' => $company])
             ->with('status', "Se han asociado los usuarios a la empresa {$company->name}");
     }
 

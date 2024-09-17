@@ -18,6 +18,14 @@
                 $isDeleted = false;
                 $method = 'POST';
             }
+            $userCompanyId = false;
+            if($user->company()) {
+                $userCompanyId = $user->company()->id;
+            }
+            $userMonitorId = false;
+            if($user->hasRole('monitor')) {
+                $userMonitorId = intval($user->getMetaByKey('user_monitor_type')->meta_value);
+            }
         @endphp
         <form action="{{ $route }}" method="{{ $method }}">
             @csrf
@@ -95,31 +103,42 @@
                             <h4 class="panel-title">{{ __("Datos Laborales") }}</h4>
                         </div>
                         <div class="panel-body">
-                            <div class="form-group col-sm-12 col-md-6">
-                                <label for="input-disabled-user-rol">{{ __('Rol') }}</label>
-                                <input type="text" class="form-control" value="{{ $user->toStringRoles() }}" disabled>
+                            <div class="form-group">
+                                <label for="rol">Rol</label>
+                                <select name="rol" id="rol" class="form-control" required>
+                                    <option value="">Selecciona un rol</option>
+                                    @foreach(Spatie\Permission\Models\Role::all() as $role)
+                                        <option value="{{ $role->id }}" {{ $user->roles->first()->id == $role->id ? 'selected' : '' }}>{{ App\Models\User::getRoleNameCustom($role->name) }}</option>
+                                    @endforeach
+                                </select>
+                                @error('rol')
+                                <label class="error" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </label>
+                                @enderror
                             </div>
-                            @if($user->hasRole('client'))
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label for="select-user-company">{{ __('Empresa') }}</label>
-                                    <input type="text" class="form-control" value="{{ $user->company() ? $user->company()->name : 'Sin asignar' }}" disabled>
-                                </div>
-                            @endif
+                            <div class="form-group col-sm-12 col-md-6" id="div-select-company" style="display: none;">
+                                <label for="company">Empresa</label>
+                                <select name="company_id" id="company" class="form-control">
+                                    <option value="">Selecciona un Empresa</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->id }}" {{ ($userCompanyId == $company->id) ? 'selected' : '' }}>{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group col-sm-12 col-md-6">
                                 <label for="input-user-position">{{ __('Cargo') }}</label>
                                 <input type="text" id="input-user-position" class="form-control" name="user_position" value="{{ old('user_position', $user->getMetaByKey('user_position') ? $user->getMetaByKey('user_position')->meta_value : false) }}">
                             </div>
-                            @if($user->hasRole('monitor'))
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label for="select-user-monitor">{{ __('Monitor de') }}</label>
-                                    <select name="user_monitor_type" id="select-user-monitor" class="form-control">
-                                        <option value="">{{ __('Selecciona que tipo de monitor eres') }}</option>
-                                        @foreach($monitors as $monitor)
-                                            <option value="{{ $monitor->id }}" {{ old('user_monitor_type', $user->getMetaByKey('user_monitor_type') ? $user->getMetaByKey('user_monitor_type')->meta_value : false) == $monitor->id ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                            <div class="form-group col-sm-12 col-md-6" id="div-select-monitor-type" style="display: none;">
+                                <label for="select-user-monitor">Monitor de</label>
+                                <select name="user_monitor_type" id="select-user-monitor" class="form-control">
+                                    <option value="">Selecciona que tipo de monitor eres</option>
+                                    @foreach($monitors as $monitor)
+                                        <option value="{{ $monitor->id }}" {{ ($userMonitorId == $monitor->id) ? 'selected' : '' }} >{{ "Monitor de {$monitor->name}" }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="panel panel-primary">
@@ -156,6 +175,8 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            selectOption();
+
             //show password
             $('span#btn-press-eye').on('click', function(){
                 var inputText = $('#input-password-show');
@@ -173,7 +194,59 @@
                 }
 
             });
+
+            // select rol
+            $('select#rol').change(function () {
+                var option = $(this).val()
+                var role = $('option:selected', this).text()
+                var company = $('#div-select-company')
+                var monitor = $('#div-select-monitor-type')
+
+                if (role == 'Cliente') {
+                    hideItems()
+                    company.find('select#company').removeAttr('disabled')
+                    company.find('select#company').attr('required', true)
+                    company.show('fade')
+                } else if (role == 'Monitorista') {
+                    hideItems()
+                    monitor.find('select#select-user-monitor').removeAttr('disabled')
+                    monitor.find('select#select-user-monitor').attr('required', true)
+                    monitor.show('fade')
+                } else {
+                    hideItems()
+                }
+            })
+
+            function hideItems() {
+                var company = $('#div-select-company')
+                var monitor = $('#div-select-monitor-type')
+
+                var selectCompany = company.find('select')
+                var selectMonitor = monitor.find('select')
+
+                selectCompany.attr('disabled', true)
+                selectCompany.removeAttr('required')
+                company.hide('fade')
+
+                selectMonitor.attr('disabled', true)
+                selectMonitor.removeAttr('required')
+                monitor.hide('fade')
+            }
+
+            function selectOption() {
+                var role = $('select#rol').find('option:selected').text();
+                if(role === 'Cliente') {
+                    hideItems();
+                    $('div#div-select-company').show('fade')
+                        .find('select#company').removeAttr('disabled');
+                }
+
+                if(role === 'Monitorista') {
+                    hideItems();
+                    $('div#div-select-monitor-type').show('fade')
+                        .find('select#select-user-monitor').removeAttr('disabled');
+                }
+            }
         });
-        
     </script>
 @endsection

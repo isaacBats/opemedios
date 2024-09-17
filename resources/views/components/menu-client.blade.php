@@ -28,6 +28,11 @@
                             <span >Dashboard</span>
                         </a>
                     </li>
+                    <li class="uk-hidden@m">
+                        <a class="{{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('panel') }}">
+                            <span >Panel de Administración</span>
+                        </a>
+                    </li>
                     @else
                     <li class="uk-hidden@m">
                         <a class="{{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
@@ -50,13 +55,21 @@
                 </ul>
                 <div class="uk-visible@m" style="padding-left: 40px;">
                     @hasanyrole('client|manager|admin')
-                    <a class="uk-button uk-button-secondary {{ $route == 'news' ? ' uk-active' : '' }}" href="{{ route('news', ['company' => $company]) }}">
+                    <a class="uk-button uk-button-secondary" href="{{ route('news', ['company' => $company]) }}">
                         <span >Dashboard</span>
+                    </a>
+                    <a class="uk-button uk-button-secondary" href="{{ route('panel') }}">
+                        <span >Panel de Administración</span>
                     </a>
                     @else
                     <a class="uk-button uk-button-secondary {{ $route == 'signin' ? ' uk-active' : '' }}" href="{{ route('signin') }}">
                         <span >Iniciar Sesión</span>
                     </a>
+                    @endhasanyrole
+                    @hasanyrole('monitor')
+                        <a class="uk-button uk-button-secondary" href="{{ route('admin.news') }}">
+                            <span >Panel de Administración</span>
+                        </a>
                     @endhasanyrole
                 </div>
             </div>

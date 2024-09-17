@@ -1,5 +1,5 @@
 @extends('layouts.home')
-@section('title', ' - Operadora de medios Informativos')
+@section('title', ' - Monitoreo de medios Informativos')
 @section('content')
 @if (session('status'))
     <div class="uk-alert-primary" uk-alert>

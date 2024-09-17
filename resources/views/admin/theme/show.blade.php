@@ -5,100 +5,115 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="col-md-10 col-lg-10">
-        <div class="panel panel-default" id="show-theme-description">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    {{ __("Tema de {$theme->company->name}") }}
-                </h4>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="row">
+        <div class="col-sm-8 col-md-9 col-lg-10">
+            <div class="well well-asset-options clearfix">
+                <div class="btn-toolbar btn-toolbar-media-manager pull-left" role="toolbar">
+                    <div class="btn-group" role="group">
+                        <button type="button" id="btn-edit" class="btn btn-default"><i class="fa fa-pencil"></i> Editar</button>
+                        <button type="button" data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  id="btn-delete" class="btn btn-default"><i class="fa fa-trash"></i> Eliminar</button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a href="{{ route('company.show', ['company' => $theme->company ]) }}" class="btn btn-default"><i class="fa fa-reply"></i> Regresar</a>
+                    </div>
+                </div><!-- btn-toolbar -->
             </div>
-            <div class="panel-body" id="panel-body-theme">
-                <h3 id="theme-title"> {{ $theme->name }}</h3>
-                <p id="theme-description">
-                    {!! $theme->description !!}
-                </p>
-                <div class="row" id="form-edit-theme" style="display: none;">
-                    <form action="{{ route('theme.update', ['id' => $theme->id]) }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="theme">Tema</label>
-                            <input type="text" id="theme" name="name" class="form-control" value="{{ $theme->name }}">
+            <div class="row">
+                <div class="panel panel-default" id="show-theme-description">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ "Tema de {$theme->company->name}" }}
+                        </h4>
+                    </div>
+                    <div class="panel-body" id="panel-body-theme">
+                        <h3 id="theme-title"> {{ $theme->name }}</h3>
+                        <p id="theme-description">
+                            {!! $theme->description !!}
+                        </p>
+                        <div class="row" id="form-edit-theme" style="display: none;">
+                            <form action="{{ route('theme.update', ['theme' => $theme->id]) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="theme">Tema</label>
+                                    <input type="text" id="theme" name="name" class="form-control" value="{{ $theme->name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Descripción</label>
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ $theme->description }}</textarea>
+                                </div>
+                                <input type="submit" class="btn btn-primary pull-right" value="Actualizar">
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="description">Descripción</label>
-                            <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ $theme->description }}</textarea>
-                        </div>
-                        <input type="submit" class="btn btn-primary pull-right" value="Actualizar">
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel-default" id="show-form-add-account" style="display: none;">
-            <div class="panel-heading">
-                <h4 class="panel-title">{{ __("Relacionar cuenta con el tema: {$theme->name}") }}</h4>
-            </div>
-            <div class="panel-body">
-                @if($accounts->count() > 0)
-                    <form action="{{ route('admin.theme.relationship.user') }}" method="POST">
-                        @csrf
-                        <input type="hidden" value="{{ $theme->id }}" name="theme_id">
-                        <div class="form-group">
-                            <label for="">{{ __('Cuenta') }}</label>
-                            <select name="user_id" class="form-control">
-                                <option value="">{{ __('Selecciona una cuenta') }}</option>
-                                @foreach($accounts as $account)
-                                    <option value="{{ $account->id }}">{{ $account->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-12 text-right">
-                            <a href="javascript:void(0)" class="btn btn-default btn-return-description">{{ __('Cancelar') }}</a>
-                            <input type="submit" class="btn btn-primary" value="{{ __('Relacionar') }}">
-                        </div>
-                    </form>
-                @else
-                    <p>{{ __('No hay cuentas para relacionar ó las cuentas ya estan relaconadas con este tema.') }}</p>
-                    <a href="javascript:void(0)" class="btn btn-default btn-return-description">{{ __('Regresar') }}</a>
-                @endif
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2 col-lg-2">
-        <div class="panel" id="panel-options">
-            <div class="panel-body">
-                <a href="javascript:void(0)" id="btn-edit" class="btn btn-success btn-block">Editar</a>
-                <a href="javascript:void(0)" data-theme="{{ $theme->id }}" data-name="{{ $theme->name }}"  id="btn-delete" class="btn btn-danger btn-block">Eliminar</a>
-                <a href="{{ route('company.show', ['company' => $theme->company ]) }}" class="btn btn-default btn-block">Regresar</a>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="panel-heading">
-                <h4 class="panel-title">{{ __('Cuentas relacionadas con este tema') }}</h4>
-            </div>
-            <div class="panel-body">
-                <ul class="media-list user-list" id="user-list">
-                    @forelse($theme->accounts as $client)
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="{{ route('user.show', ['id' => $client->id]) }}">
-                                    <img class="media-object img-circle" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($client->name)) }}" alt="{{ $client->name }}">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading nomargin"><a href="{{ route('user.show', ['id' => $client->id]) }}">{{ $client->name }}</a></h4>
-                                {{ $client->email }}
-                                <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account-theme" data-theme="{{ $theme->name }}" data-themeid="{{ $theme->id }}" data-href="{{ route('admin.theme.remove.user', ['id' => $client->id]) }}" data-username="{{ $client->name }}">Remover</a></small>
-                            </div>
-                        </li>
-                    @empty
-                        <li>
-                            {{ __('Este tema no tiene cuentas relacionadas.') }}
-                        </li>
-                    @endforelse
-                    <li class="media">
-                        <a href="javascript:void(0)" id="btn-relationship-account" class="btn btn-primary btn-block btn-sm">{{ __('Relacionar cuenta a este tema') }}</a>
-                    </li>
-                </ul>
+                <div class="panel panel-default" id="show-form-add-account" style="display: none;">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">{{ __("Relacionar cuenta con el tema: {$theme->name}") }}</h4>
+                    </div>
+                    <div class="panel-body">
+                        @if($accounts->count() > 0)
+                            <form action="{{ route('admin.theme.relationship.user') }}" method="POST">
+                                @csrf
+                                <input type="hidden" value="{{ $theme->id }}" name="theme_id">
+                                <div class="form-group">
+                                    <label for="">{{ __('Cuenta') }}</label>
+                                    <select name="user_id" class="form-control">
+                                        <option value="">{{ __('Selecciona una cuenta') }}</option>
+                                        @foreach($accounts as $account)
+                                            <option value="{{ $account->id }}">{{ $account->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <a href="javascript:void(0)" class="btn btn-default btn-return-description">{{ __('Cancelar') }}</a>
+                                    <input type="submit" class="btn btn-primary" value="{{ __('Relacionar') }}">
+                                </div>
+                            </form>
+                        @else
+                            <p>{{ __('No hay cuentas para relacionar ó las cuentas ya estan relaconadas con este tema.') }}</p>
+                            <a href="javascript:void(0)" class="btn btn-default btn-return-description">{{ __('Regresar') }}</a>
+                        @endif
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">{{ __('Cuentas relacionadas con este tema') }}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="media-list user-list" id="user-list">
+                            @forelse($theme->accounts as $client)
+                                <li class="media">
+                                    <div class="media-left">
+                                        <a href="{{ route('user.show', ['id' => $client->id]) }}">
+                                            <img class="media-object img-circle" src="https://ui-avatars.com/api/?name={{ str_replace(' ', '+', ucwords($client->name)) }}" alt="{{ $client->name }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading nomargin"><a href="{{ route('user.show', ['id' => $client->id]) }}">{{ $client->name }}</a></h4>
+                                        {{ $client->email }}
+                                        <small class="date"><i class="glyphicon glyphicon-remove"></i> <a href="javascript:void(0)" id="btn-remove-account-theme" data-theme="{{ $theme->name }}" data-themeid="{{ $theme->id }}" data-href="{{ route('admin.theme.remove.user', ['id' => $client->id]) }}" data-username="{{ $client->name }}">Remover</a></small>
+                                    </div>
+                                </li>
+                            @empty
+                                <li>
+                                    {{ __('Este tema no tiene cuentas relacionadas.') }}
+                                </li>
+                            @endforelse
+                            <li class="media">
+                                <a href="javascript:void(0)" id="btn-relationship-account" class="btn btn-primary btn-block btn-sm">{{ __('Relacionar cuenta a este tema') }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

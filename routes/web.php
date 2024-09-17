@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
 
@@ -48,6 +48,7 @@ Route::get('reportes/exportar', 'ReportController@export')->name('admin.report.e
 Route::get('reportes/exportar-pdf', 'ReportController@exportPDF')->name('admin.report_pdf.export');
 
 Route::get('vista-newsletter', 'NewsletterSendController@seeNewsletter')->name('front.newsletter.see');
+Route::get('vista-newsletter-uam', 'NewsletterSendController@seeNewsletterUam')->name('front.newsletter.see.uam');
 
 Route::post('api/v2/fuentes/obtener-fuentes', 'SourceController@sendSelectHTMLWithSourcesByMeanType')
     ->name('api.getsourceshtml');
@@ -104,9 +105,9 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::post('empresa/actualizar/nota/theme/{id}', 'CompanyController@updateAssignedNote')
             ->name('admin.assignednews.replacetheme');
 
-        Route::post('tema/nuevo', 'ThemeController@create')->name('theme.create');
-        Route::get('tema/ver/{theme:id}', 'ThemeController@show')->name('theme.show');
-        Route::post('tema/actualizar/{id}', 'ThemeController@update')->name('theme.update');
+        Route::post('tema/nuevo', 'ThemeController@store')->name('theme.create');
+        Route::get('tema/ver/{theme}', 'ThemeController@show')->name('theme.show');
+        Route::post('tema/actualizar/{theme:id}', 'ThemeController@update')->name('theme.update');
         Route::post('tema/eliminar/{id}', 'ThemeController@delete')->name('theme.delete');
         Route::post('tema/relacionar-usuario', 'ThemeController@themeUser')->name('admin.theme.relationship.user');
         Route::post('tema/remover-usuario/{id}', 'ThemeController@themeUserRemove')->name('admin.theme.remove.user');
@@ -138,6 +139,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
 
         Route::get('reportes/por-cliente', 'ReportController@byClient')->name('admin.report.byclient');
         Route::get('reportes/por-notas', 'ReportController@byNotes')->name('admin.report.bynotes');
+        Route::get('reportes/por-usuario/{user}', 'ReportController@byUser')->name('admin.report.byuser');
 
         Route::get('reportes/solicitados', 'ReportController@solicitados')->name('admin.report.solicitados');
         Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('admin.report.cambia_estatus_reporte');
@@ -152,6 +154,55 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::get('administrador-archivos/directorios', 'FileManagerController@getDirectoriesS3');
     Route::post('administrador-archivos/nueva-carpeta', 'FolderController@create')->name('cfm.create.folder');
     Route::get('global-search', 'AdminController@search')->name('global.search');
+
+    
+    Route::get('redes_sociales', 'SocialNetworkController@index')->name('social_networks');
+    Route::get('red_social/nueva', 'SocialNetworkController@showForm')->name('social_network.create');
+    Route::post('red_social/nueva', 'SocialNetworkController@create')->name('social_network.create');
+    Route::get('red_social/ver/{id}', 'SocialNetworkController@show')->name('social_network.show');
+    Route::post('red_social/actualizar/{id}', 'SocialNetworkController@update')->name('social_network.update');
+    Route::post('red_social/eliminar/{id}', 'SocialNetworkController@delete')->name('social_network.delete');
+
+    Route::get('cat-clientes', 'ClienteController@index')->name('clientes');
+    Route::get('red_social/nueva', 'ClienteController@showForm')->name('social_network.create');
+    Route::post('red_social/nueva', 'ClienteController@create')->name('social_network.create');
+    Route::get('red_social/ver/{id}', 'ClienteController@show')->name('social_network.show');
+    Route::post('red_social/actualizar/{id}', 'ClienteController@update')->name('social_network.update');
+    Route::post('red_social/eliminar/{id}', 'ClienteController@delete')->name('social_network.delete');
+    
+    Route::post('active-company/{id}', 'ClienteController@activeCompany')->name('clientes.remove_company');
+    Route::post('remove-company/{id}', 'ClienteController@removeCompany')->name('clientes.remove_company');
+    Route::post('remove-libros/{id}', 'ClienteController@removeLibros')->name('clientes.remove_libros');
+    Route::post('remove-peliculas/{id}', 'ClienteController@removePeliculas')->name('clientes.remove_peliculas');
+    Route::post('remove-artistas/{id}', 'ClienteController@removeArtistas')->name('clientes.remove_artistas');
+
+    Route::post('get-libros', 'ClienteController@getLibros')->name('clientes.get_libros');
+    Route::post('get-peliculas', 'ClienteController@getPeliculas')->name('clientes.get_peliculas');
+    Route::post('get-artistas', 'ClienteController@getArtistas')->name('clientes.get_artistas');
+    Route::post('get-series', 'ClienteController@getSeries')->name('clientes.get_series');
+    Route::post('get-festivales', 'ClienteController@getFestivales')->name('clientes.get_festivales');
+    Route::post('get-clientes', 'ClienteController@getClientes')->name('clientes.get_clientes');
+
+    Route::get('get-themes', 'ClienteController@getThemes')->name('clientes.get_themes');
+    Route::post('cliente/edit/{id}', 'ClienteController@updateCliente')->name('cliente.update');
+    
+    Route::post('artista/nuevo', 'ClienteController@storeArtist')->name('artist.create');
+    Route::post('artista/edit/{id}', 'ClienteController@updateArtist')->name('artist.update');
+    
+    Route::post('pelicula/nuevo', 'ClienteController@storePelicula')->name('pelicula.create');
+    Route::post('pelicula/edit/{id}', 'ClienteController@updatePelicula')->name('pelicula.update');
+    
+    Route::post('libro/nuevo', 'ClienteController@storeLibro')->name('libro.create');
+    Route::post('libro/edit/{id}', 'ClienteController@updateLibro')->name('libro.update');
+
+    Route::post('serie/nuevo', 'ClienteController@storeSerie')->name('serie.create');
+    Route::post('serie/edit/{id}', 'ClienteController@updateSerie')->name('serie.update');
+    
+    Route::post('festival/nuevo', 'ClienteController@storeFestival')->name('festival.create');
+    Route::post('festival/edit/{id}', 'ClienteController@updateFestival')->name('festival.update');
+
+    Route::post('task/save', 'ClienteController@saveTask')->name('task.save');
+    Route::post('task/update', 'ClienteController@updateTask')->name('task.update');
 
     Route::get('fuentes', 'SourceController@index')->name('sources');
     Route::get('fuente/nueva', 'SourceController@showForm')->name('source.create');

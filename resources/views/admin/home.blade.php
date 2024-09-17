@@ -68,20 +68,20 @@
                 </div>
             </div>
             <div class="row panel-quick-page">
-                <div class="col-xs-4 col-sm-5 col-md-4 page-user">
+                <div class="col-xs-4 col-sm-3 col-md-2 page-user">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h4 class="panel-title">{{ _('Administrar Usuarios') }}</h4>
+                            <h4 class="panel-title">Usuarios</h4>
                         </div>
                         <div class="panel-body">
                             <a href="{{ route('users') }}"><div class="page-icon"><i class="fa fa-users"></i></div></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 page-products">
+                <div class="col-xs-4 col-sm-3 col-md-2 page-products">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h4 class="panel-title">{{ __('Administrar Empresas') }}</h4>
+                            <h4 class="panel-title">Empresas</h4>
                         </div>
                         <div class="panel-body">
                             <a href="{{ route('companies') }}"><div class="page-icon"><i class="fa fa-building"></i></div></a>
@@ -101,7 +101,7 @@
                 <div class="col-xs-4 col-sm-3 col-md-2 page-messages">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h4 class="panel-title">{{ __('Sectores') }}</h4>
+                            <h4 class="panel-title">Sectores</h4>
                         </div>
                         <div class="panel-body">
                             <a href="{{ route('admin.sectors') }}"><div class="page-icon"><i class="fa fa-pie-chart"></i></div></a>
@@ -111,20 +111,10 @@
                 <div class="col-xs-4 col-sm-5 col-md-2 page-reports">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h4 class="panel-title">{{ __('Reportes') }}</h4>
+                            <h4 class="panel-title">Reportes</h4>
                         </div>
                         <div class="panel-body">
                             <a href="{{ route('admin.report.byclient') }}"><div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-5 col-md-2 page-reports">
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">{{ __('Reportes para descarga') }}</h4>
-                        </div>
-                        <div class="panel-body">
-                            <a href="{{ route('admin.report.solicitados') }}"><div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div></a>
                         </div>
                     </div>
                 </div>
@@ -135,6 +125,16 @@
                         </div>
                         <div class="panel-body">
                             <a href="{{ route('sources') }}"><div class="page-icon"><i class="fa fa-database"></i></div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 page-reports">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Reportes para descarga</h4>
+                        </div>
+                        <div class="panel-body">
+                            <a href="{{ route('admin.report.solicitados') }}"><div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div></a>
                         </div>
                     </div>
                 </div>
@@ -188,10 +188,30 @@
                                 <tbody>
                                     @foreach($monitores as $monitor)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $monitor->name }}</td>
-                                            <td>{{ $monitor->count }}</td>
-                                            <td>{{ $day }}</td>
+                                            <td>
+                                                <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $loop->iteration }}</a>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $monitor->name }}</a>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $monitor->count }}</a>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="GET" action="{{ route('admin.report.byuser', ['user' => $monitor->id]) }}">
+                                                    <input type="hidden" name="day" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();">{{ $day }}</a>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -220,16 +240,16 @@
             $.get("{{route('api.admin.notesday')}}", function (notes){
                 let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
                 const data = [0,0,0,0,0,0,0];
-                
+
                 notes.forEach(note => {
                     let numDay = new Date(note.day).getDay();
                     data[numDay] = note.total;
                 });
-                
+
                 chartBar(graph1, data, days, 'Notas por día');
             });
-            $.get("{{route('api.admin.notesmeans')}}", function (notes){ 
-                
+            $.get("{{route('api.admin.notesmeans')}}", function (notes){
+
                 chartBar(graph2, notes.data, notes.labels, 'Notas por Medio', 'horizontalBar');
             });
         });

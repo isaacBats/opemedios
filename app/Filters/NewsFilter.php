@@ -36,6 +36,11 @@ class NewsFilter
             $where = is_array($request->input('source_id')) ? 'whereIn' : 'where';
             return $queryBuilder->$where('source_id', $request->input('source_id'));
         })
+        ->when($request->input('socialnetwork') !== null, function ($queryBuilder) use ($request) {
+            
+            $where = is_array($request->input('socialnetwork')) ? 'whereIn' : 'where';
+            return $queryBuilder->$where('social_network_id', $request->input('socialnetwork'));
+        })
         ->when(
             ($request->input('start_date') !== null && $request->input('end_date') !== null),
             function ($queryBuilder) use ($request) {
@@ -47,12 +52,13 @@ class NewsFilter
         ->when(
             ($request->input('start_date') !== null && $request->input('end_date') === null),
             function ($queryBuilder) use ($request) {
-                return $queryBuilder->whereDate('news_date', Carbon::create($request->input('start_date')));
+            return $queryBuilder->whereDate('news_date', Carbon::create($request->input('start_date')));
             }
         )
         ->when($request->input('word') !== null, function ($queryBuilder) use ($request) {
             return $queryBuilder->where('title', 'like', "%{$request->input('word')}%")
                 ->orWhere('synthesis', 'like', "%{$request->input('word')}%");
-        });
+        })
+        ;
     }
 }

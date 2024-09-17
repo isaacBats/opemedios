@@ -79,15 +79,11 @@ class ClientController extends Controller
                 break;
             case 'politicas':
                 $coverType = 3;
-                //Actualizar la vista de las columnas para poder verlas en la pag
-                // Por el momento solo se mostrara el archivo
-                // $template = 'clients.politicas'
                 $template = 'clients.primeras';
                 $title = 'Columnas Políticas';
                 break;
             case 'financieras':
                 $coverType = 4;
-                // $template = 'clients.politicas'
                 $template = 'clients.primeras';
                 $title = 'Columnas Financieras';
                 break;
@@ -127,12 +123,11 @@ class ClientController extends Controller
         $idsNewsAssigned = $company->assignedNews->where('theme_id', $data['themeid'])->map(function ($assigned) {
             return $assigned->news_id;
         });
-        // TODO: error al buscar por paginas
+        
         $theme = Theme::findOrFail($data['themeid']);
         $news = News::whereIn('id', $idsNewsAssigned)
             ->orderBy('id', 'desc')
             ->paginate(30);
-            // ->appends(['companyid' => $company->id, 'themeid' => $theme->id, 'companyslug' => $company->slug]);
 
         return view('components.listNews', compact('news', 'company', 'theme'))->render();
     }
@@ -173,7 +168,7 @@ class ClientController extends Controller
             $to = Carbon::create($request->input('end_date'));
         }else{
             $from =  Carbon::now()->add('-10 days');
-            $to =  Carbon::now();//->add(' days');
+            $to =  Carbon::now();
         }
 
         $from_d = $from->format('Y-m-d');

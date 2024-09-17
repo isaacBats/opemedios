@@ -58,7 +58,7 @@ trait StadisticsNotes
 
         $query = News::query();
 
-        $query->select(DB::raw('users.name, count(news.id) AS count'))
+        $query->select(DB::raw('users.id, users.name, count(news.id) AS count'))
             ->join('users', 'user_id', '=', 'users.id');
             if($start && is_null($end)){
                 $query->whereRaw("DATE(news.created_at) = ? ", $start);
@@ -67,7 +67,7 @@ trait StadisticsNotes
             } else {
                 $query->whereRaw("DATE(news.created_at) = ? ", $day);
             }
-            $query->groupBy(DB::raw('users.name'))
+            $query->groupBy(DB::raw('users.name, users.id'))
             ->orderBy('count', 'desc');
 
         return $query->get();
