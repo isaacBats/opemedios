@@ -177,8 +177,11 @@ class DashboardSheet implements
                     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
                 ];
                 
-                //$countMean = ($columns_excel[$this->count_mean] > 3) ? $columns_excel[$this->count_mean] -2 : $columns_excel[$this->count_mean];
-                $countMean = $columns_excel[$this->count_mean - 1];
+                if (isset($this->count_mean) && $this->count_mean > 0 && isset($columns_excel[$this->count_mean - 1])) {
+                    $countMean = $columns_excel[$this->count_mean - 1];
+                } else {
+                    $countMean = 0;
+                }
 
                 $xAxisTickValues1 = [
                     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean + 1), // Q1 to Q4
