@@ -21,13 +21,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Models\AssignedNews;
-use App\Models\Company;
-use App\Models\Means;
-use App\Models\News;
-use App\Models\Theme;
-use App\Models\User;
-use App\Models\UserMeta;
+use App\Models\{AssignedNews,Company,Means,News,Theme,User,UserMeta};
 use App\Traits\StadisticsNotes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
@@ -53,13 +47,9 @@ class UserController extends Controller
     }
 
     /**
-     *
      * @method    index View showing all system users
-     *
      * @author    Isaac Daniel Batista <daniel@danielbat.com>
-     *
      * @param     Request $request
-     *
      * @return    View
      */
     public function index(Request $request)

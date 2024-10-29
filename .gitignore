@@ -28,3 +28,4 @@ yarn-error.log
 Dockerfile
 docker-compose.yml
 .htaccess
+composer.lock.old

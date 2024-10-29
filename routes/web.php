@@ -164,11 +164,6 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('red_social/eliminar/{id}', 'SocialNetworkController@delete')->name('social_network.delete');
 
     Route::get('cat-clientes', 'ClienteController@index')->name('clientes');
-    Route::get('red_social/nueva', 'ClienteController@showForm')->name('social_network.create');
-    Route::post('red_social/nueva', 'ClienteController@create')->name('social_network.create');
-    Route::get('red_social/ver/{id}', 'ClienteController@show')->name('social_network.show');
-    Route::post('red_social/actualizar/{id}', 'ClienteController@update')->name('social_network.update');
-    Route::post('red_social/eliminar/{id}', 'ClienteController@delete')->name('social_network.delete');
     
     Route::post('active-company/{id}', 'ClienteController@activeCompany')->name('clientes.remove_company');
     Route::post('remove-company/{id}', 'ClienteController@removeCompany')->name('clientes.remove_company');
