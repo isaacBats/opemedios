@@ -56,22 +56,22 @@ class ReportsExport implements WithMultipleSheets
                     ->select('theme_id')
                     ->groupBy('theme_id')->get();
                     
-        $this->themes_group = $themes_group;
-        foreach($themes_group as $key => $itm)
-        {
-            $notes_Ids = AssignedNewsFilter::filter($this->request, ['company' => $this->client, 'theme_id' => $itm->theme_id])
-                                ->pluck('news_id');
-            $notes_grp = NewsFilter::filter($this->request, ['ids' => $notes_Ids]);
+        // $this->themes_group = $themes_group;
+        // foreach($themes_group as $key => $itm)
+        // {
+        //     $notes_Ids = AssignedNewsFilter::filter($this->request, ['company' => $this->client, 'theme_id' => $itm->theme_id])
+        //                         ->pluck('news_id');
+        //     $notes_grp = NewsFilter::filter($this->request, ['ids' => $notes_Ids]);
 
-            $theme_name = Theme::find($itm->theme_id);
+        //     $theme_name = Theme::find($itm->theme_id);
             
-            $this->notes[$key][0] = $theme_name->name;
-            $this->notes[$key][1] = $notes_grp;
-        }
+        //     $this->notes[$key][0] = $theme_name->name;
+        //     $this->notes[$key][1] = $notes_grp;
+        // }
 
         $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
                             ->pluck('news_id');
-        //$this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
+        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
 
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
@@ -222,8 +222,8 @@ class ReportsExport implements WithMultipleSheets
                     $this->data_graph),
                 new DataTableSheet(
                     $this->notes, 
-                    $this->client,
-                    $this->themes_group)
+                    $this->client/*,
+                    $this->themes_group*/)
             ];
     }
 
