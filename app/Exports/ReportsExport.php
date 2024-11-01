@@ -24,6 +24,7 @@ use App\Filters\{AssignedNewsFilter, NewsFilter};
 use Carbon\{Carbon, CarbonPeriod};
 use DB;
 use Maatwebsite\Excel\Concerns\{Exportable, WithMultipleSheets};
+use Illuminate\Http\Request;
 
 
 class ReportsExport implements WithMultipleSheets
@@ -84,7 +85,7 @@ class ReportsExport implements WithMultipleSheets
         /* TENDENCIAS */
 
         /* MEDIOS */
-            $medios = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
+            $medios = NewsFilter::filter((new Request), ['ids' => $this->notesIds])
                 ->select('mean_id', DB::raw('count(*) as total'))
                 ->groupBy('mean_id')
                 ->get();
