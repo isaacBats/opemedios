@@ -18,7 +18,7 @@
 
 namespace App\Exports;
 
-use App\{Models\Company};
+use App\Models\{Company, Theme};
 use App\Exports\Sheets\{DashboardSheet, DataTableSheet};
 use App\Filters\{AssignedNewsFilter, NewsFilter};
 use Carbon\{Carbon, CarbonPeriod};
@@ -45,14 +45,33 @@ class ReportsExport implements WithMultipleSheets
     private $notesIds;
     private $notes;
     private $data_graph;
+    private $themes_group;
 
     public function __construct($request)
     {
         $this->request = $request;
         $this->client = Company::find($this->request->input('company'));
+
+        $themes_group = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
+                    ->select('theme_id')
+                    ->groupBy('theme_id')->get();
+                    
+        $this->themes_group = $themes_group;
+        foreach($themes_group as $key => $itm)
+        {
+            $notes_Ids = AssignedNewsFilter::filter($this->request, ['company' => $this->client, 'theme_id' => $itm->theme_id])
+                                ->pluck('news_id');
+            $notes_grp = NewsFilter::filter($this->request, ['ids' => $notes_Ids]);
+
+            $theme_name = Theme::find($itm->theme_id);
+            
+            $this->notes[$key][0] = $theme_name->name;
+            $this->notes[$key][1] = $notes_grp;
+        }
+
         $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
-                ->pluck('news_id');
-        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
+                            ->pluck('news_id');
+        //$this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
 
         if($this->request->input('start_date') !== null && $this->request->input('end_date') !== null)
         {
@@ -171,17 +190,41 @@ class ReportsExport implements WithMultipleSheets
      */
     public function sheets(): array
     {
+        // $obj = array(
+        //     new DashboardSheet(
+        //         $this->init_row,
+        //         $this->columnas_generadas,
+        //         $this->themes,
+        //         $this->count_news,
+        //         $this->count_trend,
+        //         $this->count_mean,
+        //         $this->data_graph));
+        
+        // $start_row = 0;
+        // $obj_dd = null;
+        // foreach($this->themes_group as $key => $itm)
+        // {
+        //     $obj_dd .= $this->notes[$key][1];
+        //     $start_row += 10;
+        // }
+        // $obj[1] = new DataTableSheet($obj_dd, $this->client, $this->notes[$key][0], $start_row);
+
+        // return $obj;
+
         return [
-            new DashboardSheet(
-                $this->init_row,
-                $this->columnas_generadas,
-                $this->themes,
-                $this->count_news,
-                $this->count_trend,
-                $this->count_mean,
-                $this->data_graph),
-            new DataTableSheet($this->notes, $this->client)
-        ];
+                new DashboardSheet(
+                    $this->init_row,
+                    $this->columnas_generadas,
+                    $this->themes,
+                    $this->count_news,
+                    $this->count_trend,
+                    $this->count_mean,
+                    $this->data_graph),
+                new DataTableSheet(
+                    $this->notes, 
+                    $this->client,
+                    $this->themes_group)
+            ];
     }
 
     public function generaColumnasExcel()
