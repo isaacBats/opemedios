@@ -223,6 +223,7 @@ class NewsletterController extends Controller
             ['name' => 'newsletter5', 'label' => 'Plantilla 5'],
             ['name' => 'newsletter6', 'label' => 'Plantilla 6'],
             ['name' => 'newsletter7', 'label' => 'Plantilla 7'],
+            ['name' => 'newsletter8', 'label' => 'Plantilla 8'],
         ];
         $covers = NewsletterLinksCovers::all();
         $defaultCovers = ['primeras_planas'];
