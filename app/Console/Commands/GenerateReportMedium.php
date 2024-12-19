@@ -13,7 +13,7 @@ class GenerateReportMedium extends Command
      *
      * @var string
      */
-    protected $signature = 'report:generate_medium';
+    protected $signature = 'report:generatemedium';
 
     /**
      * The console command description.

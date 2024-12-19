@@ -13,7 +13,7 @@ class GenerateReportBig extends Command
      *
      * @var string
      */
-    protected $signature = 'report:generate_big';
+    protected $signature = 'report:generatebig';
 
     /**
      * The console command description.

@@ -32,8 +32,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         
         $schedule->command('report:generate')->everyFiveMinutes()->runInBackground();
-        $schedule->command('report:generate_medium')->everyThirtyMinutes()->runInBackground();
-        $schedule->command('report:generate_big')->hourly()->runInBackground();
+        $schedule->command('report:generatemedium')->everyThirtyMinutes()->runInBackground();
+        $schedule->command('report:generatebig')->hourly()->runInBackground();
     }
 
     /**
