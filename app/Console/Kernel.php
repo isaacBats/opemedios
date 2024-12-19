@@ -4,6 +4,8 @@ namespace App\Console;
 
 use App\Console\Commands\SendNewsletter;
 use App\Console\Commands\GenerateReport;
+use App\Console\Commands\GenerateReportBig;
+use App\Console\Commands\GenerateReportMedium;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         // SendNewsletter::class,
         GenerateReport::class,
+        GenerateReportBig::class,
+        GenerateReportMedium::class,
     ];
 
     /**
