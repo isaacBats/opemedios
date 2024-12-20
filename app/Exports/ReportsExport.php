@@ -124,7 +124,7 @@ class ReportsExport implements WithMultipleSheets
         inner join themes on assigned_news.theme_id = themes.id " .
         (is_null($this->notesIds) || empty($this->notesIds) ? 
         "where news.id in (" . str_replace(']', '', str_replace('[', '', $this->notesIds)) . ")" :
-        "where news.id = -1"
+        "where news.id = -1 "
         ) .
         "AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
         group by themes.id, themes.name
