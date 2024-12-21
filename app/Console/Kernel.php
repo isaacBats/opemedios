@@ -4,6 +4,8 @@ namespace App\Console;
 
 use App\Console\Commands\SendNewsletter;
 use App\Console\Commands\GenerateReport;
+use App\Console\Commands\GenerateReportBig;
+use App\Console\Commands\GenerateReportMedium;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         // SendNewsletter::class,
         GenerateReport::class,
+        GenerateReportBig::class,
+        GenerateReportMedium::class,
     ];
 
     /**
@@ -31,8 +35,9 @@ class Kernel extends ConsoleKernel
         //     ->dailyAt('07:00');
         //          ->hourly();
         
-        $schedule->command('report:generate')
-            ->everyTwoMinutes();
+        $schedule->command('report:generate')->everyFiveMinutes()->runInBackground();
+        $schedule->command('report:generatemedium')->everyThirtyMinutes()->runInBackground();
+        $schedule->command('report:generatebig')->hourly()->runInBackground();
     }
 
     /**

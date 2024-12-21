@@ -93,6 +93,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Tiempo Aprox</th>
                             <th>Archivo</th>
                             <th>Estatus</th>
                             <th>Fechas</th>
@@ -101,13 +102,16 @@
                     </thead>
                     <tbody>
                         @foreach($datos as $item)
-                            <tr style="background: {{ $item->status == 1 ? '#6d9af9' : '#259dab' }};">
+                            <tr style="background: {{ $item->status == 0 ? '#ffd079' : ($item->status == 1 ? '#6d9af9' : '#259dab') }};">
                                 <td>{{ $item->id }}</td>
+                                <td>@if($item->status == 0) Tiempo aprox. {{ $item->size == 'small' ? (\App\Models\ListReport::where('size', 'small')->where('status', 0)->count() * 5) : ($item->size == 'medium' ? (\App\Models\ListReport::where('size', 'medium')->where('status', 0)->count() * 30) : (\App\Models\ListReport::where('size', 'big')->where('status', 0)->count() * 60)) }} mins @endif</td>
                                 <td>{{ $item->name_file ?? 'N/E' }}</td>
-                                <td>{{ $item->status == 1 ? 'Generado' : 'Descargado' }}</td>
-                                <td>{{ $item->start_date . ' - ' . $item->end_date }}</td>
+                                <td>@if($item->status > 0) {{ $item->status == 1 ? 'Generado' : ($item->status == 3 ? 'Procesando' : 'Descargado') }} @endif</td>
+                                <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') . ' - ' . \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</td>
                                 <td>
+                                    @if($item->status == 1)
                                     <a style="color: #000000;" class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

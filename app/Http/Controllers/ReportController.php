@@ -56,7 +56,7 @@ class ReportController extends Controller
         return view('admin.report.byclient', compact('companies', 'breadcrumb'));
     }
 
-    public function generate_reports_bd() {
+    public function generate_reports_bd($size) {
         $reportes = ListReport::where('created_at', '<', Carbon::now()->add('-10 days'))->get();
 
         foreach($reportes as $itm)
@@ -65,10 +65,13 @@ class ReportController extends Controller
             $itm->delete();
         }
 
-        $data = ListReport::where('status', 0)->orderBy('id')->first();
+        $data = ListReport::where('status', 0)->where('size', $size)->orderBy('id')->first();
 
         if(!is_null($data))
         {
+            $data->status = 3;
+            $data->save();
+            
             $request = new Request;
 
             $request->merge(
@@ -95,8 +98,8 @@ class ReportController extends Controller
     {
         $auth = Auth::user();
         if ($auth->hasRole('admin')) {
-            $datos = ListReport::where('status', '>', 0)
-                ->orderBy('id', 'DESC')
+            $datos = ListReport::/*where('status', '>', 0)
+                ->*/orderBy('id', 'DESC')
                 ->get();
         } else {
             $user_id = $auth->id;
@@ -215,6 +218,8 @@ class ReportController extends Controller
             $file_save->mean        = $request->input('mean');
             $file_save->source_id   = $request->input('source_id');
             $file_save->word        = $request->input('word');
+            
+            $file_save->size        = count($dates) < 60 ? 'small' : (count($dates) < 210 ? 'medium' : 'big');
 
             $file_save->save();
             //Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
