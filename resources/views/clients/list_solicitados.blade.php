@@ -136,7 +136,7 @@
             $("#frame").attr("src", url);
 
             $.ajax({
-                url: {{ route('client.report.cambia_estatus_reporte', ['company' => session()->get('slug_company')]) }},
+                url: '{{ route('client.report.cambia_estatus_reporte', ['company' => session()->get('slug_company')]) }}',
                 type: 'post',
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'),
