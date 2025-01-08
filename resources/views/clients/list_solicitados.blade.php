@@ -110,7 +110,8 @@
                                 <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') . ' - ' . \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</td>
                                 <td>
                                     @if($item->status == 1)
-                                    <a style="color: #000000;" class="download_file" href="#" data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
+                                    <a style="color: #000000;" class="download_file" data-id="{{ $item->id }}" href="#"
+                                       data-url="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($item->name_file) }}">Descargar</a>
                                     @endif
                                 </td>
                             </tr>

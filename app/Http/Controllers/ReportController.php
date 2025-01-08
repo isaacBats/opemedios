@@ -98,15 +98,11 @@ class ReportController extends Controller
     {
         $auth = Auth::user();
         if ($auth->hasRole('admin')) {
-            $datos = ListReport::/*where('status', '>', 0)
-                ->*/orderBy('id', 'DESC')
-                ->get();
+            $datos = ListReport::orderBy('id', 'DESC')->get();
         } else {
             $user_id = $auth->id;
-            $datos = ListReport::where('status', '>', 0)->where('user_id', $user_id)->orderBy('id', 'desc')->get();
+            $datos = ListReport::where('user_id', $user_id)->orderBy('id', 'desc')->get();
         }
-
-
 
         $user = auth()->user();
         if($user->isClient())
