@@ -285,7 +285,7 @@ class NewsletterController extends Controller
         $newsletter = Newsletter::findOrFail($id);
         try {
             if (Storage::drive('local')->exists($newsletter->banner)) {
-                Storage::drive('local')->delete($newsletter->logo);
+                Storage::drive('local')->delete($newsletter->banner);
             }
 
             $newsletter->banner = $request->file('banner')->store('newsletters', 'local');
