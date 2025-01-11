@@ -4,17 +4,11 @@
         $day = date('Y-m-d H:i:s');
 
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
         $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#ffffff";
-
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
-
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#f6f1df";
-
         $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#f2f2f2";
         $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#000000";
-
-
         $newsButtonBgColor = isset($colorsConfig['news_button_bg']) ? $colorsConfig['news_button_bg'] : "#f2f2f2";
         $newsButtonBorderColor = isset($colorsConfig['news_button_border']) ? $colorsConfig['news_button_border'] : "#f2eeee";
         $newsButtonTextColor = isset($colorsConfig['news_button_text']) ? $colorsConfig['news_button_text'] : "#251d93";

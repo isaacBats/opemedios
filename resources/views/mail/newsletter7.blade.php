@@ -24,29 +24,21 @@
     $day = date('Y-m-d H:i:s');
 
     $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
     $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#F7F7F7";
-
     $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
-
     $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#f6f1df";
     $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#444444";
-
     $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#0c0d0d";
     $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#f6f5f4";
-
     $themeBgColor = isset($colorsConfig['theme_bg']) ? $colorsConfig['theme_bg'] : "#e4e2d0";
     $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#888260";
     $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#888260";
-
     $newsBgColor = isset($colorsConfig['news_bg']) ? $colorsConfig['news_bg'] : "#f9f8e8";
     $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#0b5394";
     $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#0B5394";
     $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#666666";
-
     $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#0c0d0d";
     $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#f6f5f4";
-
     $linksAllowed = array_chunk($linksAllowed, 2, true);
 @endphp
  </head>
