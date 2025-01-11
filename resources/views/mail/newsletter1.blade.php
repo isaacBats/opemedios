@@ -9,19 +9,13 @@
         $day = date('Y-m-d H:i:s');
 
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
         $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#f8f8f8";
-
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
-
         $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#7dffd3";
         $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#015199";
-
         $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#7dffd3";
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#015199";
-
         $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#000000";
-
         $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#e6e1df";
         $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#015199";
         $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#015199";
@@ -71,7 +65,7 @@
                                     <tr>
                                         <td>
                                             <p style="color:{{ $newsTextColor }};font-weight: bold; font-size: 13px;">
-                                                {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }
+                                                {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }}
                                             </p>
                                         </td>
                                     </tr>

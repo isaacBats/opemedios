@@ -13,19 +13,13 @@
         $day = date('Y-m-d H:i:s');
 
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#F7F7F7";
-
         $bannerBgColor = isset($colorsConfig['banner_bg']) ? $colorsConfig['banner_bg'] : "#ffffff";
-
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#666666";
-
         $themeBgColor = isset($colorsConfig['theme_bg']) ? $colorsConfig['theme_bg'] : "#273095";
         $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#efefef";
-
         $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#273095";
         $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#333333";
-
         $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#cccccc";
         $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#666666";
     @endphp

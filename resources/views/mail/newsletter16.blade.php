@@ -20,20 +20,14 @@
         $day = date('Y-m-d H:i:s');
 
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#f4f4f4";
-
         $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#222222";
-
         $dateBorderColor = isset($colorsConfig['date_border']) ? $colorsConfig['date_border'] : "#666666";
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#222222";
-
         $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#666666";
         $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#000000";
-
         $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#000000";
         $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#222222";
-
         $footerBorderColor = isset($colorsConfig['footer_border']) ? $colorsConfig['footer_border'] : "#666666";
         $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#666666";
     @endphp
