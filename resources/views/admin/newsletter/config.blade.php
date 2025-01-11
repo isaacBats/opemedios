@@ -91,32 +91,14 @@
                         @csrf
                         <input type="hidden" name="newsletter_id" value="{{ $newsletter->id }}">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label nopaddingtop">Paleta de colores</label>
-                            <div class="col-sm-9">
-                                <label>
-                                    <span>Fondo principal</span>
-                                    <input type="color" name="bg_primary" value="{{ old('bg_primary', $savedColors['bg_primary']) }}">
-                                </label>
-                                <br>
-                                <label>
-                                    <span>Fondo portadas</span>
-                                    <input type="color" name="bg_covers" value="{{ old('bg_covers', $savedColors['bg_covers']) }}">
-                                </label>
-                                <br>
-                                <label>
-                                    <span>Fondo texto portadas</span>
-                                    <input type="color" name="bg_font_covers" value="{{ old('bg_font_covers', $savedColors['bg_font_covers']) }}">
-                                </label>
-                                <br>
-                                <label>
-                                    <span>Fondo secundario titulo tema</span>
-                                    <input type="color" name="bg_title_second" value="{{ old('bg_title_second', $savedColors['bg_title_second']) }}">
-                                </label>
-                                <br>
-                                <label>
-                                    <span>Fondo secundario cuerpo temas</span>
-                                    <input type="color" name="bg_body_theme_second" value="{{ old('bg_body_theme_second', $savedColors['bg_body_theme_second']) }}">
-                                </label>
+                            <label class="col-sm-1 control-label nopaddingtop">Paleta de colores</label>
+                            <div class="col-sm-11">
+                                @foreach($savedColors as $key => $scolor)
+                                    <label>
+                                        <span>{{ $defaultNameColors[$key] }}</span>
+                                        <input type="color" name="{{$key}}" value="{{ old($key, $savedColors[$key]) }}">
+                                    </label>
+                                @endforeach                                
                             </div>
                         </div>
                         <div class="form-group">
