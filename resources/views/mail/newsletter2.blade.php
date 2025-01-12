@@ -19,6 +19,7 @@
         $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#283593";
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#ffffff";
         $themeBgColor = isset($colorsConfig['theme_bg']) ? $colorsConfig['theme_bg'] : "#283593";
+        $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#283593";
         $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#283593";
         $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#283593";
         $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#283593";
