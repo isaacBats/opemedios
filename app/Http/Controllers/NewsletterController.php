@@ -236,6 +236,7 @@ class NewsletterController extends Controller
         $covers = NewsletterLinksCovers::all();
         $defaultCovers = ['primeras_planas'];
         $defaultColors = [
+            'covers_bg' => "#000",
             'banner_bg' => "#000",
             'body_bg' => "#000",
             'date_bg' => "#000",
@@ -263,6 +264,7 @@ class NewsletterController extends Controller
         ];
 
         $defaultNameColors = [
+            'covers_bg' => "Texto Covers",
             'banner_bg' => "Banner",
             'body_bg' => "Fondo Primario",
             'date_bg' => "Fecha",

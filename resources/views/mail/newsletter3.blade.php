@@ -5,6 +5,7 @@
 
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
         $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#ffffff";
+        $fontCoversColor = isset($colorsConfig['covers_bg']) ? $colorsConfig['covers_bg'] : "#ffffff";
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#f6f1df";
         $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#f2f2f2";
@@ -52,7 +53,7 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 100%;">
                                 @foreach ($newsletterSend->newsletter_theme_news as $note)
                                     <tr>
-                                        <td bgcolor="{{ $newsButtonBgColor }}" style="background-color:{{ $newsButtonBgColor }};font-size:16px;color:{{ $bgFontCovers }};text-align:center;border:1px solid {{ $newsButtonBorderColor }};border-radius:5px; padding: 15px 10px;">
+                                        <td bgcolor="{{ $newsButtonBgColor }}" style="background-color:{{ $newsButtonBgColor }};font-size:16px;color:{{ $fontCoversColor }};text-align:center;border:1px solid {{ $newsButtonBorderColor }};border-radius:5px; padding: 15px 10px;">
                                             <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color:{{ $newsButtonTextColor }};text-decoration:none;font-family:sans-serif;font-size:16px;" rel="noreferrer" target="_blank">{{ strtoupper($note->news->title) }}</a>
                                         </td>
                                     </tr>
