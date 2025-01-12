@@ -145,7 +145,7 @@ class ReportsExport implements WithMultipleSheets
                             from assigned_news
                             inner join news on assigned_news.news_id = news.id
                             inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $this->notesIds)) . ")
+                            where news.id in (" . (is_null($this->notesIds) || empty($this->notesIds) ? str_replace(']', '', str_replace('[', '', $this->notesIds)) : '0') . ")
                             " . $where . "
                             group by date(news.created_at), themes.id, themes.name
                             order by date(news.created_at) desc");
