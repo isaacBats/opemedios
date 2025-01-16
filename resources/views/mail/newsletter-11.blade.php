@@ -42,6 +42,54 @@
 </head>
 <body style="background-color:{{ $bodyBgColor }};margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;">
 	<table style="font-family: Arial, sans-serif; max-width: 600px; width: 100%; margin: 0 auto 0 auto; background-color:{{ $mainBgColor }};" border="0" cellpadding="0" cellspacing="0" align="center">
+
+		<tr>
+			<td style="background-color:{{ $linksBgColor }};">
+				<p style="white-space: nowrap; font-size: 5px;">&nbsp;</p>
+				<table border="0" cellpadding="0" cellspacing="0" align="center" style="border-spacing: 0; max-width: 600px; width: 100%; border: none;background-color:{{ $linksBgColor }};">
+					<tr>
+						<td style="width: 15px; background-color:{{ $themeBgColor }};"></td>
+						<td style="width: 10px;"></td>
+						<td style="background-color:{{ $themeBgColor }}; padding: 15px 15px 15px 15px;">
+							<table border="0" cellpadding="0" cellspacing="0" align="center" style="border-spacing: 0; border: none;">
+								<td>
+									<p style="font-weight: bold; font-size: 16px; color:{{ $themeTextColor }};">PRIMERAS PLANAS</p>
+								</td>
+							</table>
+						</td>
+						<td style="width: 10px;"></td>
+						<td style="width: 15px; background-color:{{ $themeBgColor }};"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<table border="0" cellpadding="0" cellspacing="0" align="center" style="background-color:{{ $linksBgColor }}; max-width: 600px; width: 100%; font-size: 15px;">
+					<tr>
+						<td style="padding: 25px 15px 25px 15px;">
+							<table border="0" cellpadding="0" cellspacing="0" align="center" style="background-color:{{ $linksBgColor }};">
+								<tr>
+									<td style="width: 8px;"></td>
+									<td style="width: 1px; background-color:{{ $linksButtonBorderColor }};"></td>
+									<td style="width: 4px;"></td>
+									<td style="padding-left: 15px;">
+										@foreach ($linksAllowed as $key => $link)
+											<a href="{{ $link }}" style="text-decoration: underline; color:{{ $linksButtonTextColor }}; display: inline-block; white-space: nowrap; margin: 5px 0 5px 0;">
+												{{ $covers->where('slug', $key)->first()->name }}
+											</a>
+											<span style="white-space: nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+										@endforeach
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
 		<tr>
 			<td style="text-align: center;background-color:{{ $bannerBgColor }}">
 				<img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name ?? 'N/E' }}" style="display:block;width: 100%;">
@@ -193,53 +241,6 @@
 				@endif
 			@endforeach
 		@endforeach
-
-		<tr>
-			<td style="background-color:{{ $linksBgColor }};">
-				<p style="white-space: nowrap; font-size: 5px;">&nbsp;</p>
-				<table border="0" cellpadding="0" cellspacing="0" align="center" style="border-spacing: 0; max-width: 600px; width: 100%; border: none;background-color:{{ $linksBgColor }};">
-					<tr>
-						<td style="width: 15px; background-color:{{ $themeBgColor }};"></td>
-						<td style="width: 10px;"></td>
-						<td style="background-color:{{ $themeBgColor }}; padding: 15px 15px 15px 15px;">
-							<table border="0" cellpadding="0" cellspacing="0" align="center" style="border-spacing: 0; border: none;">
-								<td>
-									<p style="font-weight: bold; font-size: 16px; color:{{ $themeTextColor }};">PRIMERAS PLANAS</p>
-								</td>
-							</table>
-						</td>
-						<td style="width: 10px;"></td>
-						<td style="width: 15px; background-color:{{ $themeBgColor }};"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<table border="0" cellpadding="0" cellspacing="0" align="center" style="background-color:{{ $linksBgColor }}; max-width: 600px; width: 100%; font-size: 15px;">
-					<tr>
-						<td style="padding: 25px 15px 25px 15px;">
-							<table border="0" cellpadding="0" cellspacing="0" align="center" style="background-color:{{ $linksBgColor }};">
-								<tr>
-									<td style="width: 8px;"></td>
-									<td style="width: 1px; background-color:{{ $linksButtonBorderColor }};"></td>
-									<td style="width: 4px;"></td>
-									<td style="padding-left: 15px;">
-										@foreach ($linksAllowed as $key => $link)
-											<a href="{{ $link }}" style="text-decoration: underline; color:{{ $linksButtonTextColor }}; display: inline-block; white-space: nowrap; margin: 5px 0 5px 0;">
-												{{ $covers->where('slug', $key)->first()->name }}
-											</a>
-											<span style="white-space: nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										@endforeach
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
 
 		<tr>
 			<td style="background-color:{{ $footerBgColor }};">
