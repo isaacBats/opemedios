@@ -238,6 +238,7 @@ class NewsletterController extends Controller
         $defaultColors = [
             'covers_bg' => "#000",
             'banner_bg' => "#000",
+            'banner_border' => "#000",
             'body_bg' => "#000",
             'date_bg' => "#000",
             'date_border' => "#000",
@@ -266,6 +267,7 @@ class NewsletterController extends Controller
         $defaultNameColors = [
             'covers_bg' => "Texto Covers",
             'banner_bg' => "Banner",
+            'banner_border' => "Borde Banner",
             'body_bg' => "Fondo Primario",
             'date_bg' => "Fecha",
             'date_border' => "Borde Fecha",

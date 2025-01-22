@@ -21,6 +21,8 @@
         $colorsConfig = unserialize($newsletterSend->newsletter->colors);
         $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#f4f4f4";
         $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#dddddd";
+        $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#444444";
+        $linksButtonBorderColor = isset($colorsConfig['links_button_border']) ? $colorsConfig['links_button_border'] : "#c2c2c2";
         $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#c2c2c2";
         $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#444444";
         $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#f2f2f2";
@@ -48,6 +50,53 @@
 <!--<![endif]-->
                 </td>
             </tr>
+
+            <tr style="vertical-align:middle;" valign="middle">
+                <td align="center">
+                    <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" width="520" style="border-collapse:collapse;max-width:600px;width:100%;background-color:{{ $linksBgColor }};">
+                        <tr>
+                            <td colspan="2" style="padding:20px 30px 10px 30px; text-align: center;">
+                                <p style="text-transform: uppercase; font-weight: bold;border-bottom: 1px solid {{ $linksButtonBorderColor }};padding-bottom:15px;color:{{ $linksButtonTextColor }};">Primeras planas</p>
+                            </td>
+                        </tr>
+
+                        @foreach ($linksAllowed as $key => $link)
+                            @if ($loop->odd)
+                                <tr style="vertical-align:middle;" valign="middle">
+                                    <td align="center" style="padding:7px 20px 7px 20px;">
+                                        <p style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;color:{{ $linksButtonTextColor }};margin-top:0!important;margin-bottom:0!important;">
+                                            <a href="{{ $link }}" style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;text-decoration:none;font-size:14px;color:{{ $linksButtonTextColor }};">
+                                                {{ $covers->where('slug', $key)->first()->name }}
+                                            </a>
+                                        </p>
+                                    </td>
+                            @else
+                                    <td align="center" style="padding:7px 20px 7px 20px;">
+                                        <p style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;color:{{ $linksButtonTextColor }};margin-top:0!important;margin-bottom:0!important;">
+                                            <a href="{{ $link }}" style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;text-decoration:none;font-size:14px;color:{{ $linksButtonTextColor }};">
+                                                {{ $covers->where('slug', $key)->first()->name }}
+                                            </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($loop->last && $loop->odd)
+                                    <td align="center" style="padding:7px 20px 7px 20px;">
+                                        <p>&nbsp;</p>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+
+                        <tr style="vertical-align:middle;" valign="middle">
+                            <td align="center" style="padding: 0px 30px 0px 30px;" colspan="2">
+                                <p style="border-top: 1px solid {{ $linksButtonBorderColor }};padding-top:10px;mso-line-height-rule:exactly;line-height:10px;font-family:Arial,sans-serif;font-size:10px;margin-top:0!important;margin-bottom:0!important;">&nbsp;</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
             <tr>
                 <td style="text-align:center;">
                     <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name ?? 'N/E' }}" style="width: 100%; display: block;">
@@ -134,43 +183,8 @@
             <tr style="vertical-align:middle;" valign="middle">
                 <td align="center">
                     <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" width="520" style="border-collapse:collapse;max-width:600px;width:100%;background-color:{{ $footerBgColor }};">
-                        <tr>
-                            <td colspan="2" style="padding:20px 30px 10px 30px; text-align: center;">
-                                <p style="text-transform: uppercase; font-weight: bold;border-bottom: 1px solid {{ $footerBorderColor }};padding-bottom:15px;color:{{ $linksButtonTextColor }};">Primeras planas</p>
-                            </td>
-                        </tr>
-
-                        @foreach ($linksAllowed as $key => $link)
-                            @if ($loop->odd)
-                                <tr style="vertical-align:middle;" valign="middle">
-                                    <td align="center" style="padding:7px 20px 7px 20px;">
-                                        <p style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;color:{{ $linksButtonTextColor }};margin-top:0!important;margin-bottom:0!important;">
-                                            <a href="{{ $link }}" style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;text-decoration:none;font-size:14px;color:{{ $linksButtonTextColor }};">
-                                                {{ $covers->where('slug', $key)->first()->name }}
-                                            </a>
-                                        </p>
-                                    </td>
-                            @else
-                                    <td align="center" style="padding:7px 20px 7px 20px;">
-                                        <p style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;color:{{ $linksButtonTextColor }};margin-top:0!important;margin-bottom:0!important;">
-                                            <a href="{{ $link }}" style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;text-decoration:none;font-size:14px;color:{{ $linksButtonTextColor }};">
-                                                {{ $covers->where('slug', $key)->first()->name }}
-                                            </a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            @endif
-                            @if ($loop->last && $loop->odd)
-                                    <td align="center" style="padding:7px 20px 7px 20px;">
-                                        <p>&nbsp;</p>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
-
-
                         <tr style="vertical-align:middle;" valign="middle">
-                            <td align="center" style="padding: 10px 30px 10px 30px;" colspan="2">
+                            <td align="center" style="padding: 20px 30px 10px 30px;" colspan="2">
                                 <p style="border-top: 1px solid {{ $footerBorderColor }};padding-top:20px;mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:13px;color:{{ $footerTextColor }};margin-top:0!important;margin-bottom:0!important;">Newsletter <a href="http://twitter.com/mail_gun" style="mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;text-decoration:underline;font-weight:bold;font-size:13px;color:{{ $footerTextColor }};">Opemedios</a> {{ date('Y') }}.</p>
                             </td>
                         </tr>

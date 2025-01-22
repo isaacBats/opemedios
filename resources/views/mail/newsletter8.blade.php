@@ -12,11 +12,27 @@
   <title>Opemedios</title>
   @php
       $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-      $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#015199";
-      $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#7dffd3";
-      $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#015199";
-      $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#015199";
-      $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#e5e9ee";
+
+      $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#d1deec";
+
+      $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
+
+      $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#2376dc";
+
+      $bannerBgColor = isset($colorsConfig['banner_bg']) ? $colorsConfig['banner_bg'] : "#212121";
+      $bannerBorderColor = isset($colorsConfig['banner_border_bg']) ? $colorsConfig['banner_border_bg'] : "#2376dc";
+
+      $dateBorderColor = isset($colorsConfig['date_border']) ? $colorsConfig['date_border'] : "#dee0e1";
+      $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#2376dc";
+
+      $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#333333";
+
+      $newsBorderColor = isset($colorsConfig['news_border']) ? #dee0e1Config['news_border'] : "#dee0e1";
+      $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#333333";
+      $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#959ba0";
+
+      $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#212121";
+      $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#959ba0";
   @endphp
   <style type="text/css">
     /* Reset */
@@ -209,10 +225,6 @@
       font-size: 14px; }
 
       /* Colors: Backgrounds */
-      .bg_primary {
-        background-color: {{ $bgPrimary }}; }
-      .bg_secondary {
-        background-color: {{ $bgBodyThemeSecond  }}; }
       .email_html,
       .email_body,
       .bg_light {
@@ -610,7 +622,7 @@
         height: auto !important; } }
   </style>
 </head>
-<body class="email_body">
+<body class="email_body" style="background-color:{{ $bodyBgColor }};">
   <!-- preview_text -->
   <singleline label="preheader"><div class="email_summary">Preheader text</div></singleline>
   <div class="email_summary">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>
@@ -618,7 +630,7 @@
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px pt_md">
+        <td class="email_bg bg_light px pt_md" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -628,7 +640,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_dark brounded_top bt_primary px py_md bg_center" background="{{ asset("images/{$newsletterSend->newsletter->banner}") }}">
+                <td class="content_cell brounded_top bt_primary px py_md bg_center" background="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" style="background-color:{{ $bannerBgColor }};border-top:4px solid {{ $bannerBorderColor }};">
                   <div class="column_row">
                     <!--[if (mso)|(IE)]>
                     <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -710,7 +722,7 @@
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px">
+        <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -720,7 +732,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_white" height="32">&nbsp; <singleline>&nbsp; </singleline></td>
+                <td class="content_cell bg_white" height="32" style="background-color:{{ $mainBgColor }};">&nbsp; <singleline>&nbsp; </singleline></td>
               </tr>
             </tbody>
           </table>
@@ -738,7 +750,7 @@
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px">
+        <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -748,7 +760,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_white px py">
+                <td class="content_cell bg_white px py" style="background-color:{{ $mainBgColor }};">
                   <div class="column_row">
                     <!--[if (mso)|(IE)]>
                     <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -760,10 +772,10 @@
                         <tbody>
                           <tr>
                             <td class="column_cell px text_secondary text_center">
-                              <h2 class="mb_xs text_primary">
+                              <h2 class="mb_xs text_primary" style="color:{{ $dateTextColor }};">
                                 <singleline>
                                   Noticias del día {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
-                                      ->formatLocalized('%A %d de %B %Y') }}  
+                                      ->formatLocalized('%A %d de %B %Y') }}
                                 </singleline>
                             </h2>
                             </td>
@@ -788,7 +800,7 @@
                         <table class="column" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
                           <tbody>
                             <tr>
-                              <td class="column_cell bb_light" height="24">&nbsp;</td>
+                              <td class="column_cell bb_light" height="24" style="border-bottom:1px solid {{ $dateBorderColor }}">&nbsp;</td>
                             </tr>
                           </tbody>
                         </table>
@@ -819,7 +831,7 @@
       <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody>
           <tr>
-            <td class="email_bg bg_light px">
+            <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
               <!--[if (mso)|(IE)]>
               <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
                 <tbody>
@@ -829,7 +841,7 @@
               <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tbody>
                   <tr>
-                    <td class="content_cell bg_white px py">
+                    <td class="content_cell bg_white px py" style="background-color:{{ $mainBgColor }};">
                       <div class="column_row">
                         <!--[if (mso)|(IE)]>
                         <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -859,12 +871,12 @@
                                   <td class="column_cell px pt text_dark text_left mobile_center">
                                     <multiline>
                                         <h4 class="mt_xs mb_xs">
-                                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}">
-                                                <span>{{ $note->news->title }}</span>
+                                            <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="color:{{ $newsTitleColor }};">
+                                                <span style="color:{{ $newsTitleColor }};">{{ $note->news->title }}</span>
                                             </a>
                                         </h4>
-                                        <p class="text_xs text_link text_secondary mb">Por: {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }}</p>
-                                        <p class="mb">{!! Illuminate\Support\Str::words($note->news->synthesis, 15, ' ...') !!}</p>
+                                        <p class="text_xs text_link text_secondary mb" style="color:{{ $newsTextColor }};">Por: {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }}</p>
+                                        <p class="mb" style="color:{{ $newsTextColor }};">{!! Illuminate\Support\Str::words($note->news->synthesis, 15, ' ...') !!}</p>
                                     </multiline>
                                   </td>
                                 </tr>
@@ -896,7 +908,7 @@
       <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody>
           <tr>
-            <td class="email_bg bg_light px">
+            <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
               <!--[if (mso)|(IE)]>
               <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
                 <tbody>
@@ -906,7 +918,7 @@
               <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tbody>
                   <tr>
-                    <td class="content_cell bg_white px pb">
+                    <td class="content_cell bg_white px pb" style="background-color:{{ $mainBgColor }};">
                       <div class="column_row">
                         <!--[if (mso)|(IE)]>
                         <table role="presentation" width="416" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -918,7 +930,7 @@
                             <table class="column" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
                               <tbody>
                                 <tr>
-                                  <td class="column_cell bb_light" height="16">&nbsp;  <singleline>&nbsp; </singleline></td>
+                                  <td class="column_cell bb_light" height="16" style="border-bottom:1px solid {{ $newsBorderColor }};">&nbsp;  <singleline>&nbsp; </singleline></td>
                                 </tr>
                               </tbody>
                             </table>
@@ -945,67 +957,11 @@
         </tbody>
       </table>
   @endforeach
-  <!-- spacer_lg -->
-  <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tbody>
-      <tr>
-        <td class="email_bg bg_light px">
-          <!--[if (mso)|(IE)]>
-          <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
-            <tbody>
-              <tr>
-                <td align="center" style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;vertical-align:top;">
-          <![endif]-->
-          <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tbody>
-              <tr>
-                <td class="content_cell bg_white" height="64">&nbsp;  <singleline>&nbsp; </singleline></td>
-              </tr>
-            </tbody>
-          </table>
-          <!--[if (mso)|(IE)]>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <![endif]-->
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- spacer_lg -->
-  <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tbody>
-      <tr>
-        <td class="email_bg bg_light px">
-          <!--[if (mso)|(IE)]>
-          <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
-            <tbody>
-              <tr>
-                <td align="center" style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;vertical-align:top;">
-          <![endif]-->
-          <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tbody>
-              <tr>
-                <td class="content_cell bg_white" height="64">&nbsp;  <singleline>&nbsp; </singleline></td>
-              </tr>
-            </tbody>
-          </table>
-          <!--[if (mso)|(IE)]>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <![endif]-->
-        </td>
-      </tr>
-    </tbody>
-  </table>
   <!-- section_list -->
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px">
+        <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -1015,7 +971,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_white px">
+                <td class="content_cell bg_white px" style="background-color:{{ $mainBgColor }};">
                   <div class="column_row">
                     <!--[if (mso)|(IE)]>
                     <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -1027,7 +983,7 @@
                         <tbody>
                           <tr>
                             <td class="column_cell px pt pb_md text_dark text_left">
-                              <h3 class="mt"><singleline>Covers</singleline></h3>
+                              <h3 class="mt" style="color:{{ $themeTextColor }};"><singleline>Covers</singleline></h3>
                             </td>
                           </tr>
                         </tbody>
@@ -1053,8 +1009,8 @@
                             <tr>
                               <td class="column_cell px text_primary text_left">
                                 <p class="mb_md">
-                                    <a href="{{ $link }}">
-                                        <span>{{ $covers->where('slug', $key)->first()->name }}</span>
+                                    <a href="{{ $link }}" style="color:{{ $linksButtonTextColor }}">
+                                        <span style="color:{{ $linksButtonTextColor }}">{{ $covers->where('slug', $key)->first()->name }}</span>
                                     </a>
                                 </p>
                               </td>
@@ -1088,7 +1044,7 @@
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px">
+        <td class="email_bg bg_light px" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -1098,7 +1054,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_white" height="32">&nbsp; <singleline>&nbsp; </singleline></td>
+                <td class="content_cell bg_white" height="32" style="background-color:{{ $mainBgColor }};">&nbsp; <singleline>&nbsp; </singleline></td>
               </tr>
             </tbody>
           </table>
@@ -1116,7 +1072,7 @@
   <table class="email_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
       <tr>
-        <td class="email_bg bg_light px pb_md">
+        <td class="email_bg bg_light px pb_md" style="background-color:{{ $bodyBgColor }};">
           <!--[if (mso)|(IE)]>
           <table role="presentation" width="800" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
             <tbody>
@@ -1126,7 +1082,7 @@
           <table class="content_section" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td class="content_cell bg_dark brounded_bottom px py">
+                <td class="content_cell brounded_bottom px py" style="background-color:{{ $footerBgColor }};">
                   <div class="column_row">
                     <!--[if (mso)|(IE)]>
                     <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
@@ -1144,7 +1100,7 @@
                                 <img editable="true" src="images/instagram_white.png" width="24" height="24" alt="Instagram" style="max-width: 24px;"> &nbsp;&nbsp;
                                 <img editable="true" src="images/pinterest_white.png" width="24" height="24" alt="Pinterest" style="max-width: 24px;">
                               </p>
-                              <p class="text_secondary">
+                              <p class="text_secondary" style="color:{{ $footerTextColor }}">
                                   &copy;<currentyear> Opemedios.<br>
                               </p>
                             </td>
