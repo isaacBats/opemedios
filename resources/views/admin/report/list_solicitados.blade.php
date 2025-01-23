@@ -16,7 +16,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Tiempo</th>
+                        <th>Tiempo de Descarga</th>
                         <th>Archivo</th>
                         <th>Estatus</th>
                         <th>Cliente</th>

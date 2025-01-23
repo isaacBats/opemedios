@@ -93,7 +93,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Tiempo Aprox</th>
+                            <th>Tiempo de Descarga</th>
                             <th>Archivo</th>
                             <th>Estatus</th>
                             <th>Fechas</th>
