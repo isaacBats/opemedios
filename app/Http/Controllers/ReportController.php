@@ -97,12 +97,13 @@ class ReportController extends Controller
     public function solicitados(Request $request, $slug_company = '')
     {
         $auth = Auth::user();
-        if ($auth->hasRole('admin')) {
-            $datos = ListReport::orderBy('id', 'DESC')->get();
-        } else {
-            $user_id = $auth->id;
-            $datos = ListReport::where('user_id', $user_id)->orderBy('id', 'desc')->get();
-        }
+        $datos = ListReport::orderBy('id', 'asc')->get();
+        // if ($auth->hasRole('admin')) {
+        //     $datos = ListReport::orderBy('id', 'asc')->get();
+        // } else {
+        //     $user_id = $auth->id;
+        //     $datos = ListReport::where('user_id', $user_id)->orderBy('id', 'asc')->get();
+        // }
 
         $user = auth()->user();
         if($user->isClient())
