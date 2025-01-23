@@ -226,15 +226,71 @@ class NewsletterController extends Controller
             ['name' => 'newsletter8', 'label' => 'Plantilla 8'],
             ['name' => 'newsletter9', 'label' => 'Plantilla 9'],
             ['name' => 'newsletter10', 'label' => 'Plantilla 10'],
+            ['name' => 'newsletter11', 'label' => 'Plantilla 11'],
+            ['name' => 'newsletter12', 'label' => 'Plantilla 12'],
+            ['name' => 'newsletter13', 'label' => 'Plantilla 13'],
+            ['name' => 'newsletter14', 'label' => 'Plantilla 14'],
+            ['name' => 'newsletter15', 'label' => 'Plantilla 15'],
+            ['name' => 'newsletter16', 'label' => 'Plantilla 16'],
         ];
         $covers = NewsletterLinksCovers::all();
         $defaultCovers = ['primeras_planas'];
         $defaultColors = [
-            'bg_primary' => "#000",
-            'bg_covers' => "#000",
-            'bg_font_covers' => "#000",
-            'bg_title_second' => "#000",
-            'bg_body_theme_second' => "#000"
+            'covers_bg' => "#000",
+            'banner_bg' => "#000",
+            'banner_border' => "#000",
+            'body_bg' => "#000",
+            'date_bg' => "#000",
+            'date_border' => "#000",
+            'date_text' => "#000",
+            'footer_bg' => "#000",
+            'footer_border' => "#000",
+            'footer_text' => "#000",
+            'links_bg' => "#000",
+            'links_button_bg' => "#000",
+            'links_button_border' => "#000",
+            'links_button_text' => "#000",
+            'main_bg' => "#000",
+            'main_border' => "#000",
+            'news_bg' => "#000",
+            'news_button_bg' => "#000",
+            'news_button_border' => "#000",
+            'news_button_text' => "#000",
+            'news_border' => "#000",
+            'news_title' => "#000",
+            'news_text' => "#000",
+            'theme_bg' => "#000",
+            'theme_border' => "#000",
+            'theme_text' => "#000",
+        ];
+
+        $defaultNameColors = [
+            'covers_bg' => "Texto Covers",
+            'banner_bg' => "Banner",
+            'banner_border' => "Borde Banner",
+            'body_bg' => "Fondo Primario",
+            'date_bg' => "Fecha",
+            'date_border' => "Borde Fecha",
+            'date_text' => "Texto Fecha",
+            'footer_bg' => "Footer Newsletter",
+            'footer_border' => "Borde Footer Newsletter",
+            'footer_text' => "Texto Footer Newsletter",
+            'links_bg' => "Links",
+            'links_button_bg' => "Boton Link",
+            'links_button_border' => "Boton Borde",
+            'links_button_text' => "Boton Link ",
+            'main_bg' => "Secundario",
+            'main_border' => "Borde Secundario",
+            'news_bg' => "Noticia",
+            'news_button_bg' => "Boton Noticia",
+            'news_button_border' => "Boton Borde",
+            'news_button_text' => "Texto Boton Noticia",
+            'news_border' => "Borde Noticia",
+            'news_title' => "Título Noticia",
+            'news_text' => "Texto de Noticia",
+            'theme_bg' => "Tema",
+            'theme_border' => "Borde Tema",
+            'theme_text' => "Texto Tema",
         ];
         $savedCovers = $newsletter->covers ? unserialize($newsletter->covers) : $defaultCovers;
         $savedColors = $newsletter->colors ? unserialize($newsletter->colors) : $defaultColors;
@@ -242,7 +298,7 @@ class NewsletterController extends Controller
         array_push($breadcrumb, ['label' => 'Newsletters', 'url' => route('admin.newsletters')]);
         array_push($breadcrumb, ['label' => "Configuración {$newsletter->name}"]);
 
-        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb', 'covers', 'savedCovers', 'savedColors'));
+        return view('admin.newsletter.config', compact('newsletter', 'templates', 'breadcrumb', 'covers', 'savedCovers', 'savedColors', 'defaultNameColors'));
     }
 
     /**
@@ -279,7 +335,7 @@ class NewsletterController extends Controller
         $newsletter = Newsletter::findOrFail($id);
         try {
             if (Storage::drive('local')->exists($newsletter->banner)) {
-                Storage::drive('local')->delete($newsletter->logo);
+                Storage::drive('local')->delete($newsletter->banner);
             }
 
             $newsletter->banner = $request->file('banner')->store('newsletters', 'local');

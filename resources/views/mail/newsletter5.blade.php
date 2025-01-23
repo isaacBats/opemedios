@@ -1,354 +1,191 @@
-<html xmlns="http://www.w3.org/TR/REC-html40" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml"><head>
-    @php
-        $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-        $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#646464";
-        $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#615d5c";
-        $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
-        $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#013B76";
-        $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#ffffff";
-        $linksAllowed = array_chunk($linksAllowed, 3, true);
-    @endphp
+<html xmlns="http://www.w3.org/TR/REC-html40" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         News Openpay, {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
             ->formatLocalized('%A %d de %B %Y') }}
     </title>
-<link rel="important stylesheet" href="chrome://messagebody/skin/messageBody.css">
-<meta http-equiv="Content-Type" content="text/html; ">
-<meta name="Generator" content="Microsoft Word 15 (filtered medium)">
-<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
-</style><![endif]-->
-<style>@font-face
-    {font-family:"Cambria Math";
-    panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
-    {font-family:Calibri;
-    panose-1:2 15 5 2 2 2 4 3 2 4;}p.MsoNormal, li.MsoNormal, div.MsoNormal
-    {margin:0cm;
-    font-size:11.0pt;
-    font-family:"Calibri",sans-serif;
-    mso-fareast-language:EN-US;}a:link, span.MsoHyperlink
-    {mso-style-priority:99;
-    color:#0563C1;
-    text-decoration:underline;}span.EstiloCorreo17
-    {mso-style-type:personal-compose;
-    font-family:"Calibri",sans-serif;
-    color:windowtext;}.MsoChpDefault
-    {mso-style-type:export-only;
-    font-family:"Calibri",sans-serif;
-    mso-fareast-language:EN-US;}div.WordSection1
-    {page:WordSection1;}
-</style>
-<!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1027" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body style="word-wrap:break-word" vlink="#954F72" link="#0563C1" lang="ES-MX">
+    <meta http-equiv="Content-Type" content="text/html; ">
+    <style>a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}u+#body a{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}#MessageViewBody a{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}:root{color-scheme:light dark;supported-color-schemes:light dark;}tr{vertical-align:middle;}p,a,li{mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;}p:first-child{margin-top:0!important;}p:last-child{margin-bottom:0!important;}a{text-decoration:underline;color:inherit;}@media only screen and (max-width:599px){.full-width-mobile{width:100%!important;height:auto!important;}.mobile-padding{padding-left:10px!important;padding-right:10px!important;}.mobile-stack{display:block!important;width:100%!important;}}
+    </style>
+    @php
+      $day = date('Y-m-d H:i:s');
 
-<div class="moz-text-html" lang="x-unicode">
-  <div class="WordSection1">
-    <p class="MsoNormal">
-      <a name="top">
-        <span style="font-size:13.5pt;font-family:&quot;Times New Roman&quot;,serif;color:black">
-          <o:p>&nbsp;</o:p>
-        </span>
-      </a>
-    </p>
-    <div align="center">
-      <table class="MsoNormalTable" style="width:96.0%;background:white" width="96%" cellspacing="0"
-        cellpadding="0" border="0">
-        <tbody>
-          <tr>
-            <td style="padding:0cm 0cm 0cm 0cm" valign="top">
-              <div align="center">
-                <span style="mso-bookmark:top"></span><table class="MsoNormalTable" style="width:90.0%" width="90%"
-                  cellspacing="0" cellpadding="0" border="0">
-                  <tbody>
+      $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+      $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#ffffff";
+      $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
+      $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#013B76";
+      $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#ffffff";
+      $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#000000";
+      $themeBgColor = isset($colorsConfig['theme_bg']) ? $colorsConfig['theme_bg'] : "#013B76";
+      $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#013B76";
+      $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#ffffff";
+      $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#444444";
+      $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#000000";
+      $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#222222";
+  @endphp
+</head>
+<body style="padding:0px 0px 0px 0px; margin:0px 0px 0px 0px;background-color:{{ $bodyBgColor }};">
+    <table align="center" style="width:100%;max-width:600px;background:white;margin:0 auto 0 auto;background-color:{{ $mainBgColor }};" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td style="padding:0px 0px 0px 0px;">
+                <table cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                      <td style="width:5.0%;background:white;padding:0cm 0cm 0cm 0cm"
-                        width="5%" valign="top">
-                        <span style="mso-bookmark:top"></span>
-                      </td>
-                        <td style="padding:0cm 0cm 0cm 0cm" valign="top">
-                          <span style="mso-bookmark:top"></span>
-                          <span style="mso-bookmark:top"></span>
-                          <span style="mso-bookmark:top"></span>
-                          <table class="MsoNormalTable" style="width:96.0%" width="96%"
-                              cellspacing="0" cellpadding="0" border="0">
-                              <tbody>
-                                  <tr>
-                                      <td style="width:3.0%;padding:0cm 0cm 0cm 0cm" width="3%">
-                                          <span style="mso-bookmark:top"></span>
-                                      </td>
-                                      <td style="padding:0cm 0cm 0cm 0cm" valign="top">
-                                          <p class="MsoNormal"><!--[if gte vml 1]><v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
-                                          <v:stroke joinstyle="miter" />
-                                          <v:formulas>
-                                          <v:f eqn="if lineDrawn pixelLineWidth 0" />
-                                          <v:f eqn="sum @0 1 0" />
-                                          <v:f eqn="sum 0 0 @1" />
-                                          <v:f eqn="prod @2 1 2" />
-                                          <v:f eqn="prod @3 21600 pixelWidth" />
-                                          <v:f eqn="prod @3 21600 pixelHeight" />
-                                          <v:f eqn="sum @0 0 1" />
-                                          <v:f eqn="prod @6 1 2" />
-                                          <v:f eqn="prod @7 21600 pixelWidth" />
-                                          <v:f eqn="sum @8 21600 0" />
-                                          <v:f eqn="prod @7 21600 pixelHeight" />
-                                          <v:f eqn="sum @10 21600 0" />
-                                          </v:formulas>
-                                          <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect" />
-                                          <o:lock v:ext="edit" aspectratio="t" />
-                                          </v:shapetype><v:shape id="Imagen_x0020_14" o:spid="_x0000_s1026" type="#_x0000_t75" style='position:absolute;margin-left:0;margin-top:0;width:180pt;height:85.5pt;z-index:251658240;visibility:visible;mso-wrap-style:square;mso-width-percent:0;mso-height-percent:0;mso-wrap-distance-left:0;mso-wrap-distance-top:0;mso-wrap-distance-right:0;mso-wrap-distance-bottom:0;mso-position-horizontal:left;mso-position-horizontal-relative:text;mso-position-vertical:absolute;mso-position-vertical-relative:line;mso-width-percent:0;mso-height-percent:0;mso-width-relative:page;mso-height-relative:page' o:allowoverlap="f">
-                                          <v:imagedata src="mailbox:///home/devops/Descargas/News%20Openpay,%20Martes%208%20de%20Noviembre%20de%202022.eml?number=0&part=1.2&filename=image001.gif" o:title="" />
-                                          <w:wrap type="square" anchory="line"/>
-                                          </v:shape><![endif]--><!--[if !vml]-->
-                                          <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}"
-                                              alt="{{ $newsletterSend->newsletter->name }}"
-                                              v:shapes="Imagen_x0020_14"
-                                              shrinktofit="true"
-                                              width="240"
-                                              align="left"><!--[endif]-->
-                                              <span style="mso-bookmark:top"></span>
-                                              <span style="mso-bookmark:top">
-                                                  <span style="font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif">
-                                                      <o:p></o:p>
-                                                  </span>
-                                              </span>
-                                          </p>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td colspan="2" style="padding:0cm 3.0pt 0cm 0cm">
-                                          <p class="MsoNormal" style="text-align:right"
-                                              align="right">
-                                              <span style="mso-bookmark:top">
-                                                  <span style="font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                    {{-- Fecha del newsletter--}}
-                                                    {{ Illuminate\Support\Carbon::parse(
-                                                          $newsletterSend->date_sending
-                                                        )->formatLocalized('%A %d de %B %Y')
-                                                    }}
-                                                  </span>
-                                              </span>
-                                              <span style="mso-bookmark:top">
-                                                  <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:white">
-                                                      <o:p></o:p>
-                                                  </span>
-                                              </span>
-                                          </p>
-                                      </td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                          <p class="MsoNormal">
-                              <span style="mso-bookmark:top">
-                                  <span style="display:none">
-                                      <o:p>&nbsp;</o:p>
-                                  </span>
-                              </span>
-                          </p>
-                          <div align="center">
-                              <span style="mso-bookmark:top"></span>
-                              <table class="MsoNormalTable" style="width:100.0%"
-                                  width="100%" cellspacing="0" cellpadding="0"
-                                  border="0">
-                                  <tbody>
-                                      <tr>
-                                          <td style="padding:0cm 0cm 0cm 0cm">
-                                              <span style="mso-bookmark:top"></span>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                          <p class="MsoNormal">
-                              <span style="mso-bookmark:top">
-                                  <o:p>&nbsp;</o:p>
-                              </span>
-                          </p>
-                          <div align="center">
-                            <table class="MsoNormalTable" style="width:96.0%"
-                              width="96%" cellspacing="20" cellpadding="0" border="0">
-                              <tbody>
+                        <td valign="top" style="text-align:center;width:60%;">
+                            <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="width: 100%; display: block;">
+                        </td>
+                        <td style="width:40%;padding:0px 20px 0px 20px;background:{{ $dateBgColor }};">
+                            <p style="text-align:right;font-size:13px;color:{{ $dateTextColor }};line-height:16px;">
+                                {{-- Fecha del newsletter--}}
+                                {{ Illuminate\Support\Carbon::parse(
+                                      $newsletterSend->date_sending
+                                    )->formatLocalized('%A %d de %B %Y')
+                                }}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="background:{{ $mainBgColor }};padding:0px 0px 0px 0px" valign="top">
+                        @foreach ($newsletterSend->newsletter->company->themes as $theme)
+                          @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
+                            <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
                                 <tr>
-                                  <td style="background:white;padding:0cm 0cm 0cm 0cm" valign="top">
-                                    @foreach ($newsletterSend->newsletter->company->themes as $theme)
-                                      @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
-                                        <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
-                                           cellpadding="0" border="0">
-                                          <tbody>
-                                            <tr style="height:15.0pt">
-                                              <td bgcolor="{{ $bgTitleSecond }}" style="width:95.0%;background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm;height:15.0pt" width="95%">
-                                                <p class="MsoNormal">
-                                                  <a name="1">
-                                                    <b>
-                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }}">
-                                                        &nbsp;{{ strtoupper($theme->name) }}
-                                                      </span>
-                                                    </b>
-                                                  </a>
-                                                  <o:p></o:p>
-                                                </p>
-                                              </td>
-                                              <td bgcolor="{{ $bgTitleSecond }}" style="width:5.0%;background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm;height:15.0pt" width="5%">
-                                                <p class="MsoNormal" style="text-align:center" align="center">
-                                                  <span style="color:white">
-                                                    <a href="javascript:void(0);" title="Subir"> {{-- Aqui va el link del newsletter online --}}
-                                                      <b>
-                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }};text-decoration:none">
-                                                          &nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;
-                                                        </span>
-                                                      </b>
-                                                    </a>
-                                                  </span>
-                                                  <o:p></o:p>
-                                                </p>
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td style="padding:0cm 0cm 0cm 0cm">
-                                                <p class="MsoNormal">
-                                                  <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                  <td bgcolor="{{ $themeBgColor }}" style="width: 95%;background:{{ $themeBgColor }};padding:15px 20px 15px 20px;">
+                                    <p style="color:{{ $themeTextColor }};text-decoration:none;font-weight:bold;">
+                                      <a href="#" style="color:{{ $themeTextColor }};text-decoration:none;font-weight:bold;">
+                                            {{ strtoupper($theme->name) }}
+                                      </a>
+                                    </p>
+                                  </td>
+                                  <td bgcolor="{{ $themeBgColor }}" style="width:5.0%;background:{{ $themeBgColor }};padding:0px 0px 0px 0px;">
+                                    <p style="text-align:center" align="center">
+                                        <a href="javascript:void(0);" title="Subir" style="text-decoration:none;color:{{ $themeTextColor }};">
+                                            <span style="font-size:16px;font-family:'Arial',sans-serif;color:{{ $themeTextColor }};text-decoration:none">
+                                              &nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </a>
+                                    </p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding:10px 20px 10px 20px;">
+                                    <table>
+                                        <tr>
+                                            <td style="border-width: 1px; border-style: solid; border-color:{{ $themeBorderColor }}; padding: 2px 10px 2px 10px;">
+                                                <p style="font-size: 12px;color:{{ $newsTextColor }}">
                                                     @php
                                                       $countNotes = $newsletterSend
                                                         ->newsletter_theme_news->where('newsletter_theme_id', $theme->id)
                                                         ->count();
                                                     @endphp
                                                     {{ "Noticias encontradas: {$countNotes}" }}
-                                                  </span>
-                                                  <o:p></o:p>
                                                 </p>
-                                              </td>
-                                              <td style="padding:0cm 0cm 0cm 0cm"></td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      @endif
-                                      @foreach ($newsletterSend->newsletter_theme_news as $note)
-                                        @if($note->theme->id == $theme->id)
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
-                                            cellpadding="0" border="0" align="left">
-                                            <tbody>
-                                              <tr>
-                                                <td style="padding:0cm 0cm 0cm 0cm">
-                                                  <div class="MsoNormal" style="text-align:center" align="center">
-                                                    <hr width="100%" size="2" align="center">
-                                                  </div>
-                                                  <p class="MsoNormal">
-                                                    <a name="73027426">
-                                                      <b>
-                                                        <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                          {{ $note->news->title }}
-                                                        </span>
-                                                      </b>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                            </table>
+                          @endif
+                          @foreach ($newsletterSend->newsletter_theme_news as $note)
+                            @if($note->theme->id == $theme->id)
+                              <table style="width:100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                                  <tr>
+                                    <td style="padding:0px 20px 30px 20px;">
+                                        <table>
+                                            <tr>
+                                                <td style="padding-bottom:15px;border-top:1px solid {{ $newsBorderColor }};padding-top: 20px;">
+                                                    <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="text-decoration:none;">
+                                                        <b>
+                                                            <span style="font-size:16px;color:{{ $newsTitleColor }};text-decoration:none;">
+                                                            {{ $note->news->title }}
+                                                            </span>
+                                                        </b>
                                                     </a>
-                                                    <span style="mso-bookmark:73027426">
-                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                        &nbsp;
-                                                      </span>
-                                                    </span>
-                                                    <br>
-                                                    <span style="font-size:8.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
-                                                      {{ $note->news->news_date->format('d/m/Y') }},
-                                                      <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" target="_blank">
-                                                        <span style="text-decoration:none">»
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom:15px;">
+                                                    <p style="font-size:12px;color:{{ $newsTextColor }}">
+                                                      {{ $note->news->news_date->format('d/m/Y') }} &nbsp;
+                                                      <a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" target="_blank" style="color:{{ $newsTextColor }}">
+                                                        <span style="text-decoration:none;color:{{ $newsTextColor }}">»
                                                           {{ $note->news->source->name ?? 'N/E' }}
                                                         </span>
                                                       </a>,
-                                                      {{ $note->news->author }}
+                                                      &nbsp;{{ $note->news->author }}
                                                       <br>
-                                                    </span>
-                                                    @php
-                                                      $news_metas = unserialize($note->news->metas_news);
-                                                      $noteUrl = '';
-                                                      if($note->news->mean->short_name == 'int') {
-                                                        $noteUrl = $news_metas['url'];
-                                                      }
-                                                    @endphp
-                                                    <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="font-size:14px;color:{{ $newsTextColor }}">
+                                                      @php
+                                                        $news_metas = unserialize($note->news->metas_news);
+                                                        $noteUrl = '';
+                                                        if($note->news->mean->short_name == 'int') {
+                                                          $noteUrl = $news_metas['url'];
+                                                        }
+                                                      @endphp
                                                       {!! $note->news->synthesis !!} &nbsp;{!! $noteUrl !!}
-                                                    </span>
-                                                    <o:p></o:p>
-                                                  </p>
+                                                    </p>
                                                 </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                          <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-                                        @endif
-                                      @endforeach
-                                    @endforeach
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%"
-                                            cellspacing="0" cellpadding="0" border="0">
-                                            <tbody>
-                                              <tr>
-                                                <td bgcolor="{{ $bgTitleSecond }}" style="background:{{ $bgTitleSecond }};padding:0cm 0cm 0cm 0cm">
-                                                  <p class="MsoNormal">
-                                                    <b>
-                                                      <span style="font-size:9.0pt;font-family:&quot;Arial&quot;,sans-serif;color:{{ $bgBodyThemeSecond }}">
-                                                        &nbsp;PRIMERAS PLANAS
-                                                      </span>
-                                                    </b>
-                                                    <o:p></o:p>
-                                                  </p>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                          <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-                                          <table class="MsoNormalTable" style="width:100.0%" width="100%" cellspacing="0"
-                                            cellpadding="0" border="0">
-                                            <tbody>
-                                                @foreach($linksAllowed as $tableNumber => $links)
-                                                  <tr>
-                                                    @foreach($links as $slug => $link)
-                                                        <td style="width:25.0%;padding:0cm 0cm 0cm 0cm" width="25%">
-                                                            <p class="MsoNormal" style="text-align:center" align="center"><br>
-                                                                <a href="{{ $link }}" target="_blank">
-                                                                  <span style="color:blue;text-decoration:none">
-                                                                    {{ $covers->where('slug', $slug)->first()->name }}
-                                                                  </span>
-                                                                </a>
-                                                                <o:p></o:p>
-                                                            </p>
-                                                        </td>
-                                                    @endforeach
-                                                  </tr>
-                                                @endforeach
-                                            </tbody>
-                                          </table>
-                                  </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                  </tr>
+                              </table>
+                            @endif
+                          @endforeach
+                        @endforeach
+
+                            <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td bgcolor="{{ $themeBgColor }}" style="background:{{ $themeBgColor }};padding:15px 20px 15px 20px">
+                                      <p>
+                                        <b>
+                                          <span style="font-size:14px;color:{{ $themeTextColor }}">
+                                            &nbsp;PRIMERAS PLANAS
+                                          </span>
+                                        </b>
+                                      </p>
+                                    </td>
                                 </tr>
-                              </tbody>
                             </table>
-                          </div>
+
+                            <table style="width:100%;text-align:center;padding:10px 15px 10px 15px;" cellspacing="0" cellpadding="0" border="0">
+                              @foreach ($linksAllowed as $key => $link)
+                                @if ($loop->odd)
+                                  <tr>
+                                    <td style="padding:5px 0px 5px 0px;">
+                                      <a href="{{ $link }}" style="font-weight:normal;color:{{ $linksButtonTextColor }};mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;margin-top:0!important;margin-bottom:0!important;">
+                                        {{ $covers->where('slug', $key)->first()->name }}
+                                      </a>
+                                    </td>
+                                @else
+                                    <td style="padding:5px 0px 5px 0px;">
+                                      <a href="{{ $link }}" style="font-weight:normal;color:{{ $linksButtonTextColor }};mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;margin-top:0!important;margin-bottom:0!important;">
+                                        {{ $covers->where('slug', $key)->first()->name }}
+                                      </a>
+                                    </td> 
+                                  </tr>
+                                @endif
+                                @if ($loop->last && $loop->odd)
+                                    <td style="padding:5px 0px 5px 0px;">
+                                    </td> 
+                                  </tr>
+                                @endif
+                              @endforeach
+                            </table>
                         </td>
                     </tr>
-                  </tbody>
                 </table>
-              </div>
             </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-  </div>
-</div>
+        </tr>
+    </table>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

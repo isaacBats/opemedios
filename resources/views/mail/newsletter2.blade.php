@@ -1,110 +1,127 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-@php
-    $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-    $bgPrimary = isset($colorsConfig['bg_primary']) ? $colorsConfig['bg_primary'] : "#ffffff";
-    $bgCovers = isset($colorsConfig['bg_covers']) ? $colorsConfig['bg_covers'] : "#283593";
-    $bgFontCovers = isset($colorsConfig['bg_font_covers']) ? $colorsConfig['bg_font_covers'] : "#ffffff";
-    $bgTitleSecond = isset($colorsConfig['bg_title_second']) ? $colorsConfig['bg_title_second'] : "#283593";
-    $bgBodyThemeSecond = isset($colorsConfig['bg_body_theme_second']) ? $colorsConfig['bg_body_theme_second'] : "#263238";
-    $linksAllowed = array_chunk($linksAllowed, 3, true);
-@endphp
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Newsletter Opemedios</title>
-	<style type="text/css">
-		body, table, td, a{-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
-	    table, td{mso-table-lspace: 0pt; mso-table-rspace: 0pt;} /* Remove spacing between tables in Outlook 2007 and up */
-	    img{-ms-interpolation-mode: bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
-	    /* RESET STYLES */
-	    img{border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
-	    table{border-collapse: collapse !important;}
-	    body{height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;}
-	    /* iOS BLUE LINKS */
-	    a[x-apple-data-detectors] {
-	        color: inherit !important;
-	        text-decoration: none !important;
-	        font-size: inherit !important;
-	        font-family: inherit !important;
-	        font-weight: inherit !important;
-	        line-height: inherit !important;
-	    }
-	</style>
+	<style>a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}u+#body a{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}#MessageViewBody a{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important;}:root{color-scheme:light dark;supported-color-schemes:light dark;}tr{vertical-align:middle;}p,a,li{mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;}p:first-child{margin-top:0!important;}p:last-child{margin-bottom:0!important;}a{text-decoration:underline;color:inherit;}@media only screen and (max-width:599px){.full-width-mobile{width:100%!important;height:auto!important;}.mobile-padding{padding-left:10px!important;padding-right:10px!important;}.mobile-stack{display:block!important;width:100%!important;}}
+    </style>
+    @php
+        $day = date('Y-m-d H:i:s');
+
+        $colorsConfig = unserialize($newsletterSend->newsletter->colors);
+        $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#E8EAF6";
+        $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
+        $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#283593";
+        $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#ffffff";
+        $dateBgColor = isset($colorsConfig['date_bg']) ? $colorsConfig['date_bg'] : "#283593";
+        $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#ffffff";
+        $themeBgColor = isset($colorsConfig['theme_bg']) ? $colorsConfig['theme_bg'] : "#283593";
+        $themeBorderColor = isset($colorsConfig['theme_border']) ? $colorsConfig['theme_border'] : "#283593";
+        $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#283593";
+        $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#283593";
+        $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#283593";
+        $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#283593";
+        $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#ffffff";
+    @endphp
 </head>
-<body style="background-color: #E8EAF6;font-family: Arial, Helvetica, sans-serif;">
-<table  style="width: 100%;border-collapse: collapse;">
+<body style="background-color:{{ $bodyBgColor }};font-family:Arial,Helvetica,sans-serif;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;">
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;border-collapse: collapse; max-width: 580px; margin: 0 auto 0 auto;background-color:{{ $mainBgColor }};">
 	<tr>
 		<td>
-			<table align="center" style="width: 580px;background-color: #ffffff;padding: 20px;border: 0;border-collapse: collapse;color: #263238;">
+			<table border="0" cellpadding="0" cellspacing="0" align="center" style="max-width: 580px;width:100%;background-color:{{ $dateBgColor }};padding:20px 20px 20px 20px;border:0;border-collapse:collapse;color:{{ $dateTextColor }};">
 				<tr>
-					<td bgcolor="{{ $bgCovers }}" style="background-color: {{ $bgCovers }};color: {{ $bgFontCovers }};text-align: right;font-size: 12px;padding: 20px 20px 20px 0; font-weight: bold;">
-						@php
-                            $day = date('Y-m-d H:i:s');
-                        @endphp
-                        {{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
+					<td bgcolor="{{ $dateBgColor }}" style="background-color:{{ $dateBgColor }};color:{{ $dateTextColor }};text-align:right;font-size:12px;padding:20px 30px 20px 0;font-weight:bold;">
+						{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
 					</td>
 				</tr>
 			</table>
-			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;">
+			<table border="0" cellpadding="0" cellspacing="0" align="center" style="max-width: 580px;width:100%;padding: 0;border: 0;border-collapse: collapse;background-color: #ffffff;">
 				<tr>
-					<td>
-						<img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="width: 100%;height: auto;">
+					<td style="text-align: center;">
+						<img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" style="width: 100%; max-width: 580px; height: auto; display: block;">
 					</td>
 				</tr>
 			</table>
-			<table align="center" style="width: 580px;padding: 0;border: 0;border-collapse: collapse;background-color: {{ $bgPrimary }};margin-bottom: 100px;">
-                <tr valign="top" style="font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
-                    @foreach($linksAllowed as $tableNumber => $links)
-                        <td bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 60px;background-color: {{ $bgCovers }};">
-                            @foreach($links as $slug => $link)
-                                <a href="{{ $link }}" style="color: {{ $bgFontCovers }};text-decoration: none;">&#9656; {{ $covers->where('slug', $slug)->first()->name }}</a><br>
+			<table border="0" cellpadding="0" cellspacing="0" align="center" style="max-width:580px;width:100%;padding:0 0 0 0;border:0;background-color:{{ $mainBgColor }};">
+                <tr valign="top" style="font-size: 14px;line-height: 24px;">
+                    <td bgcolor="{{ $linksBgColor }}" style="padding:10px 15px 10px 15px;background-color:{{ $linksBgColor }};width:100%;">
+                        <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" width="400" style="border-collapse:collapse;max-width:400px;width:100%;background-color:{{ $linksBgColor }};text-align:left;">
+                            @foreach ($linksAllowed as $key => $link)
+                                @if ($loop->odd)
+                                    <tr>
+                                    	<td style="color:{{ $linksButtonTextColor }};width: 15px;">&#9656;</td>
+                                        <td style="padding:5px 0px 5px 0px;">
+                                            <a href="{{ $link }}" style="font-weight:normal;color:{{ $linksButtonTextColor }};mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;margin-top:0!important;margin-bottom:0!important;text-decoration:none;">
+                                                {{ $covers->where('slug', $key)->first()->name }}
+                                            </a>
+                                        </td>
+                                    @if ($loop->last)
+	                                		<td style="width: 15px;"></td>
+	                                        <td style="padding:5px 0px 5px 0px;">
+	                                        </td> 
+	                                    </tr>
+                                	@endif
+                                @else
+                                        <td style="color:{{ $linksButtonTextColor }};width: 15px;">&#9656;</td>
+                                        <td style="padding:5px 0px 5px 0px;">
+                                            <a href="{{ $link }}" style="font-weight:normal;color:{{ $linksButtonTextColor }};mso-line-height-rule:exactly;line-height:24px;font-family:Arial,sans-serif;font-size:14px;margin-top:0!important;margin-bottom:0!important;text-decoration:none;">
+                                                {{ $covers->where('slug', $key)->first()->name }}
+                                            </a>
+                                        </td> 
+                                    </tr>
+                                @endif
                             @endforeach
-                        </td>
-                    @endforeach
+						</table>
+                    </td>
                 </tr>
-				<tr>
-					<td colspan="2" style="padding: 20px;">
-					</td>
-				</tr>
 				@foreach ($newsletterSend->newsletter->company->themes as $theme)
 					@if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
 						<tr>
-							<td colspan="2">
-								<table style="width: 580px;border: 0;border-collapse: collapse;">
+							<td colspan="2" style="padding-top: 30px;"></td>
+						</tr>
+						<tr>
+							<td colspan="2" style="padding:10px 0px 30px 0;">
+								<table border="0" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;border:0;">
 									<tr>
-										<td bgcolor="{{ $bgTitleSecond }}" style="width: 20px;background-color: {{ $bgTitleSecond }};"></td>
-										<td style="padding-left: 10px;font-size: 16px;color: {{ $bgTitleSecond }};">
+										<td bgcolor="{{ $themeBorderColor }}" style="width:20px;background-color:{{ $themeBgColor }};"></td>
+										<td style="padding-left:10px;padding-right:30px;font-size:16px;color:{{ $themeTextColor }};">
 											{{ strtoupper($theme->name) }}
 										</td>
-									</tr>
-									<tr>
-										<td colspan="2" style="padding: 15px;"></td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 					@endif
+
 					@foreach ($newsletterSend->newsletter_theme_news as $note)
 						@if($note->theme->id == $theme->id)
-						<tr>
-							<td colspan="2" style="padding: 10px 30px;">
-								<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size: 18px;color: {{ $bgBodyThemeSecond }};text-decoration: none;" target="_blank">{{ strtoupper($note->news->title) }}</a>
-								<p style="color: {{ $bgBodyThemeSecond }};font-size: 14px;margin: 0;margin-top: 10px;margin-bottom: 10px; line-height: 20px;">{!! $note->news->synthesis !!} </p>
-								<p style="font-size: 12px;margin-bottom: 20px;margin-top: 5px;color: {{ $bgBodyThemeSecond }};"> {{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}</p>
-							</td>
-						</tr>
-                        <tr>
-                            <td colspan="2" style="padding: 12px;"></td>
-                        </tr>
+							<tr>
+								<td colspan="2" style="padding: 10px 30px 20px 30px;">
+									<a href="{{ route('newsletter.shownew', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$note->news_id}-{$note->news->title}-{$newsletterSend->newsletter->company->id}")]) }}" style="font-size:18px;color:{{ $newsTitleColor }};text-decoration:none;" target="_blank">
+										{{ strtoupper($note->news->title) }}
+									</a>
+									<p style="color:{{ $newsTextColor }};font-size:14px;margin:0;margin-top:10px;margin-bottom:10px;line-height:20px;">
+										{!! $note->news->synthesis !!}
+									</p>
+									<p style="font-size:13px;margin-bottom:20px;margin-top:5px;color:{{ $newsTextColor }};">
+										{{ $note->news->mean->name }} / {{ $note->news->source->name }}, {{ $note->news->author }}
+									</p>
+								</td>
+							</tr>
 						@endif
 					@endforeach
 				@endforeach
+
 				<!-- start footer -->
-				<tr valign="top" style="text-align: center; font-size: 14px;line-height: 24px;border-top: 1px solid #E3F2FD;">
-                    <td colspan="2" bgcolor="{{ $bgCovers }}" style="padding: 30px  0 30px 0;background-color: {{ $bgCovers }};">
-                        <p style="color: {{ $bgFontCovers }};text-decoration: none;">Newsletter - Opemedios {{ date('Y') }}</p>
+				<tr>
+					<td colspan="2" style="padding-top: 20px;"></td>
+				</tr>
+				<tr valign="top">
+                    <td colspan="2" bgcolor="{{ $footerBgColor }}" style="padding:30px 0 30px 0;background-color:{{ $footerBgColor }};">
+                        <p style="text-align:center;line-height:24px;font-size:14px;color:{{ $footerTextColor }};text-decoration:none;">Newsletter - Opemedios {{ date('Y') }}</p>
                     </td>
 				</tr>
 			</table>
