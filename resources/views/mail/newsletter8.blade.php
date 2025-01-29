@@ -27,7 +27,7 @@
 
       $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#333333";
 
-      $newsBorderColor = isset($colorsConfig['news_border']) ? #dee0e1Config['news_border'] : "#dee0e1";
+      $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#dee0e1";
       $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#333333";
       $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#959ba0";
 

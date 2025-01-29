@@ -98,22 +98,14 @@ class ReportController extends Controller
     {
         $auth = Auth::user();
         $datos = ListReport::orderBy('id', 'asc')->get();
-        // if ($auth->hasRole('admin')) {
-        //     $datos = ListReport::orderBy('id', 'asc')->get();
-        // } else {
-        //     $user_id = $auth->id;
-        //     $datos = ListReport::where('user_id', $user_id)->orderBy('id', 'asc')->get();
-        // }
-
+        
         $user = auth()->user();
-        if($user->isClient())
-        {
+        if($user->isClient()) {
             $company = Company::where('slug', $slug_company)->first();
             return view('clients.list_solicitados', compact('company', 'datos'));
         }
-        else
-            return view('admin.report.list_solicitados', compact('datos'));
-
+        
+        return view('admin.report.list_solicitados', compact('datos'));
     }
 
     public function byNotes(Request $request) {
