@@ -71,7 +71,7 @@
                                     <tr>
                                         <td>
                                             <p style="color:{{ $newsTextColor }};font-weight: bold; font-size: 13px;">
-                                                {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }
+                                                {{ $note->news->mean->name ?? 'N/E' }} | {{ $note->news->source->name ?? 'N/E' }}, {{ $note->news->author }}
                                             </p>
                                         </td>
                                     </tr>
