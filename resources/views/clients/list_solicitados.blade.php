@@ -93,7 +93,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Tiempo Aprox</th>
+                            <th>Tiempo de Descarga</th>
                             <th>Archivo</th>
                             <th>Estatus</th>
                             <th>Fechas</th>
@@ -101,10 +101,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($datos as $item)
+                        @php
+                            $cnt_sm = \App\Models\ListReport::where('size', 'small')->where('status', 0)->count() + 1;
+                            $cnt_md = \App\Models\ListReport::where('size', 'medium')->where('status', 0)->count() + 1;
+                            $cnt_bg = \App\Models\ListReport::where('size', 'big')->where('status', 0)->count() + 1;
+                            $cnt_sm_no = 0;
+                            $cnt_md_no = 0;
+                            $cnt_bg_no = 0;
+
+                        @endphp
+                        @foreach($datos as $key => $item)
+                            @php
+                                if($item->status == 0){
+                                    if($item->size == 'small') $cnt_sm_no++;
+                                    if($item->size == 'medium') $cnt_md_no++;
+                                    if($item->size == 'big') $cnt_bg_no++;
+
+                                    $time_lapse = ($item->size == 'small' ? (($cnt_sm_no + 1) * 5)
+                                                    : ($item->size == 'medium' ? (($cnt_md_no + 1) * 30) 
+                                                    : (($cnt_bg_no + 1) * 60)));
+                                }
+                            @endphp 
+                            @if($item->user_id == Auth::user()->id)
                             <tr style="background: {{ $item->status == 0 ? '#ffd079' : ($item->status == 1 ? '#6d9af9' : '#259dab') }};">
                                 <td>{{ $item->id }}</td>
-                                <td>@if($item->status == 0) Tiempo aprox. {{ $item->size == 'small' ? (\App\Models\ListReport::where('size', 'small')->where('status', 0)->count() * 5) : ($item->size == 'medium' ? (\App\Models\ListReport::where('size', 'medium')->where('status', 0)->count() * 30) : (\App\Models\ListReport::where('size', 'big')->where('status', 0)->count() * 60)) }} mins @endif</td>
+                                <td>
+                                    
+                                    @if($item->status == 0)
+                                        Tiempo aprox.
+                                        @if($item->size == 'small') {{ $time_lapse }} mins @endif
+                                        @if($item->size == 'medium') {{ $time_lapse }} mins @endif
+                                        @if($item->size == 'big') {{ $time_lapse }} mins @endif
+                                    @endif
+                                    <br>
+                                    @php 
+                                        if($item->size == 'small') $totalDuration = \Carbon\Carbon::parse($item->created_at)->diffInMinutes(\Carbon\Carbon::now()) / $cnt_sm; 
+                                        if($item->size == 'medium') $totalDuration = \Carbon\Carbon::parse($item->created_at)->diffInMinutes(\Carbon\Carbon::now()) / $cnt_md; 
+                                        if($item->size == 'big') $totalDuration = \Carbon\Carbon::parse($item->created_at)->diffInMinutes(\Carbon\Carbon::now()) / $cnt_bg; 
+                                        $percent = (100- (100 / $cnt_sm) * ($key + 1));
+                                    @endphp
+                                    
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $percent < 0 ? 0 : $percent }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ $percent < 0 ? 0 : $percent }}%">
+                                            {{ $percent < 0 ? 0 : $percent }}%
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ $item->name_file ?? 'N/E' }}</td>
                                 <td>@if($item->status > 0) {{ $item->status == 1 ? 'Generado' : ($item->status == 3 ? 'Procesando' : 'Descargado') }} @endif</td>
                                 <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') . ' - ' . \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</td>
@@ -115,6 +157,7 @@
                                     @endif
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

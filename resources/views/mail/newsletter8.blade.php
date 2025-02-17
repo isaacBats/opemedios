@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Newsletter Opemedios</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="date=no">
+  <meta name="format-detection" content="address=no">
+  <meta name="format-detection" content="email=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>Opemedios</title>
   @php
     $day = date('Y-m-d H:i:s');
-
     $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
     $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#f4f4f4";
-
     $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#ffffff";
-    $mainBorderColor = isset($colorsConfig['main_border']) ? $colorsConfig['main_border'] : "#dddddd";
-
-    $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#007bff";
     $linksButtonTextColor = isset($colorsConfig['links_button_text']) ? $colorsConfig['links_button_text'] : "#ffffff";
-
+    $bannerBgColor = isset($colorsConfig['banner_bg']) ? $colorsConfig['banner_bg'] : "#212121";
+    $bannerBorderColor = isset($colorsConfig['banner_border']) ? $colorsConfig['banner_border'] : "#2376dc";
+    $dateBorderColor = isset($colorsConfig['date_border']) ? $colorsConfig['date_border'] : "#dee0e1";  
     $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#666666";
-
     $themeTextColor = isset($colorsConfig['theme_text']) ? $colorsConfig['theme_text'] : "#000000";
-
-    $newsBgColor = isset($colorsConfig['news_bg']) ? $colorsConfig['news_bg'] : "#f9f9f9";
-    $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#eeeeee";
+    $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#dee0e1";
     $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#007bff";
     $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#222222";
-
+    $newsBgColor = isset($colorsConfig['news_bg']) ? $colorsConfig['news_bg'] : "#f9f9f9";
+    $mainBorderColor = isset($colorsConfig['main_border']) ? $colorsConfig['main_border'] : "#dddddd";
+    $linksBgColor = isset($colorsConfig['links_bg']) ? $colorsConfig['links_bg'] : "#007bff";
     $newsButtonBgColor = isset($colorsConfig['news_button_bg']) ? $colorsConfig['news_button_bg'] : "#007bff";
     $newsButtonBorderColor = isset($colorsConfig['news_button_border']) ? $colorsConfig['news_button_border'] : "#007bff";
     $newsButtonTextColor = isset($colorsConfig['news_button_text']) ? $colorsConfig['news_button_text'] : "#ffffff";
-
     $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#f4f4f4";
     $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#777777";
   @endphp
