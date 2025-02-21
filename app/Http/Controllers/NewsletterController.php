@@ -118,11 +118,33 @@ class NewsletterController extends Controller
             "portadas_politicas"
         ]);
         $data['colors'] = serialize([
-            'bg_primary' => "#ffffff",
-            'bg_covers' => "#fb9623",
-            'bg_font_covers' => "#ffffff",
-            'bg_title_second' => "#f79e02",
-            'bg_body_theme_second' => "#303030"
+            'covers_bg' => '#000000',
+              'banner_bg' => '#000000',
+              'bg_primary' => '#000000',
+              'banner_border' => '#000000',
+              'body_bg' => '#000000',
+              'date_bg' => '#000000',
+              'date_border' => '#000000',
+              'date_text' => '#000000',
+              'footer_bg' => '#000000',
+              'footer_border' => '#000000',
+              'footer_text' => '#000000',
+              'links_bg' => '#000000',
+              'links_button_bg' => '#000000',
+              'links_button_border' => '#000000',
+              'links_button_text' => '#000000',
+              'main_bg' => '#000000',
+              'main_border' => '#000000',
+              'news_bg' => '#000000',
+              'news_button_bg' => '#000000',
+              'news_button_border' => '#000000',
+              'news_button_text' => '#000000',
+              'news_border' => '#000000',
+              'news_title' => '#000000',
+              'news_text' => '#000000',
+              'theme_bg' => '#000000',
+              'theme_border' => '#000000',
+              'theme_text' => '#000000',
         ]);
 
         Newsletter::create($data);
