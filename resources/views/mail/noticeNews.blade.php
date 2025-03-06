@@ -8,29 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="format-detection" content="telephone=no" />
         <title>{{ "Opemedios - {$news->title}" }}</title>
-        @php
-            $day = date('Y-m-d H:i:s');
-
-            $colorsConfig = unserialize($newsletterSend->newsletter->colors);
-
-            $bodyBgColor = isset($colorsConfig['body_bg']) ? $colorsConfig['body_bg'] : "#d0d0d0";
-
-            $mainBgColor = isset($colorsConfig['main_bg']) ? $colorsConfig['main_bg'] : "#f2f2f2";
-            
-            $dateBorderColor = isset($colorsConfig['date_border']) ? $colorsConfig['date_border'] : "#b2b2b2";
-            $dateTextColor = isset($colorsConfig['date_text']) ? $colorsConfig['date_text'] : "#222222";
-
-            $newsBorderColor = isset($colorsConfig['news_border']) ? $colorsConfig['news_border'] : "#b0b0b0";
-            $newsTitleColor = isset($colorsConfig['news_title']) ? $colorsConfig['news_title'] : "#000000";
-            $newsTextColor = isset($colorsConfig['news_text']) ? $colorsConfig['news_text'] : "#222222";
-
-            $newsButtonBgColor = isset($colorsConfig['news_button_bg']) ? $colorsConfig['news_button_bg'] : "#444444";
-            $newsButtonBorderColor = isset($colorsConfig['news_button_border']) ? $colorsConfig['news_button_border'] : "#444444";
-            $newsButtonTextColor = isset($colorsConfig['news_button_text']) ? $colorsConfig['news_button_text'] : "#ffffff";
-
-            $footerBgColor = isset($colorsConfig['footer_bg']) ? $colorsConfig['footer_bg'] : "#bbbbbb";
-            $footerTextColor = isset($colorsConfig['footer_text']) ? $colorsConfig['footer_text'] : "#444444";
-        @endphp
         <style type="text/css">
             /* Reset styles for email clients */
             body,
@@ -59,9 +36,9 @@
             }
         </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: {{ $bodyBgColor }}">
+    <body style="margin: 0; padding: 0; background-color: #222222;">
         <!-- Preheader -->
-        <div style="display:none;font-size:1px;color:{{ $bodyBgColor }};line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"></div> <span style="display:none!important;visibility:hidden;mso-hide:all;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"> {{ config('app.name', 'Opemedios') }}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</span>
+        <div style="display:none;font-size:1px;color:#222222;;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"></div> <span style="display:none!important;visibility:hidden;mso-hide:all;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"> {{ config('app.name', 'Opemedios') }}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</span>
         <!-- Main Content Table -->
         <table
             align="center"
@@ -71,7 +48,7 @@
             width="500"
             style="
                 border-collapse: collapse;
-                background-color: {{ $mainBgColor }};
+                background-color: #f2f2f2;;
                 width: 100%;
                 max-width: 500px;
             "
@@ -97,7 +74,7 @@
                                         <td
                                             style="
                                                 border-left: 1px solid
-                                                    {{ $newsBorderColor }};
+                                                    #b0b0b0;;
                                                 padding-right: 9px;
                                             "
                                         ></td>
@@ -106,7 +83,7 @@
                                                 font-family: Arial, sans-serif;
                                                 font-size: 17px;
                                                 font-weight: bold;
-                                                color: {{ $newsTitleColor }};
+                                                color: #000000;;
                                                 mso-line-height-rule: exactly;
                                                 line-height: 26px;
                                             "
@@ -131,7 +108,7 @@
                                 style="
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
-                                    color: {{ $newsTextColor }};
+                                    color: #222222;;
                                     padding-bottom: 30px;
                                     mso-line-height-rule: exactly;
                                     line-height: 20px;
@@ -155,12 +132,12 @@
                                 style="
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
-                                    color: {{ $dateTextColor }};
+                                    color: #222222;;
                                     padding-top: 15px;
                                     padding-bottom: 10px;
                                     mso-line-height-rule: exactly;
                                     line-height: 26px;
-                                    border-top: 1px solid {{ $dateBorderColor }};
+                                    border-top: 1px solid #b2b2b2;;
                                 "
                             >
                                 <table
@@ -198,10 +175,10 @@
                                 style="
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
-                                    color: {{ $dateTextColor }};
+                                    color: #222222;;
                                     padding-bottom: 15px;
                                     border-bottom: 1px solid
-                                        {{ $dateBorderColor }};
+                                        #b2b2b2;;
                                     mso-line-height-rule: exactly;
                                     line-height: 26px;
                                 "
@@ -249,12 +226,12 @@
                             <td
                                 align="center"
                                 style="
-                                    background-color: {{ $newsButtonBgColor }};
+                                    background-color: #444444;;
                                     padding: 10px 20px;
                                     border-radius: 5px;
                                     border-width: 1px;
                                     border-style: solid;
-                                    border-color: {{ $newsButtonBorderColor }};
+                                    border-color: #444444;;
                                 "
                             >
                                 <a
@@ -263,7 +240,7 @@
                                     style="
                                         display: inline-block;
 
-                                        color: {{ $newsButtonTextColor }};
+                                        color: #ffffff;;
                                         text-decoration: none;
                                         font-size: 16px;
                                         font-family: Arial, sans-serif;
@@ -286,7 +263,7 @@
             width="500"
             style="
                 border-collapse: collapse;
-                background-color: {{ $footerBgColor }};
+                background-color: #bbbbbb;;
                 width: 100%;
                 max-width: 500px;
             "
@@ -297,14 +274,14 @@
                     style="
                         padding: 20px;
                         text-align: center;
-                        background-color: {{ $footerBgColor }};
+                        background-color: #bbbbbb;;
                     "
                 >
                     <p
                         style="
                             margin: 0;
                             font-size: 12px;
-                            color: {{ $footerTextColor }};
+                            color: #444444;;
                         "
                     >
                         &copy; {{ date('Y') }}  Opemedios. Todos los derechos reservados.
