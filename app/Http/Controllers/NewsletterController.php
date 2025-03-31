@@ -356,7 +356,7 @@ class NewsletterController extends Controller
     {
         $newsletter = Newsletter::findOrFail($id);
         try {
-            if (Storage::drive('local')->exists($newsletter->banner)) {
+            if ( !is_null($newsletter->banner) && Storage::drive('local')->exists($newsletter->banner)) {
                 Storage::drive('local')->delete($newsletter->banner);
             }
 
