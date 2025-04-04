@@ -79,6 +79,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::group(['middleware' => ['can:view menu']], function () {
         Route::get('/', 'AdminController@index')->name('panel');
 
+        Route::get('newspaper', 'NewspaperController@index')->name('newspaper.index');
         Route::get('usuarios', 'UserController@index')->name('users');
         Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
