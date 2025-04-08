@@ -327,7 +327,7 @@
                                 "
                             >
                                 <a
-                                    href="#"
+                                    href="{{ route('front.detail.news', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$news->id}-{$news->title}-{$theme->company->id}")]) }}"
                                     class="button"
                                     style="
                                         display: inline-block;
