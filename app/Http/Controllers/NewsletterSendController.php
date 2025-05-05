@@ -141,22 +141,4 @@ class NewsletterSendController extends Controller
             return abort(403, 'Noticia no encontrada');
         }
     }
-
-    public function seeNewsletterUam(Request $request)
-    {
-        try {
-            
-            $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
-
-            if (!$covers) {
-                $covers = NewsletterFooter::latest('id')->first();
-            }
-            $newsletterSend = NewsletterSend::where('newsletter_id', 26)->where('status', 1)->orderBy('date_sending', 'desc')->first();
-
-            return new NewsletterEmail($newsletterSend, $covers);
-        } catch (DecryptException $e) {
-            return abort(403, 'Noticia no encontrada');
-        }
-    }
-    
 }
