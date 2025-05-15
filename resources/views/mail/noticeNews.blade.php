@@ -36,9 +36,7 @@
             }
         </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: #222222;">
-        <!-- Preheader -->
-        <div style="display:none;font-size:1px;color:#222222;;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"></div> <span style="display:none!important;visibility:hidden;mso-hide:all;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"> {{ config('app.name', 'Opemedios') }}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</span>
+    <body style="margin: 0; padding: 0; background-color: #0c0a75">
         <!-- Main Content Table -->
         <table
             align="center"
@@ -48,20 +46,44 @@
             width="500"
             style="
                 border-collapse: collapse;
-                background-color: #f2f2f2;;
+                background-color: #f2f2f2;
                 width: 100%;
                 max-width: 500px;
             "
         >
             <tr>
-                <td style="padding: 30px 20px 30px 20px">
-                    <!-- Title -->
+                <td style="padding: 0px 20px 0px 20px">
                     <table
                         border="0"
                         cellpadding="0"
                         cellspacing="0"
                         width="100%"
                     >
+                        <tr>
+                            <td style="padding-bottom: 30px">
+                                <table
+                                    align="center"
+                                    border="0"
+                                    cellpadding="0"
+                                    cellspacing="0"
+                                >
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding: 15px 10px;
+                                                border-radius: 0 0 10px 10px;
+                                                background: #ffffff;
+                                            "
+                                        >
+                                            <img
+                                                src="https://opemedios.com.mx/images/opemedios-logo.png"
+                                                width="120" height="48" style="width: 120px; height: auto;"
+                                            />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="padding-bottom: 15px">
                                 <table
@@ -69,57 +91,79 @@
                                     cellpadding="0"
                                     cellspacing="0"
                                     width="100%"
+                                    align="center"
+                                    style="padding-bottom: 20px"
                                 >
                                     <tr>
                                         <td
                                             style="
-                                                border-left: 1px solid
-                                                    #b0b0b0;;
-                                                padding-right: 9px;
+                                                border-left: 5px solid #bb1449;
+                                                padding-right: 10px;
                                             "
                                         ></td>
-                                        <td
-                                            style="
-                                                font-family: Arial, sans-serif;
-                                                font-size: 17px;
-                                                font-weight: bold;
-                                                color: #000000;;
-                                                mso-line-height-rule: exactly;
-                                                line-height: 26px;
-                                            "
-                                        >
-                                        {{ $news->title }}
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td
+                                                        style="
+                                                            font-family: Arial,
+                                                                sans-serif;
+                                                            font-size: 17px;
+                                                            font-weight: bold;
+                                                            color: #000000;
+                                                            mso-line-height-rule: exactly;
+                                                            line-height: 26px;
+                                                        "
+                                                    >
+                                                    {{ $news->title }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="
+                                                            padding-top: 15px;
+                                                            font-family: Arial,
+                                                                sans-serif;
+                                                            font-size: 14px;
+                                                            color: #222222;
+                                                            mso-line-height-rule: exactly;
+                                                            line-height: 25px;
+                                                        "
+                                                    >
+                                                    {!! Illuminate\Support\Str::limit($news->synthesis, 200) !!}
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
                     </table>
-
-                    <!-- Content -->
+                </td>
+            </tr>
+        </table>
+        <table
+            align="center"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            width="500"
+            style="
+                border-collapse: collapse;
+                background-color: #ffffff;
+                width: 100%;
+                max-width: 500px;
+            "
+        >
+            <tr>
+                <td style="padding: 0px 10px 0px 10px">
                     <table
                         border="0"
                         cellpadding="0"
                         cellspacing="0"
                         width="100%"
                     >
-                        <tr>
-                            <td
-                                style="
-                                    font-family: Arial, sans-serif;
-                                    font-size: 14px;
-                                    color: #222222;;
-                                    padding-bottom: 30px;
-                                    mso-line-height-rule: exactly;
-                                    line-height: 20px;
-                                    padding-left: 10px;
-                                "
-                            >
-                            {!! Illuminate\Support\Str::limit($news->synthesis, 200) !!}
-                            </td>
-                        </tr>
-                    </table>
-
                     <!-- Source -->
                     <table
                         border="0"
@@ -130,14 +174,13 @@
                         <tr>
                             <td
                                 style="
+                                    background: #ffffff;
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
-                                    color: #222222;;
-                                    padding-top: 15px;
-                                    padding-bottom: 10px;
+                                    color: #222222;
+                                    padding: 15px 15px 15px 15px;
                                     mso-line-height-rule: exactly;
                                     line-height: 26px;
-                                    border-top: 1px solid #b2b2b2;;
                                 "
                             >
                                 <table
@@ -148,72 +191,122 @@
                                     <tr>
                                         <td
                                             style="
-                                                padding-right: 5px;
+                                                padding-right: 1px;
                                                 vertical-align: top;
+                                                padding-left: 10px;
                                             "
                                         >
-                                            &bull; Fuente:
+                                            Fuente:
                                         </td>
-                                        <td style="font-weight: bold">
-                                        {{ $news->source->name }}
+                                        <td
+                                            style="
+                                                font-weight: bold;
+                                                padding-left: 10px;
+                                            "
+                                        >
+                                            {{ $news->source->name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 10px"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                height: 1px;
+                                                background: #b2b2b2;
+                                            "
+                                        ></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 10px"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding-right: 1px;
+                                                vertical-align: top;
+                                                padding-left: 10px;
+                                            "
+                                        >
+                                            Alcance:
+                                        </td>
+                                        <td
+                                            style="
+                                                font-weight: bold;
+                                                padding-left: 10px;
+                                            "
+                                        >
+                                            {{ $scope['value'] }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 10px"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                height: 1px;
+                                                background: #b2b2b2;
+                                            "
+                                        ></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 10px"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding-right: 1px;
+                                                vertical-align: top;
+                                                padding-left: 10px;
+                                            "
+                                        >
+                                            Costo:
+                                        </td>
+                                        <td
+                                            style="
+                                                font-weight: bold;
+                                                padding-left: 10px;
+                                            "
+                                        >
+                                            {{ $cost['value'] }}
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
                     </table>
-
-                    <!-- Metrics -->
+                </td>
+            </tr>
+        </table>
+        <table
+            align="center"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            width="500"
+            style="
+                border-collapse: collapse;
+                background-color: #f2f2f2;
+                width: 100%;
+                max-width: 500px;
+            "
+        >
+            <tr>
+                <td style="padding: 0px 20px 30px 20px">
                     <table
                         border="0"
                         cellpadding="0"
                         cellspacing="0"
                         width="100%"
                     >
-                        <tr>
-                            <td
-                                style="
-                                    font-family: Arial, sans-serif;
-                                    font-size: 14px;
-                                    color: #222222;;
-                                    padding-bottom: 15px;
-                                    border-bottom: 1px solid
-                                        #b2b2b2;;
-                                    mso-line-height-rule: exactly;
-                                    line-height: 26px;
-                                "
-                            >
-                                <table
-                                    border="0"
-                                    cellpadding="0"
-                                    cellspacing="0"
-                                    width="100%"
-                                    style="width: 100%"
-                                >
-                                    <tr>
-                                        <td
-                                            style="
-                                                padding-right: 10px;
-                                                width: 50%;
-                                            "
-                                        >
-                                            &bull; Alcance:
-                                            <span style="font-weight: bold"
-                                                >{{ $scope['value'] }}</span
-                                            >
-                                        </td>
-                                        <td>
-                                            &bull; Costo:
-                                            <span style="font-weight: bold"
-                                                >{{ $cost['value'] }}</span
-                                            >
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-
                     <!-- Button -->
                     <table
                         border="0"
@@ -226,12 +319,11 @@
                             <td
                                 align="center"
                                 style="
-                                    background-color: #444444;;
-                                    padding: 10px 20px;
-                                    border-radius: 5px;
+                                    background-color: #bd174b;
+                                    padding: 17px 20px;
                                     border-width: 1px;
                                     border-style: solid;
-                                    border-color: #444444;;
+                                    border-color: #bd174b;
                                 "
                             >
                                 <a
@@ -240,7 +332,7 @@
                                     style="
                                         display: inline-block;
 
-                                        color: #ffffff;;
+                                        color: #ffffff;
                                         text-decoration: none;
                                         font-size: 16px;
                                         font-family: Arial, sans-serif;
@@ -263,7 +355,7 @@
             width="500"
             style="
                 border-collapse: collapse;
-                background-color: #bbbbbb;;
+                background-color: #0c0a75;
                 width: 100%;
                 max-width: 500px;
             "
@@ -274,17 +366,11 @@
                     style="
                         padding: 20px;
                         text-align: center;
-                        background-color: #bbbbbb;;
+                        background-color: #0c0a75;
                     "
                 >
-                    <p
-                        style="
-                            margin: 0;
-                            font-size: 12px;
-                            color: #444444;;
-                        "
-                    >
-                        &copy; {{ date('Y') }}  Opemedios. Todos los derechos reservados.
+                    <p style="margin: 0; font-size: 12px; color: #999999">
+                        &copy; {{ date('Y') }} Opemedios. Todos los derechos reservados.
                     </p>
                 </td>
             </tr>
