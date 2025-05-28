@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
+Route::get('newspaper-guest', 'NewspaperController@indexGuest');
 
 Route::view('quienes-somos', 'aboutus')->name('about');
 Route::view('clientes', 'clients')->name('clients');

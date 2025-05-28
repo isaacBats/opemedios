@@ -13,4 +13,10 @@ class NewspaperController extends Controller
         return view('admin.newspaper.index', compact('newspapers'));
     }
 
+    public function indexGuest(Request $request) {
+        $newspapers = NewspaperFile::orderBy('id', 'desc')->paginate(30);
+
+        return view('admin.newspaper.index_guest', compact('newspapers'));
+    }
+    
 }
