@@ -111,6 +111,7 @@
                     <li><a href="{{ route('admin.press.add') }}">{{ __('Subir portadas') }}</a></li>
                 </ul>
           </li>
+          <li><a href="{{ route('newspaper.index') }}"><i class="fa fa-file"></i> <span>Periodicos</span></a></li>
           {{-- <li><a href="{{ route('filemanager') }}"><i class="fa fa-cloud"></i> <span>Archivos</span></a></li> --}}
           {{--
             <li class="nav-parent">

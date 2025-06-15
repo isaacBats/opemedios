@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UploadPdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => 'with_fast_api_key'
+], function () {
+    Route::post('/upload-pdf', [UploadPdfController::class, 'upload']);
+
 });

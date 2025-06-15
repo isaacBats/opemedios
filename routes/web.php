@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/generate_reports_bd', 'ReportController@generate_reports_bd');
+Route::get('newspaper-guest', 'NewspaperController@indexGuest');
 
 Route::view('quienes-somos', 'aboutus')->name('about');
 Route::view('clientes', 'clients')->name('clients');
@@ -79,6 +80,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::group(['middleware' => ['can:view menu']], function () {
         Route::get('/', 'AdminController@index')->name('panel');
 
+        Route::get('newspaper', 'NewspaperController@index')->name('newspaper.index');
         Route::get('usuarios', 'UserController@index')->name('users');
         Route::get('usuario/nuevo', 'UserController@showFormNewUser')->name('register.user');
         Route::post('usuario/nuevo', 'UserController@register')->name('register.user');
