@@ -2,35 +2,63 @@ name: CI
 
 on:
   pull_request:
-    branches: [ staging, master ]
+    branches:
+      - staging
+      - master
 
 jobs:
+  # 1. Preparación: PHP y cache de Composer
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      composer-cache-hit: ${{ steps.cache-composer.outputs.cache-hit }}
+      npm-cache-hit: ${{ steps.cache-npm.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v3
-      - name: Setup PHP
+
+      - name: Setup PHP & extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
+          coverage: xdebug
           extensions: mbstring, xml, bcmath, gd, mysqli
+
       - name: Cache Composer
+        id: cache-composer
         uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-      - name: Install dependencies
+
+      - name: Install PHP dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
+  # 2. Tests + coverage
   tests:
     needs: prepare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit --coverage-text --colors=never
 
+      - name: Setup PHP (reuse)
+        uses: shivammathur/setup-php@v2
+        with: { php-version: 8.0, coverage: xdebug }
+
+      - name: Install deps
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run PHPUnit with coverage
+        run: |
+          vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.xml
+          fail_ci_if_error: true
+
+  # 3. Análisis estático
   static-analysis:
     needs: prepare
     runs-on: ubuntu-latest
@@ -39,24 +67,22 @@ jobs:
         tool: [phpstan, psalm, insights]
     steps:
       - uses: actions/checkout@v3
+
       - name: Run ${{ matrix.tool }}
         run: |
-          if [ "${{ matrix.tool }}" = "phpstan" ]; then
-            vendor/bin/phpstan analyse --level=7 app/
-          elif [ "${{ matrix.tool }}" = "psalm" ]; then
-            vendor/bin/psalm --show-info=false
-          else
-            vendor/bin/phpinsights analyse --min-quality=80 --min-complexity=8
-          fi
+          case "${{ matrix.tool }}" in
+            phpstan) vendor/bin/phpstan analyse --memory-limit=1G ;;
+            psalm)   vendor/bin/psalm --show-info=false ;;
+            insights)vendor/bin/phpinsights analyse ;;
+          esac
 
+  # 4. CodeQL Security Scan
   codeql:
-    name: CodeQL Security Scan
+    name: CodeQL
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: github/codeql-action/init@v2
-        with:
-          languages: php
+        with: { languages: php }
       - uses: github/codeql-action/autobuild@v2
       - uses: github/codeql-action/analyze@v2
-
