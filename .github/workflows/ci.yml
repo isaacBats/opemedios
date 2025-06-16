@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ staging, master ]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, xml, bcmath, gd, mysqli
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+  tests:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --coverage-text --colors=never
+
+  static-analysis:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tool: [phpstan, psalm, insights]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ${{ matrix.tool }}
+        run: |
+          if [ "${{ matrix.tool }}" = "phpstan" ]; then
+            vendor/bin/phpstan analyse --level=7 app/
+          elif [ "${{ matrix.tool }}" = "psalm" ]; then
+            vendor/bin/psalm --show-info=false
+          else
+            vendor/bin/phpinsights analyse --min-quality=80 --min-complexity=8
+          fi
+
+  codeql:
+    name: CodeQL Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: github/codeql-action/init@v2
+        with:
+          languages: php
+      - uses: github/codeql-action/autobuild@v2
+      - uses: github/codeql-action/analyze@v2
+

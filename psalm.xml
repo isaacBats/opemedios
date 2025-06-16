@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<psalm
+    totallyTyped="false"
+    errorLevel="3"
+    resolveFromConfigFile="true"
+>
+  <!-- Rutas del proyecto -->
+  <projectFiles>
+    <directory name="app" />
+    <directory name="tests" />
+    <directory name="database" />
+    <directory name="routes" />
+  </projectFiles>
+
+  <!-- Plugins -->
+  <plugins>
+    <pluginClass class="Psalm\LaravelPlugin\Plugin" />
+  </plugins>
+
+  <!-- Manejo de issues -->
+  <issueHandlers>
+    <!-- Promover MissingReturnType a warning (pero no fallar PR) -->
+    <MissingReturnType severity="warning" />
+    <!-- Convertir NullReference a error obligado -->
+    <NullReference severity="error" />
+    <!-- Desactivar ciertos checks -->
+    <MixedInferredReturnType severity="info" />
+  </issueHandlers>
+
+  <!-- Paths a excluir -->
+  <ignoreFiles>
+    <directory name="vendor" />
+    <directory name="storage" />
+  </ignoreFiles>
+</psalm>
