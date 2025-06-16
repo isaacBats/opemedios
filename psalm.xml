@@ -1,15 +1,26 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
+    xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     errorLevel="3"
+    findUnusedCode="true"
+    findUnusedBaselineEntry="false"
     resolveFromConfigFile="true"
+    reportMixedIssues="false"
 >
-  <!-- Rutas del proyecto -->
+  <!-- 1. Definición de directorios a inspeccionar -->
   <projectFiles>
     <directory name="app" />
     <directory name="tests" />
     <directory name="database" />
     <directory name="routes" />
+
+    <!-- 2. Ignorar vendor/ y storage/ -->
+    <ignoreFiles allowMissingFiles="true">
+      <directory name="vendor" />
+      <directory name="storage" />
+    </ignoreFiles>
   </projectFiles>
 
   <!-- Plugins -->
@@ -19,17 +30,9 @@
 
   <!-- Manejo de issues -->
   <issueHandlers>
-    <!-- Promover MissingReturnType a warning (pero no fallar PR) -->
     <MissingReturnType severity="warning" />
-    <!-- Convertir NullReference a error obligado -->
-    <NullReference severity="error" />
-    <!-- Desactivar ciertos checks -->
-    <MixedInferredReturnType severity="info" />
+    <NullReference     severity="error"   />
+    <PluginIssue name="MixedInferredReturnType" errorLevel="info" />
+    <!-- <MixedInferredReturnType errorLevel="info" /> -->
   </issueHandlers>
-
-  <!-- Paths a excluir -->
-  <ignoreFiles>
-    <directory name="vendor" />
-    <directory name="storage" />
-  </ignoreFiles>
 </psalm>
