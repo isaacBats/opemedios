@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       composer-cache-hit: ${{ steps.cache-composer.outputs.cache-hit }}
-      npm-cache-hit: ${{ steps.cache-npm.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v3
 
@@ -43,7 +42,7 @@ jobs:
 
       - name: Setup PHP (reuse)
         uses: shivammathur/setup-php@v2
-        with: { php-version: 8.0, coverage: xdebug }
+        with: { php-version: 8.2, coverage: xdebug }
 
       - name: Install deps
         run: composer install --no-progress --prefer-dist --optimize-autoloader
