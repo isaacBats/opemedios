@@ -3,36 +3,35 @@
     xmlns="https://getpsalm.org/schema/config"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    errorLevel="3"
-    findUnusedCode="true"
-    findUnusedBaselineEntry="false"
+    errorLevel="5"
+    memoryLimit="2G"
     resolveFromConfigFile="true"
+    findUnusedCode="true"
     reportMixedIssues="false"
 >
-  <!-- 1. Definición de directorios a inspeccionar -->
+
   <projectFiles>
     <directory name="app" />
-    <directory name="tests" />
-    <directory name="database" />
+    <directory name="config" />
     <directory name="routes" />
+    <directory name="database" />
 
-    <!-- 2. Ignorar vendor/ y storage/ -->
-    <ignoreFiles allowMissingFiles="true">
+    <ignoreFiles>
       <directory name="vendor" />
       <directory name="storage" />
+      <directory name="tests" />
     </ignoreFiles>
   </projectFiles>
 
-  <!-- Plugins -->
+  <issueHandlers>
+    <MissingReturnType severity="warning"/>
+    <NullReference     severity="error"/>
+    <PluginIssue name="MixedInferredReturnType" errorLevel="info"/>
+  </issueHandlers>
+
+  <!--
   <plugins>
     <pluginClass class="Psalm\LaravelPlugin\Plugin" />
   </plugins>
-
-  <!-- Manejo de issues -->
-  <issueHandlers>
-    <MissingReturnType severity="warning" />
-    <NullReference     severity="error"   />
-    <PluginIssue name="MixedInferredReturnType" errorLevel="info" />
-    <!-- <MixedInferredReturnType errorLevel="info" /> -->
-  </issueHandlers>
+  -->
 </psalm>

@@ -21,6 +21,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class RolesTableSeeder extends Seeder
 {
     /**

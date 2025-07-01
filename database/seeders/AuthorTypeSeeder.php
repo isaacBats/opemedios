@@ -22,6 +22,7 @@ use App\Models\AuthorType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class AuthorTypeSeeder extends Seeder
 {
     /**

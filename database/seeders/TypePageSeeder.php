@@ -22,6 +22,7 @@ use App\Models\TypePage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class TypePageSeeder extends Seeder
 {
     /**
