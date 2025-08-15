@@ -28,5 +28,7 @@ jobs:
           key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
             cd /home/dh_aiepbk/opemedios
+            git checkout staging
+            git pull origin staging
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
