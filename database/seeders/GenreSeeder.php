@@ -22,6 +22,7 @@ use App\Models\Genre;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class GenreSeeder extends Seeder
 {
     /**

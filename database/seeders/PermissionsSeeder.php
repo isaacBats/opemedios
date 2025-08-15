@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class PermissionsSeeder extends Seeder
 {
     /**

@@ -25,7 +25,9 @@ class Cover extends Model
 {
     protected $fillable = ['cover_type','title','author','date_cover','source_id','content','image'];
 
-    protected $dates = ['date_cover'];
+    protected $casts = [
+        'date_cover' => 'datetime',
+    ];
 
     public function source()
     {

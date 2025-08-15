@@ -1,0 +1,40 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+  # Nivel de análisis (0–max). Para Laravel conviene nivel 7 o 8
+  level: 7
+
+  # Directorios a analizar
+  paths:
+    - app
+    - database
+    - routes
+    - tests
+
+  # Autoload de archivos extra (ej. helpers)
+  bootstrapFiles:
+    - vendor/autoload.php
+    - bootstrap/app.php
+
+  # Ignorar ciertos paths
+  excludePaths:
+    - %currentWorkingDirectory%/vendor/*
+    - %currentWorkingDirectory%/storage/*
+    - %currentWorkingDirectory%/node_modules/*
+
+  inferPrivatePropertyTypeFromConstructor: true
+  checkMissingIterableValueType: true
+  checkMissingTypehints: true
+  checkGenericClassInNonGenericObjectType: true
+
+  # Para código legacy: genera un baseline con
+  # vendor/bin/phpstan analyse --generate-baseline
+  baseline: phpstan-baseline.neon
+
+  # Ignorar errores puntuales
+  # ignoreErrors:
+  #  - message: "#Call to an undefined method .*::.*#"
+  #    paths:
+  #      - app/Http/Controllers/LegacyController.php
+

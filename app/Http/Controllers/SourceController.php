@@ -160,25 +160,32 @@ class SourceController extends Controller
     public function updateLogo(Request $request, $id) {
         $source = Source::find($id);
 
+        if (!$source) {
+            return redirect()->back()->with('status', 'Fuente no encontrada.');
+        }
+    
         Validator::make($request->all(), [
             'logo' => 'required|mimes:jpeg,png,jpg,svg,bmp,webp|dimensions:max_width=300,max_height=150',
         ], [
             'required' => 'El :attribute es necesario.',
             'dimensions' => 'El logo debe de ser de 300x150 máximo'
         ])->validate();
+
         try {
-            if(Storage::drive('local')->exists($source->logo)) {
-                Storage::drive('local')->delete($source->logo);
+            if (!empty($source->logo) && Storage::disk('local')->exists($source->logo)) {
+                Storage::disk('local')->delete($source->logo);
             }
-
-            $source->logo = $request->file('logo')->store('sources_logos', 'local');
+    
+            $path = $request->file('logo')->store('sources_logos', 'local');
+            $source->logo = $path;
             $source->save();
-
-        } catch (Exception $e) {
-            return back()->with('status', 'Could not update image: ' . $e->getMessage());
+    
+        } catch (\Exception $e) {
+            return redirect()->back()->with('status', 'No se pudo actualizar el logo: ' . $e->getMessage());
         }
-
-        return redirect()->route('source.show', ['id' => $source->id])->with('status', '¡Exito!. Se ha cambiado el logo correctamente');
+    
+        return redirect()->route('source.show', ['id' => $source->id])
+                         ->with('status', '¡Éxito! Se ha cambiado el logo correctamente.');
     }
 
     public function delete(Request $request, $id) {

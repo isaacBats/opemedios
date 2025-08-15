@@ -39,12 +39,7 @@
                         </td>
                     </tr>
 
-                    @php
-                        $notes = $newsletterSend->newsletter_theme_news;
-                        $maxNotes = 15;
-                    @endphp
-
-                    @foreach ($notes->take($maxNotes) as $note)
+                    @foreach ($newsletterSend->newsletter_theme_news as $note)
                         <tr>
                             <td bgcolor="{{ $mainBgColor }}" style="padding:30px 30px 20px 30px;background: {{ $mainBgColor }};border-bottom: solid 1px {{ $newsBorderColor }}; margin: 0; font-size: 14px;font-family: Arial, Helvetica, sans-serif;line-height: 1.25;font-weight: normal;text-align: left !important;">
                                 <table cellspacing="0">
@@ -79,16 +74,6 @@
                             </td>
                         </tr>
                     @endforeach
-
-                    @if ($notes->count() > $maxNotes)
-                        <tr>
-                            <td bgcolor="{{ $mainBgColor }}" style="padding: 20px 30px;text-align: center;">
-                                <a href="{{ route('front.newsletter.see', ['qry' => Illuminate\Support\Facades\Crypt::encryptString("{$newsletterSend->id}-{$newsletterSend->newsletter->company->id}")]) }}" style="background-color: {{ $linksBgColor }}; color: {{ $linksButtonTextColor }}; text-decoration: none; padding: 10px 20px; font-size: 14px; font-family: Arial, Helvetica, sans-serif; border-radius: 5px; display: inline-block;">
-                                    Ver el newsletter completo
-                                </a>
-                            </td>
-                        </tr>
-                    @endif
 
                 </table>
                 <table cellspacing="0" bgcolor="{{ $linksBgColor }}" style="max-width: 580px;width:100%;border-collapse:collapse;background-color:{{ $linksBgColor }};" align="center">

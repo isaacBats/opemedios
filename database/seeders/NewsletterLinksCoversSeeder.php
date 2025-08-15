@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\NewsletterLinksCovers;
 use Illuminate\Database\Seeder;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class NewsletterLinksCoversSeeder extends Seeder
 {
     /**

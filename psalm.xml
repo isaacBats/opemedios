@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<psalm
+    xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorLevel="5"
+    memoryLimit="2G"
+    resolveFromConfigFile="true"
+    findUnusedCode="true"
+    reportMixedIssues="false"
+>
+
+  <projectFiles>
+    <directory name="app" />
+    <directory name="config" />
+    <directory name="routes" />
+    <directory name="database" />
+
+    <ignoreFiles>
+      <directory name="vendor" />
+      <directory name="storage" />
+      <directory name="tests" />
+    </ignoreFiles>
+  </projectFiles>
+
+  <issueHandlers>
+    <MissingReturnType severity="warning"/>
+    <NullReference     severity="error"/>
+    <PluginIssue name="MixedInferredReturnType" errorLevel="info"/>
+  </issueHandlers>
+
+  <!--
+  <plugins>
+    <pluginClass class="Psalm\LaravelPlugin\Plugin" />
+  </plugins>
+  -->
+</psalm>

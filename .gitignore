@@ -30,3 +30,4 @@ docker-compose.yml
 .htaccess
 composer.lock.old
 000-default.conf
+phpstan-baseline.neon
