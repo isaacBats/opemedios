@@ -54,7 +54,9 @@
                     </td>
                     <td style="width:70%;text-align:right;padding: 0px 0px 0px 0px;vertical-align:middle;" class="full-width-mobile">
                         <img src="{{ asset("images/{$newsletterSend->newsletter->banner}") }}" alt="{{ $newsletterSend->newsletter->name }}" width="100%" style="width:100%;display:block;max-width:600px;">
-                        <p style="padding:10px 20px 10px 20px;color:{{ $dateTextColor }};">{{ ucfirst(Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y')) }}</p>
+                        <p style="padding:10px 20px 10px 20px;color:{{ $dateTextColor }};">{{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}</p>
                     </td>
             </tr>
             @foreach ($newsletterSend->newsletter->company->themes as $theme)

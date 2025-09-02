@@ -105,7 +105,9 @@
                     <tr>
                         <td style="text-align:center;padding: 15px 20px 0px 0px;text-align: right;">
                             <p style="color:{{ $dateTextColor }};font-size:13px;mso-line-height-rule:exactly;line-height:23px;font-family:serif;margin-top:0!important;margin-bottom:0!important;">
-                                {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)->formatLocalized('%A %d de %B %Y') }}
+                                {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}
                             </p>
                         </td>
                     </tr>

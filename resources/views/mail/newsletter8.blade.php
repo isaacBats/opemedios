@@ -216,7 +216,9 @@
 
     <tr>
       <td class="content">
-        <div class="date">{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}</div>
+        <div class="date">{{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}</div>
 
         @foreach ($newsletterSend->newsletter->company->themes as $theme)
           @if($newsletterSend->newsletter_theme_news->where('newsletter_theme_id', $theme->id)->count())
