@@ -18,7 +18,7 @@ class HomeController extends Controller
             $company = Company::first();
         }
 
-        return view('home', compact('company'));
+        return view('homev3', compact('company'));
     }
 
     public function formContact(FormContactRequest $request)
