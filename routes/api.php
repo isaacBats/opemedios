@@ -23,5 +23,6 @@ Route::group([
     'middleware' => 'with_fast_api_key'
 ], function () {
     Route::post('/upload-pdf', [UploadPdfController::class, 'upload']);
+    Route::post('/consulta-si-existe', [UploadPdfController::class, 'validaSiExiste']);
 
 });
