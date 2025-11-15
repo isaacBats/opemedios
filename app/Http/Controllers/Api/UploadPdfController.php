@@ -41,7 +41,7 @@ class UploadPdfController extends Controller
 
         $existe = \App\Models\NewspaperFile::where('newspaper', $data['newspaper'])
                             ->where('date', $data['date'])
-                            ->where('file', $data['file'])
+                            //->where('file', $data['file'])
                             ->exists();
                             
         return response()->json(['existe' => $existe]);
