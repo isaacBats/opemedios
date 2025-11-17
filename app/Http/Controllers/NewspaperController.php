@@ -25,7 +25,7 @@ class NewspaperController extends Controller
         )
         ->groupBy(['newspaper', 'date'])
         ->orderBy('latest_id', 'desc')
-        ->paginate(10);
+        ->paginate(30);
 
         return view('admin.newspaper.index_guest', compact('newspapers'));
     }
