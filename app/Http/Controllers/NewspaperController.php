@@ -19,9 +19,9 @@ class NewspaperController extends Controller
             'newspaper',
             'date',
             // Usamos MAX() para obtener el ID más alto dentro de cada grupo
-            \DB::raw('MAX(id) as latest_id'), 
+            \DB::raw('MAX(id) as id'), 
             // Y la función apropiada para obtener el 'file' asociado
-            \DB::raw('SUBSTRING_INDEX(GROUP_CONCAT(file ORDER BY id DESC), ",", 1) as latest_file')
+            \DB::raw('SUBSTRING_INDEX(GROUP_CONCAT(file ORDER BY id DESC), ",", 1) as file')
         )
         ->groupBy(['newspaper', 'date'])
         ->orderBy('latest_id', 'desc')
