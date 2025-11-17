@@ -24,7 +24,7 @@ class NewspaperController extends Controller
             \DB::raw('SUBSTRING_INDEX(GROUP_CONCAT(file ORDER BY id DESC), ",", 1) as file')
         )
         ->groupBy(['newspaper', 'date'])
-        ->orderBy('latest_id', 'desc')
+        ->orderBy('id', 'desc')
         ->paginate(30);
 
         return view('admin.newspaper.index_guest', compact('newspapers'));
