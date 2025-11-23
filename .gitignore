@@ -21,12 +21,11 @@ yarn-error.log
 /storage/app.old
 /storage/storage_app.tar.gz
 /storage/framework/laravel-excel/*
-/vendor.old
 /storage/debugbar
 /storage/tmp
 
 Dockerfile
 docker-compose.yml
 .htaccess
-composer.lock.old
+*old*
 000-default.conf
