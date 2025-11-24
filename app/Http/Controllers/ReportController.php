@@ -189,39 +189,39 @@ class ReportController extends Controller
             $report->status = 1;
             $report->save();
             return true;
-        }
-        elseif(count($dates) < 30)
+        } else
+        // elseif(count($dates) < 30)
             return (new ReportsExport($request))->download('Reporte.xlsx');
-        else
-        {
-            $name_file = Carbon::now()->format('YmdHis') . '.xlsx';
-            $file_save = new ListReport;
-            $file_save->user_id     = Auth::user()->id;
-            $file_save->name_file   = $name_file;
-            $file_save->start_date  = $request->input('start_date');
-            $file_save->end_date    = $request->input('end_date');
-            $file_save->company     = $request->input('company');
-            $file_save->theme_id    = $request->input('theme_id');
-            $file_save->sector      = $request->input('sector');
-            $file_save->genre       = $request->input('genre');
-            $file_save->mean        = $request->input('mean');
-            $file_save->source_id   = $request->input('source_id');
-            $file_save->word        = $request->input('word');
+        // else
+        // {
+        //     $name_file = Carbon::now()->format('YmdHis') . '.xlsx';
+        //     $file_save = new ListReport;
+        //     $file_save->user_id     = Auth::user()->id;
+        //     $file_save->name_file   = $name_file;
+        //     $file_save->start_date  = $request->input('start_date');
+        //     $file_save->end_date    = $request->input('end_date');
+        //     $file_save->company     = $request->input('company');
+        //     $file_save->theme_id    = $request->input('theme_id');
+        //     $file_save->sector      = $request->input('sector');
+        //     $file_save->genre       = $request->input('genre');
+        //     $file_save->mean        = $request->input('mean');
+        //     $file_save->source_id   = $request->input('source_id');
+        //     $file_save->word        = $request->input('word');
             
-            $file_save->size        = count($dates) < 60 ? 'small' : (count($dates) < 210 ? 'medium' : 'big');
+        //     $file_save->size        = count($dates) < 60 ? 'small' : (count($dates) < 210 ? 'medium' : 'big');
 
-            $file_save->save();
-            //Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
-            //return (new ReportsExport($request))->download('Reporte.xlsx');
+        //     $file_save->save();
+        //     //Session::flash('status', 'Si su solicitud devolvió un error será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file);
+        //     //return (new ReportsExport($request))->download('Reporte.xlsx');
 
-            $company = Company::find($request->input('company'));
-            $slug = $company->slug;
-            $user = auth()->user();
-            if($user->isClient())
-                return redirect()->route('client.report', [$slug])->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('client.report.solicitados', [$slug]) . '">Lista de reportes</a>');
-            else
-                return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('admin.report.solicitados') . '">Lista de reportes</a>');
-        }
+        //     $company = Company::find($request->input('company'));
+        //     $slug = $company->slug;
+        //     $user = auth()->user();
+        //     if($user->isClient())
+        //         return redirect()->route('client.report', [$slug])->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('client.report.solicitados', [$slug]) . '">Lista de reportes</a>');
+        //     else
+        //         return redirect()->route('admin.report.byclient')->with('status', 'Su solicitud será procesada y podra descargarla cuando se encuentre lista, el nombre de su archivo es ' . $name_file . '.<br> Lo puede visualizar desde aquí <a href="' . route('admin.report.solicitados') . '">Lista de reportes</a>');
+        // }
 
         //Excel::store(new ReportsExport($request), 'fileName.xlsx', 'public');
 
