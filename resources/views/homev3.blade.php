@@ -350,7 +350,7 @@
                 </li>
                 <li data-match="website_des">
                     <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio2.png') }}" alt="">
+                        <img src="{{ asset('assets/clientv3/img/home3/pr_dunam_reporte.png') }}" alt="">
                         <div class="overlay-content">
                             <div class="txt">
                                 <h2>Smiley Colleagues Working Together</h2>
