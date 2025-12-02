@@ -7,10 +7,10 @@
   * @link https://danielbat.com Web Autor's site
   * @see https://twitter.com/codeisaac <@codeisaac>
   * @copyright 2021
-  * @version 1.0.0
+  * @version 1.0.1 (Optimized and Corrected)
   * @package App\
   * Type: Export
-  * Description: Description
+  * Description: Optimized Report Export with all graph data
   *
   * For the full copyright and license information, please view the LICENSE
   * file that was distributed with this source code.
@@ -40,37 +40,37 @@ class ReportsExport implements WithMultipleSheets
     private $count_trend;
     private $count_mean;
     private $columnas_generadas;
-    private $init_row = 40; // Se mantiene, pero se recalcula de forma más limpia.
-    private $notes; // Se mantiene para DataTableSheet
+    private $init_row = 40; 
+    private $notes; 
+    private $metrics_data; // Propiedad para almacenar las métricas
 
-    public function __construct(Request $request) // Tipado para claridad
+    public function __construct(Request $request) 
     {
         $this->request = $request;
         $this->client = Company::find($this->request->input('company'));
 
-        // 1. Obtener IDs de notas/noticias de forma eficiente
-        // Se asume que AssignedNewsFilter::filter() devuelve un Query Builder
+        // 1. Establecer Rango de Fechas
+        $from = $this->request->input('start_date') ? Carbon::create($this->request->input('start_date')) : Carbon::now()->subDays(10);
+        $to = $this->request->input('end_date') ? Carbon::create($this->request->input('end_date')) : Carbon::now();
+
+        // Asegurar que las fechas estén en el request
+        $this->request->merge([
+            'start_date' => $from->format('Y-m-d'),
+            'end_date' => $to->format('Y-m-d')
+        ]);
+        
+        // 2. Obtener IDs de notas/noticias de forma eficiente
         $this->notesIds = AssignedNewsFilter::filter($this->request, ['company' => $this->client])
                             ->pluck('news_id');
 
-        // Si no hay notas, salir temprano
+        // Si no hay notas, inicializar y salir temprano (Optimización)
         if ($this->notesIds->isEmpty()) {
             $this->initializeEmptyData();
             return;
         }
 
-        // 2. Establecer Rango de Fechas
-        $from = $this->request->input('start_date') ? Carbon::create($this->request->input('start_date')) : Carbon::now()->subDays(10);
-        $to = $this->request->input('end_date') ? Carbon::create($this->request->input('end_date')) : Carbon::now();
-
-        // Asegurar que las fechas estén en la request (para filtros posteriores)
-        $this->request->merge([
-            'start_date' => $from->format('Y-m-d'),
-            'end_date' => $to->format('Y-m-d')
-        ]);
-
-        // 3. Obtener datos de Tendencias y Medios (Optimizado)
-        $this->getMetricsData();
+        // 3. Obtener datos de Tendencias y Medios
+        $this->metrics_data = $this->getMetricsData(); // Llama y guarda las métricas
 
         // 4. Obtener la lista de Temas (solo los usados)
         $this->themes = DB::table('assigned_news')
@@ -83,13 +83,7 @@ class ReportsExport implements WithMultipleSheets
             ->orderBy('themes.name', 'desc')
             ->get();
         
-        // Si no hay temas, salir temprano (debería ser redundante si no hay notas, pero es una buena verificación)
-        if ($this->themes->isEmpty()) {
-            $this->initializeEmptyData();
-            return;
-        }
-
-        // 5. ¡El gran ahorro de tiempo! Una sola consulta para todos los datos del gráfico
+        // 5. Una sola consulta para todos los datos del gráfico de temas (Optimización Crítica)
         $report_data = DB::table('assigned_news')
             ->join('news', 'assigned_news.news_id', '=', 'news.id')
             ->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
@@ -105,15 +99,23 @@ class ReportsExport implements WithMultipleSheets
             ->orderBy(DB::raw('DATE(news.created_at)'), 'desc')
             ->get();
 
-        // 6. Procesar los datos de la consulta para el formato del gráfico (en memoria)
-        $this->processGraphData($report_data, $from, $to);
+        // 6. Procesar los datos y armar la matriz $this->data_graph (CORRECCIÓN CRÍTICA)
+        $this->processGraphData($report_data, $from, $to, $this->metrics_data);
 
         // 7. Generar encabezados de columna y recalcular fila inicial
         $this->columnas_generadas = $this->generaColumnasExcel();
-        $this->init_row = max(40, count(CarbonPeriod::create($from, $to)) + 6); // Más legible
+        $this->init_row = max(40, count(CarbonPeriod::create($from, $to)) + 6); 
 
-        // 8. Notas para la segunda hoja de exportación
-        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds]);
+        // 8. Notas para la segunda hoja de exportación (EAGER LOADING)
+        $this->notes = NewsFilter::filter($this->request, ['ids' => $this->notesIds])
+            ->with([
+                'source',
+                'mean',
+                'assignedNews' => function ($query) {
+                    $query->where('company_id', $this->client->id)
+                          ->with('theme'); 
+                },
+            ]);
     }
 
     /**
@@ -129,13 +131,13 @@ class ReportsExport implements WithMultipleSheets
         $this->columnas_generadas = ['A'];
         $this->init_row = 40;
         $this->notes = NewsFilter::filter($this->request, ['ids' => []]);
+        $this->metrics_data = [];
     }
 
     /**
-     * Calcula las métricas de Tendencias y Medios.
-     * (Separado para limpieza, manteniendo la lógica original)
+     * Calcula las métricas de Tendencias y Medios y las devuelve.
      */
-    private function getMetricsData(): void
+    private function getMetricsData(): array
     {
         $obj = [];
 
@@ -156,75 +158,102 @@ class ReportsExport implements WithMultipleSheets
         }
         $this->count_trend = count($obj['trend_lbl'] ?? []);
 
-        // MEDIOS (NOTA: el filtro de Request se eliminó aquí por seguir la lógica de su código original: `NewsFilter::filter((new Request)`)
+        // MEDIOS
         $medios = NewsFilter::filter(new Request(), ['ids' => $this->notesIds]) 
             ->select('mean_id', DB::raw('count(*) as total'))
             ->groupBy('mean_id')
-            ->with('mean') // Cargar la relación para obtener el nombre del medio
+            ->with('mean')
             ->get();
 
         foreach($medios as $itm) {
-             // Verificar si la relación 'mean' existe
             if ($itm->mean) { 
                 $obj['mean_lbl'][] = $itm->mean->name . ' (' . $itm->total .')';
                 $obj['mean'][] = $itm->total;
             }
         }
         $this->count_mean = count($obj['mean_lbl'] ?? []);
+        
+        return $obj;
     }
 
     /**
      * Procesa los datos crudos de la BD en el formato requerido para el gráfico.
-     * @param \Illuminate\Support\Collection $report_data
-     * @param Carbon $from
-     * @param Carbon $to
+     * Incluye datos de Tendencia, Medios y Temas/Fechas.
      */
-    private function processGraphData($report_data, Carbon $from, Carbon $to): void
+    private function processGraphData($report_data, Carbon $from, Carbon $to, array $metrics_data): void
     {
-        $fechas = CarbonPeriod::create($from, $to)->toArray(); // Obtener todas las fechas del periodo
+        // 1. Inicialización de datos para el gráfico de Temas
+        $fechas = CarbonPeriod::create($from, $to)->toArray(); 
         $theme_totals = $this->themes->keyBy('id')->map(fn() => 0)->toArray();
-        $formatted_data = [];
+        $obj = []; // Array que se convertirá en $this->data_graph
 
-        // Agrupar los resultados de la consulta por fecha y tema para fácil acceso (O(N) de la colección)
+        // Agrupar los resultados de la consulta por fecha y tema
         $grouped_data = $report_data->groupBy('dt')->map(fn($date_group) => 
             $date_group->keyBy('theme_id')->map(fn($item) => $item->total)
         );
 
-        // Inicializar la estructura con la fila de encabezados de temas
-        $graph_obj = [0 => array_merge([''], $this->themes->pluck('name')->toArray())];
+        // =======================================================
+        // 1. INTEGRAR DATOS DE TENDENCIA Y MEDIOS (FILAS 1 a 4) - FIX para el 0%
+        // =======================================================
+        
+        // FILA 1: Etiquetas de Tendencias
+        $obj[1] = array_merge([''], $metrics_data['trend_lbl'] ?? []);
+        
+        // FILA 2: Valores de Tendencias
+        $obj[2] = array_merge([''], $metrics_data['trend'] ?? []);
 
-        // Iterar sobre el periodo (O(D) donde D es el número de días)
+        // FILA 3: Etiquetas de Medios
+        $obj[3] = array_merge([''], $metrics_data['mean_lbl'] ?? []);
+        
+        // FILA 4: Valores de Medios
+        $obj[4] = array_merge([''], $metrics_data['mean'] ?? []);
+
+        // =======================================================
+        // 2. INTEGRAR DATOS DE TEMAS/FECHAS (FILA 5 en adelante)
+        // =======================================================
+
+        // FILA 5 (Encabezado de la tabla de Temas/Fechas)
+        $header_row = ['']; 
+        foreach ($this->themes as $theme) {
+            $header_row[] = $theme->name; // Nombre del tema (sin total inicial)
+        }
+        $obj[5] = $header_row;
+
+        // FILA 6 en adelante: Datos por fecha/tema
         foreach ($fechas as $date) {
             $dt_key = $date->format('Y-m-d');
-            $date_data = $grouped_data[$dt_key] ?? collect(); // Obtener datos del día o un array vacío
-            $row = [$dt_key]; // Iniciar la fila con la fecha
+            $date_data = $grouped_data[$dt_key] ?? collect();
+            $row = [$dt_key]; // Columna A: Fecha
 
-            // Iterar sobre los temas (O(T) donde T es el número de temas)
+            // Iterar sobre los temas
             foreach ($this->themes as $theme) {
                 $total_count = $date_data[$theme->id] ?? 0;
                 $row[] = $total_count;
-                $theme_totals[$theme->id] += $total_count; // Sumar para el total por tema
+                $theme_totals[$theme->id] += $total_count; 
             }
 
-            $graph_obj[$dt_key] = $row;
+            // Usamos un índice numérico secuencial a partir de 6 para asegurar el orden
+            $obj[] = $row; 
         }
 
-        // 3. Recalcular la fila de encabezados con el total
-        foreach ($this->themes as $i => $theme) {
-            // El índice en la fila 0 es $i + 1 porque el primer elemento es la cadena vacía ''
-            $graph_obj[0][$i + 1] = $theme->name . ' (' . $theme_totals[$theme->id] . ')';
+        // 3. Actualizar el encabezado de la tabla de Temas/Fechas (FILA 5) con los totales
+        $col_index = 1;
+        foreach ($this->themes as $theme) {
+            $obj[5][$col_index] = $theme->name . ' (' . $theme_totals[$theme->id] . ')';
+            $col_index++;
         }
-
-        $this->count_news = count($graph_obj);
-        $this->data_graph = $graph_obj;
+        
+        $this->count_news = count($fechas); 
+        
+        $this->data_graph = $obj;
     }
+
 
     /**
      * @return array
      */
     public function sheets(): array
     {
-        // Se mantiene igual, pero los datos ahora se generaron más rápido.
         return [
                 new DashboardSheet(
                     $this->init_row,
@@ -240,10 +269,6 @@ class ReportsExport implements WithMultipleSheets
             ];
     }
 
-    /**
-     * Genera las columnas de Excel (Se mantiene igual ya que es una función de utilería)
-     * @return array
-     */
     public function generaColumnasExcel()
     {
         $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
@@ -284,4 +309,5 @@ class ReportsExport implements WithMultipleSheets
 
         return $dt;
     }
+
 }

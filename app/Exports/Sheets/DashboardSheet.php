@@ -7,7 +7,7 @@
   * @link https://danielbat.com Web Autor's site
   * @see https://twitter.com/codeisaac <@codeisaac>
   * @copyright 2023
-  * @version 1.0.0
+  * @version 1.0.1 (Columna corregida)
   * @package App\Export\Sheets
   * Type: Sheet
   * Description: Class to generate all data
@@ -29,6 +29,7 @@
     Layout
 };
 use Carbon\{Carbon, CarbonPeriod};
+use Maatwebsite\Excel\Events\AfterSheet;
 
 class DashboardSheet implements
     FromArray,
@@ -67,6 +68,8 @@ class DashboardSheet implements
         if($this->count_news > 0 )
         {
             $dt = $this->columnas_generadas; 
+            $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
+
 
             if(count($this->themes) > 0)
             {
@@ -120,23 +123,24 @@ class DashboardSheet implements
                 /* CHART LINE */
             }
 
-            $columns_excel = [ 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' ];//count 26
-
-            /* CHART2 */
+            /* CHART2 (Tendencias) */
             if($this->count_trend > 0)
             {
                 $dataSeriesLabels2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1),
                 ];
-
-                $dtTrend = $columns_excel[$this->count_trend - 1];
+                
+                // CORRECCIÓN
+                $dtTrend = $columns_excel[$this->count_trend]; 
 
                 $xAxisTickValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1:$' . $dtTrend . '$1', null, $this->count_trend + 1), // Q1 to Q4
+                    // CORRECCIÓN: Inicia en B
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$B$1:$' . $dtTrend . '$1', null, $this->count_trend),
                 ];
 
                 $dataSeriesValues2 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$2:$' . $dtTrend . '$2', null, $this->count_trend + 1),
+                    // CORRECCIÓN: Inicia en B
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$B$2:$' . $dtTrend . '$2', null, $this->count_trend),
                 ];
 
                 $series2 = new DataSeries(
@@ -149,7 +153,6 @@ class DashboardSheet implements
                 );
 
                 $layout2 = new Layout();
-                //$layout2->setShowVal(true);
                 $layout2->setShowPercent(true);
 
                 $plotArea2 = new PlotArea($layout2, [$series2]);
@@ -170,25 +173,23 @@ class DashboardSheet implements
                 $chart2->setTopLeftPosition('A1');
                 $chart2->setBottomRightPosition('H20');
             }
-            /* CHART2 */
+            /* CHART2 (Tendencias) */
 
-            /* CHART3 */
+            /* CHART3 (Medios) */
                 $dataSeriesLabels1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1), // 2011
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1),
                 ];
                 
-                // if (isset($this->count_mean) && $this->count_mean > 0 && isset($columns_excel[$this->count_mean - 1])) {
-                //     $countMean = $columns_excel[$this->count_mean - 1];
-                // } else {
-                //     $countMean = 0;
-                // }
-                $countMean = $columns_excel[$this->count_mean - 1];
+                // CORRECCIÓN
+                $countMean = $columns_excel[$this->count_mean];
 
                 $xAxisTickValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$3:$' . $countMean . '$3', null, $this->count_mean + 1), // Q1 to Q4
+                    // CORRECCIÓN: Inicia en B
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$B$3:$' . $countMean . '$3', null, $this->count_mean), 
                 ];
                 $dataSeriesValues1 = [
-                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$A$4:$' . $countMean . '$4', null, $this->count_mean + 1),
+                    // CORRECCIÓN: Inicia en B
+                    new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'Dashboard!$B$4:$' . $countMean . '$4', null, $this->count_mean),
                 ];
                 $series1 = new DataSeries(
                     DataSeries::TYPE_PIECHART,
@@ -200,7 +201,6 @@ class DashboardSheet implements
                 );
 
                 $layout1 = new Layout();
-                //$layout1->setShowVal(true);
                 $layout1->setShowPercent(true);
 
                 $plotArea1 = new PlotArea($layout1, [$series1]);
@@ -219,7 +219,7 @@ class DashboardSheet implements
 
                 $chart1->setTopLeftPosition('I1');
                 $chart1->setBottomRightPosition('P20');
-            /* CHART3 */
+            /* CHART3 (Medios) */
 
             if(count($this->themes) > 0 && $this->count_trend > 0)
                 return [$chart, $chart2, $chart1];
@@ -246,6 +246,7 @@ class DashboardSheet implements
                 // format to impar row
                 foreach($event->sheet->getRowIterator() as $fila) {
                     foreach ($fila->getCellIterator() as $celda) {
+                        // Se asume que $dt[count($this->themes)] es la última columna de datos de temas (ej. D)
                         $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
                             ->getColor()
                             ->setARGB('FFFFFF');
