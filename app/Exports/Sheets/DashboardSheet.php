@@ -7,7 +7,7 @@
   * @link https://danielbat.com Web Autor's site
   * @see https://twitter.com/codeisaac <@codeisaac>
   * @copyright 2023
-  * @version 1.0.1 (Columna corregida)
+  * @version 1.0.1 (Columna corregida y fix de excepción)
   * @package App\Export\Sheets
   * Type: Sheet
   * Description: Class to generate all data
@@ -29,7 +29,7 @@
     Layout
 };
 use Carbon\{Carbon, CarbonPeriod};
-use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\AfterSheet; // Asegurar que AfterSheet está importado
 
 class DashboardSheet implements
     FromArray,
@@ -130,7 +130,7 @@ class DashboardSheet implements
                     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1),
                 ];
                 
-                // CORRECCIÓN
+                // CORRECCIÓN: Usar el índice correcto y evitar la Columna A
                 $dtTrend = $columns_excel[$this->count_trend]; 
 
                 $xAxisTickValues2 = [
@@ -180,7 +180,7 @@ class DashboardSheet implements
                     new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'Dashboard!$A$1', null, 1),
                 ];
                 
-                // CORRECCIÓN
+                // CORRECCIÓN: Usar el índice correcto y evitar la Columna A
                 $countMean = $columns_excel[$this->count_mean];
 
                 $xAxisTickValues1 = [
@@ -243,14 +243,20 @@ class DashboardSheet implements
             AfterSheet::class => function(AfterSheet $event){
                 $dt = $this->columnas_generadas;
 
-                // format to impar row
+                // CORRECCIÓN DEL ERROR "Invalid cell coordinate 1"
+                $ultima_columna = 'A';
+                if (count($this->themes) > 0) {
+                    // Si hay temas, usamos la columna final generada.
+                    $ultima_columna = $dt[count($this->themes)]; 
+                }
+
+                // format to impar row (se simplifica la iteración)
                 foreach($event->sheet->getRowIterator() as $fila) {
-                    foreach ($fila->getCellIterator() as $celda) {
-                        // Se asume que $dt[count($this->themes)] es la última columna de datos de temas (ej. D)
-                        $event->sheet->getStyle("A{$celda->getRow()}:" . $dt[count($this->themes)] . "{$celda->getRow()}")->getFont()
-                            ->getColor()
-                            ->setARGB('FFFFFF');
-                    }
+                    // Aplicar estilo a toda la fila, desde A hasta la última columna de temas
+                    $rango_fila = "A{$fila->getRowIndex()}:{$ultima_columna}{$fila->getRowIndex()}";
+                    $event->sheet->getStyle($rango_fila)->getFont()
+                        ->getColor()
+                        ->setARGB('FFFFFF');
                 }
 
             }
