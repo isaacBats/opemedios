@@ -163,9 +163,9 @@
                                                         <tr>
                                                             <td style="border-right:1px solid {{ $newsBorderColor }};padding-right:10px;">
                                                                 <p style="color:{{ $newsTextColor }};font-size:13px;mso-line-height-rule:exactly;line-height:23px;font-family:Arial,sans-serif;margin-bottom:0!important;">
-                                                                    &#8226; {{ $note->news->mean->name }}<br>
-                                                                    &#8226; {{ $note->news->source->name }}<br>
-                                                                    &#8226; {{ $note->news->author }}
+                                                                    &#8226; {{ $note->news->mean->name ?? 'N/E' }}<br>
+                                                                    &#8226; {{ $note->news->source->name ?? 'N/E' }}<br>
+                                                                    &#8226; {{ $note->news->author ?? 'N/E' }}
                                                                 </p>
                                                             </td>
                                                             <td style="width:10px;">
