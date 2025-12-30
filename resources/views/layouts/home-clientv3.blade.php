@@ -49,6 +49,11 @@
     <meta name="theme-color" content="#ffffff">
     
     
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!--bootstrap v5.2.3 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/clientv3/css/bootstrap.min.css') }}">
     <!--flag css-->
@@ -63,6 +68,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/clientv3/css/slick.css') }}">
     <!--main style-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/clientv3/css/style.css') }}">
+    <!--SaaS Modern Theme-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/clientv3/css/theme-saas.css') }}">
     @yield('styles')
 
     <!--modernizr-->

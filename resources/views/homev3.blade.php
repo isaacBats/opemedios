@@ -1,912 +1,785 @@
 @extends('layouts.home-clientv3')
 @section('content')
-    <!--hero section start-->
-    <section class="banner-area-wrap-v3">
-        <div class="container-fluid">
+    {{-- ========================================
+         HERO SECTION - SaaS Modern
+    ======================================== --}}
+    <section class="hero-saas">
+        <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-8 col-xl-8">
-                    <div class="left-content-hero-v3">
-                        <h1><strong>Expertos </strong>en monitoreo</h1>
-                        <h2>Tus ojos y oídos para tu toma de decisiones</h2>
-                        <p>Somos una empresa especializada en el monitoreo de medios y análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales; con más veinte años de experiencia.</p>
-                        <a href="#" class="btn btn-default">Comenzar</a>
-                    </div><!--/.left-content-hero-->
-                </div>
-            </div>
-        </div><!--/.container-->
-        <span class="banner-frame-one"></span>
-        <span class="banner-frame-two"></span>
-        <span class="banner-frame-three v3"></span>
-        <span class="banner-frame-four"></span>
-    </section>
-    <!--hero section end-->
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        {{-- Badge --}}
+                        <div class="hero-badge" data-aos="fade-up">
+                            <span class="badge-dot"></span>
+                            <span>+20 años de experiencia en monitoreo</span>
+                        </div>
 
-    <!--how-work-v3 start-->
-    <div class="how-work-v3 pt-120">
-        <div class="container">
-            <div class="row g-0">
-                <div class="col-12">
-                    <div class="sec-title text-center mb-50">
-                        <h3><img src="assets/clientv3/img/icons/title-icon.svg" alt=""> Nuestros monitoreos</h3>
-                        <h2 class="tag1">Trabajamos con!</h2>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row g-4 justify-content-center">
-                        <div class="col-md-6 col-xl-4">
-                            <div class="how-work-inner-v3" data-aos="flip-down" data-aos-delay="100">
-                                <span class="number">01</span>
-                                <div class="d-sm-flex">
-                                    <div class="flex-grow-0">
-                                        <div class="icon">
-                                            <img style="width: 50%;" src="{{ asset('assets/clientv3/img/icons/icon-radio.png') }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Radio y Televisión</h2>
-                                        <p>Grabamos continuamente 48 estaciones de radio en AM y FM durante todo el año, monitoreando noticias, opinión, salud, espectáculos, cultura, finanzas y deportes. También registramos las 24 horas, los siete días de la semana, 25 canales de televisión de señal abierta y por cable, vigilando programas clave en diversas categorías.</p>
-                                    </div>
-                                </div>
-                            </div><!--/.how-work-inner-v3-->
+                        {{-- Two-Tier Title --}}
+                        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                            <span class="line-1">Expertos en</span>
+                            <span class="line-2">Monitoreo de Medios</span>
+                        </h1>
+
+                        <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+                            Somos tus ojos y oídos para la toma de decisiones. Especialistas en análisis de información en radio, televisión, periódicos, revistas, sitios web y redes sociales.
+                        </p>
+
+                        {{-- CTA Buttons --}}
+                        <div class="hero-cta" data-aos="fade-up" data-aos-delay="300">
+                            <a href="#contacto" class="btn-saas btn-saas-primary btn-saas-lg">
+                                Solicitar Demo
+                                <i class='bx bx-right-arrow-alt'></i>
+                            </a>
+                            <a href="#servicios" class="btn-saas btn-saas-secondary btn-saas-lg">
+                                Ver Servicios
+                            </a>
                         </div>
-                        <div class="col-md-6 col-xl-4">
-                            <div class="how-work-inner-v3" data-aos="flip-down" data-aos-delay="300">
-                                <span class="number">02</span>
-                                <div class="d-sm-flex">
-                                    <div class="flex-grow-0">
-                                        <div class="icon">
-                                            <img style="width: 50%;" src="{{ asset('assets/clientv3/img/icons/icon-periodico.png') }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Periódicos y Revistas</h2>
-                                        <p>Búsqueda de información en los principales diarios y revistas de circulación nacional como Reforma, El Universal, Milenio, La Jornada, Excélsior, Economista, El Financiero; Unomásuno, El Sol de México, La Crónica de Hoy. También buscamos en revistas de diferentes cortes: política, moda, espectáculos, salud, deportes, turismo, entretenimiento, arte, entre otras.</p>
-                                    </div>
-                                </div>
-                            </div><!--/.how-work-inner-v3-->
-                        </div>
-                        <div class="col-md-6 col-xl-4">
-                            <div class="how-work-inner-v3" data-aos="flip-down" data-aos-delay="500">
-                                <span class="number">03</span>
-                                <div class="d-sm-flex">
-                                    <div class="flex-grow-0">
-                                        <div class="icon">
-                                            <img style="width: 50%;" src="{{ asset('assets/clientv3/img/icons/icon-internet.png') }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Sitios Web y Redes Sociales</h2>
-                                        <p>Búsqueda de información de temas encomendados en muchos portales existentes de información general y especializados en temas como política, moda, espectáculos, cultura, salud, deportes, por mencionar algunos. Rankeo integral (tu posicionamiento y el de tus competidores ante búsquedas), análisis estratégico.</p>
-                                    </div>
-                                </div>
-                            </div><!--/.how-work-inner-v3-->
+
+                        {{-- Stats --}}
+                        <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                            <div class="stat-item">
+                                <span class="stat-number">150+</span>
+                                <span class="stat-label">Clientes Activos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">48</span>
+                                <span class="stat-label">Estaciones de Radio</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">25</span>
+                                <span class="stat-label">Canales de TV</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div><!--/.container-->
-    </div>
-    <!--how-work-v3 end-->
-
-    <!--about ortency start-->
-    <section class="about-ortency-v3 px-120">
-        <div class="container">
-            <div class="row gy-5 align-items-center">
-                <div class="col-md-12 col-lg-5 col-xl-6">
-                    <div class="right-content-about-v3">
-                        <div class="sec-title">
-                            <h3><img src="img/icons/title-icon.svg" alt=""> Sobre nuestra compañia</h3>
-                            <h2 class="tag1">En OPEMEDIOS nos distinguimos por nuestro servicio personalizado.</h2>
+                <div class="col-lg-6">
+                    <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+                        <div class="hero-image-wrapper">
+                            <img src="{{ asset('assets/clientv3/img/home3/pr_sony_reporte.png') }}" alt="Dashboard Opemedios" class="hero-image-main">
+                            {{-- Floating Cards --}}
+                            <div class="hero-float-card card-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class='bx bx-trending-up' style="color: #10b981; font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small style="color: var(--ope-gray-500); font-size: 0.75rem;">Menciones hoy</small>
+                                        <div style="font-weight: 700; color: var(--ope-dark);">+2,847</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hero-float-card card-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class='bx bx-check-circle' style="color: #2563eb; font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small style="color: var(--ope-gray-500); font-size: 0.75rem;">Cobertura</small>
+                                        <div style="font-weight: 700; color: var(--ope-dark);">Nacional</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <p>Somos una empresa líder en el monitoreo y análisis de medios. Nuestro capital y talento humano está conformado por profesionales especializados en el área de la comunicación.</p>
-                        <ul>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/clientv3/img/icons/about-icon-1.png') }}" alt="">
-                                </div>
-                                <div class="cont">
-                                    <h3>Misión</h3>
-                                    <p>Convertirnos en tus ojos y oídos.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/clientv3/img/icons/about-icon-2.png') }}" alt="">
-                                </div>
-                                <div class="cont">
-                                    <h3>Visión</h3>
-                                    <p>Brindamos un servicio personalizado.</p>
-                                </div>
-                            </li>
-                        </ul>
-                        <a href="#" class="btn btn-default">Leer más</a>
-                    </div><!--/.right-content-about-->
-                </div>
-                <div class="col-md-12 col-lg-7 col-xl-6">
-                    <div class="left-images-about-v3">
-                        <div class="inner-imgs">
-                            <img src="{{ asset('assets/clientv3/img/home3/mision.png') }}" class="img1" alt="">
-                            <img src="{{ asset('assets/clientv3/img/home3/mision2.png') }}" class="img2" alt="">
-                            <img src="{{ asset('assets/clientv3/img/home3/vision.png') }}" class="img3" alt="">
-                            <img src="{{ asset('assets/clientv3/img/home3/vision2.png') }}" class="img4" alt="">
-                            <div class="shape-one"></div>
-                            <div class="banner-frame-two"></div>
-                            <div class="shape-two"></div>
-                            <div class="shape-three"></div>
-                            <div class="shape-four"></div>
-                            <div class="radius-1"></div>
-                            <img src="{{ asset('assets/clientv3/img/home3/about-shape1.svg') }}" class="shape-bg-1" alt="">
-                        </div>
-                    </div><!--/.left-images-about-->
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--about ortency end-->
 
-    <!--our services v3 start-->
-    <div class="extra-margin-sec">
-        <div class="our-services-v2 px-120">
-            <div class="container">
-                <div class="row gx-4 gx-xxl-0">
-                    <div class="col-12">
-                        <div class="sec-title text-center mb-50">
-                            <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon.svg') }}" alt=""> Nuestros Servicios</h3>
-                            <h2 class="tag1">Algunos de nuestros servicios exclusivos</h2>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <div class="single-service-inner_v3 aos-init aos-animate" data-aos="fade-up">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-3 d-none d-lg-inline-block">
-                                            <h2>Monitoreo Integral de Medios</h2>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3">
-                                            <div class="imgs">
-                                                <img src="{{ asset('assets/clientv3/img/pexels-servicio1.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 col-lg-4 col-xl-4 ">
-                                            <div class="cont">
-                                                <h2 class="d-lg-none">Social Media Marketing</h2>
-                                                <p>Ofrecemos un servicio completo de monitoreo que abarca radio, televisión, periódicos, revistas, sitios web y redes sociales. Utilizando tecnologías avanzadas, rastreamos y recopilamos datos relevantes, proporcionando a nuestros clientes una visión completa de su presencia mediática.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2 text-end">
-                                            <a href="#" class="btn style2">Leer más</a>
-                                        </div>
-                                    </div>
-                                </div><!--/.single-service-inner_v2-->
-                            </div>
-                            <div class="col-12">
-                                <div class="single-service-inner_v3 aos-init aos-animate" data-aos="fade-up">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-3 d-none d-lg-inline-block">
-                                            <h2>Análisis Detallado de Temas o Palabras Clave</h2>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3">
-                                            <div class="imgs">
-                                                <img src="{{ asset('assets/clientv3/img/pexels-servicio2.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 col-lg-4 col-xl-4 ">
-                                            <div class="cont">
-                                                <h2 class="d-lg-none">Website Development</h2>
-                                                <p>Realizamos un análisis exhaustivo de los temas y palabras clave que usted elija monitorear en todos los medios disponibles. Nuestra tecnología avanzada de procesamiento de lenguaje natural identifica patrones, tendencias y cambios en la narrativa, brindándole información valiosa sobre cómo su marca o temas específicos están siendo abordados en los medios.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2 text-end">
-                                            <a href="#" class="btn style2">Leer más</a>
-                                        </div>
-                                    </div>
-                                </div><!--/.single-service-inner_v2-->
-                            </div>
-                            <div class="col-12">
-                                <div class="single-service-inner_v3 aos-init aos-animate" data-aos="fade-up">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-3 d-none d-lg-inline-block">
-                                            <h2>Informe de Competencia Mediática</h2>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3">
-                                            <div class="imgs">
-                                                <img src="{{ asset('assets/clientv3/img/pexels-karolina-grabowska-7681091-servicio3.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 col-lg-4 col-xl-4 ">
-                                            <div class="cont">
-                                                <h2 class="d-lg-none">Digital SEO Marketing</h2>
-                                                <p>Le proporcionamos un informe detallado sobre cómo se compara su presencia mediática con la de la competencia. Analizamos la cobertura en los medios, la frecuencia de menciones y otros factores clave para que pueda ajustar su estrategia y destacar en su industria.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2 text-end">
-                                            <a href="#" class="btn style2">Leer más</a>
-                                        </div>
-
-                                    </div>
-                                </div><!--/.single-service-inner_v2-->
-                            </div>
-                            <div class="col-12">
-                                <div class="single-service-inner_v3 aos-init aos-animate" data-aos="fade-up">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-3 d-none d-lg-inline-block">
-                                            <h2>Envío de Resúmenes, Notificaciones y Reportes Personalizados</h2>
-                                        </div>
-                                        <div class="col-md-4 col-lg-3">
-                                            <div class="imgs">
-                                                <img src="{{ asset('assets/clientv3/img/pexels-mikael-blomkvist-6483619-servicio4.jpg') }}" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 col-lg-4 col-xl-4 ">
-                                            <div class="cont">
-                                                <h2 class="d-lg-none">Financial Audit Result</h2>
-                                                <p>Personalizamos completamente la entrega de información para adaptarnos a sus necesidades. Reciba resúmenes diarios, notificaciones instantáneas sobre eventos relevantes y reportes periódicos que contienen análisis profundos de su presencia mediática. Nuestra flexibilidad garantiza que reciba la información que realmente importa de la manera que más le convenga.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2 text-end">
-                                            <a href="#" class="btn style2">Leer más</a>
-                                        </div>
-                                    </div>
-                                </div><!--/.single-service-inner_v2-->
-                            </div>
-    
-                        </div>
+    {{-- ========================================
+         MONITOREOS SECTION - Feature Cards
+    ======================================== --}}
+    <section class="section-padding bg-gray-light" id="monitoreos">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title-modern text-center" data-aos="fade-up">
+                        <span class="section-badge">
+                            <i class='bx bx-broadcast'></i>
+                            Nuestros Monitoreos
+                        </span>
+                        <h2>
+                            Cobertura <span class="text-gradient">Multiplataforma</span>
+                        </h2>
+                        <p>Monitoreamos todos los canales de comunicación para que no te pierdas ninguna mención importante.</p>
                     </div>
                 </div>
-            </div><!--/.container-->
-        </div>
-    </div>
-    <!--our services v3 end-->
-
-
-    <!--why choose us start-->
-    <section class="why-choose-us-v3 pt-120">
-        <div class="container-fluid">
-            <div class="row g-4 ">
-                <div class="col-lg-6">
-                    <div class="left-img-choose-v3">
-                        <img src="{{ asset('assets/clientv3/img/pexels-alena-darmel-7710155.jpg') }}" alt="">
-                        <img src="{{ asset('assets/clientv3/img/home3/image-shape-choose.svg') }}" class="overlay" data-aos="flip-left" alt="">
-                    </div><!--/.left-img-choose-v3-->
-                </div>
-                <div class="col-lg-6">
-                    <div class="right-content-choose-v3">
-                        <div class="sec-title">
-                            <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon.svg') }}" alt="">¿Por qué elegirnos?</h3>
-                            <h2 class="tag1">Transformamos datos en conocimiento para potenciar tu marca</h2>
+            </div>
+            <div class="row g-4 mt-2">
+                {{-- Card 1: Radio y TV --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <img src="{{ asset('assets/clientv3/img/icons/icon-radio.png') }}" alt="Radio y TV">
                         </div>
-                        <ul class="our-qua-lists">
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/clientv3/img/home3/choose-icon1.png') }}" alt="">
-                                </div>
-                                <div class="cont">
-                                    <h2>Servicios de calidad</h2>
-                                    <p>Nuestros servicios de calidad destacan por su precisión, profundidad y atención meticulosa.</p>
-                                </div>
-                                <img src="{{ asset('assets/clientv3/img/home3/shape-down.svg') }}"  class="arrow-down" alt="">
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/clientv3/img/home3/choose-icon2.png') }}" alt="">
-                                </div>
-                                <div class="cont">
-                                    <h2>Seguir el mejor proceso de trabajo</h2>
-                                    <p>En Opemedios, nos destacamos al seguir el mejor proceso de trabajo en el análisis y gestión de información mediática.</p>
-                                </div>
-                                <img src="{{ asset('assets/clientv3/img/home3/shape-down.svg') }}"  class="arrow-down flip" alt="">
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/clientv3/img/home3/choose-icon1.png') }}" alt="">
-                                </div>
-                                <div class="cont">
-                                    <h2>Amplia cobertura</h2>
-                                    <p>Disfruta de una cobertura sin igual en el monitoreo de medios. Desde radio y televisión hasta periódicos, revistas, sitios web y redes sociales.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div><!--/.right-content-choose-->
+                        <span class="feature-number">01</span>
+                        <h3>Radio y Televisión</h3>
+                        <p>Grabamos continuamente 48 estaciones de radio en AM y FM y 25 canales de televisión, monitoreando noticias, opinión, espectáculos, finanzas y deportes las 24 horas.</p>
+                    </div>
+                </div>
+                {{-- Card 2: Periódicos --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <img src="{{ asset('assets/clientv3/img/icons/icon-periodico.png') }}" alt="Periódicos">
+                        </div>
+                        <span class="feature-number">02</span>
+                        <h3>Periódicos y Revistas</h3>
+                        <p>Búsqueda de información en principales diarios nacionales: Reforma, El Universal, Milenio, La Jornada, Excélsior, El Financiero y revistas especializadas.</p>
+                    </div>
+                </div>
+                {{-- Card 3: Digital --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <img src="{{ asset('assets/clientv3/img/icons/icon-internet.png') }}" alt="Digital">
+                        </div>
+                        <span class="feature-number">03</span>
+                        <h3>Sitios Web y Redes Sociales</h3>
+                        <p>Monitoreo de portales de información general y especializados, análisis de redes sociales con rankeo integral de posicionamiento y análisis estratégico.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--why choose us end-->
 
-    <!--portfolio area start-->
-    <section class="portfolio-sec-v3 pt-120">
+    {{-- ========================================
+         ABOUT SECTION - Modern
+    ======================================== --}}
+    <section class="about-section-modern" id="nosotros">
         <div class="container">
-            <div class="row g-4 align-items-center align-items-lg-end">
-                <div class="col-lg-6">
-                    <div class="sec-title text-center text-lg-start">
-                        <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon.svg') }}" alt=""> Our Project</h3>
-                        <h2 class="tag1">Our Creative Portfolio</h2>
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-image-grid">
+                        <img src="{{ asset('assets/clientv3/img/home3/mision.png') }}" alt="Misión Opemedios" class="img-large">
+                        <img src="{{ asset('assets/clientv3/img/home3/vision.png') }}" alt="Visión Opemedios">
+                        <img src="{{ asset('assets/clientv3/img/home3/vision2.png') }}" alt="Equipo Opemedios">
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <ul class="filter-option-portfolio">
-                        <li><a class="active" href="javaScript:void(0)" data-category="all">ALL</a></li>
-                        <li><a href="javaScript:void(0)" data-category="website_des">Website Design</a></li>
-                        <li><a href="javaScript:void(0)" data-category="branding_des">Branding Design</a></li>
-                        <li><a href="javaScript:void(0)" data-category="app_des">App Design</a></li>
-                    </ul>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="section-title-modern">
+                        <span class="section-badge">
+                            <i class='bx bx-buildings'></i>
+                            Sobre Nosotros
+                        </span>
+                        <h2>
+                            Servicio <span class="text-gradient">Personalizado</span>
+                        </h2>
+                        <p>Somos una empresa líder en monitoreo y análisis de medios. Nuestro equipo está conformado por profesionales especializados en comunicación.</p>
+                    </div>
+
+                    <div class="about-features-list">
+                        <div class="about-feature-item">
+                            <div class="feature-icon">
+                                <i class='bx bx-target-lock'></i>
+                            </div>
+                            <div>
+                                <h4>Misión</h4>
+                                <p>Convertirnos en tus ojos y oídos para que tomes las mejores decisiones basadas en información precisa.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature-item">
+                            <div class="feature-icon">
+                                <i class='bx bx-world'></i>
+                            </div>
+                            <div>
+                                <h4>Visión</h4>
+                                <p>Brindar un servicio personalizado que supere las expectativas de cada cliente con tecnología de vanguardia.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#contacto" class="btn-saas btn-saas-primary mt-4">
+                        Conocer más
+                        <i class='bx bx-right-arrow-alt'></i>
+                    </a>
                 </div>
             </div>
-        </div><!--/.container-->
-        
-        <div class="slider-wrapper-portfolio">
-            <ul class="portfolio-item-slider">
-                <li data-match="website_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/pr_sony_reporte.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="website_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/pr_dunam_reporte.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="website_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/pr_dunam2_reporte.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="branding_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio2.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="branding_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio2.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="branding_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio3.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="app_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio1.jpg') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="app_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio3.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-                <li data-match="app_des">
-                    <div class="inner-portfolio-sing">
-                        <img src="{{ asset('assets/clientv3/img/home3/portfolio2.png') }}" alt="">
-                        <div class="overlay-content">
-                            <div class="txt">
-                                <h2>Smiley Colleagues Working Together</h2>
-                                <p>Working successful</p>
-                            </div>
-                        </div>
-                    </div><!--/.inner-portfolio-sing-->
-                </li>
-            </ul>
-            <div class="slider-controls"><span class="prevSlide"><i class='bx bx-arrow-back'></i></span><span class="nextSlide"><i class='bx bx-arrow-back bx-rotate-180' ></i></span></div>
         </div>
     </section>
-    <!--portfolio area end-->
 
-    <!--team area start-->
-    <section class="team-area-sec-v3 px-120">
+    {{-- ========================================
+         SERVICES SECTION - Horizontal Cards
+    ======================================== --}}
+    <section class="services-section-modern" id="servicios">
         <div class="container">
-            <div class="row g-0">
-                <div class="col-12">
-                    <div class="sec-title text-center">
-                        <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon-infinity.svg') }}" alt=""> Nuestro Equipo</h3>
-                        <h2 class="tag1">Equipo Ejecutivo</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title-modern text-center" data-aos="fade-up">
+                        <span class="section-badge">
+                            <i class='bx bx-cog'></i>
+                            Nuestros Servicios
+                        </span>
+                        <h2>
+                            Servicios <span class="text-gradient">Exclusivos</span>
+                        </h2>
+                        <p>Soluciones integrales de monitoreo y análisis adaptadas a las necesidades de tu organización.</p>
                     </div>
                 </div>
-                <div class="col-12 mt-50">
-                    <div class="row g-4">
-                        <div class="col-md-6 col-lg-3">
-                            <div class="team-member-inner v3" data-aos="flip-left" data-aos-delay="100">
-                                <div class="imgs">
-                                    <img src="{{ asset('assets/clientv3/img/team1.jpg') }}" alt="">
-                                    <div class="socials_v3">
-                                        <ul>
-                                            <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="cont">
-                                    <div class="name">
-                                        <h2>Alejandra Flores</h2>
-                                        <p>Executive Manager</p>
-                                    </div>
-                                </div>
-                            </div><!--/.team-member-inner-->
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    {{-- Service 1 --}}
+                    <div class="service-card-horizontal" data-aos="fade-up" data-aos-delay="100">
+                        <img src="{{ asset('assets/clientv3/img/pexels-servicio1.jpg') }}" alt="Monitoreo Integral" class="service-image">
+                        <div class="service-content">
+                            <h3>Monitoreo Integral de Medios</h3>
+                            <p>Servicio completo de monitoreo en radio, televisión, periódicos, revistas, sitios web y redes sociales. Utilizamos tecnologías avanzadas para rastrear y recopilar datos relevantes, proporcionando una visión completa de tu presencia mediática.</p>
                         </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="team-member-inner v3" data-aos="flip-left" data-aos-delay="300">
-                                <div class="imgs">
-                                    <img src="{{ asset('assets/clientv3/img/team2.jpg') }}" alt="">
-                                    <div class="socials_v3">
-                                        <ul>
-                                            <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="cont">
-                                    <div class="name">
-                                        <h2>Karenina Díaz</h2>
-                                        <p>Executive Manager</p>
-                                    </div>
-                                    
-                                </div>
-                            </div><!--/.team-member-inner-->
+                        <div class="service-link">
+                            <a href="#contacto" class="btn-saas btn-saas-secondary">
+                                Más Info
+                                <i class='bx bx-right-arrow-alt'></i>
+                            </a>
                         </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="team-member-inner v3" data-aos="flip-left" data-aos-delay="500">
-                                <div class="imgs">
-                                    <img src="{{ asset('assets/clientv3/img/team3.jpg') }}" alt="">
-                                    <div class="socials_v3">
-                                        <ul>
-                                            <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="cont">
-                                    <div class="name">
-                                        <h2>Gabriela Nava</h2>
-                                        <p>Executive Manager</p>
-                                    </div>
-                                </div>
-                            </div><!--/.team-member-inner-->
+                    </div>
+
+                    {{-- Service 2 --}}
+                    <div class="service-card-horizontal" data-aos="fade-up" data-aos-delay="200">
+                        <img src="{{ asset('assets/clientv3/img/pexels-servicio2.jpg') }}" alt="Análisis de Temas" class="service-image">
+                        <div class="service-content">
+                            <h3>Análisis Detallado de Temas o Palabras Clave</h3>
+                            <p>Análisis exhaustivo de los temas y palabras clave que usted elija. Nuestra tecnología de procesamiento de lenguaje natural identifica patrones, tendencias y cambios en la narrativa mediática.</p>
                         </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="team-member-inner v3" data-aos="flip-left" data-aos-delay="700">
-                                <div class="imgs">
-                                    <img src="{{ asset('assets/clientv3/img/team4.jpg') }}" alt="">
-                                    <div class="socials_v3">
-                                        <ul>
-                                            <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="cont">
-                                    <div class="name">
-                                        <h2>Froilan Carpena</h2>
-                                        <p>Managing Director</p>
-                                    </div>
-                                </div>
-                            </div><!--/.team-member-inner-->
+                        <div class="service-link">
+                            <a href="#contacto" class="btn-saas btn-saas-secondary">
+                                Más Info
+                                <i class='bx bx-right-arrow-alt'></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Service 3 --}}
+                    <div class="service-card-horizontal" data-aos="fade-up" data-aos-delay="300">
+                        <img src="{{ asset('assets/clientv3/img/pexels-karolina-grabowska-7681091-servicio3.jpg') }}" alt="Informe Competencia" class="service-image">
+                        <div class="service-content">
+                            <h3>Informe de Competencia Mediática</h3>
+                            <p>Informe detallado comparando tu presencia mediática con la competencia. Analizamos cobertura, frecuencia de menciones y otros factores clave para optimizar tu estrategia.</p>
+                        </div>
+                        <div class="service-link">
+                            <a href="#contacto" class="btn-saas btn-saas-secondary">
+                                Más Info
+                                <i class='bx bx-right-arrow-alt'></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Service 4 --}}
+                    <div class="service-card-horizontal" data-aos="fade-up" data-aos-delay="400">
+                        <img src="{{ asset('assets/clientv3/img/pexels-mikael-blomkvist-6483619-servicio4.jpg') }}" alt="Reportes Personalizados" class="service-image">
+                        <div class="service-content">
+                            <h3>Resúmenes, Notificaciones y Reportes Personalizados</h3>
+                            <p>Entrega de información completamente personalizada: resúmenes diarios, notificaciones instantáneas y reportes periódicos con análisis profundos de tu presencia mediática.</p>
+                        </div>
+                        <div class="service-link">
+                            <a href="#contacto" class="btn-saas btn-saas-secondary">
+                                Más Info
+                                <i class='bx bx-right-arrow-alt'></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!--/.container-->
+        </div>
     </section>
-    <!--team area end-->
 
-
-    <!--promo text start-->
-    <div class="promo-text-area ">
+    {{-- ========================================
+         WHY CHOOSE US - Modern
+    ======================================== --}}
+    <section class="why-choose-modern">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="promo-cont-with-social overflow-hidden">
-                        <div class="row g-0 align-items-center">
-                            <div class="col-md-3">
-                                <div class="foloow-content">
-                                    <h2>Siguenos en:</h2>
-                                    <div class="social_links">
-                                        <ul>
-                                            <li><a href="https://www.facebook.com/OPEMEDIOS/"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="https://x.com/DeMonitoreo"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/"><i class="bx bxl-linkedin"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="inner-promo-txt" data-aos="fade-left">
-                                    <div class="d-lg-flex justify-content-between align-items-center">
-                                        <div class="sec-title">
-                                            <h3 class="text-white"><img src="img/icons/title-icon-infinity.svg" alt=""> We Are Hire</h3>
-                                            <h2 class="text-white tag1">Tell us About Your Business, We are Ready to Solve.</h2>
-                                        </div>
-                                        <div class="btn-area mt-3 mt-lg-0">
-                                            <a href="contact.html" class="btn btn-default">Contact Us</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div><!--/.promo-cont-with-social-->
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <img src="{{ asset('assets/clientv3/img/pexels-alena-darmel-7710155.jpg') }}" alt="Por qué elegirnos" class="img-fluid" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);">
                 </div>
-            </div>
-        </div><!--/.container-->
-        <span class="banner-frame-one"></span>
-        <span class="banner-frame-two"></span>
-        <span class="banner-frame-three"></span>
-        <span class="banner-frame-four"></span>
-        <div class="shape-top-left" data-aos="fade-down" data-aos-delay="500"></div>
-        <div class="shape-bottom-right" data-aos="fade-up"
-        data-aos-anchor-placement="top-bottom" data-aos-delay="1000"></div>
-    </div>
-    <!--promo text end-->
-
-    <!--testimonial_v3 area start-->
-    <div class="testimonial-sec-v3 px-120">
-        <div class="container">
-            <div class="row g-4 align-items-center justify-content-center">
-                
-                <div class="col-xl-6 order-xl-2">
-                    <div class="sec-title mb-50">
-                        <h3><img src="img/icons/title-icon.svg" alt=""> Testimonios</h3>
-                        <h2 class="tag1">Lo que dicen nuestros Clientes</h2>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="section-title-modern">
+                        <span class="section-badge">
+                            <i class='bx bx-award'></i>
+                            Por Qué Elegirnos
+                        </span>
+                        <h2>
+                            Transformamos datos en <span class="text-gradient">conocimiento</span>
+                        </h2>
                     </div>
-                    <div class="testimonial-slider-v3">
-                        <div class="single">
-                            <div class="feedback-inner-single v3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="quote">
-                                        <i class="bx bxs-quote-left"></i>
-                                    </div>
-                                    <div class="ratings d-flex">
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                    </div>
-                                </div>
-                                <p>La plataforma nos entrega análisis de datos estructurados que facilitan la toma de decisiones críticas. Recibir la información filtrada y analizada nos ahorra horas de trabajo y nos permite enfocarnos en lo que realmente importa: nuestra estrategia.</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-0">
-                                        <img src="https://ui-avatars.com/api/?name=Elena+García" alt="">
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Elena García</h2>
-                                        <h5>Directora de Estrategia Digital</h5>
-                                    </div>
-                                </div>
-                            </div><!--/.feedback-inner-single-->
-                        </div>
-                        <div class="single">
-                            <div class="feedback-inner-single v3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="quote">
-                                        <i class="bx bxs-quote-left"></i>
-                                    </div>
-                                    <div class="ratings d-flex">
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lo que más valoramos es la puntualidad. El resumen informativo llega sin falta a primera hora, permitiendo que nuestro equipo directivo esté alineado con el pulso mediático antes de iniciar su primera reunión. Es eficiencia pura.</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-0">
-                                        <img src="https://ui-avatars.com/api/?name=Javier+Munguía" alt="">
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Javier Munguía</h2>
-                                        <h5>Gerente de Comunicación Externa</h5>
-                                    </div>
-                                </div>
-                            </div><!--/.feedback-inner-single-->
-                        </div>
-                        <div class="single">
-                            <div class="feedback-inner-single v3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="quote">
-                                        <i class="bx bxs-quote-left"></i>
-                                    </div>
-                                    <div class="ratings d-flex">
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                        <i class="bx bxs-star"></i>
-                                    </div>
-                                </div>
-                                <p>La precisión de Opemedios es excepcional. Gracias a su cobertura en prensa, radio, televisión y medios digitales, tenemos la seguridad de que ninguna mención relevante se nos escapa. Es una herramienta clave para nuestra gestión diaria.</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-0">
-                                        <img src="https://ui-avatars.com/api/?name=Ricardo+Trejo" alt="">
-                                    </div>
-                                    <div class="flex-shrink-1">
-                                        <h2>Ricardo Trejo</h2>
-                                        <h5>Jefe de Relaciones Institucionales</h5>
-                                    </div>
-                                </div>
-                            </div><!--/.feedback-inner-single-->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 order-xl-1">
-                    <div class="left-images-about-v3">
-                        <div class="inner-imgs fact">
-                            <div class="fact-wrapper fact-one">
-                                <h2 class="tag1">150 +</h2>
-                                <p>Clientes Felices</p>
-                            </div>
-                            <div class="fact-wrapper fact-two">
-                                <h2 class="tag1">120 +</h2>
-                                <p>Premios Ganados</p>
-                            </div>
-                            <div class="fact-wrapper fact-three">
-                                <h2 class="tag1">95 +</h2>
-                                <p>Equipo Profesional</p>
-                            </div>
-                            <div class="fact-wrapper fact-four">
-                                <h2 class="tag1">1500 +</h2>
-                                <p>Proyectos terminados</p>
-                            </div>
-                            <div class="shape-one"></div>
-                            <div class="banner-frame-two"></div>
-                            <div class="shape-two"></div>
-                            <div class="shape-three"></div>
-                            <div class="shape-four"></div>
-                            <div class="radius-1"></div>
-                            <img src="img/home3/about-shape1.svg" class="shape-bg-1" alt="">
-                            <div class="arrows-teti">
-                                <button class="prev-testim"><i class="bx bx-arrow-back"></i></button>
-                                <button class="next-testim"><i class="bx bx-arrow-back bx-rotate-180" ></i></button>
-                            </div>
-                        </div>
-                    </div><!--/.left-images-about-v3-->
-                </div>
-            </div>
-        </div><!--/.container-->
-    </div>
-    <!--testimonial area end-->
 
-    <!--blog area start-->
-    <section class="blog-sec-v3 px-120">
-        <div class="container">
-            <div class="row g-0">
-                <div class="col-12">
-                    <div class="sec-title text-center">
-                        <h3><img src="img/icons/title-icon-infinity.svg" alt="">Our Blog</h3>
-                        <h2 class="tag1">Latest Blogs & Articles</h2>
-                    </div>
-                </div>
-                <div class="col-12 mt-50">
-                    <div class="row justify-content-center g-4 ">
-                        <div class="col-lg-6">
-                            <div class="single-blog-inner v3">
-                                <div class="imgs">
-                                    <img src="img/home3/blog1.jpg" alt="">
-                                    <a href="blog-details.html" class="single-links">hidden link</a>
-                                </div>
-                                <div class="conts">
-                                    <ul class="meta">
-                                        <li><img src="img/icons/tags.svg" alt=""><span>Business Planning</span></li>
-                                        <li><img src="img/icons/messages.svg" alt=""> <span>22</span></li>
-                                        <li><img src="img/icons/eye.svg" alt=""> <span>120 Views</span></li>
-                                    </ul>
-                                    <h2><a href="blog-details.html">Staff meeting group a young modern people smart in casual wear discussing</a></h2>
-                                    <div class="d-flex justify-content-between align-items-center author">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <img src="img/testi3.jpg" alt="">
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <p>by Kristin</p>
-                                            </div>
-                                        </div>
-                                        <a href="blog-details.html" class="read-more">Read More <span><i class='bx bx-arrow-back bx-rotate-180' ></i></span></a>
-                                    </div>
-                                </div>
-                            </div><!--/.single-blog-inner-->
+                    <div class="mt-4">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class='bx bx-check-shield'></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Servicios de Calidad</h4>
+                                <p>Nuestros servicios destacan por su precisión, profundidad y atención meticulosa a cada detalle.</p>
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="single-blog-inner v3 smaller" data-aos="fade-up" data-aos-delay="100">
-                                        <div class="d-sm-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <div class="imgs">
-                                                    <img src="img/home3/blog2.jpg" alt="">
-                                                    <a href="blog-details.html" class="single-links">hidden link</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <div class="conts">
-                                                    <ul class="meta">
-                                                        <li><img src="img/icons/tags.svg" alt=""><span>Business Planning</span></li>
-                                                        <li><img src="img/icons/messages.svg" alt=""> <span>22</span></li>
-                                                        <li><img src="img/icons/eye.svg" alt=""> <span>120 Views</span></li>
-                                                    </ul>
-                                                    <h2><a href="blog-details.html">Successful business partners having
-                                                        discussing new business</a></h2>
-                                                    <div class="d-flex justify-content-between align-items-center author">
-                                                        <div class="d-flex">
-                                                            <div class="flex-grow-0">
-                                                                <img src="img/testi3.jpg" alt="">
-                                                            </div>
-                                                            <div class="flex-shrink-1">
-                                                                <p>by Kristin</p>
-                                                            </div>
-                                                        </div>
-                                                        <a href="blog-details.html" class="read-more">Read More <span><i class='bx bx-arrow-back bx-rotate-180' ></i></span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--/.single-blog-inner-->
-                                </div>
-                                <div class="col-12">
-                                    <div class="single-blog-inner v3 smaller" data-aos="fade-up" data-aos-delay="300">
-                                        <div class="d-sm-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <div class="imgs">
-                                                    <img src="img/home3/blog3.jpg" alt="">
-                                                    <a href="blog-details.html" class="single-links">hidden link</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <div class="conts">
-                                                    <ul class="meta">
-                                                        <li><img src="img/icons/tags.svg" alt=""><span>Business Planning</span></li>
-                                                        <li><img src="img/icons/messages.svg" alt=""> <span>22</span></li>
-                                                        <li><img src="img/icons/eye.svg" alt=""> <span>120 Views</span></li>
-                                                    </ul>
-                                                    <h2><a href="blog-details.html">Female logo designer working on a her tablet connected</a></h2>
-                                                    <div class="d-flex justify-content-between align-items-center author">
-                                                        <div class="d-flex">
-                                                            <div class="flex-grow-0">
-                                                                <img src="img/testi3.jpg" alt="">
-                                                            </div>
-                                                            <div class="flex-shrink-1">
-                                                                <p>by Kristin</p>
-                                                            </div>
-                                                        </div>
-                                                        <a href="blog-details.html" class="read-more">Read More <span><i class='bx bx-arrow-back bx-rotate-180' ></i></span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--/.single-blog-inner-->
-                                </div>
-                                <div class="col-12">
-                                    <div class="single-blog-inner v3 smaller" data-aos="fade-up" data-aos-delay="500">
-                                        <div class="d-sm-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <div class="imgs">
-                                                    <img src="img/home3/blog4.jpg" alt="">
-                                                    <a href="blog-details.html" class="single-links">hidden link</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <div class="conts">
-                                                    <ul class="meta">
-                                                        <li><img src="img/icons/tags.svg" alt=""><span>Business Planning</span></li>
-                                                        <li><img src="img/icons/messages.svg" alt=""> <span>22</span></li>
-                                                        <li><img src="img/icons/eye.svg" alt=""> <span>120 Views</span></li>
-                                                    </ul>
-                                                    <h2><a href="blog-details.html">Group of people working business plan in an office</a></h2>
-                                                    <div class="d-flex justify-content-between align-items-center author">
-                                                        <div class="d-flex">
-                                                            <div class="flex-grow-0">
-                                                                <img src="img/testi3.jpg" alt="">
-                                                            </div>
-                                                            <div class="flex-shrink-1">
-                                                                <p>by Kristin</p>
-                                                            </div>
-                                                        </div>
-                                                        <a href="blog-details.html" class="read-more">Read More <span><i class='bx bx-arrow-back bx-rotate-180' ></i></span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--/.single-blog-inner-->
-                                </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class='bx bx-line-chart'></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Mejor Proceso de Trabajo</h4>
+                                <p>Seguimos el mejor proceso en análisis y gestión de información mediática del mercado.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class='bx bx-globe'></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Amplia Cobertura</h4>
+                                <p>Cobertura sin igual desde radio y televisión hasta periódicos, revistas, sitios web y redes sociales.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!--/.container-->
+        </div>
     </section>
-    <!--blog area end-->
 
-    <!--partner area start-->
-    <div class="partner-area-wrap px-120">
+    {{-- ========================================
+         TESTIMONIALS SECTION - Modern Cards
+    ======================================== --}}
+    <section class="testimonials-section" id="testimonios">
         <div class="container">
-            <div class="col-12">
-                <div class="partner-logo-slider">
-                    <div class="single">
-                        <div class="logo-sl-inner">
-                            <img src="img/home2/partner1.png" alt="">
-                        </div><!--/.logo-sl-inner-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title-modern text-center" data-aos="fade-up">
+                        <span class="section-badge">
+                            <i class='bx bx-message-square-dots'></i>
+                            Testimonios
+                        </span>
+                        <h2>
+                            Lo que dicen nuestros <span class="text-gradient">Clientes</span>
+                        </h2>
+                        <p>Empresas líderes confían en Opemedios para su monitoreo de medios.</p>
                     </div>
-                    <div class="single">
-                        <div class="logo-sl-inner">
-                            <img src="img/home2/partner2.png" alt="">
-                        </div><!--/.logo-sl-inner-->
-                    </div>
-                    <div class="single">
-                        <div class="logo-sl-inner">
-                            <img src="img/home2/partner3.png" alt="">
-                        </div><!--/.logo-sl-inner-->
-                    </div>
-                    <div class="single">
-                        <div class="logo-sl-inner">
-                            <img src="img/home2/partner4.png" alt="">
-                        </div><!--/.logo-sl-inner-->
-                    </div>
-                    <div class="single">
-                        <div class="logo-sl-inner">
-                            <img src="img/home2/partner5.png" alt="">
-                        </div><!--/.logo-sl-inner-->
-                    </div>
-                </div><!--/.partner-logo-slider-->
+                </div>
             </div>
-        </div><!--/.container-->
+
+            <div class="row g-4 mt-2">
+                {{-- Testimonial 1 --}}
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card-modern">
+                        <div class="testimonial-header">
+                            <div class="testimonial-quote-icon">
+                                <i class='bx bxs-quote-left'></i>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">"La plataforma nos entrega análisis de datos estructurados que facilitan la toma de decisiones críticas. Recibir la información filtrada y analizada nos ahorra horas de trabajo y nos permite enfocarnos en lo que realmente importa: nuestra estrategia."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://ui-avatars.com/api/?name=Elena+Garcia&background=2563eb&color=fff" alt="Elena García" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Elena García</h4>
+                                <p>Directora de Estrategia Digital</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Testimonial 2 --}}
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card-modern">
+                        <div class="testimonial-header">
+                            <div class="testimonial-quote-icon">
+                                <i class='bx bxs-quote-left'></i>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">"Lo que más valoramos es la puntualidad. El resumen informativo llega sin falta a primera hora, permitiendo que nuestro equipo directivo esté alineado con el pulso mediático antes de iniciar su primera reunión. Es eficiencia pura."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://ui-avatars.com/api/?name=Javier+Munguia&background=0ea5e9&color=fff" alt="Javier Munguía" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Javier Munguía</h4>
+                                <p>Gerente de Comunicación Externa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Testimonial 3 --}}
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card-modern">
+                        <div class="testimonial-header">
+                            <div class="testimonial-quote-icon">
+                                <i class='bx bxs-quote-left'></i>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">"La precisión de Opemedios es excepcional. Gracias a su cobertura en prensa, radio, televisión y medios digitales, tenemos la seguridad de que ninguna mención relevante se nos escapa. Es una herramienta clave para nuestra gestión diaria."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://ui-avatars.com/api/?name=Ricardo+Trejo&background=06b6d4&color=fff" alt="Ricardo Trejo" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Ricardo Trejo</h4>
+                                <p>Jefe de Relaciones Institucionales</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Stats Row --}}
+            <div class="row g-4 mt-5">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-stat-card">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Clientes Activos</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-stat-card">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Años de Experiencia</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-stat-card">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Satisfacción</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="testimonial-stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Monitoreo Continuo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ========================================
+         TEAM SECTION - Modern
+    ======================================== --}}
+    <section class="team-section-modern">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title-modern text-center" data-aos="fade-up">
+                        <span class="section-badge">
+                            <i class='bx bx-group'></i>
+                            Nuestro Equipo
+                        </span>
+                        <h2>
+                            Equipo <span class="text-gradient">Ejecutivo</span>
+                        </h2>
+                        <p>Profesionales comprometidos con la excelencia en monitoreo de medios.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-2">
+                {{-- Team Member 1 --}}
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-card-modern">
+                        <div class="team-image">
+                            <img src="{{ asset('assets/clientv3/img/team1.jpg') }}" alt="Alejandra Flores">
+                            <div class="team-social">
+                                <a href="#"><i class='bx bxl-facebook'></i></a>
+                                <a href="#"><i class='bx bxl-twitter'></i></a>
+                                <a href="#"><i class='bx bxl-linkedin'></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Alejandra Flores</h4>
+                            <p>Executive Manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Team Member 2 --}}
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-card-modern">
+                        <div class="team-image">
+                            <img src="{{ asset('assets/clientv3/img/team2.jpg') }}" alt="Karenina Díaz">
+                            <div class="team-social">
+                                <a href="#"><i class='bx bxl-facebook'></i></a>
+                                <a href="#"><i class='bx bxl-twitter'></i></a>
+                                <a href="#"><i class='bx bxl-linkedin'></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Karenina Díaz</h4>
+                            <p>Executive Manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Team Member 3 --}}
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-card-modern">
+                        <div class="team-image">
+                            <img src="{{ asset('assets/clientv3/img/team3.jpg') }}" alt="Gabriela Nava">
+                            <div class="team-social">
+                                <a href="#"><i class='bx bxl-facebook'></i></a>
+                                <a href="#"><i class='bx bxl-twitter'></i></a>
+                                <a href="#"><i class='bx bxl-linkedin'></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Gabriela Nava</h4>
+                            <p>Executive Manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Team Member 4 --}}
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-card-modern">
+                        <div class="team-image">
+                            <img src="{{ asset('assets/clientv3/img/team4.jpg') }}" alt="Froilan Carpena">
+                            <div class="team-social">
+                                <a href="#"><i class='bx bxl-facebook'></i></a>
+                                <a href="#"><i class='bx bxl-twitter'></i></a>
+                                <a href="#"><i class='bx bxl-linkedin'></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Froilan Carpena</h4>
+                            <p>Managing Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ========================================
+         CTA SECTION
+    ======================================== --}}
+    <section class="cta-section-modern">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Cuéntanos sobre tu negocio</h2>
+                <p>Estamos listos para ayudarte a monitorear y analizar tu presencia en medios. Contáctanos hoy mismo.</p>
+                <a href="#contacto" class="btn-saas btn-saas-secondary btn-saas-lg">
+                    Contactar Ahora
+                    <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {{-- ========================================
+         CONTACT SECTION - Service Pills
+    ======================================== --}}
+    <section class="contact-section-modern section-padding" id="contacto">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title-modern text-center" data-aos="fade-up">
+                        <span class="section-badge">
+                            <i class='bx bx-envelope'></i>
+                            Contacto
+                        </span>
+                        <h2>
+                            Solicita tu <span class="text-gradient">Demo Gratuita</span>
+                        </h2>
+                        <p>Selecciona el servicio que te interesa y nos pondremos en contacto contigo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-5 mt-2">
+                <div class="col-lg-7" data-aos="fade-right">
+                    <div class="contact-form-wrapper">
+                        <form action="#" method="POST">
+                            @csrf
+                            {{-- Service Pills Selector --}}
+                            <div class="service-pills-container">
+                                <label class="service-pills-label">Selecciona el servicio de tu interés:</label>
+                                <div class="service-pills">
+                                    <div class="service-pill">
+                                        <input type="radio" name="servicio" id="servicio-monitoreo" value="monitoreo" checked>
+                                        <label for="servicio-monitoreo">
+                                            <i class='bx bx-broadcast'></i>
+                                            Monitoreo de Medios
+                                        </label>
+                                    </div>
+                                    <div class="service-pill">
+                                        <input type="radio" name="servicio" id="servicio-redes" value="redes">
+                                        <label for="servicio-redes">
+                                            <i class='bx bx-share-alt'></i>
+                                            Redes Sociales
+                                        </label>
+                                    </div>
+                                    <div class="service-pill">
+                                        <input type="radio" name="servicio" id="servicio-reputacion" value="reputacion">
+                                        <label for="servicio-reputacion">
+                                            <i class='bx bx-shield-quarter'></i>
+                                            Gestión de Reputación
+                                        </label>
+                                    </div>
+                                    <div class="service-pill">
+                                        <input type="radio" name="servicio" id="servicio-reportes" value="reportes">
+                                        <label for="servicio-reportes">
+                                            <i class='bx bx-file'></i>
+                                            Reportes Personalizados
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label for="nombre">Nombre completo</label>
+                                        <input type="text" name="nombre" id="nombre" class="form-control-modern" placeholder="Tu nombre" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label for="empresa">Empresa</label>
+                                        <input type="text" name="empresa" id="empresa" class="form-control-modern" placeholder="Nombre de tu empresa">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label for="email">Correo electrónico</label>
+                                        <input type="email" name="email" id="email" class="form-control-modern" placeholder="tu@email.com" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="tel" name="telefono" id="telefono" class="form-control-modern" placeholder="+52 55 1234 5678">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-modern">
+                                <label for="mensaje">Mensaje</label>
+                                <textarea name="mensaje" id="mensaje" class="form-control-modern" placeholder="Cuéntanos sobre tus necesidades de monitoreo..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-saas btn-saas-primary btn-saas-lg w-100">
+                                Enviar Solicitud
+                                <i class='bx bx-send'></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-5" data-aos="fade-left">
+                    <div class="contact-info-card">
+                        <div class="info-icon">
+                            <i class='bx bx-phone'></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Teléfono</h4>
+                            <a href="tel:+525512345678">+52 55 1234 5678</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="info-icon">
+                            <i class='bx bx-envelope'></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Email</h4>
+                            <a href="mailto:contacto@opemedios.com.mx">contacto@opemedios.com.mx</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="info-icon">
+                            <i class='bx bx-map'></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Ubicación</h4>
+                            <p>Ciudad de México, México</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <div class="info-icon">
+                            <i class='bx bx-time'></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Horario de Atención</h4>
+                            <p>Lunes a Viernes: 9:00 - 18:00</p>
+                        </div>
+                    </div>
+
+                    {{-- Social Links --}}
+                    <div class="mt-4 pt-4" style="border-top: 1px solid var(--ope-gray-200);">
+                        <h4 style="font-size: 1rem; font-weight: 600; color: var(--ope-dark); margin-bottom: 1rem;">Síguenos en redes</h4>
+                        <div class="d-flex gap-2">
+                            <a href="https://www.facebook.com/OPEMEDIOS/" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                                <i class='bx bxl-facebook'></i>
+                            </a>
+                            <a href="https://x.com/DeMonitoreo" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                                <i class='bx bxl-twitter'></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                                <i class='bx bxl-linkedin'></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ========================================
+         PARTNERS SECTION
+    ======================================== --}}
+    <div class="partners-section">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="partner-logo text-center">
+                        <img src="{{ asset('img/home2/partner1.png') }}" alt="Partner">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="partner-logo text-center">
+                        <img src="{{ asset('img/home2/partner2.png') }}" alt="Partner">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="partner-logo text-center">
+                        <img src="{{ asset('img/home2/partner3.png') }}" alt="Partner">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="partner-logo text-center">
+                        <img src="{{ asset('img/home2/partner4.png') }}" alt="Partner">
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="partner-logo text-center">
+                        <img src="{{ asset('img/home2/partner5.png') }}" alt="Partner">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--partner area end-->
 @endsection
