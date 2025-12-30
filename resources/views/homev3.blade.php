@@ -448,8 +448,8 @@
             <div class="row g-0">
                 <div class="col-12">
                     <div class="sec-title text-center">
-                        <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon-infinity.svg') }}" alt=""> Team Member</h3>
-                        <h2 class="tag1">Creative Team Member</h2>
+                        <h3><img src="{{ asset('assets/clientv3/img/icons/title-icon-infinity.svg') }}" alt=""> Nuestro Equipo</h3>
+                        <h2 class="tag1">Equipo Ejecutivo</h2>
                     </div>
                 </div>
                 <div class="col-12 mt-50">
@@ -469,8 +469,8 @@
                                 </div>
                                 <div class="cont">
                                     <div class="name">
-                                        <h2>Robert Sions</h2>
-                                        <p>Business Consultant</p>
+                                        <h2>Alejandra Flores</h2>
+                                        <p>Executive Manager</p>
                                     </div>
                                 </div>
                             </div><!--/.team-member-inner-->
@@ -490,8 +490,8 @@
                                 </div>
                                 <div class="cont">
                                     <div class="name">
-                                        <h2>Ross Bing</h2>
-                                        <p>App Developer</p>
+                                        <h2>Karenina Díaz</h2>
+                                        <p>Executive Manager</p>
                                     </div>
                                     
                                 </div>
@@ -512,7 +512,7 @@
                                 </div>
                                 <div class="cont">
                                     <div class="name">
-                                        <h2>Karikok Jahan</h2>
+                                        <h2>Gabriela Nava</h2>
                                         <p>Executive Manager</p>
                                     </div>
                                 </div>
@@ -533,8 +533,8 @@
                                 </div>
                                 <div class="cont">
                                     <div class="name">
-                                        <h2>Dickerson MH</h2>
-                                        <p>Agency Analysis</p>
+                                        <h2>Froilan Carpena</h2>
+                                        <p>Managing Director</p>
                                     </div>
                                 </div>
                             </div><!--/.team-member-inner-->
@@ -556,13 +556,12 @@
                         <div class="row g-0 align-items-center">
                             <div class="col-md-3">
                                 <div class="foloow-content">
-                                    <h2>Follow Us:</h2>
+                                    <h2>Siguenos en:</h2>
                                     <div class="social_links">
                                         <ul>
-                                            <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
+                                            <li><a href="https://www.facebook.com/OPEMEDIOS/"><i class="bx bxl-facebook"></i></a></li>
+                                            <li><a href="https://x.com/DeMonitoreo"><i class="bx bxl-twitter"></i></a></li>
+                                            <li><a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/"><i class="bx bxl-linkedin"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
