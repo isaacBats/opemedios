@@ -602,8 +602,8 @@
                 
                 <div class="col-xl-6 order-xl-2">
                     <div class="sec-title mb-50">
-                        <h3><img src="img/icons/title-icon.svg" alt=""> Testimonial</h3>
-                        <h2 class="tag1">What Our Client Say</h2>
+                        <h3><img src="img/icons/title-icon.svg" alt=""> Testimonios</h3>
+                        <h2 class="tag1">Lo que dicen nuestros Clientes</h2>
                     </div>
                     <div class="testimonial-slider-v3">
                         <div class="single">
@@ -620,14 +620,14 @@
                                         <i class="bx bxs-star"></i>
                                     </div>
                                 </div>
-                                <p>There are many variations of passages of Lorem as Ipsum the vaila the majority have suffered alteration in some form by injectes our, or rando word which don't look even slightly a believable. If you are going to use a passage of Lorem Ipsum.</p>
+                                <p>La plataforma nos entrega análisis de datos estructurados que facilitan la toma de decisiones críticas. Recibir la información filtrada y analizada nos ahorra horas de trabajo y nos permite enfocarnos en lo que realmente importa: nuestra estrategia.</p>
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-0">
-                                        <img src="img/testi1.png" alt="">
+                                        <img src="https://ui-avatars.com/api/?name=Elena+García" alt="">
                                     </div>
                                     <div class="flex-shrink-1">
-                                        <h2>John Waon</h2>
-                                        <h5>App Designer</h5>
+                                        <h2>Elena García</h2>
+                                        <h5>Directora de Estrategia Digital</h5>
                                     </div>
                                 </div>
                             </div><!--/.feedback-inner-single-->
@@ -646,14 +646,40 @@
                                         <i class="bx bxs-star"></i>
                                     </div>
                                 </div>
-                                <p>There are many variations of passages of Lorem as Ipsum the vaila the majority have suffered alteration in some form by injectes our, or rando word which don't look even slightly a believable. If you are going to use a passage of Lorem Ipsum.</p>
+                                <p>Lo que más valoramos es la puntualidad. El resumen informativo llega sin falta a primera hora, permitiendo que nuestro equipo directivo esté alineado con el pulso mediático antes de iniciar su primera reunión. Es eficiencia pura.</p>
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-0">
-                                        <img src="img/testi2.jpg" alt="">
+                                        <img src="https://ui-avatars.com/api/?name=Javier+Munguía" alt="">
                                     </div>
                                     <div class="flex-shrink-1">
-                                        <h2>John Waon</h2>
-                                        <h5>App Designer</h5>
+                                        <h2>Javier Munguía</h2>
+                                        <h5>Gerente de Comunicación Externa</h5>
+                                    </div>
+                                </div>
+                            </div><!--/.feedback-inner-single-->
+                        </div>
+                        <div class="single">
+                            <div class="feedback-inner-single v3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="quote">
+                                        <i class="bx bxs-quote-left"></i>
+                                    </div>
+                                    <div class="ratings d-flex">
+                                        <i class="bx bxs-star"></i>
+                                        <i class="bx bxs-star"></i>
+                                        <i class="bx bxs-star"></i>
+                                        <i class="bx bxs-star"></i>
+                                        <i class="bx bxs-star"></i>
+                                    </div>
+                                </div>
+                                <p>La precisión de Opemedios es excepcional. Gracias a su cobertura en prensa, radio, televisión y medios digitales, tenemos la seguridad de que ninguna mención relevante se nos escapa. Es una herramienta clave para nuestra gestión diaria.</p>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-0">
+                                        <img src="https://ui-avatars.com/api/?name=Ricardo+Trejo" alt="">
+                                    </div>
+                                    <div class="flex-shrink-1">
+                                        <h2>Ricardo Trejo</h2>
+                                        <h5>Jefe de Relaciones Institucionales</h5>
                                     </div>
                                 </div>
                             </div><!--/.feedback-inner-single-->
@@ -665,19 +691,19 @@
                         <div class="inner-imgs fact">
                             <div class="fact-wrapper fact-one">
                                 <h2 class="tag1">150 +</h2>
-                                <p>Happy Clients</p>
+                                <p>Clientes Felices</p>
                             </div>
                             <div class="fact-wrapper fact-two">
                                 <h2 class="tag1">120 +</h2>
-                                <p>Awards Win</p>
+                                <p>Premios Ganados</p>
                             </div>
                             <div class="fact-wrapper fact-three">
                                 <h2 class="tag1">95 +</h2>
-                                <p>Professional Team</p>
+                                <p>Equipo Profesional</p>
                             </div>
                             <div class="fact-wrapper fact-four">
                                 <h2 class="tag1">1500 +</h2>
-                                <p>Project Complete</p>
+                                <p>Proyectos terminados</p>
                             </div>
                             <div class="shape-one"></div>
                             <div class="banner-frame-two"></div>
