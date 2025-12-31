@@ -2,6 +2,44 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+---
+
+## IMPORTANTE: Directorio .claude
+
+**Antes de comenzar cualquier tarea, DEBES revisar el contenido del directorio `.claude/`:**
+
+```
+.claude/
+├── project-map.md            # Estado actual del proyecto y progreso
+├── agents/
+│   ├── frontend-expert.md    # Estándares y guías de frontend
+│   └── backend-expert.md     # Estándares y guías de backend
+├── rules/
+│   └── ui-style.md           # Guía de estilos UI (FUENTE DE VERDAD)
+├── doc/                      # Documentación adicional
+├── hooks/                    # Hooks personalizados
+└── sessions/                 # Logs de sesiones anteriores
+```
+
+### Archivos Obligatorios a Consultar
+
+| Archivo | Cuándo Consultarlo |
+|---------|-------------------|
+| `.claude/project-map.md` | **SIEMPRE** al inicio de cada sesión para conocer el estado actual |
+| `.claude/rules/ui-style.md` | Antes de cualquier trabajo de **frontend/UI** |
+| `.claude/agents/frontend-expert.md` | Para tareas de **frontend, CSS, Blade, Vue** |
+| `.claude/agents/backend-expert.md` | Para tareas de **PHP, Laravel, base de datos** |
+
+### Actualización del Project Map
+
+**Al finalizar cada funcionalidad o cambio significativo**, actualiza `.claude/project-map.md` con:
+- Resumen de lo realizado
+- Archivos creados/modificados
+- Decisiones técnicas tomadas
+- Próximos pasos sugeridos
+
+---
+
 ## Project Overview
 
 Opemedios is a Laravel 10 + PHP 8.2 media monitoring and news management system with multi-company support. It manages news content, newsletters, reports, and media monitoring across multiple channels (TV, Radio, Print, Internet, Social Media).

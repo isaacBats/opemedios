@@ -147,9 +147,9 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="about-image-grid">
-                        <img src="{{ asset('assets/clientv3/img/home3/mision.png') }}" alt="Misión Opemedios" class="img-large">
-                        <img src="{{ asset('assets/clientv3/img/home3/vision.png') }}" alt="Visión Opemedios">
-                        <img src="{{ asset('assets/clientv3/img/home3/vision2.png') }}" alt="Equipo Opemedios">
+                        <img src="{{ asset('assets/clientv3/img/pexels-alena-darmel-7710155.jpg') }}" alt="Equipo ejecutivo Opemedios" class="img-large">
+                        <img src="{{ asset('assets/clientv3/img/pexels-servicio1.jpg') }}" alt="Análisis de medios">
+                        <img src="{{ asset('assets/clientv3/img/pexels-kindel-media-7688331.jpg') }}" alt="Trabajo en equipo">
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
@@ -749,37 +749,53 @@
     </section>
 
     {{-- ========================================
-         PARTNERS SECTION
+         CLIENTS/PARTNERS SECTION
     ======================================== --}}
-    <div class="partners-section">
+    <section class="clients-section">
         <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="partner-logo text-center">
-                        <img src="{{ asset('img/home2/partner1.png') }}" alt="Partner">
-                    </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-6 text-center">
+                    <p class="clients-subtitle">Empresas que confían en nosotros</p>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="partner-logo text-center">
-                        <img src="{{ asset('img/home2/partner2.png') }}" alt="Partner">
-                    </div>
+            </div>
+            <div class="clients-grid">
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/8.jpg') }}" alt="Sony Pictures">
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="partner-logo text-center">
-                        <img src="{{ asset('img/home2/partner3.png') }}" alt="Partner">
-                    </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/5.jpg') }}" alt="Federación Mexicana de Fútbol">
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="partner-logo text-center">
-                        <img src="{{ asset('img/home2/partner4.png') }}" alt="Partner">
-                    </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/6.jpg') }}" alt="NFL">
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="partner-logo text-center">
-                        <img src="{{ asset('img/home2/partner5.png') }}" alt="Partner">
-                    </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/7.jpg') }}" alt="Fórmula 1">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/1.jpg') }}" alt="MTV">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/2.jpg') }}" alt="OCESA">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/9.jpg') }}" alt="Fox Networks Group México">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/4.jpg') }}" alt="Videocine">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/10.jpg') }}" alt="Jafra">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/3.jpg') }}" alt="Museo Franz Mayer">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/12.jpg') }}" alt="Ambulante">
+                </div>
+                <div class="client-logo-item">
+                    <img src="{{ asset('images/clientes/13.jpg') }}" alt="AMACC">
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

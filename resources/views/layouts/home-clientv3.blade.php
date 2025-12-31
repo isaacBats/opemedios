@@ -148,115 +148,92 @@
     @yield('content')
     
     <!--footer area start-->
-    <footer class="footers">
+    <footer class="footer-modern">
         <div class="container">
-            <div class="row g-0">
-                <div class="col-12">
-                    <div class="newsletter-form">
-                        <div class="d-md-flex align-items-center justify-content-between">
-                            <div class="left-content">
-                                <p>For Digital Marketing Agency</p>
-                                <h2>Join Our Agency Community</h2>
+            <div class="footer-widgets-wrap">
+                <div class="row g-4 gy-5">
+                    {{-- About Company --}}
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="ftr-widget about">
+                            <div class="footer-logo mb-3">
+                                <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios" style="max-width: 180px; filter: brightness(0) invert(1);">
                             </div>
-                            <div class="right-content">
-                                <form>
-                                    <div class="newslttr-grp">
-                                        <input type="email" placeholder="Enter your email address" class="form-control">
-                                        <button type="submit" class="btn">Subscribe Now</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <p>Somos una empresa especializada en monitoreo de medios y análisis de información con más de 20 años de experiencia. Tus ojos y oídos para la toma de decisiones.</p>
+                            <ul class="socials">
+                                <li><a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" rel="noopener"><i class="bx bxl-facebook"></i></a></li>
+                                <li><a href="https://x.com/DeMonitoreo" target="_blank" rel="noopener"><i class="bx bxl-twitter"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/" target="_blank" rel="noopener"><i class="bx bxl-linkedin"></i></a></li>
+                            </ul>
                         </div>
-                    </div><!--/.newsletter-form-->
-                </div>
-                <div class="col-12">
-                    <div class="footer-widgets-wrap">
-                        <div class="row g-4 gy-5">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="ftr-widget about">
-                                    <h2>About Company</h2>
-                                    <p>There are many variations of passages of Lore Ipsum availab but the majority have suffereds alteration in some form, by injected humour a randomised words which</p>
-                                    <ul class="socials">
-                                        <li><a href="#"><i class="bx bxl-facebook"></i></a></li>
-                                        <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
-                                        <li><a href="#"><i class="bx bxl-linkedin"></i></a></li>
-                                        <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                                    </ul>
-                                </div><!--/.ftr-widget-->
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="ftr-widget">
-                                    <h2>Featured Services </h2>
-                                    <ul class="navs">
-                                        <li><a href="#">Social Media Marketing</a></li>
-                                        <li><a href="#">Pay Per Click Management</a></li>
-                                        <li><a href="#">Search Engine Optimization</a></li>
-                                        <li><a href="#">Free SEO Analysis</a></li>
-                                        <li><a href="#">Case Studies</a></li>
-                                    </ul>
-                                </div><!--/.ftr-widget-->
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="ftr-widget">
-                                    <h2>Recent Post </h2>
-                                    <ul class="recent-posts">
-                                        <li class="d-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <img src="img/blog1.jpg" alt="">
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <a href="blog-details.html">Thoughtful man using laptop pondering </a>
-                                                <p><i class='bx bx-calendar'></i> 09 Dec 2022</p>
-                                            </div>
-                                        </li>
-                                        <li class="d-flex align-items-center">
-                                            <div class="flex-grow-0">
-                                                <img src="img/blog2.jpg" alt="">
-                                            </div>
-                                            <div class="flex-shrink-1">
-                                                <a href="blog-details.html">Thoughtful man using laptop pondering </a>
-                                                <p><i class='bx bx-calendar'></i> 09 Dec 2022</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div><!--/.ftr-widget-->
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="ftr-widget">
-                                    <h2>Contact Us</h2>
-                                    <ul class="contacts">
-                                        <li>
-                                            <i class='bx bxs-phone' ></i>
-                                            <a href="tel:7501234">+(323) 750-1234</a>
-                                        </li>
-                                        <li>
-                                            <i class='bx bxs-envelope' ></i>
-                                            <a href="mailto:infoyourortencey@email.com">infoyourortencey@email.com</a>
-                                        </li>
-                                        <li>
-                                            <i class='bx bxs-map' ></i>
-                                            <address>374 FA Tower, William S Blvd, Melbourne
-                                                2721, IL, USA</address>
-                                        </li>
-                                    </ul>
-                                </div><!--/.ftr-widget-->
-                            </div>
+                    </div>
+
+                    {{-- Quick Links --}}
+                    <div class="col-sm-6 col-lg-2">
+                        <div class="ftr-widget">
+                            <h2>Enlaces Rápidos</h2>
+                            <ul class="navs">
+                                <li><a href="{{ url('/') }}">Inicio</a></li>
+                                <li><a href="#nosotros">Quiénes Somos</a></li>
+                                <li><a href="#servicios">Servicios</a></li>
+                                <li><a href="#testimonios">Testimonios</a></li>
+                                <li><a href="#contacto">Contacto</a></li>
+                            </ul>
                         </div>
-                    </div><!--/.footer-widgets-wrap-->
+                    </div>
+
+                    {{-- Services --}}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="ftr-widget">
+                            <h2>Nuestros Servicios</h2>
+                            <ul class="navs">
+                                <li><a href="#servicios">Monitoreo Integral de Medios</a></li>
+                                <li><a href="#servicios">Análisis de Temas y Palabras Clave</a></li>
+                                <li><a href="#servicios">Informe de Competencia Mediática</a></li>
+                                <li><a href="#servicios">Reportes Personalizados</a></li>
+                                <li><a href="#monitoreos">Monitoreo de Redes Sociales</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Contact Info --}}
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="ftr-widget">
+                            <h2>Contáctanos</h2>
+                            <ul class="contacts">
+                                <li>
+                                    <i class='bx bxs-phone'></i>
+                                    <a href="tel:5555846410">55-5584-64-10</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-envelope'></i>
+                                    <a href="mailto:contacto@opemedios.com.mx">contacto@opemedios.com.mx</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-map'></i>
+                                    <address>Ures 69, Col. Roma Sur<br>CP. 06760, Ciudad de México<br>Del. Cuauhtémoc</address>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-time'></i>
+                                    <span>Lun - Vie: 9:00 - 18:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div><!--/.container-->
+        </div>
     </footer>
-    <div class="copyright-conts">
+    {{-- Copyright Bar --}}
+    <div class="copyright-modern">
         <div class="container">
-            <div class="row gy-3">
+            <div class="row gy-3 align-items-center">
                 <div class="col-md-6">
-                    <p>2022 © All rights reserved by devsnest-llc</p>
+                    <p>&copy; {{ date('Y') }} Opemedios. Todos los derechos reservados.</p>
                 </div>
                 <div class="col-md-6">
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Aviso de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
                     </ul>
                 </div>
             </div>
