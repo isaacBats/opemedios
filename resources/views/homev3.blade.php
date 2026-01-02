@@ -43,11 +43,15 @@
                             </div>
                             <div class="stat-item">
                                 <span class="stat-number">48</span>
-                                <span class="stat-label">Estaciones de Radio</span>
+                                <span class="stat-label">Estaciones de Radio <br><small>Monitoreo Continuo</small></span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-number">25</span>
-                                <span class="stat-label">Canales de TV</span>
+                                <span class="stat-number">35</span>
+                                <span class="stat-label">Canales de TV <br><small>Tiempo Real</small></span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number"><i class='bx bx-globe'></i></span>
+                                <span class="stat-label">Cobertura Multicanal <br><small>Prensa, Revistas, Redes Sociales y Sitios Web</small></span>
                             </div>
                         </div>
                     </div>
@@ -473,95 +477,56 @@
     </section>
 
     {{-- ========================================
-         TEAM SECTION - Modern
+         STRATEGIC BENEFITS SECTION - Modern
     ======================================== --}}
-    <section class="team-section-modern">
+    <section class="section-padding bg-gray-light" id="beneficios">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
                     <div class="section-title-modern text-center" data-aos="fade-up">
                         <span class="section-badge">
-                            <i class='bx bx-group'></i>
-                            Nuestro Equipo
+                            <i class='bx bx-trending-up'></i>
+                            Valor para tu negocio
                         </span>
                         <h2>
-                            Equipo <span class="text-gradient">Ejecutivo</span>
+                            Resultados que Impulsan <span class="text-gradient">Tu Crecimiento</span>
                         </h2>
-                        <p>Profesionales comprometidos con la excelencia en monitoreo de medios.</p>
+                        <p>Transforma la información mediática en ventajas competitivas tangibles para tu organización.</p>
                     </div>
                 </div>
             </div>
 
             <div class="row g-4 mt-2">
-                {{-- Team Member 1 --}}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-card-modern">
-                        <div class="team-image">
-                            <img src="{{ asset('assets/clientv3/img/team1.jpg') }}" alt="Alejandra Flores">
-                            <div class="team-social">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                            </div>
+                {{-- Card 1: Eficiencia Operativa --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <i class='bx bx-time-five'></i>
                         </div>
-                        <div class="team-info">
-                            <h4>Alejandra Flores</h4>
-                            <p>Executive Manager</p>
-                        </div>
+                        <h3>Ahorro de Tiempo Real</h3>
+                        <p>Centralizamos toda la información relevante en un solo tablero, eliminando las búsquedas manuales y permitiendo que tu equipo se enfoque en la estrategia.</p>
                     </div>
                 </div>
 
-                {{-- Team Member 2 --}}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-card-modern">
-                        <div class="team-image">
-                            <img src="{{ asset('assets/clientv3/img/team2.jpg') }}" alt="Karenina Díaz">
-                            <div class="team-social">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                            </div>
+                {{-- Card 2: Gestión de Riesgos --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <i class='bx bx-shield-quarter'></i>
                         </div>
-                        <div class="team-info">
-                            <h4>Karenina Díaz</h4>
-                            <p>Executive Manager</p>
-                        </div>
+                        <h3>Alertas Tempranas</h3>
+                        <p>Detecta menciones negativas antes de que se conviertan en tendencia. Protege la reputación de tu marca con notificaciones inmediatas para actuar de forma proactiva.</p>
                     </div>
                 </div>
 
-                {{-- Team Member 3 --}}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-card-modern">
-                        <div class="team-image">
-                            <img src="{{ asset('assets/clientv3/img/team3.jpg') }}" alt="Gabriela Nava">
-                            <div class="team-social">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                            </div>
+                {{-- Card 3: Inteligencia Ejecutiva --}}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon">
+                            <i class='bx bx-bar-chart-alt-2'></i>
                         </div>
-                        <div class="team-info">
-                            <h4>Gabriela Nava</h4>
-                            <p>Executive Manager</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Team Member 4 --}}
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                    <div class="team-card-modern">
-                        <div class="team-image">
-                            <img src="{{ asset('assets/clientv3/img/team4.jpg') }}" alt="Froilan Carpena">
-                            <div class="team-social">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-linkedin'></i></a>
-                            </div>
-                        </div>
-                        <div class="team-info">
-                            <h4>Froilan Carpena</h4>
-                            <p>Managing Director</p>
-                        </div>
+                        <h3>Reportes de Alto Nivel</h3>
+                        <p>Genera síntesis ejecutivas con datos estructurados y visualizaciones profesionales listas para ser presentadas en juntas directivas con un solo clic.</p>
                     </div>
                 </div>
             </div>
@@ -693,8 +658,10 @@
                             <i class='bx bx-phone'></i>
                         </div>
                         <div class="info-content">
-                            <h4>Teléfono</h4>
-                            <a href="tel:+525512345678">+52 55 1234 5678</a>
+                            <h4>Teléfonos</h4>
+                            <a href="tel:5540304996">55 4030 4996</a>
+                            <br>
+                            <a href="tel:5534951145">55 3495 1145</a>
                         </div>
                     </div>
 
@@ -708,37 +675,17 @@
                         </div>
                     </div>
 
-                    <div class="contact-info-card">
-                        <div class="info-icon">
-                            <i class='bx bx-map'></i>
-                        </div>
-                        <div class="info-content">
-                            <h4>Ubicación</h4>
-                            <p>Ciudad de México, México</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-info-card">
-                        <div class="info-icon">
-                            <i class='bx bx-time'></i>
-                        </div>
-                        <div class="info-content">
-                            <h4>Horario de Atención</h4>
-                            <p>Lunes a Viernes: 9:00 - 18:00</p>
-                        </div>
-                    </div>
-
                     {{-- Social Links --}}
                     <div class="mt-4 pt-4" style="border-top: 1px solid var(--ope-gray-200);">
                         <h4 style="font-size: 1rem; font-weight: 600; color: var(--ope-dark); margin-bottom: 1rem;">Síguenos en redes</h4>
                         <div class="d-flex gap-2">
-                            <a href="https://www.facebook.com/OPEMEDIOS/" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                            <a href="https://www.facebook.com/OpemediosMx" target="_blank" rel="noopener" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
                                 <i class='bx bxl-facebook'></i>
                             </a>
-                            <a href="https://x.com/DeMonitoreo" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                            <a href="https://x.com/DeMonitoreo" target="_blank" rel="noopener" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
                                 <i class='bx bxl-twitter'></i>
                             </a>
-                            <a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
+                            <a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/" target="_blank" rel="noopener" class="btn-saas btn-saas-secondary" style="padding: 10px 14px;">
                                 <i class='bx bxl-linkedin'></i>
                             </a>
                         </div>

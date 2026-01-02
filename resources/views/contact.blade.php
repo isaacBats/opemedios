@@ -13,10 +13,10 @@
                 <hr>
                 <div class="widget">
                     <address>
-                        <i class="icon-map-pin"></i> Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
+                        <i class="icon-phone"></i> <a href="tel:5540304996" target="_blank">55 4030 4996</a>
                     </address>
                     <address>
-                        <i class="icon-phone"></i> <a href="tel:5555846410" target="_blank">55-5584-64-10</a>
+                        <i class="icon-phone"></i> <a href="tel:5534951145" target="_blank">55 3495 1145</a>
                     </address>
                     <email>
                         <i class="icon-mail"></i> <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a>

@@ -267,9 +267,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-saas .hero-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
     padding-top: 2rem;
     border-top: 1px solid var(--ope-gray-200);
 }
@@ -287,10 +287,25 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.25rem;
 }
 
+.hero-saas .stat-item .stat-number i {
+    font-size: 2rem;
+    color: var(--ope-primary);
+}
+
 .hero-saas .stat-item .stat-label {
     font-size: 0.875rem;
     color: var(--ope-gray-500);
     font-weight: 500;
+    line-height: 1.4;
+}
+
+.hero-saas .stat-item .stat-label small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ope-gray-500);
+    font-weight: 400;
+    margin-top: 0.125rem;
+    opacity: 0.8;
 }
 
 /* Hero Visual/Image Side */
@@ -1180,6 +1195,11 @@ textarea.form-control-modern {
         margin-top: 3rem;
     }
 
+    .hero-saas .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
     .contact-form-wrapper {
         padding: 2rem;
     }
@@ -1201,7 +1221,24 @@ textarea.form-control-modern {
     }
 
     .hero-saas .hero-stats {
-        gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .hero-saas .stat-item .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .hero-saas .stat-item .stat-number i {
+        font-size: 1.75rem;
+    }
+
+    .hero-saas .stat-item .stat-label {
+        font-size: 0.8125rem;
+    }
+
+    .hero-saas .stat-item .stat-label small {
+        font-size: 0.6875rem;
     }
 
     .service-pills {

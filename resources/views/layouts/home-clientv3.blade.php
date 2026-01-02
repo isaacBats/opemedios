@@ -160,7 +160,7 @@
                             </div>
                             <p>Somos una empresa especializada en monitoreo de medios y análisis de información con más de 20 años de experiencia. Tus ojos y oídos para la toma de decisiones.</p>
                             <ul class="socials">
-                                <li><a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" rel="noopener"><i class="bx bxl-facebook"></i></a></li>
+                                <li><a href="https://www.facebook.com/OpemediosMx" target="_blank" rel="noopener"><i class="bx bxl-facebook"></i></a></li>
                                 <li><a href="https://x.com/DeMonitoreo" target="_blank" rel="noopener"><i class="bx bxl-twitter"></i></a></li>
                                 <li><a href="https://www.linkedin.com/in/opemedios-an%C3%A1lisis-y-seguimiento-medi%C3%A1tico-8abba895/" target="_blank" rel="noopener"><i class="bx bxl-linkedin"></i></a></li>
                             </ul>
@@ -202,19 +202,15 @@
                             <ul class="contacts">
                                 <li>
                                     <i class='bx bxs-phone'></i>
-                                    <a href="tel:5555846410">55-5584-64-10</a>
+                                    <a href="tel:5540304996">55 4030 4996</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-phone'></i>
+                                    <a href="tel:5534951145">55 3495 1145</a>
                                 </li>
                                 <li>
                                     <i class='bx bxs-envelope'></i>
                                     <a href="mailto:contacto@opemedios.com.mx">contacto@opemedios.com.mx</a>
-                                </li>
-                                <li>
-                                    <i class='bx bxs-map'></i>
-                                    <address>Ures 69, Col. Roma Sur<br>CP. 06760, Ciudad de México<br>Del. Cuauhtémoc</address>
-                                </li>
-                                <li>
-                                    <i class='bx bxs-time'></i>
-                                    <span>Lun - Vie: 9:00 - 18:00</span>
                                 </li>
                             </ul>
                         </div>
