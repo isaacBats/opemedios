@@ -707,40 +707,37 @@
             </div>
             <div class="clients-grid">
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/8.jpg') }}" alt="Sony Pictures">
+                    <img src="{{ asset('images/clientes/logo_client_videocine.jpg') }}" alt="Videocine">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/5.jpg') }}" alt="Federación Mexicana de Fútbol">
+                    <img src="{{ asset('images/clientes/logo_client_sonyp.jpg') }}" alt="Sony Pictures">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/6.jpg') }}" alt="NFL">
+                    <img src="{{ asset('images/clientes/logo_client_sony-channel.png') }}" alt="Sony Channel">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/7.jpg') }}" alt="Fórmula 1">
+                    <img src="{{ asset('images/clientes/logo_client_sony_music.png') }}" alt="Sony Music">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/1.jpg') }}" alt="MTV">
+                    <img src="{{ asset('images/clientes/logo_client_corazonfilms.jpeg') }}" alt="Corazón Films">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/2.jpg') }}" alt="OCESA">
+                    <img src="{{ asset('images/clientes/logo_client_ambulante.png') }}" alt="Documental Ambulante">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/9.jpg') }}" alt="Fox Networks Group México">
+                    <img src="{{ asset('images/clientes/logo_client_FInternacional_Cine_Morelia.png') }}" alt="Festival Internacional de Cine de Morelia">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/4.jpg') }}" alt="Videocine">
+                    <img src="{{ asset('images/clientes/logo_client_FInternacional_cine_guadalajara.png') }}" alt="Festival Internacional de Cine de Guadalajara">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/10.jpg') }}" alt="Jafra">
+                    <img src="{{ asset('images/clientes/logo_client_premiosariel.jpeg') }}" alt="Premios Ariel">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/3.jpg') }}" alt="Museo Franz Mayer">
+                    <img src="{{ asset('images/clientes/logo_client_alphaville.png') }}" alt="Alphaville Cinema">
                 </div>
                 <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/12.jpg') }}" alt="Ambulante">
-                </div>
-                <div class="client-logo-item">
-                    <img src="{{ asset('images/clientes/13.jpg') }}" alt="AMACC">
+                    <img src="{{ asset('images/clientes/logo_client_difusion_cultural_unam.png') }}" alt="Difusión Cultural UNAM">
                 </div>
             </div>
         </div>
