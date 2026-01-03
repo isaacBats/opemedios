@@ -1275,6 +1275,14 @@ textarea.form-control-modern {
     color: var(--ope-white);
     margin-bottom: 1.5rem;
     letter-spacing: -0.01em;
+    padding-bottom: 0;
+    position: static;
+}
+
+/* Override legacy orange underline */
+.footer-modern .ftr-widget h2::after {
+    display: none;
+    content: none;
 }
 
 /* About Widget */
@@ -1296,6 +1304,12 @@ textarea.form-control-modern {
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-top: 0;
+}
+
+.footer-modern .ftr-widget .socials li {
+    display: block;
+    padding-right: 0;
 }
 
 .footer-modern .ftr-widget .socials li a {
@@ -1309,6 +1323,8 @@ textarea.form-control-modern {
     color: var(--ope-white);
     font-size: 1.125rem;
     transition: all var(--transition-fast);
+    box-shadow: none;
+    line-height: 1;
 }
 
 .footer-modern .ftr-widget .socials li a:hover {
@@ -1329,34 +1345,25 @@ textarea.form-control-modern {
 
 .footer-modern .ftr-widget .navs li a {
     font-size: 0.9375rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--ope-gray-400);
     text-decoration: none;
-    transition: all var(--transition-fast);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    transition: color var(--transition-fast);
+    padding-left: 0;
+    position: static;
 }
 
-.footer-modern .ftr-widget .navs li a::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--ope-primary);
-    border-radius: 50%;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all var(--transition-fast);
+/* Override legacy blue bullets */
+.footer-modern .ftr-widget .navs li a::after {
+    display: none;
+    content: none;
 }
 
 .footer-modern .ftr-widget .navs li a:hover {
-    color: var(--ope-white);
-    padding-left: 0.5rem;
+    color: var(--ope-primary);
 }
 
-.footer-modern .ftr-widget .navs li a:hover::before {
-    opacity: 1;
-    transform: translateX(0);
+.footer-modern .ftr-widget .navs li a:hover::after {
+    display: none;
 }
 
 /* Contact Info */
@@ -1367,17 +1374,26 @@ textarea.form-control-modern {
 }
 
 .footer-modern .ftr-widget .contacts li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0 !important;
+    padding-left: 0 !important;
+    position: static !important;
 }
 
 .footer-modern .ftr-widget .contacts li i {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     color: var(--ope-primary);
     flex-shrink: 0;
-    margin-top: 0.125rem;
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
 }
 
 .footer-modern .ftr-widget .contacts li a,
