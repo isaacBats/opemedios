@@ -5,6 +5,18 @@
  */
 
 /* ========================================
+   Smooth Scroll Behavior
+======================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Offset for fixed header */
+:target {
+    scroll-margin-top: 100px;
+}
+
+/* ========================================
    CSS Custom Properties (Variables)
 ======================================== */
 :root {
@@ -62,6 +74,31 @@
     --transition-fast: 0.15s ease;
     --transition-base: 0.25s ease;
     --transition-slow: 0.4s ease;
+}
+
+/* ========================================
+   Navigation v3 - Active States
+======================================== */
+.main-navbar.v3 .navbar-nav .nav-link {
+    position: relative;
+    transition: color var(--transition-base);
+}
+
+.main-navbar.v3 .navbar-nav .nav-link.active,
+.main-navbar.v3 .navbar-nav .nav-link:hover {
+    color: var(--ope-primary) !important;
+}
+
+.main-navbar.v3 .navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--ope-primary);
+    border-radius: 2px;
 }
 
 /* ========================================
@@ -1158,6 +1195,70 @@ textarea.form-control-modern {
 .partners-section .partner-logo:hover {
     opacity: 1;
     filter: grayscale(0%);
+}
+
+/* ========================================
+   Form Alerts - SaaS Style
+======================================== */
+.alert-modern {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.alert-modern i {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.alert-modern.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+}
+
+.alert-modern.alert-success i {
+    color: #10b981;
+}
+
+.alert-modern.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #b91c1c;
+}
+
+.alert-modern.alert-error i {
+    color: #ef4444;
+}
+
+.alert-modern ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.alert-modern ul li {
+    margin-bottom: 0.25rem;
+}
+
+/* Form Validation States */
+.form-control-modern.is-invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-control-modern.is-invalid:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+}
+
+.text-danger {
+    color: #ef4444;
 }
 
 /* ========================================

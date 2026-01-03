@@ -59,7 +59,7 @@
                 <div class="col-lg-6">
                     <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
                         <div class="hero-image-wrapper">
-                            <img src="{{ asset('assets/clientv3/img/home3/pr_sony_reporte.png') }}" alt="Dashboard Opemedios" class="hero-image-main">
+                            <img src="{{ asset('assets/clientv3/img/pexels-home4.jpg') }}" alt="Dashboard Opemedios" class="hero-image-main">
                             {{-- Floating Cards --}}
                             <div class="hero-float-card card-1">
                                 <div class="d-flex align-items-center gap-2">
@@ -572,35 +572,64 @@
             <div class="row g-5 mt-2">
                 <div class="col-lg-7" data-aos="fade-right">
                     <div class="contact-form-wrapper">
-                        <form action="#" method="POST">
+                        {{-- Alert Messages --}}
+                        @if (session('success'))
+                            <div class="alert-modern alert-success" role="alert">
+                                <i class='bx bx-check-circle'></i>
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert-modern alert-error" role="alert">
+                                <i class='bx bx-error-circle'></i>
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert-modern alert-error" role="alert">
+                                <i class='bx bx-error-circle'></i>
+                                <div>
+                                    <strong>Por favor corrige los siguientes errores:</strong>
+                                    <ul class="mb-0 mt-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('form.contact.v3') }}" method="POST">
                             @csrf
                             {{-- Service Pills Selector --}}
                             <div class="service-pills-container">
                                 <label class="service-pills-label">Selecciona el servicio de tu interés:</label>
                                 <div class="service-pills">
                                     <div class="service-pill">
-                                        <input type="radio" name="servicio" id="servicio-monitoreo" value="monitoreo" checked>
+                                        <input type="radio" name="service_interest" id="servicio-monitoreo" value="monitoreo" {{ old('service_interest', 'monitoreo') == 'monitoreo' ? 'checked' : '' }}>
                                         <label for="servicio-monitoreo">
                                             <i class='bx bx-broadcast'></i>
                                             Monitoreo de Medios
                                         </label>
                                     </div>
                                     <div class="service-pill">
-                                        <input type="radio" name="servicio" id="servicio-redes" value="redes">
+                                        <input type="radio" name="service_interest" id="servicio-redes" value="redes" {{ old('service_interest') == 'redes' ? 'checked' : '' }}>
                                         <label for="servicio-redes">
                                             <i class='bx bx-share-alt'></i>
                                             Redes Sociales
                                         </label>
                                     </div>
                                     <div class="service-pill">
-                                        <input type="radio" name="servicio" id="servicio-reputacion" value="reputacion">
+                                        <input type="radio" name="service_interest" id="servicio-reputacion" value="reputacion" {{ old('service_interest') == 'reputacion' ? 'checked' : '' }}>
                                         <label for="servicio-reputacion">
                                             <i class='bx bx-shield-quarter'></i>
                                             Gestión de Reputación
                                         </label>
                                     </div>
                                     <div class="service-pill">
-                                        <input type="radio" name="servicio" id="servicio-reportes" value="reportes">
+                                        <input type="radio" name="service_interest" id="servicio-reportes" value="reportes" {{ old('service_interest') == 'reportes' ? 'checked' : '' }}>
                                         <label for="servicio-reportes">
                                             <i class='bx bx-file'></i>
                                             Reportes Personalizados
@@ -612,14 +641,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group-modern">
-                                        <label for="nombre">Nombre completo</label>
-                                        <input type="text" name="nombre" id="nombre" class="form-control-modern" placeholder="Tu nombre" required>
+                                        <label for="name">Nombre completo <span class="text-danger">*</span></label>
+                                        <input type="text" name="name" id="name" class="form-control-modern @error('name') is-invalid @enderror" placeholder="Tu nombre" value="{{ old('name') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-modern">
-                                        <label for="empresa">Empresa</label>
-                                        <input type="text" name="empresa" id="empresa" class="form-control-modern" placeholder="Nombre de tu empresa">
+                                        <label for="company">Empresa</label>
+                                        <input type="text" name="company" id="company" class="form-control-modern @error('company') is-invalid @enderror" placeholder="Nombre de tu empresa" value="{{ old('company') }}">
                                     </div>
                                 </div>
                             </div>
@@ -627,21 +656,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group-modern">
-                                        <label for="email">Correo electrónico</label>
-                                        <input type="email" name="email" id="email" class="form-control-modern" placeholder="tu@email.com" required>
+                                        <label for="email">Correo electrónico <span class="text-danger">*</span></label>
+                                        <input type="email" name="email" id="email" class="form-control-modern @error('email') is-invalid @enderror" placeholder="tu@email.com" value="{{ old('email') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group-modern">
-                                        <label for="telefono">Teléfono</label>
-                                        <input type="tel" name="telefono" id="telefono" class="form-control-modern" placeholder="+52 55 1234 5678">
+                                        <label for="phone">Teléfono</label>
+                                        <input type="tel" name="phone" id="phone" class="form-control-modern @error('phone') is-invalid @enderror" placeholder="+52 55 1234 5678" value="{{ old('phone') }}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group-modern">
-                                <label for="mensaje">Mensaje</label>
-                                <textarea name="mensaje" id="mensaje" class="form-control-modern" placeholder="Cuéntanos sobre tus necesidades de monitoreo..."></textarea>
+                                <label for="message">Mensaje</label>
+                                <textarea name="message" id="message" class="form-control-modern @error('message') is-invalid @enderror" placeholder="Cuéntanos sobre tus necesidades de monitoreo...">{{ old('message') }}</textarea>
                             </div>
 
                             <button type="submit" class="btn-saas btn-saas-primary btn-saas-lg w-100">
@@ -698,7 +727,7 @@
     {{-- ========================================
          CLIENTS/PARTNERS SECTION
     ======================================== --}}
-    <section class="clients-section">
+    <section class="clients-section" id="clientes">
         <div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-6 text-center">

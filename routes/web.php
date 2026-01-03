@@ -41,6 +41,7 @@ Route::view('contacto', 'contact')->name('contact');
 Route::view('cuenta', 'signin')->name('signin');
 
 Route::post('contacto', 'HomeController@formContact')->name('form.contact');
+Route::post('contacto-v3', 'HomeController@formContactV3')->name('form.contact.v3');
 Route::get('newsletter-detalle-noticia', 'NewsletterController@showNew')->name('newsletter.shownew');
 Route::get('detalle-noticia', 'NewsController@showDetailNews')->name('front.detail.news');
 Route::get('cambio-empresa', 'HomeController@changeCompany');

@@ -186,6 +186,52 @@ Expansión de la sección de estadísticas del hero de 3 a 4 ítems:
 - Horarios de atención (Lun - Vie: 9:00 - 18:00)
 - Iconos `bx-map` y `bx-time` asociados
 
+##### 11. Sistema de Contacto v3 - Lead Capture Mejorado
+**Fecha:** 2026-01-02
+
+Implementación completa del sistema de captación de leads para el formulario de contacto de homev3.blade.php.
+
+**Migración de Base de Datos:**
+- Archivo: `database/migrations/2026_01_02_220026_add_company_and_service_interest_to_contact_messages_table.php`
+- Nuevos campos: `company` (nullable), `service_interest` (nullable)
+
+**Modelo Actualizado:**
+- `App\Models\ContactMessage` - `$fillable` expandido con `company` y `service_interest`
+
+**Validación (FormRequest):**
+- Nuevo archivo: `app/Http/Requests/ContactFormV3Request.php`
+- Reglas: `name` (required), `email` (required, email), `company` (nullable), `phone` (nullable), `service_interest` (required, in:monitoreo,redes,reputacion,reportes), `message` (nullable)
+- Mensajes personalizados en español
+
+**Controlador Refactorizado:**
+- `HomeController@formContactV3` - Nuevo método con:
+  - Try-catch para manejo de errores
+  - Logging con `Log::info()` (éxito) y `Log::error()` (errores)
+  - Retorno de mensajes flash (`success`, `error`)
+
+**Notificación Mejorada:**
+- `ContactFormNotification` actualizada para incluir:
+  - Empresa (si está presente)
+  - Servicio de Interés con labels legibles
+  - Formato mejorado con separadores visuales
+
+**Frontend (homev3.blade.php):**
+- Formulario apunta a `route('form.contact.v3')`
+- Campos renombrados: `name`, `company`, `email`, `phone`, `service_interest`, `message`
+- Pills mantienen valores con `old()` tras validación fallida
+- Alertas visuales con colores UI Style Guide:
+  - Success: `#10b981` (verde)
+  - Error: `#ef4444` (rojo)
+
+**CSS Agregado (theme-saas.css):**
+- `.alert-modern` - Contenedor de alertas con flexbox
+- `.alert-success` / `.alert-error` - Estados con colores correctos
+- `.form-control-modern.is-invalid` - Estado de error en inputs
+- `.text-danger` - Clase utilitaria para asteriscos requeridos
+
+**Ruta Nueva:**
+- `POST /contacto-v3` → `HomeController@formContactV3` (name: `form.contact.v3`)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -257,4 +303,4 @@ public/assets/clientv3/css/
 
 ---
 
-*Última actualización: 2025-12-30*
+*Última actualización: 2026-01-02*

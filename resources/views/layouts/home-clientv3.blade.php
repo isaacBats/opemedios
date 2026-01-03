@@ -101,25 +101,25 @@
             <div class="main-navbar  v3">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="index.html">
-                            <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="image">
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios">
                         </a>
                         <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                            <ul class="navbar-nav m-auto">
+                            <ul class="navbar-nav m-auto" id="main-nav">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">Home</a>
+                                    <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="about.html" class="nav-link">Quiénes Somos</a>
+                                    <a href="{{ url('/') }}#nosotros" class="nav-link">Quiénes Somos</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link ">Servicios</a>
+                                    <a href="{{ url('/') }}#servicios" class="nav-link">Servicios</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link ">Clientes</a>
+                                    <a href="{{ url('/') }}#clientes" class="nav-link">Clientes</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="contact.html" class="nav-link">Contacto</a>
+                                    <a href="{{ url('/') }}#contacto" class="nav-link">Contacto</a>
                                 </li>
                             </ul><!--/.navbar-nav -->
                             <div class="others-options v3 d-flex align-items-center">
@@ -173,10 +173,10 @@
                             <h2>Enlaces Rápidos</h2>
                             <ul class="navs">
                                 <li><a href="{{ url('/') }}">Inicio</a></li>
-                                <li><a href="#nosotros">Quiénes Somos</a></li>
-                                <li><a href="#servicios">Servicios</a></li>
-                                <li><a href="#testimonios">Testimonios</a></li>
-                                <li><a href="#contacto">Contacto</a></li>
+                                <li><a href="{{ url('/') }}#nosotros">Quiénes Somos</a></li>
+                                <li><a href="{{ url('/') }}#servicios">Servicios</a></li>
+                                <li><a href="{{ url('/') }}#clientes">Clientes</a></li>
+                                <li><a href="{{ url('/') }}#contacto">Contacto</a></li>
                             </ul>
                         </div>
                     </div>
@@ -186,11 +186,11 @@
                         <div class="ftr-widget">
                             <h2>Nuestros Servicios</h2>
                             <ul class="navs">
-                                <li><a href="#servicios">Monitoreo Integral de Medios</a></li>
-                                <li><a href="#servicios">Análisis de Temas y Palabras Clave</a></li>
-                                <li><a href="#servicios">Informe de Competencia Mediática</a></li>
-                                <li><a href="#servicios">Reportes Personalizados</a></li>
-                                <li><a href="#monitoreos">Monitoreo de Redes Sociales</a></li>
+                                <li><a href="{{ url('/') }}#servicios">Monitoreo Integral de Medios</a></li>
+                                <li><a href="{{ url('/') }}#servicios">Análisis de Temas y Palabras Clave</a></li>
+                                <li><a href="{{ url('/') }}#servicios">Informe de Competencia Mediática</a></li>
+                                <li><a href="{{ url('/') }}#servicios">Reportes Personalizados</a></li>
+                                <li><a href="{{ url('/') }}#monitoreos">Monitoreo de Redes Sociales</a></li>
                             </ul>
                         </div>
                     </div>

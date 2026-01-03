@@ -28,6 +28,41 @@ $(window).on('scroll', function() {
 });
 /*=========================== sticky menu close ===========================*/
 
+/*=========================== scroll spy navigation ===========================*/
+// Scroll Spy for main navigation - highlights active section
+$(window).on('scroll', function() {
+    var scrollPosition = $(this).scrollTop();
+    var headerHeight = $('.navbar-area').outerHeight() || 100;
+
+    // Get all sections that have IDs matching nav links
+    var sections = ['nosotros', 'servicios', 'beneficios', 'clientes', 'contacto'];
+    var currentSection = '';
+
+    // Check each section to find the current one
+    sections.forEach(function(sectionId) {
+        var section = $('#' + sectionId);
+        if (section.length) {
+            var sectionTop = section.offset().top - headerHeight - 50;
+            var sectionBottom = sectionTop + section.outerHeight();
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                currentSection = sectionId;
+            }
+        }
+    });
+
+    // Update nav link active state
+    $('#main-nav .nav-link').removeClass('active');
+
+    if (scrollPosition < 100) {
+        // At top of page, highlight "Inicio"
+        $('#main-nav .nav-link[href$="/"]').addClass('active');
+    } else if (currentSection) {
+        // Highlight current section
+        $('#main-nav .nav-link[href*="#' + currentSection + '"]').addClass('active');
+    }
+});
+/*=========================== close scroll spy navigation ===========================*/
 
   /*=========================== poup search ===========================*/
 
