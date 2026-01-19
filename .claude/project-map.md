@@ -232,6 +232,116 @@ Implementación completa del sistema de captación de leads para el formulario d
 **Ruta Nueva:**
 - `POST /contacto-v3` → `HomeController@formContactV3` (name: `form.contact.v3`)
 
+##### 12. Rediseño de Flujo de Acceso de Clientes
+**Fecha:** 2026-01-18
+
+Migración completa del sistema de login y vista de noticias de clientes al estilo SaaS Modern Theme v3.
+
+**Archivos Modificados:**
+
+1. **Login de Cliente** - `resources/views/signin.blade.php`:
+   - Migrado de `layouts.home` a `layouts.home-clientv3`
+   - Sistema de títulos a dos pisos ("Bienvenido / de nuevo")
+   - Tarjeta de login con sombras y bordes redondeados v3
+   - Iconos Boxicons en labels
+   - Mensaje de soporte para recuperación de contraseña
+   - reCAPTCHA v2 mantenido (paquete anhskohbo/no-captcha)
+
+2. **Navegación con Auth** - `resources/views/layouts/home-clientv3.blade.php`:
+   - Lógica `@auth` / `@guest` implementada
+   - Si está logueado:
+     - Cliente: Botón "Mis Noticias" con enlace dinámico al slug de su compañía
+     - Admin/Manager: Botón "Panel" hacia `/panel`
+     - Botón de logout
+   - Si no está logueado:
+     - Botón "Entrar" hacia `/cuenta`
+
+3. **Vista de Noticias** - `resources/views/clients/mynews.blade.php`:
+   - Migrado de `layouts.home` a `layouts.home-clientv3`
+   - Eliminado panel rosa y sidebar gris antiguo
+   - Nuevo dashboard header con gradiente y estadísticas:
+     - Noticias hoy
+     - Noticias del mes
+     - Total de noticias
+   - Filter toolbar moderno con:
+     - Búsqueda por palabra clave
+     - Selector de tema (Select2)
+     - Selector de medio
+     - Rango de fechas
+     - Paginación
+   - News cards con:
+     - Logo de fuente
+     - Título y síntesis
+     - Metadatos (fecha, autor)
+     - Badges de tipo de medio con iconos y colores:
+       - TV: rojo con `bx-tv`
+       - Radio: ámbar con `bx-radio`
+       - Prensa: azul con `bx-news`
+       - Internet: verde con `bx-globe`
+     - Botón "Ver más" como `.btn-saas-primary`
+   - Estado vacío diseñado
+   - Paginación estilizada
+
+**Flujo de Rutas Multi-tenant:**
+- Login: `POST /login` → `LoginController@redirectTo()` → `/{company:slug}/mis-noticias`
+- Noticias: `GET /{company:slug}/mis-noticias` → `ClientController@myNews`
+- Detalle: `GET /{company:slug}/noticia/{id}` → `ClientController@showNew`
+
+**CSS Variables Utilizadas:**
+- `--ope-gradient` para header del dashboard
+- `--shadow-card` / `--shadow-card-hover` para news cards
+- `--radius-lg` para contenedores principales
+- Colores semánticos para badges de medios
+
+##### 13. Corrección del Preloader Bloqueado
+**Fecha:** 2026-01-18
+
+Resolución del bug donde el spinner de carga (`.se-pre-con`) se quedaba bloqueado permanentemente impidiendo la visualización del sitio.
+
+**Causa del Problema:**
+1. El preloader dependía exclusivamente de `$(window).on('load')` en main.js
+2. Si jQuery no cargaba correctamente o había un error JS previo, el evento nunca se disparaba
+3. El código original usaba `fadeOut("slow")` que requiere jQuery funcionando correctamente
+4. No existía un mecanismo de fail-safe para garantizar el cierre del preloader
+
+**Solución Implementada:**
+
+1. **Fail-safe con JavaScript Vanilla** - `home-clientv3.blade.php`:
+   - Script inline que no depende de jQuery
+   - Timeout de 5 segundos que fuerza el cierre si no ha ocurrido
+   - Listener adicional del evento `load` como respaldo
+   - Usa CSS class `.loaded` en lugar de manipulación jQuery
+
+2. **Nuevo Sistema CSS** - Estilos inline en el layout:
+   - Transición suave con `opacity` y `visibility`
+   - Spinner circular animado con colores v3:
+     - Fondo: `--ope-white` (#ffffff)
+     - Spinner: `--ope-primary` (#2563eb)
+     - Borde base: `--ope-gray-200` (#f3f4f6)
+   - Transición de 0.4s para desvanecimiento suave
+
+3. **Respaldo en main.js**:
+   - Código jQuery como capa adicional de seguridad
+   - Timeout de 3s en `$(document).ready()`
+   - Verificación de clase `.loaded` antes de actuar
+   - Console.warn para debugging si se activa el timeout
+
+**Archivos Modificados:**
+- `resources/views/layouts/home-clientv3.blade.php` - Nuevo preloader con fail-safe
+- `public/assets/clientv3/js/main.js` - Código de respaldo actualizado
+
+**Vistas Que Heredan la Corrección:**
+- `homev3.blade.php`
+- `signin.blade.php`
+- `clients/mynews.blade.php`
+- Cualquier vista que extienda `home-clientv3`
+
+**Prevención de Regresiones:**
+- El fail-safe es independiente de librerías externas
+- Se ejecuta antes de cargar jQuery/Bootstrap
+- Múltiples capas de seguridad (vanilla JS + jQuery)
+- Logs en consola para identificar si se activan los timeouts
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -243,7 +353,8 @@ Implementación completa del sistema de captación de leads para el formulario d
 - [x] ~~Actualizar el footer del layout con información real de Opemedios~~
 
 ### Corto Plazo
-- [ ] Migrar páginas de autenticación (login, register) al nuevo tema
+- [x] ~~Migrar páginas de autenticación (login, register) al nuevo tema~~
+- [ ] Migrar vista de detalle de noticia (`clients/shownew.blade.php`) al v3
 - [ ] Crear componentes Blade reutilizables para elementos comunes
 - [ ] Implementar Alpine.js para interactividad simple
 - [ ] Optimizar imágenes existentes (WebP, lazy loading)
@@ -271,9 +382,12 @@ Implementación completa del sistema de captación de leads para el formulario d
 └── project-map.md            # Este archivo
 
 resources/views/
-├── homev3.blade.php          # Home principal v3
+├── homev3.blade.php              # Home principal v3
+├── signin.blade.php              # Login de clientes v3
+├── clients/
+│   └── mynews.blade.php          # Dashboard de noticias v3
 └── layouts/
-    └── home-clientv3.blade.php  # Layout principal v3
+    └── home-clientv3.blade.php   # Layout principal v3 (con @auth)
 
 public/assets/clientv3/css/
 ├── theme-saas.css            # Tema SaaS moderno
@@ -303,4 +417,4 @@ public/assets/clientv3/css/
 
 ---
 
-*Última actualización: 2026-01-02*
+*Última actualización: 2026-01-18*

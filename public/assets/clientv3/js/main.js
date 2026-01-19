@@ -4,12 +4,26 @@ $(function($) {
 
 
   /*=========================== preloader ===========================*/
-  // Wait for window load
+  // El preloader ahora se maneja con CSS classes y un fail-safe en el layout
+  // Este código es un respaldo adicional usando jQuery
   $(window).on('load', function() {
-     $(".se-pre-con").fadeOut("slow");;
+     var preloader = $(".se-pre-con");
+     if (preloader.length && !preloader.hasClass('loaded')) {
+        preloader.addClass('loaded');
+     }
   });
 
-  /*=========================== preloader ===========================*/
+  // Respaldo: Si por alguna razón el evento load no se dispara
+  $(document).ready(function() {
+     setTimeout(function() {
+        var preloader = $(".se-pre-con");
+        if (preloader.length && !preloader.hasClass('loaded')) {
+           preloader.addClass('loaded');
+           console.warn('Preloader: Cerrado por timeout de jQuery (3s)');
+        }
+     }, 3000);
+  });
+  /*=========================== preloader close ===========================*/
 
   /*=========================== meanmenu active ===========================*/
   

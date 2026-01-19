@@ -82,7 +82,63 @@
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="60">
-    <div class="se-pre-con"></div>
+    {{-- Preloader v3 con fail-safe --}}
+    <div class="se-pre-con">
+        <div class="preloader-spinner"></div>
+    </div>
+    <style>
+        /* Preloader v3 Styles - Inline para carga inmediata */
+        .se-pre-con {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999999;
+            background: var(--ope-white, #ffffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .se-pre-con.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--ope-gray-200, #f3f4f6);
+            border-top-color: var(--ope-primary, #2563eb);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        // Fail-safe: Forzar cierre del preloader después de 5 segundos
+        (function() {
+            var maxWait = 5000;
+            var preloader = document.querySelector('.se-pre-con');
+
+            // Timeout de seguridad
+            setTimeout(function() {
+                if (preloader && !preloader.classList.contains('loaded')) {
+                    preloader.classList.add('loaded');
+                    console.warn('Preloader: Timeout de seguridad activado (5s)');
+                }
+            }, maxWait);
+
+            // Escuchar evento load como respaldo
+            window.addEventListener('load', function() {
+                if (preloader) {
+                    preloader.classList.add('loaded');
+                }
+            });
+        })();
+    </script>
 
     <!-- main nav start -->
     <header class="header-style-3">
@@ -123,18 +179,46 @@
                                 </li>
                             </ul><!--/.navbar-nav -->
                             <div class="others-options v3 d-flex align-items-center">
-
-                                <div class="option-item d-none d-xl-inline-block">
-                                    <ul class="header-info-list">
-                                        <li>
-                                            <span class="icon">
-                                                <i class='bx bxs-envelope'></i>
-                                            </span>
-                                            <h6>Email</h6>
-                                            <a href="mailto:contacto@opemedios.com.mx">contacto@opemedios.com.mx</a>
-                                        </li>
-                                    </ul><!--/.header-info-list-->
-                                </div>
+                                @auth
+                                    @php
+                                        $userCompanySlug = null;
+                                        if (auth()->user()->isClient()) {
+                                            $metas = auth()->user()->metas()->where('meta_key', 'company_id')->first();
+                                            if ($metas) {
+                                                $userCompany = \App\Models\Company::find($metas->meta_value);
+                                                $userCompanySlug = $userCompany?->slug;
+                                            }
+                                        }
+                                    @endphp
+                                    <div class="option-item">
+                                        @if($userCompanySlug)
+                                            <a href="{{ route('client.mynews', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-primary">
+                                                <i class='bx bx-news'></i>
+                                                Mis Noticias
+                                            </a>
+                                        @elseif(auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
+                                            <a href="{{ url('/panel') }}" class="btn-saas btn-saas-primary">
+                                                <i class='bx bx-grid-alt'></i>
+                                                Panel
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="option-item ms-2">
+                                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn-saas btn-saas-secondary" style="padding: 10px 16px;">
+                                                <i class='bx bx-log-out'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="option-item">
+                                        <a href="{{ route('signin') }}" class="btn-saas btn-saas-primary">
+                                            <i class='bx bx-log-in'></i>
+                                            Entrar
+                                        </a>
+                                    </div>
+                                @endauth
                             </div><!--/.others-options-->
                         </div>
                     </nav><!--/.navbar-->
@@ -258,5 +342,6 @@
     <!--main script-->
     <script src="{{ asset('assets/clientv3/js/main.js') }}"></script>
 
+    @yield('scripts')
 </body>
 </html>

@@ -1,62 +1,247 @@
-@extends('layouts.home')
+@extends('layouts.home-clientv3')
 @section('title', ' - Entrar a mi cuenta')
 @section('styles')
-    {!! NoCaptcha::renderJs() !!}
+    <style>
+        .login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 140px 1rem 60px;
+            background: var(--ope-gray-100);
+        }
+
+        .login-card {
+            background: var(--ope-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-header .login-logo {
+            width: 160px;
+            margin-bottom: 1.25rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--ope-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header h1 .text-gradient {
+            display: block;
+        }
+
+        .login-header p {
+            color: var(--ope-gray-600);
+            font-size: 0.9375rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .login-section {
+                padding-top: 120px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .login-section {
+                padding: 100px 1rem 40px;
+                align-items: flex-start;
+            }
+
+            .login-card {
+                padding: 1.5rem;
+                border-radius: var(--radius-md);
+            }
+
+            .login-header .login-logo {
+                width: 140px;
+            }
+
+            .login-header h1 {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-section {
+                padding: 90px 0.75rem 30px;
+            }
+
+            .login-card {
+                padding: 1.25rem;
+            }
+        }
+
+        .login-form .form-group-modern {
+            margin-bottom: 1.25rem;
+        }
+
+        .login-form .form-group-modern label {
+            display: block;
+            font-weight: 600;
+            color: var(--ope-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .login-form .form-control-modern {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--ope-gray-300);
+            border-radius: var(--radius-md);
+            background: var(--ope-gray-100);
+            transition: all var(--transition-base);
+        }
+
+        .login-form .form-control-modern:focus {
+            border-color: var(--ope-primary);
+            background: var(--ope-white);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .login-form .form-control-modern.is-invalid {
+            border-color: #ef4444;
+        }
+
+        .login-form .btn-login {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--ope-gray-200);
+        }
+
+        .login-footer p {
+            color: var(--ope-gray-600);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .login-footer a {
+            color: var(--ope-primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #b91c1c;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        /* reCAPTCHA container styling */
+        .recaptcha-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+    </style>
 @endsection
 @section('content')
-        <!-- container -->
-        <div class="uk-container op-content-mt">
-            <div class="uk-padding-large uk-padding-remove-horizontal">
-                
-                <!-- Article main content -->
-                <article class="col-xs-12 maincontent uk-padding-large uk-padding-remove-horizontal uk-grid-divider uk-flex uk-flex-center" uk-grid>
-                    <header class="page-header">
-                        <h1 class="page-title">Ingresar</h1>
-                    </header>
-                    
-                    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <h3 class="thin text-center">Entra a tu cuenta</h3>
-                                <hr>
-                                
-                                <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
-                                    @csrf
-                                    <div class="top-margin uk-margin">
-                                        <label for="email" class="uk-label">Correo <span class="text-danger">*</span></label>
-                                        <input id="email" type="email" class="uk-input form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-                                        @if ($errors->has('email'))
-                                            <span class="invalid-feedback text-muted" role="alert">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div class="top-margin uk-margin">
-                                        <label for="password" class="uk-label">Contraseña <span class="text-danger">*</span></label>
-                                        <input id="password" type="password" class="uk-input form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                                    </div>
-                                    {!! NoCaptcha::display() !!}
-                                    @error('g-recaptcha-response')
-                                        <label class="uk-text-danger uk-text-bold uk-text-small" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </label>
-                                    @enderror
-                                    <hr>
+    <section class="login-section">
+        <div class="container">
+            <div class="login-card">
+                <div class="login-header">
+                    <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios" class="login-logo">
+                    <h1>
+                        Bienvenido
+                        <span class="text-gradient">de nuevo</span>
+                    </h1>
+                    <p>Ingresa a tu cuenta para acceder a tus noticias</p>
+                </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-4 text-right">
-                                            <input type="submit" value="Entrar" class="uk-button uk-button-default uk-button-large uk-box-shadow-medium btn btn-action">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
+                @if ($errors->any())
+                    <div class="error-message">
+                        <i class='bx bx-error-circle'></i>
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}@if (!$loop->last)<br>@endif
+                        @endforeach
                     </div>
-                    
-                </article>
-                <!-- /Article -->
+                @endif
 
+                <form method="POST" action="{{ route('login') }}" class="login-form" id="login-form">
+                    @csrf
+
+                    <div class="form-group-modern">
+                        <label for="email">
+                            <i class='bx bx-envelope'></i> Correo electrónico
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control-modern @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}"
+                            placeholder="tu@email.com"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label for="password">
+                            <i class='bx bx-lock-alt'></i> Contraseña
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control-modern @error('password') is-invalid @enderror"
+                            placeholder="Tu contraseña"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group-modern recaptcha-container">
+                        {!! NoCaptcha::display() !!}
+                    </div>
+
+                    <button type="submit" class="btn-saas btn-saas-primary btn-login">
+                        Entrar
+                        <i class='bx bx-log-in-circle'></i>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p>
+                        <i class='bx bx-help-circle'></i>
+                        ¿Olvidaste tu contraseña?<br>
+                        Contacta a soporte en <a href="mailto:contacto@opemedios.com.mx">contacto@opemedios.com.mx</a> para restablecerla.
+                    </p>
+                </div>
             </div>
-        </div>  <!-- /container -->
+        </div>
+    </section>
+@endsection
+@section('scripts')
+    {!! NoCaptcha::renderJs() !!}
 @endsection
