@@ -342,6 +342,156 @@ Resolución del bug donde el spinner de carga (`.se-pre-con`) se quedaba bloquea
 - Múltiples capas de seguridad (vanilla JS + jQuery)
 - Logs en consola para identificar si se activan los timeouts
 
+##### 14. Mejoras de Login y Vista de Detalle de Noticia v3
+**Fecha:** 2026-01-24
+
+**A. Corrección de Spacing en Login (`signin.blade.php`):**
+
+| Aspecto | Antes | Después |
+|---------|-------|---------|
+| `padding-top` desktop | 140px | 160px |
+| `padding-bottom` desktop | 60px | 80px |
+| `border-radius` tarjeta | `--radius-lg` | `--radius-xl` |
+| `box-shadow` tarjeta | `--shadow-xl` | `--shadow-lg` |
+| `padding` interno tarjeta | 2.5rem | 3rem |
+| Fondo sección | Sólido gris | Gradiente sutil con decoración |
+| Borde tarjeta | Sin borde | `1px solid --ope-gray-200` |
+
+**Mejoras responsive:**
+- **Ultra-wide (1920px+)**: padding-top 200px, padding-bottom 120px
+- **Large (1600px+)**: padding-top 180px, padding-bottom 100px
+- Tablet (991px): padding-top 140px
+- Mobile (767px): padding 120px 1rem 60px, centrado vertical
+- Small (480px): padding 100px 1rem 40px
+
+**D. Sistema de Área Segura Global (`theme-saas.css`):**
+
+Nuevas variables CSS para header safe area:
+```css
+:root {
+    --header-height: 80px;
+    --header-height-sticky: 70px;
+    --header-safe-area: 160px;
+}
+
+/* Escala para pantallas grandes */
+@media (min-width: 1600px) { --header-safe-area: 180px; }
+@media (min-width: 1920px) { --header-safe-area: 200px; }
+```
+
+**Fix de z-index para header:**
+```css
+.header-style-3 { z-index: 1000 !important; }
+.header-style-3 .navbar-area { z-index: 1001; }
+.header-style-3 .navbar-area.is-sticky { z-index: 1002; }
+```
+
+Clase utilitaria `.page-safe-area` disponible para uso global
+
+**B. Seguridad Multi-tenant en `ClientController@showNew`:**
+
+Problema detectado: La función original no validaba que la noticia perteneciera a la compañía del slug.
+
+```php
+// ANTES (inseguro):
+$note = News::findOrFail($newId);
+return view('clients.shownew', compact('note', 'company'));
+
+// DESPUÉS (seguro):
+$isAssigned = $company->assignedNews()
+    ->where('news_id', $note->id)
+    ->exists();
+
+if (!$isAssigned) {
+    abort(403, 'No tiene permiso para ver esta noticia.');
+}
+```
+
+Cambios adicionales:
+- Uso de `firstOrFail()` en lugar de `first()` para la compañía
+- Eager loading de relaciones para evitar N+1
+- Validación multi-tenant antes de mostrar la noticia
+
+**C. Nueva Vista de Detalle de Noticia (`clients/shownew.blade.php`):**
+
+Rediseño completo con experiencia de lectura premium:
+
+**Estructura:**
+```
+┌─────────────────────────────────────────────────┐
+│  ← Volver a Mis Noticias                        │
+├─────────────────────────────────────────────────┤
+│  [Logo Fuente]  Nombre Fuente                   │
+│                 [Badge Tipo Medio]              │
+│                                                 │
+│  Título de la Noticia (H1, --ope-dark)         │
+├─────────────────────────────────────────────────┤
+│  📅 Fecha  |  👤 Autor  |  📁 Sección  |  💼 Sector │
+├─────────────────────────────────────────────────┤
+│  ┌─────────────────────┐  ┌──────────────────┐ │
+│  │                     │  │  DETALLES        │ │
+│  │  [Media Player]     │  │  Género: ...     │ │
+│  │  Video/Audio/PDF    │  │  Tipo Autor: ... │ │
+│  │                     │  │  Tendencia: ↑    │ │
+│  ├─────────────────────┤  ├──────────────────┤ │
+│  │  📥 Descargar PDF   │  │  MÉTRICAS        │ │
+│  │  [Otros archivos]   │  │  Costo: $X,XXX   │ │
+│  ├─────────────────────┤  │  Alcance: X,XXX  │ │
+│  │                     │  ├──────────────────┤ │
+│  │  Síntesis/Contenido │  │  INFO ADICIONAL  │ │
+│  │  (max-width: 800px) │  │  Hora: 10:30     │ │
+│  │  (line-height: 1.8) │  │  Duración: 5min  │ │
+│  │                     │  │  URL: [link]     │ │
+│  └─────────────────────┘  └──────────────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+**Componentes implementados:**
+
+1. **Header con logo de fuente:**
+   - Logo 80x80px con sombra y borde
+   - Badge de tipo de medio con colores semánticos:
+     - TV: rojo (#dc2626)
+     - Radio: ámbar (#d97706)
+     - Prensa: azul (#2563eb)
+     - Internet: verde (#059669)
+     - Revista: violeta (#7c3aed)
+
+2. **Barra de metadatos:**
+   - Iconos Boxicons con color `--ope-primary`
+   - Fecha, Autor, Sección, Sector
+
+3. **Reproductores multimedia:**
+   - **Audio:** Player custom con fondo oscuro y icono
+   - **Video:** Player nativo HTML5 con controles
+   - **PDF:** Iframe embebido (600px altura)
+   - **Imagen:** Clickable para abrir en nueva pestaña
+
+4. **Sección de descarga:**
+   - Botón primario para archivo principal
+   - Lista de archivos adicionales con hover
+
+5. **Sidebar con información:**
+   - Detalles (género, tipo autor, tendencia)
+   - Métricas (costo, alcance)
+   - Info adicional según tipo de medio
+   - Comentarios
+
+**Responsive:**
+- **Ultra-wide (1920px+)**: padding 200px top, max-width 1400px para legibilidad
+- **Large (1600px+)**: padding 180px top
+- Desktop: Grid 2 columnas (contenido + sidebar 320px)
+- Tablet (991px): 1 columna, sidebar en grid 2x2
+- Mobile (767px): Todo en 1 columna
+- Small (480px): Padding reducido
+
+**Estilos v3 aplicados:**
+- Variables CSS del theme-saas.css
+- Sombras sutiles (`--shadow-lg`, `--shadow-card`)
+- Border radius consistente (`--radius-xl`, `--radius-lg`)
+- Transiciones suaves (`--transition-base`)
+- Animaciones AOS (fade-up, fade-right)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -354,7 +504,7 @@ Resolución del bug donde el spinner de carga (`.se-pre-con`) se quedaba bloquea
 
 ### Corto Plazo
 - [x] ~~Migrar páginas de autenticación (login, register) al nuevo tema~~
-- [ ] Migrar vista de detalle de noticia (`clients/shownew.blade.php`) al v3
+- [x] ~~Migrar vista de detalle de noticia (`clients/shownew.blade.php`) al v3~~
 - [ ] Crear componentes Blade reutilizables para elementos comunes
 - [ ] Implementar Alpine.js para interactividad simple
 - [ ] Optimizar imágenes existentes (WebP, lazy loading)
@@ -385,7 +535,8 @@ resources/views/
 ├── homev3.blade.php              # Home principal v3
 ├── signin.blade.php              # Login de clientes v3
 ├── clients/
-│   └── mynews.blade.php          # Dashboard de noticias v3
+│   ├── mynews.blade.php          # Dashboard de noticias v3
+│   └── shownew.blade.php         # Detalle de noticia v3 (nuevo)
 └── layouts/
     └── home-clientv3.blade.php   # Layout principal v3 (con @auth)
 
@@ -405,6 +556,8 @@ public/assets/clientv3/css/
 | 2024-12-30 | CSS custom properties sobre SASS | Permite theming dinámico y es nativo del navegador |
 | 2024-12-30 | Mantener Bootstrap 5 por ahora | Transición gradual, no romper lo existente |
 | 2024-12-30 | Crear agentes especializados | Mantener consistencia y estándares en desarrollo |
+| 2026-01-24 | Validación multi-tenant obligatoria | Seguridad: evitar fugas de información entre compañías |
+| 2026-01-24 | Eager loading en vistas de detalle | Performance: evitar problemas N+1 |
 
 ---
 
@@ -417,4 +570,4 @@ public/assets/clientv3/css/
 
 ---
 
-*Última actualización: 2026-01-18*
+*Última actualización: 2026-01-24*

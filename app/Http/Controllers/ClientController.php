@@ -57,9 +57,22 @@ class ClientController extends Controller
 
     public function showNew(Request $request, $slug_company, $newId)
     {
-        $company = Company::where('slug', $slug_company)->first();
+        $company = Company::where('slug', $slug_company)->firstOrFail();
 
         $note = News::findOrFail($newId);
+
+        // Validación multi-tenant: verificar que la noticia esté asignada a esta compañía
+        $isAssigned = $company->assignedNews()
+            ->where('news_id', $note->id)
+            ->exists();
+
+        if (!$isAssigned) {
+            abort(403, 'No tiene permiso para ver esta noticia.');
+        }
+
+        // Eager load relaciones necesarias para la vista
+        $note->load(['source', 'mean', 'sector', 'genre', 'section', 'authorType', 'files']);
+
         return view('clients.shownew', compact('note', 'company'));
     }
 

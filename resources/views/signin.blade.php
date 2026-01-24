@@ -7,18 +7,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 140px 1rem 60px;
-            background: var(--ope-gray-100);
+            padding: 160px 1rem 80px;
+            background: linear-gradient(135deg, var(--ope-gray-100) 0%, var(--ope-gray-200) 100%);
+            position: relative;
+        }
+
+        /* Decorative background elements */
+        .login-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: var(--ope-gradient);
+            opacity: 0.03;
+            pointer-events: none;
         }
 
         .login-card {
             background: var(--ope-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-xl);
-            padding: 2.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
             width: 100%;
             max-width: 440px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--ope-gray-200);
         }
 
         .login-header {
@@ -47,22 +64,41 @@
             font-size: 0.9375rem;
         }
 
-        /* Responsive adjustments */
+        /* Large screens (1600px+) - Increased safe area */
+        @media (min-width: 1600px) {
+            .login-section {
+                padding-top: 180px;
+                padding-bottom: 100px;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .login-section {
+                padding-top: 200px;
+                padding-bottom: 120px;
+            }
+        }
+
+        /* Responsive adjustments - Tablet and below */
         @media (max-width: 991px) {
             .login-section {
-                padding-top: 120px;
+                padding-top: 140px;
+            }
+
+            .login-card {
+                padding: 2.5rem;
             }
         }
 
         @media (max-width: 767px) {
             .login-section {
-                padding: 100px 1rem 40px;
-                align-items: flex-start;
+                padding: 120px 1rem 60px;
+                align-items: center;
             }
 
             .login-card {
-                padding: 1.5rem;
-                border-radius: var(--radius-md);
+                padding: 2rem;
+                border-radius: var(--radius-lg);
             }
 
             .login-header .login-logo {
@@ -76,11 +112,12 @@
 
         @media (max-width: 480px) {
             .login-section {
-                padding: 90px 0.75rem 30px;
+                padding: 100px 1rem 40px;
             }
 
             .login-card {
-                padding: 1.25rem;
+                padding: 1.5rem;
+                border-radius: var(--radius-md);
             }
         }
 
