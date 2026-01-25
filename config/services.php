@@ -37,4 +37,20 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google reCAPTCHA v3
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for Google reCAPTCHA v3 invisible verification.
+    | Get your keys at: https://www.google.com/recaptcha/admin
+    |
+    */
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+        'min_score' => env('RECAPTCHA_MIN_SCORE', 0.5),
+        'enabled' => env('RECAPTCHA_ENABLED', true),
+    ],
+
 ];

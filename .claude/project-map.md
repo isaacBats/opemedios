@@ -492,6 +492,121 @@ Rediseño completo con experiencia de lectura premium:
 - Transiciones suaves (`--transition-base`)
 - Animaciones AOS (fade-up, fade-right)
 
+##### 15. Migración de reCAPTCHA v2 a v3
+**Fecha:** 2026-01-24
+
+**Contexto:**
+El proyecto usaba `anhskohbo/no-captcha` para reCAPTCHA v2 visible. Se migró a reCAPTCHA v3 invisible con validación por puntuación (score-based).
+
+**A. Nuevos Archivos Creados:**
+
+| Archivo | Propósito |
+|---------|-----------|
+| `app/Services/RecaptchaV3Service.php` | Servicio de validación contra API de Google |
+| `app/Rules/RecaptchaV3.php` | Regla de validación Laravel para FormRequests |
+
+**B. Configuración (`config/services.php`):**
+```php
+'recaptcha' => [
+    'site_key' => env('RECAPTCHA_SITE_KEY'),
+    'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+    'min_score' => env('RECAPTCHA_MIN_SCORE', 0.5),
+    'enabled' => env('RECAPTCHA_ENABLED', true),
+],
+```
+
+**C. Variables de Entorno (`.env`):**
+```env
+# Nuevas variables (reemplazan NOCAPTCHA_*)
+RECAPTCHA_SITE_KEY=tu_site_key_v3
+RECAPTCHA_SECRET_KEY=tu_secret_key_v3
+RECAPTCHA_MIN_SCORE=0.5
+RECAPTCHA_ENABLED=true
+```
+
+**D. Bypass para Localhost:**
+El servicio `RecaptchaV3Service` omite automáticamente la validación cuando:
+- `APP_ENV=local` o `APP_ENV=testing`
+- `RECAPTCHA_ENABLED=false`
+
+Esto permite probar login y contacto sin errores de dominio no registrado en desarrollo.
+
+**E. Vistas Actualizadas:**
+
+| Vista | Cambios |
+|-------|---------|
+| `signin.blade.php` | Widget v2 → input hidden + JS v3 |
+| `homev3.blade.php` | Agregado reCAPTCHA v3 al formulario de contacto |
+| `contact.blade.php` | Migrado de v2 a v3 (legacy) |
+| `auth/custom-login.blade.php` | Migrado de v2 a v3 (admin panel) |
+| `layouts/signin.blade.php` | Script v3 reemplaza `NoCaptcha::renderJs()` |
+
+**F. FormRequests Actualizados:**
+
+| Request | Cambios |
+|---------|---------|
+| `FormContactRequest.php` | Usa `RecaptchaV3` rule con action 'contact' |
+| `ContactFormV3Request.php` | Usa `RecaptchaV3` rule con action 'contact' |
+| `LoginController.php` | Usa `RecaptchaV3` rule con action 'login' |
+
+**G. Flujo de Validación v3:**
+
+```
+[Frontend]                           [Backend]
+    │                                    │
+    ├─ grecaptcha.execute(siteKey,       │
+    │   {action: 'login'})               │
+    │         │                          │
+    │         ▼                          │
+    ├─ Token generado ───────────────────┤
+    │         │                          │
+    │         ▼                          │
+    │   <input hidden                    │
+    │    name="g-recaptcha-response">    │
+    │         │                          │
+    │         ▼                          │
+    └─ Form submit ──────────────────────┼─► RecaptchaV3::validate()
+                                         │         │
+                                         │         ▼
+                                         │   RecaptchaV3Service::verify()
+                                         │         │
+                                         │         ├─ Si APP_ENV=local → bypass ✓
+                                         │         │
+                                         │         ├─ POST google.com/recaptcha/api/siteverify
+                                         │         │         │
+                                         │         │         ▼
+                                         │         ├─ Verificar score >= 0.5
+                                         │         │
+                                         │         └─ Verificar action match
+                                         │
+                                         └─► Continuar o rechazar
+```
+
+**H. Acciones Pendientes para Producción:**
+
+1. **Obtener claves v3** desde [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin)
+   - Seleccionar "reCAPTCHA v3"
+   - Registrar dominios: `opemedios.com.mx`, `www.opemedios.com.mx`
+
+2. **Actualizar `.env` en producción:**
+   ```env
+   RECAPTCHA_SITE_KEY=nueva_clave_v3
+   RECAPTCHA_SECRET_KEY=nuevo_secret_v3
+   ```
+
+3. **Limpiar caché de configuración:**
+   ```bash
+   php artisan config:clear
+   php artisan config:cache
+   ```
+
+**I. Nota sobre el paquete `anhskohbo/no-captcha`:**
+El paquete sigue instalado pero ya no se usa en el código. Se puede remover en una limpieza futura:
+```bash
+composer remove anhskohbo/no-captcha
+```
+También eliminar de `config/app.php` el alias `NoCaptcha`.
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -531,14 +646,25 @@ Rediseño completo con experiencia de lectura premium:
 ├── sessions/                 # Logs de sesiones
 └── project-map.md            # Este archivo
 
+app/
+├── Services/
+│   └── RecaptchaV3Service.php    # Servicio de validación reCAPTCHA v3
+├── Rules/
+│   └── RecaptchaV3.php           # Regla de validación Laravel
+└── Http/Requests/
+    ├── FormContactRequest.php    # Contacto legacy (actualizado v3)
+    └── ContactFormV3Request.php  # Contacto Home v3
+
 resources/views/
-├── homev3.blade.php              # Home principal v3
-├── signin.blade.php              # Login de clientes v3
+├── homev3.blade.php              # Home principal v3 (con reCAPTCHA v3)
+├── signin.blade.php              # Login de clientes v3 (con reCAPTCHA v3)
+├── contact.blade.php             # Contacto legacy (actualizado v3)
 ├── clients/
 │   ├── mynews.blade.php          # Dashboard de noticias v3
-│   └── shownew.blade.php         # Detalle de noticia v3 (nuevo)
+│   └── shownew.blade.php         # Detalle de noticia v3
 └── layouts/
-    └── home-clientv3.blade.php   # Layout principal v3 (con @auth)
+    ├── home-clientv3.blade.php   # Layout principal v3 (con @auth)
+    └── signin.blade.php          # Layout admin login (actualizado v3)
 
 public/assets/clientv3/css/
 ├── theme-saas.css            # Tema SaaS moderno
@@ -558,6 +684,7 @@ public/assets/clientv3/css/
 | 2024-12-30 | Crear agentes especializados | Mantener consistencia y estándares en desarrollo |
 | 2026-01-24 | Validación multi-tenant obligatoria | Seguridad: evitar fugas de información entre compañías |
 | 2026-01-24 | Eager loading en vistas de detalle | Performance: evitar problemas N+1 |
+| 2026-01-24 | Migrar reCAPTCHA v2 → v3 | UX invisible, validación por score, bypass automático en local |
 
 ---
 
@@ -567,6 +694,7 @@ public/assets/clientv3/css/
 2. **Los agentes en `.claude/agents/`** definen los estándares de código
 3. **La Home v3 (`homev3.blade.php`)** sirve como referencia de implementación
 4. **El tema CSS (`theme-saas.css`)** contiene todas las clases y variables del nuevo diseño
+5. **reCAPTCHA v3** requiere nuevas claves para producción (las actuales son v2)
 
 ---
 

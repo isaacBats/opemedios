@@ -601,7 +601,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('form.contact.v3') }}" method="POST">
+                        <form action="{{ route('form.contact.v3') }}" method="POST" id="contact-form">
                             @csrf
                             {{-- Service Pills Selector --}}
                             <div class="service-pills-container">
@@ -673,10 +673,22 @@
                                 <textarea name="message" id="message" class="form-control-modern @error('message') is-invalid @enderror" placeholder="Cuéntanos sobre tus necesidades de monitoreo...">{{ old('message') }}</textarea>
                             </div>
 
-                            <button type="submit" class="btn-saas btn-saas-primary btn-saas-lg w-100">
+                            {{-- reCAPTCHA v3 hidden input --}}
+                            <input type="hidden" name="g-recaptcha-response" id="contact-recaptcha-response">
+
+                            <button type="submit" class="btn-saas btn-saas-primary btn-saas-lg w-100" id="contact-submit-btn">
                                 Enviar Solicitud
                                 <i class='bx bx-send'></i>
                             </button>
+
+                            {{-- reCAPTCHA v3 notice --}}
+                            @if(\App\Services\RecaptchaV3Service::isEnabled())
+                                <p class="recaptcha-notice mt-3" style="font-size: 0.75rem; color: var(--ope-gray-500); text-align: center;">
+                                    Este sitio está protegido por reCAPTCHA.
+                                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color: var(--ope-gray-600);">Privacidad</a> |
+                                    <a href="https://policies.google.com/terms" target="_blank" rel="noopener" style="color: var(--ope-gray-600);">Términos</a>
+                                </p>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -771,4 +783,49 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    @if(\App\Services\RecaptchaV3Service::isEnabled())
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const contactForm = document.getElementById('contact-form');
+                const submitBtn = document.getElementById('contact-submit-btn');
+                const recaptchaInput = document.getElementById('contact-recaptcha-response');
+                const siteKey = '{{ config('services.recaptcha.site_key') }}';
+
+                if (contactForm && submitBtn && recaptchaInput) {
+                    contactForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        // Disable button to prevent double submission
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Enviando...';
+
+                        // Execute reCAPTCHA v3
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute(siteKey, { action: 'contact' })
+                                .then(function(token) {
+                                    recaptchaInput.value = token;
+                                    contactForm.submit();
+                                })
+                                .catch(function(error) {
+                                    console.error('reCAPTCHA error:', error);
+                                    submitBtn.disabled = false;
+                                    submitBtn.innerHTML = originalText;
+                                    alert('Error de verificación. Por favor, intenta de nuevo.');
+                                });
+                        });
+                    });
+                }
+            });
+        </script>
+    @endif
+
+    {{-- Hide reCAPTCHA badge (shown in footer notice instead) --}}
+    <style>
+        .grecaptcha-badge { visibility: hidden; }
+    </style>
 @endsection

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RecaptchaV3;
+use App\Services\RecaptchaV3Service;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactFormV3Request extends FormRequest
@@ -21,7 +23,7 @@ class ContactFormV3Request extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name'             => 'required|string|max:100',
             'company'          => 'nullable|string|max:150',
             'email'            => 'required|email|max:255',
@@ -29,6 +31,13 @@ class ContactFormV3Request extends FormRequest
             'service_interest' => 'required|string|in:monitoreo,redes,reputacion,reportes',
             'message'          => 'nullable|string|max:2000',
         ];
+
+        // Add reCAPTCHA v3 validation (bypassed in local environment)
+        if (RecaptchaV3Service::isEnabled()) {
+            $rules['g-recaptcha-response'] = ['required', new RecaptchaV3('contact')];
+        }
+
+        return $rules;
     }
 
     /**
@@ -39,13 +48,14 @@ class ContactFormV3Request extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'             => 'Por favor, ingresa tu nombre completo.',
-            'name.max'                  => 'El nombre no puede exceder los 100 caracteres.',
-            'email.required'            => 'Necesitamos tu correo electrónico para contactarte.',
-            'email.email'               => 'Por favor, ingresa un correo electrónico válido.',
-            'service_interest.required' => 'Selecciona el servicio de tu interés.',
-            'service_interest.in'       => 'El servicio seleccionado no es válido.',
-            'message.max'               => 'El mensaje no puede exceder los 2000 caracteres.',
+            'name.required'                     => 'Por favor, ingresa tu nombre completo.',
+            'name.max'                          => 'El nombre no puede exceder los 100 caracteres.',
+            'email.required'                    => 'Necesitamos tu correo electrónico para contactarte.',
+            'email.email'                       => 'Por favor, ingresa un correo electrónico válido.',
+            'service_interest.required'         => 'Selecciona el servicio de tu interés.',
+            'service_interest.in'               => 'El servicio seleccionado no es válido.',
+            'message.max'                       => 'El mensaje no puede exceder los 2000 caracteres.',
+            'g-recaptcha-response.required'     => 'Error de verificación de seguridad.',
         ];
     }
 

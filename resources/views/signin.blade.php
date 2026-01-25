@@ -195,11 +195,22 @@
             margin-bottom: 1rem;
         }
 
-        /* reCAPTCHA container styling */
-        .recaptcha-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
+        /* reCAPTCHA v3 badge positioning */
+        .grecaptcha-badge {
+            visibility: hidden;
+        }
+
+        .recaptcha-notice {
+            font-size: 0.75rem;
+            color: var(--ope-gray-500);
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        .recaptcha-notice a {
+            color: var(--ope-gray-600);
+            text-decoration: underline;
         }
     </style>
 @endsection
@@ -258,14 +269,22 @@
                         >
                     </div>
 
-                    <div class="form-group-modern recaptcha-container">
-                        {!! NoCaptcha::display() !!}
-                    </div>
+                    {{-- reCAPTCHA v3 hidden input --}}
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
-                    <button type="submit" class="btn-saas btn-saas-primary btn-login">
+                    <button type="submit" class="btn-saas btn-saas-primary btn-login" id="login-submit-btn">
                         Entrar
                         <i class='bx bx-log-in-circle'></i>
                     </button>
+
+                    {{-- reCAPTCHA v3 notice (required by Google ToS) --}}
+                    @if(\App\Services\RecaptchaV3Service::isEnabled())
+                        <p class="recaptcha-notice">
+                            Este sitio está protegido por reCAPTCHA y aplican la
+                            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad</a> y
+                            <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Términos de Servicio</a> de Google.
+                        </p>
+                    @endif
                 </form>
 
                 <div class="login-footer">
@@ -280,5 +299,38 @@
     </section>
 @endsection
 @section('scripts')
-    {!! NoCaptcha::renderJs() !!}
+    @if(\App\Services\RecaptchaV3Service::isEnabled())
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('login-form');
+                const submitBtn = document.getElementById('login-submit-btn');
+                const recaptchaInput = document.getElementById('g-recaptcha-response');
+                const siteKey = '{{ config('services.recaptcha.site_key') }}';
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Disable button to prevent double submission
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Verificando...';
+
+                    // Execute reCAPTCHA v3
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute(siteKey, { action: 'login' })
+                            .then(function(token) {
+                                recaptchaInput.value = token;
+                                form.submit();
+                            })
+                            .catch(function(error) {
+                                console.error('reCAPTCHA error:', error);
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = 'Entrar <i class="bx bx-log-in-circle"></i>';
+                                alert('Error de verificación. Por favor, intenta de nuevo.');
+                            });
+                    });
+                });
+            });
+        </script>
+    @endif
 @endsection
