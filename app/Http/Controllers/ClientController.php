@@ -79,41 +79,43 @@ class ClientController extends Controller
     public function getCovers(Request $request, $slug_company)
     {
         $type = $request->get('type');
-        $company = Company::where('slug', $slug_company)->first();
+        $company = Company::where('slug', $slug_company)->firstOrFail();
         $coverType = null;
-        $template = '';
         $title = '';
 
         switch ($type) {
             case 'primeras':
                 $coverType = 1;
-                $template = 'clients.primeras';
                 $title = 'Primeras Planas';
                 break;
             case 'politicas':
                 $coverType = 3;
-                $template = 'clients.primeras';
                 $title = 'Columnas Políticas';
                 break;
             case 'financieras':
                 $coverType = 4;
-                $template = 'clients.primeras';
                 $title = 'Columnas Financieras';
                 break;
             case 'portadas':
                 $coverType = 2;
-                $template = 'clients.primeras';
                 $title = 'Portadas Financieras';
                 break;
             case 'cartones':
                 $coverType = 5;
-                $template = 'clients.primeras';
                 $title = 'Cartones';
                 break;
+            default:
+                abort(404, 'Tipo de sección no válido.');
         }
-        $covers = Cover::whereDate('date_cover', Carbon::today()->format('Y-m-d'))
-            ->where('cover_type', $coverType)->get();
-        return view($template, compact('covers', 'company', 'title'));
+
+        // Eager load relationships to avoid N+1 queries
+        $covers = Cover::with(['source', 'image'])
+            ->whereDate('date_cover', Carbon::today()->format('Y-m-d'))
+            ->where('cover_type', $coverType)
+            ->orderBy('date_cover', 'desc')
+            ->get();
+
+        return view('clients.covers', compact('covers', 'company', 'title'));
     }
 
     public function myNews(Request $request, Company $company)

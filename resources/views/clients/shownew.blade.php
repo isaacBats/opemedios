@@ -1,9 +1,9 @@
 @extends('layouts.home-clientv3')
-@section('title', ' - ' . Str::limit($note->title, 50))
+@section('title', ' - ' . \Illuminate\Support\Str::limit($note->title, 50))
 
 @section('metas')
     <meta property="og:title" content="{{ $note->title }}">
-    <meta property="og:description" content="{{ Str::limit(strip_tags($note->synthesis), 160) }}">
+    <meta property="og:description" content="{{ \Illuminate\Support\Str::limit(strip_tags($note->synthesis ?? ''), 160) }}">
     <meta property="og:type" content="article">
 @endsection
 
@@ -257,6 +257,7 @@
         margin-bottom: 2rem;
         padding-bottom: 2rem;
         border-bottom: 1px solid var(--ope-gray-200);
+        max-width: 800px; /* Optimal reading width */
     }
 
     .news-synthesis p {
@@ -265,6 +266,12 @@
 
     .news-synthesis p:last-child {
         margin-bottom: 0;
+    }
+
+    /* Ensure text wraps properly */
+    .news-synthesis {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     /* Download Section */
@@ -617,7 +624,7 @@
             <div class="news-metadata">
                 <div class="news-meta-item">
                     <i class='bx bx-calendar'></i>
-                    <strong>{{ $note->news_date->formatLocalized('%A %d de %B %Y') }}</strong>
+                    <strong>{{ $note->news_date->translatedFormat('l d \d\e F Y') }}</strong>
                 </div>
                 @if($note->author)
                     <div class="news-meta-item">

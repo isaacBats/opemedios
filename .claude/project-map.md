@@ -665,6 +665,74 @@ Las vistas `homev3.blade.php` y `clients/mynews.blade.php` tenían contenido que
 **Beneficio:**
 Ahora todas las vistas del tema v3 utilizan las variables CSS centralizadas, lo que permite ajustar el espaciado desde un solo lugar (`:root` en theme-saas.css).
 
+##### 17. Portafolio de Covers (Otras Secciones) v3
+**Fecha:** 2026-01-25
+
+**Contexto:**
+La vista de "Otras Secciones" (primeras planas, columnas políticas, etc.) usaba el layout legacy `layouts.home` y un diseño antiguo. Se migró al estilo SaaS Modern Theme v3.
+
+**A. Nueva Vista de Portafolio (`clients/covers.blade.php`):**
+
+Diseño tipo galería/portafolio con las siguientes características:
+
+| Componente | Descripción |
+|------------|-------------|
+| Header | Título con gradiente, contador de publicaciones |
+| Filter Tabs | Pills de filtrado rápido entre tipos de sección |
+| Portfolio Grid | Grid responsive con cards de portada |
+| Cover Cards | Imagen con overlay al hover, información de fuente y fecha |
+| Modales | Para contenido de columnas (Bootstrap 5) |
+| Empty State | Mensaje amigable cuando no hay publicaciones |
+
+**Estilos aplicados:**
+- Área segura: `padding-top: var(--header-safe-area)`
+- Grid: `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`
+- Cards con hover: `translateY(-4px)` + sombra
+- Aspect ratio de imagen: `3/4` para portadas de periódicos
+- Animaciones AOS con delay progresivo
+
+**B. Actualización del Controlador (`ClientController@getCovers`):**
+
+```php
+// Cambios realizados:
+- firstOrFail() para validación de compañía
+- Eager loading: Cover::with(['source', 'image'])
+- Ordenamiento por fecha descendente
+- Validación de tipo con abort(404)
+- Vista cambiada de 'clients.primeras' a 'clients.covers'
+```
+
+**C. Navegación Actualizada (`home-clientv3.blade.php`):**
+
+Añadido dropdown "Secciones" en el navbar para clientes autenticados:
+- Primeras Planas
+- Columnas Políticas
+- Columnas Financieras
+- Portadas Financieras
+- Cartones
+
+**Archivos Creados/Modificados:**
+- `resources/views/clients/covers.blade.php` (nuevo)
+- `app/Http/Controllers/ClientController.php` (getCovers actualizado)
+- `resources/views/layouts/home-clientv3.blade.php` (dropdown agregado)
+
+**Nota:** La vista anterior `clients/primeras.blade.php` se mantiene como referencia pero ya no se usa.
+
+##### 18. Correcciones en Vista de Detalle de Noticia
+**Fecha:** 2026-01-25
+
+**Correcciones realizadas en `clients/shownew.blade.php`:**
+
+| Problema | Solución |
+|----------|----------|
+| `Str::limit()` sin namespace | Cambiado a `\Illuminate\Support\Str::limit()` |
+| `formatLocalized()` deprecado | Cambiado a `translatedFormat('l d \d\e F Y')` |
+| Síntesis sin límite de ancho | Agregado `max-width: 800px` para legibilidad óptima |
+| Null safety en synthesis | Agregado `$note->synthesis ?? ''` para evitar errores |
+
+**Archivos Modificados:**
+- `resources/views/clients/shownew.blade.php`
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -678,6 +746,7 @@ Ahora todas las vistas del tema v3 utilizan las variables CSS centralizadas, lo 
 ### Corto Plazo
 - [x] ~~Migrar páginas de autenticación (login, register) al nuevo tema~~
 - [x] ~~Migrar vista de detalle de noticia (`clients/shownew.blade.php`) al v3~~
+- [x] ~~Migrar vista de portafolio de covers (`clients/covers.blade.php`) al v3~~
 - [ ] Crear componentes Blade reutilizables para elementos comunes
 - [ ] Implementar Alpine.js para interactividad simple
 - [ ] Optimizar imágenes existentes (WebP, lazy loading)
@@ -719,9 +788,10 @@ resources/views/
 ├── contact.blade.php             # Contacto legacy (actualizado v3)
 ├── clients/
 │   ├── mynews.blade.php          # Dashboard de noticias v3
-│   └── shownew.blade.php         # Detalle de noticia v3
+│   ├── shownew.blade.php         # Detalle de noticia v3
+│   └── covers.blade.php          # Portafolio de portadas/columnas v3
 └── layouts/
-    ├── home-clientv3.blade.php   # Layout principal v3 (con @auth)
+    ├── home-clientv3.blade.php   # Layout principal v3 (con @auth y dropdown secciones)
     └── signin.blade.php          # Layout admin login (actualizado v3)
 
 public/assets/clientv3/css/
@@ -743,6 +813,7 @@ public/assets/clientv3/css/
 | 2026-01-24 | Validación multi-tenant obligatoria | Seguridad: evitar fugas de información entre compañías |
 | 2026-01-24 | Eager loading en vistas de detalle | Performance: evitar problemas N+1 |
 | 2026-01-24 | Migrar reCAPTCHA v2 → v3 | UX invisible, validación por score, bypass automático en local |
+| 2026-01-25 | Portafolio de covers con grid responsive | UX moderna, filtrado por tabs, modales para contenido |
 
 ---
 
@@ -753,7 +824,8 @@ public/assets/clientv3/css/
 3. **La Home v3 (`homev3.blade.php`)** sirve como referencia de implementación
 4. **El tema CSS (`theme-saas.css`)** contiene todas las clases y variables del nuevo diseño
 5. **reCAPTCHA v3** requiere nuevas claves para producción (las actuales son v2)
+6. **Vista legacy `clients/primeras.blade.php`** se mantiene pero ya no se usa (reemplazada por `covers.blade.php`)
 
 ---
 
-*Última actualización: 2026-01-24*
+*Última actualización: 2026-01-25*

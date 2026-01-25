@@ -203,6 +203,21 @@
                                             </a>
                                         @endif
                                     </div>
+                                    @if($userCompanySlug)
+                                    <div class="option-item ms-2 dropdown">
+                                        <button class="btn-saas btn-saas-secondary dropdown-toggle" type="button" id="sectionsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 10px 16px;">
+                                            <i class='bx bx-image-alt'></i>
+                                            <span class="d-none d-lg-inline ms-1">Secciones</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sectionsDropdown" style="border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border: 1px solid var(--ope-gray-200); padding: 0.5rem; min-width: 220px;">
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'primeras']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-news me-2' style="color: var(--ope-primary);"></i>Primeras Planas</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'politicas']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-building-house me-2' style="color: var(--ope-primary);"></i>Columnas Políticas</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'financieras']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-line-chart me-2' style="color: var(--ope-primary);"></i>Columnas Financieras</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'portadas']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-book-open me-2' style="color: var(--ope-primary);"></i>Portadas Financieras</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'cartones']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-palette me-2' style="color: var(--ope-primary);"></i>Cartones</a></li>
+                                        </ul>
+                                    </div>
+                                    @endif
                                     <div class="option-item ms-2">
                                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                             @csrf
