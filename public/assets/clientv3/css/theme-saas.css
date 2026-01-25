@@ -118,6 +118,50 @@ html {
 }
 
 /* ========================================
+   Main Content Wrapper
+   Global class for client-facing pages with fixed header
+   Use this class on the main section/container of any new page
+======================================== */
+.main-content-wrapper {
+    padding-top: var(--header-safe-area);
+    padding-bottom: var(--section-padding);
+    min-height: 100vh;
+    background: var(--ope-gray-100);
+}
+
+/* Responsive adjustments for main-content-wrapper */
+@media (max-width: 991px) {
+    .main-content-wrapper {
+        padding-top: 140px;
+        padding-bottom: 80px;
+    }
+}
+
+@media (max-width: 767px) {
+    .main-content-wrapper {
+        padding-top: 120px;
+        padding-bottom: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content-wrapper {
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+}
+
+/* Variant: White background */
+.main-content-wrapper.bg-white {
+    background: var(--ope-white);
+}
+
+/* Variant: No min-height (for shorter pages) */
+.main-content-wrapper.auto-height {
+    min-height: auto;
+}
+
+/* ========================================
    Navigation v3 - Active States
 ======================================== */
 .main-navbar.v3 .navbar-nav .nav-link {
@@ -253,7 +297,7 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding: 120px 0 80px;
+    padding: var(--header-safe-area, 160px) 0 80px;
     background: linear-gradient(180deg, var(--ope-gray-100) 0%, var(--ope-white) 100%);
     overflow: hidden;
 }
@@ -1329,7 +1373,7 @@ textarea.form-control-modern {
     }
 
     .hero-saas {
-        padding: 100px 0 60px;
+        padding: var(--header-safe-area, 140px) 0 60px;
         min-height: auto;
     }
 

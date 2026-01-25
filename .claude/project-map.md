@@ -11,7 +11,7 @@
 | Aspecto | Estado |
 |---------|--------|
 | **Branch Activo** | `feature/theme-opemedios-v3` |
-| **Última Actualización** | 2025-12-30 |
+| **Última Actualización** | 2026-01-24 |
 | **Fase Actual** | Implementación del tema SaaS moderno v3 |
 
 ---
@@ -386,7 +386,32 @@ Nuevas variables CSS para header safe area:
 .header-style-3 .navbar-area.is-sticky { z-index: 1002; }
 ```
 
-Clase utilitaria `.page-safe-area` disponible para uso global
+Clases utilitarias disponibles para uso global:
+- `.page-safe-area` - Solo padding-top con variable CSS
+- `.main-content-wrapper` - **RECOMENDADA** para nuevas páginas cliente
+
+**Clase `.main-content-wrapper` (theme-saas.css):**
+```css
+.main-content-wrapper {
+    padding-top: var(--header-safe-area);  /* 160px base, 180px @1600px, 200px @1920px */
+    padding-bottom: var(--section-padding); /* 100px */
+    min-height: 100vh;
+    background: var(--ope-gray-100);
+}
+
+/* Variantes disponibles: */
+.main-content-wrapper.bg-white { background: var(--ope-white); }
+.main-content-wrapper.auto-height { min-height: auto; }
+```
+
+**Uso recomendado para nuevas páginas:**
+```html
+<section class="main-content-wrapper">
+    <div class="container">
+        <!-- Contenido de la página -->
+    </div>
+</section>
+```
 
 **B. Seguridad Multi-tenant en `ClientController@showNew`:**
 
@@ -606,6 +631,39 @@ El paquete sigue instalado pero ya no se usa en el código. Se puede remover en 
 composer remove anhskohbo/no-captcha
 ```
 También eliminar de `config/app.php` el alias `NoCaptcha`.
+
+##### 16. Corrección de Solapamiento en Home y Mis Noticias
+**Fecha:** 2026-01-24
+
+**Problema:**
+Las vistas `homev3.blade.php` y `clients/mynews.blade.php` tenían contenido que se solapaba con el header fijo del sitio, especialmente en pantallas grandes (1600px+).
+
+**Causa:**
+- El hero de home usaba `padding: 120px 0 80px` fijo
+- El dashboard de noticias usaba `padding-top: 100px` fijo
+- Ninguno utilizaba las variables CSS `--header-safe-area` definidas previamente
+
+**Solución Implementada:**
+
+| Archivo | Antes | Después |
+|---------|-------|---------|
+| `theme-saas.css` (.hero-saas) | `padding: 120px 0 80px` | `padding: var(--header-safe-area, 160px) 0 80px` |
+| `theme-saas.css` (.hero-saas @media 991px) | `padding: 100px 0 60px` | `padding: var(--header-safe-area, 140px) 0 60px` |
+| `clients/mynews.blade.php` (.news-dashboard) | `padding-top: 100px` | `padding-top: var(--header-safe-area, 160px)` |
+
+**Escalado automático según resolución:**
+| Resolución | `--header-safe-area` |
+|------------|---------------------|
+| Base (< 1600px) | 160px |
+| 1600px+ | 180px |
+| 1920px+ | 200px |
+
+**Archivos Modificados:**
+- `public/assets/clientv3/css/theme-saas.css` (líneas 300 y 1376)
+- `resources/views/clients/mynews.blade.php` (línea 10)
+
+**Beneficio:**
+Ahora todas las vistas del tema v3 utilizan las variables CSS centralizadas, lo que permite ajustar el espaciado desde un solo lugar (`:root` en theme-saas.css).
 
 ---
 

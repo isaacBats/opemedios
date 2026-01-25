@@ -7,7 +7,7 @@
            News Dashboard Styles
         ======================================== */
         .news-dashboard {
-            padding-top: 100px;
+            padding-top: var(--header-safe-area, 160px);
             min-height: 100vh;
             background: var(--ope-gray-100);
         }

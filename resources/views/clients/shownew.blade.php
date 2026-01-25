@@ -11,10 +11,13 @@
 <style>
     /* ========================================
        News Detail v3 - Premium Reading Experience
+       Uses global .main-content-wrapper for header safe area
        ======================================== */
 
     .news-detail-section {
-        padding: 160px 0 100px;
+        /* Inherits from .main-content-wrapper via theme-saas.css */
+        padding-top: var(--header-safe-area, 160px);
+        padding-bottom: var(--section-padding, 100px);
         background: var(--ope-gray-100);
         min-height: 100vh;
     }
@@ -28,21 +31,33 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: var(--ope-gray-600);
-        font-weight: 500;
+        color: var(--ope-dark-soft);
+        font-weight: 600;
         font-size: 0.9375rem;
         text-decoration: none;
         transition: all var(--transition-base);
-        padding: 0.5rem 0;
+        padding: 0.75rem 1.25rem;
+        background: var(--ope-white);
+        border: 1px solid var(--ope-gray-300);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
     }
 
     .btn-back:hover {
         color: var(--ope-primary);
+        border-color: var(--ope-primary-lighter);
+        background: var(--ope-gray-100);
         transform: translateX(-4px);
+        box-shadow: var(--shadow-md);
     }
 
     .btn-back i {
         font-size: 1.25rem;
+        transition: transform var(--transition-base);
+    }
+
+    .btn-back:hover i {
+        transform: translateX(-2px);
     }
 
     /* Main Content Card */
