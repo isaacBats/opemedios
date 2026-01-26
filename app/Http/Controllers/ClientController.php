@@ -20,7 +20,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Models\Company, Models\Cover, Models\News, Models\Theme};
+use App\{Models\Company, Models\Cover, Models\ListReport, Models\News, Models\Theme};
 use App\Exports\NewsExport;
 use App\Filters\{AssignedNewsFilter, NewsFilter};
 use App\Traits\StadisticsNotes;
@@ -52,7 +52,96 @@ class ClientController extends Controller
 
     public function index(Request $request, Company $company)
     {
-        return view('clients.news', compact('company'));
+        // Seguridad multi-tenant: verificar que el usuario tiene acceso a esta compañía
+        $user = auth()->user();
+        $userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+        // Si es cliente, verificar que la compañía del slug coincide con la del usuario
+        if ($user->isClient() && $userCompanyId != $company->id) {
+            abort(403, 'No tiene permiso para acceder a este dashboard.');
+        }
+
+        // Métricas del dashboard
+        $today = Carbon::today();
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $startOfYear = Carbon::now()->startOfYear();
+
+        // Conteos de noticias
+        $newsToday = $company->assignedNews()
+            ->whereDate('created_at', $today)
+            ->count();
+
+        $newsThisMonth = $company->assignedNews()
+            ->where('created_at', '>=', $startOfMonth)
+            ->count();
+
+        $newsThisYear = $company->assignedNews()
+            ->where('created_at', '>=', $startOfYear)
+            ->count();
+
+        $newsTotal = $company->assignedNews()->count();
+
+        // Distribución por tipo de medio
+        $newsByMean = DB::table('assigned_news')
+            ->join('news', 'assigned_news.news_id', '=', 'news.id')
+            ->join('means', 'news.mean_id', '=', 'means.id')
+            ->where('assigned_news.company_id', $company->id)
+            ->whereDate('assigned_news.created_at', '>=', $startOfMonth)
+            ->select('means.name', 'means.short_name', DB::raw('count(*) as total'))
+            ->groupBy('means.id', 'means.name', 'means.short_name')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        // Temas de la compañía con conteo de noticias
+        $themesWithCount = DB::table('assigned_news')
+            ->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
+            ->where('assigned_news.company_id', $company->id)
+            ->whereDate('assigned_news.created_at', '>=', $startOfMonth)
+            ->select('themes.id', 'themes.name', DB::raw('count(*) as total'))
+            ->groupBy('themes.id', 'themes.name')
+            ->orderBy('total', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Últimas 5 noticias
+        $recentNews = News::whereIn('id', function ($query) use ($company) {
+                $query->select('news_id')
+                    ->from('assigned_news')
+                    ->where('company_id', $company->id);
+            })
+            ->with(['source', 'mean'])
+            ->orderBy('news_date', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Tendencia de noticias (positivas, neutrales, negativas) del mes
+        $trendStats = DB::table('assigned_news')
+            ->join('news', 'assigned_news.news_id', '=', 'news.id')
+            ->where('assigned_news.company_id', $company->id)
+            ->whereDate('assigned_news.created_at', '>=', $startOfMonth)
+            ->select('news.trend', DB::raw('count(*) as total'))
+            ->groupBy('news.trend')
+            ->get()
+            ->keyBy('trend');
+
+        // Últimos 3 reportes del usuario
+        $recentReports = ListReport::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('clients.dashboard', compact(
+            'company',
+            'newsToday',
+            'newsThisMonth',
+            'newsThisYear',
+            'newsTotal',
+            'newsByMean',
+            'themesWithCount',
+            'recentNews',
+            'trendStats',
+            'recentReports'
+        ));
     }
 
     public function showNew(Request $request, $slug_company, $newId)
@@ -174,99 +263,130 @@ class ClientController extends Controller
 
     public function report(Request $request, Company $company)
     {
+        // Seguridad multi-tenant: verificar acceso a la compañía
+        $user = auth()->user();
+        $userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+        if ($user->isClient() && $userCompanyId != $company->id) {
+            abort(403, 'No tiene permiso para acceder a los reportes de esta empresa.');
+        }
 
         $paginate = 25;
 
-        if($request->input('start_date') !== null && $request->input('end_date') !== null)
-        {
+        // Configurar rango de fechas
+        if ($request->input('start_date') !== null && $request->input('end_date') !== null) {
             $from = Carbon::create($request->input('start_date'));
             $to = Carbon::create($request->input('end_date'));
-        }else{
-            $from =  Carbon::now()->add('-10 days');
-            $to =  Carbon::now();
+        } else {
+            $from = Carbon::now()->subDays(10);
+            $to = Carbon::now();
         }
 
         $from_d = $from->format('Y-m-d');
         $to_d = $to->format('Y-m-d');
 
-        $request->merge(['start_date' => $from_d]);
-        $request->merge(['end_date' => $to_d]);
+        $request->merge(['start_date' => $from_d, 'end_date' => $to_d]);
 
+        // Obtener IDs de noticias asignadas (una sola vez)
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
-        $notesIdsArray = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id')->toArray();
 
+        // Estadísticas de tendencias
         $tendencias = NewsFilter::filter($request, ['ids' => $notesIds])
             ->select('trend', DB::raw('count(*) as total'))
             ->groupBy('trend')
             ->get();
 
+        // Estadísticas por medio
         $medios = NewsFilter::filter($request, ['ids' => $notesIds])
             ->select('mean_id', DB::raw('count(*) as total'))
             ->groupBy('mean_id')
             ->get();
 
-        $where = '';
-
+        // Datos para gráficos
         $json = '';
-        $themes = null;
-        $fechas = array();
-        $data = array();
-        if(count($notesIds) > 0)
-        {
-            $themes = DB::select("select themes.id, themes.name
-                            from assigned_news
-                            inner join news on assigned_news.news_id = news.id
-                            inner join themes on assigned_news.theme_id = themes.id
-                            where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                            AND date(news.created_at) BETWEEN '". $from->format('Y-m-d') ."' AND '" . $to->format('Y-m-d') ."'
-                            group by themes.id, themes.name
-                            order by name desc");
+        $themes = collect();
+        $fechas = [];
+        $data = [];
+
+        if ($notesIds->isNotEmpty()) {
+            // Obtener temas usando Query Builder seguro (sin SQL raw con interpolación)
+            $themes = DB::table('assigned_news')
+                ->join('news', 'assigned_news.news_id', '=', 'news.id')
+                ->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
+                ->whereIn('news.id', $notesIds)
+                ->whereBetween(DB::raw('date(news.created_at)'), [$from_d, $to_d])
+                ->select('themes.id', 'themes.name')
+                ->groupBy('themes.id', 'themes.name')
+                ->orderBy('themes.name', 'desc')
+                ->get();
 
             $period = CarbonPeriod::create($from, $to);
 
             foreach ($period as $date) {
                 $dt = $date->format('Y-m-d');
-                $where = " AND date(news.created_at) = '$dt'";
-                $qry = DB::select("select date(news.created_at) as dt, themes.id, themes.name, count(*) as total
-                                from assigned_news
-                                inner join news on assigned_news.news_id = news.id
-                                inner join themes on assigned_news.theme_id = themes.id
-                                where news.id in (" . str_replace(']', '', str_replace('[', '', $notesIds)) . ")
-                                " . $where . "
-                                group by date(news.created_at), themes.id, themes.name
-                                order by date(news.created_at) desc");
+                $fechas[] = $dt;
 
-                $data[$date->format('Y-m-d')] = $qry;
-                $fechas[] = $date->format('Y-m-d');
+                // Query segura por fecha
+                $qry = DB::table('assigned_news')
+                    ->join('news', 'assigned_news.news_id', '=', 'news.id')
+                    ->join('themes', 'assigned_news.theme_id', '=', 'themes.id')
+                    ->whereIn('news.id', $notesIds)
+                    ->whereDate('news.created_at', $dt)
+                    ->select(
+                        DB::raw('date(news.created_at) as dt'),
+                        'themes.id',
+                        'themes.name',
+                        DB::raw('count(*) as total')
+                    )
+                    ->groupBy(DB::raw('date(news.created_at)'), 'themes.id', 'themes.name')
+                    ->orderBy(DB::raw('date(news.created_at)'), 'desc')
+                    ->get();
+
+                $data[$dt] = $qry;
             }
 
-            foreach ($themes as $theme)
-            {
-                $xcoma = '';
+            // Construir JSON para gráficos
+            foreach ($themes as $theme) {
                 $json .= '{';
-                $json .= 'name: "' . $theme->name . '",';
+                $json .= 'name: "' . addslashes($theme->name) . '",';
                 $json .= 'data:[';
-                foreach ($fechas as $dt){
-                    $dat_imp = '';
-                    foreach ($data[$dt] as $dato_){
-                        if($dato_->id == $theme->id)
+                $xcoma = '';
+                foreach ($fechas as $dt) {
+                    $dat_imp = 0;
+                    foreach ($data[$dt] as $dato_) {
+                        if ($dato_->id == $theme->id) {
                             $dat_imp = $dato_->total;
+                        }
                     }
-                    $json .= $xcoma . (empty($dat_imp) ? 0 : $dat_imp);
+                    $json .= $xcoma . $dat_imp;
                     $xcoma = ',';
                 }
                 $json .= ']},';
             }
         }
 
-
+        // Obtener noticias paginadas con relaciones
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])
+            ->with(['sector', 'genre', 'source', 'mean', 'assignedNews' => function ($q) use ($company) {
+                $q->where('company_id', $company->id)->with('theme');
+            }])
             ->orderBy('news_date', 'DESC')
             ->simplePaginate($paginate);
 
         $notes->setPath(URL::full());
 
-        return view('clients.report', compact('notes', 'company','tendencias','medios','themes','fechas','data','json', 'from_d', 'to_d'));
+        return view('clients.report', compact(
+            'notes',
+            'company',
+            'tendencias',
+            'medios',
+            'themes',
+            'fechas',
+            'data',
+            'json',
+            'from_d',
+            'to_d'
+        ));
     }
 
     public function createReport(Request $request)

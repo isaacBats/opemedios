@@ -11,7 +11,7 @@
 | Aspecto | Estado |
 |---------|--------|
 | **Branch Activo** | `feature/theme-opemedios-v3` |
-| **Última Actualización** | 2026-01-24 |
+| **Última Actualización** | 2026-01-26 |
 | **Fase Actual** | Implementación del tema SaaS moderno v3 |
 
 ---
@@ -733,6 +733,260 @@ Añadido dropdown "Secciones" en el navbar para clientes autenticados:
 **Archivos Modificados:**
 - `resources/views/clients/shownew.blade.php`
 
+##### 19. Dashboard de Cliente v3 (Rediseño Completo)
+**Fecha:** 2026-01-25
+
+**Contexto:**
+La vista principal del cliente (`ClientController@index`) mostraba solo una lista básica de noticias. Se transformó en un Dashboard completo con métricas, gráficos y aislamiento de datos multi-tenant.
+
+**A. Seguridad Multi-Tenant (`ClientController@index`):**
+
+```php
+// Validación de acceso a compañía
+$user = auth()->user();
+$userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+if ($user->isClient() && $userCompanyId != $company->id) {
+    abort(403, 'No tiene permiso para acceder a este dashboard.');
+}
+```
+
+**B. Métricas Implementadas:**
+
+| Métrica | Descripción | Query |
+|---------|-------------|-------|
+| `newsToday` | Noticias de hoy | `whereDate('created_at', $today)` |
+| `newsThisMonth` | Noticias del mes | `where('created_at', '>=', $startOfMonth)` |
+| `newsThisYear` | Noticias del año | `where('created_at', '>=', $startOfYear)` |
+| `newsTotal` | Total acumulado | `count()` |
+| `newsByMean` | Distribución por medio | `GROUP BY means.name` |
+| `themesWithCount` | Top 10 temas | `GROUP BY themes.name` con `limit(10)` |
+| `recentNews` | Últimas 5 noticias | `orderBy('news_date', 'desc')` con `limit(5)` |
+| `trendStats` | Tendencias (positivo/neutro/negativo) | `GROUP BY news.trend` |
+
+**C. Nueva Vista (`clients/dashboard.blade.php`):**
+
+**Estructura del Dashboard:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  HERO HEADER                                                │
+│  [Logo Compañía] Nombre Compañía                           │
+│                  Bienvenido, Usuario        Fecha de hoy   │
+├─────────────────────────────────────────────────────────────┤
+│  QUICK ACTIONS                                              │
+│  [Ver Mis Noticias] [Primeras Planas] [Cartones]          │
+├─────────────────────────────────────────────────────────────┤
+│  KPI CARDS (Grid 4 columnas)                               │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐      │
+│  │ 📅 Hoy   │ │ 📆 Mes   │ │ ⭐ Año   │ │ 📊 Total │      │
+│  │   XX     │ │   XXX    │ │   X,XXX  │ │   XX,XXX │      │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘      │
+├─────────────────────────────────────────────────────────────┤
+│  CHARTS (Grid 2 columnas)                                   │
+│  ┌──────────────────────┐  ┌──────────────────────┐        │
+│  │ Noticias por Día     │  │ Noticias por Mes     │        │
+│  │ [Bar Chart Semanal]  │  │ [Line Chart Anual]   │        │
+│  └──────────────────────┘  └──────────────────────┘        │
+├─────────────────────────────────────────────────────────────┤
+│  DATA SECTION 1 (Grid 2 columnas)                          │
+│  ┌──────────────────────┐  ┌──────────────────────┐        │
+│  │ Distribución por     │  │ Análisis de          │        │
+│  │ Medio (lista)        │  │ Tendencias (stats)   │        │
+│  └──────────────────────┘  └──────────────────────┘        │
+├─────────────────────────────────────────────────────────────┤
+│  DATA SECTION 2 (Grid 2 columnas)                          │
+│  ┌──────────────────────┐  ┌──────────────────────┐        │
+│  │ Temas con más        │  │ Noticias Recientes   │        │
+│  │ Noticias (ranking)   │  │ (lista clickable)    │        │
+│  └──────────────────────┘  └──────────────────────┘        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Componentes Visuales:**
+
+1. **Hero Header con Company Branding:**
+   - Logo de compañía (80-100px) con fallback a icono
+   - Gradiente azul corporativo (`--ope-gradient`)
+   - Saludo personalizado con nombre del usuario
+   - Fecha actual con `translatedFormat()`
+
+2. **KPI Cards:**
+   - Iconos con colores semánticos (azul, verde, naranja, púrpura)
+   - Formato numérico con `number_format()`
+   - Hover con `translateY(-2px)` y sombra aumentada
+
+3. **Chart.js Integration:**
+   - Gráfico de barras (noticias por día de la semana)
+   - Gráfico de líneas (noticias por mes del año)
+   - Fetch a API endpoints existentes:
+     - `api.client.notesday` → datos semanales
+     - `api.client.notesyear` → datos anuales
+   - Colores del theme v3
+
+4. **Trend Stats:**
+   - Positivas (verde `#10b981`)
+   - Neutrales (gris `#6b7280`)
+   - Negativas (rojo `#ef4444`)
+
+5. **Recent News List:**
+   - Iconos por tipo de medio (TV, Radio, Prensa, Internet, Revista)
+   - Links clickables a vista de detalle
+   - Formato de fecha relativo (`diffForHumans()`)
+
+**D. Navegación Actualizada (`home-clientv3.blade.php`):**
+
+Cambios en el navbar para clientes autenticados:
+- **Antes:** Solo botón "Mis Noticias"
+- **Después:**
+  - Botón principal "Dashboard" (route: `news`)
+  - Botón secundario "Noticias" (route: `client.mynews`)
+  - Dropdown "Secciones" (ya existente)
+
+**E. Responsive Design:**
+
+| Breakpoint | Comportamiento |
+|------------|----------------|
+| 1920px+ | `padding-top: 200px` |
+| 1600px+ | `padding-top: 180px` |
+| 1200px- | KPI grid 2x2 |
+| 991px | Charts/Data 1 columna, hero content centrado |
+| 767px | KPI grid 1 columna, trend stats vertical |
+| 480px | Quick actions vertical |
+
+**Archivos Creados/Modificados:**
+- `resources/views/clients/dashboard.blade.php` (nuevo)
+- `app/Http/Controllers/ClientController.php` (método `index` rediseñado)
+- `resources/views/layouts/home-clientv3.blade.php` (navegación actualizada)
+
+**Rutas utilizadas:**
+- `GET /{company:slug}/dashboard` → `ClientController@index` (name: `news`)
+- `GET /api/v2/cliente/notas-por-dia` → `ClientController@notesPerDay`
+- `GET /api/v2/cliente/notas-por-anio` → `ClientController@notesPerYear`
+
+##### 20. Módulo de Reportes - Refactorización y Optimización
+**Fecha:** 2026-01-26
+
+**Contexto:**
+El módulo de reportes para clientes requería mejoras de seguridad, optimización de queries y actualización visual al estándar v3.
+
+**A. Seguridad Multi-Tenant Implementada:**
+
+| Controlador | Método | Mejora |
+|-------------|--------|--------|
+| `ReportController` | `solicitados()` | Filtrado por `user_id` en query, no en vista |
+| `ClientController` | `report()` | Validación de `company_id` vs `userCompanyId` |
+| Modelo | `ListReport` | Constantes de estado y relaciones definidas |
+
+```php
+// Antes: Filtrado inseguro en vista (VULNERABLE)
+@if($item->user_id == Auth::user()->id)
+
+// Después: Filtrado seguro en controlador
+$datos = ListReport::where('user_id', $user->id)
+    ->orderBy('created_at', 'desc')
+    ->get();
+```
+
+**B. Modelo `ListReport` Mejorado:**
+
+```php
+// Constantes de estado para legibilidad
+public const STATUS_PENDING = 0;
+public const STATUS_GENERATED = 1;
+public const STATUS_DOWNLOADED = 2;
+public const STATUS_PROCESSING = 3;
+
+// Relaciones y accessors
+public function user(): BelongsTo
+public function companyRelation(): BelongsTo
+public function getStatusLabelAttribute(): string
+public function getStatusBadgeClassAttribute(): string
+public function isReadyForDownload(): bool
+```
+
+**C. Queries Optimizadas (`ClientController@report`):**
+
+| Antes | Después |
+|-------|---------|
+| SQL raw con `str_replace()` | Query Builder con `whereIn()` |
+| Múltiples queries duplicadas | Query única con reutilización de `$notesIds` |
+| Sin eager loading | `with(['sector', 'genre', 'source', 'mean'])` |
+| Vulnerable a SQL injection | Parámetros seguros con bindings |
+
+**D. Vista `list_solicitados.blade.php` Rediseñada:**
+
+**Estructura:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  HERO HEADER                                                │
+│  [Reportes Solicitados]              [+ Nuevo Reporte]     │
+├─────────────────────────────────────────────────────────────┤
+│  STATS CARDS (Grid 4 columnas)                             │
+│  [Pendientes] [Procesando] [Generados] [Descargados]       │
+├─────────────────────────────────────────────────────────────┤
+│  TABLE: Mis Reportes                                        │
+│  - ID | Archivo | Fechas | Estado | Tiempo Est. | Acciones │
+│  - Status badges con colores semánticos                    │
+│  - Tiempo estimado basado en posición en cola              │
+│  - Botón de descarga con actualización AJAX                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Características:**
+- Layout `home-clientv3` (consistente con dashboard)
+- Stats cards con iconos animados
+- Status badges: pending (amarillo), processing (azul), generated (verde), downloaded (púrpura)
+- Auto-refresh cada 60s si hay reportes pendientes
+- Responsive con cards apiladas en móvil
+- Descarga sin recarga de página
+
+**E. Integración con Dashboard:**
+
+1. **Quick Action agregado:**
+   ```blade
+   <a href="{{ route('client.report', $company->slug) }}" class="quick-action-btn">
+       <i class='bx bx-file'></i>
+       Generar Reporte
+   </a>
+   ```
+
+2. **Sección "Últimos Reportes":**
+   - Muestra últimos 3 reportes del usuario
+   - Badge de estado compacto
+   - Botón de descarga inline
+   - Link a vista completa de reportes
+
+**F. Arquitectura de Cron (Análisis):**
+
+El sistema actual de generación por cron es adecuado:
+
+| Tamaño | Rango Días | Frecuencia | Comando |
+|--------|------------|------------|---------|
+| small | < 30 días | Cada 5 min | `report:generate` |
+| medium | 30-60 días | Cada 30 min | `report:generatemedium` |
+| big | 60+ días | Cada hora | `report:generatebig` |
+
+**Optimizaciones aplicadas:**
+- `config/excel.php`: chunk_size = 1000 (óptimo)
+- DomPDF configurado por defecto
+- Limpieza automática de reportes > 10 días
+
+**G. Rutas del Módulo:**
+
+```php
+Route::get('reporte', 'ClientController@report')->name('client.report');
+Route::post('reporte', 'ClientController@createReport')->name('client.report');
+Route::get('reportes/solicitados', 'ReportController@solicitados')->name('client.report.solicitados');
+Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('client.report.cambia_estatus_reporte');
+```
+
+**Archivos Modificados:**
+- `app/Http/Controllers/ReportController.php` (seguridad en `solicitados`)
+- `app/Http/Controllers/ClientController.php` (seguridad y optimización en `report`, `recentReports` en `index`)
+- `app/Models/ListReport.php` (modelo completo con constantes y relaciones)
+- `resources/views/clients/list_solicitados.blade.php` (rediseño v3)
+- `resources/views/clients/dashboard.blade.php` (quick action y sección reportes)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -787,9 +1041,12 @@ resources/views/
 ├── signin.blade.php              # Login de clientes v3 (con reCAPTCHA v3)
 ├── contact.blade.php             # Contacto legacy (actualizado v3)
 ├── clients/
-│   ├── mynews.blade.php          # Dashboard de noticias v3
+│   ├── dashboard.blade.php       # Dashboard principal v3 con métricas y gráficos
+│   ├── mynews.blade.php          # Lista de noticias filtrable v3
 │   ├── shownew.blade.php         # Detalle de noticia v3
-│   └── covers.blade.php          # Portafolio de portadas/columnas v3
+│   ├── covers.blade.php          # Portafolio de portadas/columnas v3
+│   ├── list_solicitados.blade.php # Lista de reportes solicitados v3
+│   └── report.blade.php          # Generador de reportes (pendiente v3)
 └── layouts/
     ├── home-clientv3.blade.php   # Layout principal v3 (con @auth y dropdown secciones)
     └── signin.blade.php          # Layout admin login (actualizado v3)
@@ -814,6 +1071,8 @@ public/assets/clientv3/css/
 | 2026-01-24 | Eager loading en vistas de detalle | Performance: evitar problemas N+1 |
 | 2026-01-24 | Migrar reCAPTCHA v2 → v3 | UX invisible, validación por score, bypass automático en local |
 | 2026-01-25 | Portafolio de covers con grid responsive | UX moderna, filtrado por tabs, modales para contenido |
+| 2026-01-25 | Dashboard de cliente con Chart.js | Métricas visuales, multi-tenant security, UX ejecutiva |
+| 2026-01-26 | Módulo de reportes refactorizado | Seguridad multi-tenant, queries optimizadas, UI v3 |
 
 ---
 
@@ -825,7 +1084,9 @@ public/assets/clientv3/css/
 4. **El tema CSS (`theme-saas.css`)** contiene todas las clases y variables del nuevo diseño
 5. **reCAPTCHA v3** requiere nuevas claves para producción (las actuales son v2)
 6. **Vista legacy `clients/primeras.blade.php`** se mantiene pero ya no se usa (reemplazada por `covers.blade.php`)
+7. **Dashboard de cliente** es el nuevo punto de entrada tras login (route: `news`)
+8. **Módulo de reportes** usa sistema de cron por tamaño (small/medium/big), no migrar a Queue a menos que el volumen lo requiera
 
 ---
 
-*Última actualización: 2026-01-25*
+*Última actualización: 2026-01-26*

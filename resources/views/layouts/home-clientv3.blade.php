@@ -192,9 +192,9 @@
                                     @endphp
                                     <div class="option-item">
                                         @if($userCompanySlug)
-                                            <a href="{{ route('client.mynews', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-primary">
-                                                <i class='bx bx-news'></i>
-                                                Mis Noticias
+                                            <a href="{{ route('news', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-primary">
+                                                <i class='bx bx-grid-alt'></i>
+                                                Dashboard
                                             </a>
                                         @elseif(auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
                                             <a href="{{ url('/panel') }}" class="btn-saas btn-saas-primary">
@@ -203,6 +203,14 @@
                                             </a>
                                         @endif
                                     </div>
+                                    @if($userCompanySlug)
+                                    <div class="option-item ms-2">
+                                        <a href="{{ route('client.mynews', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-secondary" style="padding: 10px 16px;">
+                                            <i class='bx bx-news'></i>
+                                            <span class="d-none d-lg-inline ms-1">Noticias</span>
+                                        </a>
+                                    </div>
+                                    @endif
                                     @if($userCompanySlug)
                                     <div class="option-item ms-2 dropdown">
                                         <button class="btn-saas btn-saas-secondary dropdown-toggle" type="button" id="sectionsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 10px 16px;">
