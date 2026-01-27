@@ -366,14 +366,15 @@ class ClientController extends Controller
         }
 
         // Obtener noticias paginadas con relaciones
+        // Usamos paginate() en lugar de simplePaginate() para tener acceso a total(), firstItem(), lastItem()
         $notes = NewsFilter::filter($request, ['ids' => $notesIds])
             ->with(['sector', 'genre', 'source', 'mean', 'assignedNews' => function ($q) use ($company) {
                 $q->where('company_id', $company->id)->with('theme');
             }])
             ->orderBy('news_date', 'DESC')
-            ->simplePaginate($paginate);
+            ->paginate($paginate);
 
-        $notes->setPath(URL::full());
+        $notes->appends($request->except('page'));
 
         return view('clients.report', compact(
             'notes',

@@ -987,6 +987,104 @@ Route::post('reportes/cambiaEstatus', 'ReportController@cambiaEstatus')->name('c
 - `resources/views/clients/list_solicitados.blade.php` (rediseño v3)
 - `resources/views/clients/dashboard.blade.php` (quick action y sección reportes)
 
+**H. Vista `report.blade.php` Rediseñada (Generador de Reportes):**
+**Fecha:** 2026-01-26
+
+Migración completa del generador de reportes de `layouts.home` (UIkit) a `layouts.home-clientv3` (SaaS Modern Theme v3).
+
+**Estructura:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  HERO HEADER                                                │
+│  [Generador de Reportes]        [Mis Reportes] [Dashboard] │
+├─────────────────────────────────────────────────────────────┤
+│  STATS CARDS (Grid 4 columnas)                             │
+│  [Total Notas] [Positivas] [Neutrales] [Negativas]         │
+├─────────────────────────────────────────────────────────────┤
+│  FILTER CARD                                                │
+│  Grid 4x2: Fechas | Tema | Sector | Género | Medio | Word  │
+│  [Filtrar] [Exportar Excel] [Exportar PDF]                 │
+├─────────────────────────────────────────────────────────────┤
+│  CHARTS (Grid 2 + 1 full)                                   │
+│  [Donut: Tendencias] [Pie: Medios]                         │
+│  [Line: Evolución Temporal - Full width]                   │
+├─────────────────────────────────────────────────────────────┤
+│  DATA TABLE                                                 │
+│  - Trend badges con iconos y colores semánticos            │
+│  - Tooltips con síntesis de notas                          │
+│  - Responsive: cards en móvil                              │
+│  - Paginación estilizada                                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Componentes implementados:**
+
+1. **Hero Header:**
+   - Título con icono `bx-file-find`
+   - Subtítulo dinámico con nombre de empresa
+   - Botones: "Mis Reportes" y "Dashboard"
+
+2. **Stats Cards:**
+   - Total notas encontradas (azul)
+   - Notas positivas (verde)
+   - Notas neutrales (amarillo)
+   - Notas negativas (rojo)
+
+3. **Filter Form Modernizado:**
+   - Grid responsive: 4 → 3 → 2 → 1 columnas
+   - Select2 con estilos v3 (fondo gris, borde azul en focus)
+   - jQuery UI Datepicker con header gradiente
+   - Botones de acción: Filtrar (primario), Excel (verde), PDF (rojo)
+
+4. **ApexCharts Integration:**
+   - Donut chart para tendencias con total central
+   - Pie chart para distribución por medio
+   - Line chart para evolución temporal con zoom
+   - Paleta de colores v3:
+     - primary: #2563eb
+     - secondary: #0ea5e9
+     - success: #10b981
+     - warning: #f59e0b
+     - danger: #ef4444
+
+5. **Tabla de Datos:**
+   - Header con background `--ope-gray-100`
+   - Trend badges con iconos:
+     - Positiva: verde con `bx-trending-up`
+     - Neutral: gris con `bx-minus`
+     - Negativa: rojo con `bx-trending-down`
+   - Tooltip con síntesis al hover
+   - Mobile: Tabla se convierte en cards con `data-label`
+
+**Estilos CSS agregados (inline en @section('styles')):**
+- `.report-section` - Wrapper con safe-area
+- `.report-hero` - Header con gradiente
+- `.filter-card` / `.filter-grid` - Formulario moderno
+- `.stats-grid` / `.stat-card-mini` - Métricas rápidas
+- `.charts-row` / `.chart-card` - Contenedores de gráficos
+- `.table-card` / `.table-modern` - Tabla estilizada
+- `.trend-badge` - Badges de tendencia
+- `.tooltip-modern` - Tooltips personalizados
+- Override de Select2 y jQuery UI Datepicker
+
+**Responsive breakpoints:**
+| Resolución | Comportamiento |
+|------------|----------------|
+| 1920px+ | `padding-top: 200px` |
+| 1600px+ | `padding-top: 180px` |
+| 1199px- | Filter grid 3 cols, stats 2x2 |
+| 991px | Charts 1 col, filter 2 cols |
+| 767px | Todo 1 col, tabla → cards |
+| 480px | Padding reducido |
+
+**Dependencias JavaScript:**
+- jQuery + jQuery UI (datepickers)
+- Select2 (dropdowns multiselect)
+- ApexCharts CDN (gráficos)
+
+**Archivos Modificados:**
+- `resources/views/clients/report.blade.php` (rediseño completo v3)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -1046,7 +1144,7 @@ resources/views/
 │   ├── shownew.blade.php         # Detalle de noticia v3
 │   ├── covers.blade.php          # Portafolio de portadas/columnas v3
 │   ├── list_solicitados.blade.php # Lista de reportes solicitados v3
-│   └── report.blade.php          # Generador de reportes (pendiente v3)
+│   └── report.blade.php          # Generador de reportes v3 (completo)
 └── layouts/
     ├── home-clientv3.blade.php   # Layout principal v3 (con @auth y dropdown secciones)
     └── signin.blade.php          # Layout admin login (actualizado v3)
@@ -1086,7 +1184,8 @@ public/assets/clientv3/css/
 6. **Vista legacy `clients/primeras.blade.php`** se mantiene pero ya no se usa (reemplazada por `covers.blade.php`)
 7. **Dashboard de cliente** es el nuevo punto de entrada tras login (route: `news`)
 8. **Módulo de reportes** usa sistema de cron por tamaño (small/medium/big), no migrar a Queue a menos que el volumen lo requiera
+9. **Vista `report.blade.php`** rediseñada con ApexCharts y estilos v3 - lista para producción
 
 ---
 
-*Última actualización: 2026-01-26*
+*Última actualización: 2026-01-26 (vista report.blade.php v3 completada)*
