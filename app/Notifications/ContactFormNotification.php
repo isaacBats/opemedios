@@ -42,16 +42,45 @@ class ContactFormNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Alguien te busca en Opemedios - Contacto')
-                    ->from('no-reply@opemedios.com.mx', 'no-reply')
-                    ->greeting('Detalles:')
-                    ->line("Nombre: {$this->contactMessage->name}")
-                    ->line("Email: {$this->contactMessage->email}")
-                    ->line("Télefono: {$this->contactMessage->phone}")
-                    ->line("Mensaje:")
-                    ->line($this->contactMessage->message)
-                    ->salutation(' ');
+        $serviceLabels = [
+            'monitoreo'  => 'Monitoreo de Medios',
+            'redes'      => 'Redes Sociales',
+            'reputacion' => 'Gestión de Reputación',
+            'reportes'   => 'Reportes Personalizados',
+        ];
+
+        $mail = (new MailMessage)
+            ->subject('Nuevo Lead - Formulario de Contacto Opemedios')
+            ->from('no-reply@opemedios.com.mx', 'Opemedios')
+            ->greeting('¡Nuevo contacto recibido!')
+            ->line("**Nombre:** {$this->contactMessage->name}");
+
+        if ($this->contactMessage->company) {
+            $mail->line("**Empresa:** {$this->contactMessage->company}");
+        }
+
+        $mail->line("**Email:** {$this->contactMessage->email}");
+
+        if ($this->contactMessage->phone) {
+            $mail->line("**Teléfono:** {$this->contactMessage->phone}");
+        }
+
+        if ($this->contactMessage->service_interest) {
+            $serviceLabel = $serviceLabels[$this->contactMessage->service_interest] ?? $this->contactMessage->service_interest;
+            $mail->line("**Servicio de Interés:** {$serviceLabel}");
+        }
+
+        if ($this->contactMessage->message) {
+            $mail->line('---')
+                 ->line('**Mensaje:**')
+                 ->line($this->contactMessage->message);
+        }
+
+        $mail->line('---')
+             ->line('Este mensaje fue enviado desde el formulario de contacto de opemedios.com.mx')
+             ->salutation('— Opemedios');
+
+        return $mail;
     }
 
     /**

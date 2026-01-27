@@ -96,15 +96,30 @@ class ReportController extends Controller
 
     public function solicitados(Request $request, $slug_company = '')
     {
-        $auth = Auth::user();
-        $datos = ListReport::orderBy('id', 'asc')->get();
-        
         $user = auth()->user();
-        if($user->isClient()) {
-            $company = Company::where('slug', $slug_company)->first();
+
+        if ($user->isClient()) {
+            $company = Company::where('slug', $slug_company)->firstOrFail();
+
+            // Seguridad multi-tenant: verificar que el usuario tiene acceso a esta compañía
+            $userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+            if ($userCompanyId != $company->id) {
+                abort(403, 'No tiene permiso para ver estos reportes.');
+            }
+
+            // Solo mostrar reportes del usuario actual
+            $datos = ListReport::where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
             return view('clients.list_solicitados', compact('company', 'datos'));
         }
-        
+
+        // Admin/Manager: ver todos los reportes
+        $datos = ListReport::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('admin.report.list_solicitados', compact('datos'));
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RecaptchaV3;
+use App\Services\RecaptchaV3Service;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FormContactRequest extends FormRequest
@@ -23,13 +25,19 @@ class FormContactRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'                  => 'required|max:50',
-            'email'                 => 'required|email',
-            'phone'                 => 'required|digits:10',
-            'message'               => 'required',
-            'g-recaptcha-response'  => 'required|captcha',
+        $rules = [
+            'name'    => 'required|max:50',
+            'email'   => 'required|email',
+            'phone'   => 'required|digits:10',
+            'message' => 'required',
         ];
+
+        // Add reCAPTCHA v3 validation (bypassed in local environment)
+        if (RecaptchaV3Service::isEnabled()) {
+            $rules['g-recaptcha-response'] = ['required', new RecaptchaV3('contact')];
+        }
+
+        return $rules;
     }
 
     public function messages()
@@ -41,8 +49,7 @@ class FormContactRequest extends FormRequest
             'phone.required'                => 'Si nos dejas tu número de teléfono, podemos contactarte mas rápido.',
             'phone.digits'                  => 'Introduce un número valido de :digits dígitos',
             'message.required'              => 'Aquí puedes compartirnos tus dudas a cerca de nuestros servicios.',
-            'g-recaptcha-response.required' => 'Es necesario el captcha.',
-            'g-recaptcha-response.captcha'  => 'Captcha error! Prueba de nuevo mas tarde.',
+            'g-recaptcha-response.required' => 'Error de verificación de seguridad.',
         ];
     }
 }

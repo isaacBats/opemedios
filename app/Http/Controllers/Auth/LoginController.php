@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Rules\RecaptchaV3;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -74,16 +75,19 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {
-        $request->validate(
-            [
-                $this->username() => 'required|string',
-                'password' => 'required|string',
-                'g-recaptcha-response'  => 'required|captcha'
-            ],
-            [
-                'g-recaptcha-response.required' => 'Es necesario el captcha.',
-                'g-recaptcha-response.captcha'  => 'Captcha error! Prueba de nuevo mas tarde.'
-            ]
-        );
+        $rules = [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ];
+
+        $messages = [];
+
+        // Add reCAPTCHA v3 validation (bypassed in local environment)
+        if (\App\Services\RecaptchaV3Service::isEnabled()) {
+            $rules['g-recaptcha-response'] = ['required', new RecaptchaV3('login')];
+            $messages['g-recaptcha-response.required'] = 'Error de verificación de seguridad.';
+        }
+
+        $request->validate($rules, $messages);
     }
 }
