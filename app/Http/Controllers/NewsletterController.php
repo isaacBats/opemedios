@@ -157,7 +157,8 @@ class NewsletterController extends Controller
 
         try {
             $newsletterSend = NewsletterSend::findOrFail($sendId);
-            $covers = NewsletterFooter::whereDate('created_at', Carbon::today()->format('Y-m-d'))->first();
+            $dateCovers = $newsletterSend->date_sending ?? Carbon::today()->format('Y-m-d');
+            $covers = NewsletterFooter::whereDate('created_at', $dateCovers)->first();
             $newsletter = $newsletterSend->newsletter;
             if ($request->has('emails')) {
                 $emails = explode(',', $request->input('emails'));

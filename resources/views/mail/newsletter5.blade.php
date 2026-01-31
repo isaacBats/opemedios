@@ -38,10 +38,9 @@
                         <td style="width:40%;padding:0px 20px 0px 20px;background:{{ $dateBgColor }};">
                             <p style="text-align:right;font-size:13px;color:{{ $dateTextColor }};line-height:16px;">
                                 {{-- Fecha del newsletter--}}
-                                {{ Illuminate\Support\Carbon::parse(
-                                      $newsletterSend->date_sending
-                                    )->formatLocalized('%A %d de %B %Y')
-                                }}
+                                {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}
                             </p>
                         </td>
                     </tr>

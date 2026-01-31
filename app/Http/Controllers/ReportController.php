@@ -205,7 +205,7 @@ class ReportController extends Controller
             $report->save();
             return true;
         }
-        elseif(count($dates) < 30)
+        elseif(count($dates) < 120)
             return (new ReportsExport($request))->download('Reporte.xlsx');
         else
         {
