@@ -11,7 +11,7 @@
 | Aspecto | Estado |
 |---------|--------|
 | **Branch Activo** | `feature/theme-opemedios-v3` |
-| **Última Actualización** | 2026-01-26 |
+| **Última Actualización** | 2026-01-30 |
 | **Fase Actual** | Implementación del tema SaaS moderno v3 |
 
 ---
@@ -1235,6 +1235,99 @@ El menú de navegación mostraba los mismos items (Quiénes Somos, Servicios, Cl
 - `resources/views/layouts/home-clientv3.blade.php` (lógica condicional)
 - `public/assets/clientv3/css/theme-saas.css` (estilos de menú autenticado)
 
+##### 23. Micro-animaciones de Navegación y Correcciones de Estilo
+**Fecha:** 2026-01-30
+
+**Contexto:**
+Mejoras de UX en la navegación global del tema v3, corrección de estilos en el menú dropdown y optimización del logo del cliente para pantallas de alta resolución.
+
+**A. Micro-animaciones de Hover en Enlaces:**
+
+Implementación de animación sobria y profesional para clientes corporativos:
+
+| Propiedad | Valor |
+|-----------|-------|
+| Transición | `all 0.3s ease-in-out` |
+| Efecto | Línea inferior que se expande desde el centro |
+| Tamaño línea | 0 → 24px (hover), 20px (active) |
+| Color línea | `--ope-primary` (#2563eb) |
+| Color texto | `--ope-gray-600` → `--ope-dark` (hover) |
+
+```css
+/* Pseudo-elemento para underline animado */
+.main-navbar.v3 .navbar-nav .nav-link:not(.dropdown-toggle)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--ope-primary);
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+}
+
+.main-navbar.v3 .navbar-nav .nav-link:not(.dropdown-toggle):hover::after {
+    width: 24px;
+}
+```
+
+**B. Corrección de Dropdown "Otras Secciones":**
+
+| Problema | Solución |
+|----------|----------|
+| Caret Bootstrap inconsistente | Oculto con `display: none !important` |
+| Estilo diferente a otros items | Heredado de `.nav-link` base |
+| Sin indicador de dropdown | Icono Boxicons `bx-chevron-down` con clase `.dropdown-caret` |
+
+```html
+<a href="#" class="nav-link dropdown-toggle">
+    <i class='bx bx-image-alt nav-icon'></i>
+    Otras Secciones
+    <i class='bx bx-chevron-down dropdown-caret'></i>
+</a>
+```
+
+```css
+/* Custom dropdown caret */
+.dropdown-caret {
+    font-size: 0.875rem;
+    margin-left: 4px;
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Rotación al abrir */
+.dropdown.show .dropdown-caret {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: var(--ope-primary);
+}
+```
+
+**C. Logo del Cliente para Alta Resolución:**
+
+Escalado progresivo para evitar pixelación:
+
+| Resolución | max-height | max-width |
+|------------|------------|-----------|
+| Base (< 1200px) | 45px | 160px |
+| 1200px+ | 50px | 180px |
+| 1600px+ | 55px | 200px |
+| 1920px+ | 60px | 220px |
+
+```css
+.client-logo-nav {
+    object-fit: contain;
+    image-rendering: crisp-edges;
+}
+```
+
+**D. Archivos Modificados:**
+
+- `public/assets/clientv3/css/theme-saas.css` (estilos de navegación)
+- `resources/views/layouts/home-clientv3.blade.php` (icono dropdown-caret)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -1326,6 +1419,7 @@ public/assets/clientv3/css/
 | 2026-01-26 | Módulo de reportes refactorizado | Seguridad multi-tenant, queries optimizadas, UI v3 |
 | 2026-01-27 | Migración de CodeQL a análisis PHP nativo | CodeQL no soporta PHP, usar composer audit + PHPStan |
 | 2026-01-27 | Menú condicional público/privado | UX diferenciada: visitantes ven marketing, clientes ven gestión |
+| 2026-01-30 | Micro-animaciones sobrias para navegación | UX corporativa profesional, transiciones de 0.3s, underline desde centro |
 
 ---
 
@@ -1342,7 +1436,8 @@ public/assets/clientv3/css/
 9. **Vista `report.blade.php`** rediseñada con ApexCharts y estilos v3 - lista para producción
 10. **CI/CD actualizado** - CodeQL reemplazado por `php-security-checks` (composer audit + PHPStan nivel 5)
 11. **Menú de navegación** diferenciado: visitantes ven items públicos, clientes autenticados ven Dashboard/Noticias/Reportes
+12. **Micro-animaciones v3** implementadas: underline que se expande desde el centro, dropdown-caret con rotación, logo escalado para alta resolución
 
 ---
 
-*Última actualización: 2026-01-27 (Menú navegación público/privado refactorizado)*
+*Última actualización: 2026-01-30 (Micro-animaciones de navegación y correcciones de estilo)*
