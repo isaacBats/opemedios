@@ -42,7 +42,9 @@
                         </td>
                         <td align="right" style="width: 45%;padding: 20px 15px 20px 10px;" valign="top">
                             <p style="mso-line-height-rule:exactly;font-family:georgia, times, 'times new roman', serif;line-height:21px;color:{{ $dateTextColor }};font-size:14px">
-                                {{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
+                                {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}
                             </p>
                         </td>
                     </tr>

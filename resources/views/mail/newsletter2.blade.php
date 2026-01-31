@@ -34,7 +34,9 @@
 			<table border="0" cellpadding="0" cellspacing="0" align="center" style="max-width: 580px;width:100%;background-color:{{ $dateBgColor }};padding:20px 20px 20px 20px;border:0;border-collapse:collapse;color:{{ $dateTextColor }};">
 				<tr>
 					<td bgcolor="{{ $dateBgColor }}" style="background-color:{{ $dateBgColor }};color:{{ $dateTextColor }};text-align:right;font-size:12px;padding:20px 30px 20px 0;font-weight:bold;">
-						{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
+						{{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}
 					</td>
 				</tr>
 			</table>

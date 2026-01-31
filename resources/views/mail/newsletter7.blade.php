@@ -66,10 +66,9 @@
                           <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:16px;color:{{ $dateTextColor }};;font-size:16px">NOTICIAS DEL DÍA&nbsp; |&nbsp;&nbsp;<span style="font-size:14px">
                                   <strong>
                                       {{-- Fecha del newsletter--}}
-                                      {{ Illuminate\Support\Carbon::parse(
-                                            $newsletterSend->date_sending
-                                          )->formatLocalized('%A %d de %B %Y')
-                                      }}
+                                      {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                          ->locale('es')
+                                          ->formatLocalized('%A %d de %B %Y') }}
                                   </strong></span>
                           </p>
                       </td>
