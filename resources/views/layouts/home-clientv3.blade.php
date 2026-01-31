@@ -140,114 +140,208 @@
         })();
     </script>
 
+    {{-- Variables de autenticación para el header --}}
+    @php
+        $userCompanySlug = null;
+        $userCompany = null;
+        $isAuthenticated = auth()->check();
+        $isClient = false;
+        $isAdmin = false;
+
+        if ($isAuthenticated) {
+            $user = auth()->user();
+            $isClient = $user->isClient();
+            $isAdmin = $user->hasRole('admin') || $user->hasRole('manager');
+
+            if ($isClient) {
+                $metas = $user->metas()->where('meta_key', 'company_id')->first();
+                if ($metas) {
+                    $userCompany = \App\Models\Company::find($metas->meta_value);
+                    $userCompanySlug = $userCompany?->slug;
+                }
+            }
+        }
+    @endphp
+
     <!-- main nav start -->
-    <header class="header-style-3">
+    <header class="header-style-3 {{ $isAuthenticated ? 'header-authenticated' : '' }}">
         <div class="navbar-area">
+            {{-- Mobile Navigation --}}
             <div class="main-responsive-nav">
                 <div class="container">
                     <div class="main-responsive-menu">
                         <div class="logo">
-                            <a href="{{ url('/') }}">
-                                <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}"  alt="Opemedios">
-                            </a>
+                            @if($isAuthenticated && $userCompany && $userCompany->logo)
+                                {{-- Logo del cliente cuando está autenticado --}}
+                                <a href="{{ route('news', ['company' => $userCompanySlug]) }}">
+                                    <img src="{{ asset($userCompany->logo) }}" alt="{{ $userCompany->name }}" class="client-logo-nav">
+                                </a>
+                            @else
+                                {{-- Logo de Opemedios para visitantes --}}
+                                <a href="{{ url('/') }}">
+                                    <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios">
+                                </a>
+                            @endif
                         </div><!--/.logo-->
                     </div>
                 </div>
             </div>
-            <div class="main-navbar  v3">
+
+            {{-- Desktop Navigation --}}
+            <div class="main-navbar v3">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios">
-                        </a>
+                        {{-- Logo --}}
+                        @if($isAuthenticated && $userCompany && $userCompany->logo)
+                            <a class="navbar-brand" href="{{ route('news', ['company' => $userCompanySlug]) }}">
+                                <img src="{{ asset($userCompany->logo) }}" alt="{{ $userCompany->name }}" class="client-logo-nav">
+                            </a>
+                        @else
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <img src="{{ asset('assets/clientv3/img/opemedios-logo.png') }}" alt="Opemedios">
+                            </a>
+                        @endif
+
                         <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                             <ul class="navbar-nav m-auto" id="main-nav">
-                                <li class="nav-item">
-                                    <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">Inicio</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('/') }}#nosotros" class="nav-link">Quiénes Somos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('/') }}#servicios" class="nav-link">Servicios</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('/') }}#clientes" class="nav-link">Clientes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('/') }}#contacto" class="nav-link">Contacto</a>
-                                </li>
-                            </ul><!--/.navbar-nav -->
-                            <div class="others-options v3 d-flex align-items-center">
-                                @auth
-                                    @php
-                                        $userCompanySlug = null;
-                                        if (auth()->user()->isClient()) {
-                                            $metas = auth()->user()->metas()->where('meta_key', 'company_id')->first();
-                                            if ($metas) {
-                                                $userCompany = \App\Models\Company::find($metas->meta_value);
-                                                $userCompanySlug = $userCompany?->slug;
-                                            }
-                                        }
-                                    @endphp
-                                    <div class="option-item">
-                                        @if($userCompanySlug)
-                                            <a href="{{ route('news', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-primary">
-                                                <i class='bx bx-grid-alt'></i>
-                                                Dashboard
-                                            </a>
-                                        @elseif(auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
-                                            <a href="{{ url('/panel') }}" class="btn-saas btn-saas-primary">
-                                                <i class='bx bx-grid-alt'></i>
-                                                Panel
-                                            </a>
-                                        @endif
-                                    </div>
-                                    @if($userCompanySlug)
-                                    <div class="option-item ms-2">
-                                        <a href="{{ route('client.mynews', ['company' => $userCompanySlug]) }}" class="btn-saas btn-saas-secondary" style="padding: 10px 16px;">
-                                            <i class='bx bx-news'></i>
-                                            <span class="d-none d-lg-inline ms-1">Noticias</span>
+                                @if($isAuthenticated && $isClient && $userCompanySlug)
+                                    {{-- ========================================
+                                         MENÚ PRIVADO (Cliente Autenticado)
+                                         ======================================== --}}
+                                    <li class="nav-item">
+                                        <a href="{{ route('news', ['company' => $userCompanySlug]) }}" class="nav-link {{ request()->routeIs('news') ? 'active' : '' }}">
+                                            <i class='bx bx-grid-alt nav-icon'></i>
+                                            Dashboard
                                         </a>
-                                    </div>
-                                    @endif
-                                    @if($userCompanySlug)
-                                    <div class="option-item ms-2 dropdown">
-                                        <button class="btn-saas btn-saas-secondary dropdown-toggle" type="button" id="sectionsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 10px 16px;">
-                                            <i class='bx bx-image-alt'></i>
-                                            <span class="d-none d-lg-inline ms-1">Secciones</span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sectionsDropdown" style="border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border: 1px solid var(--ope-gray-200); padding: 0.5rem; min-width: 220px;">
-                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'primeras']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-news me-2' style="color: var(--ope-primary);"></i>Primeras Planas</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'politicas']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-building-house me-2' style="color: var(--ope-primary);"></i>Columnas Políticas</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'financieras']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-line-chart me-2' style="color: var(--ope-primary);"></i>Columnas Financieras</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'portadas']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-book-open me-2' style="color: var(--ope-primary);"></i>Portadas Financieras</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'cartones']) }}" style="border-radius: var(--radius-sm); padding: 0.625rem 1rem;"><i class='bx bx-palette me-2' style="color: var(--ope-primary);"></i>Cartones</a></li>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('client.mynews', ['company' => $userCompanySlug]) }}" class="nav-link {{ request()->routeIs('client.mynews') ? 'active' : '' }}">
+                                            <i class='bx bx-news nav-icon'></i>
+                                            Mis Noticias
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('client.report', ['company' => $userCompanySlug]) }}" class="nav-link {{ request()->routeIs('client.report*') ? 'active' : '' }}">
+                                            <i class='bx bx-file nav-icon'></i>
+                                            Reportes
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('client.sections') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class='bx bx-image-alt nav-icon'></i>
+                                            Otras Secciones
+                                            <i class='bx bx-chevron-down dropdown-caret'></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'primeras']) }}"><i class='bx bx-news me-2'></i>Primeras Planas</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'politicas']) }}"><i class='bx bx-building-house me-2'></i>Columnas Políticas</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'financieras']) }}"><i class='bx bx-line-chart me-2'></i>Columnas Financieras</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'portadas']) }}"><i class='bx bx-book-open me-2'></i>Portadas Financieras</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('client.sections', ['company' => $userCompanySlug, 'type' => 'cartones']) }}"><i class='bx bx-palette me-2'></i>Cartones</a></li>
                                         </ul>
-                                    </div>
+                                    </li>
+                                    {{-- Logout en menú móvil --}}
+                                    <li class="nav-item mobile-logout-item d-md-none">
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="nav-link logout-link">
+                                                <i class='bx bx-log-out nav-icon'></i>
+                                                Cerrar Sesión
+                                            </button>
+                                        </form>
+                                    </li>
+                                @elseif($isAuthenticated && $isAdmin)
+                                    {{-- ========================================
+                                         MENÚ ADMIN/MANAGER
+                                         ======================================== --}}
+                                    <li class="nav-item">
+                                        <a href="{{ url('/panel') }}" class="nav-link">
+                                            <i class='bx bx-grid-alt nav-icon'></i>
+                                            Panel Admin
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mobile-logout-item d-md-none">
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="nav-link logout-link">
+                                                <i class='bx bx-log-out nav-icon'></i>
+                                                Cerrar Sesión
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    {{-- ========================================
+                                         MENÚ PÚBLICO (Visitante)
+                                         ======================================== --}}
+                                    <li class="nav-item">
+                                        <a href="{{ url('/') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+                                            <i class='bx bx-home nav-icon d-md-none'></i>
+                                            Inicio
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/') }}#nosotros" class="nav-link">
+                                            <i class='bx bx-group nav-icon d-md-none'></i>
+                                            Quiénes Somos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/') }}#servicios" class="nav-link">
+                                            <i class='bx bx-cog nav-icon d-md-none'></i>
+                                            Servicios
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/') }}#clientes" class="nav-link">
+                                            <i class='bx bx-briefcase nav-icon d-md-none'></i>
+                                            Clientes
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/') }}#contacto" class="nav-link">
+                                            <i class='bx bx-envelope nav-icon d-md-none'></i>
+                                            Contacto
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul><!--/.navbar-nav -->
+
+                            {{-- Botones de acción (Desktop) --}}
+                            <div class="others-options v3 d-flex align-items-center">
+                                @if($isAuthenticated)
+                                    {{-- Usuario info (opcional) --}}
+                                    @if($userCompany)
+                                        <div class="option-item d-none d-lg-block me-3">
+                                            <span class="user-company-badge">
+                                                <i class='bx bx-building'></i>
+                                                {{ \Illuminate\Support\Str::limit($userCompany->name, 20) }}
+                                            </span>
+                                        </div>
                                     @endif
-                                    <div class="option-item ms-2">
+                                    {{-- Logout button (Desktop) --}}
+                                    <div class="option-item">
                                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn-saas btn-saas-secondary" style="padding: 10px 16px;">
+                                            <button type="submit" class="btn-saas btn-saas-logout" title="Cerrar sesión">
                                                 <i class='bx bx-log-out'></i>
+                                                <span class="d-none d-lg-inline ms-1">Salir</span>
                                             </button>
                                         </form>
                                     </div>
                                 @else
+                                    {{-- Login button --}}
                                     <div class="option-item">
                                         <a href="{{ route('signin') }}" class="btn-saas btn-saas-primary">
                                             <i class='bx bx-log-in'></i>
                                             Entrar
                                         </a>
                                     </div>
-                                @endauth
+                                @endif
                             </div><!--/.others-options-->
                         </div>
                     </nav><!--/.navbar-->
                 </div>
             </div>
-    
         </div>
     </header>
     <!-- /.navbar -->
