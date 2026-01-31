@@ -379,6 +379,12 @@ class NewsController extends Controller
             'news_id' => $id,
         ];
         $this->ntnController->create($data);
+        
+        $assigned = AssignedNews::create([
+            'news_id' => $id,
+            'company_id' => $newsletter->company->id,
+            'theme_id' => $request->input('newsletter_theme_id'),
+        ]);
 
         return redirect()->route('admin.new.newletter.show', ['id' => $id])->with('status', "Se ha incluido la nota {$note->title} al newsletter de {$newsletter->name} al tema {$theme->name}");
     }

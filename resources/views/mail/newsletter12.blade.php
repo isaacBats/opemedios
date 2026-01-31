@@ -109,7 +109,9 @@
                                     <tr>
                                         <td style="padding:20px 15px 5px 15px;text-align:center;">
                                             <p style="color:{{ $dateTextColor }};font-size: 13px;text-align: right;">
-                                                {{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}
+                                                {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                                    ->locale('es')
+                                                    ->formatLocalized('%A %d de %B %Y') }}
                                             </p>
                                         </td>
                                     </tr>

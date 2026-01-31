@@ -32,9 +32,9 @@
                         </td>
                     </tr>
                     <tr>
-                        @php
-                            $day = date('Y-m-d H:i:s');
-                        @endphp
+                        {{ Illuminate\Support\Carbon::parse($newsletterSend->date_sending)
+                                    ->locale('es')
+                                    ->formatLocalized('%A %d de %B %Y') }}
                         <td align="right" style="color:{{ $dateTextColor }};padding: 15px 20px 25px 20px;font-family:sans-serif;font-size:14px;"><b>{{ Illuminate\Support\Carbon::parse($day)->formatLocalized('%A %d de %B %Y') }}</b></td>
                     </tr>
                     <tr>

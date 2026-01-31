@@ -1175,6 +1175,66 @@ php-security-checks:
 **Archivos Modificados:**
 - `.github/workflows/ci.yml` (reescrito completo)
 
+##### 22. Refactorización del Menú de Navegación (Público vs Privado)
+**Fecha:** 2026-01-27
+
+**Contexto:**
+El menú de navegación mostraba los mismos items (Quiénes Somos, Servicios, Clientes) tanto para visitantes como para clientes autenticados, lo cual no era relevante para usuarios logueados.
+
+**A. Lógica Condicional Implementada:**
+
+| Estado | Items del Menú |
+|--------|----------------|
+| **Visitante** | Inicio, Quiénes Somos, Servicios, Clientes, Contacto |
+| **Cliente Autenticado** | Dashboard, Mis Noticias, Reportes, Otras Secciones |
+| **Admin/Manager** | Panel Admin |
+
+**B. Mejoras en Menú Móvil (< 991px):**
+
+- Iconos Boxicons en cada item de navegación
+- Botón "Cerrar Sesión" al final del menú con estilo distintivo (rojo)
+- Logo del cliente como encabezado cuando está autenticado
+- Separador visual antes del logout
+
+**C. Componentes Visuales Nuevos:**
+
+```html
+<!-- Badge de compañía (desktop) -->
+<span class="user-company-badge">
+    <i class='bx bx-building'></i>
+    Nombre Empresa
+</span>
+
+<!-- Botón logout estilizado -->
+<button class="btn-saas-logout">
+    <i class='bx bx-log-out'></i>
+    Salir
+</button>
+```
+
+**D. Clases CSS Agregadas (theme-saas.css):**
+
+| Clase | Propósito |
+|-------|-----------|
+| `.client-logo-nav` | Logo del cliente en header |
+| `.nav-icon` | Iconos en items de navegación |
+| `.user-company-badge` | Badge con nombre de empresa |
+| `.btn-saas-logout` | Botón de cierre de sesión |
+| `.mobile-logout-item` | Item de logout en menú móvil |
+| `.logout-link` | Link de logout con estilo rojo |
+| `.header-authenticated` | Modificador para estilos de menú autenticado |
+
+**E. Comportamiento Responsive:**
+
+| Breakpoint | Comportamiento |
+|------------|----------------|
+| Desktop (≥992px) | Iconos ocultos, badge de empresa visible |
+| Tablet/Mobile (<992px) | Iconos visibles, menú vertical con logout |
+
+**Archivos Modificados:**
+- `resources/views/layouts/home-clientv3.blade.php` (lógica condicional)
+- `public/assets/clientv3/css/theme-saas.css` (estilos de menú autenticado)
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -1265,6 +1325,7 @@ public/assets/clientv3/css/
 | 2026-01-25 | Dashboard de cliente con Chart.js | Métricas visuales, multi-tenant security, UX ejecutiva |
 | 2026-01-26 | Módulo de reportes refactorizado | Seguridad multi-tenant, queries optimizadas, UI v3 |
 | 2026-01-27 | Migración de CodeQL a análisis PHP nativo | CodeQL no soporta PHP, usar composer audit + PHPStan |
+| 2026-01-27 | Menú condicional público/privado | UX diferenciada: visitantes ven marketing, clientes ven gestión |
 
 ---
 
@@ -1280,7 +1341,8 @@ public/assets/clientv3/css/
 8. **Módulo de reportes** usa sistema de cron por tamaño (small/medium/big), no migrar a Queue a menos que el volumen lo requiera
 9. **Vista `report.blade.php`** rediseñada con ApexCharts y estilos v3 - lista para producción
 10. **CI/CD actualizado** - CodeQL reemplazado por `php-security-checks` (composer audit + PHPStan nivel 5)
+11. **Menú de navegación** diferenciado: visitantes ven items públicos, clientes autenticados ven Dashboard/Noticias/Reportes
 
 ---
 
-*Última actualización: 2026-01-27 (CI/CD: CodeQL → PHP Security Analysis)*
+*Última actualización: 2026-01-27 (Menú navegación público/privado refactorizado)*
