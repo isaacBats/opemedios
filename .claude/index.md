@@ -26,6 +26,7 @@
 │   ├── OPE-003-covers-dashboard-reports.md
 │   ├── OPE-004-cicd-navigation.md
 │   ├── OPE-005-dashboard-fixes.md
+│   ├── OPE-006-staging-direct-refactor.md
 │   ├── PR-001-staging-initial.md
 │   └── PR-002-staging-refactor.md
 │
@@ -54,6 +55,7 @@
 | OPE-003 | Covers/Dashboard | 2026-01-26 | Covers, dashboard, reportes |
 | OPE-004 | CI/CD | 2026-01-27 | PHPStan, menú condicional |
 | OPE-005 | Dashboard Fixes | 2026-01-31 | Logo +30%, multi-tenant |
+| OPE-006 | Staging Direct Refactor | 2026-01-31 | UI/UX, seguridad, backend fixes |
 
 ## Pull Requests
 
