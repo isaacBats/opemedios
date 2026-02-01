@@ -85,13 +85,13 @@
     }
 
     .news-source-logo {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
         object-fit: contain;
-        padding: 0.5rem;
+        padding: 0.75rem;
         background: var(--ope-white);
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-sm);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
         border: 1px solid var(--ope-gray-200);
     }
 
@@ -518,8 +518,8 @@
         }
 
         .news-source-logo {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
         }
 
         .news-title {

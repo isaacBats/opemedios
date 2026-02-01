@@ -11,7 +11,7 @@
 | Aspecto | Estado |
 |---------|--------|
 | **Branch Activo** | `feature/theme-opemedios-v3` |
-| **Última Actualización** | 2026-01-30 |
+| **Última Actualización** | 2026-01-31 |
 | **Fase Actual** | Implementación del tema SaaS moderno v3 |
 
 ---
@@ -1328,6 +1328,105 @@ Escalado progresivo para evitar pixelación:
 - `public/assets/clientv3/css/theme-saas.css` (estilos de navegación)
 - `resources/views/layouts/home-clientv3.blade.php` (icono dropdown-caret)
 
+##### 24. Correcciones Críticas y Optimización de Identidad Visual
+**Fecha:** 2026-01-31
+
+**Contexto:**
+Corrección de errores de ejecución, restauración de seguridad multi-tenant y mejoras en la visibilidad de marca del cliente.
+
+**A. Corrección de Error `Str` Class Not Found:**
+
+**Archivo:** `resources/views/clients/report.blade.php` (línea 1044-1045)
+
+```php
+// ANTES (error):
+{{ Str::limit($note->title, 50) }}
+@if(strlen($note->title) > 50 ...
+
+// DESPUÉS (corregido):
+{{ \Illuminate\Support\Str::limit($note->title, 50) }}
+@if(\Illuminate\Support\Str::length($note->title) > 50 ...
+```
+
+**B. Incremento de Logo del Cliente (+30%):**
+
+**Archivo:** `public/assets/clientv3/css/theme-saas.css`
+
+| Resolución | Antes | Después |
+|------------|-------|---------|
+| Base (< 1200px) | 45px × 160px | 58px × 208px |
+| 1200px+ | 50px × 180px | 65px × 234px |
+| 1600px+ | 55px × 200px | 72px × 260px |
+| 1920px+ | 60px × 220px | 78px × 286px |
+
+**C. Incremento de Imágenes de Fuente (Source Logos):**
+
+**Archivo:** `resources/views/clients/mynews.blade.php`
+
+| Viewport | Antes | Después |
+|----------|-------|---------|
+| Desktop | 80×80px | 200×200px |
+| Mobile | 60×60px | 100×100px |
+
+Estilos adicionales: `border-radius: var(--radius-lg)`, `box-shadow: var(--shadow-sm)`, `padding: 1rem`
+
+**Archivo:** `resources/views/clients/shownew.blade.php`
+
+| Viewport | Antes | Después |
+|----------|-------|---------|
+| Desktop | 80×80px | 120×120px |
+| Mobile | 60×60px | 80×80px |
+
+Estilos adicionales: `border-radius: var(--radius-lg)`, `box-shadow: var(--shadow-md)`
+
+**D. Restauración de Seguridad Multi-Tenant:**
+
+**Archivo:** `app/Http/Controllers/ClientController.php`
+
+Añadida validación obligatoria de `company_id` en métodos que no la tenían:
+
+```php
+// Validación añadida a getCovers() y myNews()
+$user = auth()->user();
+$userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+if ($user->isClient() && $userCompanyId != $company->id) {
+    abort(403, 'No tiene permiso para acceder a esta sección.');
+}
+```
+
+| Método | Líneas | Estado |
+|--------|--------|--------|
+| `index()` | 57-61 | ✅ Ya existía |
+| `showNew()` | 153-160 | ✅ Ya existía |
+| `report()` | 268-271 | ✅ Ya existía |
+| `getCovers()` | 175-181 | ✅ **Añadido** |
+| `myNews()` | 221-227 | ✅ **Añadido** |
+
+**E. Verificación de Menú Móvil:**
+
+Confirmado funcionamiento correcto:
+- ✅ Botón "Cerrar Sesión" al final del menú móvil con icono `bx-log-out`
+- ✅ Secciones públicas (Servicios, Clientes) ocultas para usuarios autenticados
+- ✅ Menú privado muestra: Dashboard, Mis Noticias, Reportes, Otras Secciones
+
+**F. Archivos Modificados:**
+
+| Archivo | Cambios |
+|---------|---------|
+| `resources/views/clients/report.blade.php` | Fix Str namespace |
+| `public/assets/clientv3/css/theme-saas.css` | Logo +30%, comentarios actualizados |
+| `resources/views/clients/mynews.blade.php` | Source images 200×200px |
+| `resources/views/clients/shownew.blade.php` | Source images 120×120px |
+| `app/Http/Controllers/ClientController.php` | Multi-tenant en getCovers, myNews |
+
+**G. Archivos de PR Creados:**
+
+| Archivo | Propósito |
+|---------|-----------|
+| `.claude/pr-summary-staging.md` | PR summary original (v1) |
+| `.claude/pr-summary-staging-v2.md` | PR summary consolidado con todos los commits |
+
 ---
 
 ## Próximos Pasos Sugeridos
@@ -1420,6 +1519,8 @@ public/assets/clientv3/css/
 | 2026-01-27 | Migración de CodeQL a análisis PHP nativo | CodeQL no soporta PHP, usar composer audit + PHPStan |
 | 2026-01-27 | Menú condicional público/privado | UX diferenciada: visitantes ven marketing, clientes ven gestión |
 | 2026-01-30 | Micro-animaciones sobrias para navegación | UX corporativa profesional, transiciones de 0.3s, underline desde centro |
+| 2026-01-31 | Logo cliente +30% y source images ampliadas | Identidad de marca prioritaria, mejor visibilidad de fuentes |
+| 2026-01-31 | Multi-tenant obligatorio en todos los métodos | Seguridad: getCovers y myNews ahora validan company_id |
 
 ---
 
@@ -1437,7 +1538,11 @@ public/assets/clientv3/css/
 10. **CI/CD actualizado** - CodeQL reemplazado por `php-security-checks` (composer audit + PHPStan nivel 5)
 11. **Menú de navegación** diferenciado: visitantes ven items públicos, clientes autenticados ven Dashboard/Noticias/Reportes
 12. **Micro-animaciones v3** implementadas: underline que se expande desde el centro, dropdown-caret con rotación, logo escalado para alta resolución
+13. **Logo del cliente ampliado +30%** para mayor prominencia visual en header autenticado
+14. **Imágenes de fuente ampliadas**: mynews (200×200px), shownew (120×120px) para mejor visibilidad
+15. **Seguridad multi-tenant completa**: Todos los métodos de ClientController ahora validan company_id
+16. **PR Summary v2 disponible** en `.claude/pr-summary-staging-v2.md` con changelog consolidado
 
 ---
 
-*Última actualización: 2026-01-30 (Micro-animaciones de navegación y correcciones de estilo)*
+*Última actualización: 2026-01-31 (Correcciones críticas, identidad visual y seguridad multi-tenant)*

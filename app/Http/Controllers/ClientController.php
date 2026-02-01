@@ -169,6 +169,14 @@ class ClientController extends Controller
     {
         $type = $request->get('type');
         $company = Company::where('slug', $slug_company)->firstOrFail();
+
+        // Validación multi-tenant: verificar que el cliente tenga acceso a esta compañía
+        $user = auth()->user();
+        $userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+        if ($user->isClient() && $userCompanyId != $company->id) {
+            abort(403, 'No tiene permiso para acceder a esta sección.');
+        }
         $coverType = null;
         $title = '';
 
@@ -209,6 +217,14 @@ class ClientController extends Controller
 
     public function myNews(Request $request, Company $company)
     {
+        // Validación multi-tenant: verificar que el cliente tenga acceso a esta compañía
+        $user = auth()->user();
+        $userCompanyId = $user->metas()->where('meta_key', 'company_id')->first()?->meta_value;
+
+        if ($user->isClient() && $userCompanyId != $company->id) {
+            abort(403, 'No tiene permiso para acceder a las noticias de esta empresa.');
+        }
+
         $pagination = null !== $request->input('pagination') ? $request->input('pagination') : 15 ;
         $notesIds = AssignedNewsFilter::filter($request, compact('company'))->pluck('news_id');
         $news = NewsFilter::filter($request, ['ids' => $notesIds])

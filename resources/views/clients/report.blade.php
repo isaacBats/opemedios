@@ -1041,8 +1041,8 @@
                                     <a href="{{ route('client.shownew', ['id' => $note->id, 'company' => $company->slug]) }}"
                                        class="note-title tooltip-modern"
                                        target="_blank">
-                                        {{ Str::limit($note->title, 50) }}
-                                        @if(strlen($note->title) > 50 || $note->synthesis)
+                                        {{ \Illuminate\Support\Str::limit($note->title, 50) }}
+                                        @if(\Illuminate\Support\Str::length($note->title) > 50 || $note->synthesis)
                                             <span class="tooltip-text">{{ $note->synthesis ?: $note->title }}</span>
                                         @endif
                                     </a>

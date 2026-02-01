@@ -200,17 +200,18 @@
 
         .news-source {
             text-align: center;
-            min-width: 120px;
+            min-width: 200px;
         }
 
         .news-source img {
-            width: 80px;
-            height: 80px;
+            width: 200px;
+            height: 200px;
             object-fit: contain;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             background: var(--ope-gray-100);
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: var(--shadow-sm);
         }
 
         .news-source h4 {
@@ -354,12 +355,14 @@
                 align-items: center;
                 gap: 1rem;
                 text-align: left;
+                min-width: auto;
             }
 
             .news-source img {
-                width: 60px;
-                height: 60px;
+                width: 100px;
+                height: 100px;
                 margin-bottom: 0;
+                padding: 0.5rem;
             }
 
             .filter-row {
