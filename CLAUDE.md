@@ -4,39 +4,74 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## IMPORTANTE: Directorio .claude
+## Memory & Context Management
 
-**Antes de comenzar cualquier tarea, DEBES revisar el contenido del directorio `.claude/`:**
+### Prioridad de Lectura (Ahorro de Tokens)
+
+**Al inicio de CADA sesión, leer en este orden:**
+
+1. `.claude/active-session.md` - **PRIMERO** (trabajo en progreso)
+2. `.claude/index.md` - Inventario si necesitas contexto adicional
+3. `.claude/rules/ui-style.md` - Solo si la tarea es frontend
+
+**NO leer por defecto:**
+- `project-map.md` - Solo para estructura de carpetas
+- `history/OPE-*.md` - Solo si necesitas contexto histórico específico
+
+### Flujo de Trabajo
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  INICIO SESIÓN                                          │
+│  1. Leer active-session.md                              │
+│  2. Identificar tarea actual                            │
+│  3. Trabajar                                            │
+└─────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│  FIN DE TAREA                                           │
+│  1. Crear history/OPE-XXX-titulo.md con resumen         │
+│  2. Actualizar index.md                                 │
+│  3. Limpiar active-session.md                           │
+│  4. Definir siguiente tarea                             │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Regla de Eficiencia
+
+> **NUNCA** dejar logs extensos en active-session.md.
+> Máximo 50 líneas. Si excede, archivar en history/.
+
+---
+
+## Directorio .claude
 
 ```
 .claude/
-├── project-map.md            # Estado actual del proyecto y progreso
+├── index.md                  # Inventario maestro
+├── active-session.md         # Trabajo en progreso (LEER PRIMERO)
+├── project-map.md            # Arquitectura del proyecto
 ├── agents/
-│   ├── frontend-expert.md    # Estándares y guías de frontend
-│   └── backend-expert.md     # Estándares y guías de backend
+│   ├── frontend-expert.md    # Estándares frontend
+│   └── backend-expert.md     # Estándares backend
 ├── rules/
-│   └── ui-style.md           # Guía de estilos UI (FUENTE DE VERDAD)
+│   └── ui-style.md           # FUENTE DE VERDAD para UI
+├── history/                  # Tareas completadas
+│   └── OPE-XXX-titulo.md
 ├── doc/                      # Documentación adicional
-├── hooks/                    # Hooks personalizados
-└── sessions/                 # Logs de sesiones anteriores
+└── hooks/                    # Hooks personalizados
 ```
 
-### Archivos Obligatorios a Consultar
+### Archivos por Contexto
 
-| Archivo | Cuándo Consultarlo |
-|---------|-------------------|
-| `.claude/project-map.md` | **SIEMPRE** al inicio de cada sesión para conocer el estado actual |
-| `.claude/rules/ui-style.md` | Antes de cualquier trabajo de **frontend/UI** |
-| `.claude/agents/frontend-expert.md` | Para tareas de **frontend, CSS, Blade, Vue** |
-| `.claude/agents/backend-expert.md` | Para tareas de **PHP, Laravel, base de datos** |
-
-### Actualización del Project Map
-
-**Al finalizar cada funcionalidad o cambio significativo**, actualiza `.claude/project-map.md` con:
-- Resumen de lo realizado
-- Archivos creados/modificados
-- Decisiones técnicas tomadas
-- Próximos pasos sugeridos
+| Tarea | Leer |
+|-------|------|
+| Cualquiera | `active-session.md` |
+| Frontend/UI | `rules/ui-style.md` |
+| PHP/Laravel | `agents/backend-expert.md` |
+| CSS/Blade | `agents/frontend-expert.md` |
+| Contexto histórico | `history/OPE-*.md` específico |
 
 ---
 
