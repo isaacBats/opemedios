@@ -1,7 +1,7 @@
 # Índice del Directorio .claude
 
 > **Propósito:** Inventario maestro para navegación rápida
-> **Última actualización:** 2026-01-31
+> **Última actualización:** 2026-02-01
 
 ---
 
