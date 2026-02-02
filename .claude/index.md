@@ -1,7 +1,7 @@
 # Índice del Directorio .claude
 
 > **Propósito:** Inventario maestro para navegación rápida
-> **Última actualización:** 2026-02-01
+> **Última actualización:** 2026-02-02
 
 ---
 
@@ -27,6 +27,7 @@
 │   ├── OPE-004-cicd-navigation.md
 │   ├── OPE-005-dashboard-fixes.md
 │   ├── OPE-006-staging-direct-refactor.md
+│   ├── OPE-007-cost-management-system.md
 │   ├── PR-001-staging-initial.md
 │   └── PR-002-staging-refactor.md
 │
@@ -56,6 +57,7 @@
 | OPE-004 | CI/CD | 2026-01-27 | PHPStan, menú condicional |
 | OPE-005 | Dashboard Fixes | 2026-01-31 | Logo +30%, multi-tenant |
 | OPE-006 | Staging Direct Refactor | 2026-01-31 | UI/UX, seguridad, backend fixes |
+| OPE-007 | Cost Management System | 2026-02-02 | Rate model, CRUD, CSV import, autocompletado |
 
 ## Pull Requests
 
@@ -71,3 +73,4 @@
 1. **UI:** `rules/ui-style.md` es la fuente de verdad
 2. **Seguridad:** Multi-tenant obligatorio en ClientController
 3. **reCAPTCHA:** Claves v3 pendientes para producción
+4. **Tarifarios:** CSV master en `tarifario/master_tarifario_opemedios.csv`, acceso vía Catálogo > Tarifarios

@@ -1,21 +1,33 @@
 # Sesión Activa
 
-> **Última actualización:** 2026-02-01
-> **Branch:** `feature/theme-opemedios-v3`
+> **Última actualización:** 2026-02-02
+> **Branch:** `feature/news-cost-autocomplete`
 
 ---
 
 ## Estado Actual
 
-**Fase de Refactorización UI/Seguridad terminada.**
+**Sistema de Gestión de Costos completado e integrado (OPE-007).**
 
-✅ Logo cliente +30%
-✅ Miniaturas de fuente 200px
-✅ Multi-tenant en ClientController
-✅ Fix Str namespace
-✅ Paginación corregida
+✅ Modelo Rate con migración
+✅ CRUD administrativo completo
+✅ Importación masiva CSV (master_tarifario_opemedios.csv)
+✅ CostCalculatorService
+✅ API `/api/admin/rates/lookup`
+✅ Autocompletado en formularios de noticias
+✅ RateSeeder ejecutado (2,007 registros únicos)
+✅ Menú "Tarifarios" integrado en Catálogos del sidebar
+✅ Filtro de búsqueda por fuente en vista de tarifas
 
-**Log:** `history/OPE-006-staging-direct-refactor.md`
+**Log:** `history/OPE-007-cost-management-system.md`
+
+---
+
+## Acceso al Módulo de Tarifarios
+
+- **Ruta:** Catálogo > Tarifarios
+- **Importar CSV:** `/admin/tarifa/importar`
+- **Plantilla:** Botón "Descargar Plantilla" en vista de importación
 
 ---
 
@@ -25,13 +37,8 @@
 - [ ] Login y redirección
 - [ ] Dashboard con datos reales
 - [ ] Aislamiento entre compañías
-
-### 2. Auditoría de PDFs y Correos
-- `resources/views/mail/` - Templates
-- `app/Mail/` - Mailables
-- DomPDF - Generación de reportes
-
-**Estado:** Por iniciar
+- [ ] Probar CRUD de tarifas
+- [ ] Probar autocompletado en noticias
 
 ---
 

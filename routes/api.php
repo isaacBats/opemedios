@@ -23,5 +23,13 @@ Route::group([
     'middleware' => 'with_fast_api_key'
 ], function () {
     Route::post('/upload-pdf', [UploadPdfController::class, 'upload']);
+});
 
+// Admin API routes (require auth)
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => ['web', 'auth']
+], function () {
+    Route::get('/rates/lookup', [\App\Http\Controllers\RateController::class, 'lookup'])
+        ->name('api.rates.lookup');
 });

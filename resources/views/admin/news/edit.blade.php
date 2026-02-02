@@ -391,8 +391,58 @@
                     }).fail(function(res){
                         var divSelectSections = $('#div-select-sections-sources').html(`<p>No se pueden obtener las seciones de la fuente</p>`)
                         console.error(`Error-Sections: ${res.responseJSON.message}`)
-                    }) 
+                    })
             });
+
+            // Cost autocomplete - fetch rate when source/section changes
+            function fetchCostRate() {
+                var sourceId = $('#select-fuente').val()
+                var sectionId = $('#select-seccion').val()
+                var scope = $('#input-scope').val() || 0
+
+                if (!sourceId) {
+                    return
+                }
+
+                var params = {
+                    source_id: sourceId,
+                    section_id: sectionId,
+                    value: scope
+                }
+
+                $.get('/api/admin/rates/lookup', params, function(res) {
+                    if (res.success && res.price) {
+                        var costInput = $('#input-cost')
+                        var currentCost = costInput.val()
+
+                        // Only auto-fill if the field is empty or has a zero value
+                        if (!currentCost || parseFloat(currentCost) === 0) {
+                            costInput.val(res.price)
+                            costInput.addClass('bg-success-light')
+                            setTimeout(function() {
+                                costInput.removeClass('bg-success-light')
+                            }, 1500)
+                        }
+                    }
+                }).fail(function(err) {
+                    console.log('No se encontró tarifa para esta combinación')
+                })
+            }
+
+            // Trigger cost lookup when section changes
+            $('#div-select-sections-sources').on('change', '#select-seccion', function() {
+                fetchCostRate()
+            })
+
+            // Trigger cost lookup when source changes
+            $('#div-select-sources').on('change', '#select-fuente', function() {
+                setTimeout(fetchCostRate, 500)
+            })
+
+            // Trigger cost lookup when scope changes
+            $('#input-scope').on('change blur', function() {
+                fetchCostRate()
+            })
 
             // $('#textarea-sintesis').summernote({
             //     height: 200,
@@ -411,6 +461,10 @@
     <style>
         .row.item-note {
             margin-bottom: 20px;
+        }
+        .bg-success-light {
+            background-color: #d4edda !important;
+            transition: background-color 0.3s ease;
         }
     </style>
 @endsection

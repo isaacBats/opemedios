@@ -216,6 +216,19 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
     Route::post('seccion/eliminar/{id}', 'SectionController@delete')->name('section.delete');
     Route::post('seccion/estatus/{id}', 'SectionController@status')->name('section.status');
 
+    // Tarifas (Rates) - Solo admin y manager pueden ver costos operativos
+    Route::group(['middleware' => ['role:admin|manager']], function () {
+        Route::get('tarifas', 'RateController@index')->name('rates');
+        Route::get('tarifa/nueva', 'RateController@showForm')->name('rate.create');
+        Route::post('tarifa/nueva', 'RateController@create')->name('rate.create');
+        Route::get('tarifa/ver/{id}', 'RateController@show')->name('rate.show');
+        Route::post('tarifa/actualizar/{id}', 'RateController@update')->name('rate.update');
+        Route::post('tarifa/eliminar/{id}', 'RateController@delete')->name('rate.delete');
+        Route::get('tarifa/importar', 'RateImportController@showForm')->name('rate.import');
+        Route::post('tarifa/importar', 'RateImportController@upload')->name('rate.import.process');
+        Route::get('tarifa/plantilla', 'RateImportController@downloadTemplate')->name('rate.import.template');
+    });
+
     Route::get('noticias', 'NewsController@index')->name('admin.news');
     Route::get('noticias/nueva', 'NewsController@showForm')->name('admin.new.add');
     Route::post('noticias/nueva', 'NewsController@create')->name('admin.new.add');

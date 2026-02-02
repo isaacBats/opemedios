@@ -1,0 +1,2615 @@
+source_name,section_name,content_type,min_value,max_value,price,type
+Instagram,,post,200,500,5000.0,social
+Instagram,,story,200,500,3000.0,social
+Instagram,,reel,200,500,3000.0,social
+Instagram,,post,500,1000,6000.0,social
+Instagram,,story,500,1000,5000.0,social
+Instagram,,reel,500,1000,5000.0,social
+Instagram,,post,1000,3000,8000.0,social
+Instagram,,story,1000,3000,6000.0,social
+Instagram,,reel,1000,3000,6000.0,social
+Instagram,,post,3000,5000,10000.0,social
+Instagram,,story,3000,5000,8000.0,social
+Instagram,,reel,3000,5000,8000.0,social
+Instagram,,post,5000,8000,12000.0,social
+Instagram,,story,5000,8000,10000.0,social
+Instagram,,reel,5000,8000,10000.0,social
+Instagram,,post,8000,12000,14000.0,social
+Instagram,,story,8000,12000,12000.0,social
+Instagram,,reel,8000,12000,12000.0,social
+Instagram,,post,12000,15000,16000.0,social
+Instagram,,story,12000,15000,14000.0,social
+Instagram,,reel,12000,15000,14000.0,social
+Instagram,,post,15000,18000,18000.0,social
+Instagram,,story,15000,18000,16000.0,social
+Instagram,,reel,15000,18000,16000.0,social
+Instagram,,post,18000,22000,20000.0,social
+Instagram,,story,18000,22000,18000.0,social
+Instagram,,reel,18000,22000,18000.0,social
+Instagram,,post,22000,25000,22000.0,social
+Instagram,,story,22000,25000,20000.0,social
+Instagram,,reel,22000,25000,20000.0,social
+Instagram,,post,25000,30000,24000.0,social
+Instagram,,story,25000,30000,22000.0,social
+Instagram,,reel,25000,30000,22000.0,social
+Instagram,,post,30000,35000,26000.0,social
+Instagram,,story,30000,35000,24000.0,social
+Instagram,,reel,30000,35000,24000.0,social
+Instagram,,post,35000,40000,28000.0,social
+Instagram,,story,35000,40000,26000.0,social
+Instagram,,reel,35000,40000,26000.0,social
+Instagram,,post,40000,45000,30000.0,social
+Instagram,,story,40000,45000,28000.0,social
+Instagram,,reel,40000,45000,28000.0,social
+Instagram,,post,45000,50000,32000.0,social
+Instagram,,story,45000,50000,30000.0,social
+Instagram,,reel,45000,50000,30000.0,social
+Instagram,,post,50000,55000,34000.0,social
+Instagram,,story,50000,55000,32000.0,social
+Instagram,,reel,50000,55000,32000.0,social
+Instagram,,post,55000,60000,36000.0,social
+Instagram,,story,55000,60000,34000.0,social
+Instagram,,reel,55000,60000,34000.0,social
+Instagram,,post,60000,65000,38000.0,social
+Instagram,,story,60000,65000,36000.0,social
+Instagram,,reel,60000,65000,36000.0,social
+Instagram,,post,65000,70000,40000.0,social
+Instagram,,story,65000,70000,38000.0,social
+Instagram,,reel,65000,70000,38000.0,social
+Instagram,,post,70000,75000,42000.0,social
+Instagram,,story,70000,75000,40000.0,social
+Instagram,,reel,70000,75000,40000.0,social
+Instagram,,post,75000,80000,44000.0,social
+Instagram,,story,75000,80000,42000.0,social
+Instagram,,reel,75000,80000,42000.0,social
+Instagram,,post,80000,85000,46000.0,social
+Instagram,,story,80000,85000,44000.0,social
+Instagram,,reel,80000,85000,44000.0,social
+Instagram,,post,85000,100000,48000.0,social
+Instagram,,story,85000,100000,46000.0,social
+Instagram,,reel,85000,100000,46000.0,social
+Instagram,,post,100000,100500,50000.0,social
+Instagram,,story,100000,100500,48000.0,social
+Instagram,,reel,100000,100500,48000.0,social
+Instagram,,post,100500,200000,52000.0,social
+Instagram,,story,100500,200000,50000.0,social
+Instagram,,reel,100500,200000,50000.0,social
+Instagram,,post,200000,200500,54000.0,social
+Instagram,,story,200000,200500,52000.0,social
+Instagram,,reel,200000,200500,52000.0,social
+Instagram,,post,200500,300000,56000.0,social
+Instagram,,story,200500,300000,54000.0,social
+Instagram,,reel,200500,300000,54000.0,social
+Instagram,,post,300000,300500,58000.0,social
+Instagram,,story,300000,300500,56000.0,social
+Instagram,,reel,300000,300500,56000.0,social
+Instagram,,post,300500,400000,60000.0,social
+Instagram,,story,300500,400000,58000.0,social
+Instagram,,reel,300500,400000,58000.0,social
+Instagram,,post,400000,400500,62000.0,social
+Instagram,,story,400000,400500,60000.0,social
+Instagram,,reel,400000,400500,60000.0,social
+Instagram,,post,400500,500000,64000.0,social
+Instagram,,story,400500,500000,62000.0,social
+Instagram,,reel,400500,500000,62000.0,social
+Instagram,,post,500000,500500,66000.0,social
+Instagram,,story,500000,500500,64000.0,social
+Instagram,,reel,500000,500500,64000.0,social
+Instagram,,post,500500,600000,68000.0,social
+Instagram,,story,500500,600000,66000.0,social
+Instagram,,reel,500500,600000,66000.0,social
+Instagram,,post,600000,600500,70000.0,social
+Instagram,,story,600000,600500,68000.0,social
+Instagram,,reel,600000,600500,68000.0,social
+Instagram,,post,600500,700000,68000.0,social
+Instagram,,story,600500,700000,70000.0,social
+Instagram,,reel,600500,700000,70000.0,social
+Instagram,,post,700000,700500,70000.0,social
+Instagram,,story,700000,700500,72000.0,social
+Instagram,,reel,700000,700500,72000.0,social
+Instagram,,post,700500,800000,72000.0,social
+Instagram,,story,700500,800000,74000.0,social
+Instagram,,reel,700500,800000,74000.0,social
+Instagram,,post,800000,800500,74000.0,social
+Instagram,,story,800000,800500,76000.0,social
+Instagram,,reel,800000,800500,76000.0,social
+Instagram,,post,800500,900000,76000.0,social
+Instagram,,story,800500,900000,78000.0,social
+Instagram,,reel,800500,900000,78000.0,social
+Instagram,,post,900000,900500,78000.0,social
+Instagram,,story,900000,900500,80000.0,social
+Instagram,,reel,900000,900500,80000.0,social
+Facebook,,post,200,900,1500.0,social
+Facebook,,video,200,900,4000.0,social
+Facebook,,post,900,1500,2000.0,social
+Facebook,,video,900,1500,5000.0,social
+Facebook,,post,1500,3000,2500.0,social
+Facebook,,video,1500,3000,6000.0,social
+Facebook,,post,3000,5000,5000.0,social
+Facebook,,video,3000,5000,8000.0,social
+Facebook,,post,5000,8000,6000.0,social
+Facebook,,video,5000,8000,10000.0,social
+Facebook,,post,8000,10000,9000.0,social
+Facebook,,video,8000,10000,12000.0,social
+Facebook,,post,10000,12000,10000.0,social
+Facebook,,video,10000,12000,14000.0,social
+Facebook,,post,15000,18000,11000.0,social
+Facebook,,video,15000,18000,16000.0,social
+Facebook,,post,18000,25000,13000.0,social
+Facebook,,video,18000,25000,18000.0,social
+Facebook,,post,25000,35000,15000.0,social
+Facebook,,video,25000,35000,20000.0,social
+Facebook,,post,35000,40000,18000.0,social
+Facebook,,video,35000,40000,22000.0,social
+Facebook,,post,40000,45000,20000.0,social
+Facebook,,video,40000,45000,24000.0,social
+Facebook,,post,45000,50000,22000.0,social
+Facebook,,video,45000,50000,26000.0,social
+Facebook,,post,50000,60000,24000.0,social
+Facebook,,video,50000,60000,28000.0,social
+Facebook,,post,60000,70000,26000.0,social
+Facebook,,video,60000,70000,30000.0,social
+Facebook,,post,70000,80000,28000.0,social
+Facebook,,video,70000,80000,32000.0,social
+Facebook,,post,80000,90000,30000.0,social
+Facebook,,video,80000,90000,34000.0,social
+Facebook,,post,90000,100000,32000.0,social
+Facebook,,video,90000,100000,36000.0,social
+Facebook,,post,100000,150000,34000.0,social
+Facebook,,video,100000,150000,38000.0,social
+Facebook,,post,150000,170000,36000.0,social
+Facebook,,video,150000,170000,40000.0,social
+Facebook,,post,170000,200000,38000.0,social
+Facebook,,video,170000,200000,42000.0,social
+Facebook,,post,200000,300000,40000.0,social
+Facebook,,video,200000,300000,44000.0,social
+Facebook,,post,300000,400000,42000.0,social
+Facebook,,video,300000,400000,46000.0,social
+Facebook,,post,400000,500000,44000.0,social
+Facebook,,video,400000,500000,48000.0,social
+Facebook,,post,500000,600000,46000.0,social
+Facebook,,video,500000,600000,50000.0,social
+Facebook,,post,600000,700000,48000.0,social
+Facebook,,video,600000,700000,52000.0,social
+Facebook,,post,700000,800000,50000.0,social
+Facebook,,video,700000,800000,54000.0,social
+Facebook,,post,800000,900000,52000.0,social
+Facebook,,video,800000,900000,56000.0,social
+TikTok,,post,200,500,5000.0,social
+TikTok,,story,200,500,3000.0,social
+TikTok,,reel,200,500,3000.0,social
+TikTok,,post,500,1000,6000.0,social
+TikTok,,story,500,1000,5000.0,social
+TikTok,,reel,500,1000,5000.0,social
+TikTok,,post,1000,3000,8000.0,social
+TikTok,,story,1000,3000,6000.0,social
+TikTok,,reel,1000,3000,6000.0,social
+TikTok,,post,3000,5000,10000.0,social
+TikTok,,story,3000,5000,8000.0,social
+TikTok,,reel,3000,5000,8000.0,social
+TikTok,,post,5000,8000,12000.0,social
+TikTok,,story,5000,8000,10000.0,social
+TikTok,,reel,5000,8000,10000.0,social
+TikTok,,post,8000,12000,14000.0,social
+TikTok,,story,8000,12000,12000.0,social
+TikTok,,reel,8000,12000,12000.0,social
+TikTok,,post,12000,15000,16000.0,social
+TikTok,,story,12000,15000,14000.0,social
+TikTok,,reel,12000,15000,14000.0,social
+TikTok,,post,15000,18000,18000.0,social
+TikTok,,story,15000,18000,16000.0,social
+TikTok,,reel,15000,18000,16000.0,social
+TikTok,,post,18000,22000,20000.0,social
+TikTok,,story,18000,22000,18000.0,social
+TikTok,,reel,18000,22000,18000.0,social
+TikTok,,post,22000,25000,22000.0,social
+TikTok,,story,22000,25000,20000.0,social
+TikTok,,reel,22000,25000,20000.0,social
+TikTok,,post,25000,30000,24000.0,social
+TikTok,,story,25000,30000,22000.0,social
+TikTok,,reel,25000,30000,22000.0,social
+TikTok,,post,30000,35000,26000.0,social
+TikTok,,story,30000,35000,24000.0,social
+TikTok,,reel,30000,35000,24000.0,social
+TikTok,,post,35000,40000,28000.0,social
+TikTok,,story,35000,40000,26000.0,social
+TikTok,,reel,35000,40000,26000.0,social
+TikTok,,post,40000,45000,30000.0,social
+TikTok,,story,40000,45000,28000.0,social
+TikTok,,reel,40000,45000,28000.0,social
+TikTok,,post,45000,50000,32000.0,social
+TikTok,,story,45000,50000,30000.0,social
+TikTok,,reel,45000,50000,30000.0,social
+TikTok,,post,50000,55000,34000.0,social
+TikTok,,story,50000,55000,32000.0,social
+TikTok,,reel,50000,55000,32000.0,social
+TikTok,,post,55000,60000,36000.0,social
+TikTok,,story,55000,60000,34000.0,social
+TikTok,,reel,55000,60000,34000.0,social
+TikTok,,post,60000,65000,38000.0,social
+TikTok,,story,60000,65000,36000.0,social
+TikTok,,reel,60000,65000,36000.0,social
+TikTok,,post,65000,70000,40000.0,social
+TikTok,,story,65000,70000,38000.0,social
+TikTok,,reel,65000,70000,38000.0,social
+TikTok,,post,70000,75000,42000.0,social
+TikTok,,story,70000,75000,40000.0,social
+TikTok,,reel,70000,75000,40000.0,social
+TikTok,,post,75000,80000,44000.0,social
+TikTok,,story,75000,80000,42000.0,social
+TikTok,,reel,75000,80000,42000.0,social
+TikTok,,post,80000,85000,46000.0,social
+TikTok,,story,80000,85000,44000.0,social
+TikTok,,reel,80000,85000,44000.0,social
+TikTok,,post,85000,100000,48000.0,social
+TikTok,,story,85000,100000,46000.0,social
+TikTok,,reel,85000,100000,46000.0,social
+TikTok,,post,100000,100500,50000.0,social
+TikTok,,story,100000,100500,48000.0,social
+TikTok,,reel,100000,100500,48000.0,social
+TikTok,,post,100500,200000,52000.0,social
+TikTok,,story,100500,200000,50000.0,social
+TikTok,,reel,100500,200000,50000.0,social
+TikTok,,post,200000,200500,54000.0,social
+TikTok,,story,200000,200500,52000.0,social
+TikTok,,reel,200000,200500,52000.0,social
+TikTok,,post,200500,300000,56000.0,social
+TikTok,,story,200500,300000,54000.0,social
+TikTok,,reel,200500,300000,54000.0,social
+TikTok,,post,300000,300500,58000.0,social
+TikTok,,story,300000,300500,56000.0,social
+TikTok,,reel,300000,300500,56000.0,social
+TikTok,,post,300500,400000,60000.0,social
+TikTok,,story,300500,400000,58000.0,social
+TikTok,,reel,300500,400000,58000.0,social
+TikTok,,post,400000,400500,62000.0,social
+TikTok,,story,400000,400500,60000.0,social
+TikTok,,reel,400000,400500,60000.0,social
+TikTok,,post,400500,500000,64000.0,social
+TikTok,,story,400500,500000,62000.0,social
+TikTok,,reel,400500,500000,62000.0,social
+TikTok,,post,500000,500500,66000.0,social
+TikTok,,story,500000,500500,64000.0,social
+TikTok,,reel,500000,500500,64000.0,social
+TikTok,,post,500500,600000,68000.0,social
+TikTok,,story,500500,600000,66000.0,social
+TikTok,,reel,500500,600000,66000.0,social
+TikTok,,post,600000,600500,70000.0,social
+TikTok,,story,600000,600500,68000.0,social
+TikTok,,reel,600000,600500,68000.0,social
+TikTok,,post,600500,700000,68000.0,social
+TikTok,,story,600500,700000,70000.0,social
+TikTok,,reel,600500,700000,70000.0,social
+TikTok,,post,700000,700500,70000.0,social
+TikTok,,story,700000,700500,72000.0,social
+TikTok,,reel,700000,700500,72000.0,social
+TikTok,,post,700500,800000,72000.0,social
+TikTok,,story,700500,800000,74000.0,social
+TikTok,,reel,700500,800000,74000.0,social
+TikTok,,post,800000,800500,74000.0,social
+TikTok,,story,800000,800500,76000.0,social
+TikTok,,reel,800000,800500,76000.0,social
+TikTok,,post,800500,900000,76000.0,social
+TikTok,,story,800500,900000,78000.0,social
+TikTok,,reel,800500,900000,78000.0,social
+TikTok,,post,900000,900500,78000.0,social
+TikTok,,story,900000,900500,80000.0,social
+TikTok,,reel,900000,900500,80000.0,social
+X,,post,200,900,1500.0,social
+X,,video,200,900,4000.0,social
+X,,post,900,1500,2000.0,social
+X,,video,900,1500,5000.0,social
+X,,post,1500,3000,2500.0,social
+X,,video,1500,3000,6000.0,social
+X,,post,3000,5000,5000.0,social
+X,,video,3000,5000,8000.0,social
+X,,post,5000,8000,6000.0,social
+X,,video,5000,8000,10000.0,social
+X,,post,8000,10000,9000.0,social
+X,,video,8000,10000,12000.0,social
+X,,post,10000,12000,10000.0,social
+X,,video,10000,12000,14000.0,social
+X,,post,15000,18000,11000.0,social
+X,,video,15000,18000,16000.0,social
+X,,post,18000,25000,13000.0,social
+X,,video,18000,25000,18000.0,social
+X,,post,25000,35000,15000.0,social
+X,,video,25000,35000,20000.0,social
+X,,post,35000,40000,18000.0,social
+X,,video,35000,40000,22000.0,social
+X,,post,40000,45000,20000.0,social
+X,,video,40000,45000,24000.0,social
+X,,post,45000,50000,22000.0,social
+X,,video,45000,50000,26000.0,social
+X,,post,50000,60000,24000.0,social
+X,,video,50000,60000,28000.0,social
+X,,post,60000,70000,26000.0,social
+X,,video,60000,70000,30000.0,social
+X,,post,70000,80000,28000.0,social
+X,,video,70000,80000,32000.0,social
+X,,post,80000,90000,30000.0,social
+X,,video,80000,90000,34000.0,social
+X,,post,90000,100000,32000.0,social
+X,,video,90000,100000,36000.0,social
+X,,post,100000,150000,34000.0,social
+X,,video,100000,150000,38000.0,social
+X,,post,150000,170000,36000.0,social
+X,,video,150000,170000,40000.0,social
+X,,post,170000,200000,38000.0,social
+X,,video,170000,200000,42000.0,social
+X,,post,200000,300000,40000.0,social
+X,,video,200000,300000,44000.0,social
+X,,post,300000,400000,42000.0,social
+X,,video,300000,400000,46000.0,social
+X,,post,400000,500000,44000.0,social
+X,,video,400000,500000,48000.0,social
+X,,post,500000,600000,46000.0,social
+X,,video,500000,600000,50000.0,social
+X,,post,600000,700000,48000.0,social
+X,,video,600000,700000,52000.0,social
+X,,post,700000,800000,50000.0,social
+X,,video,700000,800000,54000.0,social
+X,,post,800000,900000,52000.0,social
+X,,video,800000,900000,56000.0,social
+15 A 20,,web,0,14268,28005.0,internet
+15 MINUTOS,,web,0,419,2255.0,internet
+12 NEWS,,web,0,10090,27755.0,internet
+13 CL,,web,0,19699,28505.0,internet
+20 MINUTOS.ES,,web,0,638434,76755.0,internet
+20 MINUTOS.MX,,web,0,548000,76755.0,internet
+24 HORAS,,web,0,133916,40005.0,internet
+24 HORAS PUEBLA,,web,0,669,3505.0,internet
+24 HORAS QUINTANA ROO,,web,0,938,4755.0,internet
+24 MEXCO,,web,0,1167,5505.0,internet
+24 SIETE,,web,0,7503,21505.0,internet
+3 MINUTOS INFORMA,,web,0,270,1505.0,internet
+365 NOTICIAS,,web,0,270,1505.0,internet
+3D JUEGOS,,web,0,121909,38755.0,internet
+4 VIENTOS,,web,0,710,3755.0,internet
+60 MINUTOS,,web,0,1002,5255.0,internet
+8 COLUMNAS,,web,0,569,3005.0,internet
+889 NOTICIAS,,web,0,7250,20755.0,internet
+MEXICO.AS.COM,,web,0,848648,76755.0,internet
+A 24 FILMS,,web,0,1612,6755.0,internet
+A BARLOVENTO INFORMA,,web,0,1509,6505.0,internet
+A FONDO,,web,0,10515,27755.0,internet
+A TIEMPO,,web,0,4335,13505.0,internet
+ABC.ES,,web,0,505905,76755.0,internet
+ABC NOTICIAS ,,web,0,15336,28255.0,internet
+ABRIENDO BRECHA,,web,0,128,755.0,internet
+ACENTO ,,web,0,323,1755.0,internet
+ACENTO RADIO,,web,0,300,1755.0,internet
+ACEPRENSA,,web,0,1789,7005.0,internet
+ACID MAGAZINE,,web,0,300,1755.0,internet
+ACIR ONLINE,,web,0,163,1005.0,internet
+ACN,,web,0,4710,14505.0,internet
+ACROPOLIS MULTIMEDIOS,,web,0,344,1755.0,internet
+ACTITUDFEM,,web,0,13585,28005.0,internet
+ALLEVENTS ,,web,0,139731,40505.0,internet
+ACTUAL MX,,web,0,977,5005.0,internet
+ACTUAL YUCATAN,,web,0,1048,5255.0,internet
+ACUSTIK NOTICIAS,,web,0,2116,8005.0,internet
+AD COLIMA,,web,0,330,1755.0,internet
+AD MAGAZINE,,web,0,14540,28005.0,internet
+AD NOTICIAS,,web,0,1612,6755.0,internet
+ADDICT WARE ,,web,0,9263,25755.0,internet
+ADICCION COMUNICACIÓN,,web,0,288,1505.0,internet
+ADN CULTURA,,web,0,363,2005.0,internet
+ADN DEPORTIVO,,web,0,1090,5255.0,internet
+ADN PORTAL ,,web,0,1948,7505.0,internet
+ADN SURESTE,,web,0,3028,10255.0,internet
+ADN 40,,web,0,27812,29505.0,internet
+AEI NOTICIAS,,web,0,956,5005.0,internet
+AFICION POLITICA,,web,0,1769,7005.0,internet
+AGENCIA-MEXICO,,web,0,1757,7005.0,internet
+AGENCIA HOY,,web,0,900,4755.0,internet
+AGENCIA INFORMATIVA DE MÉXICO,,web,0,1133,5505.0,internet
+AGENDA HIDALGUENSE,,web,0,796,4005.0,internet
+AGENDA TLAXCALA,,web,0,521,2755.0,internet
+AFN TIJUANA,,web,0,4839,14755.0,internet
+AGRONEWS CASTILLA Y LEÓN,,web,0,1469,6255.0,internet
+AS DEPORTE,,web,0,9000,25255.0,internet
+AGUAS DIGITAL,,web,0,2170,8005.0,internet
+AGUIJON MEDIOS,,web,0,10210815,76755.0,internet
+AHORA TABASCO,,web,0,673,3505.0,internet
+AL CALOR POLITICO,,web,0,8571,24005.0,internet
+A LA FUGA,,web,0,662,3505.0,internet
+AUDIOVISUAL 451,,web,0,1774,7005.0,internet
+AL CONTACTO,,web,0,3469,11255.0,internet
+AL GRANO MX,,web,0,1048,5255.0,internet
+AL MOMENTO,,web,0,10306,27755.0,internet
+AL SEGUNDO,,web,0,184,1005.0,internet
+AL TORRE,,web,0,720,3755.0,internet
+A LA FUGA,,web,0,662,3505.0,internet
+ALBAT,,web,0,26318,29255.0,internet
+ALCALDES DE MEXICO,,web,0,871,4505.0,internet
+ALEGATO,,web,0,370,2005.0,internet
+ALEPH MULTIMEDIOS,,web,0,450,2505.0,internet
+ALERTA QRO NOTICIAS,,web,0,1656,6755.0,internet
+ALERTA VIGILANTE,,web,0,250,1505.0,internet
+ALFA913.MX,,web,0,3716,12005.0,internet
+ALGARABIA,,web,0,5917,17505.0,internet
+ALIMARKET,,web,0,4099,12755.0,internet
+AL CHILE,,web,0,755,4005.0,internet
+AL CHILE POBLANO,,web,0,872,4505.0,internet
+ALL ACCES MEX,,web,0,2643,9255.0,internet
+ALL CITY CANVAS,,web,0,1619,6755.0,internet
+ALL GAMERS IN,,web,0,652,3505.0,internet
+ALL THINGS ANIME,,web,0,21322,28755.0,internet
+ALMANAQUE REVISTA,,web,0,350,2005.0,internet
+ALTERNANCIA ,,web,0,2211,8255.0,internet
+ALTERNATIVAMEX,,web,0,2000,7755.0,internet
+ALTERNAUTA,,web,0,628,3255.0,internet
+ALTERNOPOLIS,,web,0,986,5005.0,internet
+ALTINFO,,web,0,171,1005.0,internet
+ALTO NIVEL,,web,0,13464,28005.0,internet
+AM.COM.MX,,web,0,35272,30255.0,internet
+AM QUERETARO,,web,0,3549,11505.0,internet
+AMBULANTE,,web,0,1370,6005.0,internet
+AMCPMX,,web,0,11000,27755.0,internet
+AMERICA ECONOMIA,,web,0,20294,28755.0,internet
+AMERICA RETAIL,,web,0,11854,27755.0,internet
+AMERICA TV,,web,0,33741,30005.0,internet
+AMOR 101.3,,web,0,610,3255.0,internet
+ANAHUAC,,web,0,7860,22255.0,internet
+ANALISIS A FONDO,,web,0,604,3255.0,internet
+ANDRES LECHUGA,,web,0,125,755.0,internet
+ANGULO 7,,web,0,1903,7505.0,internet
+ANIMAL POLITICO,,web,0,37164,30255.0,internet
+ANMTV ,,web,0,4887,14755.0,internet
+ANTENA 125,,web,0,256,1505.0,internet
+ANTENA NOTICIAS,,web,0,309,1755.0,internet
+ANTENA SAN LUIS,,web,0,1179,5505.0,internet
+AMOR FM,,web,0,3789,12005.0,internet
+ANGEL METROPOLITANO,,web,0,2054,7755.0,internet
+ANGULAR 11-18,,web,0,120,755.0,internet
+ANMO SUGOI,,web,0,9534,26505.0,internet
+ANTON,,web,0,11473,27755.0,internet
+ANUIES,,web,0,3663,11755.0,internet
+AP NOTICIAS,,web,0,807361,76755.0,internet
+APOCALIPTIC,,web,0,1240,5755.0,internet
+APOLORAMA,,web,0,5816,17255.0,internet
+AQUINOTICIAS,,web,0,438,2255.0,internet
+AQUÍ EN MX,,web,0,276,1505.0,internet
+ARATA,,web,0,1333,6005.0,internet
+ARCH DAILY,,web,0,10576,27755.0,internet
+ARGON MEXICO,,web,0,156,1005.0,internet
+ARGUMENTO POLITICO,,web,0,3652,11755.0,internet
+ARISTEGUI NOTICIAS,,web,0,123060,39005.0,internet
+ARQUINE,,web,0,3216,10755.0,internet
+ARRIBA EL CAMPO,,web,0,142,755.0,internet
+ARROBA NOTICIAS,,web,0,702,3755.0,internet
+ARTE INFORMADO,,web,0,13287,28005.0,internet
+ARTE Y CULTURA,,web,0,475,2505.0,internet
+ARTES 9,,web,0,794,4005.0,internet
+ARTISHOCK,,web,0,1197,5505.0,internet
+ARENA PUBLICA,,web,0,3253,10755.0,internet
+ARTS & CRAFTS,,web,0,265,1505.0,internet
+ARTSY,,web,0,77417,34255.0,internet
+AS.COM,,web,0,1848643,76755.0,internet
+ASÍ ES LA NOTA,,web,0,860,4505.0,internet
+ASI SE DICE,,web,0,120,755.0,internet
+ASI SUCEDE,,web,0,1401,6255.0,internet
+ATAQUE SENSACIONAL,,web,0,180,1005.0,internet
+ATIZAPÁN DE ZARAGOZA ,,web,0,1167,5505.0,internet
+ATB DIGITAL,,web,0,3155,10505.0,internet
+ATOMIX,,web,0,9331,26005.0,internet
+ATRACCION 360,,web,0,7138,20505.0,internet
+AUTO COSMOS,,web,0,17061,28255.0,internet
+AUTOBILD,,web,0,19460,28505.0,internet
+AUTOS BLOG,,web,0,195,1005.0,internet
+AVC NOTICIAS,,web,0,1202,5755.0,internet
+AVENIDA JUAREZ,,web,0,250,1505.0,internet
+AVENTURAS NERD,,web,0,371,2005.0,internet
+AVIVERACRUZ,,web,0,646,3255.0,internet
+AZ NOTICIAS,,web,0,396,2005.0,internet
+AZTECA AMERICA,,web,0,3284,10755.0,internet
+AZTECA DIGITAL,,web,0,85940,35255.0,internet
+BAE NEGOCIOS,,web,0,23009,29005.0,internet
+BAJA PRESS,,web,0,227,1255.0,internet
+BAJO PALABRA,,web,0,2769,9505.0,internet
+BARRA INFORMATIVA,,web,0,2179,8005.0,internet
+BANDAMAX,,web,0,655,3505.0,internet
+BASTARDO CRONICO,,web,0,10210815,76755.0,internet
+BB MUNDO,,web,0,1778,7005.0,internet
+BBC MUNDO,,web,0,9951577,76755.0,internet
+BBVA,,web,0,167300,43255.0,internet
+BEHIND GAMING,,web,0,600,3255.0,internet
+BEKIA,,web,0,13861,28005.0,internet
+BBM NOTICIAS,,web,0,310,1755.0,internet
+BC TRIBUNE,,web,0,85,550.0,internet
+BCS NOTICIAS,,web,0,5396,16005.0,internet
+BEAT1009.COM.MX,,web,0,1248,5755.0,internet
+BEREA INTERNACIONAL,,web,0,120,400.0,internet
+BIENESTAR AL DIA,,web,0,169,1005.0,internet
+BIG BANG MÉXICO,,web,0,1429,6255.0,internet
+BILLIE PARKER,,web,0,1039,800.0,internet
+BI NOTICIAS,,web,0,6014,17755.0,internet
+BITACORA CDMX,,web,0,105,755.0,internet
+BIG SHOT MEDIA,,web,0,767,4005.0,internet
+BJ MEDIOS,,web,0,1810,7255.0,internet
+BLACK CLINIC,,web,0,170,400.0,internet
+BILLBOARD,,web,0,213816,48005.0,internet
+BLACK DISTRITO,,web,0,4531,14005.0,internet
+BLACK MAGAZINE,,web,0,1200,5755.0,internet
+BLASTING NEWS,,web,0,30157,29755.0,internet
+BLEU & BLANC,,web,0,3532,11505.0,internet
+BLEUFIUFIU,,web,0,150,400.0,internet
+BLOG EXPEDIENTE,,web,0,150,500.0,internet
+BLURADIO,,web,0,62731,33005.0,internet
+BOGART MAGAZINE,,web,0,267,1505.0,internet
+BOLA VIP,,web,0,143666,41005.0,internet
+BOLLO NEGRO,,web,0,307,1755.0,internet
+BLOG DEL REGIO,,web,0,3129,10505.0,internet
+BOLSAMANIA,,web,0,22710,29005.0,internet
+BOMBANOISE,,web,0,538,2755.0,internet
+BONUS STAGE,,web,0,137,755.0,internet
+BOOMGERS,,web,0,192,1005.0,internet
+BOTECH NEWS,,web,0,1573,6505.0,internet
+BUZZ FEED,,web,0,1093826,76755.0,internet
+BROOO TV,,web,0,680,1800.0,internet
+BRUJULA NOTICIAS,,web,0,250,800.0,internet
+BRUNOTICIAS,,web,0,1246,5755.0,internet
+BURO 24 7,,web,0,648,3255.0,internet
+BUSINESS LOCKER,,web,0,353,2005.0,internet
+BUSINESS INSIDER MEXICO,,web,0,22784,29005.0,internet
+BUTACA ANCHA,,web,0,1333,6005.0,internet
+BUZOS,,web,0,1599,6505.0,internet
+CABECERA,,web,0,783,4005.0,internet
+CABINA M RADIO,,web,0,120,755.0,internet
+CABO MIL,,web,0,306,1755.0,internet
+CAILEGDL,,web,0,10210815,76755.0,internet
+C SIETE,,web,0,79,550.0,internet
+CADENA NOTICIAS,,web,0,2070,7755.0,internet
+CADENA POLITICA,,web,0,3785,12005.0,internet
+CADENA SUR MULTIMEDIOS,,web,0,277,1505.0,internet
+CAFÉ NEGRO PORTAL,,web,0,8808,24755.0,internet
+CALIBRE 800,,web,0,143,755.0,internet
+CAMBIO 21,,web,0,296,1505.0,internet
+CAMBIO 22,,web,0,2428,8755.0,internet
+CAMBIO DE MICHOACAN,,web,0,5950,17505.0,internet
+CAMBIO DIGITAL,,web,0,1912,7505.0,internet
+CAMPECHE HOY,,web,0,3093,10255.0,internet
+CANAL FREAK,,web,0,1415,6255.0,internet
+CANAL RCN,,web,0,76571,34255.0,internet
+CANCUN ACTIVO,,web,0,883,4505.0,internet
+CANAL 10,,web,0,676,3505.0,internet
+CANAL 22,,web,0,3178,10505.0,internet
+CANAL 44,,web,0,4821,14755.0,internet
+CANAL 66,,web,0,976,5005.0,internet
+CANAL 7 SLP,,web,0,8160,23005.0,internet
+CANAL DE CONGRESO,,web,0,715,1900.0,internet
+CANAL ENPOPADOS,,web,0,1200,1900.0,internet
+CANCHA GENERAL,,web,0,781,4005.0,internet
+CANICA REVISTA,,web,0,498606,76505.0,internet
+CAPITAL 21,,web,0,800,2300.0,internet
+CAPITAL CDMX,,web,0,539,2755.0,internet
+CAPITAL COAHUILA,,web,0,841,4255.0,internet
+CAPITAL EDO MEX,,web,0,1013,5255.0,internet
+CAPITAL GAMING,,web,0,1767,7005.0,internet
+CAPITAL MEXICO,,web,0,7189,20505.0,internet
+CAPITAL MOVIE,,web,0,9677,26755.0,internet
+CAPITAL MUJER,,web,0,1500,6505.0,internet
+CAPITAL QUERETARO ,,web,0,692,3505.0,internet
+CANARIAS 7,,web,0,10004,27755.0,internet
+CARACOL TV,,web,0,101407,36755.0,internet
+CARAS,,web,0,3592,11505.0,internet
+CARMANIA,,web,0,579,3005.0,internet
+CARRERAS EN VIVO,,web,0,704,3755.0,internet
+CANAL NUESTRA TELE,,web,0,938,4755.0,internet
+CARTELERA DE TEATRO,,web,0,6320,18505.0,internet
+CAVES GIRLS,,web,0,482,2505.0,internet
+CAZA OFERTAS,,web,0,3863,12255.0,internet
+CBTELEVISION,,web,0,2623,9255.0,internet
+CCEMX,,web,0,1078,5255.0,internet
+CCK NEWS,,web,0,400,1750.0,internet
+CDJ.COM.MX,,web,0,695,3505.0,internet
+CDNOTICIAS,,web,0,657,3505.0,internet
+CEEF,,web,0,180,1005.0,internet
+CELEBRITEEN,,web,0,120,755.0,internet
+CELULOIDE DIGITAL,,web,0,324,1755.0,internet
+CENTRAL DE NOTICIAS,,web,0,120,755.0,internet
+CENTRAL FM,,web,0,2723,9505.0,internet
+CENTRAL ND,,web,0,10210815,76755.0,internet
+CENTRAL WEB,,web,0,3616,11755.0,internet
+CENTRO DE CAPACITACION CINEMATOGRAFICA,,web,0,367,2005.0,internet
+CENTRO URBANO,,web,0,568,3005.0,internet
+CENTURIA,,web,0,728,3755.0,internet
+CG NOTICIAS,,web,0,125,755.0,internet
+CHAANPAL NEWS,,web,0,11818,27755.0,internet
+CHANBOOX,,web,0,928,4755.0,internet
+CHANGO ONGA,,web,0,9616,26755.0,internet
+CHAPINTV,,web,0,229758,49505.0,internet
+CHIAPAS DIGITAL,,web,0,150,1005.0,internet
+CHIAPAS PARALELO,,web,0,3216,10755.0,internet
+CHIC MAGAZINE,,web,0,20980,28755.0,internet
+CHICA NOTICIAS,,web,0,7029,20255.0,internet
+CHIDAS MX,,web,0,514,2755.0,internet
+CHILANGO,,web,0,117321,38255.0,internet
+CHISMES TODAY,,web,0,943,4755.0,internet
+CHISMORREO POLITICO,,web,0,350,1040.0,internet
+CHISPA TV,,web,0,18229,28505.0,internet
+CHIVAS PASION,,web,0,143666,41005.0,internet
+CIBERSEGURIDAD LATAM,,web,0,174,1005.0,internet
+CIEN GARAGE,,web,0,541,2755.0,internet
+CINCO DIAS,,web,0,1525491,76755.0,internet
+CINCO RADIO,,web,0,1170,5505.0,internet
+CINE CASSETTE,,web,0,373,2005.0,internet
+CIEN RADIOS,,web,0,126159,39255.0,internet
+CIBER CUBA,,web,0,2525,9005.0,internet
+CINE 3,,web,0,2861,9755.0,internet
+CINE DE GENERO LATINOAMERICANO,,web,0,250,1505.0,internet
+CINEDOT,,web,0,2260,8255.0,internet
+CINE FAGIA,,web,0,897,4505.0,internet
+CINE FANS,,web,0,350,1005.0,internet
+CINE FOLIO,,web,0,450,1850.0,internet
+CINE GARAGE,,web,0,1353,6005.0,internet
+CINE GEEK,,web,0,373,2005.0,internet
+CINE GURU,,web,0,781,3505.0,internet
+CINE INFORMACIÓN,,web,0,610,3255.0,internet
+CINE MALL,,web,0,452,2505.0,internet
+CINE MÁS COMICS,,web,0,10872,27755.0,internet
+CINE NT,,web,0,430,2255.0,internet
+CINE OCULTO,,web,0,1684,6755.0,internet
+CINE PREMIERE,,web,0,10368,27755.0,internet
+CINE RKREO,,web,0,155,1005.0,internet
+CINE SIN FRONTERAS,,web,0,379,2005.0,internet
+CINEASTAS,,web,0,359,2005.0,internet
+CINEFILIA,,web,0,2296,8255.0,internet
+CINEFILOS,,web,0,3556,11505.0,internet
+CINEFRAME,,web,0,159,1005.0,internet
+CINEFX DIGITAL,,web,0,150,1005.0,internet
+CINEMAS DEL COUNTRY,,web,0,186,1005.0,internet
+CINEMA MOVIL,,web,0,842,1390.0,internet
+CINEMA SATURNO,,web,0,500,1005.0,internet
+CINEMA WORLD,,web,0,642,1005.0,internet
+CINEMANIA,,web,0,780,2350.0,internet
+CINEMANIATICOS,,web,0,268,1505.0,internet
+CINEMANET,,web,0,961,5005.0,internet
+CINEMAGIC,,web,0,829,4255.0,internet
+CINEMEDIOS,,web,0,3861,12255.0,internet
+CINEMEX,,web,0,71677,33755.0,internet
+CINETOP,,web,0,350,2005.0,internet
+CINETECA NACIONAL,,web,0,7637,21755.0,internet
+CINEPOLIS,,web,0,94594,36005.0,internet
+CINES DE MEXICO,,web,0,900,1400.0,internet
+CINES PALAFOX,,web,0,1789,7005.0,internet
+CINESPACIO24,,web,0,489,2505.0,internet
+CINESCOPIA,,web,0,941,4755.0,internet
+CINEXPLICACION,,web,0,105,755.0,internet
+CINEXTASIS,,web,0,100,450.0,internet
+CIO NOTICIAS,,web,0,2762,9505.0,internet
+CIRCULO INFORMATIVO,,web,0,374,2005.0,internet
+CIRCULO MIX UP,,web,0,620,1980.0,internet
+CIRCULO POSTAL,,web,0,164,1005.0,internet
+CIRCULO PLUS SANBORNS,,web,0,226,1255.0,internet
+CISION,,web,0,267886,53505.0,internet
+CITICINEMAS,,web,0,2200,8255.0,internet
+CIUDAD Y PODER,,web,0,2202,8255.0,internet
+CIUDAD TRENDY ,,web,0,104,755.0,internet
+CIUDADANIA EXPRESS,,web,0,1720,7005.0,internet
+CIUDADANOS POR MEXICO,,web,0,1038,5255.0,internet
+CLARIN,,web,0,890672,76755.0,internet
+CLARIN VERACRUZANO,,web,0,1025,5255.0,internet
+CLARO ENTRETENIMIENTO,,web,0,6289,18255.0,internet
+CLARO SPORTS,,web,0,10579,27755.0,internet
+CLASE TURISTA,,web,0,498,2505.0,internet
+CLASICO,,web,0,420,1255.0,internet
+CLAUDIA PERALTA,,web,0,452,2505.0,internet
+CLIMAX MX,,web,0,750,1255.0,internet
+CLOSEUP,,web,0,248,1255.0,internet
+CLUB JURIDICO,,web,0,248,1255.0,internet
+CN TAMAULIPAS,,web,0,570,3005.0,internet
+COAHUILA CULTURA,,web,0,350,1505.0,internet
+COAHUILA HOY,,web,0,345,1755.0,internet
+COBERTURA 360,,web,0,1644,6755.0,internet
+CODICE INFORMATIVO,,web,0,2579,9005.0,internet
+CODIGO DELICIAS,,web,0,1324,6005.0,internet
+CODIGO ESPORTS,,web,0,7576,21505.0,internet
+CODIGO MAGENTA,,web,0,2448,8755.0,internet
+CODIGO QRO,,web,0,1755,7005.0,internet
+CODIGO RADIO,,web,0,4009,12755.0,internet
+CODIGO SAN LUIS,,web,0,5408,16255.0,internet
+CODIGO SPAGUETI,,web,0,21959,28755.0,internet
+CODIGO TLAXCALA,,web,0,803,4255.0,internet
+CODIGO TRES,,web,0,915,4755.0,internet
+COLIMA AL DÍA,,web,0,330,1755.0,internet
+COLIMA DIGITAL,,web,0,585,2000.0,internet
+COLIMA NOTICIAS,,web,0,8952,25005.0,internet
+COLIMA PM,,web,0,524,2300.0,internet
+COLIMA XXI,,web,0,350,2005.0,internet
+COLLECTIBLE 506,,web,0,2880,9755.0,internet
+COMING SOON,,web,0,48361,31505.0,internet
+COMPRA MODA NACIONAL,,web,0,1093,5255.0,internet
+COMSCORE,,web,0,15504,28255.0,internet
+COMUNICACIÓN SOCIAL,,web,0,294184,56005.0,internet
+COMUNICARSE WEB,,web,0,2461,8755.0,internet
+COMUNIDAD BLOGGER,,web,0,1487,6255.0,internet
+CON LOS OJOS ABIERTOS,,web,0,656,3505.0,internet
+CON LUPA,,web,0,222,1255.0,internet
+CONACYT,,web,0,606,3255.0,internet
+CONCENTRADO NOTICIAS,,web,0,397,2005.0,internet
+CONCEPTO RADIAL,,web,0,466,2505.0,internet
+CONCIENCIA PUBLICA,,web,0,514,2755.0,internet
+CONEXION 360,,web,0,1494,6255.0,internet
+CONEXION ROCK,,web,0,708,2560.0,internet
+CONFIDENCIAL,,web,0,461181,72755.0,internet
+CONGRESO ZAC,,web,0,3836,9800.0,internet
+CONSALUD.ES,,web,0,6396,18505.0,internet
+CONSOLIDACION HOY,,web,0,778,4005.0,internet
+CONTACTO 1190,,web,0,220,1255.0,internet
+CONTACTO HOY,,web,0,1564,6505.0,internet
+CONTENIDO,,web,0,134,755.0,internet
+CONTEXTO COLIMA,,web,0,1205,5755.0,internet
+CONTEXTO DE DURANGO,,web,0,248,1255.0,internet
+CONTEXTO TUCUMAN,,web,0,22990,29005.0,internet
+CONTRAMURO,,web,0,2779,9505.0,internet
+CONTRA REPLICA,,web,0,6665,19255.0,internet
+CONTRAPARTE,,web,0,765,4005.0,internet
+CONTRAPUNTO NOTICIAS,,web,0,2225,8255.0,internet
+CONTRASTE TLAXCALA,,web,0,146,755.0,internet
+CONTRASTES DE PUEBLA,,web,0,627,3255.0,internet
+COOLBITES,,web,0,2157,8005.0,internet
+COOLDEE,,web,0,450,1250.0,internet
+COOLHUNTER,,web,0,5361,16005.0,internet
+COOLTOURARTE,,web,0,250,1505.0,internet
+COOLTURE,,web,0,1688,6755.0,internet
+CORAT,,web,0,1649,6755.0,internet
+CORRE CAMARA,,web,0,1927,7505.0,internet
+COPAS Y CORCHOS,,web,0,1668,6755.0,internet
+CORRIENTES HOY,,web,0,9932,27505.0,internet
+COSMOHITS,,web,0,308,1755.0,internet
+COSMOPOLITAN ESPAÑOL,,web,0,3357,11005.0,internet
+COSTA VERACRUZ,,web,0,436,2255.0,internet
+CREA CUERVOS,,web,0,621,3255.0,internet
+CRITERIO HIDALGO,,web,0,10336,27755.0,internet
+CRONICA AR,,web,0,641998,76755.0,internet
+CRONICA PY,,web,0,12106,27755.0,internet
+CRONICA DE CHIHUAHUA,,web,0,1893,7255.0,internet
+CRONICA DE OAXACA,,web,0,569,3005.0,internet
+CRONICA DE XALAPA,,web,0,489,2505.0,internet
+CRONICA DEL PODER,,web,0,2584,9005.0,internet
+CRONICA HIDALGO,,web,0,628,3255.0,internet
+CRONICA JALISCO,,web,0,1850,7255.0,internet
+CRONICA MORELOS,,web,0,399,2005.0,internet
+CRONICA PUEBLA,,web,0,1307,6005.0,internet
+CRONICA SONORA,,web,0,410,2255.0,internet
+CRUNCHYROLL,,web,0,2114929,76755.0,internet
+CSC NOTICIAS,,web,0,688,3505.0,internet
+CUARTEL DEL METAL,,web,0,3279,10755.0,internet
+CUARTO OSCURO,,web,0,27308,29255.0,internet
+CUARTO PODER,,web,0,7222,20755.0,internet
+CUARTO PODER MICHOACAN,,web,0,300,1755.0,internet
+CUATRO BASTARDOS,,web,0,1637,6755.0,internet
+CUBRE MX,,web,0,862,2505.0,internet
+CDMX GOB,,web,0,4009,12755.0,internet
+CULTURA EMPRESARIAL,,web,0,2810,9755.0,internet
+CULTURA CDMX,,web,0,4009,12755.0,internet
+CULTURA CENTRO OCCIDENTE,,web,0,2778,6700.0,internet
+CULTURA COLECTIVA,,web,0,35314,30255.0,internet
+CULTURA GEEK,,web,0,4294,13255.0,internet
+CULTURA UDG,,web,0,54250,32005.0,internet
+CULTURA ROCK MAGAZINE,,web,0,10210815,76755.0,internet
+CULTURA OCIO,,web,0,8116,23005.0,internet
+COSAS,,web,0,364,2005.0,internet
+CULTURA UNAM,,web,0,498606,76505.0,internet
+CURSOR EN LA NOTICIA,,web,0,1027,5255.0,internet
+CCONOTICIAS,,web,0,1823,7255.0,internet
+CNT TAMAULIPAS,,web,0,570,3005.0,internet
+CGC,,web,0,11409,27755.0,internet
+CYBER MEXICO,,web,0,15538,28255.0,internet
+CYD NOTICIAS,,web,0,350,2005.0,internet
+D PODER A PODER,,web,0,955,5005.0,internet
+D10,,web,0,32016,29755.0,internet
+DAEMONIACA,,web,0,15000,28255.0,internet
+DAILY TREND,,web,0,296,1505.0,internet
+DAILY ZONE,,web,0,680,3505.0,internet
+DATA INFOX,,web,0,452,2505.0,internet
+DDMBJ,,web,0,785,4005.0,internet
+DE CINE 21,,web,0,7550,21505.0,internet
+DEUSEX MAGNIFICA,,web,0,450,1200.0,internet
+DEBY BEARD,,web,0,214,1255.0,internet
+DE FAMOSOS,,web,0,4209,13255.0,internet
+DE PASEO,,web,0,2847,9755.0,internet
+DE PESO YUCATAN,,web,0,2780,9505.0,internet
+DE POLITICA Y ALGO MAS,,web,0,709,3755.0,internet
+DE ROCANROL,,web,0,350,2005.0,internet
+DE ÚLTIMO MINUTO,,web,0,3128,10505.0,internet
+DE10.COM,,web,0,19819,28505.0,internet
+DEBATE,,web,0,87212,35255.0,internet
+DEPOR.COM,,web,0,118928,38505.0,internet
+DESCONSOLADOS,,web,0,688,3505.0,internet
+DESDE EL BALCON,,web,0,587,3005.0,internet
+DESDE LA CUNA,,web,0,5515,16505.0,internet
+DESDE PUEBLA,,web,0,1138,5505.0,internet
+DESINFORMEMONOS ,,web,0,1647,6755.0,internet
+DESOKUPADOS,,web,0,280,1505.0,internet
+DESPERTAR DE TAMAULIPAS,,web,0,415,2255.0,internet
+DESSIGNARE,,web,0,509,1755.0,internet
+DE PESO,,web,0,7471,21255.0,internet
+DG CINE,,web,0,42,400.0,internet
+DIABETES BIENESTAR Y SALUD,,web,0,123,755.0,internet
+DIAGONAL SPORTS,,web,0,211,1255.0,internet
+DIARIO 21,,web,0,925,4755.0,internet
+DIARIO 26,,web,0,1833,7255.0,internet
+DIARIO ABC,,web,0,546038,76755.0,internet
+DIARIO AL MOMENTO,,web,0,488,2505.0,internet
+DIARIO AMANECER,,web,0,481,2505.0,internet
+DIARIO AVANZADA,,web,0,98331,36505.0,internet
+DIARIO BASTA,,web,0,9550,26505.0,internet
+DIARIO CAMBIO,,web,0,22766,29005.0,internet
+DIARIO CORREO PE,,web,0,31905,29755.0,internet
+DIARIO DE ANTEQUERA,,web,0,100,755.0,internet
+DIARIO DE CUYO,,web,0,35036,30255.0,internet
+DIARIO DE CAMPECHE,,web,0,3663,11755.0,internet
+DIARIO DE CHIAPAS,,web,0,4254,13255.0,internet
+DIARIO DE COLIMA,,web,0,2688,9255.0,internet
+DIARIO DE CONFIANZA,,web,0,1577,6505.0,internet
+DIARIO DE LAREDO,,web,0,371,2005.0,internet
+DIARIO DE MEXICO,,web,0,26523,29255.0,internet
+DIARIO DE MORELOS,,web,0,26040,29255.0,internet
+DIARIO DE ORIENTE,,web,0,1766,7005.0,internet
+DIARIO DE PALENQUE,,web,0,2360,8505.0,internet
+DIARIO DE QUERETARO,,web,0,10038,27755.0,internet
+DIARIO DE QUINTANA ROO,,web,0,2525,9005.0,internet
+DIARIO DE TABASCO,,web,0,1150,5505.0,internet
+DIARIO DE TIJUANA,,web,0,1687,6755.0,internet
+DIARIO DE VICTORIA,,web,0,60806,32755.0,internet
+DIARIO VIVO,,web,0,402,2255.0,internet
+DIARIO DE XALAPA,,web,0,6626,19255.0,internet
+DIARIO DE YUCATÁN,,web,0,47479,31255.0,internet
+DIARIO DEL ISTMO,,web,0,2037,7755.0,internet
+DIARIO DEL SUR,,web,0,1520,6505.0,internet
+DIARIO DEL YAQUI,,web,0,2602,9255.0,internet
+DIARIO DF,,web,0,29799,29505.0,internet
+DIARIO EL COMUNAL,,web,0,1256,5755.0,internet
+DIARIO EL MAÑANERO,,web,0,4879,14755.0,internet
+DIARIO EL MUNDO,,web,0,1609812,76755.0,internet
+DIARIO EYIPANTLA MILENIO,,web,0,1234,5755.0,internet
+DIARIO IMAGEN NET,,web,0,2705,9505.0,internet
+DIARIO JUDIO,,web,0,3669,11755.0,internet
+DIARIO LA VERDAD,,web,0,52052,31755.0,internet
+DIARIO LIBRE,,web,0,112729,38005.0,internet
+DIARIO LAS AMERICAS,,web,0,9023,25255.0,internet
+DIARIO MOMENTO,,web,0,1118,5505.0,internet
+DIARIO MARCA,,web,0,3538417,76755.0,internet
+DIARIO MX,,web,0,58980,32505.0,internet
+DIARIO POPULAR,,web,0,23742,29005.0,internet
+DIARIO PORTAL,,web,0,1881,7255.0,internet
+DIARIO PUNTUAL,,web,0,415,2255.0,internet
+DIARIO PRIMERA LINEA,,web,0,1920,7505.0,internet
+DIARIO RESPONSABLE,,web,0,1787,7005.0,internet
+DIARIO PRESENTE,,web,0,8779,24505.0,internet
+DIARIO ROTATIVO,,web,0,2162,8005.0,internet
+DIARIO TIJUANA,,web,0,1687,6755.0,internet
+DIARIO UNO,,web,0,39521,30505.0,internet
+DIARIO VASCO,,web,0,63728,33005.0,internet
+DIFUSIONAR,,web,0,650,3505.0,internet
+DIGGER,,web,0,1210,5755.0,internet
+DIGITAL MARK,,web,0,62,550.0,internet
+DIGITALL POST,,web,0,5146,15505.0,internet
+DIGITAL MEX,,web,0,368,2005.0,internet
+DIGITAL NERD,,web,0,1300,6005.0,internet
+DIMENSION TURISTICA,,web,0,2206,8255.0,internet
+DINERO EN IMAGEN,,web,0,38486,30505.0,internet
+DIRECCIONES ZAC,,web,0,211,1255.0,internet
+DIEZ MINUTOS,,web,0,36873,30255.0,internet
+DISTRITO INFORMATIVO,,web,0,280,1505.0,internet
+DK1250,,web,0,670,2100.0,internet
+DJ CONCEPT,,web,0,250,1505.0,internet
+DNA MAG,,web,0,523,2755.0,internet
+DNF,,web,0,1410,6255.0,internet
+DOBLE H,,web,0,329,1755.0,internet
+DODMAGAZINE,,web,0,6221,18255.0,internet
+DOMINIO FM,,web,0,1410,4300.0,internet
+DONDE IR,,web,0,13549,28005.0,internet
+DONDE HAY FERIA,,web,0,4894,14755.0,internet
+DOS PUNTO CERO NOTICIAS,,web,0,412,1255.0,internet
+DOSIS MEDIA,,web,0,610,3255.0,internet
+DOSSIER POLITICO,,web,0,3521,11505.0,internet
+DTIC,,web,0,6296,18255.0,internet
+DTM QUERETARO,,web,0,27781,29505.0,internet
+DTM TOLUCA,,web,0,131,755.0,internet
+DUPLOS,,web,0,10958,27755.0,internet
+DURANGO AL DIA,,web,0,1486,6255.0,internet
+DURANGO PRESS,,web,0,686,1900.0,internet
+DROPBOX,,web,0,9416782,76755.0,internet
+DVAK MEDIA MÉXICO,,web,0,10210815,76755.0,internet
+E CARTELERA,,web,0,42945,31005.0,internet
+E ONLINE,,web,0,152453,41755.0,internet
+ECHALE UN OJO,,web,0,265,1505.0,internet
+ECONOMIA DIGITAL,,web,0,11472,27755.0,internet
+E-CONSULTA,,web,0,12989,28005.0,internet
+ECOS DE LA COSTA ,,web,0,178,1005.0,internet
+ECO BOLSA,,web,0,18150,28505.0,internet
+ECODIARIO,,web,0,350,2005.0,internet
+ECOTICIAS,,web,0,2370,8505.0,internet
+EDDY WARMAN.TV,,web,0,182,1005.0,internet
+EDOMEX.COM,,web,0,1087,5255.0,internet
+EDOMEX AL DIA,,web,0,5731,17005.0,internet
+EDOMEX INFORMA,,web,0,576,3005.0,internet
+EDOMEX NEWS,,web,0,233,1255.0,internet
+EDUCA OAXACA,,web,0,266,1505.0,internet
+EJU TV,,web,0,35993,30255.0,internet
+EFE,,web,0,76948,34255.0,internet
+EFE AGRO,,web,0,4832,14755.0,internet
+EFE VERDE,,web,0,2598,9005.0,internet
+EFEKTO 10,,web,0,987,5005.0,internet
+EFEKTO NOTICIAS,,web,0,791,4005.0,internet
+EFFETA,,web,0,596,3005.0,internet
+EG ESPORTS,,web,0,250,1505.0,internet
+EGAMES NEWS,,web,0,8302,23505.0,internet
+EGAMING,,web,0,4101,13005.0,internet
+EGO CHIHUAHUA,,web,0,1344,6005.0,internet
+EHUI,,web,0,4004,12755.0,internet
+EIKON,,web,0,652,3505.0,internet
+EIT MEDIA,,web,0,2277,8255.0,internet
+EJE CENTRAL,,web,0,9081,25255.0,internet
+EJES INFORMATIVOS YUCATAN,,web,0,3772,12005.0,internet
+EJUTV,,web,0,35993,30255.0,internet
+ELECTRIC DUST,,web,0,281,1505.0,internet
+ELLA E ONLINE,,web,0,1660,6755.0,internet
+EL ALEBRIJE,,web,0,247,1255.0,internet
+EL AQUEL ARRE,,web,0,59371,32505.0,internet
+EL ANDEN,,web,0,765,1350.0,internet
+EL ARSENAL,,web,0,1530,6505.0,internet
+EL BUEN TONO,,web,0,1537,6505.0,internet
+EL BUHO MICHOACANO,,web,0,8809,24755.0,internet
+EL BLOG DE YES,,web,0,5932,17505.0,internet
+EL BLOG DEL REGIO,,web,0,3129,10505.0,internet
+EL BOCON,,web,0,35974,30255.0,internet
+EL CANTO DE LOS GRILLOS,,web,0,3038,10255.0,internet
+EL CANERO DE LA CUENCA,,web,0,570,3005.0,internet
+EL CAPITALINO,,web,0,8938,25005.0,internet
+EL CENSOR,,web,0,270,1505.0,internet
+EL CIUDADANO.COM,,web,0,5424,16255.0,internet
+EL CINCO,,web,0,23729,29005.0,internet
+EL COMENTARIO,,web,0,20375,28755.0,internet
+EL COMERCIO,,web,0,343748,61005.0,internet
+EL CONFIDENCIAL,,web,0,461181,72755.0,internet
+EL CONFIDENCIAL DIGITAL,,web,0,1789,7005.0,internet
+EL CONTRIBUYENTE,,web,0,2364,8505.0,internet
+EL CORREO WEB.ES,,web,0,21264,28755.0,internet
+EL CORREO GALLEGO,,web,0,6162,18005.0,internet
+EL CORRESPONSAL,,web,0,550,3005.0,internet
+EL CRONISTA,,web,0,101854,36755.0,internet
+EL CUARTO PODER,,web,0,7222,20755.0,internet
+EL DEBER,,web,0,39032,30505.0,internet
+EL DE FORMA,,web,0,5558,16505.0,internet
+EL DEMOCRATA,,web,0,19786,28505.0,internet
+EL DESPERTADOR DE QUINTANA ROO,,web,0,284,1505.0,internet
+EL DESPERTADOR PANAMERICANO,,web,0,140,755.0,internet
+EL DÍA,,web,0,48732,31505.0,internet
+EL DIZQUE,,web,0,762,4005.0,internet
+EL DICTAMEN,,web,0,11399,27755.0,internet
+EL DIPLOMATICO,,web,0,417,1200.0,internet
+EL DIA,,web,0,48732,31505.0,internet
+EL DIARIO ANGELOPOLITANO,,web,0,325,1755.0,internet
+EL DIARIO DE CHIHUAHUA,,web,0,18392,28505.0,internet
+EL DIARIO DE COAHUILA,,web,0,5373,16005.0,internet
+EL DIARIO DE DELICIAS,,web,0,1435,6255.0,internet
+EL DIARIO DE SONORA,,web,0,3329,11005.0,internet
+EL DIARIO DE GUADALAJARA,,web,0,694,3505.0,internet
+EL DIARIO DE TABASCO,,web,0,1150,5505.0,internet
+EL DIARIO DE VICTORIA,,web,0,2262,8255.0,internet
+EL DIARIO.ES,,web,0,359580,62505.0,internet
+EL DIARIO.MX,,web,0,58980,32505.0,internet
+EL DIARIO VISION,,web,0,1470,6255.0,internet
+EN DIARIO NY,,web,0,23141,29005.0,internet
+EL DIGITAL,,web,0,320,1755.0,internet
+EL DESCAFEINADO,,web,0,696,2450.0,internet
+EL ESPECTADOR IMAGINARIO,,web,0,1583,6505.0,internet
+EL ECONOMISTA,,web,0,86911,35255.0,internet
+EL ECONOMISTA.ES,,web,0,3716,12005.0,internet
+EL EMPRESARIO,,web,0,3499,11255.0,internet
+EL ENTORNO INFORMATIVO,,web,0,107,755.0,internet
+EL ESPAÑOL,,web,0,711819,76755.0,internet
+EL ESPECTADOR,,web,0,49546,31505.0,internet
+EL ESQUIU,,web,0,8961,25005.0,internet
+EL EXPRES,,web,0,8251,23255.0,internet
+EL FARO MX,,web,0,193,1005.0,internet
+EL FARANDI,,web,0,20366,28755.0,internet
+EL FILDEO,,web,0,12906,28005.0,internet
+EL FINANCIERO,,web,0,330953,59755.0,internet
+EL FONOGRAFO,,web,0,1393,6005.0,internet
+EL FRONTERIZO,,web,0,235,1255.0,internet
+EL HABLADOR,,web,0,229,1255.0,internet
+EL HERALDO DE AGUASCALIENTES,,web,0,9377,26005.0,internet
+EL HERALDO DE CHIAPAS,,web,0,3993,12505.0,internet
+EL HERALDO DE CHIHUAHUA,,web,0,31819,29755.0,internet
+EL HERALDO DE COATZACOALCOS,,web,0,461,2505.0,internet
+EL HERALDO DE JUAREZ,,web,0,9271,25755.0,internet
+EL HERALDO DE LEÓN,,web,0,5250,15755.0,internet
+EL HERALDO DE MEXICO,,web,0,115681,38255.0,internet
+EL HERALDO DE PUEBLA,,web,0,1830,7255.0,internet
+EL HERALDO DE SALTILLO ,,web,0,6093,17755.0,internet
+EL HERALDO DE SAN LUIS POTOSI,,web,0,6147,18005.0,internet
+EL HERALDO DE TUXPAN,,web,0,686,3505.0,internet
+EL HERALDO DE VERACRUZ,,web,0,530,2755.0,internet
+EL GRAFICO,,web,0,17999,28505.0,internet
+EL GRILLO,,web,0,279,1505.0,internet
+EL HERALDO DE TABASCO,,web,0,4708,14505.0,internet
+EL HERALDO HN,,web,0,14058,28005.0,internet
+EL HORIZONTE,,web,0,23135,29005.0,internet
+EL HORMIGUERO,,web,0,470,2505.0,internet
+EL HORNO DE LUCAS,,web,0,649,3255.0,internet
+EL IMPARCIAL,,web,0,85047,35255.0,internet
+EL INCORRECTO,,web,0,567,3005.0,internet
+EL IMPARCIAL DE OAXACA,,web,0,19908,28505.0,internet
+EL INDEPENDIENTE,,web,0,23157,29005.0,internet
+EL INDEPENDIENTE DE HIDALGO,,web,0,625,3255.0,internet
+EL INFLUENCER,,web,0,677,3505.0,internet
+EL LIBERAL,,web,0,197783,46505.0,internet
+EL INFLUYENTE,,web,0,20669,48900.0,internet
+EL INFORMANTE,,web,0,314,1755.0,internet
+EL INTRANSIGENTE,,web,0,314,1755.0,internet
+EL INSURGENTE,,web,0,686,1890.0,internet
+EL INSTITUTO CULTURAL DE LEON,,web,0,906,2305.0,internet
+EL LITORAL,,web,0,21927,28755.0,internet
+EL MANIFIESTO,,web,0,2593,9005.0,internet
+EL MAÑANA,,web,0,5848,17255.0,internet
+EL MAÑANA DE VALLES,,web,0,1947,7505.0,internet
+EL MAÑANERO DIARIO,,web,0,4879,14755.0,internet
+EL MEDICO INTERACTIVO,,web,0,2236,8255.0,internet
+EL MERCURIO ON LINE,,web,0,36070,30255.0,internet
+EL MEXICANO,,web,0,5220,15755.0,internet
+EL MINERAL,,web,0,263,1505.0,internet
+EL MUNDO DE ORIZABA,,web,0,21654,48900.0,internet
+EL MUNDO DE REGINA,,web,0,215,1255.0,internet
+EL MUNDO.ES,,web,0,1609812,76755.0,internet
+EL MUNDO GEEK,,web,0,150,1005.0,internet
+EL MURO MX,,web,0,621,3255.0,internet
+EL NACIONAL.CAT,,web,0,90460,35755.0,internet
+EL NOROESTE,,web,0,35975,30255.0,internet
+EL NORTE,,web,0,56243,32255.0,internet
+EL NOTICIERO EN LINEA,,web,0,490,2505.0,internet
+EL NOVEDADES,,web,0,816,4255.0,internet
+EL NUEVO DIA,,web,0,57758,32505.0,internet
+EL NUEVO HERALD,,web,0,35249,30255.0,internet
+EL NUEVO SIGLO,,web,0,22355,28755.0,internet
+EL OBSERBADOR.COM.UY,,web,0,25729,29255.0,internet
+EL OBSERVADOR DEL CENTRO,,web,0,498,2505.0,internet
+EL OCCIDENTAL,,web,0,9356,26005.0,internet
+EL ORBE,,web,0,2066,7755.0,internet
+EL PANDA ZAMBRANO,,web,0,615,3255.0,internet
+EL PAIS,,web,0,1525491,76755.0,internet
+EL PATAGONICO,,web,0,14546,28005.0,internet
+EL PENSANTE,,web,0,1323,3980.0,internet
+EL PERIODICO DE MÉXICO,,web,0,2121,8005.0,internet
+EL PERIODICO DE TLAXCALA,,web,0,1140,5505.0,internet
+EL PIÑERO,,web,0,3117,10505.0,internet
+EL PLURAL,,web,0,8040,22755.0,internet
+EL POPULAR,,web,0,11607,27755.0,internet
+EL PORVENIR,,web,0,3694,11755.0,internet
+EL PORTAL DE LA GENTE,,web,0,490,1505.0,internet
+EL PORTAL SLP,,web,0,1573,6505.0,internet
+EL PRINCIPAL,,web,0,200,1255.0,internet
+EL PUEBLO,,web,0,6699,19255.0,internet
+EL PULSO DE COLIMA,,web,0,306,1755.0,internet
+EL PULSO LABORAL,,web,0,942,4755.0,internet
+EL PUNTO CRITICO,,web,0,853,4505.0,internet
+EL PUNTO SOBRE LA I,,web,0,678,3505.0,internet
+EL QUERETANO,,web,0,2056,7755.0,internet
+EL QUINTANA ROO,,web,0,9201,25755.0,internet
+EL REGIO,,web,0,1045,5255.0,internet
+EL REGIONAL,,web,0,532,2755.0,internet
+EL REPORTERO,,web,0,211,1255.0,internet
+EL REPORTERO DE LA COMUNIDAD,,web,0,582,3005.0,internet
+EL RESPLANDOR DE MÉXICO,,web,0,150,1005.0,internet
+EL RINCON DE MAQUIAVELO,,web,0,180,1005.0,internet
+EL RIOBRAVENSE,,web,0,67,550.0,internet
+EL ROCKESCULTURA,,web,0,2040,7755.0,internet
+EL SALVADOR,,web,0,302192,56755.0,internet
+EL SEPTIMO ARTE,,web,0,50600,31755.0,internet
+EL SHECK,,web,0,330,1755.0,internet
+EL SIGLO,,web,0,156,1005.0,internet
+EL SIGLO.COM.PA,,web,0,32815,30005.0,internet
+EL SIGLO DE COAHUILA,,web,0,17236,28255.0,internet
+EL SIGLO DE DURANGO,,web,0,22624,29005.0,internet
+EL SIGLO DE TORREON,,web,0,145508,41255.0,internet
+EL SOL DE ACAPULCO,,web,0,4037,12755.0,internet
+EL SOL DE CHIAPAS,,web,0,295,1505.0,internet
+EL SOL DE CORDOBA,,web,0,2642,9255.0,internet
+EL SOL DE CUAUTLA,,web,0,1787,7005.0,internet
+EL SOL DE CUERNAVACA,,web,0,3213,10755.0,internet
+EL SOL DE DURANGO,,web,0,2616,9255.0,internet
+EL SOL DE HERMOSILLO,,web,0,8527,24005.0,internet
+EL SOL DE HIDALGO,,web,0,2409,8755.0,internet
+EL SOL DE IRAPUATO,,web,0,9094,25255.0,internet
+EL SOL DE LA LAGUNA,,web,0,3674,11755.0,internet
+EL SOL DE LEON,,web,0,3842,12255.0,internet
+EL SOL DE MAZATLAN,,web,0,2967,10005.0,internet
+EL SOL DE MEXICO,,web,0,31370,29755.0,internet
+EL SOL DE MORELIA,,web,0,3222,10755.0,internet
+EL SOL DE NAYARIT,,web,0,4892,14755.0,internet
+EL SOL DE PARRAL,,web,0,3935,12505.0,internet
+EL SOL DE ORIZABA,,web,0,2383,8505.0,internet
+EL SOL DE PUEBLA,,web,0,15023,28255.0,internet
+EL SOL DE SALAMANCA,,web,0,3317,11005.0,internet
+EL SOL DE SAN JUAN DEL RIO,,web,0,6469,18755.0,internet
+EL SOL DE SAN LUIS,,web,0,15275,28255.0,internet
+EL SOL DE SINALOA,,web,0,3865,12255.0,internet
+EL SOL DE TAMPICO,,web,0,4770,14505.0,internet
+EL SOL DE TIJUANA,,web,0,2723,9505.0,internet
+EL SOL DE TLAXCALA,,web,0,9017,25255.0,internet
+EL SOL DE TOLUCA,,web,0,10877,27755.0,internet
+EL SOL DE TULANCINGO,,web,0,2135,8005.0,internet
+EL SOL DE VERACRUZ,,web,0,173,1005.0,internet
+EL SOL DE ZACATECAS,,web,0,2860,9755.0,internet
+EL SOL DE ZAMORA,,web,0,3702,12005.0,internet
+EL SOL DEL BAJIO,,web,0,3023,10255.0,internet
+EL SOL DEL CENTRO,,web,0,6781,19505.0,internet
+EL SUDCALIFORNIANO,,web,0,3586,11505.0,internet
+EL TIEMPO MONCLOVA,,web,0,24808,29005.0,internet
+EL TERRITORIO,,web,0,7306,21005.0,internet
+EL TOPER,,web,0,816,4255.0,internet
+EL TROCHILERO,,web,0,277,1505.0,internet
+EL UNIVERSAL,,web,0,616876,76755.0,internet
+EL UNIVERSAL DEL VALLE,,web,0,2778,9505.0,internet
+EL UNIVERSO,,web,0,23039,51000.0,internet
+EL UNIVERSAL OAXACA,,web,0,616876,76755.0,internet
+EL UNIVERSAL QUERETARO,,web,0,5162,15505.0,internet
+EL UNIVERSAL SAN LUIS POTOSI,,web,0,616876,76755.0,internet
+EL UNIVERSAL VERACRUZ,,web,0,34,400.0,internet
+EL VALLARTENSE,,web,0,178,1005.0,internet
+EL VEEDOR DIGITAL,,web,0,1246,5755.0,internet
+EL VIGIA,,web,0,7775,22005.0,internet
+EL Y ELLA,,web,0,165,1005.0,internet
+ELLA ONLINE,,web,0,1662,6755.0,internet
+ELLE MX,,web,0,12399,27755.0,internet
+ELPORTAL.MX,,web,0,295,1505.0,internet
+EMAGTRENDS,,web,0,544,2755.0,internet
+EME DE MUJER,,web,0,2764,9505.0,internet
+EMEEQUIS,,web,0,9601,26755.0,internet
+EMPO TV,,web,0,666,3505.0,internet
+EMPIRE,,web,0,457,2505.0,internet
+EMPRENDEDOR POLITICO,,web,0,500,2755.0,internet
+EMISORAS UNIDAS,,web,0,49354,31505.0,internet
+EMPREFINANZAS,,web,0,4150,13005.0,internet
+EMSAVALLES,,web,0,1452,6255.0,internet
+EN BLANCO Y NEGRO,,web,0,204,1255.0,internet
+EN CAMBIO QUINTANA ROO,,web,0,1075,5255.0,internet
+EN CANCHA,,web,0,3110,10505.0,internet
+EN CONTACTO,,web,0,4619,14255.0,internet
+EN CONTACTO MAGAZINE,,web,0,994,5005.0,internet
+EN CORTO,,web,0,230,1255.0,internet
+EN DIRECTO,,web,0,4076,12755.0,internet
+EN DONDE CORRER,,web,0,2059,7755.0,internet
+EN EL RADAR,,web,0,7406,21255.0,internet
+EN FILME,,web,0,6028,17755.0,internet
+EN LINEA DIRECTA,,web,0,16063,28255.0,internet
+EN MICHOACAN,,web,0,1166,5505.0,internet
+EN VIVO MX,,web,0,822,4255.0,internet
+ENCUADRES MX,,web,0,3097,10255.0,internet
+ENDORFINA CULTURAL,,web,0,705,3755.0,internet
+ENERGIA HOY,,web,0,2507,9005.0,internet
+ENERGIA LIMPIA XXI,,web,0,558,3005.0,internet
+ENES UNAM,,web,0,498606,76505.0,internet
+ENFOQUE INFORMATIVO,,web,0,3097,10255.0,internet
+ENFOQUE MONTERREY,,web,0,600,3255.0,internet
+ENFOQUE NAYARIT,,web,0,62,550.0,internet
+ENFOQUE NOTICIAS,,web,0,3667,11755.0,internet
+ENLACE INFORMATIVO,,web,0,189,1005.0,internet
+ENLACE JUDIO,,web,0,7516,21505.0,internet
+ENSENADA ONLINE,,web,0,427,2255.0,internet
+ENSERIO NOTICIAS,,web,0,169,1005.0,internet
+ENTERATE DE,,web,0,223,1255.0,internet
+ENTERATE NAYARIT,,web,0,590,3005.0,internet
+ENTERATEVER,,web,0,354,2005.0,internet
+ENTORNO INFORMATIVO,,web,0,107,755.0,internet
+ENTORNO INTELIGENTE,,web,0,4639,14255.0,internet
+ENTORNO POLÍTICO,,web,0,5308,16005.0,internet
+ENTRE LINEAS,,web,0,5480,16255.0,internet
+ENTRE SEMANA,,web,0,413,2255.0,internet
+ENTRE TODOS,,web,0,1042,5255.0,internet
+ENTRELINEAS,,web,0,5480,16255.0,internet
+ENTREPRENEUR,,web,0,236220,50255.0,internet
+ENTUMENTV,,web,0,254,1505.0,internet
+EN PAREJA,,web,0,76848,34255.0,internet
+EPIC NETWORK,,web,0,352,2005.0,internet
+ERIZO MEDIA,,web,0,275,1505.0,internet
+ES DE GAMERS,,web,0,800,2005.0,internet
+ES DIARIO POPULAR,,web,0,1236,5755.0,internet
+ES LA MODA,,web,0,367771,63505.0,internet
+ES LO COTIDIANO,,web,0,822,4255.0,internet
+ES MEXICO,,web,0,1858,3300.0,internet
+ES NOTICIA HOY,,web,0,126,755.0,internet
+ES NOTICIA VERACRUZ,,web,0,1805,7255.0,internet
+ESCANDALA,,web,0,970,5005.0,internet
+ESCENA LOCAL,,web,0,3868,6700.0,internet
+ESCRIBIENDO CINE,,web,0,6570,19005.0,internet
+ESFERA EMPRESARIAL,,web,0,3049,10255.0,internet
+ESFERA LA REVISTA,,web,0,259,1505.0,internet
+ESKUCHARADIO,,web,0,869,1505.0,internet
+ESMAS.COM,,web,0,3598,5500.0,internet
+ESTADIO DEPORTES,,web,0,3668,11755.0,internet
+ESPECTACULOS 360,,web,0,484,2505.0,internet
+ESPEJOS REVISTA,,web,0,666,3505.0,internet
+ESPINOF,,web,0,53459,32005.0,internet
+ESPN,,web,0,96265,36255.0,internet
+EP MUNDO,,web,0,18087,28505.0,internet
+ESPORTERS,,web,0,291,1505.0,internet
+ERES,,web,0,346,1755.0,internet
+ESQUIRELAT,,web,0,5254,15755.0,internet
+ESTADO 21,,web,0,583,3005.0,internet
+ESTAMOS AL AIRE,,web,0,180,1005.0,internet
+ESTILO DF,,web,0,5965,17505.0,internet
+ESTILO Y MAS,,web,0,191,1005.0,internet
+ESTO,,web,0,11757,27755.0,internet
+ESTRELLA DIGITAL,,web,0,6200,18255.0,internet
+ETCETERA,,web,0,3628,11755.0,internet
+ETERNOS GOCES,,web,0,645,3255.0,internet
+EURONEWS,,web,0,488429,75505.0,internet
+EUROPA PRESS,,web,0,78570,34505.0,internet
+EVENSI,,web,0,3398,11005.0,internet
+EXA FM,,web,0,5167,15505.0,internet
+ÉXITO NOTICIAS,,web,0,2549,9005.0,internet
+EXITOINA,,web,0,174863,44005.0,internet
+EXITOSA NOTICIA,,web,0,11192,27755.0,internet
+EXCLUSIVAS PUEBLA,,web,0,1372,6005.0,internet
+EXCELSIOR ON LINE,,web,0,255296,52255.0,internet
+EXPANSION.COM,,web,0,171299,43755.0,internet
+EXPEDIENTE QUINTANA ROO,,web,0,830,4255.0,internet
+EXPERIENCIAS GOURMET,,web,0,2097,7755.0,internet
+EXPOKNEWS,,web,0,6527,19005.0,internet
+EXPRESA TV,,web,0,150,1005.0,internet
+EXPRESION INFORMATIVA,,web,0,172,1005.0,internet
+EXPRESO CHIAPAS,,web,0,98,550.0,internet
+EXPRESO PRESS,,web,0,1883,7255.0,internet
+EXPRESS ZACATECAS,,web,0,200,1255.0,internet
+EXTRA DE LA LAGUNA,,web,0,200,1255.0,internet
+EZANIME,,web,0,132,755.0,internet
+FACE MAMA,,web,0,2443,8755.0,internet
+FAHRENHEIT MAGAZINE,,web,0,593,3005.0,internet
+FANDANGO,,web,0,16012,28255.0,internet
+FANDOM PELICULA,,web,0,813,4255.0,internet
+FANTAS Y MUNDO,,web,0,3817,12255.0,internet
+FARANDULA MAGAZINE,,web,0,600,3255.0,internet
+FASHION BLOG MEXICO,,web,0,311,1755.0,internet
+FASHION NETWORK MX,,web,0,27566,29505.0,internet
+FASHION UNITED,,web,0,579,3005.0,internet
+FASHION WEEK,,web,0,15389,28255.0,internet
+FAYER WAYER,,web,0,25140,29255.0,internet
+FEMFUTURA,,web,0,680,3505.0,internet
+FERNANDA FAMILIAR,,web,0,17997,28505.0,internet
+FESTIFY TV,,web,0,330,1755.0,internet
+FESTIGAME,,web,0,60,550.0,internet
+FIANCEE BODAS,,web,0,538,2755.0,internet
+FILMIN LATINO,,web,0,6060,17755.0,internet
+FILMAFFINITY,,web,0,524884,76755.0,internet
+FILMATRONIK,,web,0,198,1005.0,internet
+FILMELIER,,web,0,20822,28755.0,internet
+FILME WEB,,web,0,27515,29505.0,internet
+FILMOFILIAS,,web,0,360,2005.0,internet
+FILMSTERIA,,web,0,545,2755.0,internet
+FILO NEWS,,web,0,8668,24255.0,internet
+FIRMAS MX,,web,0,205,1255.0,internet
+FIUXY,,web,0,15389,28255.0,internet
+FLEEK,,web,0,636,3255.0,internet
+FLOOR 8,,web,0,7707,22005.0,internet
+FLIKR,,web,0,2736682,76755.0,internet
+FILTER MEXICO,,web,0,3616,11755.0,internet
+FM 105,,web,0,8794,24505.0,internet
+FOLKU,,web,0,320,1755.0,internet
+FORBES MEXICO,,web,0,53253,32005.0,internet
+FORMATO7,,web,0,3282,10755.0,internet
+FORTE NOTICIAS,,web,0,240,1255.0,internet
+FOTOGENIA,,web,0,460,2505.0,internet
+FOTOROCK 21,,web,0,230,1255.0,internet
+FOTOGRAFIANDO MÉXICO,,web,0,570,3005.0,internet
+FOTOGRAMAS ES,,web,0,80234,34755.0,internet
+FOX SPORTS,,web,0,21363,28755.0,internet
+FOOD AND TRAVEL,,web,0,7253,20755.0,internet
+FORO COATZA,,web,0,395,2005.0,internet
+FORO CRIANZA NATURAL,,web,0,1775,5005.0,internet
+FRECUENCIA DE LA FARANDULA,,web,0,1048,5255.0,internet
+FRECUENCIA GEEK,,web,0,860,4505.0,internet
+FREE FIRE LEAGUE,,web,0,780,2005.0,internet
+FREIM TV,,web,0,10664,27755.0,internet
+FRENTE CREATIVO,,web,0,450,2505.0,internet
+FRIKIGAMERS,,web,0,834,4255.0,internet
+FRONTENET,,web,0,634,3255.0,internet
+FRONTERA INFO,,web,0,45422,31255.0,internet
+FRONTERIZO DEL SUR,,web,0,99,550.0,internet
+FUERA DE FOCO,,web,0,3285,10755.0,internet
+FUENTES FIDEDIGNAS,,web,0,293,1505.0,internet
+FUNDACION UNAM,,web,0,7536,21505.0,internet
+FUSION RADIO,,web,0,2318,8505.0,internet
+FUTBOLETE,,web,0,6898,19755.0,internet
+FUTURO MX,,web,0,813,4255.0,internet
+FUXION MX,,web,0,250,1505.0,internet
+G NULA,,web,0,240558,50755.0,internet
+GACETA 22,,web,0,3178,10505.0,internet
+GACETA DE MEXICO,,web,0,5612,16755.0,internet
+GACETA FACULTAD DE MEDICINA,,web,0,210418,47755.0,internet
+GACETA UNAM,,web,0,498606,76505.0,internet
+GADU NOTICIAS,,web,0,339,1755.0,internet
+GALU COMUNICACIONES,,web,0,2310,8505.0,internet
+GAMER FOCUS,,web,0,14163,28005.0,internet
+GAMER STYLE,,web,0,2885,9755.0,internet
+GAMERS LATAM,,web,0,200,1255.0,internet
+GAMERS PLUS,,web,0,140,755.0,internet
+GAMERS RD,,web,0,3428,11255.0,internet
+GAMERS UNITE,,web,0,1525,6505.0,internet
+GANAPROMO,,web,0,4429,13755.0,internet
+GARAJE DEL ROCK,,web,0,345,1755.0,internet
+GATOPARDO,,web,0,5820,17255.0,internet
+GATO TV,,web,0,9162,25505.0,internet
+GAZZETA HEDONE,,web,0,268,1505.0,internet
+GBM RADIO,,web,0,2416,8755.0,internet
+GDA,,web,0,2070,7755.0,internet
+GEEK LAAK,,web,0,470,2505.0,internet
+GEEK STRONG,,web,0,705,3755.0,internet
+GEEKMI,,web,0,15622,28255.0,internet
+GEEKSTRONG,,web,0,705,3755.0,internet
+GEEKZILLA,,web,0,5763,17005.0,internet
+GEM MAGAZINE,,web,0,130,755.0,internet
+GENIAL GURU,,web,0,47479,31255.0,internet
+GENTE AF,,web,0,350,2005.0,internet
+GENTE BIEN,,web,0,436,2255.0,internet
+GENTE DEL BALSAS,,web,0,357,2005.0,internet
+GENTLEMAN,,web,0,255296,52255.0,internet
+GET TICKETS,,web,0,703,3755.0,internet
+GIGS MX,,web,0,189,1005.0,internet
+GINA SERRANO TV,,web,0,531,2755.0,internet
+GIRLS AT FILMS,,web,0,480,2505.0,internet
+GIZTAB,,web,0,3746,12005.0,internet
+GLITS,,web,0,1059,5255.0,internet
+GLAMOUR,,web,0,17005,28255.0,internet
+GLOBAL MEDIA,,web,0,11593,27755.0,internet
+GLOCAL,,web,0,1075,5255.0,internet
+GLUC,,web,0,4942,15005.0,internet
+GUSTO BUEN VIVIR,,web,0,953,5005.0,internet
+GOAL,,web,0,1294566,76755.0,internet
+GOB.MX,,web,0,336,1755.0,internet
+GOBERNANTES,,web,0,1271,5755.0,internet
+GOBIZ NEXT,,web,0,775,4005.0,internet
+GOBIERNO DE LA CIUDAD DE MÉXICO,,web,0,7200,20755.0,internet
+GOLF DIGEST MÉXICO,,web,0,46688,31255.0,internet
+GOROSITO TV,,web,0,275,1505.0,internet
+GOPITS,,web,0,60410,32755.0,internet
+GSE,,web,0,6569,19005.0,internet
+GQ,,web,0,37022,30255.0,internet
+GRAFICO AL DIA,,web,0,722,3755.0,internet
+GRAN CINEMA,,web,0,310,1755.0,internet
+GRAZIA,,web,0,1271,5755.0,internet
+GREENPEACE,,web,0,41643,30755.0,internet
+GRITA RADIO,,web,0,1577,6505.0,internet
+GRUPO EN CONCRETO,,web,0,902,4755.0,internet
+GRUPO MARMOR,,web,0,1692,6755.0,internet
+GRUPO PIRAMIDE,,web,0,3840,9880.0,internet
+GRUPO RIVAS,,web,0,2165,8005.0,internet
+GRUPO VX,,web,0,741,3755.0,internet
+GUAPACHO,,web,0,445,2255.0,internet
+GUAPOLOGIA,,web,0,454,2505.0,internet
+GUADALAJARA EN RED,,web,0,474,2505.0,internet
+GUADALAJARA FOLLOW,,web,0,173,1005.0,internet
+GUIA OCA,,web,0,730,3755.0,internet
+GUIA UNIVERSITARIA,,web,0,4488,13755.0,internet
+GURU CHUIRER,,web,0,920,4755.0,internet
+H GRUPO EDITORIAL,,web,0,181,1005.0,internet
+GUATE VISION,,web,0,12720,28005.0,internet
+HAAHILFM,,web,0,250,1505.0,internet
+HACKER GIRL,,web,0,187,1005.0,internet
+HANAPOP,,web,0,345,178.0,internet
+HARDWAREVIEWS,,web,0,606,3255.0,internet
+HEAD TOPICS,,web,0,36211,30255.0,internet
+HEAVEN AND HELL MAGAZINE,,web,0,733,3755.0,internet
+HELLO DF,,web,0,2694,9255.0,internet
+HELLO FRIKI,,web,0,1297,5755.0,internet
+HERALDO BINARIO,,web,0,10325,27755.0,internet
+HERALDO DEPORTES,,web,0,2014,7755.0,internet
+HIDROCALIDO DIGITAL,,web,0,4495,13755.0,internet
+HIPERTEXTUAL,,web,0,72658,34005.0,internet
+HIPTEX,,web,0,354,2005.0,internet
+HIRAM NORIEGA,,web,0,1303,6005.0,internet
+HISPANIDAD,,web,0,5606,16755.0,internet
+HILO DIRECTO,,web,0,551,3005.0,internet
+HOBBY CONSOLAS,,web,0,68421,33505.0,internet
+HOJA DE RUTA DIGITAL,,web,0,2997,10005.0,internet
+HOLA,,web,0,168720,43505.0,internet
+HOLA ATIZAPAN,,web,0,1921,7505.0,internet
+HOLA TELCEL,,web,0,5023,15255.0,internet
+HOMBRES DEL PODER,,web,0,1684,6755.0,internet
+HORA CERO,,web,0,450,2505.0,internet
+HORIZONTE DIGITAL,,web,0,2526,9005.0,internet
+HORIZONTE INFORMATIVO,,web,0,392,2005.0,internet
+HORIZONTUM,,web,0,905,2755.0,internet
+HOSPITALITAS,,web,0,1097,5255.0,internet
+HOY,,web,0,31770,29755.0,internet
+HOY LOS ANGELES,,web,0,4100,13005.0,internet
+HOY TAMAULIPAS,,web,0,5779,17005.0,internet
+HOOTBOOK,,web,0,2848,9755.0,internet
+HOMO CINE FILUS,,web,0,10210815,76755.0,internet
+HUASTECA HOY,,web,0,730,3755.0,internet
+HUFFINGTON POST,,web,0,952091,76755.0,internet
+I MUJER,,web,0,155,1005.0,internet
+I PROFESIONAL,,web,0,131230,39755.0,internet
+IBERCINE,,web,0,500,2755.0,internet
+IBERO 90.9,,web,0,2162,8005.0,internet
+IBERO.MX,,web,0,5031,15255.0,internet
+ICROWD,,web,0,445,2255.0,internet
+IDC ONLINE,,web,0,17085,28255.0,internet
+IDENTIDAD MX,,web,0,370,2005.0,internet
+IGETEO MX,,web,0,463,2505.0,internet
+IGN,,web,0,100000,36755.0,internet
+IGNACIO MARTINEZ,,web,0,1462,6255.0,internet
+IHEART RADIO,,web,0,5428,16255.0,internet
+IMAGEN,,web,0,742,3755.0,internet
+IMAGEN DE VERACRUZ,,web,0,6440,18755.0,internet
+IMAGEN DEL GOLFO,,web,0,6998,20005.0,internet
+IMAGEN POBLANA,,web,0,2876,9755.0,internet
+IMAGEN RADIO,,web,0,14349,28005.0,internet
+IMAGEN TV,,web,0,16041,28255.0,internet
+IMAGEN ZAC,,web,0,3389,11005.0,internet
+IMCINE,,web,0,2113,8005.0,internet
+IMBD,,web,0,6593,21505.0,internet
+IMER,,web,0,4001,12755.0,internet
+IMMEDICO HOSPITALARIO,,web,0,226,1255.0,internet
+IMPACTO,,web,0,2655,9255.0,internet
+IMPACTO 21,,web,0,107,755.0,internet
+IMPACTO NOTICIAS,,web,0,2153,8005.0,internet
+IMPARCIAL OAXACA,,web,0,19908,28505.0,internet
+IMPRESSIONES,,web,0,1147,5505.0,internet
+IMPULSO EDOMEX,,web,0,500,2755.0,internet
+IMPULSO GEEK,,web,0,1407,6255.0,internet
+IMPULSO INFORMATIVO,,web,0,2966,10005.0,internet
+IMPULSO NEWSPAPER,,web,0,733,3755.0,internet
+INFO 7,,web,0,14644,28005.0,internet
+INFORMATIVO AX,,web,0,28227,29505.0,internet
+INFORME FRACTO,,web,0,400,2255.0,internet
+INFO NEGOCIOS,,web,0,3047,10255.0,internet
+IN STYLE,,web,0,2867,9755.0,internet
+INBA,,web,0,2800,9755.0,internet
+INDIE 505,,web,0,270,1505.0,internet
+INDIE HOY,,web,0,17949,28505.0,internet
+INDICE POLITICO,,web,0,5678,16755.0,internet
+INDIEROCKS,,web,0,6724,19505.0,internet
+INDIE AM,,web,0,1068,5255.0,internet
+INDIELIFE,,web,0,110,755.0,internet
+INDIESPACE,,web,0,21563,28755.0,internet
+INFO BAJA,,web,0,250,1505.0,internet
+INFO NORTE,,web,0,520,2755.0,internet
+INFO PITS,,web,0,258,1505.0,internet
+INFO QUORUM,,web,0,587,3005.0,internet
+INFO RURAL,,web,0,776,4005.0,internet
+INFOLLITERAS,,web,0,760,4005.0,internet
+INFO7.COM.MX,,web,0,6668,19255.0,internet
+INFOBAE,,web,0,2593256,76755.0,internet
+INFOFUEGUINA,,web,0,11056,27755.0,internet
+INFORMA BTL,,web,0,17570,28505.0,internet
+INFORMACION TOTAL,,web,0,5528,16505.0,internet
+INFORMADOR.MX,,web,0,67281,33255.0,internet
+INFORMANDO MICHOACAN,,web,0,1117,5505.0,internet
+INFORMANTE,,web,0,314,1755.0,internet
+INFORMATE,,web,0,5528,16505.0,internet
+INFORMATIVO DE QUERETARO,,web,0,400,2255.0,internet
+INFORMATIVO TURQUESA,,web,0,416,2255.0,internet
+INFORMAVER,,web,0,19217,28505.0,internet
+INFORME QUERETANO,,web,0,660,3505.0,internet
+INFONOR,,web,0,298,1505.0,internet
+INPERFECTO,,web,0,171,1005.0,internet
+INQRO,,web,0,817,4255.0,internet
+INSPIRA Y CONECTA,,web,0,1048,5255.0,internet
+INSURGENTE PRESS,,web,0,3455,11255.0,internet
+INSTABUZZ,,web,0,500,2755.0,internet
+INSTYLE,,web,0,2867,9755.0,internet
+INTERDIARIO,,web,0,661,3505.0,internet
+INTERECONOMIA,,web,0,2302,8505.0,internet
+INTEREMPRESAS,,web,0,15810,28255.0,internet
+INTERJET,,web,0,1388,6005.0,internet
+INTOLERANCIA,,web,0,3692,11755.0,internet
+INSERTCOIN,,web,0,5186,15505.0,internet
+INTOLERANCIA DIARIO,,web,0,3692,11755.0,internet
+INTRIPER,,web,0,11773,27755.0,internet
+INVESTING,,web,0,4179245,76755.0,internet
+IVOOX,,web,0,101896,36755.0,internet
+INVDES,,web,0,7016,20255.0,internet
+ITONGADOL,,web,0,891,4505.0,internet
+IQ NOTICIAS,,web,0,338,1755.0,internet
+ISA MARCIAL,,web,0,2243,8255.0,internet
+ISOPIXEL,,web,0,4120,13005.0,internet
+IT MAGAZINE,,web,0,1668,6755.0,internet
+IWAY MAGAZINE,,web,0,898,4505.0,internet
+IXOGRAMA,,web,0,274,1505.0,internet
+IZQUIERDAZO,,web,0,5468,16255.0,internet
+JAGUAR NOGUEDA,,web,0,629,3255.0,internet
+JALISCO ROJO,,web,0,627,3255.0,internet
+JENTEL,,web,0,401,2255.0,internet
+JESSIE CERVANTES,,web,0,261,1505.0,internet
+JOINNUS,,web,0,3747,12005.0,internet
+JORGE CASTRO NORIEGA,,web,0,675,3505.0,internet
+JOSE CARDENAS,,web,0,388,2005.0,internet
+JUAN FUTBOL,,web,0,5289,15755.0,internet
+JUAN RAMÍREZ TE INFORMA,,web,0,312,1755.0,internet
+JUAREZ HOY,,web,0,3056,10255.0,internet
+JUEGOS JUGUETES Y COLECCIONABLES,,web,0,423,2255.0,internet
+JULIO ASTILLERO,,web,0,4838,14755.0,internet
+K MAGAZINE,,web,0,532,2755.0,internet
+KA VOLTA,,web,0,922,4755.0,internet
+KE BUENA,,web,0,1818,7255.0,internet
+KENA,,web,0,477,2505.0,internet
+KLEVER,,web,0,400,2255.0,internet
+KONBINI,,web,0,30187,29755.0,internet
+KONEXIÓN,,web,0,501,2755.0,internet
+KOPODO,,web,0,777,4005.0,internet
+krinegrafo,,web,0,56462,32255.0,internet
+KIEN Y KE,,web,0,9887,27255.0,internet
+KM A FONDO,,web,0,200,1255.0,internet
+L CAMPUS,,web,0,200,1255.0,internet
+LA BOTANA,,web,0,2748,9505.0,internet
+LA CADERA DE EVA,,web,0,981,500.0,internet
+LA CAPITAL   MDP,,web,0,29058,29505.0,internet
+LA CARPA,,web,0,295,1505.0,internet
+LA CARTELERA MX,,web,0,994,5005.0,internet
+LA CHICUELA,,web,0,3774,12005.0,internet
+LA CHISPA,,web,0,158,1005.0,internet
+LA COSA CINE,,web,0,1413,6255.0,internet
+LA COVACHA,,web,0,1288,5755.0,internet
+LA COMIKERIA,,web,0,391,2005.0,internet
+LA COCINA DELIRANTE,,web,0,19319,28505.0,internet
+LA CRÓNICA DE HOY,,web,0,34345,30005.0,internet
+LA CUEVA DEL NERD,,web,0,2728,9505.0,internet
+LA DE HOY,,web,0,832,4255.0,internet
+LA ESCALETA,,web,0,477,2505.0,internet
+LA ESCANDALOSA,,web,0,733,3755.0,internet
+LA ESTATUILLA,,web,0,980,5005.0,internet
+LA EXPRESION,,web,0,187,1005.0,internet
+LA FIERA,,web,0,1267,5755.0,internet
+LA FRONTERA DICE,,web,0,350,2005.0,internet
+LA GAZZETTA DF,,web,0,11343,27755.0,internet
+LA GUÍA CULTURAL,,web,0,805,4255.0,internet
+LA GUIA DE PUERTO PEÑASCO,,web,0,350,2005.0,internet
+LA GUIA DEL VARON,,web,0,12989,28005.0,internet
+LA HAINE.ORG,,web,0,7143,20505.0,internet
+LA HIGUERA,,web,0,6754,19505.0,internet
+LA HOGUERA,,web,0,505,2755.0,internet
+LA INOLVIDABLE,,web,0,1422,6255.0,internet
+LA IZQUIERDA DIARIO,,web,0,2150,8005.0,internet
+LA JORNADA AGUASCALIENTES,,web,0,5860,17255.0,internet
+LA JORNADA BAJA CALIFORNIA,,web,0,1894,7255.0,internet
+LA JORNADA DE GUERRERO,,web,0,2210,8255.0,internet
+LA JORNADA DE ORIENTE,,web,0,7218,20755.0,internet
+LA JORNADA MAYA,,web,0,14437,28005.0,internet
+LA JORNADA MORELOS,,web,0,1023,5255.0,internet
+LA JORNADA SAN LUIS,,web,0,1668,6755.0,internet
+LA JORNADA VERACRUZ,,web,0,428,2255.0,internet
+LA JORNADA ZACATECAS,,web,0,2407,8755.0,internet
+LA JORNADA,,web,0,43623,31005.0,internet
+LA KALLE RADIO,,web,0,19895,28505.0,internet
+LA LISTA,,web,0,9889,12500.0,internet
+LA MAGAZIN,,web,0,350,2005.0,internet
+LA MÁS PERRONA,,web,0,1174,5505.0,internet
+LA MASCARADA REVISTA,,web,0,450,2505.0,internet
+LA MEXICANA RADIO,,web,0,350,2005.0,internet
+LA MEJOR,,web,0,1272,5755.0,internet
+LA NACION ARGENTINA,,web,0,344233,61005.0,internet
+LA NACION PARAGUAY,,web,0,8510,24005.0,internet
+LA NETA,,web,0,450,2505.0,internet
+LA NETA DE LAS CUERDAS,,web,0,299,1505.0,internet
+LA NETA NETA,,web,0,7946,22505.0,internet
+LA NETA NOTICIAS,,web,0,9993,27505.0,internet
+LA NOTICIA AL PUNTO,,web,0,634,3255.0,internet
+LA NOTICIA EN CONCRETO,,web,0,177,1005.0,internet
+LA NOTICIA REGIONAL ,,web,0,383,2005.0,internet
+LA OCTAVA,,web,0,4516,14005.0,internet
+LA OFERTA,,web,0,436,2255.0,internet
+LA ONDA OAXACA,,web,0,654,3505.0,internet
+LA OPINION DE MICHOACAN,,web,0,16060,28255.0,internet
+LA OPINION DE POZA RICA,,web,0,570,3005.0,internet
+LA OPCION DE CHIHUAHUA,,web,0,3162,10505.0,internet
+LA OPINION DE PUEBLA,,web,0,855,4505.0,internet
+LA OPINION.COM,,web,0,16060,28255.0,internet
+LA ORQUESTA,,web,0,1961,7505.0,internet
+LA OTRA OPINION,,web,0,8929,25005.0,internet
+LA PALABRA DEL CARIBE,,web,0,802,4255.0,internet
+LA PARADA DIGITAL,,web,0,4733,14505.0,internet
+LA PARED NOTICIAS,,web,0,1522,6505.0,internet
+LA PATRIA,,web,0,10761,27755.0,internet
+LA PLUMA ABOMINABLE,,web,0,170,1005.0,internet
+LA POLITICA MÉXICO,,web,0,19386,28505.0,internet
+LA PRENSA.COM.MX,,web,0,5004,15255.0,internet
+LA PRENSA GRAFICA,,web,0,76396,34255.0,internet
+LA PRENSA DE MONCLOVA,,web,0,468,2505.0,internet
+LA RAZON,,web,0,30883,29755.0,internet
+LA RAZON ES,,web,0,9060,25255.0,internet
+LA REGION DIGITAL,,web,0,1837,7255.0,internet
+LA REGION EN LINEA,,web,0,541,2755.0,internet
+LA REPUBLICA PE,,web,0,14872,28005.0,internet
+LA RIOJA,,web,0,25783,29255.0,internet
+LA SABROSITA,,web,0,357,2005.0,internet
+LA SAGA,,web,0,440,2255.0,internet
+LA SALA,,web,0,340,1755.0,internet
+LA SILLA ROTA,,web,0,15780,28255.0,internet
+LA SIRENA LA,,web,0,2050,7755.0,internet
+LA TARDE DE REYNOSA,,web,0,1082,5255.0,internet
+LA TEMPESTAD,,web,0,604,3255.0,internet
+LA TERCERA,,web,0,67795,33505.0,internet
+LA TRIBUNA HN,,web,0,7344,21005.0,internet
+LA UNION MORELOS,,web,0,2255,8255.0,internet
+LA VANGUARDIA,,web,0,15684,28255.0,internet
+LA VERDAD NOTICIAS,,web,0,28278,29505.0,internet
+LA VERDAD TAMAULIPAS,,web,0,1216,5755.0,internet
+LA VIEJA GUARDIA,,web,0,170,1005.0,internet
+LA VOZ.AR,,web,0,55316,32255.0,internet
+LA VOZ DE ALMERIA,,web,0,5166,15505.0,internet
+LA VOZ ARIZONA,,web,0,7199,20505.0,internet
+LA VOZ DE DURANGO,,web,0,683,3505.0,internet
+LA VOZ DE GALICIA,,web,0,2663,9255.0,internet
+LA VOZ DE LA FRONTERA,,web,0,3257,10755.0,internet
+LA VOZ DE LA NACION,,web,0,160,1005.0,internet
+LA VOZ DE MICHOACÁN,,web,0,7573,21505.0,internet
+LA VOZ DE QUERETARO,,web,0,164,1005.0,internet
+LA VOZ DE SAN LUIS,,web,0,633,3255.0,internet
+LA VOZ DE TABASCO,,web,0,161,1005.0,internet
+LA VOZ DEL DESIERTO,,web,0,150,1005.0,internet
+LA ZETA,,web,0,1188,5505.0,internet
+LADO B,,web,0,1645,6755.0,internet
+LAGLVL,,web,0,195,1005.0,internet
+LAS ESTRELLAS,,web,0,31794,29755.0,internet
+LAS PROVINCIAS,,web,0,26683,29255.0,internet
+LATAM IGN,,web,0,1159538,76755.0,internet
+LATAM CINEMA,,web,0,469,2505.0,internet
+LATITUD MEGALOPOLIS,,web,0,136,755.0,internet
+L'BEAUTE,,web,0,193,1005.0,internet
+LE MEXICO,,web,0,240,1255.0,internet
+LE MONDE DIPLOMATIQUE,,web,0,240,1255.0,internet
+LECTOR MX,,web,0,1902,7505.0,internet
+LEONIDAS ESCRIBE,,web,0,136,755.0,internet
+LETRA FRIA,,web,0,454,2505.0,internet
+LETRA ROJA,,web,0,2339,8505.0,internet
+LETRAS LIBRES,,web,0,10264,27755.0,internet
+LEVEL UP,,web,0,12326,27755.0,internet
+LIBERO PE,,web,0,5293,15755.0,internet
+LIBERTAD BAJO PALABRA,,web,0,1146,5505.0,internet
+LIBERTAD OAXACA,,web,0,501,2755.0,internet
+LIBRE EN EL SUR,,web,0,1239,5755.0,internet
+LIBROS Y LITERATURA,,web,0,2127,8005.0,internet
+LIDER919,,web,0,853,4505.0,internet
+LIDER EMPRESARIAL,,web,0,9114,25505.0,internet
+LIDER WEB,,web,0,516,2755.0,internet
+LIDERES MEXICANOS,,web,0,6297,18255.0,internet
+LIFE AND STYLE,,web,0,57713,32505.0,internet
+LIFE BOX SET,,web,0,5539,16505.0,internet
+LIFE IN BITS,,web,0,1459,6255.0,internet
+LINEA DE CONTRASTE,,web,0,307,1755.0,internet
+LINEA POLITICA,,web,0,450,2505.0,internet
+LINEAS DELGADAS,,web,0,158,1005.0,internet
+LINEUP MX,,web,0,474,2505.0,internet
+LM NEUQUEN,,web,0,3590,11505.0,internet
+LO DE HOY PUEBLA,,web,0,1387,6005.0,internet
+LOCAL MX,,web,0,1693,6755.0,internet
+LOCOS X LOS JUEGOS,,web,0,462,2505.0,internet
+L'OFFICIEL,,web,0,1474,6255.0,internet
+LOKURA FM,,web,0,360,2005.0,internet
+LOPEZ DORIGA DIGITAL,,web,0,13758,28005.0,internet
+LOPEZ OBRADOR,,web,0,957,5005.0,internet
+LOS 21 REVISTA,,web,0,159,1005.0,internet
+LOS 40,,web,0,655,3505.0,internet
+LOS ANDES,,web,0,39176,30505.0,internet
+LOS IMAGINANTES,,web,0,646,3255.0,internet
+LOS IMPUESTOS,,web,0,4042,12755.0,internet
+LOS OJOS DEL TECOLOTE,,web,0,174,1005.0,internet
+LOS PALOMEROS,,web,0,637,3255.0,internet
+LOS PLEYERS,,web,0,1122,5505.0,internet
+LOS ROSTROS,,web,0,362,2005.0,internet
+LOS SABORES DE MEXICO,,web,0,2243,8255.0,internet
+LOS TIEMPOS,,web,0,6164,18005.0,internet
+LOS TUBOS,,web,0,163,1005.0,internet
+LUCIERNAGA INFORMATIVA,,web,0,535,2755.0,internet
+LUIS CÁRDENAS ,,web,0,270,1505.0,internet
+LUIS GUILLERMO DIGITAL,,web,0,275,1505.0,internet
+LUIS GYG,,web,0,2124,8005.0,internet
+LUZ NOTICIAS,,web,0,916,4755.0,internet
+MACRONEWS,,web,0,368,2005.0,internet
+MAGIA DIGITAL,,web,0,710,3755.0,internet
+MAL VESTIDA,,web,0,1211,5755.0,internet
+MALETA DE VIAJES,,web,0,843,4255.0,internet
+MAMA NOTICIAS,,web,0,333,1755.0,internet
+MAMAS LATINAS,,web,0,1382,6005.0,internet
+MANGA MEXICO,,web,0,1047,5255.0,internet
+MARCA,,web,0,477563,74505.0,internet
+MARCO BETETA,,web,0,1145,5505.0,internet
+MARCRIX NOTICIAS,,web,0,3786,12005.0,internet
+MAREMOTO MARISTEIN,,web,0,2534,9005.0,internet
+MARIE CLAIRE MEXICO,,web,0,1280,5755.0,internet
+MARIELA TV,,web,0,403,2255.0,internet
+MARKETING 4 ECOMMERCE,,web,0,17005,28255.0,internet
+MARKETING REGISTRADO,,web,0,2935,10005.0,internet
+MARMOR INFORMA,,web,0,1033,5255.0,internet
+MARTHA DEBAYLE,,web,0,2410,8755.0,internet
+MARTI NOTICIAS,,web,0,5541,16505.0,internet
+MARTIN RODRIGUEZ HERNANDEZ,,web,0,794,4005.0,internet
+MARU ROJAS REPORTERA,,web,0,75,550.0,internet
+MARVIN,,web,0,3956,12505.0,internet
+MAS CULTURA,,web,0,1785,7005.0,internet
+MAS LATINA,,web,0,519,2755.0,internet
+MAS MEDIO,,web,0,183,1005.0,internet
+MAS MEXICO,,web,0,1711,7005.0,internet
+MAS NOTICIAS,,web,0,1294,5755.0,internet
+MAS TELENOVELAS,,web,0,4057,12755.0,internet
+MAS POR MAS,,web,0,14741,28005.0,internet
+MASARIK TV,,web,0,4121,13005.0,internet
+MASEUAL,,web,0,185,1005.0,internet
+MATUTINO GRAFICO,,web,0,237,1255.0,internet
+MCV NOTICIAS,,web,0,864,4505.0,internet
+MDTECH.NEWS,,web,0,611,3255.0,internet
+ME HACE RUIDO,,web,0,588,3005.0,internet
+ME LO DIJO LOLA,,web,0,2833,9755.0,internet
+MEDIALAB UP,,web,0,4006,12755.0,internet
+MEDIO SERIO MX,,web,0,420,2255.0,internet
+MEDIO MUERTO,,web,0,328,1755.0,internet
+MEDIO TIEMPO,,web,0,64897,33005.0,internet
+MEGA NOTICIAS,,web,0,3141,10505.0,internet
+MEGA NEWS,,web,0,3935,12505.0,internet
+MEGALOPOLIS MX,,web,0,359,2005.0,internet
+MEGAURBE,,web,0,230,1255.0,internet
+MELOMAGAZINE,,web,0,241,1255.0,internet
+MEJOR INFORMADO,,web,0,2323,8505.0,internet
+MENTE POST,,web,0,1978,7505.0,internet
+MENS HEALTH LATAM,,web,0,3513,11505.0,internet
+MEOW MAG,,web,0,1354,6005.0,internet
+MERCA 2.0,,web,0,25798,29255.0,internet
+MERIDIANO MX,,web,0,1370,6005.0,internet
+MELODIA VIAJERA,,web,0,482,2505.0,internet
+META POLITICA,,web,0,399,2005.0,internet
+METRO ECUADOR,,web,0,8438,23755.0,internet
+METROPOLI HOY,,web,0,422,2255.0,internet
+MEXICAMPO,,web,0,277,1505.0,internet
+MEXICANISIMO,,web,0,388,2005.0,internet
+MEXICO AS,,web,0,815089,76755.0,internet
+MEXICO A LA CARTA,,web,0,597,3005.0,internet
+MEXICO DESCONOCIDO,,web,0,22002,28755.0,internet
+MEXICO ES CULTURA,,web,0,4948,15005.0,internet
+MEXICO INFORMA,,web,0,2653,9255.0,internet
+MEXICO NEWS,,web,0,5182,15505.0,internet
+MEXICO NEWS NETWORK,,web,0,1383,6005.0,internet
+MEXICO TRAVEL CHANNEL,,web,0,2347,8505.0,internet
+MEXICOXPORT,,web,0,919,4755.0,internet
+MICHOACAN EN CONCRETO,,web,0,1049,5255.0,internet
+MICHOACAN EN LINEA,,web,0,330,1755.0,internet
+MI MORELIA,,web,0,11761,27755.0,internet
+MIENTRAS TANTO EN MÉXICO,,web,0,2848,9755.0,internet
+MILED MEXICO,,web,0,706,3755.0,internet
+MILENIO,,web,0,140035,40755.0,internet
+MISION POLITICA,,web,0,436,2255.0,internet
+MISSING NUMBER,,web,0,533,2755.0,internet
+MI PUNTO DE VISTA,,web,0,2283,8255.0,internet
+MIX FM,,web,0,1521,6505.0,internet
+MM RADIO,,web,0,5450,16255.0,internet
+MNI ENTRETENIMIENTO,,web,0,3670,11755.0,internet
+MOBIL NEWS,,web,0,480,2505.0,internet
+MORELIA MIX,,web,0,413,2255.0,internet
+MORELIA ACTIVA,,web,0,579,3005.0,internet
+MODAES MX,,web,0,1891,7255.0,internet
+MODERNA Y ACTUAL MAG,,web,0,4020,12755.0,internet
+MONCHITIME,,web,0,2060,7755.0,internet
+MONITOR EXPRESO,,web,0,277,1505.0,internet
+MONITOR POBLANO,,web,0,195,1005.0,internet
+MONITOR SUR,,web,0,1055,5255.0,internet
+MONTERREY ROCK,,web,0,2679,9255.0,internet
+MONTERREY 360,,web,0,1550,6505.0,internet
+MONTEVIDEO PORTAL,,web,0,10272,27755.0,internet
+MORBIDO FEST,,web,0,1587,6505.0,internet
+MORE FM ONLINE,,web,0,380,2005.0,internet
+morelia film fest,,web,0,2637,9255.0,internet
+MORELOS HABLA,,web,0,645,3255.0,internet
+MURO POLITICO,,web,0,651,3505.0,internet
+MINIONDAS MAGAZINE,,web,0,2993,10005.0,internet
+MSN,,web,0,4904410,100000.0,internet
+MTP NOTICIAS,,web,0,1584,6505.0,internet
+MUGS NOTICIAS,,web,0,2071,7755.0,internet
+MUJER DE 10,,web,0,3373,11005.0,internet
+MUJER EJECUTIVA,,web,0,1098,5255.0,internet
+MUJER ES MÁS,,web,0,616,3255.0,internet
+MUJER HOY,,web,0,13665,28005.0,internet
+MULTIPRESS,,web,0,2463,8755.0,internet
+MULTIMEDIOS,,web,0,12434,27755.0,internet
+MULTICINES ALKAZAR,,web,0,420,2255.0,internet
+MUNDIARIO,,web,0,3082,10255.0,internet
+MUNDO ALTERNO,,web,0,247,1255.0,internet
+MUNDO DEPORTIVO,,web,0,303360,57005.0,internet
+MUNDO EJECUTIVO,,web,0,2588,9005.0,internet
+MUNDO EMPRESARIAL,,web,0,1136,5505.0,internet
+MUNDO TKM,,web,0,1136,5505.0,internet
+MUNDO STARTUPS,,web,0,1160,5505.0,internet
+MUNDO VERACRUZANO,,web,0,461,2505.0,internet
+MUNICIPIOS SUR,,web,0,354,2005.0,internet
+MURAL.COM,,web,0,29815,29505.0,internet
+MURAL DE GENERO,,web,0,425,2255.0,internet
+MUSICA INCLASICABLE,,web,0,1047,5255.0,internet
+MUTUAL MX,,web,0,961,5005.0,internet
+MUY INTERESANTE,,web,0,28286,29505.0,internet
+MRINDIE,,web,0,1749,7005.0,internet
+MVS NOTICIAS,,web,0,4885,14755.0,internet
+MX BLITZ,,web,0,143,755.0,internet
+MX CITY,,web,0,10114,27755.0,internet
+MY PRESS,,web,0,2371,8505.0,internet
+NACION 3 2 1,,web,0,19853,28505.0,internet
+NACION GRITA,,web,0,1204,5755.0,internet
+NACIONFLIX,,web,0,5017,15255.0,internet
+NACIONREX,,web,0,7365,21005.0,internet
+NAUFRAGHOST,,web,0,1789,7005.0,internet
+NCR NOTICIAS,,web,0,2816,9755.0,internet
+NEOMEXICANISMOS,,web,0,581,3005.0,internet
+NEOTRABA,,web,0,189,1005.0,internet
+NET NOTICIAS,,web,0,8572,24005.0,internet
+NEWS HIDALGO,,web,0,7323,21005.0,internet
+NEWS LINE REPORT,,web,0,1804,7255.0,internet
+NEWS REPORT MX,,web,0,1118,5505.0,internet
+NEWSWEEK ESPAÑOL,,web,0,4223,13255.0,internet
+NEXOS,,web,0,6846,19755.0,internet
+NDS NOTICIAS,,web,0,619,3255.0,internet
+NINE FICTION,,web,0,898,4505.0,internet
+NIVEL GAMER,,web,0,340,1755.0,internet
+NINTENDEROS,,web,0,8568,24005.0,internet
+NNC,,web,0,2775,9505.0,internet
+NO LIMITS,,web,0,233,1255.0,internet
+NO SOMOS ÑOÑOS,,web,0,1866,7255.0,internet
+NODAL AM,,web,0,3069,10255.0,internet
+NODO 9,,web,0,79,550.0,internet
+NOPAL CIBERNETICO,,web,0,180,1005.0,internet
+NORESTE.NET,,web,0,1607,6755.0,internet
+NORTE DIGITAL,,web,0,1028,5255.0,internet
+NOSOTRAS,,web,0,373,2005.0,internet
+NOTI MX,,web,0,2973,10005.0,internet
+NOTIAUTO,,web,0,560,3005.0,internet
+NOTICANARIAS,,web,0,545,2755.0,internet
+NOTICARIBE,,web,0,6271,18255.0,internet
+NOTICEL,,web,0,221,1255.0,internet
+NOTICENTRO,,web,0,280,1505.0,internet
+NOTICIAS 22,,web,0,3178,10505.0,internet
+NOTICIAS 24,,web,0,4017480,76755.0,internet
+NOTICIAS AL DÍA,,web,0,31186,29755.0,internet
+NOTICIAS BARQUESIMETO,,web,0,573,3005.0,internet
+NOTICIAS CD MX,,web,0,89,550.0,internet
+NOTICIAS DE CHIAPAS,,web,0,194,1005.0,internet
+NOTICIAS DE QUERETARO,,web,0,5496,16255.0,internet
+NOTICIAS DE YUCATAN,,web,0,1234,5755.0,internet
+NOTICIAS DEL SOL DE LA LAGUNA,,web,0,21118,28755.0,internet
+NOTICIAS EN CALIENTE,,web,0,270,1505.0,internet
+NOTICIAS EN LINEA,,web,0,1446,6255.0,internet
+NOTICIAS EN LA MIRA,,web,0,2830,9755.0,internet
+NOTICIAS ENFASIS,,web,0,9175,25505.0,internet
+NOTICIAS JALISCO,,web,0,54689,32005.0,internet
+NOTICIAS MERCEDINAS,,web,0,706,3755.0,internet
+NOTICIAS MEXICO AL DIA,,web,0,112,755.0,internet
+NOTICIAS MVS,,web,0,17968,28505.0,internet
+NOTICIAS NRT,,web,0,797,4005.0,internet
+NOTICIAS NVI,,web,0,8316,23505.0,internet
+NOTICIAS PERFIL,,web,0,174863,44005.0,internet
+NOTICIAS PEDRO CACHE,,web,0,6619,19255.0,internet
+NOTICIAS TLN,,web,0,392,2005.0,internet
+NOTICIAS TRANSFORMACION,,web,0,130,755.0,internet
+NOTICIAS VESPERTINAS,,web,0,1303,6005.0,internet
+NOTICIAS ZMG,,web,0,8160,23005.0,internet
+NOTICIEROS GREM,,web,0,2366,8505.0,internet
+NOTICIEROS TELEVISA,,web,0,126142,39255.0,internet
+NOTIFAX ON LINE,,web,0,5179,15505.0,internet
+NOTICINE,,web,0,1058,5255.0,internet
+NOTIMERICA,,web,0,5340,16005.0,internet
+NOTIMEX,,web,0,1988,7505.0,internet
+NOTICRACIA,,web,0,2885,9755.0,internet
+NOTIGAPE,,web,0,548,2755.0,internet
+NOTIGRAM,,web,0,20489,28755.0,internet
+NOTIPRESS,,web,0,41607,30755.0,internet
+NOTIREY TAMAULIPAS,,web,0,257,1505.0,internet
+NOTIRADAR,,web,0,2491,8755.0,internet
+NOTISISTEMA,,web,0,12294,27755.0,internet
+NOTIULTI,,web,0,3520,11505.0,internet
+NUESTRA VISION,,web,0,175,1005.0,internet
+NOTIVER,,web,0,8403,23755.0,internet
+NOVA 91.7,,web,0,44428,31005.0,internet
+NOVENTA GRADOS,,web,0,35798,30255.0,internet
+NOVEDADES DE CAMPECHE,,web,0,683,3505.0,internet
+NOVEDADES DE TABASCO,,web,0,976,5005.0,internet
+NOVENTA MINUTOS,,web,0,64605,33005.0,internet
+NSS OAXACA,,web,0,4272,13255.0,internet
+NTR GUADALAJARA,,web,0,3345,11005.0,internet
+NTR ZACATECAS,,web,0,8943,25005.0,internet
+NTN 24,,web,0,7503,21505.0,internet
+NUEVA MUJER,,web,0,8898,24755.0,internet
+NUEVA TRIBUNA.ES,,web,0,12541,28005.0,internet
+NUEVO LAREDO TV,,web,0,346,1755.0,internet
+NUEVO SONORA,,web,0,273,1505.0,internet
+NUPCIAS MAGAZINE,,web,0,642,3255.0,internet
+NV NOTICIAS,,web,0,294,1505.0,internet
+NYTIMES,,web,0,9232875,76755.0,internet
+OBRAS WEB,,web,0,79989,34505.0,internet
+OBREGON DIGITAL,,web,0,3908,12505.0,internet
+OCHO TV,,web,0,770,2505.0,internet
+OCIO EN LINEA,,web,0,2612,9255.0,internet
+OEM,,web,0,5863,17255.0,internet
+OINK OINK,,web,0,550,3005.0,internet
+OK CHICAS,,web,0,8328,23505.0,internet
+OLIVA NOTICIAS,,web,0,7892,22255.0,internet
+OMAR NINO,,web,0,694,3505.0,internet
+OMNIA,,web,0,5407,16255.0,internet
+ONCE NOTICIAS,,web,0,3342,11005.0,internet
+ONE CLICK MEDIA GROUP MX,,web,0,858,4505.0,internet
+ONE DIGITAL MX,,web,0,4844,14755.0,internet
+ONEXPO,,web,0,1358,6005.0,internet
+OPEN REVISTA,,web,0,741,3755.0,internet
+OPINION.COM.BO,,web,0,13810,28005.0,internet
+OPINION SONORA,,web,0,11864,27755.0,internet
+OPINION DE TAMAULIPAS,,web,0,250,1505.0,internet
+OPINION DE YUCATAN,,web,0,201,1255.0,internet
+OPPORTIMES,,web,0,4110,13005.0,internet
+ORALE QUE CHIQUITO,,web,0,350,2005.0,internet
+ORDENADOR POLÍTICO,,web,0,792,4005.0,internet
+ORGULLOSO CITADINO,,web,0,1035,5255.0,internet
+ORP NOTICIAS,,web,0,496,2505.0,internet
+OSCAR MARIO BETETA,,web,0,404,2255.0,internet
+OTROS CINES,,web,0,4147,13005.0,internet
+ORO NOTICIAS,,web,0,1948,7505.0,internet
+OAXACA POLITICO,,web,0,1970,7505.0,internet
+OVACIONES,,web,0,1909,7505.0,internet
+OYE 897,,web,0,689,3505.0,internet
+PACHUCA BRILLA,,web,0,130,755.0,internet
+PACO ZEA,,web,0,3779,12005.0,internet
+PABLO HIRIART,,web,0,661,3505.0,internet
+PAGINA 24 JALISCO,,web,0,472,2505.0,internet
+PAGINA 24 ZACATECAS,,web,0,252,1505.0,internet
+PAGINA 3,,web,0,1184,5505.0,internet
+PAGINA CENTRAL,,web,0,142,755.0,internet
+PAGINA CIUDADANA,,web,0,563,3005.0,internet
+PALABRAS CLARAS,,web,0,10166,27755.0,internet
+PALCO QUINTANARROENSE,,web,0,4880,14755.0,internet
+PALOMA Y NACHO,,web,0,5739,17005.0,internet
+PALOMITA DE MAIZ,,web,0,276,1505.0,internet
+PANAMA AMERICA,,web,0,22155,28755.0,internet
+PAOLA ROJAS,,web,0,1555,6505.0,internet
+PARALELO 19,,web,0,450,2505.0,internet
+PARALELO DIGITAL,,web,0,22000,28755.0,internet
+PARABOLICA,,web,0,837,4255.0,internet
+PARANDO OREJA,,web,0,289,1505.0,internet
+PARENTESIS,,web,0,6104,18005.0,internet
+PARTIDERO,,web,0,2042,7755.0,internet
+PASALA,,web,0,2818,9755.0,internet
+PASAPORTE INFORMATIVO,,web,0,577,3005.0,internet
+PASILLO TURISTICO,,web,0,187,1005.0,internet
+PASION MOVIL,,web,0,9045,25255.0,internet
+PASSPORT EXPERIENCE,,web,0,639,3255.0,internet
+PELOTAPIMIENTA.MX,,web,0,569,3005.0,internet
+PELICULAS 21,,web,0,48179,31505.0,internet
+PCM NOTICIAS,,web,0,627,3255.0,internet
+PENDULO,,web,0,6091,17755.0,internet
+PENUMBRIA,,web,0,212,1255.0,internet
+PEOPLE EN ESPAÑOL,,web,0,19416,28505.0,internet
+PERFIL FORMOSA,,web,0,958,5005.0,internet
+PERIODICO CENTRAL,,web,0,8475,23755.0,internet
+PERIODICO CORREO,,web,0,27996,29505.0,internet
+PERIODICO CONTACTO,,web,0,491,2505.0,internet
+PERIODICO DE IZCALLI,,web,0,300,1755.0,internet
+PERIODICO EL DIA,,web,0,130,755.0,internet
+PERIODICO EL DESPERTAR,,web,0,537,2755.0,internet
+PERIODICO EL TIEMPO,,web,0,260865,52755.0,internet
+PERIODICO EL NACIONAL,,web,0,705,3755.0,internet
+PERIODICO EL MEXICANO,,web,0,5220,15755.0,internet
+PERIODICO EL MOMENTO,,web,0,544,2755.0,internet
+PERIODICO ENFOQUE,,web,0,642,3255.0,internet
+PERIODICO ENTRE TODOS,,web,0,485,2505.0,internet
+PERIODICO ESPACIO,,web,0,229,1255.0,internet
+PERIODICO EXPRESS,,web,0,585,3005.0,internet
+PERIODICO HECHOS,,web,0,120,755.0,internet
+PERIODICO IMPULSO,,web,0,930,4755.0,internet
+PERIODICO LA VOZ,,web,0,13977,28005.0,internet
+PERIODICO LEO,,web,0,133,755.0,internet
+PERIODICO MIRADOR,,web,0,5594,16505.0,internet
+PERIODICO MOMENTO ,,web,0,544,2755.0,internet
+PERIODICO NMX,,web,0,487,2505.0,internet
+PERIODICO OPCIONES,,web,0,161,1005.0,internet
+PERIODICO PALACIO,,web,0,161,1005.0,internet
+PERIODICO RAICES,,web,0,914,4755.0,internet
+PERIODICO SUPREMO,,web,0,576,3005.0,internet
+PERIODICO VANGUARIDA,,web,0,83960,35005.0,internet
+PERIODICO VIAJE,,web,0,1605,6755.0,internet
+PERIODICO VICTORIA,,web,0,375,2005.0,internet
+PERIODISMO OBJETIVO,,web,0,560,3005.0,internet
+PERIODISTA DIGITAL,,web,0,109389,37505.0,internet
+PERIODISTAS QUINTANA ROO,,web,0,167,1005.0,internet
+PERIODISTAS SAN CRISTOBAL,,web,0,148,755.0,internet
+PERIODISTAS UNIDOS,,web,0,986,5005.0,internet
+PERSPECTIVAS MX,,web,0,270,1505.0,internet
+PIJAMA SURF,,web,0,28691,29505.0,internet
+PILOTZI NOTICIAS,,web,0,1081,5255.0,internet
+PLANETA GAMING,,web,0,775,4005.0,internet
+PLANETA TRIATLON,,web,0,2457,8755.0,internet
+PLANO INFORMATIVO,,web,0,33353,30005.0,internet
+PLAY BOY,,web,0,3164,10505.0,internet
+PLAY REACTOR,,web,0,313,1755.0,internet
+PLAYER 8,,web,0,649,3255.0,internet
+PLAYER FM,,web,0,46924,31255.0,internet
+PLAYER RESET,,web,0,352,2005.0,internet
+PLAYERONE,,web,0,199,1005.0,internet
+PLAYERS OF LIFE,,web,0,3598,11505.0,internet
+PLAYGROUNDMAG,,web,0,4775,14505.0,internet
+PLAYGROUND MEDIA,,web,0,730,3755.0,internet
+PLAZA DE ARMAS,,web,0,2555,9005.0,internet
+PLAZA JUAREZ,,web,0,2081,7755.0,internet
+PLENILUNIA,,web,0,2321,8505.0,internet
+PLUMAS ATOMICAS,,web,0,540,2755.0,internet
+PLUMAS LIBRES,,web,0,4964,15005.0,internet
+PLUMAS SELECTAS,,web,0,309,1755.0,internet
+PLUS GAMING,,web,0,318,1755.0,internet
+PMX PORTAL,,web,0,250,1505.0,internet
+POBLANERIAS,,web,0,2673,9255.0,internet
+PODER DE LA NOTICIA,,web,0,360,2005.0,internet
+PODER Y CRITICA,,web,0,1694,6755.0,internet
+PODER PLURALIDAD POLITICA,,web,0,200,1255.0,internet
+POLEMICA GUANAJUATO,,web,0,143,755.0,internet
+POLEMON,,web,0,3653,11755.0,internet
+POLIFANIA RED,,web,0,174,1005.0,internet
+POLITICA AL DIA,,web,0,1334,6005.0,internet
+POLITICA PUEBLA,,web,0,211,1255.0,internet
+POLITICA TLAXCALA,,web,0,639,3255.0,internet
+POLITICO MX,,web,0,14712,28005.0,internet
+PÓLUX WEB,,web,0,551,3005.0,internet
+POLVORA,,web,0,1533,6505.0,internet
+PSN EN LINEA,,web,0,2933,10005.0,internet
+POP KINEMA,,web,0,1047,5255.0,internet
+POR AMOR AL CINE,,web,0,120,755.0,internet
+POR LA LIBRE,,web,0,197,1005.0,internet
+POR LOS PASILLOS,,web,0,686,3505.0,internet
+PORTAL AMBIENTAL,,web,0,1514,6505.0,internet
+PORTAL AUTOMOTRIZ,,web,0,11418,27755.0,internet
+PORTAL DIARIO,,web,0,1881,7255.0,internet
+POR ESTO,,web,0,8874,24755.0,internet
+PORTAL HIDALGO,,web,0,99,550.0,internet
+PORTAL INMOBILIARIO,,web,0,76562,34255.0,internet
+PORTAL MX,,web,0,250,1505.0,internet
+PORTAL POLITICO,,web,0,2386,8505.0,internet
+PORTAVOZ CHIAPAS,,web,0,592,3005.0,internet
+PORTICO MX,,web,0,350,2005.0,internet
+PORTICO ON LINE,,web,0,1483,6255.0,internet
+POST DATA,,web,0,1411,6255.0,internet
+POSDATA DIGITAL,,web,0,321,1755.0,internet
+POSTA,,web,0,10479,27755.0,internet
+POTOSI NOTICIAS,,web,0,1080,5255.0,internet
+POWERGAMING NETWORK,,web,0,631,3255.0,internet
+PRENSA ANIMAL,,web,0,1224,5755.0,internet
+PRENSA ESCENARIO,,web,0,523,2755.0,internet
+PRENSA LIBRE,,web,0,274,1505.0,internet
+PRENSA FAN,,web,0,1167,5505.0,internet
+PRESNA MEXICANA,,web,0,434,2255.0,internet
+PRESENCIA NOTICIAS,,web,0,1048,5255.0,internet
+PRESS READER ,,web,0,73387,34005.0,internet
+PRIMERA HORA,,web,0,31830,29755.0,internet
+PRIMERA PAGINA,,web,0,2305,8505.0,internet
+PRIMERA PLANA NOTICIAS,,web,0,2370,8505.0,internet
+PRIMERO EDITORES,,web,0,280,1505.0,internet
+PRIMERO Y DIEZ,,web,0,11910,27755.0,internet
+PRESENCIA MX,,web,0,1735,7005.0,internet
+PRISMA RADIO,,web,0,498606,76505.0,internet
+PR NEWS WIRE,,web,0,114002,38005.0,internet
+PROCESO,,web,0,71949,33755.0,internet
+PROYECTO 13,,web,0,154,1005.0,internet
+PROYECTO 40,,web,0,3689,11755.0,internet
+PROYECTO MAMAS,,web,0,388,2005.0,internet
+PROYECTO PUENTE,,web,0,6443,18755.0,internet
+PUBLIMETRO,,web,0,49326,31505.0,internet
+PUBLI NEWS,,web,0,58507,32505.0,internet
+PUBLIKAT DIGITAL,,web,0,1270,5755.0,internet
+PUBLIKO,,web,0,256,1505.0,internet
+PUEBLA 321,,web,0,544,2755.0,internet
+PUEBLA ACIERTA,,web,0,746,3755.0,internet
+PUEBLA ON LINE,,web,0,1093,5255.0,internet
+PUENTE LIBRE,,web,0,11317,27755.0,internet
+PULSE NEWS,,web,0,5983,17505.0,internet
+PULSO ATL,,web,0,250,1505.0,internet
+PULSO POLÍTICO,,web,0,369,2005.0,internet
+PULSO SAN LUIS,,web,0,42439,30755.0,internet
+PUNTO DI INCONTRO,,web,0,324,1755.0,internet
+PUNTO MEDIO,,web,0,1569,6505.0,internet
+PUNTO MX,,web,0,1419,6255.0,internet
+PURO BEISBOL,,web,0,4141,13005.0,internet
+PURO ROCK,,web,0,1200,5755.0,internet
+PYSN NOTICIAS,,web,0,641,3255.0,internet
+Q MÚSICA TV,,web,0,393,2005.0,internet
+QORE,,web,0,3617,11755.0,internet
+QUE HACER,,web,0,994,1900.0,internet
+QUE HACER POLITICO,,web,0,269,1505.0,internet
+QUE PASA EN MAZATLAN,,web,0,755,4005.0,internet
+QUE PASA SALTA,,web,0,23121,29005.0,internet
+QUEVER,,web,0,9050,25255.0,internet
+QR MAGAZINE,,web,0,813,2200.0,internet
+QRO24SIETE,,web,0,389,2005.0,internet
+QROO,,web,0,89756,35505.0,internet
+QS NOTICIAS,,web,0,1267,5755.0,internet
+QUADRATIN,,web,0,54898,32005.0,internet
+QUADRATIN JALISCO,,web,0,59122,32505.0,internet
+QUADRATIN SINALOA,,web,0,33898,30005.0,internet
+QUARTER ROCK PRESS,,web,0,2590,9005.0,internet
+QUERETARO 24-7,,web,0,12106,27755.0,internet
+QUERETARO INFORMA,,web,0,180,1005.0,internet
+QUIEN,,web,0,26031,29255.0,internet
+QUIMICA UNAM,,web,0,498606,33000.0,internet
+QUIMINET,,web,0,106530,37255.0,internet
+QUINTAN FUERZA,,web,0,19568,28505.0,internet
+QUINTANA ROO EXPRESS,,web,0,264,1505.0,internet
+QUINTANA ROO HOY,,web,0,1954,7505.0,internet
+QUINTANA ROO URBANO / CANCÚN URBANO,,web,0,2692,9255.0,internet
+QUINTO PODER,,web,0,1765,7005.0,internet
+QUINTO PODER QRP,,web,0,1372,6005.0,internet
+QUOBIT,,web,0,3265,10755.0,internet
+R RAZONES,,web,0,114,755.0,internet
+RADIO K1,,web,0,429,2255.0,internet
+RADIO TELE,,web,0,494,2505.0,internet
+RADIO TIEMPO,,web,0,1723,7005.0,internet
+RADIO TONICA,,web,0,316,1755.0,internet
+RADIO PLAY,,web,0,1512,6505.0,internet
+RCN RADIO,,web,0,40401,30755.0,internet
+RADAR FM,,web,0,437,2255.0,internet
+RADAR POLITICO,,web,0,522,2755.0,internet
+RADAR SONORA,,web,0,3494,11255.0,internet
+RADIO CENTRO,,web,0,111381,37755.0,internet
+RADIO FORMULA.COM.MX,,web,0,39103,30505.0,internet
+RADIO FORMULA GUADALAJARA,,web,0,111381,37755.0,internet
+RADIO FORMULA MAZATLAN,,web,0,111381,37755.0,internet
+RADIO FORMULA QR,,web,0,111381,37755.0,internet
+RADIO FORMULA VERACRUZ,,web,0,73,550.0,internet
+RADIO IMAGINA,,web,0,609,3255.0,internet
+RADIO MEJOR,,web,0,478,2505.0,internet
+RADIO MITRE,,web,0,126159,39255.0,internet
+RADIONICA,,web,0,2940,10005.0,internet
+RADIO T ROCK,,web,0,245,1255.0,internet
+RADIO TURQUESA,,web,0,181,1005.0,internet
+RADIO NACIONAL,,web,0,9348,26005.0,internet
+RADIO NET MEXICO,,web,0,291,1505.0,internet
+RADIO Y TV MEXIQUENSE,,web,0,7655,21755.0,internet
+RADIOGRAFIA INFORMATIVA,,web,0,1052,5255.0,internet
+RADIONOTAS,,web,0,3161,10505.0,internet
+RANDIE ,,web,0,219,1255.0,internet
+RAMEN PARA DOS,,web,0,9050,2750.0,internet
+RASA INFORMA,,web,0,376,2005.0,internet
+RASPBERRY MAGAZINE,,web,0,110,755.0,internet
+REALIDAD OAXACA ,,web,0,470,2505.0,internet
+RECONOCE MX,,web,0,1062,5255.0,internet
+RECORD,,web,0,94719,36005.0,internet
+RED 93.3,,web,0,4152,13005.0,internet
+RED BOLIVISION,,web,0,3219,7600.0,internet
+RED BULL,,web,0,153490,75000.0,internet
+RED CAPITAL MX,,web,0,110,755.0,internet
+RED LAB MX,,web,0,227,1255.0,internet
+RED LOPEZ DIAZ,,web,0,210,1255.0,internet
+RED FINANCIERA,,web,0,581,3005.0,internet
+RED TAMPICO,,web,0,3142,10505.0,internet
+REDACCIÓN MÉDICA,,web,0,8763,24505.0,internet
+REDES DEL SUR,,web,0,89,550.0,internet
+REDLEMON,,web,0,1629,6755.0,internet
+REEDITOR,,web,0,896,4505.0,internet
+REFEREE MX,,web,0,3350,11005.0,internet
+REFLEXION 24 INFORMATIVO,,web,0,575,3005.0,internet
+REFORMA,,web,0,81355,34755.0,internet
+REGENACION MX,,web,0,9278,25755.0,internet
+REGENERACION GUANAJUATO,,web,0,129,755.0,internet
+REGION VALLES,,web,0,66,550.0,internet
+RELATOS A GRANEL,,web,0,160,1005.0,internet
+REPORTACERO,,web,0,948,4755.0,internet
+REPORTE DIRECTO,,web,0,344,1755.0,internet
+REPORTE INDIGO,,web,0,47345,31255.0,internet
+REPORTE NIVEL UNO,,web,0,406,2255.0,internet
+REPORTE NOROESTE,,web,0,586,3005.0,internet
+REPORTE TLAXCALA,,web,0,498,2505.0,internet
+REPORTEROS EN LINEA,,web,0,276,1505.0,internet
+REPORTEROS EN MOVIMIENTO,,web,0,2666,9255.0,internet
+REPORTEROS HOY,,web,0,876,4505.0,internet
+REPORTEROS DE BANQUETA,,web,0,435,2255.0,internet
+RESEÑA DIGITAL,,web,0,377,2005.0,internet
+RESPUESTA DEPORTIVA,,web,0,258,1505.0,internet
+REGENERACION MX,,web,0,9278,25755.0,internet
+RETO DIARIO,,web,0,1208,5755.0,internet
+REPRETEL,,web,0,398901,66505.0,internet
+REVES ONLINE,,web,0,637,3255.0,internet
+REVISTA ACTUAL,,web,0,452,2505.0,internet
+REVISTA BOCETOS,,web,0,503,2755.0,internet
+REVISTA CAMBIO,,web,0,373,2005.0,internet
+REVISTA CLASE,,web,0,16124,28255.0,internet
+REVISTA CINEFAGIA,,web,0,1048,5255.0,internet
+REVISTA CINEFAGOS,,web,0,1048,5255.0,internet
+REVISTA 192,,web,0,489,2505.0,internet
+REVISTA 360 GRADOS,,web,0,750,4005.0,internet
+REVISTA CENTRAL,,web,0,3055,10255.0,internet
+REVISTA CODIGO,,web,0,1955,7505.0,internet
+REVISTA COMUN,,web,0,282,1505.0,internet
+REVISTA CONSENSO,,web,0,2573,9005.0,internet
+REVISTA CONSIDERACIONES,,web,0,100,755.0,internet
+REVISTA CONTACTO,,web,0,1444,6255.0,internet
+REVISTA COSAS,,web,0,990,5005.0,internet
+REVISTA D ARTE,,web,0,236,1255.0,internet
+REVISTA DEBATE,,web,0,87212,35255.0,internet
+REVISTA EL CONOCEDOR,,web,0,4254,13255.0,internet
+REVISTA EN HEDUANNA,,web,0,4038,12755.0,internet
+REVISTA EN VIVA,,web,0,280,1505.0,internet
+REVISTA ENFASIS,,web,0,6585,19005.0,internet
+REVISTA ENTERATE,,web,0,340,1755.0,internet
+REVISTA ESCENARIOS,,web,0,2285,8255.0,internet
+REVISTA FACTOR RH,,web,0,39,400.0,internet
+REVISTA FAMA,,web,0,8450,23755.0,internet
+REVISTA FORTUNA,,web,0,3727,12005.0,internet
+REVISTA FREIM,,web,0,10664,27755.0,internet
+REVISTA GENTE,,web,0,1200,5755.0,internet
+REVISTA IMX,,web,0,1000,5255.0,internet
+REVISTA KUADRO,,web,0,2392,8505.0,internet
+REVISTA LA CAPITAL,,web,0,2047,7755.0,internet
+REVISTA LIGA ARTE,,web,0,200,1255.0,internet
+REVISTA LOS CINICOS,,web,0,190,1005.0,internet
+REVISTA MALINALI,,web,0,1628,6755.0,internet
+REVISTA MERCADOS,,web,0,1025,5255.0,internet
+REVISTA NEO,,web,0,9099,25255.0,internet
+REVISTA PANTALLA,,web,0,296,1505.0,internet
+REVISTA PERFILES,,web,0,495,2505.0,internet
+REVISTA PICNIC,,web,0,341,1755.0,internet
+REVISTA PLASTICO,,web,0,100,755.0,internet
+REVISTA PROPOSITIVA,,web,0,427,2255.0,internet
+REVISTA PAPER ROOM,,web,0,559,3005.0,internet
+REVISTA PUNTO DE VISTA,,web,0,1377,6005.0,internet
+REVISTA NETAS,,web,0,95,550.0,internet
+REVISTA Q,,web,0,4169,13005.0,internet
+REVISTA REPUBLICA,,web,0,581,3005.0,internet
+REVISTA REVIEW,,web,0,298,1505.0,internet
+REVISTA SIN RECREO,,web,0,595,3005.0,internet
+REVISTA SOON,,web,0,2392,8505.0,internet
+REVISTA TERRITORIO,,web,0,400,2255.0,internet
+REVISTA TOMA,,web,0,10210815,76755.0,internet
+REVISTA UNICA,,web,0,8660,24255.0,internet
+REVISTA ZOCALO,,web,0,292,1505.0,internet
+RINO MAGAZINE,,web,0,10210815,76755.0,internet
+RIO CINEMAS,,web,0,3658,11755.0,internet
+RIO DOCE,,web,0,4596,14005.0,internet
+RIOAXACA,,web,0,1776,7005.0,internet
+RITMO ROMANTICA,,web,0,7256,20755.0,internet
+RIVIERA NAYARIT,,web,0,376,2005.0,internet
+RKO,,web,0,1332,6005.0,internet
+RMX,,web,0,2471,8755.0,internet
+ROCK ADICTOS,,web,0,270,1505.0,internet
+ROCKEROS VIP,,web,0,1255,5755.0,internet
+ROCK AND LUCHA,,web,0,470,2505.0,internet
+ROCK SONICO,,web,0,10487,27755.0,internet
+ROCK X MEXICO,,web,0,211,1255.0,internet
+ROCK101,,web,0,16660,28255.0,internet
+ROCK 111,,web,0,1575,6505.0,internet
+ROCK 360 MX,,web,0,200,1255.0,internet
+ROCKODROMO MX,,web,0,32818,30005.0,internet
+ROCKSTARISMO,,web,0,150,1005.0,internet
+ROLANDO RADIO,,web,0,3505,11505.0,internet
+ROLLING STONE,,web,0,415857,68255.0,internet
+ROMBO DIGITAL,,web,0,1674,6755.0,internet
+ROTATIVO,,web,0,2162,8005.0,internet
+ROTATIVO OAXACA,,web,0,777,4005.0,internet
+ROBOTTO,,web,0,264,1505.0,internet
+ROSA DISTRITO,,web,0,650,3505.0,internet
+ROUND UNO,,web,0,440,2255.0,internet
+RULETA RUSA,,web,0,181,1005.0,internet
+RUNNING LIFE,,web,0,317,1755.0,internet
+RUNNEA,,web,0,7667,21755.0,internet
+RUTA ELECTORAL,,web,0,7300,21005.0,internet
+RR NOTICIAS,,web,0,541,2755.0,internet
+RSVP ONLINE,,web,0,5293,15755.0,internet
+RT.COM,,web,0,4667394,76755.0,internet
+RTVE ES,,web,0,237970,50505.0,internet
+S1NGULAR,,web,0,3689,11755.0,internet
+SCOOPNEST,,web,0,33863,30005.0,internet
+SABER SIN FIN,,web,0,4021,12755.0,internet
+SABOR ES ARTE,,web,0,1296,5755.0,internet
+SAKURA TALENTO,,web,0,250,1505.0,internet
+SALA 24,,web,0,450,2505.0,internet
+SALMANTINO,,web,0,1116,5505.0,internet
+SAMSUNG NEWSROOM,,web,0,5186637,76755.0,internet
+SAN LUIS HOY,,web,0,4386,13505.0,internet
+SAPS,,web,0,629,3255.0,internet
+SBC NOTICIAS,,web,0,2060,7755.0,internet
+SDP NOTICIAS,,web,0,56633,32255.0,internet
+SE UNO NOTICIAS MORELOS,,web,0,2024,7755.0,internet
+SEITRACK,,web,0,514,2755.0,internet
+SECCION AMARILLA,,web,0,31488,29755.0,internet
+SECTOR CINE,,web,0,2408,8755.0,internet
+SEDE MX,,web,0,3206,10755.0,internet
+SEGUNDO A SEGUNDO,,web,0,688,3505.0,internet
+SEMANARIO 7 DIAS,,web,0,76,550.0,internet
+SEMANARIO LA CALLE,,web,0,951,5005.0,internet
+SEM MÉXICO,,web,0,215,1255.0,internet
+SENDA POLITICA,,web,0,851,4505.0,internet
+SENDEROS DEL MAYAB,,web,0,120,755.0,internet
+SENSACINE,,web,0,132450,39755.0,internet
+SEÑAL MX,,web,0,415,2255.0,internet
+SEÑAL NEWS,,web,0,3118,10505.0,internet
+SET NOTICIAS,,web,0,606,3255.0,internet
+SETLIST.MX,,web,0,214,1255.0,internet
+SEVILLA INFO,,web,0,1162,5505.0,internet
+SHANA FILMS,,web,0,2209,8255.0,internet
+SHOW NEWS,,web,0,12883,28005.0,internet
+SIEMPRE,,web,0,3547,11505.0,internet
+SIETE-24,,web,0,9248,25755.0,internet
+SIETE DE JUNIO,,web,0,933,4755.0,internet
+SIETE DIAS OAX,,web,0,933,4755.0,internet
+SIGLO COAHUILA,,web,0,17236,28255.0,internet
+SIGNOS FM,,web,0,241,1255.0,internet
+SILVER GEEK,,web,0,540,2755.0,internet
+SIN EMBARGO,,web,0,40170,30755.0,internet
+SIN LINEA DIARIO,,web,0,2719,9505.0,internet
+SINALOA EN LINEA,,web,0,1816,7255.0,internet
+SINALOA HOY,,web,0,2123,8005.0,internet
+SINALOA PRESS,,web,0,213,1255.0,internet
+SNEAK PEEK,,web,0,437,2255.0,internet
+SINOPCINE,,web,0,688,3505.0,internet
+SIPSE NOVEDADES,,web,0,25406,29255.0,internet
+SISTEMA MICHOACANO DE RADIO Y TV,,web,0,563,3005.0,internet
+SMASH MÉXICO,,web,0,6850,19755.0,internet
+SOBRE-T,,web,0,898,4505.0,internet
+SOLEDAD DURAZO,,web,0,404,2255.0,internet
+SOLO BEISBOL,,web,0,250,1505.0,internet
+SOMOS ALTIPLANO,,web,0,179,1005.0,internet
+SOMOS EL MEDIO,,web,0,450,2505.0,internet
+SOMOS KUDASAI,,web,0,19557,28505.0,internet
+SOMOS MASS 99,,web,0,1157,5505.0,internet
+SOMOS NEWS,,web,0,913,4755.0,internet
+SÓNICA MX ,,web,0,6684,19255.0,internet
+SONORA A LA HORA,,web,0,279,1505.0,internet
+SONORA PRESENTE,,web,0,370,2005.0,internet
+SOPITAS,,web,0,19384,28505.0,internet
+SOULWAVEZ,,web,0,277,1505.0,internet
+SOY 502,,web,0,30186,29755.0,internet
+SOY CARMIN,,web,0,9379,26005.0,internet
+SOY DE CINE,,web,0,558,3005.0,internet
+SOY FUTBOL,,web,0,12633,28005.0,internet
+SOY GRUPERO,,web,0,1124,5505.0,internet
+SOY MUJER,,web,0,484,2505.0,internet
+SOY QRO,,web,0,199,1005.0,internet
+SPOILER TIME,,web,0,5411,16255.0,internet
+SPORTS NET,,web,0,30725,29755.0,internet
+SPOTIFY,,web,0,26800,18000.0,internet
+SR NOTICIAS,,web,0,130,755.0,internet
+STAR MEDIA,,web,0,2519,9005.0,internet
+STYLE BY SHOCKVISUAL,,web,0,4395,13505.0,internet
+STYLER MX,,web,0,356,2005.0,internet
+SUMMA INFERNO,,web,0,1426,6255.0,internet
+SUBTERRANEOS,,web,0,180,1005.0,internet
+SUCEDIÓ EN OAXACA,,web,0,946,4755.0,internet
+SUCESOS DE VERACRUZ,,web,0,120,755.0,internet
+SUPER CHANNEL 12,,web,0,1523,6505.0,internet
+SUR ACAPULCO,,web,0,3361,11005.0,internet
+SUR Y SUR,,web,0,3110,10505.0,internet
+SURESTE SUR,,web,0,285,1505.0,internet
+SWISSINFO,,web,0,63051,33005.0,internet
+T21,,web,0,7719,22005.0,internet
+T-INFORMA,,web,0,306,1755.0,internet
+TABASCO HOY,,web,0,3696,11755.0,internet
+TABLOIDE REVISTA,,web,0,467,2505.0,internet
+TADAIMA,,web,0,277,275.0,internet
+TALLA POLITICA,,web,0,337,1755.0,internet
+TARREO,,web,0,7548,21505.0,internet
+TECATE INFORMATIVO,,web,0,1770,7005.0,internet
+TECH GAMES,,web,0,1374,6005.0,internet
+TECNOCAT,,web,0,489,2505.0,internet
+TECNO BREAK,,web,0,1124,5505.0,internet
+TECNOGAMING,,web,0,1720,7005.0,internet
+TECNOLOGIA CON MARIO,,web,0,103,755.0,internet
+TEKCRISPY,,web,0,7785,22005.0,internet
+TELE DIARIO,,web,0,24439,29005.0,internet
+TELEFE,,web,0,4972,15005.0,internet
+TELEHIT,,web,0,5827,17255.0,internet
+TELEMUNDO,,web,0,35659,30255.0,internet
+TELEMETRO,,web,0,17687,28505.0,internet
+TELEMUNDO ARIZONA,,web,0,492,2505.0,internet
+TELEMUNDO CHICAGO,,web,0,3090,10255.0,internet
+TELEMUNDO DALLAS,,web,0,1628,6755.0,internet
+TELEMUNDO 51,,web,0,3444,11255.0,internet
+TELEMUNDO 52,,web,0,551,3005.0,internet
+TELEVISA,,web,0,48340,31505.0,internet
+TEMAS DE CAFÉ,,web,0,250,1505.0,internet
+TE INVITO AL CINE,,web,0,879,4505.0,internet
+TERA GAMES,,web,0,975,5005.0,internet
+TERCERA INFORMACION,,web,0,1220,5755.0,internet
+TERCERA VIA,,web,0,1739,7005.0,internet
+TERMOMETRO EN LINEA,,web,0,2204,8255.0,internet
+TERRA,,web,0,6346,18505.0,internet
+THE BEAUTY EFFECT,,web,0,1508,6505.0,internet
+THE ESPORTS MEXICO,,web,0,750,4005.0,internet
+THE GUARDIAN,,web,0,2096163,89755.0,internet
+THE HAPPENING,,web,0,7409,21255.0,internet
+THE HIVE GAMING,,web,0,438,2255.0,internet
+THE LIT MAG,,web,0,726,3755.0,internet
+THE MARKETHINK,,web,0,1159,5505.0,internet
+THE NEW YORK TIMES,,web,0,4124402,100000.0,internet
+THE OBJETIVE,,web,0,20985,28755.0,internet
+THE OBSERVER,,web,0,190,1005.0,internet
+THE OMG,,web,0,747,3755.0,internet
+THE SPOTLIGHT MX,,web,0,800,4255.0,internet
+TIEMPO LIBRE QUERETARO,,web,0,2100,8005.0,internet
+TIEMPO REGIO,,web,0,453,2505.0,internet
+TIEMPO.COM.MX,,web,0,18622,28505.0,internet
+TIERRA FERTIL,,web,0,805,4255.0,internet
+TIERRA GAMER,,web,0,27781,29505.0,internet
+TIJUANA EN LA NOTICIA,,web,0,378,2005.0,internet
+TIJUANA INFORMATIVO,,web,0,3580,11505.0,internet
+TIJUANOTAS,,web,0,870,4505.0,internet
+TIME OUT MEXICO,,web,0,8414,23755.0,internet
+TIQFUN,,web,0,669,3505.0,internet
+TITAN MX,,web,0,588,3005.0,internet
+TLATOANI INFO,,web,0,225,1255.0,internet
+TODO CHICOLOAPAN,,web,0,150,1005.0,internet
+TODO GAMERS,,web,0,200,1255.0,internet
+TODO PUEBLA,,web,0,1576,6505.0,internet
+TODO STARTUPS,,web,0,1318,6005.0,internet
+TODO TEXCOCO,,web,0,624,3255.0,internet
+TODO TV NEWS,,web,0,4379,13505.0,internet
+TODUP NEWS,,web,0,308,1755.0,internet
+TOLUCA CULTURAL,,web,0,350,2005.0,internet
+TOLUCA LA BELLA CD,,web,0,2087,7755.0,internet
+TOMATAZOS,,web,0,20645,28755.0,internet
+TONICA,,web,0,722,3755.0,internet
+TOP CINEMA,,web,0,428,2255.0,internet
+TOP GENTE,,web,0,151,1005.0,internet
+TOQUE DE MUJER,,web,0,856,4505.0,internet
+TRAFICO ZMG,,web,0,4241,13255.0,internet
+TN COM AR,,web,0,85722,35255.0,internet
+TRAVESIAS,,web,0,3135,10505.0,internet
+TRENDINGMAGAZINE,,web,0,688,3505.0,internet
+TRENDENCIAS,,web,0,14002,28005.0,internet
+TRES PM,,web,0,2178,8005.0,internet
+TRIBUNA,,web,0,7924,22505.0,internet
+TRIBUNA DE LA BAHIA,,web,0,2016,7755.0,internet
+TRIBUNA NOTICIAS,,web,0,2091,7755.0,internet
+TRIBUNA CAMPECHE,,web,0,6262,18255.0,internet
+TRIBUNA DE MÉXICO,,web,0,14817,28005.0,internet
+TRIBUNA DE SAN LUIS,,web,0,1393,6005.0,internet
+TRIMEXICO,,web,0,384,2005.0,internet
+TRIATLON CHANNEL,,web,0,774,4005.0,internet
+TRIATLON NOTICIAS,,web,0,1835,7255.0,internet
+TROME,,web,0,3619,11755.0,internet
+TU BANDA MAGAZINE,,web,0,320,1755.0,internet
+TU EN LINEA,,web,0,4061,12755.0,internet
+TU NOTA,,web,0,1386,6005.0,internet
+TU INTERFAZ DE NEGOCIOS,,web,0,672,3505.0,internet
+TUCUMAN A LAS 7,,web,0,359,2005.0,internet
+TUCUMAN NOTICIAS,,web,0,917,4755.0,internet
+TUDN,,web,0,3493,11255.0,internet
+TURNO ALBAT,,web,0,15305,28255.0,internet
+TURQUESA NEWS,,web,0,4341,13505.0,internet
+TV ACAPULCO,,web,0,1912,7505.0,internet
+TV AZTECA,,web,0,51764,31755.0,internet
+TV LATINA,,web,0,1627,6755.0,internet
+TV MILENIO,,web,0,140035,40755.0,internet
+TV NOTAS,,web,0,20646,28755.0,internet
+TV PACIFICO,,web,0,1733,7005.0,internet
+tv unam,,web,0,210418,47755.0,internet
+TV Y CINE,,web,0,440,2255.0,internet
+TV Y NOVELAS,,web,0,9816,27255.0,internet
+TVN NOTICIAS,,web,0,7773,22005.0,internet
+TXG,,web,0,320,1755.0,internet
+TYC SPORTS,,web,0,17618,28505.0,internet
+UDG TV,,web,0,2105,8005.0,internet
+ULTIMA HORA,,web,0,17232,28255.0,internet
+ULTIMATUM TABASCO,,web,0,480,2505.0,internet
+ULTIMO MINUTO NOTICIAS,,web,0,472,2505.0,internet
+ULTRA NOTICIAS,,web,0,100,755.0,internet
+ULTRA RADIO,,web,0,250,1505.0,internet
+UNAM GLOBAL,,web,0,210418,47755.0,internet
+UNI2 NOTICIAS,,web,0,525,200.0,internet
+UNICABLE,,web,0,1977,7505.0,internet
+UNIFE,,web,0,1920,7505.0,internet
+UNIMEXICALI,,web,0,1191,5505.0,internet
+UNION CDMX,,web,0,6757,19505.0,internet
+UNION EDOMEX,,web,0,3850,12255.0,internet
+UNION GUANAJUATO,,web,0,5753,17005.0,internet
+UNION JALISCO,,web,0,7013,20255.0,internet
+UNION MORELOS,,web,0,2255,8255.0,internet
+UNIRADIO INFORMA,,web,0,9528,26505.0,internet
+UN GATO EN EL CINE,,web,0,280,1505.0,internet
+UNIVISION,,web,0,109504,37505.0,internet
+UNNIMEDIOS,,web,0,293,1505.0,internet
+UNO CERO,,web,0,16863,28255.0,internet
+UNO MAS UNO,,web,0,4567,14005.0,internet
+UNO TV,,web,0,44156,31005.0,internet
+UNPLUGGED NEWS,,web,0,944,4755.0,internet
+UPDATE MÉXICO,,web,0,628,3255.0,internet
+UPSOCL,,web,0,14812,28005.0,internet
+URBANA LIFESTYLE,,web,0,312,1755.0,internet
+URBANO PUEBLA,,web,0,1502,6505.0,internet
+URBAN ROOSTERS,,web,0,1528,6505.0,internet
+URBANO TLAXCALA,,web,0,302,1755.0,internet
+URBEAT,,web,0,572,3005.0,internet
+URBIS TV MORELIA,,web,0,583,3005.0,internet
+URBIS VERACRUZ,,web,0,277,1505.0,internet
+URGENTE 24,,web,0,23956,29005.0,internet
+VADER NEWS,,web,0,5886,17255.0,internet
+VALLARTA OPINA,,web,0,2120,8005.0,internet
+VA DE NUEZ,,web,0,504,2755.0,internet
+VAGABUNDOS MX,,web,0,951,5005.0,internet
+VALENCIA PLAZA,,web,0,6781,19505.0,internet
+VALKIRIA ONLINE,,web,0,270,1505.0,internet
+VALOR COMPARTIDO,,web,0,160,1005.0,internet
+VAMOS CRUZ AZUL,,web,0,96333,36255.0,internet
+VAMONOS DE VAGOS,,web,0,350,2005.0,internet
+VANGUARDIA,,web,0,27354,29255.0,internet
+VANGUARDIA VERACRUZ,,web,0,2097,7755.0,internet
+VANIDADES,,web,0,3169,10505.0,internet
+VANITY FAIR,,web,0,10371,27755.0,internet
+VAR DEPORTIVO,,web,0,219,1255.0,internet
+VAVEL,,web,0,87251,35255.0,internet
+VELVET MAG,,web,0,197,1005.0,internet
+VEME DIGITAL,,web,0,350,2005.0,internet
+VENTANEANDO,,web,0,51200,31755.0,internet
+VENGA LA ALEGRIA,,web,0,51764,31755.0,internet
+VERACRUZ AL DIA,,web,0,136,755.0,internet
+VERACRUZ EN RED,,web,0,238,1255.0,internet
+VERACRUZ EN LINEA,,web,0,429,2255.0,internet
+VERAZ INFORMA,,web,0,1322,6005.0,internet
+VERBOLSA,,web,0,522,2755.0,internet
+VERSUS MEDIA,,web,0,3213,10755.0,internet
+VERTIGO POLITICO,,web,0,4422,13755.0,internet
+VIA TRES,,web,0,1118,5505.0,internet
+VIA X ESPORTS,,web,0,286,1505.0,internet
+VIBE TV,,web,0,1420,6255.0,internet
+VIBRACIONES CAPITAL,,web,0,331,1755.0,internet
+VICE,,web,0,31077,29755.0,internet
+VIDA EN XALAPA,,web,0,270,1505.0,internet
+VIDA EXTRA,,web,0,6268,18255.0,internet
+VIDA IDEA SEGURA,,web,0,281,1505.0,internet
+VIDA LATINA SD,,web,0,3837,12255.0,internet
+VIDEOCINE,,web,0,1877,7255.0,internet
+VIERNES MAGAZINE,,web,0,224,1255.0,internet
+VIP EXPERIENCES,,web,0,2614,9255.0,internet
+VISIÓN AUTOMOTRIZ,,web,0,1585,6505.0,internet
+REVISTA VISION GLOBAL,,web,0,230,1255.0,internet
+VISION METROPOLI,,web,0,412,2255.0,internet
+VISION MX,,web,0,280,1505.0,internet
+VISITA MEXICO,,web,0,8014,22755.0,internet
+VISOR EMPRESARIAL,,web,0,1304,6005.0,internet
+VISTA PRESS,,web,0,490,2505.0,internet
+VIVA LA FARANDULA,,web,0,608,3255.0,internet
+VIVA LA NOTICIA,,web,0,324,1755.0,internet
+VIVA VOZ,,web,0,715,3755.0,internet
+VIVE COATZA,,web,0,3273,10755.0,internet
+VIVE RADIO,,web,0,3533,11505.0,internet
+VIVE USA,,web,0,23568,29005.0,internet
+VIVE XALAPA,,web,0,486,2505.0,internet
+VIVES FUTBOL,,web,0,535,2755.0,internet
+VIVIR EN JUAREZ,,web,0,787,4005.0,internet
+VIVO NOTICIAS,,web,0,2328,8505.0,internet
+VLEX NOTICIAS,,web,0,560,3005.0,internet
+VERO MEROL,,web,0,947,4755.0,internet
+VOCES DEL PERIODISTA,,web,0,1582,6505.0,internet
+VOGUE.MX,,web,0,16244,28255.0,internet
+VOLK GAMES,,web,0,581,3005.0,internet
+VORAGINE,,web,0,806,4255.0,internet
+VOX POPULI NOTICIAS,,web,0,2264,8255.0,internet
+VOZ EN RED,,web,0,4094,12755.0,internet
+VOZ IMPARCIAL,,web,0,1721,7005.0,internet
+VPI TV,,web,0,1563,6505.0,internet
+W RADIO.COM.MX,,web,0,13202,28005.0,internet
+WAPA PE,,web,0,10311,27755.0,internet
+WARP. LA,,web,0,1720,7005.0,internet
+WATCHES WORLD,,web,0,523,2755.0,internet
+WEB ADICTOS,,web,0,1340,6005.0,internet
+WIPY TV,,web,0,9817,27255.0,internet
+WOKII,,web,0,676,3505.0,internet
+XATAKA,,web,0,15469,28255.0,internet
+XEU,,web,0,11277,27755.0,internet
+XEWT12,,web,0,624,3255.0,internet
+XEVA,,web,0,3033,10255.0,internet
+YA FM,,web,0,2499,8755.0,internet
+YAMETE NEWS,,web,0,150,100.0,internet
+REVISTA YACONIC,,web,0,1200,5755.0,internet
+YAHOO MEXICO,,web,0,29988007,100000.0,internet
+YANCUIC,,web,0,657,3505.0,internet
+YOGONET LATINOAMÉRICA,,web,0,2500,9005.0,internet
+YUCATAN A LA MANO,,web,0,1136,5505.0,internet
+YUCATAN AHORA,,web,0,1789,7005.0,internet
+YUCATAN AL INSTANTE,,web,0,609,3255.0,internet
+YUCATAN AL MOMENTO,,web,0,422,2255.0,internet
+YUCATAN EN CORTO,,web,0,331,1755.0,internet
+ZACATECAS HOY,,web,0,798,4005.0,internet
+ZACATECAS ON LINE,,web,0,712,3755.0,internet
+ZACATECAS WEB NEWS,,web,0,340,1755.0,internet
+ZACATELCO RADIO,,web,0,385,2005.0,internet
+ZBR,,web,0,580,3005.0,internet
+ZECTOR 51,,web,0,287,1505.0,internet
+ZELEB,,web,0,317,1755.0,internet
+ZERO MAGAZINE,,web,0,9321,26005.0,internet
+ZETA TIJUANA,,web,0,6728,19505.0,internet
+ZOCALO SALTILLO,,web,0,12552,28005.0,internet
+ZONA FRANCA,,web,0,5464,16255.0,internet
+ZONA VIP,,web,0,170,1005.0,internet
+ZOOM F7,,web,0,2145,8005.0,internet

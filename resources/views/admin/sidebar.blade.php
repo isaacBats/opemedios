@@ -86,6 +86,11 @@
                     </ul>
               </li>
               <li><a href="{{ route('admin.sectors') }}"><i class="fa fa-archive"></i><span>{{ __('Sectores') }}</span></a></li>
+              @if(Auth::user()->isAdmin() || Auth::user()->isExecutive())
+              <li class="{{ request()->routeIs('rates', 'rate.*') ? 'active' : '' }}">
+                  <a href="{{ route('rates') }}"><i class="fa fa-money"></i><span>{{ __('Tarifarios') }}</span></a>
+              </li>
+              @endif
             </ul>
         @endcan
 
