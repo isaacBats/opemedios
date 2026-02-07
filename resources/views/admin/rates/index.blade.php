@@ -10,6 +10,11 @@
             {{ session('error') }}
         </div>
     @endif
+    @if (session('warning'))
+        <div class="alert alert-warning">
+            <strong><i class="fa fa-exclamation-triangle"></i> Advertencia:</strong> {{ session('warning') }}
+        </div>
+    @endif
     <div class="col-md-12 people-list">
         <div class="people-options clearfix">
             <div class="btn-toolbar">

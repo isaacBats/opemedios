@@ -25,6 +25,16 @@
                     <p><strong>Tipos de contenido (content_type):</strong> post, story, reel, video, web</p>
                 </div>
 
+                <div class="alert alert-warning">
+                    <h5><i class="fa fa-exclamation-triangle"></i> Reglas de Validación</h5>
+                    <ul class="mb-0">
+                        <li><strong>min_value</strong> debe ser menor o igual a <strong>max_value</strong></li>
+                        <li><strong>price</strong> debe ser mayor a 0</li>
+                        <li><strong>source_name</strong> es obligatorio</li>
+                        <li>Las filas inválidas se omitirán y se mostrará el detalle</li>
+                    </ul>
+                </div>
+
                 <form action="{{ route('rate.import.process') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -42,9 +52,14 @@
                     <div class="form-group" style="margin-top: 20px;">
                         <a href="{{ route('rates') }}" class="btn btn-default btn-lg">Cancelar</a>
                         <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-upload"></i> Importar CSV</button>
-                        <a href="{{ route('rate.import.template') }}" class="btn btn-info btn-lg pull-right">
-                            <i class="fa fa-download"></i> Descargar Plantilla
-                        </a>
+                        <div class="pull-right">
+                            <a href="{{ route('rate.import.template') }}" class="btn btn-info btn-lg">
+                                <i class="fa fa-download"></i> Plantilla Base
+                            </a>
+                            <a href="{{ route('rate.import.template.dynamic') }}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-magic"></i> Plantilla Dinámica
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>

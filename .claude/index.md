@@ -1,7 +1,7 @@
 # Índice del Directorio .claude
 
 > **Propósito:** Inventario maestro para navegación rápida
-> **Última actualización:** 2026-02-06
+> **Última actualización:** 2026-02-07
 
 ---
 
@@ -77,9 +77,25 @@
 
 ---
 
+## Auditoría de Tarifas
+
+| Validación | Comportamiento |
+|------------|----------------|
+| `min_value > max_value` | Rechazado con mensaje específico |
+| `price <= 0` | Rechazado |
+| `source_name` vacío | Rechazado |
+| Tipo inválido | Rechazado |
+
+**Plantillas disponibles:**
+- Plantilla Base: `/panel/tarifa/plantilla`
+- Plantilla Dinámica: `/panel/tarifa/plantilla-dinamica` (incluye sources/sections actuales)
+
+---
+
 ## Notas Rápidas
 
 1. **UI:** `rules/ui-style.md` es la fuente de verdad
 2. **Seguridad:** Multi-tenant obligatorio en ClientController
 3. **reCAPTCHA:** Claves v3 pendientes para producción
 4. **Tarifarios:** CSV master en `tarifario/master_tarifario_opemedios.csv`, acceso vía Catálogo > Tarifarios
+5. **Autocompletado:** Costo y Alcance se auto-rellenan al seleccionar Fuente/Sección

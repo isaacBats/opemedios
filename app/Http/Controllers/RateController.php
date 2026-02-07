@@ -456,7 +456,10 @@ class RateController extends Controller
             return response()->json([
                 'success' => true,
                 'price' => $rate->price,
+                'max_value' => $rate->max_value,
+                'min_value' => $rate->min_value,
                 'rate_id' => $rate->id,
+                'type' => $rate->type,
             ]);
         }
 

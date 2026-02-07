@@ -61,6 +61,21 @@ class RateImportController extends Controller
                 $result['skipped']
             );
 
+            // Store skip reasons in session if any
+            if (!empty($result['skip_reasons'])) {
+                $reasonsPreview = array_slice($result['skip_reasons'], 0, 10);
+                $remaining = count($result['skip_reasons']) - 10;
+
+                $skipMessage = implode(' | ', $reasonsPreview);
+                if ($remaining > 0) {
+                    $skipMessage .= " (y {$remaining} más...)";
+                }
+
+                return redirect()->route('rates')
+                    ->with('status', $message)
+                    ->with('warning', 'Razones de omisión: ' . $skipMessage);
+            }
+
             return redirect()->route('rates')->with('status', $message);
 
         } catch (\Exception $e) {
@@ -77,7 +92,7 @@ class RateImportController extends Controller
     /**
      * Process the CSV file and import rates.
      *
-     * @return array{imported: int, updated: int, skipped: int}
+     * @return array{imported: int, updated: int, skipped: int, skip_reasons: array<string>}
      */
     private function processCSV(string $filepath): array
     {
@@ -90,6 +105,7 @@ class RateImportController extends Controller
         $imported = 0;
         $updated = 0;
         $skipped = 0;
+        $skipReasons = [];
 
         DB::beginTransaction();
 
@@ -113,18 +129,22 @@ class RateImportController extends Controller
 
                 if (count($row) < count($header)) {
                     $skipped++;
+                    $skipReasons[] = "Línea {$lineNumber}: Columnas insuficientes";
                     continue;
                 }
 
                 $data = array_combine($header, $row);
-                $result = $this->processRow($data);
+                $result = $this->processRow($data, $lineNumber);
 
-                if ($result === 'imported') {
+                if ($result['status'] === 'imported') {
                     $imported++;
-                } elseif ($result === 'updated') {
+                } elseif ($result['status'] === 'updated') {
                     $updated++;
                 } else {
                     $skipped++;
+                    if ($result['reason']) {
+                        $skipReasons[] = $result['reason'];
+                    }
                 }
             }
 
@@ -141,15 +161,16 @@ class RateImportController extends Controller
             'imported' => $imported,
             'updated' => $updated,
             'skipped' => $skipped,
+            'skip_reasons' => $skipReasons,
         ];
     }
 
     /**
      * Process a single row from the CSV.
      *
-     * @return string 'imported'|'updated'|'skipped'
+     * @return array{status: string, reason: string|null}
      */
-    private function processRow(array $data): string
+    private function processRow(array $data, int $lineNumber): array
     {
         $sourceName = trim($data['source_name'] ?? '');
         $sectionName = trim($data['section_name'] ?? '');
@@ -160,14 +181,27 @@ class RateImportController extends Controller
         $type = trim($data['type'] ?? '');
 
         // Validate required fields
-        if (empty($sourceName) || $price <= 0 || empty($type)) {
-            return 'skipped';
+        if (empty($sourceName)) {
+            return ['status' => 'skipped', 'reason' => "Línea {$lineNumber}: Nombre de fuente vacío"];
+        }
+
+        if ($price <= 0) {
+            return ['status' => 'skipped', 'reason' => "Línea {$lineNumber}: Precio inválido ({$price})"];
+        }
+
+        if (empty($type)) {
+            return ['status' => 'skipped', 'reason' => "Línea {$lineNumber}: Tipo vacío"];
         }
 
         // Validate type
         $validTypes = ['social', 'internet', 'radio', 'tv', 'print'];
         if (!in_array($type, $validTypes)) {
-            return 'skipped';
+            return ['status' => 'skipped', 'reason' => "Línea {$lineNumber}: Tipo inválido '{$type}'"];
+        }
+
+        // Validate min_value <= max_value
+        if ($maxValue !== null && $minValue > $maxValue) {
+            return ['status' => 'skipped', 'reason' => "Línea {$lineNumber}: min_value ({$minValue}) > max_value ({$maxValue})"];
         }
 
         $sourceId = null;
@@ -224,7 +258,7 @@ class RateImportController extends Controller
             ]
         );
 
-        return $exists ? 'updated' : 'imported';
+        return ['status' => $exists ? 'updated' : 'imported', 'reason' => null];
     }
 
     /**
@@ -239,5 +273,110 @@ class RateImportController extends Controller
         }
 
         return response()->download($templatePath, 'plantilla_tarifas.csv');
+    }
+
+    /**
+     * Generate and download a dynamic CSV template with current source-section combinations.
+     */
+    public function downloadDynamicTemplate(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $filename = 'plantilla_tarifas_dinamica_' . now()->format('Y-m-d') . '.csv';
+
+        return response()->streamDownload(function () {
+            $handle = fopen('php://output', 'w');
+
+            // UTF-8 BOM for Excel compatibility
+            fprintf($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header
+            fputcsv($handle, [
+                'source_name',
+                'section_name',
+                'content_type',
+                'min_value',
+                'max_value',
+                'price',
+                'type',
+            ]);
+
+            // Get all sources with their sections, grouped by mean type
+            $sources = Source::with(['sections', 'mean'])
+                ->where('status', 1)
+                ->orderBy('name')
+                ->get();
+
+            foreach ($sources as $source) {
+                // Determine rate type based on mean
+                $rateType = match ($source->mean?->id) {
+                    1 => 'tv',
+                    2 => 'radio',
+                    3, 4 => 'print',
+                    5 => 'internet',
+                    default => 'internet',
+                };
+
+                // If source has sections, create row for each section
+                if ($source->sections->isNotEmpty()) {
+                    foreach ($source->sections as $section) {
+                        // Check if rate already exists
+                        $existingRate = Rate::where('source_id', $source->id)
+                            ->where('section_id', $section->id)
+                            ->first();
+
+                        fputcsv($handle, [
+                            $source->name,
+                            $section->name,
+                            '', // content_type
+                            $existingRate?->min_value ?? 0,
+                            $existingRate?->max_value ?? '',
+                            $existingRate?->price ?? '',
+                            $rateType,
+                        ]);
+                    }
+                } else {
+                    // No sections, create row for source only
+                    $existingRate = Rate::where('source_id', $source->id)
+                        ->whereNull('section_id')
+                        ->first();
+
+                    fputcsv($handle, [
+                        $source->name,
+                        '',
+                        '',
+                        $existingRate?->min_value ?? 0,
+                        $existingRate?->max_value ?? '',
+                        $existingRate?->price ?? '',
+                        $rateType,
+                    ]);
+                }
+            }
+
+            // Add social networks
+            $socialNetworks = SocialNetworks::orderBy('name')->get();
+            $contentTypes = ['post', 'story', 'reel', 'video'];
+
+            foreach ($socialNetworks as $network) {
+                foreach ($contentTypes as $contentType) {
+                    $existingRate = Rate::where('social_network_id', $network->id)
+                        ->where('content_type', $contentType)
+                        ->first();
+
+                    fputcsv($handle, [
+                        $network->name,
+                        '',
+                        $contentType,
+                        $existingRate?->min_value ?? 0,
+                        $existingRate?->max_value ?? '',
+                        $existingRate?->price ?? '',
+                        'social',
+                    ]);
+                }
+            }
+
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
     }
 }

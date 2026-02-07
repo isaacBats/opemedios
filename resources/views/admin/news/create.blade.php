@@ -570,17 +570,27 @@
                 }
 
                 $.get('/api/admin/rates/lookup', params, function(res) {
-                    if (res.success && res.price) {
+                    if (res.success) {
                         var costInput = $('#input-cost')
+                        var scopeInput = $('#input-scope')
                         var currentCost = costInput.val()
+                        var currentScope = scopeInput.val()
 
-                        // Only auto-fill if the field is empty or has a zero value
-                        if (!currentCost || parseFloat(currentCost) === 0) {
+                        // Auto-fill Costo if empty or zero
+                        if (res.price && (!currentCost || parseFloat(currentCost) === 0)) {
                             costInput.val(res.price)
-                            // Add visual feedback
                             costInput.addClass('bg-success-light')
                             setTimeout(function() {
                                 costInput.removeClass('bg-success-light')
+                            }, 1500)
+                        }
+
+                        // Auto-fill Alcance (max_value) if empty or zero
+                        if (res.max_value && (!currentScope || parseFloat(currentScope) === 0)) {
+                            scopeInput.val(res.max_value)
+                            scopeInput.addClass('bg-success-light')
+                            setTimeout(function() {
+                                scopeInput.removeClass('bg-success-light')
                             }, 1500)
                         }
                     }

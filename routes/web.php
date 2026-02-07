@@ -227,6 +227,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'role:admin|monitor|
         Route::get('tarifa/importar', 'RateImportController@showForm')->name('rate.import');
         Route::post('tarifa/importar', 'RateImportController@upload')->name('rate.import.process');
         Route::get('tarifa/plantilla', 'RateImportController@downloadTemplate')->name('rate.import.template');
+        Route::get('tarifa/plantilla-dinamica', 'RateImportController@downloadDynamicTemplate')->name('rate.import.template.dynamic');
     });
 
     Route::get('noticias', 'NewsController@index')->name('admin.news');

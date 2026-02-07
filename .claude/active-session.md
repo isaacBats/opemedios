@@ -1,34 +1,27 @@
 # Sesión Activa
 
-> **Última actualización:** 2026-02-06
+> **Última actualización:** 2026-02-07
 > **Branch:** `feature/news-cost-autocomplete`
 
 ---
 
-## Tarea Activa
+## Estado Actual
 
-**Retomar implementación de Tarifario Inteligente (Cálculo de costos)**
+**Tarifario Inteligente - Refactorización completada**
 
-El sistema base está completo. Próximos pasos:
-- Validar autocompletado en formulario de noticias
-- Probar flujo completo: fuente → sección → costo sugerido
-- Refinar lógica de CostCalculatorService si es necesario
+### Mejoras Implementadas (2026-02-07)
 
----
+✅ **API lookup mejorada:** Retorna `max_value`, `min_value`, `type`
+✅ **Autocompletado dual:** Auto-rellena "Alcance" y "Costo"
+✅ **Validación de rango:** Rechaza `min_value > max_value`
+✅ **Log de auditoría:** Muestra razones de registros omitidos
+✅ **Plantilla dinámica:** Genera CSV con sources/sections actuales
 
-## Tareas Completadas (2026-02-06)
+### Nuevas Rutas
 
-### Documentación de Release v3.0.0
-✅ PR description generada: `history/PR-003-staging-to-master-v3.md`
-✅ Checkpoint creado: `history/OPE-CHECKPOINT-L10-STABLE.md`
-✅ Permisos de Tarifarios restringidos (admin/manager)
-
-### Sistema de Tarifarios (OPE-007)
-✅ Modelo Rate + migración
-✅ CRUD administrativo + menú en sidebar
-✅ Importación CSV (2,007 registros)
-✅ API lookup + autocompletado
-✅ Middleware `role:admin|manager` aplicado
+| Ruta | Método |
+|------|--------|
+| `/panel/tarifa/plantilla-dinamica` | `downloadDynamicTemplate()` |
 
 ---
 
@@ -36,9 +29,17 @@ El sistema base está completo. Próximos pasos:
 
 | Recurso | Ubicación |
 |---------|-----------|
-| PR Producción | `history/PR-003-staging-to-master-v3.md` |
-| Checkpoint L10 | `history/OPE-CHECKPOINT-L10-STABLE.md` |
-| Tarifario Log | `history/OPE-007-cost-management-system.md` |
+| Import Controller | `app/Http/Controllers/RateImportController.php` |
+| Lookup API | `app/Http/Controllers/RateController.php:lookup()` |
+| News Form JS | `resources/views/admin/news/create.blade.php` |
+
+---
+
+## Pendiente
+
+- [ ] Probar flujo completo en staging
+- [ ] Verificar autocompletado con redes sociales
+- [ ] Validar exportación de plantilla dinámica
 
 ---
 
