@@ -1,48 +1,42 @@
-# Sesión Activa
+# Sesion Activa
 
-> **Última actualización:** 2026-02-07
+> **Ultima actualizacion:** 2026-02-07
 > **Branch:** `feature/news-cost-autocomplete`
 
 ---
 
 ## Estado Actual
 
-**Tarifario Inteligente - Refactorización completada**
+**Tarifario Inteligente - COMPLETADO**
 
-### Mejoras Implementadas (2026-02-07)
+### Resumen de Implementacion
 
-✅ **API lookup mejorada:** Retorna `max_value`, `min_value`, `type`
-✅ **Autocompletado dual:** Auto-rellena "Alcance" y "Costo"
-✅ **Validación de rango:** Rechaza `min_value > max_value`
-✅ **Log de auditoría:** Muestra razones de registros omitidos
-✅ **Plantilla dinámica:** Genera CSV con sources/sections actuales
+| Funcionalidad | Estado |
+|---------------|--------|
+| Correccion esquema `status` -> `active` | HECHO |
+| API lookup (price, max_value, min_value, type) | HECHO |
+| Autocompletado dual (Costo + Alcance) | HECHO |
+| Validacion rango `min_value <= max_value` | HECHO |
+| Log de auditoria con razones de omision | HECHO |
+| Plantilla dinamica CSV | HECHO |
+| Ruta `/panel/tarifa/plantilla-dinamica` | HECHO |
 
-### Nuevas Rutas
+### Archivos Modificados
 
-| Ruta | Método |
-|------|--------|
-| `/panel/tarifa/plantilla-dinamica` | `downloadDynamicTemplate()` |
-
----
-
-## Referencias Rápidas
-
-| Recurso | Ubicación |
-|---------|-----------|
-| Import Controller | `app/Http/Controllers/RateImportController.php` |
-| Lookup API | `app/Http/Controllers/RateController.php:lookup()` |
-| News Form JS | `resources/views/admin/news/create.blade.php` |
+- `app/Http/Controllers/RateImportController.php` - Fix `status` -> `active`
+- `app/Http/Controllers/RateController.php` - API lookup
+- `resources/views/admin/news/create.blade.php` - Autocompletado JS
+- `resources/views/admin/news/edit.blade.php` - Autocompletado JS
 
 ---
 
 ## Pendiente
 
-- [ ] Probar flujo completo en staging
-- [ ] Verificar autocompletado con redes sociales
-- [ ] Validar exportación de plantilla dinámica
+- [ ] Probar flujo en staging
+- [ ] Archivar en `history/OPE-XXX-tarifario.md`
 
 ---
 
 ## Regla de Eficiencia
 
-> Máximo 50 líneas. Archivar en `history/` al completar.
+> Maximo 50 lineas. Archivar en `history/` al completar.

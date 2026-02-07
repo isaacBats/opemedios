@@ -301,7 +301,7 @@ class RateImportController extends Controller
 
             // Get all sources with their sections, grouped by mean type
             $sources = Source::with(['sections', 'mean'])
-                ->where('status', 1)
+                ->where('active', 1)
                 ->orderBy('name')
                 ->get();
 
