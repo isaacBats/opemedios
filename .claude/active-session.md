@@ -1,44 +1,44 @@
 # Sesión Activa
 
-> **Última actualización:** 2026-02-02
+> **Última actualización:** 2026-02-06
 > **Branch:** `feature/news-cost-autocomplete`
 
 ---
 
-## Estado Actual
+## Tarea Activa
 
-**Sistema de Gestión de Costos completado e integrado (OPE-007).**
+**Retomar implementación de Tarifario Inteligente (Cálculo de costos)**
 
-✅ Modelo Rate con migración
-✅ CRUD administrativo completo
-✅ Importación masiva CSV (master_tarifario_opemedios.csv)
-✅ CostCalculatorService
-✅ API `/api/admin/rates/lookup`
-✅ Autocompletado en formularios de noticias
-✅ RateSeeder ejecutado (2,007 registros únicos)
-✅ Menú "Tarifarios" integrado en Catálogos del sidebar
-✅ Filtro de búsqueda por fuente en vista de tarifas
-
-**Log:** `history/OPE-007-cost-management-system.md`
+El sistema base está completo. Próximos pasos:
+- Validar autocompletado en formulario de noticias
+- Probar flujo completo: fuente → sección → costo sugerido
+- Refinar lógica de CostCalculatorService si es necesario
 
 ---
 
-## Acceso al Módulo de Tarifarios
+## Tareas Completadas (2026-02-06)
 
-- **Ruta:** Catálogo > Tarifarios
-- **Importar CSV:** `/admin/tarifa/importar`
-- **Plantilla:** Botón "Descargar Plantilla" en vista de importación
+### Documentación de Release v3.0.0
+✅ PR description generada: `history/PR-003-staging-to-master-v3.md`
+✅ Checkpoint creado: `history/OPE-CHECKPOINT-L10-STABLE.md`
+✅ Permisos de Tarifarios restringidos (admin/manager)
+
+### Sistema de Tarifarios (OPE-007)
+✅ Modelo Rate + migración
+✅ CRUD administrativo + menú en sidebar
+✅ Importación CSV (2,007 registros)
+✅ API lookup + autocompletado
+✅ Middleware `role:admin|manager` aplicado
 
 ---
 
-## Pendiente
+## Referencias Rápidas
 
-### 1. Validación de Staging
-- [ ] Login y redirección
-- [ ] Dashboard con datos reales
-- [ ] Aislamiento entre compañías
-- [ ] Probar CRUD de tarifas
-- [ ] Probar autocompletado en noticias
+| Recurso | Ubicación |
+|---------|-----------|
+| PR Producción | `history/PR-003-staging-to-master-v3.md` |
+| Checkpoint L10 | `history/OPE-CHECKPOINT-L10-STABLE.md` |
+| Tarifario Log | `history/OPE-007-cost-management-system.md` |
 
 ---
 

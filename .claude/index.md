@@ -1,7 +1,7 @@
 # Índice del Directorio .claude
 
 > **Propósito:** Inventario maestro para navegación rápida
-> **Última actualización:** 2026-02-02
+> **Última actualización:** 2026-02-06
 
 ---
 
@@ -28,8 +28,10 @@
 │   ├── OPE-005-dashboard-fixes.md
 │   ├── OPE-006-staging-direct-refactor.md
 │   ├── OPE-007-cost-management-system.md
+│   ├── OPE-CHECKPOINT-L10-STABLE.md    ← Punto de restauración
 │   ├── PR-001-staging-initial.md
-│   └── PR-002-staging-refactor.md
+│   ├── PR-002-staging-refactor.md
+│   └── PR-003-staging-to-master-v3.md  ← Release v3.0.0
 │
 ├── doc/                        ← (vacío)
 └── hooks/                      ← (vacío)
@@ -65,6 +67,13 @@
 |----|---------|---------|
 | PR-001 | `PR-001-staging-initial.md` | staging |
 | PR-002 | `PR-002-staging-refactor.md` | staging (consolidado) |
+| PR-003 | `PR-003-staging-to-master-v3.md` | **master** (Release v3.0.0) |
+
+## Checkpoints
+
+| ID | Archivo | Propósito |
+|----|---------|-----------|
+| L10-STABLE | `OPE-CHECKPOINT-L10-STABLE.md` | Punto de restauración pre-tarifario |
 
 ---
 
