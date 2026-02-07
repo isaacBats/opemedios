@@ -28,4 +28,11 @@ Dockerfile
 docker-compose.yml
 .htaccess
 *old*
+composer.lock.old
 000-default.conf
+phpstan-baseline.neon
+
+#locales
+composer.lock_15062025
+psalm.xml_15062025
+vendor_old_150625

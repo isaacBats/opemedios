@@ -22,6 +22,7 @@ use App\Models\Means;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class MeansSeeder extends Seeder
 {
     /**

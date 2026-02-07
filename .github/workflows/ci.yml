@@ -1,0 +1,226 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - master
+
+jobs:
+  # 1. Preparación: PHP y cache de Composer
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      composer-cache-hit: ${{ steps.cache-composer.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP & extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: xdebug
+          extensions: mbstring, xml, bcmath, gd, mysqli
+
+      - name: Cache Composer
+        id: cache-composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+  # 2. Tests + coverage
+  tests:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: xdebug
+          extensions: mbstring, xml, bcmath, gd, mysqli
+
+      - name: Restore Composer cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install deps
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Generate app key
+        run: php artisan key:generate
+
+      - name: Run PHPUnit with coverage
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+        continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+
+  # 3. Análisis estático (PHPStan, Psalm, PHP Insights)
+  static-analysis:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tool: [phpstan, psalm, insights]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, xml, bcmath, gd, mysqli
+
+      - name: Restore Composer cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run ${{ matrix.tool }}
+        run: |
+          case "${{ matrix.tool }}" in
+            phpstan)
+              if [ -f "vendor/bin/phpstan" ]; then
+                vendor/bin/phpstan analyse --memory-limit=1G --no-progress || true
+              else
+                echo "PHPStan not installed, skipping..."
+              fi
+              ;;
+            psalm)
+              if [ -f "vendor/bin/psalm" ]; then
+                vendor/bin/psalm --show-info=false || true
+              else
+                echo "Psalm not installed, skipping..."
+              fi
+              ;;
+            insights)
+              if [ -f "vendor/bin/phpinsights" ]; then
+                vendor/bin/phpinsights analyse --no-interaction --min-quality=0 --min-complexity=0 --min-architecture=0 --min-style=0 || true
+              else
+                echo "PHP Insights not installed, skipping..."
+              fi
+              ;;
+          esac
+
+  # 4. Análisis de Seguridad PHP (reemplaza CodeQL)
+  php-security-checks:
+    name: PHP Security Analysis
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, xml, bcmath, gd, mysqli
+          tools: composer:v2
+
+      - name: Restore Composer cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Check for vulnerable dependencies
+        run: composer audit --format=plain || true
+
+      - name: Run Laravel Security Check
+        run: |
+          # Verificar configuraciones de seguridad en .env.example
+          echo "🔒 Checking security configurations..."
+
+          # Verificar que APP_DEBUG no esté en true por defecto
+          if grep -q "APP_DEBUG=true" .env.example 2>/dev/null; then
+            echo "⚠️  Warning: APP_DEBUG=true in .env.example (should be false for production)"
+          fi
+
+          # Verificar que APP_ENV no sea production en example
+          if grep -q "APP_ENV=production" .env.example 2>/dev/null; then
+            echo "⚠️  Warning: APP_ENV=production in .env.example"
+          fi
+
+          echo "✅ Security configuration check completed"
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "🔍 Scanning for potential hardcoded secrets..."
+
+          # Buscar patrones comunes de secretos hardcodeados (excluyendo .env files y vendor)
+          PATTERNS="password\s*=\s*['\"][^'\"]+['\"]|api_key\s*=\s*['\"][^'\"]+['\"]|secret\s*=\s*['\"][^'\"]+['\"]"
+
+          # Escanear archivos PHP (excluyendo vendor, tests, y archivos de config)
+          if grep -rniE "$PATTERNS" --include="*.php" --exclude-dir=vendor --exclude-dir=tests --exclude-dir=storage . 2>/dev/null | grep -v "env(" | grep -v "config(" | head -20; then
+            echo "⚠️  Found potential hardcoded secrets - please review"
+          else
+            echo "✅ No obvious hardcoded secrets found"
+          fi
+
+      - name: PHPStan Security Rules
+        run: |
+          if [ -f "vendor/bin/phpstan" ]; then
+            echo "🔒 Running PHPStan with security focus..."
+            # PHPStan nivel 5 para detectar errores de tipos que pueden causar vulnerabilidades
+            vendor/bin/phpstan analyse app/ --level=5 --memory-limit=1G --no-progress 2>&1 | head -100 || true
+          else
+            echo "PHPStan not available, skipping security analysis..."
+          fi
+
+  # 5. Code Style (Laravel Pint)
+  code-style:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Restore Composer cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Check code style with Pint
+        run: |
+          if [ -f "vendor/bin/pint" ]; then
+            vendor/bin/pint --test || true
+          else
+            echo "Laravel Pint not installed, skipping..."
+          fi

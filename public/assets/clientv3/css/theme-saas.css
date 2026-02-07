@@ -1,0 +1,1921 @@
+/*
+ * Opemedios SaaS Modern Theme
+ * Version 3.0
+ * Inspirado en Mango Marketing y Bitrix24
+ */
+
+/* ========================================
+   Smooth Scroll Behavior
+======================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Offset for fixed header */
+:target {
+    scroll-margin-top: 100px;
+}
+
+/* ========================================
+   CSS Custom Properties (Variables)
+======================================== */
+:root {
+    /* Primary Colors */
+    --ope-primary: #2563eb;
+    --ope-primary-dark: #1d4ed8;
+    --ope-primary-light: #3b82f6;
+    --ope-primary-lighter: #dbeafe;
+
+    /* Secondary Colors */
+    --ope-secondary: #0ea5e9;
+    --ope-accent: #06b6d4;
+
+    /* Neutral Colors */
+    --ope-dark: #1a1a1a;
+    --ope-dark-soft: #374151;
+    --ope-gray-700: #4b5563;
+    --ope-gray-600: #6b7280;
+    --ope-gray-500: #9ca3af;
+    --ope-gray-400: #d1d5db;
+    --ope-gray-300: #e5e7eb;
+    --ope-gray-200: #f3f4f6;
+    --ope-gray-100: #f9fafb;
+    --ope-white: #ffffff;
+
+    /* Gradient */
+    --ope-gradient: linear-gradient(135deg, var(--ope-primary) 0%, var(--ope-secondary) 100%);
+    --ope-gradient-soft: linear-gradient(135deg, var(--ope-primary-lighter) 0%, #e0f2fe 100%);
+
+    /* Shadows - Modern SaaS style */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 4px 8px rgba(0, 0, 0, 0.06), 0 12px 24px rgba(0, 0, 0, 0.1);
+
+    /* Typography */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    /* Spacing */
+    --section-padding: 100px;
+    --section-padding-mobile: 60px;
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.25s ease;
+    --transition-slow: 0.4s ease;
+
+    /* Header Safe Area - Altura del header para calcular offsets */
+    --header-height: 80px;
+    --header-height-sticky: 70px;
+    --header-safe-area: 160px; /* Header + margen de seguridad */
+}
+
+/* ========================================
+   Header & Navigation - Z-Index Fix
+======================================== */
+.header-style-3 {
+    z-index: 1000 !important;
+}
+
+.header-style-3 .navbar-area {
+    z-index: 1001;
+}
+
+.header-style-3 .navbar-area.is-sticky {
+    z-index: 1002;
+}
+
+/* ========================================
+   Authenticated Navigation Menu
+======================================== */
+
+/* Client logo in navigation - Primary branding for authenticated users (+30% size) */
+.client-logo-nav {
+    max-height: 58px;
+    max-width: 208px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* High resolution screens - proportionally larger logo */
+@media (min-width: 1200px) {
+    .client-logo-nav {
+        max-height: 65px;
+        max-width: 234px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .client-logo-nav {
+        max-height: 72px;
+        max-width: 260px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .client-logo-nav {
+        max-height: 78px;
+        max-width: 286px;
+    }
+}
+
+/* Navigation icons (visible only on mobile) */
+.nav-icon {
+    margin-right: 0.5rem;
+    font-size: 1.125rem;
+    vertical-align: middle;
+}
+
+@media (min-width: 992px) {
+    .nav-icon {
+        display: none;
+    }
+}
+
+/* User company badge */
+.user-company-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    background: var(--ope-gradient-soft);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ope-primary);
+}
+
+.user-company-badge i {
+    font-size: 1rem;
+}
+
+/* Logout button style */
+.btn-saas-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    background: transparent;
+    border: 1px solid var(--ope-gray-300);
+    border-radius: var(--radius-md);
+    color: var(--ope-gray-600);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.btn-saas-logout:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.btn-saas-logout i {
+    font-size: 1.125rem;
+}
+
+/* Mobile logout item in mean menu */
+.mobile-logout-item {
+    border-top: 1px solid var(--ope-gray-200) !important;
+    margin-top: 0.5rem !important;
+    padding-top: 0.5rem !important;
+}
+
+.logout-link {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ef4444 !important;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.logout-link:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.logout-link .nav-icon {
+    display: inline-block !important;
+    color: #ef4444;
+}
+
+/* Dropdown menu styling for authenticated users */
+.header-authenticated .dropdown-menu {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--ope-gray-200);
+    padding: 0.5rem;
+    min-width: 220px;
+}
+
+.header-authenticated .dropdown-item {
+    border-radius: var(--radius-sm);
+    padding: 0.625rem 1rem;
+    font-size: 0.9375rem;
+    color: var(--ope-dark-soft);
+    transition: all var(--transition-base);
+}
+
+.header-authenticated .dropdown-item:hover {
+    background: var(--ope-gray-100);
+    color: var(--ope-primary);
+}
+
+.header-authenticated .dropdown-item i {
+    color: var(--ope-primary);
+    margin-right: 0.5rem;
+}
+
+/* Active state for authenticated nav items */
+.header-authenticated .nav-link.active {
+    color: var(--ope-primary) !important;
+    font-weight: 600;
+}
+
+/* Mean Menu Overrides for Authenticated State */
+.header-authenticated .mean-container .mean-nav {
+    background: var(--ope-white);
+}
+
+.header-authenticated .mean-container .mean-nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--ope-gray-100);
+}
+
+.header-authenticated .mean-container .mean-nav ul li a .nav-icon {
+    display: inline-block;
+    margin-right: 0.75rem;
+    color: var(--ope-primary);
+    font-size: 1.25rem;
+}
+
+.header-authenticated .mean-container .mean-nav ul li a.active,
+.header-authenticated .mean-container .mean-nav ul li a:hover {
+    background: var(--ope-gray-100);
+    color: var(--ope-primary);
+}
+
+/* Mobile menu header with client branding */
+@media (max-width: 991px) {
+    .header-authenticated .main-responsive-menu .logo img {
+        max-height: 50px;
+    }
+
+    .header-authenticated .mean-container .mean-bar {
+        background: var(--ope-white);
+        border-bottom: 1px solid var(--ope-gray-200);
+    }
+}
+
+/* ========================================
+   Safe Area for Internal Pages
+   Ensures content doesn't overlap with sticky header
+======================================== */
+.page-safe-area {
+    padding-top: var(--header-safe-area);
+}
+
+/* Large screens (1600px+) need more padding due to header positioning */
+@media (min-width: 1600px) {
+    :root {
+        --header-safe-area: 180px;
+    }
+}
+
+@media (min-width: 1920px) {
+    :root {
+        --header-safe-area: 200px;
+    }
+}
+
+/* ========================================
+   Main Content Wrapper
+   Global class for client-facing pages with fixed header
+   Use this class on the main section/container of any new page
+======================================== */
+.main-content-wrapper {
+    padding-top: var(--header-safe-area);
+    padding-bottom: var(--section-padding);
+    min-height: 100vh;
+    background: var(--ope-gray-100);
+}
+
+/* Responsive adjustments for main-content-wrapper */
+@media (max-width: 991px) {
+    .main-content-wrapper {
+        padding-top: 140px;
+        padding-bottom: 80px;
+    }
+}
+
+@media (max-width: 767px) {
+    .main-content-wrapper {
+        padding-top: 120px;
+        padding-bottom: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content-wrapper {
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+}
+
+/* Variant: White background */
+.main-content-wrapper.bg-white {
+    background: var(--ope-white);
+}
+
+/* Variant: No min-height (for shorter pages) */
+.main-content-wrapper.auto-height {
+    min-height: auto;
+}
+
+/* ========================================
+   Navigation v3 - Active States & Hover Animations
+======================================== */
+.main-navbar.v3 .navbar-nav .nav-link {
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    color: var(--ope-gray-600);
+}
+
+/* Underline pseudo-element - expands from center on hover (not for dropdowns) */
+.main-navbar.v3 .navbar-nav .nav-link:not(.dropdown-toggle)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--ope-primary);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+}
+
+/* Hover state - text color */
+.main-navbar.v3 .navbar-nav .nav-link:hover {
+    color: var(--ope-dark) !important;
+}
+
+/* Hover state - underline expands (not for dropdowns) */
+.main-navbar.v3 .navbar-nav .nav-link:not(.dropdown-toggle):hover::after {
+    width: 24px;
+}
+
+/* Active state */
+.main-navbar.v3 .navbar-nav .nav-link.active {
+    color: var(--ope-primary) !important;
+    font-weight: 600;
+}
+
+.main-navbar.v3 .navbar-nav .nav-link.active:not(.dropdown-toggle)::after {
+    width: 20px;
+    background: var(--ope-primary);
+}
+
+/* ========================================
+   Dropdown Toggle - Custom Styling
+======================================== */
+/* Hide default Bootstrap dropdown caret */
+.main-navbar.v3 .navbar-nav .nav-link.dropdown-toggle::after {
+    display: none !important;
+    border: none !important;
+    content: none !important;
+}
+
+/* Custom dropdown caret icon (Boxicons chevron) */
+.main-navbar.v3 .navbar-nav .dropdown-caret {
+    font-size: 0.875rem;
+    margin-left: 4px;
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Hover - caret becomes more visible */
+.main-navbar.v3 .navbar-nav .nav-link:hover .dropdown-caret {
+    opacity: 1;
+    color: var(--ope-primary);
+}
+
+/* Open state - caret rotates */
+.main-navbar.v3 .navbar-nav .dropdown.show .dropdown-caret {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: var(--ope-primary);
+}
+
+/* Active dropdown toggle */
+.main-navbar.v3 .navbar-nav .nav-link.dropdown-toggle.active {
+    color: var(--ope-primary) !important;
+}
+
+.main-navbar.v3 .navbar-nav .nav-link.dropdown-toggle.active .dropdown-caret {
+    opacity: 1;
+    color: var(--ope-primary);
+}
+
+/* ========================================
+   Base Typography Override
+======================================== */
+body {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    color: var(--ope-gray-600);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--ope-dark);
+    line-height: 1.3;
+}
+
+/* ========================================
+   Two-Tier Heading System
+======================================== */
+.heading-two-tier {
+    margin-bottom: 1.5rem;
+}
+
+.heading-two-tier .heading-line-1 {
+    display: block;
+    color: var(--ope-dark);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.heading-two-tier .heading-line-2 {
+    display: block;
+    color: var(--ope-primary);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.heading-two-tier.heading-sm .heading-line-1,
+.heading-two-tier.heading-sm .heading-line-2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.heading-two-tier.heading-md .heading-line-1,
+.heading-two-tier.heading-md .heading-line-2 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+/* Section Title Modern */
+.section-title-modern {
+    margin-bottom: 3rem;
+}
+
+.section-title-modern .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--ope-gradient-soft);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ope-primary);
+    margin-bottom: 1rem;
+}
+
+.section-title-modern .section-badge i {
+    font-size: 1rem;
+}
+
+.section-title-modern h2 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: var(--ope-dark);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.section-title-modern h2 .text-gradient {
+    background: var(--ope-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-title-modern p {
+    font-size: 1.125rem;
+    color: var(--ope-gray-600);
+    max-width: 600px;
+}
+
+.section-title-modern.text-center p {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ========================================
+   Hero Section - SaaS Modern
+======================================== */
+.hero-saas {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: var(--header-safe-area, 160px) 0 80px;
+    background: linear-gradient(180deg, var(--ope-gray-100) 0%, var(--ope-white) 100%);
+    overflow: hidden;
+}
+
+.hero-saas::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-saas .hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-saas .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--ope-white);
+    border: 1px solid var(--ope-gray-200);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ope-gray-700);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.hero-saas .hero-badge .badge-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+.hero-saas .hero-title {
+    margin-bottom: 1.5rem;
+}
+
+.hero-saas .hero-title .line-1 {
+    display: block;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--ope-dark);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.hero-saas .hero-title .line-2 {
+    display: block;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    background: var(--ope-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.hero-saas .hero-description {
+    font-size: 1.25rem;
+    color: var(--ope-gray-600);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    max-width: 540px;
+}
+
+.hero-saas .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.hero-saas .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ope-gray-200);
+}
+
+.hero-saas .stat-item {
+    text-align: left;
+}
+
+.hero-saas .stat-item .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--ope-dark);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.hero-saas .stat-item .stat-number i {
+    font-size: 2rem;
+    color: var(--ope-primary);
+}
+
+.hero-saas .stat-item .stat-label {
+    font-size: 0.875rem;
+    color: var(--ope-gray-500);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.hero-saas .stat-item .stat-label small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ope-gray-500);
+    font-weight: 400;
+    margin-top: 0.125rem;
+    opacity: 0.8;
+}
+
+/* Hero Visual/Image Side */
+.hero-saas .hero-visual {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-saas .hero-image-wrapper {
+    position: relative;
+    padding: 20px;
+}
+
+.hero-saas .hero-image-main {
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl);
+    border: 1px solid var(--ope-gray-200);
+}
+
+.hero-saas .hero-float-card {
+    position: absolute;
+    background: var(--ope-white);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.5rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--ope-gray-100);
+}
+
+.hero-saas .hero-float-card.card-1 {
+    top: 10%;
+    left: -30px;
+    animation: float-y 4s ease-in-out infinite;
+}
+
+.hero-saas .hero-float-card.card-2 {
+    bottom: 15%;
+    right: -20px;
+    animation: float-y 4s ease-in-out infinite 1s;
+}
+
+@keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* ========================================
+   Buttons - SaaS Style
+======================================== */
+.btn-saas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+}
+
+.btn-saas-primary {
+    background: var(--ope-gradient);
+    color: var(--ope-white);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-saas-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    color: var(--ope-white);
+}
+
+.btn-saas-secondary {
+    background: var(--ope-white);
+    color: var(--ope-dark);
+    border: 1px solid var(--ope-gray-300);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-saas-secondary:hover {
+    background: var(--ope-gray-100);
+    border-color: var(--ope-gray-400);
+    color: var(--ope-dark);
+}
+
+.btn-saas-lg {
+    padding: 16px 32px;
+    font-size: 1.0625rem;
+}
+
+.btn-saas i {
+    font-size: 1.25em;
+}
+
+/* ========================================
+   Feature Cards / Services
+======================================== */
+.feature-card-modern {
+    background: var(--ope-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    border: 1px solid var(--ope-gray-200);
+    transition: all var(--transition-base);
+    height: 100%;
+}
+
+.feature-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--ope-primary-lighter);
+}
+
+.feature-card-modern .feature-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-gradient-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
+}
+
+.feature-card-modern .feature-icon i {
+    font-size: 1.5rem;
+    color: var(--ope-primary);
+}
+
+.feature-card-modern .feature-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.feature-card-modern .feature-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ope-primary);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+.feature-card-modern h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.75rem;
+}
+
+.feature-card-modern p {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-600);
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* ========================================
+   Testimonials - Modern Cards
+======================================== */
+.testimonials-section {
+    background: var(--ope-gray-100);
+    padding: var(--section-padding) 0;
+}
+
+.testimonial-card-modern {
+    background: var(--ope-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid transparent;
+    transition: all var(--transition-base);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.testimonial-card-modern .testimonial-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.testimonial-card-modern .testimonial-rating {
+    display: flex;
+    gap: 4px;
+}
+
+.testimonial-card-modern .testimonial-rating i {
+    color: #fbbf24;
+    font-size: 1rem;
+}
+
+.testimonial-card-modern .testimonial-quote-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-gradient-soft);
+    border-radius: var(--radius-md);
+    color: var(--ope-primary);
+    font-size: 1.25rem;
+}
+
+.testimonial-card-modern .testimonial-content {
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-card-modern .testimonial-text {
+    font-size: 1rem;
+    color: var(--ope-gray-700);
+    line-height: 1.8;
+    font-style: italic;
+}
+
+.testimonial-card-modern .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--ope-gray-200);
+}
+
+.testimonial-card-modern .author-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ope-gray-200);
+}
+
+.testimonial-card-modern .author-info h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.125rem;
+}
+
+.testimonial-card-modern .author-info p {
+    font-size: 0.875rem;
+    color: var(--ope-gray-500);
+    margin-bottom: 0;
+}
+
+/* Testimonial Stats Card */
+.testimonial-stat-card {
+    background: var(--ope-gradient);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    color: var(--ope-white);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.testimonial-stat-card .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.testimonial-stat-card .stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* ========================================
+   Contact Section - Service Pills
+======================================== */
+.contact-section-modern {
+    background: var(--ope-white);
+    padding: var(--section-padding) 0;
+}
+
+.contact-form-wrapper {
+    background: var(--ope-white);
+    border-radius: var(--radius-xl);
+    padding: 3rem;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--ope-gray-200);
+}
+
+/* Service Selector Pills */
+.service-pills-container {
+    margin-bottom: 2rem;
+}
+
+.service-pills-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ope-dark);
+    margin-bottom: 0.75rem;
+}
+
+.service-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.service-pill {
+    position: relative;
+}
+
+.service-pill input[type="radio"],
+.service-pill input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.service-pill label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--ope-gray-100);
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ope-gray-700);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.service-pill label:hover {
+    background: var(--ope-gray-200);
+}
+
+.service-pill input:checked + label {
+    background: var(--ope-primary-lighter);
+    border-color: var(--ope-primary);
+    color: var(--ope-primary-dark);
+}
+
+.service-pill label i {
+    font-size: 1.125rem;
+}
+
+/* Form Inputs Modern */
+.form-group-modern {
+    margin-bottom: 1.5rem;
+}
+
+.form-group-modern label {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ope-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control-modern {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    color: var(--ope-dark);
+    background: var(--ope-gray-100);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.form-control-modern:focus {
+    outline: none;
+    background: var(--ope-white);
+    border-color: var(--ope-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.form-control-modern::placeholder {
+    color: var(--ope-gray-500);
+}
+
+textarea.form-control-modern {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* Contact Info Cards */
+.contact-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--ope-gray-100);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+}
+
+.contact-info-card .info-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-gradient);
+    border-radius: var(--radius-md);
+    color: var(--ope-white);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.contact-info-card .info-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.25rem;
+}
+
+.contact-info-card .info-content p,
+.contact-info-card .info-content a {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-600);
+    margin-bottom: 0;
+    text-decoration: none;
+}
+
+.contact-info-card .info-content a:hover {
+    color: var(--ope-primary);
+}
+
+/* ========================================
+   About Section - Modern
+======================================== */
+.about-section-modern {
+    padding: var(--section-padding) 0;
+    background: var(--ope-white);
+}
+
+.about-image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.about-image-grid img {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.about-image-grid .img-large {
+    grid-column: span 2;
+}
+
+.about-features-list {
+    margin-top: 2rem;
+}
+
+.about-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-feature-item .feature-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-gradient-soft);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+
+.about-feature-item .feature-icon i {
+    font-size: 1.25rem;
+    color: var(--ope-primary);
+}
+
+.about-feature-item h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.25rem;
+}
+
+.about-feature-item p {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-600);
+    margin-bottom: 0;
+}
+
+/* ========================================
+   Services Section - Horizontal Cards
+======================================== */
+.services-section-modern {
+    background: var(--ope-gray-100);
+    padding: var(--section-padding) 0;
+}
+
+.service-card-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: var(--ope-white);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--ope-gray-200);
+    transition: all var(--transition-base);
+}
+
+.service-card-horizontal:hover {
+    transform: translateX(8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--ope-primary-lighter);
+}
+
+.service-card-horizontal .service-image {
+    width: 180px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.service-card-horizontal .service-content {
+    flex-grow: 1;
+}
+
+.service-card-horizontal .service-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.5rem;
+}
+
+.service-card-horizontal .service-content p {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-600);
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.service-card-horizontal .service-link {
+    flex-shrink: 0;
+}
+
+/* ========================================
+   Why Choose Us - Modern
+======================================== */
+.why-choose-modern {
+    padding: var(--section-padding) 0;
+    background: var(--ope-white);
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.benefit-item .benefit-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-gradient);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+
+.benefit-item .benefit-icon i {
+    font-size: 1.5rem;
+    color: var(--ope-white);
+}
+
+.benefit-item .benefit-content h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.5rem;
+}
+
+.benefit-item .benefit-content p {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-600);
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* ========================================
+   Team Section - Modern
+======================================== */
+.team-section-modern {
+    background: var(--ope-gray-100);
+    padding: var(--section-padding) 0;
+}
+
+.team-card-modern {
+    background: var(--ope-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    border: 1px solid var(--ope-gray-200);
+}
+
+.team-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.team-card-modern .team-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.team-card-modern .team-image img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.team-card-modern:hover .team-image img {
+    transform: scale(1.05);
+}
+
+.team-card-modern .team-social {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all var(--transition-base);
+}
+
+.team-card-modern:hover .team-social {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.team-card-modern .team-social a {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ope-white);
+    border-radius: 50%;
+    color: var(--ope-dark);
+    transition: all var(--transition-fast);
+}
+
+.team-card-modern .team-social a:hover {
+    background: var(--ope-primary);
+    color: var(--ope-white);
+}
+
+.team-card-modern .team-info {
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.team-card-modern .team-info h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--ope-dark);
+    margin-bottom: 0.25rem;
+}
+
+.team-card-modern .team-info p {
+    font-size: 0.875rem;
+    color: var(--ope-primary);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+/* ========================================
+   CTA Section
+======================================== */
+.cta-section-modern {
+    background: var(--ope-gradient);
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.cta-section-modern::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.cta-section-modern .cta-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.cta-section-modern h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--ope-white);
+    margin-bottom: 1rem;
+}
+
+.cta-section-modern p {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-section-modern .btn-saas-secondary {
+    background: var(--ope-white);
+    color: var(--ope-primary);
+}
+
+.cta-section-modern .btn-saas-secondary:hover {
+    background: var(--ope-gray-100);
+}
+
+/* ========================================
+   Clients / Partners Logos
+======================================== */
+.clients-section {
+    padding: 60px 0;
+    background: var(--ope-white);
+    border-top: 1px solid var(--ope-gray-200);
+    border-bottom: 1px solid var(--ope-gray-200);
+}
+
+.clients-subtitle {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ope-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0;
+}
+
+.clients-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.client-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    transition: all var(--transition-base);
+}
+
+.client-logo-item img {
+    max-width: 100%;
+    max-height: 60px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all var(--transition-base);
+}
+
+.client-logo-item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Responsive grid for clients */
+@media (max-width: 1199px) {
+    .clients-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .clients-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .client-logo-item img {
+        max-height: 45px;
+    }
+}
+
+@media (max-width: 575px) {
+    .clients-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Legacy partners section (keep for compatibility) */
+.partners-section {
+    padding: 60px 0;
+    background: var(--ope-white);
+    border-top: 1px solid var(--ope-gray-200);
+    border-bottom: 1px solid var(--ope-gray-200);
+}
+
+.partners-section .partner-logo {
+    padding: 1rem 2rem;
+    opacity: 0.5;
+    transition: opacity var(--transition-base);
+    filter: grayscale(100%);
+}
+
+.partners-section .partner-logo:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* ========================================
+   Form Alerts - SaaS Style
+======================================== */
+.alert-modern {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.alert-modern i {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.alert-modern.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+}
+
+.alert-modern.alert-success i {
+    color: #10b981;
+}
+
+.alert-modern.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #b91c1c;
+}
+
+.alert-modern.alert-error i {
+    color: #ef4444;
+}
+
+.alert-modern ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.alert-modern ul li {
+    margin-bottom: 0.25rem;
+}
+
+/* Form Validation States */
+.form-control-modern.is-invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-control-modern.is-invalid:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+}
+
+.text-danger {
+    color: #ef4444;
+}
+
+/* ========================================
+   Utilities
+======================================== */
+.section-padding {
+    padding: var(--section-padding) 0;
+}
+
+.bg-gray-light {
+    background: var(--ope-gray-100);
+}
+
+.text-gradient {
+    background: var(--ope-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ========================================
+   Responsive Adjustments
+======================================== */
+@media (max-width: 991px) {
+    :root {
+        --section-padding: 80px;
+    }
+
+    .hero-saas {
+        padding: var(--header-safe-area, 140px) 0 60px;
+        min-height: auto;
+    }
+
+    .hero-saas .hero-visual {
+        margin-top: 3rem;
+    }
+
+    .hero-saas .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .contact-form-wrapper {
+        padding: 2rem;
+    }
+
+    .service-card-horizontal {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .service-card-horizontal .service-image {
+        width: 100%;
+        height: 180px;
+    }
+}
+
+@media (max-width: 767px) {
+    :root {
+        --section-padding: 60px;
+    }
+
+    .hero-saas .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .hero-saas .stat-item .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .hero-saas .stat-item .stat-number i {
+        font-size: 1.75rem;
+    }
+
+    .hero-saas .stat-item .stat-label {
+        font-size: 0.8125rem;
+    }
+
+    .hero-saas .stat-item .stat-label small {
+        font-size: 0.6875rem;
+    }
+
+    .service-pills {
+        flex-direction: column;
+    }
+
+    .service-pill label {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   Footer Modern - SaaS Style
+======================================== */
+.footer-modern {
+    background: var(--ope-dark);
+    padding: 80px 0 40px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-modern .footer-widgets-wrap {
+    padding-bottom: 40px;
+}
+
+/* Footer Widget Base */
+.footer-modern .ftr-widget {
+    margin-bottom: 1.5rem;
+}
+
+.footer-modern .ftr-widget h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--ope-white);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+    padding-bottom: 0;
+    position: static;
+}
+
+/* Override legacy orange underline */
+.footer-modern .ftr-widget h2::after {
+    display: none;
+    content: none;
+}
+
+/* About Widget */
+.footer-modern .ftr-widget.about .footer-logo {
+    margin-bottom: 1.25rem;
+}
+
+.footer-modern .ftr-widget.about p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.5rem;
+}
+
+/* Social Icons */
+.footer-modern .ftr-widget .socials {
+    display: flex;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0;
+}
+
+.footer-modern .ftr-widget .socials li {
+    display: block;
+    padding-right: 0;
+}
+
+.footer-modern .ftr-widget .socials li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--ope-white);
+    font-size: 1.125rem;
+    transition: all var(--transition-fast);
+    box-shadow: none;
+    line-height: 1;
+}
+
+.footer-modern .ftr-widget .socials li a:hover {
+    background: var(--ope-primary);
+    transform: translateY(-3px);
+}
+
+/* Navigation Links */
+.footer-modern .ftr-widget .navs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-modern .ftr-widget .navs li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-modern .ftr-widget .navs li a {
+    font-size: 0.9375rem;
+    color: var(--ope-gray-400);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    padding-left: 0;
+    position: static;
+}
+
+/* Override legacy blue bullets */
+.footer-modern .ftr-widget .navs li a::after {
+    display: none;
+    content: none;
+}
+
+.footer-modern .ftr-widget .navs li a:hover {
+    color: var(--ope-primary);
+}
+
+.footer-modern .ftr-widget .navs li a:hover::after {
+    display: none;
+}
+
+/* Contact Info */
+.footer-modern .ftr-widget .contacts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-modern .ftr-widget .contacts li {
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0 !important;
+    padding-left: 0 !important;
+    position: static !important;
+}
+
+.footer-modern .ftr-widget .contacts li i {
+    font-size: 1.125rem;
+    color: var(--ope-primary);
+    flex-shrink: 0;
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+.footer-modern .ftr-widget .contacts li a,
+.footer-modern .ftr-widget .contacts li span,
+.footer-modern .ftr-widget .contacts li address {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-style: normal;
+    line-height: 1.6;
+    margin: 0;
+    transition: color var(--transition-fast);
+}
+
+.footer-modern .ftr-widget .contacts li a:hover {
+    color: var(--ope-white);
+}
+
+/* ========================================
+   Copyright Bar - SaaS Style
+======================================== */
+.copyright-modern {
+    background: var(--ope-primary-dark);
+    padding: 1.25rem 0;
+}
+
+.copyright-modern p {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.copyright-modern ul {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.copyright-modern ul li a {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.copyright-modern ul li a:hover {
+    color: var(--ope-white);
+}
+
+/* Footer Responsive */
+@media (max-width: 991px) {
+    .footer-modern {
+        padding: 60px 0 30px;
+    }
+
+    .footer-modern .ftr-widget {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .footer-modern {
+        padding: 50px 0 20px;
+    }
+
+    .copyright-modern .row {
+        text-align: center;
+    }
+
+    .copyright-modern ul {
+        justify-content: center;
+        margin-top: 0.75rem;
+    }
+
+    .copyright-modern p {
+        text-align: center;
+    }
+}

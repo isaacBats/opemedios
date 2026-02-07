@@ -22,6 +22,7 @@ use App\Models\Sector;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class SectorSeeder extends Seeder
 {
     /**
@@ -33,7 +34,7 @@ class SectorSeeder extends Seeder
     {
         Sector::insert([
             ['name' => 'CULTURA', 'description' => 'NULL', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],
-            ['name' => 'ELECTRÓNICO', 'description' => 'El sector electr�nico se centra en aparatos o componentes que procesan alg�n tipo de informaci�n. Esta industria se divide en cinco grandes subsectores: audio y video, computaci�n y oficina', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],
+            ['name' => 'ELECTRÓNICO', 'description' => 'El sector electrónico se centra en aparatos o componentes que procesan algún tipo de información. Esta industria se divide en cinco grandes subsectores: audio y video, computación y oficina', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],
             ['name' => 'TRANSPORTE', 'description' => 'Se incluyen todos los medios de transporte de carga y de personas', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],
             ['name' => 'TELECOMUNICACIONES', 'description' => 'Todo lo relacionado con telefon�a m�vil y fija, c�maras del sector, declaraciones de funcionarios del sector', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],
             ['name' => 'CONSTRUCCION', 'description' => 'Cementeras, constructoras y todo lo relacionado con este sector', 'active' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),],

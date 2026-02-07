@@ -22,7 +22,11 @@
   <script src="{{ asset('lib/html5shiv/html5shiv.js') }}"></script>
   <script src="{{ asset('lib/respond/respond.src.js') }}"></script>
   <![endif]-->
-  {!! NoCaptcha::renderJs() !!}
+
+  {{-- reCAPTCHA v3 Script --}}
+  @if(\App\Services\RecaptchaV3Service::isEnabled())
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+  @endif
 </head>
 
 <body class="signwrapper">
@@ -31,6 +35,42 @@
   <div class="signpanel"></div>
 
   @yield('content')
+
+  {{-- reCAPTCHA v3 Form Handler --}}
+  @if(\App\Services\RecaptchaV3Service::isEnabled())
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('form[action*="login"]');
+        var submitBtn = document.getElementById('login-submit-btn');
+        var recaptchaInput = document.getElementById('g-recaptcha-response');
+        var siteKey = '{{ config('services.recaptcha.site_key') }}';
+
+        if (form && submitBtn && recaptchaInput) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Verificando...';
+
+            grecaptcha.ready(function() {
+              grecaptcha.execute(siteKey, { action: 'login' })
+                .then(function(token) {
+                  recaptchaInput.value = token;
+                  form.submit();
+                })
+                .catch(function(error) {
+                  console.error('reCAPTCHA error:', error);
+                  submitBtn.disabled = false;
+                  submitBtn.innerHTML = originalText;
+                  alert('Error de verificación. Por favor, intenta de nuevo.');
+                });
+            });
+          });
+        }
+      });
+    </script>
+  @endif
 
   @yield('scripts')
 

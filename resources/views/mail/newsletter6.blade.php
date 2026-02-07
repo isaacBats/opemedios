@@ -150,7 +150,7 @@
         <tr>
             <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:10px">
                 <p style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:{{ $footerTextColor }}; font-weight: bold; font-size: 13px;">
-                    Contactanos: 55-5584-64-10 | <a target="_blank" href="mailto:contacto@opemedios.com.mx" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $footerTextColor }};font-size:12px">contacto@opemedios.com.mx</a>
+                    Contactanos: 55 4030 4996 | 55 3495 1145 | <a target="_blank" href="mailto:contacto@opemedios.com.mx" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:{{ $footerTextColor }};font-size:12px">contacto@opemedios.com.mx</a>
                 </p>
             </td>
         </tr>

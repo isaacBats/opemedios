@@ -49,7 +49,7 @@
                         <hr>
                         <div class="uk-flex-center uk-grid-divider" uk-grid>
                             <a href="https://twitter.com/DeMonitoreo" target="_blank" style="color: #333;"><i class="icon-twitter"></i></a>
-                            <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" style="color: #333;"><i class="icon-facebook"></i></a>
+                            <a href="https://www.facebook.com/OpemediosMx" target="_blank" style="color: #333;"><i class="icon-facebook"></i></a>
                         </div>
                     </li>
                 </ul>

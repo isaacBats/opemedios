@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Section;
 use Illuminate\Database\Seeder;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class SectionSeeder extends Seeder
 {
     /**

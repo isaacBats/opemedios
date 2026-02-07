@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class UsersTableSeeder extends Seeder
 {
     /**
