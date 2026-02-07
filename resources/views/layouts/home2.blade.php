@@ -54,9 +54,9 @@
                     <div class="col-md-6 widget">
                         <h3 class="widget-title">Contactanos</h3>
                         <div class="widget-body">
-                            <p><a href="tel:5555846410" target="_blank">55-5584-64-10</a><br>
-                            <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a><br>
-                            Ures 69, Col. Roma Sur CP. 06760, México, DF, Del. Cuauhtémoc
+                            <p><a href="tel:5540304996" target="_blank">55 4030 4996</a><br>
+                            <a href="tel:5534951145" target="_blank">55 3495 1145</a><br>
+                            <a href="mailto:contacto@opemedios.com.mx" target="_blank">contacto@opemedios.com.mx</a>
                             </p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                     </a>
                                 </div>
                                 <div class="social-fb">
-                                    <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank">
+                                    <a href="https://www.facebook.com/OpemediosMx" target="_blank">
                                         <i class="fab fa-facebook-f"></i>
                                     </a>
                                 </div>

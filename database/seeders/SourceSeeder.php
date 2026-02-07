@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Source;
 use Illuminate\Database\Seeder;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class SourceSeeder extends Seeder
 {
     /**

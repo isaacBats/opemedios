@@ -119,7 +119,7 @@
                     @endphp
                     <div class="uk-text-center uk-flex-first uk-flex-last@s links-sociales">
                         <a href="https://twitter.com/DeMonitoreo" target="_blank" class="uk-padding uk-padding-remove-top icon-twitter"></a>
-                        <a href="https://www.facebook.com/OPEMEDIOS/" target="_blank" class="uk-padding uk-padding-remove-top icon-facebook"></a>
+                        <a href="https://www.facebook.com/OpemediosMx" target="_blank" class="uk-padding uk-padding-remove-top icon-facebook"></a>
                     </div>
 
                 </div>

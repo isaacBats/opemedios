@@ -20,6 +20,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+/** @psalm-suppress PossiblyUnusedMethod */
 class DatabaseSeeder extends Seeder
 {
     /**
